@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target" : "ES6",
+    "watch" : true,
+    "module": "commonjs",
+    "removeComments": true,
+    "sourceMap": true,
+    "declaration": false,
+    "outDir": "./built"
+  },
+  "files": [
+    "src/index.ts"
+  ]
+}
