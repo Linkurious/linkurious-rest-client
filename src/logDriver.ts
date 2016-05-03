@@ -29,8 +29,10 @@ export default class LogDriver implements LogDriverInterface {
     this.logger = <LoggerInterface> {};
 
     if (!logger) logger = <LoggerInterface> {};
-    if (!logger.debug) this.logger.debug = DEFAULT_DEBUG_LOGGER;
-    if (!logger.error) this.logger.error = DEFAULT_ERROR_LOGGER;
+    if (!logger.debug) logger.debug = DEFAULT_DEBUG_LOGGER;
+    if (!logger.error) logger.error = DEFAULT_ERROR_LOGGER;
+
+    this.logger = logger;
   }
 
   public debug(logBody:ErrorBody):void {
