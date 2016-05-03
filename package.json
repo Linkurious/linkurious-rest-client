@@ -5,7 +5,7 @@
   "main": "index.ts",
   "dependencies": {
     "es6-promise": "^3.1.2",
-    "request": "^2.72.0",
+    "request": "^2.72.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/Linkurious/linkurious-rest-client/issues"
   },
-  "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme"
+  "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
+  "devDependencies": {
+    "bunyan": "^1.8.1"
+  }
 }
