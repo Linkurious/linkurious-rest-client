@@ -11,36 +11,90 @@
 
 import * as request from 'request';
 import * as ErrorsDriver from './errorsDriver';
+import {HTTPDriverInterface} from './interfaces';
+import {CookieJar} from "~request/index";
 
-export function POST(uri:string, data:any):Promise<any> {
-  return new Promise((resolve:Function, reject:Function) => {
-    request({
-      method: 'POST',
-      uri   : uri,
-      json  : true,
-      body  : data
-    }, (err, res, body) => {
-      if(res.statusCode > 400){
-        return reject(ErrorsDriver.format(res, body));
-      } else {
-        return resolve(body);
-      }
+export default class HTTPDriver implements HTTPDriverInterface {
+  public cookieJar:CookieJar;
+
+  constructor() {
+    this.cookieJar = <CookieJar>request.jar();
+  }
+
+  POST(uri:string, data:any):Promise<any> {
+    return new Promise((resolve:Function, reject:Function) => {
+      request({
+        method: 'POST',
+        uri   : uri,
+        json  : true,
+        body  : data,
+        jar   : this.cookieJar
+      }, (err, res, body) => {
+        if (res.statusCode >= 400) {
+          return reject(ErrorsDriver.format(res, body));
+        } else {
+          return resolve(body);
+        }
+      });
     });
-  });
-}
+  }
 
-export function GET(uri:string):Promise<any> {
-  return new Promise((resolve:any, reject:any) => {
-    request({
+  PATCH(uri:string, data:any):Promise<any> {
+    return new Promise((resolve:Function, reject:Function) => {
+      request({
+        method: 'PATCH',
+        uri   : uri,
+        json  : true,
+        body  : data,
+        jar   : this.cookieJar
+      }, (err, res, body) => {
+        if (res.statusCode >= 400) {
+          return reject(ErrorsDriver.format(res, body));
+        } else {
+          return resolve(body);
+        }
+      });
+    });
+  }
+
+  GET(uri:string, data:any):Promise<any> {
+
+    let requestConf = {
       method: 'GET',
-      uri   : uri
-    }, (err, res, body) => {
-      if(res.statusCode > 400){
-        return reject(body) ;
-      } else {
-        return resolve(body);
-      }
-    });
-  });
-}
+      uri   : uri,
+      json : true,
+      jar   : this.cookieJar
+    };
 
+    if(data){
+      requestConf['qs'] = data;
+    }
+
+    return new Promise((resolve:any, reject:any) => {
+      request(requestConf, (err, res, body) => {
+        if (res.statusCode >= 400) {
+          return reject(ErrorsDriver.format(res, body));
+        } else {
+          return resolve(body);
+        }
+      });
+    });
+  }
+
+  DELETE(uri:string):Promise<any> {
+    return new Promise((resolve:any, reject:any) => {
+      request({
+        method: 'DELETE',
+        uri   : uri,
+        json : true,
+        jar   : this.cookieJar
+      }, (err, res, body) => {
+        if (res.statusCode >= 400) {
+          return reject(ErrorsDriver.format(res, body));
+        } else {
+          return resolve(body);
+        }
+      });
+    });
+  }
+};
