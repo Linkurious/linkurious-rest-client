@@ -698,6 +698,190 @@ class Linkurious implements Interface.LinkuriousInterface {
   public searchDirectory(data:Interface.RequestDirectory):Promise<Interface.ResultSearchDirectory> {
     return this.linkuriousFetch('POST', '/{dataSource}/directory', data);
   }
+
+
+
+  // ----------------------------------------------------- //
+  //                                                       //
+  //                  SOURCE-ADMIN METHODS                 //
+  //                                                       //
+  // ----------------------------------------------------- //
+
+
+  /**
+   * Connect a disconnected data-source
+   *
+   * @param sourceIndex:number
+   * @returns {Promise<boolean>}
+   */
+  public connectDataSource(sourceIndex:number):Promise<boolean> {
+    return this.linkuriousFetch('POST', '/admin/source/' + sourceIndex + '/connect')
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  /**
+   * Create a new data-source configuration (contains a graph database configuration and an index configuration).
+   *
+   * @param data:Interface.Form.dataSource.create
+   * @returns {Promise<boolean>}
+   */
+  public configureDataSource(data:Interface.Form.dataSource.create):Promise<boolean> {
+    return this.linkuriousFetch('POST', '/admin/sources/config', data)
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  /**
+   * Delete a data-source configuration that has currently no connected data-source.
+   *
+   * @param sourceIndex:number
+   * @returns {Promise<boolean>}
+   */
+  public deleteDataSource(sourceIndex:number):Promise<boolean> {
+    return this.linkuriousFetch('DELETE', '/admin/sources/config/' + sourceIndex)
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  /**
+   * Delete all data of data-source (visualizations, access-rights, widgets, full-text indexes).
+   * Optionally merge visualizations and widgets into another data-source instead of deleting them.
+   * Warning: when merging into another data-source, visualizations may break if node and edge IDs
+   * are not the same in to target data-source.
+   *
+   * @param data:Interface.RequestDeleteDatas
+   * @returns {Promise<Interface.ResultDeleteDatas>}
+   */
+  public deleteDatas(data:Interface.RequestDeleteDatas):Promise<Interface.ResultDeleteDatas>{
+
+    let mergeOptions = (data.mergeInto)? {mergeInto:data.mergeInto} : null;
+
+    return this.linkuriousFetch('DELETE', '/admin/sources/data/' + data.sourceKey, Utils.sanitizeQuery(mergeOptions));
+  }
+
+  /**
+   * Get information for all data-source, including data-sources that do not exist online.
+   *
+   * @returns {Promise<Interface.ResultAdminDataSource>}
+   */
+  public getAllDataSOurces():Promise<Interface.ResultAdminDataSource> {
+    return this.linkuriousFetch('GET', '/admin/sources');
+  }
+
+  /**
+   * Get the list of edge-properties hidden for the given data-source.
+   *
+   * @param dataSource:string
+   * @returns {Promise<Array<string>>}
+   */
+  public getHiddenEdgeProperties(dataSource:string):Promise<Array<string>> {
+    if(!dataSource){
+      dataSource = this.state.currentSource.key;
+    }
+    return this.linkuriousFetch('GET', '/admin/source/' + dataSource + '/hidden/edgeProperties');
+  }
+
+  /**
+   * Get the list of node-properties hidden for the given data-source.
+   *
+   * @param dataSource:string
+   * @returns {Promise<Array<string>>}
+   */
+  public getHiddenNodeProperties(dataSource:string):Promise<Array<string>> {
+    if(!dataSource){
+      dataSource = this.state.currentSource.key;
+    }
+    return this.linkuriousFetch('GET', '/admin/source/' + dataSource + '/hidden/nodeProperties');
+  }
+
+  /**
+   * Get the list of edge-properties that re not indexed for the given data-source.
+   *
+   * @param dataSource:string
+   * @returns {Promise<Array<string>>}
+   */
+  public getNonIndexedEdgeProperties(dataSource:string):Promise<Array<string>> {
+    if(!dataSource){
+      dataSource = this.state.currentSource.key;
+    }
+    return this.linkuriousFetch('GET', '/admin/source/' + dataSource + '/noIndex/edgeProperties');
+  }
+
+  /**
+   * Get the list of node-properties that are not indexed for the given data-source.
+   *
+   * @param dataSource:string
+   * @returns {Promise<Array<string>>}
+   */
+  public getNonIndexedNodeProperties(dataSource:string):Promise<Array<string>> {
+    if(!dataSource){
+      dataSource = this.state.currentSource.key;
+    }
+    return this.linkuriousFetch('GET', '/admin/source/' + dataSource + '/noIndex/nodeProperties');
+  }
+
+  /**
+   * Set the list of edge-properties that are hidden for the given data-source.
+   *
+   * @param dataSource:string
+   * @param data:Interface.RequestArrayProperties
+   * @returns {Promise<boolean>}
+   */
+  public setHiddenEdgeProperties(dataSource:string, data:Interface.RequestArrayProperties):Promise<boolean> {
+    if(!dataSource){
+      dataSource = this.state.currentSource.key;
+    }
+    return this.linkuriousFetch('PUT', '/admin/source/' + dataSource + '/hidden/edgeProperties', data);
+  }
+
+  /**
+   * Set the list of node-properties that are hidden for the given data-source.
+   *
+   * @param dataSource:string
+   * @param data:Interface.RequestArrayProperties
+   * @returns {Promise<boolean>}
+   */
+  public setHiddenNodeProperties(dataSource:string, data:Interface.RequestArrayProperties):Promise<boolean> {
+    if(!dataSource){
+      dataSource = this.state.currentSource.key;
+    }
+    return this.linkuriousFetch('PUT', '/admin/source/' + dataSource + '/hidden/nodeProperties', data)
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  /**
+   * Set the list of edge-properties that are not indexed for the given data-source.
+   *
+   * @param dataSource:string
+   * @param data:Interface.RequestArrayProperties
+   * @returns {Promise<boolean>}
+   */
+  public setNotIndexedEdgeProperties(dataSource:string, data:Interface.RequestArrayProperties):Promise<boolean> {
+    if(!dataSource){
+      dataSource = this.state.currentSource.key;
+    }
+    return this.linkuriousFetch('PUT', '/admin/source/' + dataSource + '/noIndex/edgeProperties', data)
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  /**
+   * Set the list of node-properties that are not indexed for the given data-source.
+   *
+   * @param dataSource:string
+   * @param data:Interface.RequestArrayProperties
+   * @returns {Promise<boolean>}
+   */
+  public setNotIndexedNodeProperties(dataSource:string, data:Interface.RequestArrayProperties):Promise<boolean> {
+    if(!dataSource){
+      dataSource = this.state.currentSource.key;
+    }
+    return this.linkuriousFetch('PUT', '/admin/source/' + dataSource + '/noIndex/nodeProperties', data)
+      .then(() => true)
+      .catch(() => false);
+  }
 }
 
 export = Linkurious;

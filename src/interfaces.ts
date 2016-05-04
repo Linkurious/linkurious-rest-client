@@ -393,6 +393,61 @@ export interface IndexationStatus {
   indexing_status : string;
 }
 
+export interface GraphDb {
+  vendor : GraphDBVendor;
+  url : string;
+  graphName ?: string;
+  create ?: boolean;
+  webAdmin ?: string;
+  user ?: string;
+  password ?: string;
+  configurationPath ?: string;
+}
+
+export interface IndexConfig {
+  vendor : string;
+  host : string;
+  port : number;
+  forceReindex : boolean;
+  dynamicMapping : boolean;
+}
+
+export interface RequestDeleteDatas {
+  sourceKey : string;
+  mergeInto : string;
+}
+
+export interface AffectedSource {
+  visualizations : number;
+  folders : number;
+}
+
+export interface ResultDeleteDatas {
+  migrated : boolean;
+  affected : AffectedSource;
+}
+
+export interface AdminDataSource {
+  lastSeen : string;
+  indexedDate : string;
+  key : string;
+  host : string;
+  port : string;
+  storeId : string;
+  state : string;
+  visualizationCount : number;
+  configIndex : number;
+}
+
+export interface ResultAdminDataSource {
+  sources : Array<AdminDataSource>;
+}
+
+export interface RequestArrayProperties {
+  properties : Array<string>;
+}
+
+export type GraphDBVendor = 'neo4j'|'titan'|'dse';
 export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgesList = Array<Edge>;
 export type EdgeOrientation = 'in'|'out'|'both';
@@ -474,6 +529,14 @@ export namespace Form {
       configuration : any;
       sourceIndex ?: number;
       reset ?: boolean;
+    }
+  }
+
+  export namespace dataSource {
+    export interface create {
+      name : string;
+      graphDb : GraphDb;
+      index : IndexConfig;
     }
   }
 }
