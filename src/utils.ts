@@ -12,6 +12,10 @@
 export namespace Utils {
 
   export function sanitizeQuery(data:any):any {
+    if(!data){
+      return;
+    }
+    
     let result = <any>{};
 
     for(let key in data){
