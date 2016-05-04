@@ -385,7 +385,7 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @returns {Promise}
    */
   public getShortestPaths(nodesConfig:Interface.RequestShortestPathInterface):Promise<any> {
-    return this.linkuriousFetch('GET', '/{dataSource}/graph/shortestPaths', nodesConfig);
+    return this.linkuriousFetch('GET', '/{dataSource}/graph/shortestPaths', Utils.sanitizeQuery(nodesConfig));
   }
 
   /**
@@ -413,7 +413,7 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @returns {Promise}
    */
   public requestGraphWithQuery(data:Interface.RequestGraphWithQueryInterface):Promise<any> {
-    return this.linkuriousFetch('POST', '/{dataSource}/graph/rawQuery', data);
+    return this.linkuriousFetch('POST', '/{dataSource}/graph/rawQuery', Utils.sanitizeQuery(data));
   }
 
   /**
@@ -441,7 +441,7 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @returns {Promise<Interface.SearchUserResult>}
    */
   public searchUsers(data:Interface.Form.user.search):Promise<Interface.SearchUserResult> {
-    return this.linkuriousFetch('GET', '/findUsers', data);
+    return this.linkuriousFetch('GET', '/findUsers', Utils.sanitizeQuery(data));
   }
 
   /**
@@ -531,7 +531,7 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @returns {Promise<Interface.Node>}
    */
   public getNode(nodeId:number, params?:Interface.RequestNode):Promise<Interface.Node> {
-    return this.linkuriousFetch('GET', '/{dataSource}/graph/nodes/' + nodeId, params);
+    return this.linkuriousFetch('GET', '/{dataSource}/graph/nodes/' + nodeId, Utils.sanitizeQuery(params));
   }
 
   /**
@@ -545,7 +545,7 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @returns {Promise<Interface.NodesWithEdges>}
    */
   public expandNode(data:Interface.RequestNodeAdjacentItems):Promise<Interface.NodesWithEdges> {
-    return this.linkuriousFetch('POST', '/{dataSource}/graph/nodes/expand', data);
+    return this.linkuriousFetch('POST', '/{dataSource}/graph/nodes/expand', Utils.sanitizeQuery(data));
   }
 
   /**
@@ -566,7 +566,7 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @returns {Promise<Node>}
    */
   public updateNode(nodeId:number, data:Interface.Form.node.update):Promise<Node> {
-    return this.linkuriousFetch('PATCH', '/{dataSource}/graph/nodes/' + nodeId, data);
+    return this.linkuriousFetch('PATCH', '/{dataSource}/graph/nodes/' + nodeId, Utils.sanitizeQuery(data));
   }
 
 
@@ -593,7 +593,7 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @returns {Promise<Interface.PropertyList>}
    */
   public getEdgeTypesProperties(params?:Interface.RequestProperties):Promise<Interface.PropertyList> {
-    return this.linkuriousFetch('GET', '/{dataSource}/graph/schema/edgeTypes/properties', params);
+    return this.linkuriousFetch('GET', '/{dataSource}/graph/schema/edgeTypes/properties', Utils.sanitizeQuery(params));
   }
 
   /**
@@ -603,7 +603,7 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @returns {Promise<Interface.PropertyList>}
    */
   public getNodeTypesProperties(params?:Interface.RequestProperties):Promise<Interface.PropertyList> {
-    return this.linkuriousFetch('GET', '/{dataSource}/graph/schema/nodeTypes/properties', params);
+    return this.linkuriousFetch('GET', '/{dataSource}/graph/schema/nodeTypes/properties', Utils.sanitizeQuery(params));
   }
 
   /**
@@ -613,7 +613,7 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @returns {Promise<Interface.TypesList>}
    */
   public getEdgeTypes(params?:Interface.RequestEdgeType):Promise<Interface.TypesList> {
-    return this.linkuriousFetch('GET', '/{dataSource}/graph/schema/edgeTypes', params);
+    return this.linkuriousFetch('GET', '/{dataSource}/graph/schema/edgeTypes', Utils.sanitizeQuery(params));
   }
 
   /**
@@ -623,7 +623,7 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @returns {Promise<Interface.TypesList>}
    */
   public getNodeTypes(params?:Interface.RequestNodeType):Promise<Interface.TypesList> {
-    return this.linkuriousFetch('GET', '/{dataSource}/graph/schema/nodeTypes', params);
+    return this.linkuriousFetch('GET', '/{dataSource}/graph/schema/nodeTypes', Utils.sanitizeQuery(params));
   }
 }
 

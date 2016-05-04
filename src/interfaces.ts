@@ -147,13 +147,13 @@ export interface RequestShortestPathInterface {
   startNode : number;
   endNode : number;
   maxDepth ?: number;
-  with_version ?: boolean;
+  withVersion ?: boolean;
 }
 
 export interface RequestGraphWithQueryInterface {
   dialect : string;
   query : string;
-  with_version : boolean;
+  withVersion : boolean;
 }
 
 export interface AppStatus {
@@ -267,12 +267,12 @@ export interface NodesWithEdges extends Node{
 
 export interface RequestNodeAdjacentItems {
   ids : Array<number>;
-  ignored_nodes : Array<number>;
-  visible_nodes : Array<number>;
-  node_category : string;
-  edge_type : string;
+  ignoredNodes : Array<number>;
+  visibleNodes : Array<number>;
+  nodeCategory : string;
+  edgeType : string;
   limit : number;
-  limit_type : string;
+  limitType : string;
 }
 
 export interface RequestNodeNeighbors {
@@ -280,9 +280,9 @@ export interface RequestNodeNeighbors {
 }
 
 export interface RequestNode {
-  with_edges ?: boolean;
-  with_digest ?: boolean;
-  with_version ?: boolean;
+  withEdges ?: boolean;
+  withDigest ?: boolean;
+  withVersion ?: boolean;
 }
 
 export interface Schema {
@@ -293,8 +293,8 @@ export interface Schema {
 }
 
 export interface RequestProperties {
-  include_type ?: string;
-  omit_noindex ?: boolean;
+  includeType ?: string;
+  omitNoindex ?: boolean;
 }
 
 export interface Property {
@@ -308,11 +308,11 @@ export interface PropertyList {
 }
 
 export interface RequestEdgeType {
-  include_type ?: boolean;
+  includeType ?: boolean;
 }
 
 export interface RequestNodeType extends RequestEdgeType {
-  omit_inferred : boolean;
+  omitInferred : boolean;
 }
 
 export interface ItemType {
@@ -340,8 +340,8 @@ export namespace Form {
 
     export interface search {
       filter : string;
-      group_id : Array<number>;
-      unwanted_ids : Array<number>;
+      groupId : Array<number>;
+      unwantedIds : Array<number>;
       size : number;
       start : number;
     }
@@ -357,7 +357,7 @@ export namespace Form {
 
     export interface update {
       properties : any;
-      delete_properties : Array<string>;
+      deleteProperties : Array<string>;
       type : string;
     }
 
@@ -379,9 +379,9 @@ export namespace Form {
 
     export interface update {
       properties :any;
-      deleted_properties : Array<string>;
-      added_properties : Array<string>;
-      deleted_categories : Array<string>;
+      deletedProperties : Array<string>;
+      addedProperties : Array<string>;
+      deletedCategories : Array<string>;
       version : number;
     }
   }
