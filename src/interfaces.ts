@@ -285,6 +285,47 @@ export interface RequestNode {
   with_version ?: boolean;
 }
 
+export interface Schema {
+  nodeCategories : Array<string>;
+  edgeTypes : Array<string>;
+  nodeProperties : Array<string>;
+  edgeProperties : Array<string>;
+}
+
+export interface RequestProperties {
+  include_type ?: string;
+  omit_noindex ?: boolean;
+}
+
+export interface Property {
+  key : string;
+  count : number;
+  type ?: string;
+}
+
+export interface PropertyList {
+  properties : Array<Property>
+}
+
+export interface RequestEdgeType {
+  include_type ?: boolean;
+}
+
+export interface RequestNodeType extends RequestEdgeType {
+  omit_inferred : boolean;
+}
+
+export interface ItemType {
+  count : number;
+  name : string;
+  properties : Array<Property>;
+}
+
+export interface TypesList {
+  edgeTypes ?: Array<ItemType>
+  nodeTypes ?: Array<ItemType>
+}
+
 export type EdgesList = Array<Edge>;
 export type EdgeOrientation = 'in'|'out'|'both';
 

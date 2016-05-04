@@ -25,7 +25,7 @@ class Linkurious implements Interface.LinkuriousInterface {
   public httpDriver:Interface.HTTPDriverInterface;
 
   constructor(host:string, log:string, logger?:Interface.LoggerPlugin) {
-    this.host       = host + '/api/';
+    this.host       = host;
     this.state      = <Interface.clientState>{};
     this.log        = <Interface.LogDriverInterface>new LogDriver(log, logger);
     this.httpDriver = <Interface.HTTPDriverInterface>new HTTPDriver();
@@ -40,17 +40,17 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @returns {StateSource}
    */
   private setStateSource(source:Interface.Source, comparator:string, condition:any):any {
-  if (source[comparator] === condition) {
-    this.state.currentSource = {
-      name       : source.name,
-      key        : source.key,
-      configIndex: source.configIndex
-    };
-    return this.state.currentSource;
-  } else {
-    return false;
+    if (source[comparator] === condition) {
+      this.state.currentSource = {
+        name       : source.name,
+        key        : source.key,
+        configIndex: source.configIndex
+      };
+      return this.state.currentSource;
+    } else {
+      return false;
+    }
   }
-}
 
   /**
    * construct the API URL with sourceId if needed and throw error if doesn't exists.
@@ -60,19 +60,21 @@ class Linkurious implements Interface.LinkuriousInterface {
    */
   private transformUrl(uri:string):string {
 
-  if (uri.match(/^\{dataSource}$/)) {
-    if (this.state.currentSource.key) {
-      return this.state.currentSource.key + uri;
+    const dataSourceTest = /\{dataSource}/;
+
+    if (uri.match(dataSourceTest)) {
+      if (this.state.currentSource.key) {
+        return this.host + '/api/' + uri.replace(dataSourceTest, this.state.currentSource.key);
+      } else {
+        this.log.error({
+          key    : 'Configuration error',
+          message: 'You need to set a current source to fetch this API.'
+        });
+      }
     } else {
-      this.log.error({
-        key    : 'Configuration error',
-        message: 'You need to set a current source to fetch this API.'
-      });
+      return this.host + '/api/' + uri;
     }
-  } else {
-    return uri;
   }
-}
 
   /**
    * HTTPDriver wrapper method
@@ -84,26 +86,26 @@ class Linkurious implements Interface.LinkuriousInterface {
    */
   private linkuriousFetch(method:string, uri:string, data?:any):Promise<any> {
 
-  let url = this.transformUrl(uri),
-      fetch;
+    let url = this.transformUrl(uri),
+        fetch;
 
-  if (!data) {
-    fetch = this.httpDriver[method](url);
-  } else {
-    fetch = this.httpDriver[method](url, data);
-  }
+    if (!data) {
+      fetch = this.httpDriver[method](url);
+    } else {
+      fetch = this.httpDriver[method](url, data);
+    }
 
-  return fetch
-    .then((res) => res)
-    .catch((err) => {
-      this.log.error({
-        key    : err.status + ' - ' + err.type,
-        message: err.message
+    return fetch
+      .then((res) => res)
+      .catch((err) => {
+        this.log.error({
+          key    : err.status + ' - ' + err.type,
+          message: err.message
+        });
+
+        return Promise.reject(err);
       });
-
-      return Promise.reject(err);
-    });
-}
+  }
 
   // ----------------------------------------------------- //
   //                                                       //
@@ -159,7 +161,7 @@ class Linkurious implements Interface.LinkuriousInterface {
             sourceComparator = 'configIndex';
           }
 
-          if (this.setStateSource.(sourceIteration, sourceComparator, keyOrConfig)) {
+          if (this.setStateSource(sourceIteration, sourceComparator, keyOrConfig)) {
             return this.state.currentSource;
           }
         }
@@ -425,7 +427,6 @@ class Linkurious implements Interface.LinkuriousInterface {
   }
 
 
-
   // ----------------------------------------------------- //
   //                                                       //
   //                 LINKURIOUS METHODS                    //
@@ -469,7 +470,7 @@ class Linkurious implements Interface.LinkuriousInterface {
    */
   public getSourceConfig(sourceIndex?:number):Promise<Interface.AppConfig> {
 
-    let data = (sourceIndex)? sourceIndex : null;
+    let data = (sourceIndex) ? {sourceIndex: sourceIndex} : null;
 
     return this.linkuriousFetch('GET', 'config', data);
   }
@@ -480,10 +481,9 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @param data:Interface.Form.config.update
    * @returns {Promise<string>}
    */
-  public updateConfiguration(data : Interface.Form.config.update):Promise<string> {
+  public updateConfiguration(data:Interface.Form.config.update):Promise<string> {
     return this.linkuriousFetch('POST', 'config', data);
   }
-
 
 
   // ----------------------------------------------------- //
@@ -527,12 +527,10 @@ class Linkurious implements Interface.LinkuriousInterface {
    * Get a node from the graph.
    *
    * @param nodeId:number
-   * @param data:Interface.RequestNode
+   * @param params:Interface.RequestNode
    * @returns {Promise<Interface.Node>}
    */
-  public getNode(nodeId:number, data?:Interface.RequestNode):Promise<Interface.Node> {
-    let params = (data)? data : null;
-
+  public getNode(nodeId:number, params?:Interface.RequestNode):Promise<Interface.Node> {
     return this.linkuriousFetch('GET', '{dataSource}/graph/nodes/' + nodeId, params);
   }
 
@@ -569,6 +567,63 @@ class Linkurious implements Interface.LinkuriousInterface {
    */
   public updateNode(nodeId:number, data:Interface.Form.node.update):Promise<Node> {
     return this.linkuriousFetch('PATCH', '{dataSource}/graph/nodes/' + nodeId, data);
+  }
+
+
+  // ----------------------------------------------------- //
+  //                                                       //
+  //                    SCHEMA METHODS                     //
+  //                                                       //
+  // ----------------------------------------------------- //
+
+
+  /**
+   * List nodeCategories, edgeTypes, nodeProperties and edgeProperties before the first indexation.
+   *
+   * @returns {Promise<Interface.Schema>}
+   */
+  public getSchema():Promise<Interface.Schema> {
+    return this.linkuriousFetch('GET', '{dataSource}/graph/schema/simple');
+  }
+
+  /**
+   * List all edgeType properties (aggregated from all edgeTypes)
+   *
+   * @param params:Interface.RequestProperties
+   * @returns {Promise<Interface.PropertyList>}
+   */
+  public getEdgeTypesProperties(params?:Interface.RequestProperties):Promise<Interface.PropertyList> {
+    return this.linkuriousFetch('GET', '{dataSource}/graph/schema/edgeTypes/properties', params);
+  }
+
+  /**
+   * List all node-type properties (aggregated from all nodeTypes)
+   *
+   * @param params:Interface.RequestProperties
+   * @returns {Promise<Interface.PropertyList>}
+   */
+  public getNodeTypesProperties(params?:Interface.RequestProperties):Promise<Interface.PropertyList> {
+    return this.linkuriousFetch('GET', '{dataSource}/graph/schema/nodeTypes/properties', params);
+  }
+
+  /**
+   * List edge-types indexed by linkurious
+   *
+   * @param params:Interface.RequestEdgeType
+   * @returns {Promise<Interface.TypesList>}
+   */
+  public getEdgeTypes(params?:Interface.RequestEdgeType):Promise<Interface.TypesList> {
+    return this.linkuriousFetch('GET', '{dataSource}/graph/schema/edgeTypes', params);
+  }
+
+  /**
+   * List node-types indexed by Linkurious
+   *
+   * @param params:Interface.RequestNodeType
+   * @returns {Promise<Interface.TypesList>}
+   */
+  public getNodeTypes(params?:Interface.RequestNodeType):Promise<Interface.TypesList> {
+    return this.linkuriousFetch('GET', '{dataSource}/graph/schema/nodeTypes', params);
   }
 }
 
