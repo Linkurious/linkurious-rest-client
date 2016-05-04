@@ -544,7 +544,7 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @param data:Interface.RequestNodeAdjacentItems
    * @returns {Promise<Interface.NodesWithEdges>}
    */
-  public expandNode(data:Interface.RequestNodeAdjacentItems):Promise<Interface.NodesWithEdges> {
+  public expandNode(data:Interface.RequestNodeAdjacentItems):Promise<Interface.Node> {
     return this.linkuriousFetch('POST', '/{dataSource}/graph/nodes/expand', Utils.sanitizeQuery(data));
   }
 
@@ -624,6 +624,79 @@ class Linkurious implements Interface.LinkuriousInterface {
    */
   public getNodeTypes(params?:Interface.RequestNodeType):Promise<Interface.TypesList> {
     return this.linkuriousFetch('GET', '/{dataSource}/graph/schema/nodeTypes', Utils.sanitizeQuery(params));
+  }
+
+
+
+  // ----------------------------------------------------- //
+  //                                                       //
+  //                    SEARCH METHODS                     //
+  //                                                       //
+  // ----------------------------------------------------- //
+
+
+  /**
+   * Get the status of the Search API and return the indexing progress.
+   *
+   * @returns {Promise<Interface.IndexationStatus>}
+   */
+  public getIndexationStatus():Promise<Interface.IndexationStatus> {
+    return this.linkuriousFetch('GET', '/{dataSource}/search/status')
+      .then((res) => {
+        if(res.indexed_source !== this.state.currentSource.key) {
+          this.log.error({
+            key    : 'Indexation error',
+            message: 'Server is indexing another source.'
+          });
+
+          return Promise.reject(res);
+        }
+
+        return res;
+      })
+  }
+
+  /**
+   * Request to reindex the graph database. One may want to do it after editing the index configuration.
+   *
+   * @returns {Promise<boolean>}
+   */
+  public runIndexation():Promise<boolean> {
+    return this.linkuriousFetch('GET', '/{dataSource}/search/reindex')
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  /**
+   * Search for nodes based on a query string and optional parameters. Return formatted results for the Linkurious client.
+   *
+   * @param item:Interface.Item
+   * @param params:Interface.RequestSearchItems
+   * @returns {Promise<Interface.ResultSearchItems>}
+   */
+  public searchItems(item:Interface.Item, params:Interface.RequestSearchItems):Promise<Interface.ResultSearchItems> {
+    return this.linkuriousFetch('GET', '/{dataSource}/search/' + item, params);
+  }
+
+  /**
+   * Search for nodes based on a query strig and optional parameters. Return full Node objects.
+   *
+   * @param item:Interface.Item
+   * @param params:Interface.RequestSearchItems
+   * @returns {Promise<Array<Interface.Node>>}
+   */
+  public searchFullItems(item:Interface.Item, params:Interface.RequestSearchItems):Promise<Array<Interface.Node>> {
+    return this.linkuriousFetch('GET', '/{dataSource}/search/' + item + '/full', Utils.sanitizeQuery(params));
+  }
+
+  /**
+   * Search in the directory.
+   *
+   * @param data:Interface.RequestDirectory
+   * @returns {Promise<Interface.ResultSearchDirectory>}
+   */
+  public searchDirectory(data:Interface.RequestDirectory):Promise<Interface.ResultSearchDirectory> {
+    return this.linkuriousFetch('POST', '/{dataSource}/directory', data);
   }
 }
 

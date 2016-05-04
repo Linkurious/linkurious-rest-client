@@ -128,6 +128,8 @@ export interface Edge {
   target : number;
   type : string;
   data : any;
+  version ?: number;
+  nodes ?: Array<Node>;
 }
 
 export interface GraphQuery {
@@ -259,10 +261,8 @@ export interface Node {
   data : any;
   statistics ?: DigestList;
   categories : any;
-}
-
-export interface NodesWithEdges extends Node{
-  edges : Array<Edge>;
+  edges ?: Array<Edge>;
+  version ?: number;
 }
 
 export interface RequestNodeAdjacentItems {
@@ -326,8 +326,77 @@ export interface TypesList {
   nodeTypes ?: Array<ItemType>
 }
 
+export interface IndexationProgress {
+  indexing_progress : number;
+  node_count : number;
+  edge_count : number;
+  index_size : number;
+  indexed_source : string;
+}
+
+export interface RequestSearchItems {
+  q : string;
+  strictEdges ?: boolean;
+  fuzziness ?: number;
+  size ?: number;
+  from ?: number;
+  filter ?: string;
+}
+
+export interface SearchChildren {
+  id : number;
+  name : string;
+  field : string;
+  value : string;
+}
+
+export interface SearchItems {
+  title : string;
+  categories : Array<string>;
+  children : Array<SearchChildren>;
+}
+
+export interface ResultSearchItems {
+  type : Item;
+  totalHits : number;
+  results : Array<SearchItems>;
+}
+
+export interface Constraints {
+  property : string;
+  operator : string;
+  value : any;
+}
+
+export interface RequestDirectory {
+  type : Item;
+  categoryOrTypes : Array<string>;
+  properties : Array<string>;
+  constraints : Constraints;
+  pageSize : number;
+  pageStart : number;
+}
+
+export interface ResultSearchDirectory {
+  type : Item;
+  totalHits : number;
+  results : Node | Edge;
+}
+
+export interface IndexationStatus {
+  indexing : indexingStatus;
+  indexing_progress : string;
+  node_count : number;
+  edge_count : number;
+  index_size : number;
+  indexed_source : string;
+  indexing_status : string;
+}
+
+export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgesList = Array<Edge>;
 export type EdgeOrientation = 'in'|'out'|'both';
+export type Item = 'node'|'edge'|'nodes'|'edges';
 
 export namespace Form {
   export namespace user {
