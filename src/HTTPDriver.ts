@@ -39,6 +39,24 @@ export default class HTTPDriver implements HTTPDriverInterface {
     });
   }
 
+  PUT(uri:string, data:any):Promise<any> {
+    return new Promise((resolve:Function, reject:Function) => {
+      request({
+        method: 'PUT',
+        uri   : uri,
+        json  : true,
+        body  : data,
+        jar   : this.cookieJar
+      }, (err, res, body) => {
+        if (res.statusCode >= 400) {
+          return reject(ErrorsDriver.format(res, body));
+        } else {
+          return resolve(body);
+        }
+      });
+    });
+  }
+
   PATCH(uri:string, data:any):Promise<any> {
     return new Promise((resolve:Function, reject:Function) => {
       request({
@@ -57,7 +75,7 @@ export default class HTTPDriver implements HTTPDriverInterface {
     });
   }
 
-  GET(uri:string, data:any):Promise<any> {
+  GET(uri:string, data?:any):Promise<any> {
 
     let requestConf = {
       method: 'GET',
@@ -81,14 +99,20 @@ export default class HTTPDriver implements HTTPDriverInterface {
     });
   }
 
-  DELETE(uri:string):Promise<any> {
+  DELETE(uri:string, data?:any):Promise<any> {
+
+    let requestConf = {
+      method : 'DELETE',
+      uri : uri,
+      json : true,
+      jar : this.cookieJar
+    };
+
+    if(data){
+      requestConf['data'] = data;
+    }
     return new Promise((resolve:any, reject:any) => {
-      request({
-        method: 'DELETE',
-        uri   : uri,
-        json : true,
-        jar   : this.cookieJar
-      }, (err, res, body) => {
+      request(requestConf, (err, res, body) => {
         if (res.statusCode >= 400) {
           return reject(ErrorsDriver.format(res, body));
         } else {
