@@ -5,17 +5,32 @@ export interface User {
   id:number;
   username:string;
   email:string;
-  groups:any;
+  groups:Array<Group>;
   admin:boolean;
   preferences:any;
-  actions:any;
+  actions?:any;
+  ldap ?: boolean;
+}
+
+export interface AccessRights {
+  sourceKey : string;
+  type : string;
+  targetType : string;
+  targetName : string;
+}
+
+export interface GroupRights {
+  types ?: Array<string>;
+  targetTypes ?: Array<string>;
+  actions ?: Array<string>;
 }
 
 export interface Group {
   id : number;
   name : string;
-  userCount : number;
+  userCount ?: number;
   builtIn : boolean;
+  accessRights ?: Array<AccessRights>;
 }
 
 export interface UserResult {
@@ -447,11 +462,19 @@ export interface RequestArrayProperties {
   properties : Array<string>;
 }
 
+export interface ResultUpdateGroupRights {
+  targetName : string;
+  type : groupRights;
+  targetType : string;
+  sourceKey : string;
+}
+
 export type GraphDBVendor = 'neo4j'|'titan'|'dse';
 export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgesList = Array<Edge>;
 export type EdgeOrientation = 'in'|'out'|'both';
 export type Item = 'node'|'edge'|'nodes'|'edges';
+export type groupRights = 'read'|'write'|'none';
 
 export namespace Form {
   export namespace user {
@@ -462,12 +485,44 @@ export namespace Form {
       preferences ?:any;
     }
 
+    export interface create {
+      username : string;
+      email : string;
+      password : string;
+      groups ?: Array<string>;
+    }
+
     export interface search {
       filter : string;
       groupId : Array<number>;
       unwantedIds : Array<number>;
       size : number;
       start : number;
+    }
+
+    export interface batch {
+      users : Array<number>;
+      addGroups : Array<number>;
+      rmGroups : Array<number>;
+    }
+  }
+
+  export namespace group {
+    export interface create {
+      name : string;
+      dataSource ?: string;
+    }
+
+    export interface batchRights {
+      groupIds : Array<number>;
+      rightType : groupRights;
+      targetType : string;
+    }
+
+    export interface updateRights {
+      type : groupRights;
+      targetType : string;
+      targetName : string;
     }
   }
 

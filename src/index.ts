@@ -16,6 +16,7 @@ import HTTPDriver from './HTTPDriver';
 import LogDriver from './logDriver';
 import {Utils} from './utils';
 import * as Interface from './interfaces';
+import {User} from "./interfaces";
 
 class Linkurious implements Interface.LinkuriousInterface {
 
@@ -775,9 +776,9 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @param dataSource:string
    * @returns {Promise<Array<string>>}
    */
-  public getHiddenEdgeProperties(dataSource:string):Promise<Array<string>> {
+  public getHiddenEdgeProperties(dataSource?:string):Promise<Array<string>> {
     if(!dataSource){
-      dataSource = this.state.currentSource.key;
+      dataSource = '{dataSource}';
     }
     return this.linkuriousFetch('GET', '/admin/source/' + dataSource + '/hidden/edgeProperties');
   }
@@ -788,9 +789,9 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @param dataSource:string
    * @returns {Promise<Array<string>>}
    */
-  public getHiddenNodeProperties(dataSource:string):Promise<Array<string>> {
+  public getHiddenNodeProperties(dataSource?:string):Promise<Array<string>> {
     if(!dataSource){
-      dataSource = this.state.currentSource.key;
+      dataSource = '{dataSource}';
     }
     return this.linkuriousFetch('GET', '/admin/source/' + dataSource + '/hidden/nodeProperties');
   }
@@ -801,9 +802,9 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @param dataSource:string
    * @returns {Promise<Array<string>>}
    */
-  public getNonIndexedEdgeProperties(dataSource:string):Promise<Array<string>> {
+  public getNonIndexedEdgeProperties(dataSource?:string):Promise<Array<string>> {
     if(!dataSource){
-      dataSource = this.state.currentSource.key;
+      dataSource = '{dataSource}';
     }
     return this.linkuriousFetch('GET', '/admin/source/' + dataSource + '/noIndex/edgeProperties');
   }
@@ -814,9 +815,9 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @param dataSource:string
    * @returns {Promise<Array<string>>}
    */
-  public getNonIndexedNodeProperties(dataSource:string):Promise<Array<string>> {
+  public getNonIndexedNodeProperties(dataSource?:string):Promise<Array<string>> {
     if(!dataSource){
-      dataSource = this.state.currentSource.key;
+      dataSource = '{dataSource}';
     }
     return this.linkuriousFetch('GET', '/admin/source/' + dataSource + '/noIndex/nodeProperties');
   }
@@ -828,9 +829,9 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @param data:Interface.RequestArrayProperties
    * @returns {Promise<boolean>}
    */
-  public setHiddenEdgeProperties(dataSource:string, data:Interface.RequestArrayProperties):Promise<boolean> {
+  public setHiddenEdgeProperties(data:Interface.RequestArrayProperties, dataSource?:string):Promise<boolean> {
     if(!dataSource){
-      dataSource = this.state.currentSource.key;
+      dataSource = '{dataSource}';
     }
     return this.linkuriousFetch('PUT', '/admin/source/' + dataSource + '/hidden/edgeProperties', data);
   }
@@ -842,9 +843,9 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @param data:Interface.RequestArrayProperties
    * @returns {Promise<boolean>}
    */
-  public setHiddenNodeProperties(dataSource:string, data:Interface.RequestArrayProperties):Promise<boolean> {
+  public setHiddenNodeProperties(data:Interface.RequestArrayProperties, dataSource?:string):Promise<boolean> {
     if(!dataSource){
-      dataSource = this.state.currentSource.key;
+      dataSource = '{dataSource}';
     }
     return this.linkuriousFetch('PUT', '/admin/source/' + dataSource + '/hidden/nodeProperties', data)
       .then(() => true)
@@ -858,9 +859,9 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @param data:Interface.RequestArrayProperties
    * @returns {Promise<boolean>}
    */
-  public setNotIndexedEdgeProperties(dataSource:string, data:Interface.RequestArrayProperties):Promise<boolean> {
+  public setNotIndexedEdgeProperties(data:Interface.RequestArrayProperties, dataSource?:string):Promise<boolean> {
     if(!dataSource){
-      dataSource = this.state.currentSource.key;
+      dataSource = '{dataSource}';
     }
     return this.linkuriousFetch('PUT', '/admin/source/' + dataSource + '/noIndex/edgeProperties', data)
       .then(() => true)
@@ -874,13 +875,156 @@ class Linkurious implements Interface.LinkuriousInterface {
    * @param data:Interface.RequestArrayProperties
    * @returns {Promise<boolean>}
    */
-  public setNotIndexedNodeProperties(dataSource:string, data:Interface.RequestArrayProperties):Promise<boolean> {
+  public setNotIndexedNodeProperties(data:Interface.RequestArrayProperties, dataSource?:string):Promise<boolean> {
     if(!dataSource){
-      dataSource = this.state.currentSource.key;
+      dataSource = '{dataSource}';
     }
     return this.linkuriousFetch('PUT', '/admin/source/' + dataSource + '/noIndex/nodeProperties', data)
       .then(() => true)
       .catch(() => false);
+  }
+
+
+
+  // ----------------------------------------------------- //
+  //                                                       //
+  //                   USER-ADMIN METHODS                  //
+  //                                                       //
+  // ----------------------------------------------------- //
+
+
+  /**
+   * Add a new user to the application.
+   *
+   * @param data:Interface.Form.user.create
+   * @returns {Promise<Interface.User>}
+   */
+  public createUser(data:Interface.Form.user.create):Promise<Interface.User> {
+    return this.linkuriousFetch('POST', '/admin/users', data);
+  }
+
+  /**
+   * Deletes a user in the application.
+   *
+   * @param userId:number
+   * @returns {Promise<string>}
+   */
+  public deleteUser(userId:number):Promise<string> {
+    return this.linkuriousFetch('DELETE', '/admin/users/' + userId)
+      .then(() => 'User ' + userId + ' deleted');
+  }
+
+  /**
+   * Adds a new group to the application.
+   * @param data:Interface.Form.group.create
+   * @returns {Promise<Interface.Group>}
+   */
+  public createGroup(data:Interface.Form.group.create):Promise<Interface.Group> {
+    return this.linkuriousFetch('POST', 'admin/groups', data);
+  }
+
+  /**
+   * Deletes a group in the application.
+   *
+   * @param groupId:number
+   * @returns {Promise<string>}
+   */
+  public deleteGroup(groupId:number):Promise<string> {
+    return this.linkuriousFetch('DELETE', '/admin/groups/' + groupId)
+      .then(() => 'group ' + groupId + 'deleted');
+  }
+
+  /**
+   * List a group already defined in the database.
+   *
+   * @param groupId:number
+   * @returns {Promise<Interface.Group>}
+   */
+  public getGroup(groupId:number):Promise<Interface.Group> {
+    return this.linkuriousFetch('GET', '/admin/groups/' + groupId);
+  }
+
+  /**
+   * List all the groups already defined in the database.
+   *
+   * @param dataSource:string
+   * @returns {Promise<Array<Interface.Group>>}
+   */
+  public getAllGroups(dataSource?:string):Promise<Array<Interface.Group>> {
+    if(!dataSource){
+      dataSource = '{dataSource}';
+    }
+
+    return this.linkuriousFetch('GET', '/admin/' + dataSource + '/groups');
+  }
+
+  /**
+   * Get possible targetType, type and action names.
+   *
+   * @param dataSource?:string default : take the current source key.
+   * @returns {Promise<Interface.GroupRights>}
+   */
+  public getGroupRight(dataSource ?: string):Promise<Interface.GroupRights> {
+    if(!dataSource){
+      dataSource = '{dataSource}';
+    }
+
+    return this.linkuriousFetch('GET', '/admin/' + dataSource + '/groups/rights_info');
+  }
+
+  /**
+   * Bulk-set rights for a whole targetType on one or many groups.
+   *
+   * @param data:Interface.Form.group.batchRights
+   * @param dataSource?:string default : take the current source key.
+   * @returns {Promise<boolean>}
+   */
+  public updateBatchGroupsRights(data:Interface.Form.group.batchRights, dataSource?:string):Promise<boolean> {
+    if(!dataSource){
+      dataSource = '{dataSource}';
+    }
+
+    return this.linkuriousFetch('PUT', '/admin/' + dataSource + '/groups/group_rights', data)
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  /**
+   * Overrides a given right with the one specified.
+   *
+   * @param data:Interface.Form.group.updateRights
+   * @param groupId:number
+   * @param dataSource?:string default : take the current source key.
+   * @returns {Promise<Interface.ResultUpdateGroupRights>}
+   */
+  public updateGroupRights(data:Interface.Form.group.updateRights,groupId:number,  dataSource?:string):Promise<Interface.ResultUpdateGroupRights> {
+    if(!dataSource){
+      dataSource = '{dataSource}';
+    }
+
+    return this.linkuriousFetch('PUT', '/admin/' + dataSource + 'groups/' + groupId + '/group_rights', data);
+  }
+
+  /**
+   * Patches users in the application. Beware, if all the groups for a given user are deleted, the user is added to the default group.
+   *
+   * @param data:Interface.Form.user.batch
+   * @returns {Promise<boolean>}
+   */
+  public updateBatchUser(data:Interface.Form.user.batch):Promise<boolean> {
+    return this.linkuriousFetch('PATCH', '/admin/users', data)
+      .then(() => true);
+  }
+
+  /**
+   * Patches a user in the application
+   *
+   * @param data:Interface.Form.user.update
+   * @param userId:number
+   * @returns {Promise:User}
+   */
+  public updateUser(data:Interface.Form.user.update, userId:number):Promise<User> {
+    return this.linkuriousFetch('PATCH', '/admin/users/' + userId, data);
   }
 }
 
