@@ -1026,6 +1026,210 @@ class Linkurious implements Interface.LinkuriousInterface {
   public updateUser(data:Interface.Form.user.update, userId:number):Promise<User> {
     return this.linkuriousFetch('PATCH', '/admin/users/' + userId, data);
   }
+
+
+
+  // ----------------------------------------------------- //
+  //                                                       //
+  //                 VISUALIZATION METHODS                 //
+  //                                                       //
+  // ----------------------------------------------------- //
+
+  /**
+   * Get the number of visualizations for this data-source.
+   *
+   * @returns {Promise<Interface.Count>}
+   */
+  public countViz():Promise<Interface.Count> {
+    return this.linkuriousFetch('GET', '/{dataSource}/visualizations/count');
+  }
+
+  /**
+   * Create a widget for a visualization.
+   *
+   * @param data:Interface.Form.visualization.createWidget
+   * @returns {Promise<string>}
+   */
+  public createWidget(data:Interface.Form.visualization.createWidget):Promise<string> {
+    return this.linkuriousFetch('POST', '/widget', data);
+  }
+
+  /**
+   * Create a folder for visualizations
+   *
+   * @param data:Interface.Form.visualization.createFolder
+   * @returns {Promise<boolean>}
+   */
+  public createFolder(data:Interface.Form.visualization.createFolder):Promise<boolean> {
+    return this.linkuriousFetch('POST', '/{dataSource}/visualizations/folder', data)
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  /**
+   * Create a new visualization.
+   *
+   * @param data:Interface.Form.visualization.create
+   * @returns {Promise<Interface.Visualization>}
+   */
+  public createViz(data:Interface.Form.visualization.create):Promise<Interface.Visualization> {
+    return this.linkuriousFetch('POST', '/{dataSource}/visualization', data);
+  }
+
+  /**
+   * Delete a widget for a visualization.
+   *
+   * @param widgetKey:string
+   * @returns {Promise<string>}
+   */
+  public deleteWidget(widgetKey:string):Promise<string> {
+    return this.linkuriousFetch('DELETE', '/widget/' + widgetKey)
+      .then(() => 'Widget ' + widgetKey + ' deleted');
+  }
+
+  /**
+   * Remove the specified folder and its children (visualizations and sub-folders)
+   *
+   * @param folderId:number
+   * @returns {Promise<string>}
+   */
+  public deleteFolder(folderId:number):Promise<string> {
+    return this.linkuriousFetch('DELETE', '/{dataSource}/visualizations/folder/' + folderId)
+      .then(() => 'folder ' + folderId + ' deleted');
+  }
+
+  /**
+   * Duplicates a visualization.
+   *
+   * @param vizId:number
+   * @returns {Promise<Interface.Visualization>}
+   */
+  public duplicateViz(vizId:number):Promise<Interface.Visualization> {
+    return this.linkuriousFetch('POST', '/{dataSource}/visualizations/' + vizId + '/duplicate');
+  }
+
+  /**
+   * Get a visualization widget's data by key
+   *
+   * @param widgetKey:string
+   * @returns {Promise<Interface.Widget>}
+   */
+  public getWidget(widgetKey:string):Promise<Interface.Widget> {
+    return this.linkuriousFetch('GET', '/widget/' + widgetKey);
+  }
+
+  /**
+   * Return the visualization sandbox of the current user for a given data-source
+   *
+   * @param params:Interface.RequestSandbox
+   * @returns {Promise<Interface.Visualization>}
+   */
+  public getVizSandbox(params:Interface.RequestSandbox):Promise<Interface.Visualization> {
+    return this.linkuriousFetch('GET', '/{dataSource}/sandbox', Utils.sanitizeQuery(params));
+  }
+
+  /**
+   * Return one visualizations selected by ID.
+   *
+   * @param vizId:number
+   * @returns {Promise<Interface.Visualization>}
+   */
+  public getViz(vizId:number):Promise<Interface.Visualization> {
+    return this.linkuriousFetch('GET', '/{dataSource}/visualizations/' + vizId);
+  }
+
+  /**
+   * Return visualizations ordered with folders hierarchy.
+   *
+   * @returns {Promise<Interface.VisualizationTree>}
+   */
+  public getVizTree():Promise<Interface.VisualizationTree> {
+    return this.linkuriousFetch('GET', '/{dataSource}/visualizations/tree');
+  }
+
+  /**
+   * Remove visualization selected by id.
+   *
+   * @param vizId:number
+   * @returns {Promise<string>}
+   */
+  public deleteViz(vizId:number):Promise<string> {
+    return this.linkuriousFetch('DELETE', '/{dataSource}/visualizations/' + vizId)
+      .then(() => 'Visualization ' + vizId + ' deleted');
+  }
+
+  /**
+   * Get all share rights on a visualization
+   * @param vizId:number
+   * @returns {Promise<Interface.VisualizationSharer>}
+   */
+  public getVizSharer(vizId:number):Promise<Interface.VisualizationSharer> {
+    return this.linkuriousFetch('GET', '/{dataSource}/visualizations/' + vizId + '/shares');
+  }
+
+  /**
+   * Set the share right of a user on a visualization
+   *
+   * @param data:Interface.Form.visualization.share
+   * @returns {Promise<Interface.VisualizationShare>}
+   */
+  public shareViz(data:Interface.Form.visualization.share):Promise<Interface.VisualizationShare> {
+
+    let shareParams = {
+      right : data.right
+    };
+
+    return this.linkuriousFetch('PUT', '/{dataSource}/visualizations/' + data.vizId + '/shared/' + data.userId, shareParams);
+  }
+
+  /**
+   * Remove a share right of a user on a visualization
+   *
+   * @param data:Interface.Form.visualization.share
+   * @returns {Promise<string>}
+   */
+  public unshareViz(data:Interface.Form.visualization.share):Promise<string> {
+    return this.linkuriousFetch('DELETE', '/{dataSource}/visualization/' + data.vizId + '/share/' + data.userId)
+      .then(() => 'Visualization ' + data.vizId + 'unshared');
+  }
+
+  /**
+   * Update a property of a folder
+   *
+   * @param folderId:number
+   * @param data:Interface.Form.visualization.updateFolder
+   * @returns {Promise<boolean>}
+   */
+  public updateFolder(folderId:number, data:Interface.Form.visualization.updateFolder):Promise<boolean> {
+    return this.linkuriousFetch('PATCH', '/{dataSource}/visualizations/folder/' + folderId, data)
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  /**
+   * Update the sandbox of the current user for a given data-source.
+   *
+   * @param data:Interface.Form.visualization.updateSandbox
+   * @returns {Promise<boolean>}
+   */
+  public updateVizSandbox(data:Interface.Form.visualization.updateSandbox):Promise<boolean> {
+    return this.linkuriousFetch('PATCH', '/{dataSource}/sandbox', data)
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  /**
+   * Update visualization selected by id.
+   *
+   * @param vizId:number
+   * @param data:Interface.Form.visualization.update
+   * @returns {Promise<boolean>}
+   */
+  public updateViz(vizId:number, data:Interface.Form.visualization.update):Promise<boolean> {
+    return this.linkuriousFetch('PATCH', '/{dataSource}/visualizations/' + vizId, data)
+      .then(() => true)
+      .catch(() => false);
+  }
 }
 
 export = Linkurious;

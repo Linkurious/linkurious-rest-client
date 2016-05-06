@@ -5,9 +5,9 @@ export interface User {
   id:number;
   username:string;
   email:string;
-  groups:Array<Group>;
-  admin:boolean;
-  preferences:any;
+  groups?:Array<Group>;
+  admin?:boolean;
+  preferences?:any;
   actions?:any;
   ldap ?: boolean;
 }
@@ -469,6 +469,156 @@ export interface ResultUpdateGroupRights {
   sourceKey : string;
 }
 
+export interface Graph {
+  nodes : any;
+  edges : any;
+}
+
+export interface WidgetUI {
+  search ?: boolean;
+  share ?: boolean;
+  layout ?: boolean;
+  fullscreen ?: boolean;
+  zoom ?: boolean;
+  legend ?: boolean;
+  geo ?: boolean;
+}
+
+export interface WidgetContent {
+  graph : Graph;
+  title ?: string;
+  description ?: string;
+  url ?: string;
+  mode ?: string;
+  styles ?: any;
+  palette ?: any;
+  mapLayers ?: Array<any>;
+  ui ?: WidgetUI;
+}
+
+export interface NodeLink {
+  x : number;
+  y : number;
+  fixed ?: boolean;
+}
+
+export interface NodeGeo {
+  latitude ?: number;
+  longitude ?: number;
+  latitudeDiff ?: number;
+  longitudeDiff ?: number
+}
+
+export interface Fields {
+  name : string;
+  active : boolean;
+}
+
+export interface VisualizationNode {
+  id : string;
+  selected ?: boolean;
+  nodeLink : NodeLink;
+  geo ?: NodeGeo;
+}
+
+export interface VisualizationEdge {
+  id : string;
+  selected ?: boolean;
+}
+
+export interface VisualizationLayout {
+  algorithm ?: string;
+  mode ?: string;
+}
+
+export interface VisualizationGeo {
+  latitudeProperty ?: string;
+  longitudeProperty ?: string;
+  layers ?: Array<string>;
+}
+
+export interface VisualizationDesign {
+  styles : any;
+  palette : any;
+}
+
+export interface Tree {
+  type : string;
+  id : number;
+  title : string;
+  children ?: Array<Tree>;
+  shareCount ?: number;
+  widgetKey ?: string;
+}
+
+export interface VisualizationTree {
+  tree : Array<Tree>;
+}
+
+export interface Sharer {
+  userId : number;
+  username : string;
+  email : string;
+  visualizationId : number;
+  right : string;
+}
+
+export interface VisualizationSharer {
+  owner : User;
+  shares : Array<Sharer>;
+}
+
+export interface VisualizationShare {
+  visualizationId : number;
+  ownerId : number;
+  right : string;
+  sourceKey : string;
+}
+
+export interface ItemFields {
+  captions : any;
+  fields : Array<Fields>;
+}
+
+export interface Visualization {
+  title : string;
+  folder : number;
+  nodes : VisualizationNode;
+  edges : VisualizationEdge;
+  alternativeIds : AlternativeIds;
+  layout : VisualizationLayout;
+  geo : VisualizationGeo;
+  mode : string;
+  design : VisualizationDesign;
+  filters : Array<any>;
+  nodeFields : ItemFields;
+  edgeFields : ItemFields;
+}
+
+export interface Widget {
+  title : string;
+  key : string;
+  userId : number;
+  visualizationId : number;
+  content : WidgetContent;
+}
+
+export interface RequestSandbox {
+  populate ?: string;
+  itemId ?: number;
+  searchQuery ?: string;
+  searchFuziness ?: number;
+  patternQuery ?: string;
+  doLayout ?: boolean;
+  patternDialect ?: string;
+}
+
+export interface VisualizationSandbox {
+  design : VisualizationDesign;
+  nodeFields : ItemFields;
+  edgeFields : ItemFields;
+}
+
 export type GraphDBVendor = 'neo4j'|'titan'|'dse';
 export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgesList = Array<Edge>;
@@ -592,6 +742,53 @@ export namespace Form {
       name : string;
       graphDb : GraphDb;
       index : IndexConfig;
+    }
+  }
+  
+  export namespace visualization {
+    export interface createWidget {
+      visualization_id : number;
+      content : WidgetContent;
+    }
+
+    export interface createFolder {
+      title : string;
+      parent : number;
+    }
+
+    export interface updateFolder {
+      key : string;
+      value : string;
+    }
+
+    export interface create {
+      title : string;
+      folder ?: number;
+      nodes : Array<VisualizationNode>;
+      edges : Array<VisualizationEdge>;
+      alternativeIds ?: AlternativeIds;
+      layout ?: VisualizationLayout;
+      mode ?: string;
+      geo ?: VisualizationGeo;
+      design ?: VisualizationDesign;
+      filters ?: Array<any>;
+      nodeFields : ItemFields;
+      edgeFields : ItemFields;
+    }
+
+    export interface share {
+      userId : number;
+      right ?: string;
+      vizId : number;
+    }
+
+    export interface updateSandbox {
+      visualization : VisualizationSandbox;
+    }
+
+    export interface update {
+      visualization : Visualization;
+      force_lock ?: boolean;
     }
   }
 }
