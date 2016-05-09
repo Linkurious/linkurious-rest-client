@@ -145,7 +145,8 @@ export namespace Source {
     edge_count:number;
     index_size:number;
     indexed_source:string;
-    indexing_status:indexingStatus;
+    indexing_status:string;
+    indexing : indexingStatus;
   }
 
   export interface deletedDatas {
@@ -751,6 +752,7 @@ export namespace LKClient {
     logout():Promise<string>;
     getCurrentUser():Promise<User.model>;
     updateCurrentUser(data:any):Promise<any>;
+    startClient(userLogin:string, password:string):Promise<LKClient.State>;
     countEdges():Promise<any>;
     createEdge(data:Edge.form.create):Promise<Edge.model>;
     updateEdge(edgeId:number, data:Edge.form.update):Promise<Edge.model>;
@@ -783,7 +785,9 @@ export namespace LKClient {
     getEdgeTypes(params?:Edge.request.types):Promise<Schema.typesList>;
     getNodeTypes(params?:Node.request.types):Promise<Schema.typesList>;
     getIndexationStatus():Promise<Source.indexationStatus>;
-    runIndexation():Promise<boolean>;
+    launchIndexation():Promise<boolean>;
+    processIndexation(callback:Function):Promise<boolean>;
+    listenIndexation(callback:Function):Promise<boolean>;
     searchNodes(item:Item, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>>;
     getDirectoryList(data:Directory.request.list):Promise<Directory.list>;
     connectDataSource(sourceIndex:number):Promise<boolean>;

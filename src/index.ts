@@ -268,6 +268,18 @@ class Linkurious implements LKClient.Interface {
       .catch((err) => Promise.reject(err));
   }
 
+  /**
+   * Process to login and set the default source state and return the REST client state.
+   *
+   * @param userLogin:string
+   * @param password:string
+   * @returns {Promise<LKClient.State>}
+   */
+  public startClient(userLogin:string, password:string):Promise<LKClient.State> {
+    return this.userLogin(userLogin, password).then(() => this.setDefaultSource())
+      .then(() => this.state);
+  }
+
 
   // ----------------------------------------------------- //
   //                                                       //
@@ -677,14 +689,48 @@ class Linkurious implements LKClient.Interface {
    *
    * @returns {Promise<boolean>}
    */
-  public runIndexation():Promise<boolean> {
+  public launchIndexation():Promise<boolean> {
     return this.linkuriousFetch('GET', '/{dataSource}/search/reindex')
       .then(() => true)
       .catch(() => false);
   }
 
   /**
-   * Search for nodes based on a query string and optional parameters. Return formatted results for the Linkurious client.
+   * Launch the indexation and return true when finish. Possibility to had callback called each 300ms during indexation.
+   *
+   * @param callback:Function
+   * @returns {Promise<boolean>}
+   */
+  public processIndexation(callback?:Function):Promise<boolean> {
+    return this.launchIndexation()
+      .then(() => this.listenIndexation(callback))
+      .then(() => true);
+  }
+
+  /**
+   * return true when indexation if finished, else launch callback.
+   *
+   * @param callback:Function
+   * @returns {Promise<boolean>}
+   */
+  public listenIndexation(callback?:Function):Promise<boolean> {
+    return this.getIndexationStatus()
+      .then((res) => {
+        if(res.indexing !== 'done'){
+          setTimeout(() => {
+            if(callback) {
+              callback(res);
+            }
+            this.listenIndexation(callback);
+          }, 300);
+        } else {
+          return true;
+        }
+      });
+  }
+
+  /**
+   * Search for nodes based on a query string and optional parameters. Return formatted results for the Linkurious client or full node object.
    *
    * @param item:Interface.Item
    * @param params:Interface.RequestSearchItems
@@ -692,7 +738,7 @@ class Linkurious implements LKClient.Interface {
    * @returns {Promise<Interface.ResultSearchItems>}
    */
   public searchNodes(item:Item, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>> {
-    if(!isFormatted){
+    if (!isFormatted) {
       return this.linkuriousFetch('GET', '/{dataSource}/search/' + item, params);
     } else {
       return this.linkuriousFetch('GET', '/{dataSource}/search/' + item + '/full', Utils.sanitizeQuery(params));
@@ -701,7 +747,7 @@ class Linkurious implements LKClient.Interface {
   }
 
   /**
-   * Search in the directory.
+   * get a list of items for directory.
    *
    * @param data:Interface.RequestDirectory
    * @returns {Promise<Interface.ResultSearchDirectory>}
