@@ -281,7 +281,7 @@ class Linkurious implements LKClient.Interface {
    *
    * @returns {Promise}
    */
-  public edgesCount():Promise<any> {
+  public countEdges():Promise<any> {
     return this.linkuriousFetch('GET', '/{dataSource}/graph/edges/count');
   }
 
@@ -429,7 +429,7 @@ class Linkurious implements LKClient.Interface {
    * @param data:RequestGraphWithQueryInterface
    * @returns {Promise}
    */
-  public requestGraphWithQuery(data:Query.form.request):Promise<Array<Node.model>> {
+  public getNodesByQuery(data:Query.form.request):Promise<Array<Node.model>> {
     return this.linkuriousFetch('POST', '/{dataSource}/graph/rawQuery', Utils.sanitizeQuery(data));
   }
 
@@ -485,7 +485,7 @@ class Linkurious implements LKClient.Interface {
    * @param sourceIndex:number
    * @returns {Promise<Interface.AppConfig>}
    */
-  public getSourceConfig(sourceIndex?:number):Promise<App.config> {
+  public getAppConfig(sourceIndex?:number):Promise<App.config> {
 
     let data = (sourceIndex) ? {sourceIndex: sourceIndex} : null;
 
@@ -498,7 +498,7 @@ class Linkurious implements LKClient.Interface {
    * @param data:Interface.Form.config.update
    * @returns {Promise<string>}
    */
-  public updateConfiguration(data:App.form.update):Promise<string> {
+  public updateConfig(data:App.form.update):Promise<string> {
     return this.linkuriousFetch('POST', '/config', data);
   }
 
@@ -609,7 +609,7 @@ class Linkurious implements LKClient.Interface {
    * @param params:Interface.RequestProperties
    * @returns {Promise<Interface.PropertyList>}
    */
-  public getEdgeTypesProperties(params?:Schema.request.properties):Promise<Schema.propertyList> {
+  public getEdgeProperties(params?:Schema.request.properties):Promise<Schema.propertyList> {
     return this.linkuriousFetch('GET', '/{dataSource}/graph/schema/edgeTypes/properties', Utils.sanitizeQuery(params));
   }
 
@@ -619,7 +619,7 @@ class Linkurious implements LKClient.Interface {
    * @param params:Interface.RequestProperties
    * @returns {Promise<Interface.PropertyList>}
    */
-  public getNodeTypesProperties(params?:Schema.request.properties):Promise<Schema.propertyList> {
+  public getNodeProperties(params?:Schema.request.properties):Promise<Schema.propertyList> {
     return this.linkuriousFetch('GET', '/{dataSource}/graph/schema/nodeTypes/properties', Utils.sanitizeQuery(params));
   }
 
@@ -688,21 +688,16 @@ class Linkurious implements LKClient.Interface {
    *
    * @param item:Interface.Item
    * @param params:Interface.RequestSearchItems
+   * @param isFormatted:boolean true => return raw results.
    * @returns {Promise<Interface.ResultSearchItems>}
    */
-  public searchItems(item:Item, params:Schema.request.itemsList):Promise<Schema.itemsList> {
-    return this.linkuriousFetch('GET', '/{dataSource}/search/' + item, params);
-  }
+  public searchNodes(item:Item, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>> {
+    if(!isFormatted){
+      return this.linkuriousFetch('GET', '/{dataSource}/search/' + item, params);
+    } else {
+      return this.linkuriousFetch('GET', '/{dataSource}/search/' + item + '/full', Utils.sanitizeQuery(params));
+    }
 
-  /**
-   * Search for nodes based on a query strig and optional parameters. Return full Node objects.
-   *
-   * @param item:Interface.Item
-   * @param params:Interface.RequestSearchItems
-   * @returns {Promise<Array<Interface.Node>>}
-   */
-  public searchFullItems(item:Item, params:Schema.request.itemsList):Promise<Array<Node.model>> {
-    return this.linkuriousFetch('GET', '/{dataSource}/search/' + item + '/full', Utils.sanitizeQuery(params));
   }
 
   /**
@@ -711,7 +706,7 @@ class Linkurious implements LKClient.Interface {
    * @param data:Interface.RequestDirectory
    * @returns {Promise<Interface.ResultSearchDirectory>}
    */
-  public searchDirectory(data:Directory.request.list):Promise<Directory.list> {
+  public getDirectoryList(data:Directory.request.list):Promise<Directory.list> {
     return this.linkuriousFetch('POST', '/{dataSource}/directory', data);
   }
 
@@ -741,7 +736,7 @@ class Linkurious implements LKClient.Interface {
    * @param data:Interface.Form.dataSource.create
    * @returns {Promise<boolean>}
    */
-  public configureDataSource(data:Source.form.create):Promise<boolean> {
+  public createDataSource(data:Source.form.create):Promise<boolean> {
     return this.linkuriousFetch('POST', '/admin/sources/config', data)
       .then(() => true)
       .catch(() => false);
@@ -780,7 +775,7 @@ class Linkurious implements LKClient.Interface {
    *
    * @returns {Promise<Array<Source.adminModel>>}
    */
-  public getAllDataSOurces():Promise<Array<Source.adminModel>> {
+  public getDataSourcesList():Promise<Array<Source.adminModel>> {
     return this.linkuriousFetch('GET', '/admin/sources');
   }
 
@@ -963,7 +958,7 @@ class Linkurious implements LKClient.Interface {
    * @param dataSource:string
    * @returns {Promise<Array<Interface.Group>>}
    */
-  public getAllGroups(dataSource?:string):Promise<Array<Group.model>> {
+  public getGroupsList(dataSource?:string):Promise<Array<Group.model>> {
     if (!dataSource) {
       dataSource = '{dataSource}';
     }
@@ -977,7 +972,7 @@ class Linkurious implements LKClient.Interface {
    * @param dataSource?:string default : take the current source key.
    * @returns {Promise<Interface.GroupRights>}
    */
-  public getGroupRight(dataSource ?:string):Promise<Group.sourceAccessRights> {
+  public getGroupsRights(dataSource ?:string):Promise<Group.sourceAccessRights> {
     if (!dataSource) {
       dataSource = '{dataSource}';
     }
@@ -1052,7 +1047,7 @@ class Linkurious implements LKClient.Interface {
    *
    * @returns {Promise<Interface.Count>}
    */
-  public countViz():Promise<Count> {
+  public countVisualizations():Promise<Count> {
     return this.linkuriousFetch('GET', '/{dataSource}/visualizations/count');
   }
 
@@ -1084,7 +1079,7 @@ class Linkurious implements LKClient.Interface {
    * @param data:Interface.Form.visualization.create
    * @returns {Promise<Interface.Visualization>}
    */
-  public createViz(data:Visualization.form.create):Promise<Visualization.model> {
+  public createVisualization(data:Visualization.form.create):Promise<Visualization.model> {
     return this.linkuriousFetch('POST', '/{dataSource}/visualization', data);
   }
 
@@ -1116,7 +1111,7 @@ class Linkurious implements LKClient.Interface {
    * @param vizId:number
    * @returns {Promise<Interface.Visualization>}
    */
-  public duplicateViz(vizId:number):Promise<Visualization.model> {
+  public duplicateVisualization(vizId:number):Promise<Visualization.model> {
     return this.linkuriousFetch('POST', '/{dataSource}/visualizations/' + vizId + '/duplicate');
   }
 
@@ -1136,7 +1131,7 @@ class Linkurious implements LKClient.Interface {
    * @param params:Interface.RequestSandbox
    * @returns {Promise<Interface.Visualization>}
    */
-  public getVizSandbox(params:Visualization.request.sandbox):Promise<Visualization.model> {
+  public getSandbox(params:Visualization.request.sandbox):Promise<Visualization.model> {
     return this.linkuriousFetch('GET', '/{dataSource}/sandbox', Utils.sanitizeQuery(params));
   }
 
@@ -1146,7 +1141,7 @@ class Linkurious implements LKClient.Interface {
    * @param vizId:number
    * @returns {Promise<Interface.Visualization>}
    */
-  public getViz(vizId:number):Promise<Visualization.model> {
+  public getVisualization(vizId:number):Promise<Visualization.model> {
     return this.linkuriousFetch('GET', '/{dataSource}/visualizations/' + vizId);
   }
 
@@ -1155,7 +1150,7 @@ class Linkurious implements LKClient.Interface {
    *
    * @returns {Promise<Interface.VisualizationTree>}
    */
-  public getVizTree():Promise<Visualization.tree> {
+  public getTree():Promise<Visualization.tree> {
     return this.linkuriousFetch('GET', '/{dataSource}/visualizations/tree');
   }
 
@@ -1165,7 +1160,7 @@ class Linkurious implements LKClient.Interface {
    * @param vizId:number
    * @returns {Promise<string>}
    */
-  public deleteViz(vizId:number):Promise<string> {
+  public deleteVisualization(vizId:number):Promise<string> {
     return this.linkuriousFetch('DELETE', '/{dataSource}/visualizations/' + vizId)
       .then(() => 'Visualization ' + vizId + ' deleted');
   }
@@ -1175,7 +1170,7 @@ class Linkurious implements LKClient.Interface {
    * @param vizId:number
    * @returns {Promise<Interface.VisualizationSharer>}
    */
-  public getVizSharer(vizId:number):Promise<Visualization.shareInfos> {
+  public getSharers(vizId:number):Promise<Visualization.shareInfos> {
     return this.linkuriousFetch('GET', '/{dataSource}/visualizations/' + vizId + '/shares');
   }
 
@@ -1185,7 +1180,7 @@ class Linkurious implements LKClient.Interface {
    * @param data:Interface.Form.visualization.share
    * @returns {Promise<Interface.VisualizationShare>}
    */
-  public shareViz(data:Visualization.form.setShareRights):Promise<Visualization.shareRights> {
+  public shareVisualization(data:Visualization.form.setShareRights):Promise<Visualization.shareRights> {
 
     let shareParams = {
       right: data.right
@@ -1200,7 +1195,7 @@ class Linkurious implements LKClient.Interface {
    * @param data:Interface.Form.visualization.share
    * @returns {Promise<string>}
    */
-  public unshareViz(data:Visualization.form.setShareRights):Promise<string> {
+  public unshareVisualization(data:Visualization.form.setShareRights):Promise<string> {
     return this.linkuriousFetch('DELETE', '/{dataSource}/visualization/' + data.vizId + '/share/' + data.userId)
       .then(() => 'Visualization ' + data.vizId + 'unshared');
   }
@@ -1224,7 +1219,7 @@ class Linkurious implements LKClient.Interface {
    * @param data:Interface.Form.visualization.updateSandbox
    * @returns {Promise<boolean>}
    */
-  public updateVizSandbox(data:Visualization.form.updateSandbox):Promise<boolean> {
+  public updateSandbox(data:Visualization.form.updateSandbox):Promise<boolean> {
     return this.linkuriousFetch('PATCH', '/{dataSource}/sandbox', data)
       .then(() => true)
       .catch(() => false);
@@ -1237,7 +1232,7 @@ class Linkurious implements LKClient.Interface {
    * @param data:Interface.Form.visualization.update
    * @returns {Promise<boolean>}
    */
-  public updateViz(vizId:number, data:Visualization.form.update):Promise<boolean> {
+  public updateVisualization(vizId:number, data:Visualization.form.update):Promise<boolean> {
     return this.linkuriousFetch('PATCH', '/{dataSource}/visualizations/' + vizId, data)
       .then(() => true)
       .catch(() => false);
