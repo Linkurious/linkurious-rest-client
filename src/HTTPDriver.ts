@@ -80,11 +80,11 @@ export default class HTTPDriver implements HTTPDriverInterface {
     let requestConf = {
       method: 'GET',
       uri   : uri,
-      json : true,
+      json  : true,
       jar   : this.cookieJar
     };
 
-    if(data){
+    if (data) {
       requestConf['qs'] = data;
     }
 
@@ -102,13 +102,13 @@ export default class HTTPDriver implements HTTPDriverInterface {
   DELETE(uri:string, data?:any):Promise<any> {
 
     let requestConf = {
-      method : 'DELETE',
-      uri : uri,
-      json : true,
-      jar : this.cookieJar
+      method: 'DELETE',
+      uri   : uri,
+      json  : true,
+      jar   : this.cookieJar
     };
 
-    if(data){
+    if (data) {
       requestConf['data'] = data;
     }
     return new Promise((resolve:any, reject:any) => {

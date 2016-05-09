@@ -17,7 +17,22 @@ import LogDriver from './logDriver';
 import {Utils} from './utils';
 import {LoggerPlugin, LogDriverInterface} from './logDriver.interfaces';
 import {HTTPDriverInterface} from './HTTPDriver.interfaces';
-import {LKClient, User, Group, Source, Edge, Query, Schema, Graph, Node, App, Count, Item, Directory, Visualization} from './interfaces';
+import {
+  LKClient,
+  User,
+  Group,
+  Source,
+  Edge,
+  Query,
+  Schema,
+  Graph,
+  Node,
+  App,
+  Count,
+  Item,
+  Directory,
+  Visualization
+} from './interfaces';
 
 class Linkurious implements LKClient.Interface {
 

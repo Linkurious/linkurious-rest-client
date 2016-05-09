@@ -70,9 +70,9 @@ export namespace Group {
   }
 
   export interface sourceAccessRights {
-    types : Array<string>;
-    targetTypes : Array<string>;
-    actions : Array<string>;
+    types:Array<string>;
+    targetTypes:Array<string>;
+    actions:Array<string>;
   }
 
   export interface accessRights {
@@ -118,7 +118,7 @@ export namespace Source {
   }
 
   export interface list {
-    sources : Array<model>;
+    sources:Array<model>;
   }
 
   export interface clientModel {
@@ -145,9 +145,9 @@ export namespace Source {
     edge_count:number;
     index_size:number;
     indexed_source:string;
-    indexing_status : indexingStatus;
+    indexing_status:indexingStatus;
   }
-  
+
   export interface deletedDatas {
     migrated:boolean;
     affected:affectedSource;
@@ -557,7 +557,7 @@ export namespace Visualization {
   export interface tree {
     tree:Array<branch>;
   }
-  
+
   export interface shareInfos {
     owner:User.model;
     shares:Array<sharer>;
@@ -608,7 +608,7 @@ export namespace Visualization {
       edgeFields:ItemFields;
     }
 
-    export interface setShareRights  {
+    export interface setShareRights {
       userId:number;
       right ?:string;
       vizId:number;
@@ -646,7 +646,7 @@ export namespace Visualization {
   interface VisualizationNode {
     id:string;
     selected ?:boolean;
-    nodeLink : nodeLink;
+    nodeLink:nodeLink;
     geo ?:nodeGeo;
   }
 
