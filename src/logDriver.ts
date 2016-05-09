@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import {LogDriverInterface, ErrorBody} from './interfaces';
+import {LogDriverInterface, ErrorBody} from './logDriver.interfaces';
 
 interface LoggerInterface {
   debug:Function;

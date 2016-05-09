@@ -10,7 +10,8 @@
 'use strict';
 
 import {IncomingMessage} from "http";
-import {ResponseBody, ErrorBody} from './interfaces';
+import {ResponseBody} from './errorsDriver.interfaces';
+import {ErrorBody} from './logDriver.interfaces';
 
 function setErrorType(status:number):string {
   if (status === 401 || status === 403) {

@@ -11,7 +11,7 @@
 
 import * as request from 'request';
 import * as ErrorsDriver from './errorsDriver';
-import {HTTPDriverInterface} from './interfaces';
+import {HTTPDriverInterface} from './HTTPDriver.interfaces';
 import {CookieJar} from "~request/index";
 
 export default class HTTPDriver implements HTTPDriverInterface {
