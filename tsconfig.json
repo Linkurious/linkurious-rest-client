@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
     "target" : "ES6",
-    "watch" : true,
     "module": "commonjs",
-    "removeComments": true,
+    "removeComments": false,
     "sourceMap": true,
     "declaration": false,
     "outDir": "./built"
