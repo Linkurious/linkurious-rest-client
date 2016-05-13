@@ -8,7 +8,7 @@
     "request": "^2.72.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tsc && node test/runTests.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,13 @@
   },
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
   "devDependencies": {
-    "bunyan": "^1.8.1"
+    "bunyan": "^1.8.1",
+    "fs-extra": "^0.30.0",
+    "mocha": "^2.4.5",
+    "path": "^0.12.7",
+    "should": "^8.3.1",
+    "typedoc": "sierrasoftworks/typedoc#v1.8.10",
+    "typescript": "^1.8.10",
+    "typings": "^0.8.1"
   }
 }
