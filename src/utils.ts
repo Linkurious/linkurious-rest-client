@@ -13,7 +13,7 @@ export namespace Utils {
 
   export function sanitizeQuery(data:any):any {
     if(!data){
-      return;
+      return null;
     }
     
     let result = <any>{};
@@ -22,7 +22,7 @@ export namespace Utils {
       if(data.hasOwnProperty(key)){
         let sanitizedKey:string;
 
-        sanitizedKey = key.replace(/([A-Z])/g, (char) => '_' + char.toLowerCase());
+        sanitizedKey = key.replace(/([a-zA-Z0-9])([A-Z])/g, (substr, p1, p2) => p1 + '_' + p2.toLowerCase());
 
         result[sanitizedKey] = data[key];
       }
