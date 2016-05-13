@@ -1,3 +1,4 @@
+
 import Interface = LKClient.Interface;
 export type GraphDBVendor = 'neo4j'|'titan'|'dse';
 export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
@@ -10,7 +11,6 @@ export interface Count {
 }
 
 // USER MODEL INTERFACE
-
 export namespace User {
   export interface model {
     id:number;
@@ -25,11 +25,11 @@ export namespace User {
 
   export namespace request {
     export interface list {
-      filter:string;
-      groupId:Array<number>;
-      unwantedIds:Array<number>;
-      size:number;
-      start:number;
+      filter?:string;
+      groupId?:Array<number>;
+      unwantedIds?:Array<number>;
+      size?:number;
+      start?:number;
     }
   }
 
@@ -269,7 +269,7 @@ export namespace Query {
 }
 
 export namespace Graph {
-  export namespace form {
+  export namespace request {
     export interface shortestPath {
       startNode:number;
       endNode:number;
@@ -414,10 +414,11 @@ export namespace Node {
       ids:Array<number>;
       ignoredNodes:Array<number>;
       visibleNodes:Array<number>;
-      nodeCategory:string;
-      edgeType:string;
-      limit:number;
-      limitType:string;
+      nodeCategory?:string;
+      edgeType?:string;
+      limit?:number;
+      limitType?:string;
+      withVersion : boolean;
     }
 
     export interface neighborsCategories {
@@ -566,9 +567,10 @@ export namespace Visualization {
 
   export interface shareRights {
     visualizationId:number;
-    ownerId:number;
+    userId:number;
     right:string;
-    sourceKey:string;
+    updatedAt : string;
+    createdAt : string;
   }
 
   export namespace request {
@@ -762,7 +764,7 @@ export namespace LKClient {
     deleteGraphQuery(graphQueryId:number):Promise<string>;
     getGraphQuery(graphQueryId:number):Promise<Query.model>;
     getVersions(nodesAndEdgesVersions:Schema.lists):Promise<any>;
-    getShortestPaths(nodesConfig:Graph.form.shortestPath):Promise<Array<Node.model>>;
+    getShortestPaths(nodesConfig:Graph.request.shortestPath):Promise<Array<Node.model>>;
     getAllGraphQueries():Promise<Array<Query.model>>;
     saveGraphQuery(data:Query.form.create):Promise<Query.model>;
     getNodesByQuery(data:Query.form.request):Promise<Array<Node.model>>;
@@ -787,7 +789,6 @@ export namespace LKClient {
     getIndexationStatus():Promise<Source.indexationStatus>;
     launchIndexation():Promise<boolean>;
     processIndexation(callback:Function):Promise<boolean>;
-    listenIndexation(callback:Function):Promise<boolean>;
     searchNodes(item:Item, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>>;
     getDirectoryList(data:Directory.request.list):Promise<Directory.list>;
     connectDataSource(sourceIndex:number):Promise<boolean>;
