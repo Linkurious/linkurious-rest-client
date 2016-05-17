@@ -9,7 +9,6 @@
  */
 'use strict';
 /// <reference path="./../typings/main/ambient/superagent/index.d.ts" />
-/// <reference path="./../typings/main/ambient/require/index.d.ts" />
 /// <amd-dependency path="superagent"/>
 
 const request = require('superagent');
