@@ -9,7 +9,6 @@
  */
 
 /// <reference path="./../node_modules/typescript/lib/lib.es6.d.ts" />
-/// <reference path="./../typings/main/ambient/node/index.d.ts" />
 
 import HTTPDriver from './HTTPDriver';
 import LogDriver from './logDriver';
