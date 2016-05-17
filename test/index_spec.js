@@ -409,15 +409,16 @@ describe('Linkurious class', function(){
       return linkurious.createUser({
         username:'testName',
         email:'testName@test.fr',
+        groups : [4],
         password:'testPass'
       }).then(function(res){
         res.should.eql({
           id: 6,
           username: 'testName',
           email: 'testName@test.fr',
-          groups: [ { id: 3, name: 'default', builtin: true } ],
+          groups: [ { id: 4, name: 'admin', builtin: true } ],
           ldap: false,
-          admin: false,
+          admin: true,
           preferences: {}
         });
       });
@@ -428,7 +429,7 @@ describe('Linkurious class', function(){
     let test = false;
     it('must change app config', function(){
       return linkurious.updateConfig({
-        key : 'access.authRequired',
+        path : 'access.authRequired',
         configuration : true
       }).then(function(){
         return test = true;
@@ -453,11 +454,11 @@ describe('Linkurious class', function(){
           id: 6,
           username: 'testName',
           email: 'testName@test.fr',
-          groups: [ { id: 3, name: 'default', builtin: true } ],
+          groups: [ { id: 4, name: 'admin', builtin: true } ],
           ldap: false,
-          admin: false,
+          admin: true,
           preferences: {},
-          actions: { all: [ 'rawReadQuery' ] }
+          actions: { all: [ 'rawReadQuery', 'rawWriteQuery' ] }
         });
         res.should.be.true();
       })
@@ -483,11 +484,11 @@ describe('Linkurious class', function(){
             id: 6,
             username: 'testName',
             email: 'testName@test.fr',
-            groups: [{'builtin':true, id : 3, name : 'default'}],
+            groups: [{'builtin':true, id : 4, name : 'admin'}],
             ldap: false,
-            admin: false,
+            admin: true,
             preferences: {},
-            actions: { all: ['rawReadQuery'] }
+            actions: { all: ['rawReadQuery', 'rawWriteQuery'] }
           },
           currentSource: { name: 'Database #0', key: '66a2bc71', configIndex: 0 }
         });
@@ -509,11 +510,11 @@ describe('Linkurious class', function(){
           id: 6,
           username: 'nameChanged',
           email: 'testName@test.fr',
-          groups: [{'builtin':true, id : 3, name : 'default'}],
+          groups: [{'builtin':true, id : 4, name : 'admin'}],
           ldap: false,
-          admin: false,
+          admin: true,
           preferences: {},
-          actions: { all: ['rawReadQuery'] }
+          actions: { all: ['rawReadQuery', 'rawWriteQuery'] }
         });
       });
     });
