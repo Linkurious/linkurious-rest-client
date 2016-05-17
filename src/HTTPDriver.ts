@@ -8,114 +8,107 @@
  * Description : Wrapper for HTTP requests + promises
  */
 'use strict';
+/// <reference path="./../typings/main/ambient/superagent/index.d.ts" />
+/// <amd-dependency path="superagent"/>
 
-import * as request from 'request';
+const request = require('superagent');
 import * as ErrorsDriver from './errorsDriver';
 import {HTTPDriverInterface} from './HTTPDriver.interfaces';
-import {CookieJar} from "~request/index";
-
-interface Config {
-  method: string;
-  uri   : string;
-  json  : boolean;
-  body  ?: any;
-  jar   : CookieJar;
-  qs    ?: any;
-  data  ?: any;
-}
 
 export default class HTTPDriver implements HTTPDriverInterface {
-  public cookieJar:CookieJar;
+
+  private cookie:string;
 
   constructor() {
-    this.cookieJar = <CookieJar>request.jar();
-  }
-
-  private createConfig(method:string, uri:string, data?:any):Config {
-    let conf = {
-      method : method,
-      uri : uri,
-      json : true,
-      jar : this.cookieJar
-    };
-
-    if(data && method !== 'GET'){
-      conf['body'] = data;
-    }
-
-    if(data && method === 'GET') {
-      conf['qs'] = data;
-    }
-
-    return conf;
+    this.cookie = <string>'';
   }
 
   POST(uri:string, data?:any):Promise<any> {
-    let config = this.createConfig('POST', uri, data);
-
     return new Promise((resolve:Function, reject:Function) => {
-      request(config, (err, res, body) => {
-        if (res.statusCode >= 400) {
-          return reject(ErrorsDriver.format(res, body));
-        } else {
-          return resolve(body);
-        }
-      });
+      request
+        .post(uri)
+        .send(data)
+        .set('cookie', this.cookie)
+        .withCredentials()
+        .end(function(err, res){
+          if(res.header && res.header['set-cookie']){
+            this.cookie = res.header['set-cookie'];
+          }
+
+          if (res.statusCode >= 400) {
+            return reject(ErrorsDriver.format(res, res.body));
+          } else {
+            return resolve(res.body);
+          }
+        }.bind(this));
     });
   }
 
   PUT(uri:string, data:any):Promise<any> {
-    let config = this.createConfig('PUT', uri, data);
-
     return new Promise((resolve:Function, reject:Function) => {
-      request(config, (err, res, body) => {
-        if (res.statusCode >= 400) {
-          return reject(ErrorsDriver.format(res, body));
-        } else {
-          return resolve(body);
-        }
-      });
+      request
+        .put(uri)
+        .send(data)
+        .set('cookie', this.cookie)
+        .withCredentials()
+        .end(function(err, res){
+          if (res.statusCode >= 400) {
+            return reject(ErrorsDriver.format(res, res.body));
+          } else {
+            return resolve(res.body);
+          }
+        })
     });
   }
 
   PATCH(uri:string, data:any):Promise<any> {
-    let config = this.createConfig('PATCH', uri, data);
-
     return new Promise((resolve:Function, reject:Function) => {
-      request(config, (err, res, body) => {
-        if (res.statusCode >= 400) {
-          return reject(ErrorsDriver.format(res, body));
-        } else {
-          return resolve(body);
-        }
-      });
+      request
+        .patch(uri)
+        .send(data)
+        .set('cookie', this.cookie)
+        .withCredentials()
+        .end(function(err, res){
+          if (res.statusCode >= 400) {
+            return reject(ErrorsDriver.format(res, res.body));
+          } else {
+            return resolve(res.body);
+          }
+        })
     });
   }
 
   GET(uri:string, data?:any):Promise<any> {
-    let config = this.createConfig('GET', uri, data);
     return new Promise((resolve:any, reject:any) => {
-      request(config, (err, res, body) => {
-        if (res.statusCode >= 400) {
-          return reject(ErrorsDriver.format(res, body));
-        } else {
-          return resolve(body);
-        }
-      });
+      request
+        .get(uri)
+        .query(data)
+        .set('cookie', this.cookie)
+        .withCredentials()
+        .end(function(err, res){
+          if (res.statusCode >= 400) {
+            return reject(ErrorsDriver.format(res, res.body));
+          } else {
+            return resolve(res.body);
+          }
+        })
     });
   }
 
   DELETE(uri:string, data?:any):Promise<any> {
-    let config = this.createConfig('DELETE', uri, data);
-
     return new Promise((resolve:any, reject:any) => {
-      request(config, (err, res, body) => {
-        if (res.statusCode >= 400) {
-          return reject(ErrorsDriver.format(res, body));
-        } else {
-          return resolve(body);
-        }
-      });
+      request
+        .del(uri)
+        .send(data)
+        .set('cookie', this.cookie)
+        .withCredentials()
+        .end(function(err, res){
+          if (res.statusCode >= 400) {
+            return reject(ErrorsDriver.format(res, res.body));
+          } else {
+            return resolve(res.body);
+          }
+        })
     });
   }
 };
