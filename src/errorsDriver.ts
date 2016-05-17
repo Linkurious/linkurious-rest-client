@@ -9,7 +9,6 @@
  */
 'use strict';
 
-import {IncomingMessage} from "http";
 import {ResponseBody} from './errorsDriver.interfaces';
 import {ErrorBody} from './logDriver.interfaces';
 
@@ -23,7 +22,7 @@ function setErrorType(status:number):string {
   }
 }
 
-export function format(res:IncomingMessage, body:ErrorBody):ResponseBody {
+export function format(res:any, body:ErrorBody):ResponseBody {
   let errorMessage = <ResponseBody>{};
 
   errorMessage.status  = res.statusCode;

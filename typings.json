@@ -1,5 +1,8 @@
 {
   "ambientDependencies": {
     "superagent": "registry:dt/superagent#1.4.0+20160317120654"
+  },
+  "ambientDevDependencies": {
+    "require": "registry:dt/require#2.1.20+20160316155526"
   }
 }
