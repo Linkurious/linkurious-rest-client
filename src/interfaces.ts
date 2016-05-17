@@ -478,7 +478,7 @@ export namespace App {
 
   export namespace form {
     export interface update {
-      key:string;
+      path:string;
       configuration:any;
       sourceIndex ?:number;
       reset ?:boolean;
