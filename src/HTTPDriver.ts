@@ -7,11 +7,11 @@
  * File: HTTPDriver.ts
  * Description : Wrapper for HTTP requests + promises
  */
-'use strict';
 /// <reference path="./../typings/main/ambient/superagent/index.d.ts" />
-/// <amd-dependency path="superagent"/>
 
-const request = require('superagent');
+'use strict';
+
+import * as request from 'superagent';
 import * as ErrorsDriver from './errorsDriver';
 import {HTTPDriverInterface} from './HTTPDriver.interfaces';
 
@@ -35,7 +35,7 @@ export default class HTTPDriver implements HTTPDriverInterface {
             this.cookie = res.header['set-cookie'];
           }
 
-          if (res.statusCode >= 400) {
+          if (res.status >= 400) {
             return reject(ErrorsDriver.format(res, res.body));
           } else {
             return resolve(res.body);
@@ -52,7 +52,7 @@ export default class HTTPDriver implements HTTPDriverInterface {
         .set('cookie', this.cookie)
         .withCredentials()
         .end(function(err, res){
-          if (res.statusCode >= 400) {
+          if (res.status >= 400) {
             return reject(ErrorsDriver.format(res, res.body));
           } else {
             return resolve(res.body);
@@ -69,7 +69,7 @@ export default class HTTPDriver implements HTTPDriverInterface {
         .set('cookie', this.cookie)
         .withCredentials()
         .end(function(err, res){
-          if (res.statusCode >= 400) {
+          if (res.status >= 400) {
             return reject(ErrorsDriver.format(res, res.body));
           } else {
             return resolve(res.body);
@@ -86,7 +86,7 @@ export default class HTTPDriver implements HTTPDriverInterface {
         .set('cookie', this.cookie)
         .withCredentials()
         .end(function(err, res){
-          if (res.statusCode >= 400) {
+          if (res.status >= 400) {
             return reject(ErrorsDriver.format(res, res.body));
           } else {
             return resolve(res.body);
@@ -103,7 +103,7 @@ export default class HTTPDriver implements HTTPDriverInterface {
         .set('cookie', this.cookie)
         .withCredentials()
         .end(function(err, res){
-          if (res.statusCode >= 400) {
+          if (res.status >= 400) {
             return reject(ErrorsDriver.format(res, res.body));
           } else {
             return resolve(res.body);
