@@ -12,7 +12,7 @@
 const should = require('should');
 const utils = require('./../built/utils');
 
-describe('Sanitize Query', function(){
+describe('Fix case', function(){
   it('must return a object with snake_cases keys rather than camelCase ones.', function(){
     var data = {
       testKey : 'ok',
@@ -21,7 +21,7 @@ describe('Sanitize Query', function(){
       test4_Test : 'ok'
     };
 
-    var result = utils.Utils.sanitizeQuery(data);
+    var result = utils.Utils.fixCase(data);
 
     result.should.eql({
       test_key : 'ok',

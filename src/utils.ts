@@ -11,7 +11,7 @@
 
 export namespace Utils {
 
-  export function sanitizeQuery(data:any):any {
+  export function fixCase(data:any):any {
     if(!data){
       return null;
     }

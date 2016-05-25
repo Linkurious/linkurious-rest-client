@@ -357,7 +357,7 @@ class Linkurious implements ILinkurious {
     delete data.nodeId;
     delete data.orientation;
 
-    query = Utils.sanitizeQuery(data);
+    query = Utils.fixCase(data);
 
     return this.fetch('GET', '/{dataSource}/graph/edges', query);
   }
@@ -418,7 +418,7 @@ class Linkurious implements ILinkurious {
    * @returns {Promise}
    */
   public getShortestPaths(nodesConfig:Graph.request.shortestPath):Promise<Array<Node.model>> {
-    return this.fetch('GET', '/{dataSource}/graph/shortestPaths', Utils.sanitizeQuery(nodesConfig));
+    return this.fetch('GET', '/{dataSource}/graph/shortestPaths', Utils.fixCase(nodesConfig));
   }
 
   /**
@@ -446,7 +446,7 @@ class Linkurious implements ILinkurious {
    * @returns {Promise}
    */
   public getNodesByQuery(data:Query.form.request):Promise<Array<Node.model>> {
-    return this.fetch('POST', '/{dataSource}/graph/rawQuery', Utils.sanitizeQuery(data));
+    return this.fetch('POST', '/{dataSource}/graph/rawQuery', Utils.fixCase(data));
   }
 
   /**
@@ -474,7 +474,7 @@ class Linkurious implements ILinkurious {
    * @returns {Promise<Array<User.model>>}
    */
   public searchUsers(data:User.request.list):Promise<Array<User.model>> {
-    return this.fetch('GET', '/findUsers', Utils.sanitizeQuery(data));
+    return this.fetch('GET', '/findUsers', Utils.fixCase(data));
   }
 
   /**
@@ -561,7 +561,7 @@ class Linkurious implements ILinkurious {
    * @returns {Promise<Node.model>}
    */
   public getNode(nodeId:ItemId, params?:Node.request.one):Promise<Node.model> {
-    return this.fetch('GET', '/{dataSource}/graph/nodes/' + nodeId, Utils.sanitizeQuery(params));
+    return this.fetch('GET', '/{dataSource}/graph/nodes/' + nodeId, Utils.fixCase(params));
   }
 
   /**
@@ -575,7 +575,7 @@ class Linkurious implements ILinkurious {
    * @returns {Promise<Array<Node.model>>}
    */
   public expandNode(data:Node.request.adjacentItems):Promise<Array<Node.model>> {
-    return this.fetch('POST', '/{dataSource}/graph/nodes/expand', Utils.sanitizeQuery(data));
+    return this.fetch('POST', '/{dataSource}/graph/nodes/expand', Utils.fixCase(data));
   }
 
   /**
@@ -596,7 +596,7 @@ class Linkurious implements ILinkurious {
    * @returns {Promise<Node>}
    */
   public updateNode(nodeId:ItemId, data:Node.form.update):Promise<Node.model> {
-    return this.fetch('PATCH', '/{dataSource}/graph/nodes/' + nodeId, Utils.sanitizeQuery(data));
+    return this.fetch('PATCH', '/{dataSource}/graph/nodes/' + nodeId, Utils.fixCase(data));
   }
 
 
@@ -623,7 +623,7 @@ class Linkurious implements ILinkurious {
    * @returns {Promise<Schema.propertyList>}
    */
   public getEdgeProperties(params?:Schema.request.properties):Promise<Schema.propertyList> {
-    return this.fetch('GET', '/{dataSource}/graph/schema/edgeTypes/properties', Utils.sanitizeQuery(params));
+    return this.fetch('GET', '/{dataSource}/graph/schema/edgeTypes/properties', Utils.fixCase(params));
   }
 
   /**
@@ -633,7 +633,7 @@ class Linkurious implements ILinkurious {
    * @returns {Promise<Schema.propertyList>}
    */
   public getNodeProperties(params?:Schema.request.properties):Promise<Schema.propertyList> {
-    return this.fetch('GET', '/{dataSource}/graph/schema/nodeTypes/properties', Utils.sanitizeQuery(params));
+    return this.fetch('GET', '/{dataSource}/graph/schema/nodeTypes/properties', Utils.fixCase(params));
   }
 
   /**
@@ -643,7 +643,7 @@ class Linkurious implements ILinkurious {
    * @returns {Promise<Schema.typesList>}
    */
   public getEdgeTypes(params?:Edge.request.types):Promise<Schema.typesList> {
-    return this.fetch('GET', '/{dataSource}/graph/schema/edgeTypes', Utils.sanitizeQuery(params));
+    return this.fetch('GET', '/{dataSource}/graph/schema/edgeTypes', Utils.fixCase(params));
   }
 
   /**
@@ -653,7 +653,7 @@ class Linkurious implements ILinkurious {
    * @returns {Promise<Schema.typesList>}
    */
   public getNodeTypes(params?:Node.request.types):Promise<Schema.typesList> {
-    return this.fetch('GET', '/{dataSource}/graph/schema/nodeTypes', Utils.sanitizeQuery(params));
+    return this.fetch('GET', '/{dataSource}/graph/schema/nodeTypes', Utils.fixCase(params));
   }
 
 
@@ -742,7 +742,7 @@ class Linkurious implements ILinkurious {
     if (!isFormatted) {
       return this.fetch('GET', '/{dataSource}/search/' + item, params);
     } else {
-      return this.fetch('GET', '/{dataSource}/search/' + item + '/full', Utils.sanitizeQuery(params));
+      return this.fetch('GET', '/{dataSource}/search/' + item + '/full', Utils.fixCase(params));
     }
 
   }
@@ -814,7 +814,7 @@ class Linkurious implements ILinkurious {
 
     let mergeOptions = (data.mergeInto) ? {mergeInto: data.mergeInto} : null;
 
-    return this.fetch('DELETE', '/admin/sources/data/' + data.sourceKey, Utils.sanitizeQuery(mergeOptions));
+    return this.fetch('DELETE', '/admin/sources/data/' + data.sourceKey, Utils.fixCase(mergeOptions));
   }
 
   /**
@@ -1179,7 +1179,7 @@ class Linkurious implements ILinkurious {
    * @returns {Promise<Visualization.model>}
    */
   public getSandbox(params:Visualization.request.sandbox):Promise<Visualization.model> {
-    return this.fetch('GET', '/{dataSource}/sandbox', Utils.sanitizeQuery(params));
+    return this.fetch('GET', '/{dataSource}/sandbox', Utils.fixCase(params));
   }
 
   /**
