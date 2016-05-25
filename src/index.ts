@@ -407,7 +407,7 @@ class Linkurious implements ILinkurious {
    * @param nodesAndEdgesVersions : Schema.lists
    * @returns {Promise}
    */
-  public getVersions(nodesAndEdgesVersions:Schema.lists):Promise<any> {
+  public getItemsVersions(nodesAndEdgesVersions:Schema.lists):Promise<any> {
     return this.fetch('POST', '/{dataSource}/graph/versions', nodesAndEdgesVersions);
   }
 

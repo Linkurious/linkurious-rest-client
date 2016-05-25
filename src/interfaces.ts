@@ -761,7 +761,7 @@ export interface ILinkurious {
   getEdge(edgeId:ItemId):Promise<Edge.model>;
   deleteGraphQuery(graphQueryId:number):Promise<string>;
   getGraphQuery(graphQueryId:number):Promise<Query.model>;
-  getVersions(nodesAndEdgesVersions:Schema.lists):Promise<any>;
+  getItemsVersions(nodesAndEdgesVersions:Schema.lists):Promise<any>;
   getShortestPaths(nodesConfig:Graph.request.shortestPath):Promise<Array<Node.model>>;
   getAllGraphQueries():Promise<Array<Query.model>>;
   saveGraphQuery(data:Query.form.create):Promise<Query.model>;
