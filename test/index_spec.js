@@ -74,7 +74,7 @@ describe('Linkurious class', function(){
     });
   });
 
-  describe('setStateSource method', function(){
+  describe('storeSource method', function(){
     it('must return a new client state if condition is verified', function(){
       let source = {
         name : 'test',
@@ -82,7 +82,7 @@ describe('Linkurious class', function(){
         configIndex : 1
       };
 
-      let test = linkurious.setStateSource(source, 'key', 'treuio45');
+      let test = linkurious.storeSource(source, 'key', 'treuio45');
       linkurious.state.currentSource.should.eql({
         name : 'test',
         key : 'treuio45',
@@ -90,15 +90,15 @@ describe('Linkurious class', function(){
       });
     });
 
-    it('must return false if condition isn\'t verified', function(){
+    it('must return null if condition isn\'t verified', function(){
       let source = {
         name : 'test',
         key : 'treuio45',
         configIndex : 1
       };
 
-      let test = linkurious.setStateSource(source, 'configIndex', 2);
-      test.should.equal(null);
+      let test = linkurious.storeSource(source, 'configIndex', 2);
+      test.should.not.be.ok();
     });
 
     it('state must be unmodified if condition isn\'t verified', function(){
@@ -108,7 +108,7 @@ describe('Linkurious class', function(){
         configIndex : 1
       };
 
-      let test = linkurious.setStateSource(source, 'configIndex', 2);
+      let test = linkurious.storeSource(source, 'configIndex', 2);
       linkurious.state.should.eql({});
     });
   });
@@ -139,15 +139,15 @@ describe('Linkurious class', function(){
     })
   });
   
-  describe('linkuriousFetch method', function(){
+  describe('fetch method', function(){
     it('must return value', function(){
-      return linkurious.linkuriousFetch('GET', '/auth/me').then(function(res){
+      return linkurious.fetch('GET', '/auth/me').then(function(res){
         res.should.have.property('user');
       });
     });
 
     it('must return an error 404 if API does\'nt exists', function(){
-      return linkurious.linkuriousFetch('GET', '/test').catch(function(res){
+      return linkurious.fetch('GET', '/test').catch(function(res){
         res.should.eql({
           status: 404,
           type: 'business',
