@@ -420,14 +420,6 @@ describe('Linkurious class', function(){
     });
   });
 
-  describe('userIsAuth method', function(){
-    it('user must not be authenticated', function(){
-      return linkurious.userIsAuth().then(function(res){
-        res.should.be.false();
-      });
-    });
-  });
-
   describe('login method', function(){
     it('must log a user and hydrate app state', function(){
       return linkurious.login('testName','testPass').then(function(res){

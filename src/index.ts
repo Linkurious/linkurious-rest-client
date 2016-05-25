@@ -229,8 +229,7 @@ class Linkurious implements ILinkurious {
    */
   public userIsAuth():Promise<boolean> {
     return this.fetch('GET', '/auth/authenticated')
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 
   /**
@@ -240,8 +239,7 @@ class Linkurious implements ILinkurious {
    */
   public userIsAdmin():Promise<boolean> {
     return this.fetch('GET', '/auth/admin')
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 
   /**
@@ -692,8 +690,7 @@ class Linkurious implements ILinkurious {
    */
   public launchIndexation():Promise<boolean> {
     return this.fetch('GET', '/{dataSource}/search/reindex')
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 
   /**
@@ -773,8 +770,7 @@ class Linkurious implements ILinkurious {
    */
   public connectDataSource(sourceIndex:number):Promise<boolean> {
     return this.fetch('POST', '/admin/source/' + sourceIndex + '/connect')
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 
   /**
@@ -785,8 +781,7 @@ class Linkurious implements ILinkurious {
    */
   public createDataSource(data:Source.form.create):Promise<boolean> {
     return this.fetch('POST', '/admin/sources/config', data)
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 
   /**
@@ -797,8 +792,7 @@ class Linkurious implements ILinkurious {
    */
   public deleteDataSource(sourceIndex:number):Promise<boolean> {
     return this.fetch('DELETE', '/admin/sources/config/' + sourceIndex)
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 
   /**
@@ -904,8 +898,7 @@ class Linkurious implements ILinkurious {
       dataSource = '{dataSource}';
     }
     return this.fetch('PUT', '/admin/source/' + dataSource + '/hidden/nodeProperties', data)
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 
   /**
@@ -920,8 +913,7 @@ class Linkurious implements ILinkurious {
       dataSource = '{dataSource}';
     }
     return this.fetch('PUT', '/admin/source/' + dataSource + '/noIndex/edgeProperties', data)
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 
   /**
@@ -936,8 +928,7 @@ class Linkurious implements ILinkurious {
       dataSource = '{dataSource}';
     }
     return this.fetch('PUT', '/admin/source/' + dataSource + '/noIndex/nodeProperties', data)
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 
 
@@ -1040,8 +1031,7 @@ class Linkurious implements ILinkurious {
     }
 
     return this.fetch('PUT', '/admin/' + dataSource + '/groups/group_rights', data)
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 
   /**
@@ -1116,8 +1106,7 @@ class Linkurious implements ILinkurious {
    */
   public createFolder(data:Visualization.form.createFolder):Promise<boolean> {
     return this.fetch('POST', '/{dataSource}/visualizations/folder', data)
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 
   /**
@@ -1256,8 +1245,7 @@ class Linkurious implements ILinkurious {
    */
   public updateFolder(folderId:number, data:Visualization.form.updateFolder):Promise<boolean> {
     return this.fetch('PATCH', '/{dataSource}/visualizations/folder/' + folderId, data)
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 
   /**
@@ -1268,8 +1256,7 @@ class Linkurious implements ILinkurious {
    */
   public updateSandbox(data:Visualization.form.updateSandbox):Promise<boolean> {
     return this.fetch('PATCH', '/{dataSource}/sandbox', data)
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 
   /**
@@ -1281,8 +1268,7 @@ class Linkurious implements ILinkurious {
    */
   public updateVisualization(vizId:number, data:Visualization.form.update):Promise<boolean> {
     return this.fetch('PATCH', '/{dataSource}/visualizations/' + vizId, data)
-      .then(() => true)
-      .catch(() => false);
+      .then(() => true);
   }
 }
 
