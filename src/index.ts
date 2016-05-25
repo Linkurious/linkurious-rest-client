@@ -56,12 +56,12 @@ class Linkurious implements LKClient.Interface {
   /**
    *
    * @param source:Source.model
-   * @param comparator:string
-   * @param condition:any
-   * @returns any
+   * @param property:string
+   * @param matchValue:any
+   * @returns {Source.clientModel}
    */
-  private setStateSource(source:Source.model, comparator:string, condition:any):any {
-    if (source[comparator] === condition) {
+  private setStateSource(source:Source.model, property:string, matchValue:string|number|boolean):Source.clientModel {
+    if (source[property] === matchValue) {
       this.state.currentSource = {
         name       : source.name,
         key        : source.key,
@@ -69,7 +69,7 @@ class Linkurious implements LKClient.Interface {
       };
       return this.state.currentSource;
     } else {
-      return false;
+      return null;
     }
   }
 
@@ -254,7 +254,7 @@ class Linkurious implements LKClient.Interface {
     return this.linkuriousFetch('GET', '/auth/me')
       .then(res => {
         this.state.user = res.user;
-        return res;
+        return res.user;
       });
   }
 
@@ -1216,9 +1216,9 @@ class Linkurious implements LKClient.Interface {
   /**
    * Get all share rights on a visualization
    * @param vizId:number
-   * @returns {Promise<Visualization.shareInfos>}
+   * @returns {Promise<Visualization.Shares>}
    */
-  public getSharers(vizId:number):Promise<Visualization.shareInfos> {
+  public getShares(vizId:number):Promise<Visualization.Shares> {
     return this.linkuriousFetch('GET', '/{dataSource}/visualizations/' + vizId + '/shares');
   }
 

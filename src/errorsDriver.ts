@@ -12,7 +12,7 @@
 import {ResponseBody} from './errorsDriver.interfaces';
 import {ErrorBody} from './logDriver.interfaces';
 
-function setErrorType(status:number):string {
+function getErrorType(status:number):string {
   if (status === 401 || status === 403) {
     return 'access';
   } else if (status >= 500) {
@@ -26,7 +26,7 @@ export function format(res:any, body:ErrorBody):ResponseBody {
   let errorMessage = <ResponseBody>{};
 
   errorMessage.status  = res.statusCode;
-  errorMessage.type    = setErrorType(res.statusCode);
+  errorMessage.type    = getErrorType(res.statusCode);
   errorMessage.key     = body.key;
   errorMessage.message = body.message;
 

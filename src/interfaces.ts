@@ -5,6 +5,7 @@ export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgeOrientation = 'in'|'out'|'both';
 export type Item = 'node'|'edge'|'nodes'|'edges';
 export type Rights = 'read'|'write'|'none'|'do';
+export type PopulateType = 'expandNodeId'|'nodeId'|'edgeId'|'searchNodes'|'searchEdges'|'pattern';
 
 export interface Count {
   count:number;
@@ -114,7 +115,7 @@ export namespace Source {
     connected:boolean;
     state:string;
     reason:string;
-    error:string;
+    error?:string;
   }
 
   export interface list {
@@ -560,9 +561,9 @@ export namespace Visualization {
     tree:Array<branch>;
   }
 
-  export interface shareInfos {
+  export interface Shares {
     owner:User.model;
-    shares:Array<sharer>;
+    shares:Array<Share>;
   }
 
   export interface shareRights {
@@ -575,10 +576,10 @@ export namespace Visualization {
 
   export namespace request {
     export interface sandbox {
-      populate ?:string;
+      populate:PopulateType;
       itemId ?:number;
       searchQuery ?:string;
-      searchFuziness ?:number;
+      searchFuzziness ?:number;
       patternQuery ?:string;
       doLayout ?:boolean;
       patternDialect ?:string;
@@ -632,7 +633,7 @@ export namespace Visualization {
     }
   }
 
-  interface sharer {
+  interface Share {
     userId:number;
     username:string;
     email:string;
@@ -725,7 +726,7 @@ export namespace Visualization {
   }
 
   interface branch {
-    type:string;
+    type:'visu'|'folder';
     id:number;
     title:string;
     children ?:Array<branch>;
@@ -827,7 +828,7 @@ export namespace LKClient {
     getVisualization(vizId:number):Promise<Visualization.model>;
     getTree():Promise<Visualization.tree>;
     deleteVisualization(vizId:number):Promise<string>;
-    getSharers(vizId:number):Promise<Visualization.shareInfos>;
+    getShares(vizId:number):Promise<Visualization.Shares>;
     shareVisualization(data:Visualization.form.setShareRights):Promise<Visualization.shareRights>;
     unshareVisualization(data:Visualization.form.setShareRights):Promise<string>;
     updateFolder(folderId:number, data:Visualization.form.updateFolder):Promise<boolean>;

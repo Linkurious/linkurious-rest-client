@@ -98,7 +98,7 @@ describe('Linkurious class', function(){
       };
 
       let test = linkurious.setStateSource(source, 'configIndex', 2);
-      test.should.equal(false);
+      test.should.equal(null);
     });
 
     it('state must be unmodified if condition isn\'t verified', function(){
