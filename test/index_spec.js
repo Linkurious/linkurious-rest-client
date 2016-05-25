@@ -179,25 +179,6 @@ describe('Linkurious class', function(){
       })
     });
   });
-
-  describe('getCurrentUser method', function(){
-    it('must set the user state', function(){
-      return linkurious.getCurrentUser().then(function(){
-        linkurious.state.user.should.eql({
-          id: 1,
-          builtin: true,
-          email: 'user@linkurio.us',
-          username: 'Unique user',
-          groups:
-            [ { id: 2, name: 'admin', builtin: true },
-              { id: 1, name: 'default', builtin: true } ],
-          ldap: false,
-          admin: true,
-          actions: { all: [ 'rawReadQuery', 'rawWriteQuery' ] },
-          preferences: { pinOnDrag: true } })
-      });
-    });
-  });
   
   describe('getAdjacentEdges method', function(){
     it('must return correct value for in orientation', function(){

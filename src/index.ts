@@ -247,19 +247,6 @@ class Linkurious implements ILinkurious {
   }
 
   /**
-   * Retrieve the current user only if they are authenticated.
-   *
-   * @returns {Promise<User>}
-   */
-  public getCurrentUser():Promise<User.model> {
-    return this.fetch('GET', '/auth/me')
-      .then(res => {
-        this.state.user = res.user;
-        return res.user;
-      });
-  }
-
-  /**
    * Update the current user connected
    *
    * @param data {user.form.update}

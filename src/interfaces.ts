@@ -750,7 +750,6 @@ export interface ILinkurious {
   userIsAuth():Promise<boolean>;
   userIsAdmin():Promise<boolean>;
   logout():Promise<string>;
-  getCurrentUser():Promise<User.model>;
   updateCurrentUser(data:any):Promise<any>;
   startClient(userLogin:string, password:string):Promise<IState>;
   countEdges():Promise<any>;
