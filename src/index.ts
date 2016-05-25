@@ -17,7 +17,7 @@ import {Utils} from './utils';
 import {LoggerPlugin, LogDriverInterface} from './logDriver.interfaces';
 import {HTTPDriverInterface} from './HTTPDriver.interfaces';
 import {
-  LKClient,
+  ILinkurious,
   User,
   Group,
   Source,
@@ -30,13 +30,14 @@ import {
   Count,
   Item,
   Directory,
-  Visualization
+  Visualization,
+  IState
 } from './interfaces';
 
-class Linkurious implements LKClient.Interface {
+class Linkurious implements ILinkurious {
 
   public host:string;
-  public state:LKClient.State;
+  public state:IState;
   public log:LogDriverInterface;
   public httpDriver:HTTPDriverInterface;
 
@@ -48,7 +49,7 @@ class Linkurious implements LKClient.Interface {
    */
   constructor(host:string, log:string, logger?:LoggerPlugin) {
     this.host       = host;
-    this.state      = <LKClient.State>{};
+    this.state      = <IState>{};
     this.log        = <LogDriverInterface>new LogDriver(log, logger);
     this.httpDriver = <HTTPDriverInterface>new HTTPDriver();
   }
@@ -278,9 +279,9 @@ class Linkurious implements LKClient.Interface {
    *
    * @param userLogin:string
    * @param password:string
-   * @returns {Promise<LKClient.State>}
+   * @returns {Promise<IState>}
    */
-  public startClient(userLogin:string, password:string):Promise<LKClient.State> {
+  public startClient(userLogin:string, password:string):Promise<IState> {
     return this.userLogin(userLogin, password).then(() => this.setDefaultSource())
       .then(() => this.state);
   }
