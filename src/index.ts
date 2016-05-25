@@ -31,7 +31,8 @@ import {
   Item,
   Directory,
   Visualization,
-  IState
+  IState,
+  ItemId
 } from './interfaces';
 
 class Linkurious implements ILinkurious {
@@ -205,7 +206,7 @@ class Linkurious implements ILinkurious {
       usernameOrEmail: userLogin,
       password       : password
     };
-    
+
     if(this.state.user && this.state.user !== null){
       return this.logout().then(() => {
         return this.fetch('POST', '/auth/login', data);
@@ -314,21 +315,21 @@ class Linkurious implements ILinkurious {
    * Modify the properties of an edge in the graph by the given ones. Keeps the other properties of
    * the edge unchanged.
    *
-   * @param edgeId : number
+   * @param edgeId : ItemId
    * @param data : Edge.form.update
    * @returns {Promise<Edge>}
    */
-  public updateEdge(edgeId:number, data:Edge.form.update):Promise<Edge.model> {
+  public updateEdge(edgeId:ItemId, data:Edge.form.update):Promise<Edge.model> {
     return this.fetch('PATCH', '/{dataSource}/graph/edges/' + edgeId, data);
   }
 
   /**
    * Delete a edge from the graph.
    *
-   * @param edgeId : number
+   * @param edgeId : ItemId
    * @returns {Promise<string>}
    */
-  public deleteEdge(edgeId:number):Promise<string> {
+  public deleteEdge(edgeId:ItemId):Promise<string> {
     return this.fetch('DELETE', '/{dataSource}/graph/edges/' + edgeId)
       .then(() => 'edge ' + edgeId + ' deleted');
   }
@@ -364,10 +365,10 @@ class Linkurious implements ILinkurious {
   /**
    * Get an edge of the graph.
    *
-   * @param edgeId : number
+   * @param edgeId : ItemId
    * @returns {Promise<Edge.model>}
    */
-  public getEdge(edgeId:number):Promise<Edge.model> {
+  public getEdge(edgeId:ItemId):Promise<Edge.model> {
     return this.fetch('GET', '/{dataSource}/graph/edges/' + edgeId);
   }
 
@@ -544,10 +545,10 @@ class Linkurious implements ILinkurious {
   /**
    * Delete the node and its adjacent edges from the graph.
    *
-   * @param nodeId:number
+   * @param nodeId:ItemId
    * @returns {Promise<string>}
    */
-  public deleteNode(nodeId:number):Promise<string> {
+  public deleteNode(nodeId:ItemId):Promise<string> {
     return this.fetch('DELETE', '/{dataSource}/graph/nodes/' + nodeId)
       .then(() => 'node ' + nodeId + ' deleted');
   }
@@ -555,11 +556,11 @@ class Linkurious implements ILinkurious {
   /**
    * Get a node from the graph.
    *
-   * @param nodeId:number
+   * @param nodeId:ItemId
    * @param params:Interface.RequestNode
    * @returns {Promise<Node.model>}
    */
-  public getNode(nodeId:number, params?:Node.request.one):Promise<Node.model> {
+  public getNode(nodeId:ItemId, params?:Node.request.one):Promise<Node.model> {
     return this.fetch('GET', '/{dataSource}/graph/nodes/' + nodeId, Utils.sanitizeQuery(params));
   }
 
@@ -590,11 +591,11 @@ class Linkurious implements ILinkurious {
   /**
    * Modify the properties of a node in the graph by the given ones, and keeps the other properties of the node.
    *
-   * @param nodeId:number
+   * @param nodeId:ItemId
    * @param data:Interface.Form.node.update
    * @returns {Promise<Node>}
    */
-  public updateNode(nodeId:number, data:Node.form.update):Promise<Node.model> {
+  public updateNode(nodeId:ItemId, data:Node.form.update):Promise<Node.model> {
     return this.fetch('PATCH', '/{dataSource}/graph/nodes/' + nodeId, Utils.sanitizeQuery(data));
   }
 

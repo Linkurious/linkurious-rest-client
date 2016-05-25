@@ -4,6 +4,7 @@ export type EdgeOrientation = 'in'|'out'|'both';
 export type Item = 'node'|'edge'|'nodes'|'edges';
 export type Rights = 'read'|'write'|'none'|'do';
 export type PopulateType = 'expandNodeId'|'nodeId'|'edgeId'|'searchNodes'|'searchEdges'|'pattern';
+export type ItemId = string | number;
 
 export interface Count {
   count:number;
@@ -198,7 +199,7 @@ export namespace Source {
 export namespace Edge {
 
   export interface model {
-    id:number;
+    id:ItemId;
     source?:number;
     target?:number;
     type:string;
@@ -210,7 +211,7 @@ export namespace Edge {
   export namespace request {
     export interface getAdjacent {
       orientation:EdgeOrientation;
-      nodeId:number;
+      nodeId:ItemId;
       type ?:string;
       skip:number;
       limit:number;
@@ -394,7 +395,7 @@ export namespace Schema {
 
 export namespace Node {
   export interface model {
-    id:number;
+    id:ItemId;
     data:any;
     statistics ?:Array<Schema.digest>;
     categories:any;
@@ -410,7 +411,7 @@ export namespace Node {
     }
 
     export interface adjacentItems {
-      ids:Array<number>;
+      ids:Array<ItemId>;
       ignoredNodes:Array<number>;
       visibleNodes:Array<number>;
       nodeCategory?:string;
@@ -421,7 +422,7 @@ export namespace Node {
     }
 
     export interface neighborsCategories {
-      ids:Array<number>;
+      ids:Array<ItemId>;
     }
 
     export interface types {
@@ -646,7 +647,7 @@ export namespace Visualization {
   }
 
   interface VisualizationNode {
-    id:string;
+    id:ItemId;
     selected ?:boolean;
     nodeLink:nodeLink;
     geo ?:nodeGeo;
@@ -666,7 +667,7 @@ export namespace Visualization {
   }
 
   interface VisualizationEdge {
-    id:string;
+    id:ItemId;
     selected ?:boolean;
   }
 
@@ -754,10 +755,10 @@ export interface ILinkurious {
   startClient(userLogin:string, password:string):Promise<IState>;
   countEdges():Promise<any>;
   createEdge(data:Edge.form.create):Promise<Edge.model>;
-  updateEdge(edgeId:number, data:Edge.form.update):Promise<Edge.model>;
-  deleteEdge(edgeId:number):Promise<string>;
+  updateEdge(edgeId:ItemId, data:Edge.form.update):Promise<Edge.model>;
+  deleteEdge(edgeId:ItemId):Promise<string>;
   getAdjacentEdges(data:Edge.request.getAdjacent):Promise<Array<Edge.model>>;
-  getEdge(edgeId:number):Promise<Edge.model>;
+  getEdge(edgeId:ItemId):Promise<Edge.model>;
   deleteGraphQuery(graphQueryId:number):Promise<string>;
   getGraphQuery(graphQueryId:number):Promise<Query.model>;
   getVersions(nodesAndEdgesVersions:Schema.lists):Promise<any>;
@@ -773,11 +774,11 @@ export interface ILinkurious {
   updateConfig(data:App.form.update):Promise<string>;
   countNodes():Promise<Count>;
   createNode(data:Node.form.create):Promise<Node.model>;
-  deleteNode(nodeId:number):Promise<string>;
-  getNode(nodeId:number, params?:Node.request.one):Promise<Node.model>;
+  deleteNode(nodeId:ItemId):Promise<string>;
+  getNode(nodeId:ItemId, params?:Node.request.one):Promise<Node.model>;
   expandNode(data:Node.request.adjacentItems):Promise<Array<Node.model>>;
   getNodeNeighborsCategories(data:Node.request.neighborsCategories):Promise<Array<Schema.digest>>;
-  updateNode(nodeId:number, data:Node.form.update):Promise<Node.model>;
+  updateNode(nodeId:ItemId, data:Node.form.update):Promise<Node.model>;
   getSchema():Promise<Schema.model>;
   getEdgeProperties(params?:Schema.request.properties):Promise<Schema.propertyList>;
   getNodeProperties(params?:Schema.request.properties):Promise<Schema.propertyList>;
