@@ -145,7 +145,7 @@ class Linkurious implements ILinkurious {
    *
    * @returns {Promise<Source.clientModel>}
    */
-  public initDefaultSource():Promise<Source.clientModel> {
+  public initCurrentSource():Promise<Source.clientModel> {
     return this.getSources()
       .then((res) => {
         for (let i = 0, l = res.sources.length; i < l; ++i) {
@@ -282,7 +282,7 @@ class Linkurious implements ILinkurious {
    * @returns {Promise<IState>}
    */
   public startClient(userLogin:string, password:string):Promise<IState> {
-    return this.userLogin(userLogin, password).then(() => this.initDefaultSource())
+    return this.userLogin(userLogin, password).then(() => this.initCurrentSource())
       .then(() => this.state);
   }
 
