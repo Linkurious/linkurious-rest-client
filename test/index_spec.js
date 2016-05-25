@@ -447,9 +447,9 @@ describe('Linkurious class', function(){
     });
   });
 
-  describe('userLogin method', function(){
+  describe('login method', function(){
     it('must log a user and hydrate app state', function(){
-      return linkurious.userLogin('testName','testPass').then(function(res){
+      return linkurious.login('testName','testPass').then(function(res){
         linkurious.state.user.should.eql({
           id: 6,
           username: 'testName',
@@ -467,7 +467,7 @@ describe('Linkurious class', function(){
 
   describe('logout method', function(){
     it('must disconnect user and reset client state', function(){
-      return linkurious.userLogin('testName','testPass').then(function(){
+      return linkurious.login('testName','testPass').then(function(){
         return linkurious.logout();
       }).then(function(res){
         res.should.equal('user disconnected');
@@ -498,7 +498,7 @@ describe('Linkurious class', function(){
 
   describe('updateCurrentUser', function(){
     it('must update current user and reflect it in state', function(){
-      return linkurious.userLogin('testName','testPass').then(function(){
+      return linkurious.login('testName','testPass').then(function(){
         return linkurious.updateCurrentUser({
           username : 'nameChanged'
         });

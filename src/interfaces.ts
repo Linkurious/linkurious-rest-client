@@ -746,7 +746,7 @@ export interface ILinkurious {
   getSources():Promise<Source.list>;
   initCurrentSource():Promise<Source.clientModel>;
   setCurrentSource(keyOrConfig:string | number):Promise<Source.clientModel>;
-  userLogin(userLogin:string, password:string):Promise<any>;
+  login(userLogin:string, password:string):Promise<any>;
   userIsAuth():Promise<boolean>;
   userIsAdmin():Promise<boolean>;
   logout():Promise<string>;

@@ -199,7 +199,7 @@ class Linkurious implements ILinkurious {
    * @param password : string
    * @returns {Promise<boolean>}
    */
-  public userLogin(userLogin:string, password:string):Promise<boolean> {
+  public login(userLogin:string, password:string):Promise<boolean> {
     let data = {
       usernameOrEmail: userLogin,
       password       : password
@@ -282,7 +282,7 @@ class Linkurious implements ILinkurious {
    * @returns {Promise<IState>}
    */
   public startClient(userLogin:string, password:string):Promise<IState> {
-    return this.userLogin(userLogin, password).then(() => this.initCurrentSource())
+    return this.login(userLogin, password).then(() => this.initCurrentSource())
       .then(() => this.state);
   }
 
