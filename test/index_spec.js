@@ -444,6 +444,24 @@ describe('Linkurious class', function(){
         res.should.be.true();
       })
     });
+
+    it('must logout before login if another user is currently authenticated', function(){
+      return linkurious.login('testName','testPass').then(function(){
+        return linkurious.login('testName','testPass').then(function(res){
+          linkurious.state.user.should.eql({
+            id: 6,
+            username: 'testName',
+            email: 'testName@test.fr',
+            groups: [ { id: 4, name: 'admin', builtin: true } ],
+            ldap: false,
+            admin: true,
+            preferences: {},
+            actions: { all: [ 'rawReadQuery', 'rawWriteQuery' ] }
+          });
+          res.should.be.true();
+        });
+      })
+    })
   });
 
   describe('logout method', function(){

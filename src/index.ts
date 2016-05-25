@@ -200,15 +200,25 @@ class Linkurious implements ILinkurious {
    * @returns {Promise<boolean>}
    */
   public login(userLogin:string, password:string):Promise<boolean> {
+
     let data = {
       usernameOrEmail: userLogin,
       password       : password
     };
-    return this.fetch('POST', '/auth/login', data)
-      .then(res => {
+    
+    if(this.state.user && this.state.user !== null){
+      return this.logout().then(() => {
+        return this.fetch('POST', '/auth/login', data);
+      }).then(res => {
         this.state.user = res.user;
         return true;
       });
+    } else {
+      return this.fetch('POST', '/auth/login', data).then(res => {
+        this.state.user = res.user;
+        return true;
+      });
+    }
   }
 
   /**
