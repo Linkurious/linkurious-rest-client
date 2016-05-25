@@ -158,9 +158,9 @@ describe('Linkurious class', function(){
     });
   });
 
-  describe('setDefaultSource method', function(){
+  describe('initDefaultSource method', function(){
     it('must set the right dataSource', function(){
-      return linkurious.setDefaultSource().then(function(res){
+      return linkurious.initDefaultSource().then(function(res){
         res.should.eql({ name: 'Database #0', key: '66a2bc71', configIndex: 0 });
       });
     });
