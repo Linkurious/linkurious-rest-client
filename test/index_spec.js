@@ -48,7 +48,7 @@ describe('Linkurious class', function(){
 
   describe('searchNodes method', function(){
     it('must return a node', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.searchNodes('nodes', {
           q : 'Keanu Reeves'
         });
@@ -62,7 +62,7 @@ describe('Linkurious class', function(){
     });
 
     it('must return an edge', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.searchNodes('edges', {
           q : 'ACTED_IN'
         });
@@ -182,7 +182,7 @@ describe('Linkurious class', function(){
   
   describe('getAdjacentEdges method', function(){
     it('must return correct value for in orientation', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.getAdjacentEdges({
           orientation:'in',
           nodeId:nodeId,
@@ -196,7 +196,7 @@ describe('Linkurious class', function(){
 
   describe('getNodesByQuery method', function(){
     it('must return the right nodes for the query', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.getNodesByQuery({
           dialect : 'cypher',
           query : 'MATCH n\nreturn n LIMIT 1',
@@ -235,7 +235,7 @@ describe('Linkurious class', function(){
 
   describe('getNode method', function(){
     it('must return the right node', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.getNode(nodeId, {
           withVersion : true,
           withEdges : true
@@ -250,7 +250,7 @@ describe('Linkurious class', function(){
 
   describe('expandNode method', function(){
     it('must return the right array of nodes and edges', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.expandNode({
           ids : [nodeId],
           ignoredNodes : [],
@@ -265,7 +265,7 @@ describe('Linkurious class', function(){
 
   describe('updateNode method', function(){
     it('must return an error object', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.updateNode(nodeId, {
           addedCategories : [],
           deletedCategories : [],
@@ -284,7 +284,7 @@ describe('Linkurious class', function(){
     });
 
     it('must return true', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.updateNode(nodeId, {
           addedCategories : [],
           deletedCategories : [],
@@ -300,7 +300,7 @@ describe('Linkurious class', function(){
 
   describe('getEdgeProperties', function(){
     it('must return a list of edges properties', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.getEdgeProperties({
           omitNoindex : true
         });
@@ -312,7 +312,7 @@ describe('Linkurious class', function(){
 
   describe('getNodeProperties', function(){
     it('must return a list of node properties', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.getNodeProperties({
           omitNoindex : true
         });
@@ -326,7 +326,7 @@ describe('Linkurious class', function(){
 
   describe('getEdgeTypes method', function(){
     it('must return edges types', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.getEdgeTypes({
           includeType : true
         });
@@ -345,7 +345,7 @@ describe('Linkurious class', function(){
 
   describe('getNodeTypes method', function(){
     it('must return node types', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.getNodeTypes();
       }).then(function(res){
         res.nodeTypes.should.have.length(7);
@@ -356,7 +356,7 @@ describe('Linkurious class', function(){
 
   describe('getSandbox method', function(){
     it('must return a visualization object', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.getSandbox({
           doLayout : false
         });
@@ -372,7 +372,7 @@ describe('Linkurious class', function(){
 
   describe('shareVisualization method', function(){
     it('must share a visualization', function(){
-      return linkurious.setDefaultSource().then(function(){
+      return linkurious.initCurrentSource().then(function(){
         return linkurious.shareVisualization({
           userId:3,
           right :'read',
