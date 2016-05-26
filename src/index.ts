@@ -744,20 +744,25 @@ class Linkurious implements ILinkurious {
   }
 
   /**
-   * Search for nodes based on a query string and optional parameters. Return formatted results for the Linkurious client or full node object.
+   * Search for nodes based on a query string and optional parameters. Return list of node object.
    *
    * @param item:Interface.Item
    * @param params:Interface.RequestSearchItems
-   * @param isFormatted:boolean true => return raw results.
-   * @returns {Promise<Schema.itemsList|Array<Node.model>>}
+   * @returns {Promise<Array<Node.model>>}
    */
-  public searchNodes(item:Item, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>> {
-    if (!isFormatted) {
-      return this.fetch('GET', '/{dataSource}/search/' + item, params);
-    } else {
+  public searchNodes(item:Item, params:Schema.request.itemsList):Promise<Array<Node.model>> {
       return this.fetch('GET', '/{dataSource}/search/' + item + '/full', Utils.fixCase(params));
-    }
+  }
 
+  /**
+   * Search for nodes based on a query string and optional parameters. Return list of formatted nodes.
+   *
+   * @param item:Interface.Item
+   * @param params:Interface.RequestSearchItems
+   * @returns {Promise<Schema.itemsList>}
+   */
+  public searchNodesFormatted(item:Item, params:Schema.request.itemsList):Promise<Schema.itemsList> {
+    return this.fetch('GET', '/{dataSource}/search/' + item, params);
   }
 
   /**

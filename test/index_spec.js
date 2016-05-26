@@ -49,7 +49,7 @@ describe('Linkurious class', function(){
   describe('searchNodes method', function(){
     it('must return a node', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.searchNodes('nodes', {
+        return linkurious.searchNodesFormatted('nodes', {
           q : 'Keanu Reeves'
         });
       }).then(function(res){
@@ -63,7 +63,7 @@ describe('Linkurious class', function(){
 
     it('must return an edge', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.searchNodes('edges', {
+        return linkurious.searchNodesFormatted('edges', {
           q : 'ACTED_IN'
         });
       }).then(function(res){
