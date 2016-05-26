@@ -159,8 +159,8 @@ export namespace Source {
   export namespace form {
     export interface create {
       name:string;
-      graphDb:graphDb;
-      index:indexConfig;
+      graphDb:neo4Config|titanConfig|dseConfig;
+      index:elasticSearchConfig;
     }
 
     export interface Delete {
@@ -178,19 +178,29 @@ export namespace Source {
     folders:number;
   }
 
-  interface graphDb {
-    vendor:GraphDBVendor;
-    url:string;
-    graphName ?:string;
-    create ?:boolean;
-    webAdmin ?:string;
-    user ?:string;
-    password ?:string;
-    configurationPath ?:string;
+  interface neo4Config {
+    vendor:'neo4j',
+    url:string,
+    webAdmin?:string,
+    user?:string,
+    password?:string
   }
 
-  interface indexConfig {
-    vendor:string;
+  interface titanConfig {
+    vendor:'titan',
+    url : string,
+    configurationPath : string
+  }
+
+  interface dseConfig {
+    vendor : 'dse',
+    url : string,
+    graphName : string,
+    create ?: boolean
+  }
+
+  interface elasticSearchConfig {
+    vendor:'elasticSearch';
     host:string;
     port:number;
     forceReindex:boolean;
