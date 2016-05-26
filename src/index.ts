@@ -32,7 +32,8 @@ import {
   Directory,
   Visualization,
   IState,
-  ItemId
+  ItemId,
+  IndexationCallback
 } from './interfaces';
 
 class Linkurious implements ILinkurious {
@@ -696,22 +697,37 @@ class Linkurious implements ILinkurious {
   /**
    * Launch the indexation and return true when finish. Possibility to had callback called each 300ms during indexation.
    *
+   * @param timeout:number
    * @param callback:Function
    * @returns {Promise<boolean>}
    */
-  public processIndexation(callback?:Function):Promise<boolean> {
+  public processIndexation(timeout:number, callback?:IndexationCallback):Promise<boolean> {
+
+    const minTimeout = 200,
+          maxTimeout = 3000;
+
+    if(timeout < minTimeout) {
+      timeout = 200;
+    }
+
+    if(timeout > maxTimeout) {
+      timeout = 500;
+    }
+
     return this.launchIndexation()
-      .then(() => this.listenIndexation(callback))
+      .then(() => this.listenIndexation(timeout, callback))
       .then(() => true);
   }
 
   /**
    * return true when indexation if finished, else launch callback.
    *
+   * @param timeout:number
    * @param callback:Function
    * @returns {Promise<boolean>}
    */
-  private listenIndexation(callback?:Function):Promise<boolean> {
+  private listenIndexation(timeout:number, callback?:IndexationCallback):Promise<boolean> {
+
     return this.getIndexationStatus()
       .then((res) => {
         if (res.indexing !== 'done') {
@@ -719,8 +735,8 @@ class Linkurious implements ILinkurious {
             if (callback) {
               callback(res);
             }
-            this.listenIndexation(callback);
-          }, 300);
+            this.listenIndexation(timeout, callback);
+          }, timeout);
         } else {
           return true;
         }

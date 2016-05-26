@@ -10,6 +10,8 @@ export interface Count {
   count:number;
 }
 
+export type IndexationCallback = (res:Source.indexationStatus) => void;
+
 // USER MODEL INTERFACE
 export namespace User {
   export interface model {
@@ -786,7 +788,7 @@ export interface ILinkurious {
   getNodeTypes(params?:Node.request.types):Promise<Schema.typesList>;
   getIndexationStatus():Promise<Source.indexationStatus>;
   launchIndexation():Promise<boolean>;
-  processIndexation(callback:Function):Promise<boolean>;
+  processIndexation(timeout:number, callback:Function):Promise<boolean>;
   searchNodes(item:Item, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>>;
   getDirectoryList(data:Directory.request.list):Promise<Directory.list>;
   connectDataSource(sourceIndex:number):Promise<boolean>;
