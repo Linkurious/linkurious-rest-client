@@ -800,7 +800,7 @@ class Linkurious implements ILinkurious {
    * @param data:Interface.Form.dataSource.create
    * @returns {Promise<boolean>}
    */
-  public createDataSource(data:Source.form.create):Promise<boolean> {
+  public createDataSourceConfig(data:Source.form.create):Promise<boolean> {
     return this.fetch('POST', '/admin/sources/config', data)
       .then(() => true);
   }
@@ -811,7 +811,7 @@ class Linkurious implements ILinkurious {
    * @param sourceIndex:number
    * @returns {Promise<boolean>}
    */
-  public deleteDataSource(sourceIndex:number):Promise<boolean> {
+  public deleteDataSourceConfig(sourceIndex:number):Promise<boolean> {
     return this.fetch('DELETE', '/admin/sources/config/' + sourceIndex)
       .then(() => true);
   }
@@ -825,7 +825,7 @@ class Linkurious implements ILinkurious {
    * @param data:Interface.RequestDeleteDatas
    * @returns {Promise<Source.deletedDatas>}
    */
-  public deleteDatas(data:Source.form.Delete):Promise<Source.deletedDatas> {
+  public deleteFullDataSource(data:Source.form.Delete):Promise<Source.deletedDatas> {
 
     let mergeOptions = (data.mergeInto) ? {mergeInto: data.mergeInto} : null;
 

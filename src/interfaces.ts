@@ -792,9 +792,9 @@ export interface ILinkurious {
   searchNodes(item:Item, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>>;
   getDirectoryList(data:Directory.request.list):Promise<Directory.list>;
   connectDataSource(sourceIndex:number):Promise<boolean>;
-  createDataSource(data:Source.form.create):Promise<boolean>;
-  deleteDataSource(sourceIndex:number):Promise<boolean>;
-  deleteDatas(data:Source.form.Delete):Promise<Source.deletedDatas>;
+  createDataSourceConfig(data:Source.form.create):Promise<boolean>;
+  deleteDataSourceConfig(sourceIndex:number):Promise<boolean>;
+  deleteFullDataSource(data:Source.form.Delete):Promise<Source.deletedDatas>;
   getDataSourcesList():Promise<Array<Source.adminModel>>;
   getHiddenEdgeProperties(dataSource?:string):Promise<Array<string>>;
   getHiddenNodeProperties(dataSource?:string):Promise<Array<string>>;
