@@ -59,7 +59,7 @@ describe('ErrorDriver class', function(){
 
       error.format(incomingMessage, errorBody).should.eql({
         status  : 501,
-        type    : 'communication',
+        type    : 'technical',
         key     : 'test',
         message : 'test message'
       })
@@ -76,7 +76,7 @@ describe('ErrorDriver class', function(){
 
       error.format(incomingMessage, errorBody).should.eql({
         status  : 500,
-        type    : 'communication',
+        type    : 'technical',
         key     : 'test',
         message : 'test message'
       })

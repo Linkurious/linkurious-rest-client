@@ -16,7 +16,7 @@ function getErrorType(status:number):string {
   if (status === 401 || status === 403) {
     return 'access';
   } else if (status >= 500) {
-    return 'communication'
+    return 'technical'
   } else {
     return 'business';
   }
