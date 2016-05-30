@@ -14,7 +14,8 @@
   },
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
   "scripts": {
-    "test": "./node_modules/.bin/tsc && node test/runTests.js",
+    "pretest" : "./node_modules/.bin/tsc",
+    "test": "node test/runTests.js",
     "postinstall": "./node_modules/.bin/typings install"
   },
   "dependencies": {
