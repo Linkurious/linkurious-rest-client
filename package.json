@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
   "scripts": {
-    "test": "tsc && node test/runTests.js",
+    "test": "./node_modules/.bin/tsc && node test/runTests.js",
     "postinstall": "./node_modules/.bin/typings install"
   },
   "dependencies": {
@@ -32,6 +32,7 @@
     "should": "^8.3.1",
     "typedoc": "sierrasoftworks/typedoc#v1.8.10",
     "typescript": "^1.8.10",
-    "typings": "^0.8.1"
+    "typings": "^0.8.1",
+    "request": "~2.72"
   }
 }
