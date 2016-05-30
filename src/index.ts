@@ -120,7 +120,7 @@ class Linkurious {
   public logout():Promise<string> {
     return this.fetcher.fetch('GET', '/auth/logout')
       .then(() => {
-        this._user = <i.User.model>{};
+        this._user = undefined;
         return 'user disconnected';
       });
   }
@@ -262,6 +262,7 @@ class Linkurious {
   public getIndexationStatus():Promise<i.Source.indexationStatus> {
     return this.fetcher.fetch('GET', '/{dataSource}/search/status')
       .then((res) => {
+        // TODO: this is not really an error, this should not reject
         if (res.indexed_source !== this._currentSource.key) {
           this.log.error({
             key    : 'Indexation error',
@@ -283,7 +284,7 @@ class Linkurious {
    * @returns {Promise<boolean>}
    */
   public processIndexation(timeout:number, callback?:i.IndexationCallback):Promise<boolean> {
-
+    // TODO: move to admin module
     const minTimeout = 200,
           maxTimeout = 3000;
 

@@ -529,9 +529,9 @@ export namespace App {
 
   interface SourceConfig {
     features:any;
-    alternativeIds:Schema.alternativeIds;
-    latitudeProperty:string;
-    longitudeProperty:string;
+    alternativeIds?:Schema.alternativeIds;
+    latitudeProperty?:string;
+    longitudeProperty?:string;
     directory:Schema.directory;
   }
 }
@@ -876,7 +876,7 @@ export interface Search {
 }
 
 export interface Fetcher {
-  fetch:(method:string, uri:string, data?:any) => Promise<any>;
+  fetch(method:string, uri:string, data?:any) : Promise<any>;
 }
 
 export interface LogDriver {
