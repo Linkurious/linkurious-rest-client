@@ -13,9 +13,8 @@
 
 import * as request from 'superagent';
 import * as ErrorsDriver from './errorsDriver';
-import {HTTPDriverInterface} from './HTTPDriver.interfaces';
 
-export default class HTTPDriver implements HTTPDriverInterface {
+export default class HTTPDriver {
 
   private cookie:string;
 

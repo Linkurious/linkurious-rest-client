@@ -9,8 +9,7 @@
  */
 'use strict';
 
-import {ResponseBody} from './errorsDriver.interfaces';
-import {ErrorBody} from './logDriver.interfaces';
+import * as i from './interfaces';
 
 function getErrorType(status:number):string {
   if (status === 401 || status === 403) {
@@ -22,8 +21,8 @@ function getErrorType(status:number):string {
   }
 }
 
-export function format(res:any, body:ErrorBody):ResponseBody {
-  let errorMessage = <ResponseBody>{};
+export function format(res:any, body:i.ErrorBody):i.ResponseBody {
+  let errorMessage = <i.ResponseBody>{};
 
   errorMessage.status  = res.statusCode;
   errorMessage.type    = getErrorType(res.statusCode);

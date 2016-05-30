@@ -13,6 +13,8 @@ const should = require('should');
 const Linkurious = require('./../built/index');
 const LogDriver = require('./../built/logDriver');
 const HTTPDriver = require('./../built/HTTPDriver');
+const Fetcher = require('./../built/fetcher');
+const Admin = require('./../built/admin');
 
 describe('Linkurious class', function(){
 
@@ -29,27 +31,24 @@ describe('Linkurious class', function(){
   });
 
   describe('constructor', function(){
-    it('host must be "http://localhost:3001"', function(){
-      linkurious.host.should.equal('http://localhost:3001');
-    });
-
-    it('state must be empty', function(){
-      linkurious.state.should.eql({});
-    });
 
     it('log must be an instance of logDriver', function(){
       linkurious.log.should.be.an.instanceOf(LogDriver.default);
     });
 
-    it('httpDriver mus be an instance of httpDriver', function(){
-      linkurious.httpDriver.should.be.an.instanceOf(HTTPDriver.default);
+    it('fetcher must be an instance of fetcher', function(){
+      linkurious.fetcher.should.be.an.instanceOf(Fetcher.default);
+    });
+
+    it('admin must be an instance of admin', function(){
+      linkurious.admin.should.be.an.instanceOf(Admin.default);
     });
   });
 
   describe('searchNodes method', function(){
     it('must return a node', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.searchNodesFormatted('nodes', {
+        return linkurious.search.formattedItems('nodes', {
           q : 'Keanu Reeves'
         });
       }).then(function(res){
@@ -63,7 +62,7 @@ describe('Linkurious class', function(){
 
     it('must return an edge', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.searchNodesFormatted('edges', {
+        return linkurious.search.formattedItems('edges', {
           q : 'ACTED_IN'
         });
       }).then(function(res){
@@ -74,88 +73,17 @@ describe('Linkurious class', function(){
     });
   });
 
-  describe('storeSource method', function(){
-    it('must return a new client state if condition is verified', function(){
-      let source = {
-        name : 'test',
-        key : 'treuio45',
-        configIndex : 1
-      };
-
-      let test = linkurious.storeSource(source, 'key', 'treuio45');
-      linkurious.state.currentSource.should.eql({
-        name : 'test',
-        key : 'treuio45',
-        configIndex : 1
-      });
-    });
-
-    it('must return null if condition isn\'t verified', function(){
-      let source = {
-        name : 'test',
-        key : 'treuio45',
-        configIndex : 1
-      };
-
-      let test = linkurious.storeSource(source, 'configIndex', 2);
-      test.should.not.be.ok();
-    });
-
-    it('state must be unmodified if condition isn\'t verified', function(){
-      let source = {
-        name : 'test',
-        key : 'treuio45',
-        configIndex : 1
-      };
-
-      let test = linkurious.storeSource(source, 'configIndex', 2);
-      linkurious.state.should.eql({});
-    });
-  });
-
   describe('transformUrl method', function(){
 
-    it('must replace value in url by the right data', function(){
-      linkurious.state.currentSource = {
-        name : 'test',
-        key : 'treuio45',
-        configIndex : 1
-      };
-
-      let url = linkurious.transformUrl('/{dataSource}/api/test');
-
-      url.should.equal('http://localhost:3001/api/treuio45/api/test');
-
-    });
-
     it('must throw a console if no dataSource is set', function(){
-      linkurious.transformUrl.bind(null, '/{dataSource}/api/test').should.throw()
+      linkurious.fetcher.transformUrl.bind(null, '/{dataSource}/api/test').should.throw()
     });
 
     it('must construct the url without sourceKey if no variable present in the url fragment', function(){
-      let url = linkurious.transformUrl('/test');
+      let url = linkurious.fetcher.transformUrl('/test');
 
       url.should.equal('http://localhost:3001/api/test');
     })
-  });
-  
-  describe('fetch method', function(){
-    it('must return value', function(){
-      return linkurious.fetch('GET', '/auth/me').then(function(res){
-        res.should.have.property('user');
-      });
-    });
-
-    it('must return an error 404 if API does\'nt exists', function(){
-      return linkurious.fetch('GET', '/test').catch(function(res){
-        res.should.eql({
-          status: 404,
-          type: 'business',
-          key: 'api_not_found',
-          message: 'API not found.'
-        });
-      })
-    });
   });
 
   describe('initCurrentSource method', function(){
@@ -183,7 +111,7 @@ describe('Linkurious class', function(){
   describe('getAdjacentEdges method', function(){
     it('must return correct value for in orientation', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.getAdjacentEdges({
+        return linkurious.edge.getAdjacentFromNode({
           orientation:'in',
           nodeId:nodeId,
           withVersion :true
@@ -197,7 +125,7 @@ describe('Linkurious class', function(){
   describe('getNodesByQuery method', function(){
     it('must return the right nodes for the query', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.getNodesByQuery({
+        return linkurious.graph.getNodeList({
           dialect : 'cypher',
           query : 'MATCH n\nreturn n LIMIT 1',
           withVersion : true
@@ -210,7 +138,7 @@ describe('Linkurious class', function(){
 
   describe('searchUsers method', function(){
     it('must return a list of users', function(){
-      return linkurious.searchUsers({
+      return linkurious.search.users({
         groupId:4,
         size:20,
         start:0
@@ -236,7 +164,7 @@ describe('Linkurious class', function(){
   describe('getNode method', function(){
     it('must return the right node', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.getNode(nodeId, {
+        return linkurious.node.getOne(nodeId, {
           withVersion : true,
           withEdges : true
         });
@@ -251,7 +179,7 @@ describe('Linkurious class', function(){
   describe('expandNode method', function(){
     it('must return the right array of nodes and edges', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.expandNode({
+        return linkurious.node.expand({
           ids : [nodeId],
           ignoredNodes : [],
           visibleNodes : [nodeId],
@@ -266,7 +194,7 @@ describe('Linkurious class', function(){
   describe('updateNode method', function(){
     it('must return an error object', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.updateNode(nodeId, {
+        return linkurious.node.update(nodeId, {
           addedCategories : [],
           deletedCategories : [],
           deletedProperties : [],
@@ -285,7 +213,7 @@ describe('Linkurious class', function(){
 
     it('must return true', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.updateNode(nodeId, {
+        return linkurious.node.update(nodeId, {
           addedCategories : [],
           deletedCategories : [],
           deletedProperties : [],
@@ -301,7 +229,7 @@ describe('Linkurious class', function(){
   describe('getEdgeProperties', function(){
     it('must return a list of edges properties', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.getEdgeProperties({
+        return linkurious.edge.getProperties({
           omitNoindex : true
         });
       }).then(function(res){
@@ -313,7 +241,7 @@ describe('Linkurious class', function(){
   describe('getNodeProperties', function(){
     it('must return a list of node properties', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.getNodeProperties({
+        return linkurious.node.getProperties({
           omitNoindex : true
         });
       }).then(function(res){
@@ -327,7 +255,7 @@ describe('Linkurious class', function(){
   describe('getEdgeTypes method', function(){
     it('must return edges types', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.getEdgeTypes({
+        return linkurious.edge.getTypes({
           includeType : true
         });
       }).then(function(res){
@@ -346,7 +274,7 @@ describe('Linkurious class', function(){
   describe('getNodeTypes method', function(){
     it('must return node types', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.getNodeTypes();
+        return linkurious.node.getTypes();
       }).then(function(res){
         res.nodeTypes.should.have.length(7);
         res.nodeTypes[0].name.should.equal('Person');
@@ -357,7 +285,7 @@ describe('Linkurious class', function(){
   describe('getSandbox method', function(){
     it('must return a visualization object', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.getSandbox({
+        return linkurious.visualization.getSandbox({
           doLayout : false
         });
       }).then(function(res){
@@ -373,7 +301,7 @@ describe('Linkurious class', function(){
   describe('shareVisualization method', function(){
     it('must share a visualization', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.shareVisualization({
+        return linkurious.visualization.share({
           userId:3,
           right :'read',
           vizId:4
@@ -387,7 +315,7 @@ describe('Linkurious class', function(){
 
   describe('createUser method', function(){
     it('must create a new user', function(){
-      return linkurious.createUser({
+      return linkurious.admin.createUser({
         username:'testName',
         email:'testName@test.fr',
         groups : [4],
@@ -409,7 +337,7 @@ describe('Linkurious class', function(){
   describe('updateConfig method', function(){
     let test = false;
     it('must change app config', function(){
-      return linkurious.updateConfig({
+      return linkurious.admin.updateConfig({
         path : 'access.authRequired',
         configuration : true
       }).then(function(){
@@ -421,9 +349,9 @@ describe('Linkurious class', function(){
   });
 
   describe('login method', function(){
-    it('must log a user and hydrate app state', function(){
+  it('must log a user and hydrate app state', function(){
       return linkurious.login('testName','testPass').then(function(res){
-        linkurious.state.user.should.eql({
+        linkurious.user.should.eql({
           id: 6,
           username: 'testName',
           email: 'testName@test.fr',
@@ -440,7 +368,7 @@ describe('Linkurious class', function(){
     it('must logout before login if another user is currently authenticated', function(){
       return linkurious.login('testName','testPass').then(function(){
         return linkurious.login('testName','testPass').then(function(res){
-          linkurious.state.user.should.eql({
+          linkurious.user.should.eql({
             id: 6,
             username: 'testName',
             email: 'testName@test.fr',
@@ -462,7 +390,7 @@ describe('Linkurious class', function(){
         return linkurious.logout();
       }).then(function(res){
         res.should.equal('user disconnected');
-        linkurious.state.should.eql({user:null});
+        linkurious.user.should.eql({});
       })
     })
   });
@@ -470,8 +398,7 @@ describe('Linkurious class', function(){
   describe('startClient method', function(){
     it('must set current user and default source', function(){
       return linkurious.startClient('testName','testPass').then(function(){
-        linkurious.state.should.eql({
-          user: {
+        linkurious.user.should.eql({
             id: 6,
             username: 'testName',
             email: 'testName@test.fr',
@@ -480,9 +407,9 @@ describe('Linkurious class', function(){
             admin: true,
             preferences: {},
             actions: { all: ['rawReadQuery', 'rawWriteQuery'] }
-          },
-          currentSource: { name: 'Database #0', key: '66a2bc71', configIndex: 0 }
         });
+
+        linkurious.currentSource.should.eql({ name: 'Database #0', key: '66a2bc71', configIndex: 0 });
       });
     });
   });
@@ -494,10 +421,10 @@ describe('Linkurious class', function(){
           username : 'nameChanged'
         });
       }).then(function(){
-        linkurious.state.user.username.should.equal('nameChanged');
-        linkurious.state.user.id.should.equal(6);
-        linkurious.state.user.email.should.equal('testName@test.fr');
-        linkurious.state.user.should.eql({
+        linkurious.user.username.should.equal('nameChanged');
+        linkurious.user.id.should.equal(6);
+        linkurious.user.email.should.equal('testName@test.fr');
+        linkurious.user.should.eql({
           id: 6,
           username: 'nameChanged',
           email: 'testName@test.fr',

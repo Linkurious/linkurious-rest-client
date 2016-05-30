@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import {LogDriverInterface, ErrorBody} from './logDriver.interfaces';
+import * as i from './interfaces';
 
 interface LoggerInterface {
   debug:Function;
@@ -19,7 +19,7 @@ interface LoggerInterface {
 const DEFAULT_DEBUG_LOGGER = console.debug;
 const DEFAULT_ERROR_LOGGER = console.error;
 
-export default class LogDriver implements LogDriverInterface {
+export default class LogDriver {
 
   public level:string;
   public logger:LoggerInterface;
@@ -35,14 +35,14 @@ export default class LogDriver implements LogDriverInterface {
     this.logger = logger;
   }
 
-  public debug(logBody:ErrorBody):void {
+  public debug(logBody:i.ErrorBody):void {
     if (this.level === 'debug') {
       this.logger.debug(logBody.key);
       this.logger.debug(logBody.message);
     }
   }
 
-  public error(logBody:ErrorBody):void {
+  public error(logBody:i.ErrorBody):void {
     if (this.level === 'error' || this.level === 'debug') {
       this.logger.error(logBody.key);
       this.logger.error(logBody.message);

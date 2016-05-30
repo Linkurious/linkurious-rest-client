@@ -12,7 +12,6 @@ export interface Count {
 
 export type IndexationCallback = (res:Source.indexationStatus) => void;
 
-// USER MODEL INTERFACE
 export namespace User {
   export interface model {
     id:number;
@@ -59,9 +58,6 @@ export namespace User {
   }
 }
 
-
-// GROUP MODEL INTERFACE
-
 export namespace Group {
   export interface model {
     id:number;
@@ -104,9 +100,6 @@ export namespace Group {
     }
   }
 }
-
-
-// SOURCE MODEL INTERFACE
 
 export namespace Source {
   export interface model {
@@ -747,60 +740,46 @@ export namespace Visualization {
 
 }
 
-
-export interface IState {
+export interface StateModel {
   user:User.model;
   currentSource:Source.clientModel;
 }
 
-export interface ILinkurious {
-  host:string;
-  state:IState;
-  getSources():Promise<Source.list>;
+
+export interface ResponseBody {
+  status:number;
+  type:string;
+  key:string;
+  message:string;
+}
+
+export interface ErrorBody {
+  key:string;
+  message:string;
+}
+
+export interface LoggerPlugin {
+  debug:Function;
+  error:Function;
+}
+
+export interface Linkurious {
+  getSourceList():Promise<Source.list>;
   initCurrentSource():Promise<Source.clientModel>;
-  setCurrentSource(keyOrConfig:string | number):Promise<Source.clientModel>;
   login(userLogin:string, password:string):Promise<any>;
-  userIsAuth():Promise<boolean>;
-  userIsAdmin():Promise<boolean>;
   logout():Promise<string>;
-  updateCurrentUser(data:any):Promise<any>;
-  startClient(userLogin:string, password:string):Promise<IState>;
-  countEdges():Promise<any>;
-  createEdge(data:Edge.form.create):Promise<Edge.model>;
-  updateEdge(edgeId:ItemId, data:Edge.form.update):Promise<Edge.model>;
-  deleteEdge(edgeId:ItemId):Promise<string>;
-  getAdjacentEdges(data:Edge.request.getAdjacent):Promise<Array<Edge.model>>;
-  getEdge(edgeId:ItemId):Promise<Edge.model>;
-  deleteGraphQuery(graphQueryId:number):Promise<string>;
-  getGraphQuery(graphQueryId:number):Promise<Query.model>;
-  getItemsVersions(nodesAndEdgesVersions:Schema.lists):Promise<any>;
-  getShortestPaths(nodesConfig:Graph.request.shortestPath):Promise<Array<Node.model>>;
-  getAllGraphQueries():Promise<Array<Query.model>>;
-  saveGraphQuery(data:Query.form.create):Promise<Query.model>;
-  getNodesByQuery(data:Query.form.request):Promise<Array<Node.model>>;
-  updateGraphQuery(graphQueryId:number, data:Query.form.update):Promise<Query.model>;
-  searchUsers(data:User.request.list):Promise<Array<User.model>>;
+  updateCurrentUser(data:User.form.update):Promise<any>
+  startClient(userLogin:string, password:string):Promise<StateModel>;
   getAppStatus():Promise<App.status>;
   getAppVersion():Promise<App.version>;
   getAppConfig(sourceIndex?:number):Promise<App.config>;
-  updateConfig(data:App.form.update):Promise<string>;
-  countNodes():Promise<Count>;
-  createNode(data:Node.form.create):Promise<Node.model>;
-  deleteNode(nodeId:ItemId):Promise<string>;
-  getNode(nodeId:ItemId, params?:Node.request.one):Promise<Node.model>;
-  expandNode(data:Node.request.adjacentItems):Promise<Array<Node.model>>;
-  getNodeNeighborsCategories(data:Node.request.neighborsCategories):Promise<Array<Schema.digest>>;
-  updateNode(nodeId:ItemId, data:Node.form.update):Promise<Node.model>;
   getSchema():Promise<Schema.model>;
-  getEdgeProperties(params?:Schema.request.properties):Promise<Schema.propertyList>;
-  getNodeProperties(params?:Schema.request.properties):Promise<Schema.propertyList>;
-  getEdgeTypes(params?:Edge.request.types):Promise<Schema.typesList>;
-  getNodeTypes(params?:Node.request.types):Promise<Schema.typesList>;
   getIndexationStatus():Promise<Source.indexationStatus>;
-  launchIndexation():Promise<boolean>;
   processIndexation(timeout:number, callback:Function):Promise<boolean>;
-  searchNodes(item:Item, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>>;
-  getDirectoryList(data:Directory.request.list):Promise<Directory.list>;
+}
+
+export interface Admin {
+  updateConfig(data:App.form.update):Promise<string>;
   connectDataSource(sourceIndex:number):Promise<boolean>;
   createDataSourceConfig(data:Source.form.create):Promise<boolean>;
   deleteDataSourceConfig(sourceIndex:number):Promise<boolean>;
@@ -825,23 +804,96 @@ export interface ILinkurious {
   updateGroupRights(data:Group.form.updateRights, groupId:number, dataSource?:string):Promise<Group.accessRights>;
   updateBatchUser(data:User.form.batch):Promise<boolean>;
   updateUser(data:User.form.update, userId:number):Promise<User.model>;
-  countVisualizations():Promise<Count>;
-  createWidget(data:Visualization.form.createWidget):Promise<string>;
-  createFolder(data:Visualization.form.createFolder):Promise<boolean>;
-  createVisualization(data:Visualization.form.create):Promise<Visualization.model>;
-  deleteWidget(widgetKey:string):Promise<string>;
-  deleteFolder(folderId:number):Promise<string>;
-  duplicateVisualization(vizId:number):Promise<Visualization.model>;
-  getWidget(widgetKey:string):Promise<Visualization.widget>;
-  getSandbox(params:Visualization.request.sandbox):Promise<Visualization.model>;
-  getVisualization(vizId:number):Promise<Visualization.model>;
-  getTree():Promise<Visualization.tree>;
-  deleteVisualization(vizId:number):Promise<string>;
-  getShares(vizId:number):Promise<Visualization.Shares>;
-  shareVisualization(data:Visualization.form.setShareRights):Promise<Visualization.shareRights>;
-  unshareVisualization(data:Visualization.form.setShareRights):Promise<string>;
-  updateFolder(folderId:number, data:Visualization.form.updateFolder):Promise<boolean>;
-  updateSandbox(data:Visualization.form.updateSandbox):Promise<boolean>;
-  updateVisualization(vizId:number, data:Visualization.form.update):Promise<boolean>;
+  updateConfig(data:App.form.update):Promise<string>;
+  startIndexation():Promise<boolean>;
 }
+
+export interface Visualization {
+  count():Promise<Count>
+  createWidget(data:Visualization.form.createWidget):Promise<string>
+  createFolder(data:Visualization.form.createFolder):Promise<boolean>
+  create(data:Visualization.form.create):Promise<Visualization.model>
+  deleteWidget(widgetKey:string):Promise<string>
+  deleteFolder(folderId:number):Promise<string>
+  duplicate(vizId:number):Promise<Visualization.model>
+  getWidget(widgetKey:string):Promise<Visualization.widget>
+  getSandbox(params:Visualization.request.sandbox):Promise<Visualization.model>
+  getOne(vizId:number):Promise<Visualization.model>
+  getTree():Promise<Visualization.tree>
+  deleteOne(vizId:number):Promise<string>
+  getShares(vizId:number):Promise<Visualization.Shares>
+  share(data:Visualization.form.setShareRights):Promise<Visualization.shareRights>
+  unshare(data:Visualization.form.setShareRights):Promise<string>
+  updateFolder(folderId:number, data:Visualization.form.updateFolder):Promise<boolean>
+  updateSandbox(data:Visualization.form.updateSandbox):Promise<boolean>
+  update(vizId:number, data:Visualization.form.update):Promise<boolean>
+}
+
+export interface My {
+  IsAuth():Promise<boolean>;
+  IsAdmin():Promise<boolean>;
+  deleteGraphQuery(graphQueryId:number):Promise<string>;
+  getGraphQuery(graphQueryId:number):Promise<Query.model>;
+  getAllGraphQueries():Promise<Array<Query.model>>;
+  saveGraphQuery(data:Query.form.create):Promise<Query.model>;
+  updateGraphQuery(graphQueryId:number, data:Query.form.update):Promise<Query.model>;
+}
+
+export interface Edge {
+  count():Promise<any>;
+  create(data:Edge.form.create):Promise<Edge.model>;
+  update(edgeId:ItemId, data:Edge.form.update):Promise<Edge.model>;
+  deleteOne(edgeId:ItemId):Promise<string>;
+  getAdjacentFromNode(data:Edge.request.getAdjacent):Promise<Array<Edge.model>>;
+  getOne(edgeId:ItemId):Promise<Edge.model>;
+  getProperties(params?:Schema.request.properties):Promise<Schema.propertyList>;
+  getTypes(params?:Edge.request.types):Promise<Schema.typesList>
+}
+
+export interface Graph {
+  getItemsVersions(nodesAndEdgesVersions:Schema.lists):Promise<any>;
+  getShortestPaths(nodesConfig:Graph.request.shortestPath):Promise<Array<Node.model>>;
+  getNodeList(data:Query.form.request):Promise<Array<Node.model>>;
+}
+
+export interface Node {
+  count():Promise<Count>;
+  create(data:Node.form.create):Promise<Node.model>;
+  deleteOne(nodeId:ItemId):Promise<string>;
+  getOne(nodeId:ItemId, params?:Node.request.one):Promise<Node.model>;
+  expand(data:Node.request.adjacentItems):Promise<Array<Node.model>>;
+  getNeighborsCategories(data:Node.request.neighborsCategories):Promise<Array<Schema.digest>>;
+  update(nodeId:ItemId, data:Node.form.update):Promise<Node.model>;
+  getProperties(params?:Schema.request.properties):Promise<Schema.propertyList>;
+  getTypes(params?:Node.request.types):Promise<Schema.typesList>;
+}
+
+export interface Search {
+  items(item:Item, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>>;
+  formattedItems(item:Item, params:Schema.request.itemsList):Promise<Schema.itemsList>;
+  users(data:User.request.list):Promise<Array<User.model>>;
+  directory(data:Directory.request.list):Promise<Directory.list>;
+}
+
+export interface Fetcher {
+  fetch:(method:string, uri:string, data?:any) => Promise<any>;
+}
+
+export interface LogDriver {
+  level:string;
+  logger:LoggerPlugin;
+  debug(logBody:ErrorBody):void;
+  error(logBody:ErrorBody):void;
+}
+
+export interface HTTPDriver {
+  POST(uri:string, data:any):Promise<any>;
+  PUT(uri:string, data:any):Promise<any>;
+  PATCH(uri:string, data:any):Promise<any>;
+  GET(uri:string, data?:any):Promise<any>;
+  DELETE(uri:string):Promise<any>;
+}
+
+
+
 
