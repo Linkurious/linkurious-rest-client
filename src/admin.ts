@@ -240,6 +240,7 @@ export default class Admin {
     return this.fetcher.fetch('GET', '/admin/groups/' + groupId);
   }
 
+  // todo: rename to getGroups (you used pluralisation in most List-returning functions, so this is more natural)
   /**
    * List all the groups already defined in the database.
    *
@@ -247,6 +248,7 @@ export default class Admin {
    * @returns {Promise<Array<Group.model>>}
    */
   public getGroupsList(dataSource?:string):Promise<Array<i.Group.model>> {
+    // todo: handle these details in the fetcher, send the optional explicit dataSource to the fetcher
     if (!dataSource) {
       dataSource = '{dataSource}';
     }
@@ -261,12 +263,15 @@ export default class Admin {
    * @returns {Promise<Group.sourceAccessRights>}
    */
   public getGroupsRights(dataSource ?:string):Promise<i.Group.sourceAccessRights> {
+    // todo: see getGroupsList
     if (!dataSource) {
       dataSource = '{dataSource}';
     }
 
     return this.fetcher.fetch('GET', '/admin/' + dataSource + '/groups/rights_info');
   }
+
+  // todo: add missing getSimpleGroups (/api/admin/groups) for groups without accessRights
 
   /**
    * Bulk-set rights for a whole targetType on one or many groups.

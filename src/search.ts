@@ -14,12 +14,16 @@ import {Utils} from './utils';
 
 export default class Search {
 
+  // todo: you don't need an interface to Fetcher, use the class directly and delete the interface
   private fetcher:i.Fetcher;
 
   constructor(fetcherInst:i.Fetcher){
     this.fetcher = <i.Fetcher>fetcherInst;
   }
 
+  // todo: don't chose function names that are too different from the API doc name, this will confuse users
+
+  // todo: rename+split to "fullNodes" and "fullEdges"
   /**
    * Search for nodes based on a query string and optional parameters. Return list of node object.
    *
@@ -31,6 +35,8 @@ export default class Search {
     return this.fetcher.fetch('GET', '/{dataSource}/search/' + item + '/full', Utils.fixCase(params));
   }
 
+
+  // todo: rename+split to "nodes" and "edges"
   /**
    * Search for nodes based on a query string and optional parameters. Return list of formatted nodes.
    *

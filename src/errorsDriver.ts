@@ -21,6 +21,7 @@ function getErrorType(status:number):string {
   }
 }
 
+// todo: this converts a ServerError to a LinkuriousError, rename the interfaces to better describe when is happening
 export function format(res:any, body:i.ErrorBody):i.ResponseBody {
   let errorMessage = <i.ResponseBody>{};
 

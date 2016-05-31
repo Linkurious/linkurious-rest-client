@@ -11,14 +11,18 @@
 
 import * as i from './interfaces';
 
+// todo: this is declared twice (here and in interfaces.LoggerPlugin). Chose one.
 interface LoggerInterface {
   debug:Function;
   error:Function;
 }
 
+// todo: these could be static fields of the "Logger" class
 const DEFAULT_DEBUG_LOGGER = console.debug;
 const DEFAULT_ERROR_LOGGER = console.error;
 
+// todo: this is not a driver, this is a logger. LoggerInterface is a driver
+// todo: rename to "Logger"
 export default class LogDriver {
 
   public level:string;
@@ -35,6 +39,7 @@ export default class LogDriver {
     this.logger = logger;
   }
 
+  // todo: this probably takes a LinkuriousError as parameter, not a ServerError. Specific names help.
   public debug(logBody:i.ErrorBody):void {
     if (this.level === 'debug') {
       this.logger.debug(logBody.key);
@@ -42,6 +47,7 @@ export default class LogDriver {
     }
   }
 
+  // todo: see debug
   public error(logBody:i.ErrorBody):void {
     if (this.level === 'error' || this.level === 'debug') {
       this.logger.error(logBody.key);

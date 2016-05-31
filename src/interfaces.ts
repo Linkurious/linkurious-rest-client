@@ -1,11 +1,21 @@
 export type GraphDBVendor = 'neo4j'|'titan'|'dse';
 export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgeOrientation = 'in'|'out'|'both';
+
+// todo: rename to ItemType
+// todo: split into ItemType=node|edge and ItemsType=nodes|edges to avoid mixing them up
 export type Item = 'node'|'edge'|'nodes'|'edges';
+
+// todo: A class/interface is rarely plural, in this case this is better described by RightType
 export type Rights = 'read'|'write'|'none'|'do';
+
 export type PopulateType = 'expandNodeId'|'nodeId'|'edgeId'|'searchNodes'|'searchEdges'|'pattern';
+
 export type ItemId = string | number;
 
+// todo: ALL interfaces and namespaces must start with an uppercase letter. general rule: lowercase=instance, uppercase=class/interface/type
+
+// todo: remove this interface and unwrap the response in count APIs
 export interface Count {
   count:number;
 }
@@ -14,14 +24,14 @@ export type IndexationCallback = (res:Source.indexationStatus) => void;
 
 export namespace User {
   export interface model {
-    id:number;
-    username:string;
-    email:string;
-    groups?:Array<Group.model>;
-    admin?:boolean;
-    preferences?:any;
-    actions?:any;
-    ldap ?:boolean;
+    id: number;
+    username: string;
+    email: string;
+    groups?: Array<Group.model>;
+    admin?: boolean;
+    preferences?: any;
+    actions?: any;
+    ldap?: boolean;
   }
 
   export namespace request {
@@ -745,7 +755,8 @@ export interface StateModel {
   currentSource:Source.clientModel;
 }
 
-
+// todo: try to be more specific when describing an interface. This is probably best described as a LinkuriousError
+//
 export interface ResponseBody {
   status:number;
   type:string;
@@ -753,15 +764,30 @@ export interface ResponseBody {
   message:string;
 }
 
+// todo:  rename to ServerError
 export interface ErrorBody {
   key:string;
   message:string;
 }
 
+// todo: for consistency with HttpDriver, rename to LogDriver
 export interface LoggerPlugin {
+  // todo: give more details for the function expected parameters and return values
   debug:Function;
   error:Function;
 }
+
+export interface HTTPDriver {
+  // todo: this driver needs to separate body and queryString parameters clearly
+  POST(uri:string, data:any):Promise<any>;
+  PUT(uri:string, data:any):Promise<any>;
+  PATCH(uri:string, data:any):Promise<any>;
+  GET(uri:string, data?:any):Promise<any>;
+  DELETE(uri:string):Promise<any>;
+}
+
+
+// todo: remove the following interfaces as their will never have more than one implentation
 
 export interface Linkurious {
   getSourceList():Promise<Source.list>;
@@ -875,25 +901,18 @@ export interface Search {
   directory(data:Directory.request.list):Promise<Directory.list>;
 }
 
+// todo: remove this interface and use the class directly, there will be only one implementation
 export interface Fetcher {
   fetch(method:string, uri:string, data?:any) : Promise<any>;
 }
 
+// todo: remove this interface and use the class directly, there will be only one implementation
 export interface LogDriver {
   level:string;
   logger:LoggerPlugin;
   debug(logBody:ErrorBody):void;
   error(logBody:ErrorBody):void;
 }
-
-export interface HTTPDriver {
-  POST(uri:string, data:any):Promise<any>;
-  PUT(uri:string, data:any):Promise<any>;
-  PATCH(uri:string, data:any):Promise<any>;
-  GET(uri:string, data?:any):Promise<any>;
-  DELETE(uri:string):Promise<any>;
-}
-
 
 
 
