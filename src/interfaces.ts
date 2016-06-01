@@ -1,3 +1,39 @@
+
+// HTTP
+
+export interface HttpResponse {
+  statusCode: number;
+  body: any;
+  header: Object;
+}
+
+export interface HttpDriver {
+  POST(uri:string, data?:any):Promise<HttpResponse>;
+  PUT(uri:string, data:any):Promise<HttpResponse>;
+  PATCH(uri:string, data:any):Promise<HttpResponse>;
+  GET(uri:string, data?:any):Promise<HttpResponse>;
+  DELETE(uri:string, data?:any):Promise<HttpResponse>;
+}
+
+export interface FetcherConfig {
+  url:string;
+  method:string;
+  dataSource?:string;
+  data?:any;
+  query?:any;
+}
+
+// LOGS
+
+export type LogLevel = 'debug'|'error';
+
+export interface LoggerDriver {
+  debug: (message: string) => void;
+  error: (message: string) => void;
+}
+
+// APIs
+
 export type GraphDBVendor = 'neo4j'|'titan'|'dse';
 export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgeOrientation = 'in'|'out'|'both';
@@ -755,32 +791,6 @@ export namespace Visualization {
 export interface StateModel {
   user:User.model;
   currentSource:Source.clientModel;
-}
-
-
-export interface LinkuriousError {
-  status:number;
-  type:string;
-  key:string;
-  message:string;
-}
-
-export interface ErrorBody {
-  key:string;
-  message:string;
-}
-
-export interface LoggerPlugin {
-  debug:Function;
-  error:Function;
-}
-
-export interface FetcherConfig {
-  url:string;
-  method:string;
-  dataSource?:string;
-  data?:any;
-  query?:any;
 }
 
 export interface Linkurious {

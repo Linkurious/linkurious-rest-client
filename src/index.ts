@@ -11,7 +11,7 @@
 /// <reference path="./../node_modules/typescript/lib/lib.es6.d.ts" />
 /// <reference path="./../typings/main/ambient/node/index.d.ts" />
 
-import LogDriver from './logDriver';
+import Logger from './Logger';
 import Fetcher from './fetcher';
 import Admin from './admin';
 import My from './my';
@@ -23,8 +23,12 @@ import Visualization from './visualization';
 import * as i from './interfaces';
 
 class Linkurious {
+  private _fetcher: Fetcher;
+  private _currentSource: i.Source.clientModel;
+  private _user: i.User.model;
+  private _logger: Logger;
 
-  public log;
+  // todo: use the classes instead of the interfaces for all internal components
   public admin:i.Admin;
   public my:i.My;
   public edge:i.Edge;
@@ -32,9 +36,7 @@ class Linkurious {
   public node : i.Node;
   public search: i.Search;
   public visualization : i.Visualization;
-  private fetcher;
-  private _currentSource:i.Source.clientModel;
-  private _user:i.User.model;
+
 
   get currentSource() {
     return this._currentSource;
@@ -47,21 +49,22 @@ class Linkurious {
   /**
    *
    * @param {string} host           - Host URL of the linkurious server
-   * @param {string} log            - Level of log wanted
-   * @param {object} [logger]       - logger object
+   * @param {string} logLevel       - Level of log wanted
+   * @param {object} [loggerDriver] - logger object
    */
-  constructor(host:string, log:string, logger?:i.LoggerPlugin) {
+  constructor(host: string, logLevel: i.LogLevel, loggerDriver?: i.LoggerDriver) {
     this._currentSource = <i.Source.clientModel> {};
     this._user          = <i.User.model>undefined;
-    this.log            = new LogDriver(log, logger);
-    this.fetcher        = new Fetcher(this.log, this._currentSource, host);
-    this.admin          = <i.Admin>new Admin(this.fetcher);
-    this.my             = <i.My>new My(this.fetcher);
-    this.edge           = <i.Edge>new Edge(this.fetcher);
-    this.graph          = <i.Graph>new Graph(this.fetcher);
-    this.node           = <i.Node>new Node(this.fetcher);
-    this.search         = <i.Search>new Search(this.fetcher);
-    this.visualization  = <i.Visualization>new Visualization(this.fetcher);
+    this._logger        = new Logger(logLevel, loggerDriver);
+    this._fetcher       = new Fetcher(this._logger, this._currentSource, host);
+
+    this.admin          = <i.Admin>new Admin(this._fetcher);
+    this.my             = <i.My>new My(this._fetcher);
+    this.edge           = <i.Edge>new Edge(this._fetcher);
+    this.graph          = <i.Graph>new Graph(this._fetcher);
+    this.node           = <i.Node>new Node(this._fetcher);
+    this.search         = <i.Search>new Search(this._fetcher);
+    this.visualization  = <i.Visualization>new Visualization(this._fetcher);
   }
 
   /**
@@ -97,15 +100,15 @@ class Linkurious {
       password       : password
     };
 
-    if(this._user){
+    if (this._user){
       return this.logout().then(() => {
-        return this.fetcher.fetch('POST', '/auth/login', data);
+        return this._fetcher.fetch('POST', '/auth/login', data);
       }).then(res => {
         this._user = res.user;
         return true;
       });
     } else {
-      return this.fetcher.fetch('POST', '/auth/login', data).then(res => {
+      return this._fetcher.fetch('POST', '/auth/login', data).then(res => {
         this._user = res.user;
         return true;
       });
@@ -118,7 +121,7 @@ class Linkurious {
    * @returns {Promise<string>}
    */
   public logout():Promise<string> {
-    return this.fetcher.fetch('GET', '/auth/logout')
+    return this._fetcher.fetch('GET', '/auth/logout')
       .then(() => {
         this._user = undefined;
         return 'user disconnected';
@@ -132,7 +135,7 @@ class Linkurious {
    * @returns {Promise}
    */
   public updateCurrentUser(data:i.User.form.update):Promise<any> {
-    return this.fetcher.fetch('PATCH', '/auth/me', data)
+    return this._fetcher.fetch('PATCH', '/auth/me', data)
       .then((res) => {
         this.user.username = res.username;
         this.user.email = res.email;
@@ -150,7 +153,7 @@ class Linkurious {
    * @returns {Promise<Source.list>}
    */
   public getSourceList():Promise<i.Source.list> {
-    return this.fetcher.fetch('GET', '/dataSources');
+    return this._fetcher.fetch('GET', '/dataSources');
   }
 
   /**
@@ -222,7 +225,7 @@ class Linkurious {
    * @returns {Promise<App.status>}
    */
   public getAppStatus():Promise<i.App.status> {
-    return this.fetcher.fetch('GET', '/status');
+    return this._fetcher.fetch('GET', '/status');
   }
 
   /**
@@ -231,7 +234,7 @@ class Linkurious {
    * @returns {Promise<App.version>}
    */
   public getAppVersion():Promise<i.App.version> {
-    return this.fetcher.fetch('GET', '/version');
+    return this._fetcher.fetch('GET', '/version');
   }
 
   /**
@@ -241,7 +244,7 @@ class Linkurious {
    * @returns {Promise<App.config>}
    */
   public getAppConfig(sourceIndex?:number):Promise<i.App.config> {
-    return this.fetcher.fetch('GET', '/config', sourceIndex);
+    return this._fetcher.fetch('GET', '/config', sourceIndex);
   }
 
   /**
@@ -250,7 +253,7 @@ class Linkurious {
    * @returns {Promise<Schema.model>}
    */
   public getSchema():Promise<i.Schema.model> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/simple');
+    return this._fetcher.fetch('GET', '/{dataSource}/graph/schema/simple');
   }
 
   /**
@@ -259,7 +262,7 @@ class Linkurious {
    * @returns {Promise<Source.indexationStatus>}
    */
   public getIndexationStatus():Promise<i.Source.indexationStatus> {
-    return this.fetcher.fetch('GET', '/{dataSource}/search/status')
+    return this._fetcher.fetch('GET', '/{dataSource}/search/status')
       .then((res) => {
         if (res.indexed_source !== this._currentSource.key) {
           this.log.error({

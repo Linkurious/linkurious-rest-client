@@ -9,12 +9,15 @@
  */
 'use strict';
 
-// todo: move to a file called Utils.ts (capitalized)
-// for case-only renames, see http://stackoverflow.com/questions/17683458/how-do-i-commit-case-sensitive-only-filename-changes-in-git
 export namespace Utils {
 
-  // todo: document this and choose a more self-explanatory function name.
-  export function fixCase(data:any):any {
+  /**
+   * take an object with snake_case fields and return one with only camelCase fields.
+   * 
+   * @param data:any
+   * @returns any
+   */
+  export function fixSnakeCase(data:any):any {
     if(!data){
       return null;
     }

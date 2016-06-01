@@ -9,30 +9,33 @@
  */
 'use strict';
 
-import * as i from './interfaces';
-import HttpDriver from './HTTPDriver';
+import {HttpResponse, HttpDriver, Source, FetcherConfig} from './interfaces';
+import LinkuriousError from './LinkuriousError';
+import DefaultHttpDriver from './DefaultHttpDriver';
+import Logger from './Logger';
 
 export default class Fetcher {
 
-  httpDriver;
-  log;
-  host:string;
-  private currentSource:i.Source.clientModel;
+  private httpDriver: HttpDriver;
+  private logger: Logger;
+  private host: string;
+  private currentSource: Source.clientModel;
 
-  constructor(logger, currentSource, host){
-    this.httpDriver = new HttpDriver();
-    this.log = logger;
-    this.currentSource = <i.Source.clientModel>currentSource;
-    this.host = <string>host;
+  constructor(logger: Logger, currentSource: Source.clientModel, host: string, httpDriver?: HttpDriver){
+    this.httpDriver = httpDriver ? httpDriver : new DefaultHttpDriver();
+    this.logger = logger;
+    this.currentSource = currentSource;
+    this.host = host;
   }
 
   /**
    * construct the API URL with sourceId if needed and throw error if doesn't exists.
    *
-   * @param uri:string     - the url fragment to format the API url
-   * @returns {string}      - return the API url formatted
+   * @param {string} uri The url fragment to format the API url
+   * @param {string} dataSource
+   * @returns {string} - return the API url formatted
    */
-  private transformUrl(uri:string, dataSource?:string):string {
+  private transformUrl(uri:string, dataSource?:string): string {
 
     const dataSourceTest = /\{dataSource}/;
 
@@ -40,13 +43,13 @@ export default class Fetcher {
       if(dataSource){
         return this.host + '/api' + uri.replace(dataSourceTest, dataSource);
       } else if (this.currentSource) {
-        let currentSource = <i.Source.clientModel>this.currentSource;
+        let currentSource: Source.clientModel = this.currentSource;
         return this.host + '/api' + uri.replace(dataSourceTest, currentSource.key);
       } else {
-        this.log.error({
-          key    : 'Configuration error',
-          message: 'You need to set a current source to fetch this API.'
-        });
+        this.logger.error(LinkuriousError.fromClientError(
+          'configuration_error',
+          'You need to set a current source to fetch this API.'
+        ));
         throw new Error('You need to set a current source to fetch this API.');
       }
     } else {
@@ -57,29 +60,38 @@ export default class Fetcher {
   /**
    * HTTPDriver wrapper method
    *
-   * @param config{FetcherConfig}
-   * @returns {Promise}
+   * @param {FetcherConfig} config
+   * @returns {Promise.<object>} the response body
    */
-  public fetch(config:i.FetcherConfig):Promise<any> {
-
-    let url = this.transformUrl(config.url, config.dataSource),
-        fetch;
+  public fetch(config: FetcherConfig): Promise<any> {
+    let url = this.transformUrl(config.url, config.dataSource);
+    let fetchPromise;
 
     if(config.method === 'GET'){
-      fetch = this.httpDriver[config.method](url, config.query)
+      fetchPromise = this.httpDriver[config.method](url, config.query)
     } else {
-      fetch = this.httpDriver[config.method](url, config.data)
+      fetchPromise = this.httpDriver[config.method](url, config.data)
     }
 
-    return fetch
-      .then((res) => res)
-      .catch((err) => {
-        this.log.error({
-          key    : err.status + ' - ' + err.type,
-          message: err.message
-        });
+    return fetchPromise.catch((error: Error) => {
+      // create a linkurious error from "hard" errors
+      return Promise.reject(LinkuriousError.fromError(error));
 
-        return Promise.reject(err);
-      });
+    }).then((response: HttpResponse) => {
+
+      // create a linkurious error from "soft" error
+      if (response.statusCode <= 1 || response.statusCode >= 400) {
+        var linkuriousError = LinkuriousError.fromHttpResponse(response);
+        return Promise.reject(linkuriousError);
+      }
+
+      // resolve with response body in case of success
+      return response.body;
+
+    }).catch((error: LinkuriousError) => {
+      // logging interceptor
+      this.logger.error(error);
+      return Promise.reject(error);
+    });
   }
 }
