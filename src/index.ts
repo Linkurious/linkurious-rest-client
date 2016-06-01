@@ -29,9 +29,9 @@ class Linkurious {
   public my:i.My;
   public edge:i.Edge;
   public graph:i.Graph;
-  public node : i.Node;
-  public search: i.Search;
-  public visualization : i.Visualization;
+  public node:i.Node;
+  public search:i.Search;
+  public visualization:i.Visualization;
   private fetcher;
   private _currentSource:i.Source.clientModel;
   private _user:i.User.model;
@@ -40,7 +40,7 @@ class Linkurious {
     return this._currentSource;
   }
 
-  get user(){
+  get user() {
     return this._user;
   }
 
@@ -86,26 +86,25 @@ class Linkurious {
   /**
    * Process to login of the corresponding user and return it.
    *
-   * @param userLogin : string
-   * @param password : string
+   * @param data : User.form.login
    * @returns {Promise<boolean>}
    */
-  public login(userLogin:string, password:string):Promise<boolean> {
-
-    let data = {
-      usernameOrEmail: userLogin,
-      password       : password
+  public login(data:i.User.form.login):Promise<boolean> {
+    let fetchConfig = {
+      url   : '/auth/login',
+      method: 'POST',
+      body  : data
     };
 
-    if(this._user){
+    if (this._user) {
       return this.logout().then(() => {
-        return this.fetcher.fetch('POST', '/auth/login', data);
+        return this.fetcher.fetch(fetchConfig);
       }).then(res => {
         this._user = res.user;
         return true;
       });
     } else {
-      return this.fetcher.fetch('POST', '/auth/login', data).then(res => {
+      return this.fetcher.fetch(fetchConfig).then(res => {
         this._user = res.user;
         return true;
       });
@@ -118,7 +117,12 @@ class Linkurious {
    * @returns {Promise<string>}
    */
   public logout():Promise<string> {
-    return this.fetcher.fetch('GET', '/auth/logout')
+    let fetchConfig = {
+      url   : '/auth/logout',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then(() => {
         this._user = undefined;
         return 'user disconnected';
@@ -132,13 +136,19 @@ class Linkurious {
    * @returns {Promise}
    */
   public updateCurrentUser(data:i.User.form.update):Promise<any> {
-    return this.fetcher.fetch('PATCH', '/auth/me', data)
+    let fetchConfig = {
+      url   : '/auth/me',
+      method: 'PATCH',
+      body  : data
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then((res) => {
-        this.user.username = res.username;
-        this.user.email = res.email;
-        this.user.groups = res.groups;
-        this.user.ldap = res.ldap;
-        this.user.admin = res.admin;
+        this.user.username    = res.username;
+        this.user.email       = res.email;
+        this.user.groups      = res.groups;
+        this.user.ldap        = res.ldap;
+        this.user.admin       = res.admin;
         this.user.preferences = res.preferences;
         return res;
       });
@@ -150,7 +160,12 @@ class Linkurious {
    * @returns {Promise<Source.list>}
    */
   public getSourceList():Promise<i.Source.list> {
-    return this.fetcher.fetch('GET', '/dataSources');
+    let fetchConfig = {
+      url   : '/dataSources',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -200,13 +215,12 @@ class Linkurious {
   /**
    * Process to login and set the default source state and return the REST client state.
    *
-   * @param userLogin:string
-   * @param password:string
+   * @param data:User.form.login
    * @returns {Promise<StateModel>}
    */
-  public startClient(userLogin:string, password:string):Promise<i.StateModel> {
+  public startClient(data:i.User.form.login):Promise<i.StateModel> {
 
-    return this.login(userLogin, password).then(() => {
+    return this.login(data).then(() => {
       return this.initCurrentSource();
     }).then(() => {
       return {
@@ -222,7 +236,12 @@ class Linkurious {
    * @returns {Promise<App.status>}
    */
   public getAppStatus():Promise<i.App.status> {
-    return this.fetcher.fetch('GET', '/status');
+    let fetchConfig = {
+      url   : '/status',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -231,7 +250,12 @@ class Linkurious {
    * @returns {Promise<App.version>}
    */
   public getAppVersion():Promise<i.App.version> {
-    return this.fetcher.fetch('GET', '/version');
+    let fetchConfig = {
+      url   : '/version',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -241,7 +265,13 @@ class Linkurious {
    * @returns {Promise<App.config>}
    */
   public getAppConfig(sourceIndex?:number):Promise<i.App.config> {
-    return this.fetcher.fetch('GET', '/config', sourceIndex);
+    let fetchConfig = {
+      url   : '/config',
+      method: 'GET',
+      query : sourceIndex
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -250,7 +280,12 @@ class Linkurious {
    * @returns {Promise<Schema.model>}
    */
   public getSchema():Promise<i.Schema.model> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/simple');
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/schema/simple',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -259,7 +294,12 @@ class Linkurious {
    * @returns {Promise<Source.indexationStatus>}
    */
   public getIndexationStatus():Promise<i.Source.indexationStatus> {
-    return this.fetcher.fetch('GET', '/{dataSource}/search/status')
+    let fetchConfig = {
+      url   : '/{dataSource}/search/status',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then((res) => {
         if (res.indexed_source !== this._currentSource.key) {
           this.log.error({

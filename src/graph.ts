@@ -16,7 +16,7 @@ export default class Graph {
 
   private fetcher;
 
-  constructor(fetcherInst){
+  constructor(fetcherInst) {
     this.fetcher = fetcherInst;
   }
 
@@ -27,7 +27,13 @@ export default class Graph {
    * @returns {Promise}
    */
   public getItemsVersions(nodesAndEdgesVersions:i.Schema.lists):Promise<any> {
-    return this.fetcher.fetch('POST', '/{dataSource}/graph/versions', nodesAndEdgesVersions);
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/versions',
+      method: 'POST',
+      body  : nodesAndEdgesVersions
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -37,7 +43,13 @@ export default class Graph {
    * @returns {Promise}
    */
   public getShortestPaths(nodesConfig:i.Graph.request.shortestPath):Promise<Array<i.Node.model>> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/shortestPaths', Utils.fixSnakeCase(nodesConfig));
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/shortestPaths',
+      method: 'GET',
+      query : Utils.fixSnakeCase(nodesConfig)
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -47,6 +59,12 @@ export default class Graph {
    * @returns {Promise}
    */
   public getNodeList(data:i.Query.form.request):Promise<Array<i.Node.model>> {
-    return this.fetcher.fetch('POST', '/{dataSource}/graph/rawQuery', Utils.fixSnakeCase(data));
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/rawQuery',
+      method: 'POST',
+      body  : Utils.fixSnakeCase(data)
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 }

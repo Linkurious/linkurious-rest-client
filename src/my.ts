@@ -15,7 +15,7 @@ export default class My {
 
   private fetcher;
 
-  constructor(fetcherInst){
+  constructor(fetcherInst) {
     this.fetcher = fetcherInst;
   }
 
@@ -25,7 +25,12 @@ export default class My {
    * @returns {Promise<boolean>}
    */
   public IsAuth():Promise<boolean> {
-    return this.fetcher.fetch('GET', '/auth/authenticated')
+    let fetchConfig = {
+      url   : '/auth/authenticated',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then(() => true);
   }
 
@@ -35,7 +40,12 @@ export default class My {
    * @returns {Promise<boolean>}
    */
   public IsAdmin():Promise<boolean> {
-    return this.fetcher.fetch('GET', '/auth/admin')
+    let fetchConfig = {
+      url   : '/auth/admin',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then(() => true);
   }
 
@@ -46,7 +56,12 @@ export default class My {
    * @returns {Promise<string>}
    */
   public deleteGraphQuery(graphQueryId:number):Promise<string> {
-    return this.fetcher.fetch('DELETE', '/{dataSource}/graph/my/rawQuery/' + graphQueryId)
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/my/rawQuery/' + graphQueryId,
+      method: 'DELETE'
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then(() => 'graph query ' + graphQueryId + ' deleted');
   }
 
@@ -57,7 +72,12 @@ export default class My {
    * @returns {Promise<Query.model>}
    */
   public getGraphQuery(graphQueryId:number):Promise<i.Query.model> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/my/rawQuery/' + graphQueryId);
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/my/rawQuery/',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -66,7 +86,12 @@ export default class My {
    * @returns {Promise<Array<Query.model>>}
    */
   public getAllGraphQueries():Promise<Array<i.Query.model>> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/my/rawQuery/all');
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/my/rawQuery/all',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -75,7 +100,13 @@ export default class My {
    * @returns {Promise<Query.model>}
    */
   public saveGraphQuery(data:i.Query.form.create):Promise<i.Query.model> {
-    return this.fetcher.fetch('POST', '/{dataSource}/graph/my/rawQuery', data);
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/my/rawQuery',
+      method: 'POST',
+      body  : data
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -85,7 +116,13 @@ export default class My {
    * @returns {Promise<Query.model>}
    */
   public updateGraphQuery(graphQueryId:number, data:i.Query.form.update):Promise<i.Query.model> {
-    return this.fetcher.fetch('PATCH', '/{dataSource}/graph/my/rawQuery' + graphQueryId, data);
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/my/rawQuery' + graphQueryId,
+      method: 'PATCH',
+      body  : data
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
 }

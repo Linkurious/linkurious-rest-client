@@ -15,14 +15,14 @@ export type IndexationCallback = (res:Source.indexationStatus) => void;
 
 export namespace User {
   export interface model {
-    id: number;
-    username: string;
-    email: string;
-    groups?: Array<Group.model>;
-    admin?: boolean;
-    preferences?: any;
-    actions?: any;
-    ldap?: boolean;
+    id:number;
+    username:string;
+    email:string;
+    groups?:Array<Group.model>;
+    admin?:boolean;
+    preferences?:any;
+    actions?:any;
+    ldap?:boolean;
   }
 
   export namespace request {
@@ -36,6 +36,11 @@ export namespace User {
   }
 
   export namespace form {
+
+    export interface login {
+      usernameOrEmail:string,
+      password:string
+    }
 
     export interface update {
       username ?:string;
@@ -182,31 +187,31 @@ export namespace Source {
 
   interface titanConfig extends GenericGraphConfig {
     vendor:'titan',
-    url : string,
-    configurationPath : string
+    url:string,
+    configurationPath:string
   }
 
   interface dseConfig extends GenericGraphConfig {
-    vendor : 'dse',
-    url : string,
-    graphName : string,
-    create ?: boolean
+    vendor:'dse',
+    url:string,
+    graphName:string,
+    create ?:boolean
   }
 
-  interface elasticSearchConfig{
+  interface elasticSearchConfig {
     vendor:'elasticSearch';
     host:string;
     port:number;
     forceReindex:boolean;
     dynamicMapping:boolean;
-    dateDetection?: boolean;
-    https?: boolean;
+    dateDetection?:boolean;
+    https?:boolean;
     user?:string;
     password?:string;
   }
 
   interface GenericGraphConfig {
-    alternativeEdgeId?: string;
+    alternativeEdgeId?:string;
     alternativeNodeId?:string;
     latitudeProperty?:string;
     longitudeProperty?:string;
@@ -779,7 +784,7 @@ export interface FetcherConfig {
   url:string;
   method:string;
   dataSource?:string;
-  data?:any;
+  body?:any;
   query?:any;
 }
 

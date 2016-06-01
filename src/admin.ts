@@ -16,7 +16,7 @@ export default class Admin {
 
   private fetcher;
 
-  constructor(linkuriousInst){
+  constructor(linkuriousInst) {
     this.fetcher = linkuriousInst;
   }
 
@@ -28,8 +28,8 @@ export default class Admin {
    */
   public connectDataSource(sourceIndex:number):Promise<boolean> {
     let fetchConfig = {
-      url : '/admin/source/' + sourceIndex + '/connect',
-      method : 'POST'
+      url   : '/admin/source/' + sourceIndex + '/connect',
+      method: 'POST'
     };
 
     return this.fetcher.fetch(fetchConfig)
@@ -44,9 +44,9 @@ export default class Admin {
    */
   public createDataSourceConfig(data:i.Source.form.create):Promise<boolean> {
     let fetchConfig = {
-      url : '/admin/sources/config',
-      method : 'POST',
-      data : data
+      url   : '/admin/sources/config',
+      method: 'POST',
+      body  : data
     };
 
     return this.fetcher.fetch(fetchConfig)
@@ -61,8 +61,8 @@ export default class Admin {
    */
   public deleteDataSourceConfig(sourceIndex:number):Promise<boolean> {
     let fetchConfig = {
-      url : '/admin/sources/config/' + sourceIndex,
-      method : 'DELETE'
+      url   : '/admin/sources/config/' + sourceIndex,
+      method: 'DELETE'
     };
 
     return this.fetcher.fetch(fetchConfig)
@@ -83,9 +83,9 @@ export default class Admin {
     let mergeOptions = (data.mergeInto) ? {mergeInto: data.mergeInto} : null;
 
     let fetchConfig = {
-      url : '/admin/sources/data/' + data.sourceKey,
-      method : 'DELETE',
-      data : Utils.fixSnakeCase(mergeOptions)
+      url   : '/admin/sources/data/' + data.sourceKey,
+      method: 'DELETE',
+      body  : Utils.fixSnakeCase(mergeOptions)
     };
 
     return this.fetcher.fetch(fetchConfig);
@@ -97,7 +97,12 @@ export default class Admin {
    * @returns {Promise<Array<Source.adminModel>>}
    */
   public getDataSourcesList():Promise<Array<i.Source.adminModel>> {
-    return this.fetcher.fetch('GET', '/admin/sources');
+    let fetchConfig = {
+      url   : '/admin/sources',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -107,10 +112,13 @@ export default class Admin {
    * @returns {Promise<Array<string>>}
    */
   public getHiddenEdgeProperties(dataSource?:string):Promise<Array<string>> {
-    if (!dataSource) {
-      dataSource = '{dataSource}';
-    }
-    return this.fetcher.fetch('GET', '/admin/source/' + dataSource + '/hidden/edgeProperties');
+    let fetchConfig = {
+      url       : '/admin/source/{dataSource}/hidden/edgeProperties',
+      method    : 'GET',
+      dataSource: dataSource
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -120,10 +128,13 @@ export default class Admin {
    * @returns {Promise<Array<string>>}
    */
   public getHiddenNodeProperties(dataSource?:string):Promise<Array<string>> {
-    if (!dataSource) {
-      dataSource = '{dataSource}';
-    }
-    return this.fetcher.fetch('GET', '/admin/source/' + dataSource + '/hidden/nodeProperties');
+    let fetchConfig = {
+      url       : '/admin/source/{dataSource}/hidden/nodeProperties',
+      method    : 'GET',
+      dataSource: dataSource
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -133,10 +144,13 @@ export default class Admin {
    * @returns {Promise<Array<string>>}
    */
   public getNonIndexedEdgeProperties(dataSource?:string):Promise<Array<string>> {
-    if (!dataSource) {
-      dataSource = '{dataSource}';
-    }
-    return this.fetcher.fetch('GET', '/admin/source/' + dataSource + '/noIndex/edgeProperties');
+    let fetchConfig = {
+      url       : '/admin/source/dataSource/noIndex/edgeProperties',
+      method    : 'GET',
+      dataSource: dataSource
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -146,10 +160,13 @@ export default class Admin {
    * @returns {Promise<Array<string>>}
    */
   public getNonIndexedNodeProperties(dataSource?:string):Promise<Array<string>> {
-    if (!dataSource) {
-      dataSource = '{dataSource}';
-    }
-    return this.fetcher.fetch('GET', '/admin/source/' + dataSource + '/noIndex/nodeProperties');
+    let fetchConfig = {
+      url       : '/admin/source/{dataSource}/noIndex/nodeProperties',
+      method    : 'GET',
+      dataSource: dataSource
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -160,10 +177,14 @@ export default class Admin {
    * @returns {Promise<boolean>}
    */
   public setHiddenEdgeProperties(data:i.Source.form.setProperties, dataSource?:string):Promise<boolean> {
-    if (!dataSource) {
-      dataSource = '{dataSource}';
-    }
-    return this.fetcher.fetch('PUT', '/admin/source/' + dataSource + '/hidden/edgeProperties', data);
+    let fetchConfig = {
+      url       : '/admin/source/{dataSource}/hidden/edgeProperties',
+      method    : 'PUT',
+      body      : data,
+      dataSource: dataSource
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -174,10 +195,14 @@ export default class Admin {
    * @returns {Promise<boolean>}
    */
   public setHiddenNodeProperties(data:i.Source.form.setProperties, dataSource?:string):Promise<boolean> {
-    if (!dataSource) {
-      dataSource = '{dataSource}';
-    }
-    return this.fetcher.fetch('PUT', '/admin/source/' + dataSource + '/hidden/nodeProperties', data)
+    let fetchConfig = {
+      url       : '/admin/source/{dataSource}/hidden/nodeProperties',
+      method    : 'PUT',
+      body      : data,
+      dataSource: dataSource
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then(() => true);
   }
 
@@ -189,10 +214,14 @@ export default class Admin {
    * @returns {Promise<boolean>}
    */
   public setNotIndexedEdgeProperties(data:i.Source.form.setProperties, dataSource?:string):Promise<boolean> {
-    if (!dataSource) {
-      dataSource = '{dataSource}';
-    }
-    return this.fetcher.fetch('PUT', '/admin/source/' + dataSource + '/noIndex/edgeProperties', data)
+    let fetchConfig = {
+      url       : '/admin/source/{dataSource}/noIndex/edgeProperties',
+      method    : 'PUT',
+      body      : data,
+      dataSource: dataSource
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then(() => true);
   }
 
@@ -204,10 +233,14 @@ export default class Admin {
    * @returns {Promise<boolean>}
    */
   public setNotIndexedNodeProperties(data:i.Source.form.setProperties, dataSource?:string):Promise<boolean> {
-    if (!dataSource) {
-      dataSource = '{dataSource}';
-    }
-    return this.fetcher.fetch('PUT', '/admin/source/' + dataSource + '/noIndex/nodeProperties', data)
+    let fetchConfig = {
+      url       : '/admin/source/{dataSource}/noIndex/nodeProperties',
+      method    : 'PUT',
+      body      : data,
+      dataSource: dataSource
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then(() => true);
   }
 
@@ -218,7 +251,13 @@ export default class Admin {
    * @returns {Promise<User.model>}
    */
   public createUser(data:i.User.form.create):Promise<i.User.model> {
-    return this.fetcher.fetch('POST', '/admin/users', data);
+    let fetchConfig = {
+      url   : '/admin/users',
+      method: 'POST',
+      body  : data
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -227,9 +266,14 @@ export default class Admin {
    * @param userId:number
    * @returns {Promise<string>}
    */
-  public deleteUser(userId:number):Promise<string> {
-    return this.fetcher.fetch('DELETE', '/admin/users/' + userId)
-      .then(() => 'User ' + userId + ' deleted');
+  public deleteUser(userId:number):Promise<boolean> {
+    let fetchConfig = {
+      url   : '/admin/users/' + userId,
+      method: 'DELETE'
+    };
+
+    return this.fetcher.fetch(fetchConfig)
+      .then(() => true);
   }
 
   /**
@@ -238,7 +282,13 @@ export default class Admin {
    * @returns {Promise<Group.model>}
    */
   public createGroup(data:i.Group.form.create):Promise<i.Group.model> {
-    return this.fetcher.fetch('POST', 'admin/groups', data);
+    let fetchConfig = {
+      url   : 'admin/groups',
+      method: 'POST',
+      body  : data
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -247,9 +297,14 @@ export default class Admin {
    * @param groupId:number
    * @returns {Promise<string>}
    */
-  public deleteGroup(groupId:number):Promise<string> {
-    return this.fetcher.fetch('DELETE', '/admin/groups/' + groupId)
-      .then(() => 'group ' + groupId + 'deleted');
+  public deleteGroup(groupId:number):Promise<boolean> {
+    let fetchConfig = {
+      url   : '/admin/groups/' + groupId,
+      method: 'DELETE'
+    };
+
+    return this.fetcher.fetch(fetchConfig)
+      .then(() => true);
   }
 
   /**
@@ -259,7 +314,12 @@ export default class Admin {
    * @returns {Promise<Group.model>}
    */
   public getGroup(groupId:number):Promise<i.Group.model> {
-    return this.fetcher.fetch('GET', '/admin/groups/' + groupId);
+    let fetchConfig = {
+      url   : '/admin/groups/' + groupId,
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -269,16 +329,22 @@ export default class Admin {
    * @returns {Promise<Array<Group.model>>}
    */
   public getGroups(dataSource?:string):Promise<Array<i.Group.model>> {
-    // todo: handle these details in the fetcher, send the optional explicit dataSource to the fetcher
-    if (!dataSource) {
-      dataSource = '{dataSource}';
-    }
+    let fetchConfig = {
+      url       : '/admin/{dataSource}/groups',
+      method    : 'GET',
+      dataSource: dataSource
+    };
 
-    return this.fetcher.fetch('GET', '/admin/' + dataSource + '/groups');
+    return this.fetcher.fetch(fetchConfig);
   }
 
   public getSimpleGroups():Promise<Array<i.Group.model>> {
-    return this.fetcher('GET', '/admin/groups');
+    let fetchConfig = {
+      url   : '/admin/groups',
+      method: 'GET'
+    };
+
+    return this.fetcher(fetchConfig);
   }
 
   /**
@@ -288,14 +354,15 @@ export default class Admin {
    * @returns {Promise<Group.sourceAccessRights>}
    */
   public getGroupsRights(dataSource ?:string):Promise<i.Group.sourceAccessRights> {
-    // todo: see getGroupsList
-    if (!dataSource) {
-      dataSource = '{dataSource}';
-    }
+    let fetchConfig = {
+      url       : '/admin/{dataSource}/groups/rights_info',
+      method    : 'GET',
+      dataSource: dataSource
+    };
 
-    return this.fetcher.fetch('GET', '/admin/' + dataSource + '/groups/rights_info');
+    return this.fetcher.fetch(fetchConfig);
   }
-  
+
   /**
    * Bulk-set rights for a whole targetType on one or many groups.
    *
@@ -304,11 +371,14 @@ export default class Admin {
    * @returns {Promise<boolean>}
    */
   public updateBatchGroupsRights(data:i.Group.form.batchRights, dataSource?:string):Promise<boolean> {
-    if (!dataSource) {
-      dataSource = '{dataSource}';
-    }
+    let fetchConfig = {
+      url       : '/admin/{dataSource}/groups/group_rights',
+      method    : 'PUT',
+      body      : data,
+      dataSource: dataSource
+    };
 
-    return this.fetcher.fetch('PUT', '/admin/' + dataSource + '/groups/group_rights', data)
+    return this.fetcher.fetch(fetchConfig)
       .then(() => true);
   }
 
@@ -321,11 +391,14 @@ export default class Admin {
    * @returns {Promise<Group.accessRights>}
    */
   public updateGroupRights(data:i.Group.form.updateRights, groupId:number, dataSource?:string):Promise<i.Group.accessRights> {
-    if (!dataSource) {
-      dataSource = '{dataSource}';
-    }
+    let fetchConfig = {
+      url       : '/admin/{dataSource}/groups/' + groupId + '/group_rights',
+      method    : 'PUT',
+      body      : data,
+      dataSource: dataSource
+    };
 
-    return this.fetcher.fetch('PUT', '/admin/' + dataSource + 'groups/' + groupId + '/group_rights', data);
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -335,7 +408,13 @@ export default class Admin {
    * @returns {Promise<boolean>}
    */
   public updateBatchUser(data:i.User.form.batch):Promise<boolean> {
-    return this.fetcher.fetch('PATCH', '/admin/users', data)
+    let fetchConfig = {
+      url   : '/admin/users',
+      method: 'PATCH',
+      body  : data
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then(() => true);
   }
 
@@ -347,7 +426,13 @@ export default class Admin {
    * @returns {Promise<User.model>}
    */
   public updateUser(data:i.User.form.update, userId:number):Promise<i.User.model> {
-    return this.fetcher.fetch('PATCH', '/admin/users/' + userId, data);
+    let fetchConfig = {
+      url   : '/admin/users/' + userId,
+      method: 'PATCH',
+      body  : data
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -357,7 +442,13 @@ export default class Admin {
    * @returns {Promise<string>}
    */
   public updateConfig(data:i.App.form.update):Promise<string> {
-    return this.fetcher.fetch('POST', '/config', data);
+    let fetchConfig = {
+      url   : '/config',
+      method: 'POST',
+      body  : data
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -366,7 +457,12 @@ export default class Admin {
    * @returns {Promise<boolean>}
    */
   public startIndexation():Promise<boolean> {
-    return this.fetcher.fetch('GET', '/{dataSource}/search/reindex')
+    let fetchConfig = {
+      url   : '/{dataSource}/search/reindex',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then(() => true);
   }
 

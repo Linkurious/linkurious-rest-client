@@ -29,8 +29,8 @@ export default class HTTPDriver {
         .send(data)
         .set('cookie', this.cookie)
         .withCredentials()
-        .end(function(err, res){
-          if(res.header && res.header['set-cookie']){
+        .end(function (err, res) {
+          if (res.header && res.header['set-cookie']) {
             this.cookie = res.header['set-cookie'];
           }
 
@@ -50,7 +50,7 @@ export default class HTTPDriver {
         .send(data)
         .set('cookie', this.cookie)
         .withCredentials()
-        .end(function(err, res){
+        .end(function (err, res) {
           if (res.status >= 400) {
             return reject(ErrorsDriver.formatToLinkuriousError(res, res.body));
           } else {
@@ -67,7 +67,7 @@ export default class HTTPDriver {
         .send(data)
         .set('cookie', this.cookie)
         .withCredentials()
-        .end(function(err, res){
+        .end(function (err, res) {
           if (res.status >= 400) {
             return reject(ErrorsDriver.formatToLinkuriousError(res, res.body));
           } else {
@@ -84,7 +84,7 @@ export default class HTTPDriver {
         .query(data)
         .set('cookie', this.cookie)
         .withCredentials()
-        .end(function(err, res){
+        .end(function (err, res) {
           if (res.status >= 400) {
             return reject(ErrorsDriver.formatToLinkuriousError(res, res.body));
           } else {
@@ -101,7 +101,7 @@ export default class HTTPDriver {
         .send(data)
         .set('cookie', this.cookie)
         .withCredentials()
-        .end(function(err, res){
+        .end(function (err, res) {
           if (res.status >= 400) {
             return reject(ErrorsDriver.formatToLinkuriousError(res, res.body));
           } else {
