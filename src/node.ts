@@ -10,14 +10,14 @@
 'use strict';
 
 import * as i from './interfaces';
-import {Utils} from './utils';
+import {Utils} from './Utils';
 
 export default class Node {
 
-  private fetcher : i.Fetcher;
+  private fetcher;
 
-  constructor(fetcherInst:i.Fetcher){
-    this.fetcher = <i.Fetcher>fetcherInst;
+  constructor(fetcherInst){
+    this.fetcher = fetcherInst;
   }
 
   /**
@@ -58,7 +58,7 @@ export default class Node {
    * @returns {Promise<Node.model>}
    */
   public getOne(nodeId:i.ItemId, params?:i.Node.request.one):Promise<i.Node.model> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/nodes/' + nodeId, Utils.fixCase(params));
+    return this.fetcher.fetch('GET', '/{dataSource}/graph/nodes/' + nodeId, Utils.fixSnakeCase(params));
   }
 
   /**
@@ -72,7 +72,7 @@ export default class Node {
    * @returns {Promise<Array<Node.model>>}
    */
   public expand(data:i.Node.request.adjacentItems):Promise<Array<i.Node.model>> {
-    return this.fetcher.fetch('POST', '/{dataSource}/graph/nodes/expand', Utils.fixCase(data));
+    return this.fetcher.fetch('POST', '/{dataSource}/graph/nodes/expand', Utils.fixSnakeCase(data));
   }
 
   /**
@@ -93,7 +93,7 @@ export default class Node {
    * @returns {Promise<Node>}
    */
   public update(nodeId:i.ItemId, data:i.Node.form.update):Promise<i.Node.model> {
-    return this.fetcher.fetch('PATCH', '/{dataSource}/graph/nodes/' + nodeId, Utils.fixCase(data));
+    return this.fetcher.fetch('PATCH', '/{dataSource}/graph/nodes/' + nodeId, Utils.fixSnakeCase(data));
   }
 
   /**
@@ -103,7 +103,7 @@ export default class Node {
    * @returns {Promise<Schema.propertyList>}
    */
   public getProperties(params?:i.Schema.request.properties):Promise<i.Schema.propertyList> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/nodeTypes/properties', Utils.fixCase(params));
+    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/nodeTypes/properties', Utils.fixSnakeCase(params));
   }
 
   /**
@@ -113,6 +113,6 @@ export default class Node {
    * @returns {Promise<Schema.typesList>}
    */
   public getTypes(params?:i.Node.request.types):Promise<i.Schema.typesList> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/nodeTypes', Utils.fixCase(params));
+    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/nodeTypes', Utils.fixSnakeCase(params));
   }
 }

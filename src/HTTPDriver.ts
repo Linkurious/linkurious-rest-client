@@ -35,7 +35,7 @@ export default class HTTPDriver {
           }
 
           if (res.status >= 400) {
-            return reject(ErrorsDriver.format(res, res.body));
+            return reject(ErrorsDriver.formatToLinkuriousError(res, res.body));
           } else {
             return resolve(res.body);
           }
@@ -52,7 +52,7 @@ export default class HTTPDriver {
         .withCredentials()
         .end(function(err, res){
           if (res.status >= 400) {
-            return reject(ErrorsDriver.format(res, res.body));
+            return reject(ErrorsDriver.formatToLinkuriousError(res, res.body));
           } else {
             return resolve(res.body);
           }
@@ -69,7 +69,7 @@ export default class HTTPDriver {
         .withCredentials()
         .end(function(err, res){
           if (res.status >= 400) {
-            return reject(ErrorsDriver.format(res, res.body));
+            return reject(ErrorsDriver.formatToLinkuriousError(res, res.body));
           } else {
             return resolve(res.body);
           }
@@ -86,7 +86,7 @@ export default class HTTPDriver {
         .withCredentials()
         .end(function(err, res){
           if (res.status >= 400) {
-            return reject(ErrorsDriver.format(res, res.body));
+            return reject(ErrorsDriver.formatToLinkuriousError(res, res.body));
           } else {
             return resolve(res.body);
           }
@@ -103,7 +103,7 @@ export default class HTTPDriver {
         .withCredentials()
         .end(function(err, res){
           if (res.status >= 400) {
-            return reject(ErrorsDriver.format(res, res.body));
+            return reject(ErrorsDriver.formatToLinkuriousError(res, res.body));
           } else {
             return resolve(res.body);
           }

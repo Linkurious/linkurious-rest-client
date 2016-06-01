@@ -10,14 +10,14 @@
 'use strict';
 
 import * as i from './interfaces';
-import {Utils} from './utils';
+import {Utils} from './Utils';
 
 export default class Admin {
 
-  private fetcher:i.Fetcher;
+  private fetcher;
 
-  constructor(linkuriousInst:i.Fetcher){
-    this.fetcher = <i.Fetcher>linkuriousInst;
+  constructor(linkuriousInst){
+    this.fetcher = linkuriousInst;
   }
 
   /**
@@ -27,7 +27,12 @@ export default class Admin {
    * @returns {Promise<boolean>}
    */
   public connectDataSource(sourceIndex:number):Promise<boolean> {
-    return this.fetcher.fetch('POST', '/admin/source/' + sourceIndex + '/connect')
+    let fetchConfig = {
+      url : '/admin/source/' + sourceIndex + '/connect',
+      method : 'POST'
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then(() => true);
   }
 
@@ -38,7 +43,13 @@ export default class Admin {
    * @returns {Promise<boolean>}
    */
   public createDataSourceConfig(data:i.Source.form.create):Promise<boolean> {
-    return this.fetcher.fetch('POST', '/admin/sources/config', data)
+    let fetchConfig = {
+      url : '/admin/sources/config',
+      method : 'POST',
+      data : data
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then(() => true);
   }
 
@@ -49,7 +60,12 @@ export default class Admin {
    * @returns {Promise<boolean>}
    */
   public deleteDataSourceConfig(sourceIndex:number):Promise<boolean> {
-    return this.fetcher.fetch('DELETE', '/admin/sources/config/' + sourceIndex)
+    let fetchConfig = {
+      url : '/admin/sources/config/' + sourceIndex,
+      method : 'DELETE'
+    };
+
+    return this.fetcher.fetch(fetchConfig)
       .then(() => true);
   }
 
@@ -66,7 +82,13 @@ export default class Admin {
 
     let mergeOptions = (data.mergeInto) ? {mergeInto: data.mergeInto} : null;
 
-    return this.fetcher.fetch('DELETE', '/admin/sources/data/' + data.sourceKey, Utils.fixCase(mergeOptions));
+    let fetchConfig = {
+      url : '/admin/sources/data/' + data.sourceKey,
+      method : 'DELETE',
+      data : Utils.fixSnakeCase(mergeOptions)
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -240,20 +262,23 @@ export default class Admin {
     return this.fetcher.fetch('GET', '/admin/groups/' + groupId);
   }
 
-  // todo: rename to getGroups (you used pluralisation in most List-returning functions, so this is more natural)
   /**
    * List all the groups already defined in the database.
    *
    * @param dataSource:string
    * @returns {Promise<Array<Group.model>>}
    */
-  public getGroupsList(dataSource?:string):Promise<Array<i.Group.model>> {
+  public getGroups(dataSource?:string):Promise<Array<i.Group.model>> {
     // todo: handle these details in the fetcher, send the optional explicit dataSource to the fetcher
     if (!dataSource) {
       dataSource = '{dataSource}';
     }
 
     return this.fetcher.fetch('GET', '/admin/' + dataSource + '/groups');
+  }
+
+  public getSimpleGroups():Promise<Array<i.Group.model>> {
+    return this.fetcher('GET', '/admin/groups');
   }
 
   /**
@@ -270,9 +295,7 @@ export default class Admin {
 
     return this.fetcher.fetch('GET', '/admin/' + dataSource + '/groups/rights_info');
   }
-
-  // todo: add missing getSimpleGroups (/api/admin/groups) for groups without accessRights
-
+  
   /**
    * Bulk-set rights for a whole targetType on one or many groups.
    *

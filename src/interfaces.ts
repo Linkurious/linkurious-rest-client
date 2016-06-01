@@ -1,14 +1,9 @@
 export type GraphDBVendor = 'neo4j'|'titan'|'dse';
 export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgeOrientation = 'in'|'out'|'both';
-
-// todo: rename to ItemType
-// todo: split into ItemType=node|edge and ItemsType=nodes|edges to avoid mixing them up
-export type Item = 'node'|'edge'|'nodes'|'edges';
-
-// todo: A class/interface is rarely plural, in this case this is better described by RightType
-export type Rights = 'read'|'write'|'none'|'do';
-
+export type ItemType = 'node'|'edge';
+export type ItemsType = 'nodes'|'edges';
+export type RightType = 'read'|'write'|'none'|'do';
 export type PopulateType = 'expandNodeId'|'nodeId'|'edgeId'|'searchNodes'|'searchEdges'|'pattern';
 export type ItemId = string | number;
 
@@ -81,7 +76,7 @@ export namespace Group {
 
   export interface accessRights {
     sourceKey?:string;
-    type:Rights;
+    type:RightType;
     targetType:string;
     targetName:string;
   }
@@ -95,12 +90,12 @@ export namespace Group {
 
     export interface batchRights {
       groupIds:Array<number>;
-      rightType:Rights;
+      rightType:RightType;
       targetType:string;
     }
 
     export interface updateRights {
-      type:Rights;
+      type:RightType;
       targetType:string;
       targetName:string;
     }
@@ -304,14 +299,14 @@ export namespace Graph {
 export namespace Directory {
 
   export interface list {
-    type:Item;
+    type:ItemsType;
     totalHits:number;
     results:Node.model | Edge.model;
   }
 
   export namespace request {
     export interface list {
-      type:Item;
+      type:ItemsType;
       categoryOrTypes:Array<string>;
       properties:Array<string>;
       constraints:constraints;
@@ -368,7 +363,7 @@ export namespace Schema {
   }
 
   export interface itemsList {
-    type:Item;
+    type:ItemType;
     totalHits:number;
     results:Array<item>;
   }
@@ -763,7 +758,7 @@ export interface StateModel {
 }
 
 
-export interface ResponseBody {
+export interface LinkuriousError {
   status:number;
   type:string;
   key:string;
@@ -778,6 +773,14 @@ export interface ErrorBody {
 export interface LoggerPlugin {
   debug:Function;
   error:Function;
+}
+
+export interface FetcherConfig {
+  url:string;
+  method:string;
+  dataSource?:string;
+  data?:any;
+  query?:any;
 }
 
 export interface Linkurious {
@@ -815,7 +818,8 @@ export interface Admin {
   createGroup(data:Group.form.create):Promise<Group.model>;
   deleteGroup(groupId:number):Promise<string>;
   getGroup(groupId:number):Promise<Group.model>;
-  getGroupsList(dataSource?:string):Promise<Array<Group.model>>;
+  getGroups(dataSource?:string):Promise<Array<Group.model>>;
+  getSimpleGroups():Promise<Array<Group.model>>;
   getGroupsRights(dataSource ?:string):Promise<Group.sourceAccessRights>;
   updateBatchGroupsRights(data:Group.form.batchRights, dataSource?:string):Promise<boolean>;
   updateGroupRights(data:Group.form.updateRights, groupId:number, dataSource?:string):Promise<Group.accessRights>;
@@ -886,31 +890,12 @@ export interface Node {
 }
 
 export interface Search {
-  items(item:Item, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>>;
-  formattedItems(item:Item, params:Schema.request.itemsList):Promise<Schema.itemsList>;
+  fullNodes(params:Schema.request.itemsList):Promise<Array<Node.model>>;
+  fullEdges(params:Schema.request.itemsList):Promise<Array<Node.model>>;
+  nodes(params:Schema.request.itemsList):Promise<Schema.itemsList>;
+  edges(params:Schema.request.itemsList):Promise<Schema.itemsList>;
   users(data:User.request.list):Promise<Array<User.model>>;
   directory(data:Directory.request.list):Promise<Directory.list>;
-}
-
-// todo: remove this interface and use the class directly, there will be only one implementation
-export interface Fetcher {
-  fetch(method:string, uri:string, data?:any) : Promise<any>;
-}
-
-// todo: remove this interface and use the class directly, there will be only one implementation
-export interface LogDriver {
-  level:string;
-  logger:LoggerPlugin;
-  debug(logBody:ErrorBody):void;
-  error(logBody:ErrorBody):void;
-}
-
-export interface HTTPDriver {
-  POST(uri:string, data:any):Promise<any>;
-  PUT(uri:string, data:any):Promise<any>;
-  PATCH(uri:string, data:any):Promise<any>;
-  GET(uri:string, data?:any):Promise<any>;
-  DELETE(uri:string):Promise<any>;
 }
 
 

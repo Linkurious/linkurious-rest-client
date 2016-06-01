@@ -21,7 +21,7 @@ describe('Fix case', function(){
       test4_Test : 'ok'
     };
 
-    var result = utils.Utils.fixCase(data);
+    var result = utils.Utils.fixSnakeCase(data);
 
     result.should.eql({
       test_key : 'ok',

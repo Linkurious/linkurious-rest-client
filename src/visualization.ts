@@ -10,14 +10,14 @@
 'use strict';
 
 import * as i from './interfaces';
-import {Utils} from './utils';
+import {Utils} from './Utils';
 
 export default class Visualization {
 
-  private fetcher:i.Fetcher;
+  private fetcher;
 
-  constructor(fetcherInst:i.Fetcher){
-    this.fetcher = <i.Fetcher>fetcherInst;
+  constructor(fetcherInst){
+    this.fetcher = fetcherInst;
   }
 
   /**
@@ -109,7 +109,7 @@ export default class Visualization {
    * @returns {Promise<Visualization.model>}
    */
   public getSandbox(params:i.Visualization.request.sandbox):Promise<i.Visualization.model> {
-    return this.fetcher.fetch('GET', '/{dataSource}/sandbox', Utils.fixCase(params));
+    return this.fetcher.fetch('GET', '/{dataSource}/sandbox', Utils.fixSnakeCase(params));
   }
 
   /**

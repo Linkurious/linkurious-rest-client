@@ -10,42 +10,54 @@
 'use strict';
 
 import * as i from './interfaces';
-import {Utils} from './utils';
+import {Utils} from './Utils';
 
 export default class Search {
 
-  // todo: you don't need an interface to Fetcher, use the class directly and delete the interface
-  private fetcher:i.Fetcher;
+  private fetcher;
 
-  constructor(fetcherInst:i.Fetcher){
-    this.fetcher = <i.Fetcher>fetcherInst;
+  constructor(fetcherInst){
+    this.fetcher = fetcherInst;
   }
 
-  // todo: don't chose function names that are too different from the API doc name, this will confuse users
-
-  // todo: rename+split to "fullNodes" and "fullEdges"
   /**
-   * Search for nodes based on a query string and optional parameters. Return list of node object.
+   * Search for nodes based on a query string and optional parameters. Return a list of full Nodes.
    *
-   * @param item:Interface.Item
-   * @param params:Interface.RequestSearchItems
+   * @param params:i.Schema.request.itemsList
    * @returns {Promise<Array<Node.model>>}
    */
-  public items(item:i.Item, params:i.Schema.request.itemsList):Promise<Array<i.Node.model>> {
-    return this.fetcher.fetch('GET', '/{dataSource}/search/' + item + '/full', Utils.fixCase(params));
+  public fullNodes(params:i.Schema.request.itemsList):Promise<Array<i.Node.model>> {
+    return this.fetcher.fetch('GET', '/{dataSource}/search/nodes/full', Utils.fixSnakeCase(params));
   }
 
-
-  // todo: rename+split to "nodes" and "edges"
   /**
-   * Search for nodes based on a query string and optional parameters. Return list of formatted nodes.
+   * Search for edges based on a query string and optional parameters. Return a list of full Nodes.
    *
-   * @param item:Interface.Item
-   * @param params:Interface.RequestSearchItems
-   * @returns {Promise<Schema.itemsList>}
+   * @param params:i.Schema.request.itemsList
+   * @returns {Promise<Array<Node.model>>}
    */
-  public formattedItems(item:i.Item, params:i.Schema.request.itemsList):Promise<i.Schema.itemsList> {
-    return this.fetcher.fetch('GET', '/{dataSource}/search/' + item, params);
+  public fullEdges(params:i.Schema.request.itemsList):Promise<Array<i.Node.model>> {
+    return this.fetcher.fetch('GET', '/{dataSource}/search/edges/full', Utils.fixSnakeCase(params));
+  }
+
+  /**
+   * Search for nodes based on a query string and optional parameters. Return formatted results for the Linkurious client.
+   *
+   * @param params:i.Schema.request.itemsList
+   * @returns {Promise<itemsList>}
+   */
+  public nodes(params:i.Schema.request.itemsList):Promise<i.Schema.itemsList>{
+    return this.fetcher.fetch('GET', '/{dataSource}/search/nodes', params);
+  }
+
+  /**
+   * Search for edges based on a query string and optional parameters. Return formatted results for the Linkurious client.
+   *
+   * @param params:i.Schema.request.itemsList
+   * @returns {Promise<itemsList>}
+   */
+  public edges(params:i.Schema.request.itemsList):Promise<i.Schema.itemsList>{
+    return this.fetcher.fetch('GET', '/{dataSource}/search/edges', params);
   }
 
   /**
@@ -55,7 +67,7 @@ export default class Search {
    * @returns {Promise<Array<User.model>>}
    */
   public users(data:i.User.request.list):Promise<Array<i.User.model>> {
-    return this.fetcher.fetch('GET', '/findUsers', Utils.fixCase(data));
+    return this.fetcher.fetch('GET', '/findUsers', Utils.fixSnakeCase(data));
   }
 
   /**

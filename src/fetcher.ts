@@ -14,14 +14,14 @@ import HttpDriver from './HTTPDriver';
 
 export default class Fetcher {
 
-  httpDriver:i.HTTPDriver;
-  log:i.LogDriver;
+  httpDriver;
+  log;
   host:string;
   private currentSource:i.Source.clientModel;
 
   constructor(logger, currentSource, host){
-    this.httpDriver = <i.HTTPDriver> new HttpDriver();
-    this.log = <i.LogDriver>logger;
+    this.httpDriver = new HttpDriver();
+    this.log = logger;
     this.currentSource = <i.Source.clientModel>currentSource;
     this.host = <string>host;
   }
@@ -32,11 +32,14 @@ export default class Fetcher {
    * @param uri:string     - the url fragment to format the API url
    * @returns {string}      - return the API url formatted
    */
-  private transformUrl(uri:string):string {
+  private transformUrl(uri:string, dataSource?:string):string {
 
     const dataSourceTest = /\{dataSource}/;
+
     if (dataSourceTest.test(uri)) {
-      if (this.currentSource) {
+      if(dataSource){
+        return this.host + '/api' + uri.replace(dataSourceTest, dataSource);
+      } else if (this.currentSource) {
         let currentSource = <i.Source.clientModel>this.currentSource;
         return this.host + '/api' + uri.replace(dataSourceTest, currentSource.key);
       } else {
@@ -54,15 +57,19 @@ export default class Fetcher {
   /**
    * HTTPDriver wrapper method
    *
-   * @param method{string}    - the method for the HTTP request to send
-   * @param uri{string}       - the url fragment to format
-   * @param data{object}     -
+   * @param config{FetcherConfig}
    * @returns {Promise}
    */
-  public fetch(method:string, uri:string, data?:any):Promise<any> {
+  public fetch(config:i.FetcherConfig):Promise<any> {
 
-    let url = this.transformUrl(uri),
-        fetch = this.httpDriver[method](url, data);
+    let url = this.transformUrl(config.url, config.dataSource),
+        fetch;
+
+    if(config.method === 'GET'){
+      fetch = this.httpDriver[config.method](url, config.query)
+    } else {
+      fetch = this.httpDriver[config.method](url, config.data)
+    }
 
     return fetch
       .then((res) => res)

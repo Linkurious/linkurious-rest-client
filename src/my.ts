@@ -13,10 +13,10 @@ import * as i from './interfaces';
 
 export default class My {
 
-  private fetcher:i.Fetcher;
+  private fetcher;
 
-  constructor(fetcherInst:i.Fetcher){
-    this.fetcher = <i.Fetcher>fetcherInst;
+  constructor(fetcherInst){
+    this.fetcher = fetcherInst;
   }
 
   /**

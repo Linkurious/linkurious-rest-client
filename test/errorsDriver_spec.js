@@ -23,7 +23,7 @@ describe('ErrorDriver class', function(){
         message : 'test message'
       };
 
-      error.format(incomingMessage, errorBody).should.eql({
+      error.formatToLinkuriousError(incomingMessage, errorBody).should.eql({
         status  : 401,
         type    : 'access',
         key     : 'test',
@@ -40,7 +40,7 @@ describe('ErrorDriver class', function(){
         message : 'test message'
       };
 
-      error.format(incomingMessage, errorBody).should.eql({
+      error.formatToLinkuriousError(incomingMessage, errorBody).should.eql({
         status  : 403,
         type    : 'access',
         key     : 'test',
@@ -57,7 +57,7 @@ describe('ErrorDriver class', function(){
         message : 'test message'
       };
 
-      error.format(incomingMessage, errorBody).should.eql({
+      error.formatToLinkuriousError(incomingMessage, errorBody).should.eql({
         status  : 501,
         type    : 'technical',
         key     : 'test',
@@ -74,7 +74,7 @@ describe('ErrorDriver class', function(){
         message : 'test message'
       };
 
-      error.format(incomingMessage, errorBody).should.eql({
+      error.formatToLinkuriousError(incomingMessage, errorBody).should.eql({
         status  : 500,
         type    : 'technical',
         key     : 'test',
@@ -91,7 +91,7 @@ describe('ErrorDriver class', function(){
         message : 'test message'
       };
 
-      error.format(incomingMessage, errorBody).should.eql({
+      error.formatToLinkuriousError(incomingMessage, errorBody).should.eql({
         status  : 301,
         type    : 'business',
         key     : 'test',
@@ -107,7 +107,7 @@ describe('ErrorDriver class', function(){
         message : 'test message'
       };
 
-      error.format(incomingMessage, errorBody).should.eql({
+      error.formatToLinkuriousError(incomingMessage, errorBody).should.eql({
         status  : 404,
         type    : 'business',
         key     : 'test',

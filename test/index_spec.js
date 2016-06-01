@@ -48,7 +48,7 @@ describe('Linkurious class', function(){
   describe('searchNodes method', function(){
     it('must return a node', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.search.formattedItems('nodes', {
+        return linkurious.search.nodes({
           q : 'Keanu Reeves'
         });
       }).then(function(res){
@@ -62,7 +62,7 @@ describe('Linkurious class', function(){
 
     it('must return an edge', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.search.formattedItems('edges', {
+        return linkurious.search.edges({
           q : 'ACTED_IN'
         });
       }).then(function(res){
@@ -391,7 +391,7 @@ describe('Linkurious class', function(){
         return linkurious.logout();
       }).then(function(res){
         res.should.equal('user disconnected');
-        linkurious.user.should.eql({});
+        should(linkurious.user).not.ok();
       })
     })
   });

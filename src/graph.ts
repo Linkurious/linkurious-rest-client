@@ -10,14 +10,14 @@
 'use strict';
 
 import * as i from './interfaces';
-import {Utils} from './utils';
+import {Utils} from './Utils';
 
 export default class Graph {
 
-  private fetcher : i.Fetcher;
+  private fetcher;
 
-  constructor(fetcherInst:i.Fetcher){
-    this.fetcher = <i.Fetcher>fetcherInst;
+  constructor(fetcherInst){
+    this.fetcher = fetcherInst;
   }
 
   /**
@@ -37,7 +37,7 @@ export default class Graph {
    * @returns {Promise}
    */
   public getShortestPaths(nodesConfig:i.Graph.request.shortestPath):Promise<Array<i.Node.model>> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/shortestPaths', Utils.fixCase(nodesConfig));
+    return this.fetcher.fetch('GET', '/{dataSource}/graph/shortestPaths', Utils.fixSnakeCase(nodesConfig));
   }
 
   /**
@@ -47,6 +47,6 @@ export default class Graph {
    * @returns {Promise}
    */
   public getNodeList(data:i.Query.form.request):Promise<Array<i.Node.model>> {
-    return this.fetcher.fetch('POST', '/{dataSource}/graph/rawQuery', Utils.fixCase(data));
+    return this.fetcher.fetch('POST', '/{dataSource}/graph/rawQuery', Utils.fixSnakeCase(data));
   }
 }

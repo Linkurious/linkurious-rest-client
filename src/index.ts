@@ -24,7 +24,7 @@ import * as i from './interfaces';
 
 class Linkurious {
 
-  public log:i.LogDriver;
+  public log;
   public admin:i.Admin;
   public my:i.My;
   public edge:i.Edge;
@@ -32,7 +32,7 @@ class Linkurious {
   public node : i.Node;
   public search: i.Search;
   public visualization : i.Visualization;
-  private fetcher:i.Fetcher;
+  private fetcher;
   private _currentSource:i.Source.clientModel;
   private _user:i.User.model;
 
@@ -53,8 +53,8 @@ class Linkurious {
   constructor(host:string, log:string, logger?:i.LoggerPlugin) {
     this._currentSource = <i.Source.clientModel> {};
     this._user          = <i.User.model>undefined;
-    this.log            = <i.LogDriver>new LogDriver(log, logger);
-    this.fetcher        = <i.Fetcher>new Fetcher(this.log, this._currentSource, host);
+    this.log            = new LogDriver(log, logger);
+    this.fetcher        = new Fetcher(this.log, this._currentSource, host);
     this.admin          = <i.Admin>new Admin(this.fetcher);
     this.my             = <i.My>new My(this.fetcher);
     this.edge           = <i.Edge>new Edge(this.fetcher);
