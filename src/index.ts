@@ -52,7 +52,7 @@ class Linkurious {
    */
   constructor(host:string, log:string, logger?:i.LoggerPlugin) {
     this._currentSource = <i.Source.clientModel> {};
-    this._user          = <i.User.model>{};
+    this._user          = <i.User.model>undefined;
     this.log            = <i.LogDriver>new LogDriver(log, logger);
     this.fetcher        = <i.Fetcher>new Fetcher(this.log, this._currentSource, host);
     this.admin          = <i.Admin>new Admin(this.fetcher);
@@ -97,7 +97,7 @@ class Linkurious {
       password       : password
     };
 
-    if(this.user.id){
+    if(this._user){
       return this.logout().then(() => {
         return this.fetcher.fetch('POST', '/auth/login', data);
       }).then(res => {
@@ -120,7 +120,7 @@ class Linkurious {
   public logout():Promise<string> {
     return this.fetcher.fetch('GET', '/auth/logout')
       .then(() => {
-        this._user = <i.User.model>{};
+        this._user = <i.User.model>undefined;
         return 'user disconnected';
       });
   }
@@ -134,15 +134,14 @@ class Linkurious {
   public updateCurrentUser(data:i.User.form.update):Promise<any> {
     return this.fetcher.fetch('PATCH', '/auth/me', data)
       .then((res) => {
-        this._user.username = res.username;
-        this._user.email = res.email;
-        this._user.groups = res.groups;
-        this._user.ldap = res.ldap;
-        this._user.admin = res.admin;
-        this._user.preferences = res.preferences;
+        this.user.username = res.username;
+        this.user.email = res.email;
+        this.user.groups = res.groups;
+        this.user.ldap = res.ldap;
+        this.user.admin = res.admin;
+        this.user.preferences = res.preferences;
         return res;
-      })
-      .catch((err) => Promise.reject(err));
+      });
   }
 
   /**

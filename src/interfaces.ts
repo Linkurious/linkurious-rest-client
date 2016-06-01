@@ -1,8 +1,8 @@
 export type GraphDBVendor = 'neo4j'|'titan'|'dse';
 export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgeOrientation = 'in'|'out'|'both';
-export type Item = 'node'|'edge'|'nodes'|'edges';
-export type Rights = 'read'|'write'|'none'|'do';
+export type ItemType = 'node'|'edge'|'nodes'|'edges';
+export type RightType = 'read'|'write'|'none'|'do';
 export type PopulateType = 'expandNodeId'|'nodeId'|'edgeId'|'searchNodes'|'searchEdges'|'pattern';
 export type ItemId = string | number;
 
@@ -75,7 +75,7 @@ export namespace Group {
 
   export interface accessRights {
     sourceKey?:string;
-    type:Rights;
+    type:RightType;
     targetType:string;
     targetName:string;
   }
@@ -89,12 +89,12 @@ export namespace Group {
 
     export interface batchRights {
       groupIds:Array<number>;
-      rightType:Rights;
+      rightType:RightType;
       targetType:string;
     }
 
     export interface updateRights {
-      type:Rights;
+      type:RightType;
       targetType:string;
       targetName:string;
     }
@@ -171,7 +171,7 @@ export namespace Source {
     folders:number;
   }
 
-  interface neo4Config {
+  interface neo4Config extends GenericGraphConfig {
     vendor:'neo4j',
     url:string,
     webAdmin?:string,
@@ -179,25 +179,36 @@ export namespace Source {
     password?:string
   }
 
-  interface titanConfig {
+  interface titanConfig extends GenericGraphConfig {
     vendor:'titan',
     url : string,
     configurationPath : string
   }
 
-  interface dseConfig {
+  interface dseConfig extends GenericGraphConfig {
     vendor : 'dse',
     url : string,
     graphName : string,
     create ?: boolean
   }
 
-  interface elasticSearchConfig {
+  interface elasticSearchConfig{
     vendor:'elasticSearch';
     host:string;
     port:number;
     forceReindex:boolean;
     dynamicMapping:boolean;
+    dateDetection?: boolean;
+    https?: boolean;
+    user?:string;
+    password?:string;
+  }
+
+  interface GenericGraphConfig {
+    alternativeEdgeId?: string;
+    alternativeNodeId?:string;
+    latitudeProperty?:string;
+    longitudeProperty?:string;
   }
 }
 
@@ -205,8 +216,8 @@ export namespace Edge {
 
   export interface model {
     id:ItemId;
-    source?:number;
-    target?:number;
+    source?:ItemId;
+    target?:ItemId;
     type:string;
     data:any;
     version ?:number;
@@ -230,8 +241,8 @@ export namespace Edge {
 
   export namespace form {
     export interface create {
-      source:string;
-      target:string;
+      source:ItemId;
+      target:ItemId;
       type:string;
       data:any;
     }
@@ -287,14 +298,14 @@ export namespace Graph {
 export namespace Directory {
 
   export interface list {
-    type:Item;
+    type:ItemType;
     totalHits:number;
     results:Node.model | Edge.model;
   }
 
   export namespace request {
     export interface list {
-      type:Item;
+      type:ItemType;
       categoryOrTypes:Array<string>;
       properties:Array<string>;
       constraints:constraints;
@@ -351,7 +362,7 @@ export namespace Schema {
   }
 
   export interface itemsList {
-    type:Item;
+    type:ItemType;
     totalHits:number;
     results:Array<item>;
   }
@@ -869,8 +880,8 @@ export interface Node {
 }
 
 export interface Search {
-  items(item:Item, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>>;
-  formattedItems(item:Item, params:Schema.request.itemsList):Promise<Schema.itemsList>;
+  items(item:ItemType, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>>;
+  formattedItems(item:ItemType, params:Schema.request.itemsList):Promise<Schema.itemsList>;
   users(data:User.request.list):Promise<Array<User.model>>;
   directory(data:Directory.request.list):Promise<Directory.list>;
 }
