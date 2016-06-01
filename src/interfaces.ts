@@ -1,8 +1,14 @@
 export type GraphDBVendor = 'neo4j'|'titan'|'dse';
 export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgeOrientation = 'in'|'out'|'both';
-export type ItemType = 'node'|'edge'|'nodes'|'edges';
-export type RightType = 'read'|'write'|'none'|'do';
+
+// todo: rename to ItemType
+// todo: split into ItemType=node|edge and ItemsType=nodes|edges to avoid mixing them up
+export type Item = 'node'|'edge'|'nodes'|'edges';
+
+// todo: A class/interface is rarely plural, in this case this is better described by RightType
+export type Rights = 'read'|'write'|'none'|'do';
+
 export type PopulateType = 'expandNodeId'|'nodeId'|'edgeId'|'searchNodes'|'searchEdges'|'pattern';
 export type ItemId = string | number;
 
@@ -14,14 +20,14 @@ export type IndexationCallback = (res:Source.indexationStatus) => void;
 
 export namespace User {
   export interface model {
-    id:number;
-    username:string;
-    email:string;
-    groups?:Array<Group.model>;
-    admin?:boolean;
-    preferences?:any;
-    actions?:any;
-    ldap ?:boolean;
+    id: number;
+    username: string;
+    email: string;
+    groups?: Array<Group.model>;
+    admin?: boolean;
+    preferences?: any;
+    actions?: any;
+    ldap?: boolean;
   }
 
   export namespace request {
@@ -75,7 +81,7 @@ export namespace Group {
 
   export interface accessRights {
     sourceKey?:string;
-    type:RightType;
+    type:Rights;
     targetType:string;
     targetName:string;
   }
@@ -89,12 +95,12 @@ export namespace Group {
 
     export interface batchRights {
       groupIds:Array<number>;
-      rightType:RightType;
+      rightType:Rights;
       targetType:string;
     }
 
     export interface updateRights {
-      type:RightType;
+      type:Rights;
       targetType:string;
       targetName:string;
     }
@@ -298,14 +304,14 @@ export namespace Graph {
 export namespace Directory {
 
   export interface list {
-    type:ItemType;
+    type:Item;
     totalHits:number;
     results:Node.model | Edge.model;
   }
 
   export namespace request {
     export interface list {
-      type:ItemType;
+      type:Item;
       categoryOrTypes:Array<string>;
       properties:Array<string>;
       constraints:constraints;
@@ -362,7 +368,7 @@ export namespace Schema {
   }
 
   export interface itemsList {
-    type:ItemType;
+    type:Item;
     totalHits:number;
     results:Array<item>;
   }
@@ -540,9 +546,9 @@ export namespace App {
 
   interface SourceConfig {
     features:any;
-    alternativeIds:Schema.alternativeIds;
-    latitudeProperty:string;
-    longitudeProperty:string;
+    alternativeIds?:Schema.alternativeIds;
+    latitudeProperty?:string;
+    longitudeProperty?:string;
     directory:Schema.directory;
   }
 }
@@ -880,16 +886,18 @@ export interface Node {
 }
 
 export interface Search {
-  items(item:ItemType, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>>;
-  formattedItems(item:ItemType, params:Schema.request.itemsList):Promise<Schema.itemsList>;
+  items(item:Item, params:Schema.request.itemsList, isFormatted:boolean):Promise<Schema.itemsList|Array<Node.model>>;
+  formattedItems(item:Item, params:Schema.request.itemsList):Promise<Schema.itemsList>;
   users(data:User.request.list):Promise<Array<User.model>>;
   directory(data:Directory.request.list):Promise<Directory.list>;
 }
 
+// todo: remove this interface and use the class directly, there will be only one implementation
 export interface Fetcher {
-  fetch:(method:string, uri:string, data?:any) => Promise<any>;
+  fetch(method:string, uri:string, data?:any) : Promise<any>;
 }
 
+// todo: remove this interface and use the class directly, there will be only one implementation
 export interface LogDriver {
   level:string;
   logger:LoggerPlugin;

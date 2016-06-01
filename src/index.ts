@@ -120,7 +120,7 @@ class Linkurious {
   public logout():Promise<string> {
     return this.fetcher.fetch('GET', '/auth/logout')
       .then(() => {
-        this._user = <i.User.model>undefined;
+        this._user = undefined;
         return 'user disconnected';
       });
   }

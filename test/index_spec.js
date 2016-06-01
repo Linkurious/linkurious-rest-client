@@ -89,6 +89,7 @@ describe('Linkurious class', function(){
   describe('initCurrentSource method', function(){
     it('must set the right dataSource', function(){
       return linkurious.initCurrentSource().then(function(res){
+        // todo: detect the sourceKey in beforeAll (is not fixed)
         res.should.eql({ name: 'Database #0', key: '66a2bc71', configIndex: 0 });
       });
     });
