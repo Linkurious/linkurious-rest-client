@@ -21,6 +21,7 @@ import Node from './node';
 import Search from './search';
 import Visualization from './visualization';
 import * as i from './interfaces';
+import LinkuriousError from "./LinkuriousError";
 
 class Linkurious {
   private _fetcher: Fetcher;
@@ -101,13 +102,13 @@ class Linkurious {
 
     if (this._user) {
       return this.logout().then(() => {
-        return this.fetcher.fetch(fetchConfig);
+        return this._fetcher.fetch(fetchConfig);
       }).then(res => {
         this._user = res.user;
         return true;
       });
     } else {
-      return this.fetcher.fetch(fetchConfig).then(res => {
+      return this._fetcher.fetch(fetchConfig).then(res => {
         this._user = res.user;
         return true;
       });
@@ -125,7 +126,7 @@ class Linkurious {
       method: 'GET'
     };
 
-    return this.fetcher.fetch(fetchConfig)
+    return this._fetcher.fetch(fetchConfig)
       .then(() => {
         this._user = undefined;
         return 'user disconnected';
@@ -145,7 +146,7 @@ class Linkurious {
       body  : data
     };
 
-    return this.fetcher.fetch(fetchConfig)
+    return this._fetcher.fetch(fetchConfig)
       .then((res) => {
         this.user.username    = res.username;
         this.user.email       = res.email;
@@ -168,7 +169,7 @@ class Linkurious {
       method: 'GET'
     };
 
-    return this.fetcher.fetch(fetchConfig);
+    return this._fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -244,7 +245,7 @@ class Linkurious {
       method: 'GET'
     };
 
-    return this.fetcher.fetch(fetchConfig);
+    return this._fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -258,7 +259,7 @@ class Linkurious {
       method: 'GET'
     };
 
-    return this.fetcher.fetch(fetchConfig);
+    return this._fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -274,7 +275,7 @@ class Linkurious {
       query : sourceIndex
     };
 
-    return this.fetcher.fetch(fetchConfig);
+    return this._fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -288,7 +289,7 @@ class Linkurious {
       method: 'GET'
     };
 
-    return this.fetcher.fetch(fetchConfig);
+    return this._fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -302,13 +303,13 @@ class Linkurious {
       method: 'GET'
     };
 
-    return this.fetcher.fetch(fetchConfig)
+    return this._fetcher.fetch(fetchConfig)
       .then((res) => {
         if (res.indexed_source !== this._currentSource.key) {
-          this.log.error({
-            key    : 'Indexation error',
-            message: 'Server is indexing another source.'
-          });
+          this._logger.error(LinkuriousError.fromClientError(
+            'Indexation error',
+            'Server is indexing another source.'
+          ));
 
           return Promise.reject(res);
         }
