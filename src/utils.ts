@@ -9,20 +9,23 @@
  */
 'use strict';
 
-// todo: move to a file called Utils.ts (capitalized)
-// for case-only renames, see http://stackoverflow.com/questions/17683458/how-do-i-commit-case-sensitive-only-filename-changes-in-git
 export namespace Utils {
 
-  // todo: document this and choose a more self-explanatory function name.
-  export function fixCase(data:any):any {
-    if(!data){
+  /**
+   * take an object with camelCase fields and return one with only snake_case fields.
+   *
+   * @param data:any
+   * @returns any
+   */
+  export function fixSnakeCase(data:any):any {
+    if (!data) {
       return null;
     }
-    
+
     let result = <any>{};
 
-    for(let key in data){
-      if(data.hasOwnProperty(key)){
+    for (let key in data) {
+      if (data.hasOwnProperty(key)) {
         let sanitizedKey:string;
 
         sanitizedKey = key.replace(/([a-zA-Z0-9])([A-Z])/g, (substr, p1, p2) => p1 + '_' + p2.toLowerCase());

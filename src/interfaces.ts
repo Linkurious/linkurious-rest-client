@@ -819,9 +819,9 @@ export interface Admin {
   setNotIndexedEdgeProperties(data:Source.form.setProperties, dataSource?:string):Promise<boolean>;
   setNotIndexedNodeProperties(data:Source.form.setProperties, dataSource?:string):Promise<boolean>;
   createUser(data:User.form.create):Promise<User.model>;
-  deleteUser(userId:number):Promise<string>;
+  deleteUser(userId:number):Promise<boolean>;
   createGroup(data:Group.form.create):Promise<Group.model>;
-  deleteGroup(groupId:number):Promise<string>;
+  deleteGroup(groupId:number):Promise<boolean>;
   getGroup(groupId:number):Promise<Group.model>;
   getGroups(dataSource?:string):Promise<Array<Group.model>>;
   getSimpleGroups():Promise<Array<Group.model>>;
@@ -839,14 +839,14 @@ export interface Visualization {
   createWidget(data:Visualization.form.createWidget):Promise<string>
   createFolder(data:Visualization.form.createFolder):Promise<boolean>
   create(data:Visualization.form.create):Promise<Visualization.model>
-  deleteWidget(widgetKey:string):Promise<string>
-  deleteFolder(folderId:number):Promise<string>
+  deleteWidget(widgetKey:string):Promise<boolean>
+  deleteFolder(folderId:number):Promise<boolean>
   duplicate(vizId:number):Promise<Visualization.model>
   getWidget(widgetKey:string):Promise<Visualization.widget>
   getSandbox(params:Visualization.request.sandbox):Promise<Visualization.model>
   getOne(vizId:number):Promise<Visualization.model>
   getTree():Promise<Visualization.tree>
-  deleteOne(vizId:number):Promise<string>
+  deleteOne(vizId:number):Promise<boolean>
   getShares(vizId:number):Promise<Visualization.Shares>
   share(data:Visualization.form.setShareRights):Promise<Visualization.shareRights>
   unshare(data:Visualization.form.setShareRights):Promise<string>
@@ -869,7 +869,7 @@ export interface Edge {
   count():Promise<any>;
   create(data:Edge.form.create):Promise<Edge.model>;
   update(edgeId:ItemId, data:Edge.form.update):Promise<Edge.model>;
-  deleteOne(edgeId:ItemId):Promise<string>;
+  deleteOne(edgeId:ItemId):Promise<boolean>;
   getAdjacentFromNode(data:Edge.request.getAdjacent):Promise<Array<Edge.model>>;
   getOne(edgeId:ItemId):Promise<Edge.model>;
   getProperties(params?:Schema.request.properties):Promise<Schema.propertyList>;
@@ -885,7 +885,7 @@ export interface Graph {
 export interface Node {
   count():Promise<Count>;
   create(data:Node.form.create):Promise<Node.model>;
-  deleteOne(nodeId:ItemId):Promise<string>;
+  deleteOne(nodeId:ItemId):Promise<boolean>;
   getOne(nodeId:ItemId, params?:Node.request.one):Promise<Node.model>;
   expand(data:Node.request.adjacentItems):Promise<Array<Node.model>>;
   getNeighborsCategories(data:Node.request.neighborsCategories):Promise<Array<Schema.digest>>;
