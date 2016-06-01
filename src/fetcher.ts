@@ -31,16 +31,16 @@ export default class Fetcher {
   /**
    * construct the API URL with sourceId if needed and throw error if doesn't exists.
    *
-   * @param {string} uri The url fragment to format the API url
-   * @param {string} dataSource
-   * @returns {string} - return the API url formatted
+   * @param uri:string     - the url fragment to format the API url
+   * @param dataSource:string - the sourceKey
+   * @returns {string}      - return the API url formatted
    */
   private transformUrl(uri:string, dataSource?:string): string {
 
     const dataSourceTest = /\{dataSource}/;
 
     if (dataSourceTest.test(uri)) {
-      if(dataSource){
+      if (dataSource) {
         return this.host + '/api' + uri.replace(dataSourceTest, dataSource);
       } else if (this.currentSource) {
         let currentSource: Source.clientModel = this.currentSource;
@@ -67,7 +67,7 @@ export default class Fetcher {
     let url = this.transformUrl(config.url, config.dataSource);
     let fetchPromise;
 
-    if(config.method === 'GET'){
+    if (config.method === 'GET'){
       fetchPromise = this.httpDriver[config.method](url, config.query)
     } else {
       fetchPromise = this.httpDriver[config.method](url, config.data)

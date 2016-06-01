@@ -16,7 +16,7 @@ export default class Node {
 
   private fetcher;
 
-  constructor(fetcherInst){
+  constructor(fetcherInst) {
     this.fetcher = fetcherInst;
   }
 
@@ -26,7 +26,12 @@ export default class Node {
    * @returns {Promise<Interface.count>}
    */
   public count():Promise<i.Count> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/nodes/count');
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/nodes/count',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -36,7 +41,13 @@ export default class Node {
    * @returns {Promise<Node.model>}
    */
   public create(data:i.Node.form.create):Promise<i.Node.model> {
-    return this.fetcher.fetch('POST', '/{dataSource}/graph/nodes', data);
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/nodes',
+      method: 'POST',
+      body  : data
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -45,9 +56,14 @@ export default class Node {
    * @param nodeId:ItemId
    * @returns {Promise<string>}
    */
-  public deleteOne(nodeId:i.ItemId):Promise<string> {
-    return this.fetcher.fetch('DELETE', '/{dataSource}/graph/nodes/' + nodeId)
-      .then(() => 'node ' + nodeId + ' deleted');
+  public deleteOne(nodeId:i.ItemId):Promise<boolean> {
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/nodes/' + nodeId,
+      method: 'DELETE'
+    };
+
+    return this.fetcher.fetch(fetchConfig)
+      .then(() => true);
   }
 
   /**
@@ -58,7 +74,13 @@ export default class Node {
    * @returns {Promise<Node.model>}
    */
   public getOne(nodeId:i.ItemId, params?:i.Node.request.one):Promise<i.Node.model> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/nodes/' + nodeId, Utils.fixSnakeCase(params));
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/nodes/' + nodeId,
+      method: 'GET',
+      query : Utils.fixSnakeCase(params)
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -72,7 +94,13 @@ export default class Node {
    * @returns {Promise<Array<Node.model>>}
    */
   public expand(data:i.Node.request.adjacentItems):Promise<Array<i.Node.model>> {
-    return this.fetcher.fetch('POST', '/{dataSource}/graph/nodes/expand', Utils.fixSnakeCase(data));
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/nodes/expand',
+      method: 'POST',
+      body  : Utils.fixSnakeCase(data)
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -82,7 +110,13 @@ export default class Node {
    * @returns {Promise<Array<Schema.digest>>}
    */
   public getNeighborsCategories(data:i.Node.request.neighborsCategories):Promise<Array<i.Schema.digest>> {
-    return this.fetcher.fetch('POST', '/{dataSource}/graph/neighborhood/digest', data);
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/neighborhood/digest',
+      method: 'POST',
+      body  : data
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -93,7 +127,13 @@ export default class Node {
    * @returns {Promise<Node>}
    */
   public update(nodeId:i.ItemId, data:i.Node.form.update):Promise<i.Node.model> {
-    return this.fetcher.fetch('PATCH', '/{dataSource}/graph/nodes/' + nodeId, Utils.fixSnakeCase(data));
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/nodes/' + nodeId,
+      method: 'PATCH',
+      body  : Utils.fixSnakeCase(data)
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -103,7 +143,13 @@ export default class Node {
    * @returns {Promise<Schema.propertyList>}
    */
   public getProperties(params?:i.Schema.request.properties):Promise<i.Schema.propertyList> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/nodeTypes/properties', Utils.fixSnakeCase(params));
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/schema/nodeTypes/properties',
+      method: 'GET',
+      query : Utils.fixSnakeCase(params)
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -113,6 +159,12 @@ export default class Node {
    * @returns {Promise<Schema.typesList>}
    */
   public getTypes(params?:i.Node.request.types):Promise<i.Schema.typesList> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/nodeTypes', Utils.fixSnakeCase(params));
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/schema/nodeTypes',
+      method: 'GET',
+      query : Utils.fixSnakeCase(params)
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 }

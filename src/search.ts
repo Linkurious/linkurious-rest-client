@@ -16,7 +16,7 @@ export default class Search {
 
   private fetcher;
 
-  constructor(fetcherInst){
+  constructor(fetcherInst) {
     this.fetcher = fetcherInst;
   }
 
@@ -27,7 +27,13 @@ export default class Search {
    * @returns {Promise<Array<Node.model>>}
    */
   public fullNodes(params:i.Schema.request.itemsList):Promise<Array<i.Node.model>> {
-    return this.fetcher.fetch('GET', '/{dataSource}/search/nodes/full', Utils.fixSnakeCase(params));
+    let fetchConfig = {
+      url   : '/{dataSource}/search/nodes/full',
+      method: 'GET',
+      query : Utils.fixSnakeCase(params)
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -37,7 +43,13 @@ export default class Search {
    * @returns {Promise<Array<Node.model>>}
    */
   public fullEdges(params:i.Schema.request.itemsList):Promise<Array<i.Node.model>> {
-    return this.fetcher.fetch('GET', '/{dataSource}/search/edges/full', Utils.fixSnakeCase(params));
+    let fetchConfig = {
+      url   : '/{dataSource}/search/edges/full',
+      method: 'GET',
+      query : Utils.fixSnakeCase(params)
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -46,8 +58,14 @@ export default class Search {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<itemsList>}
    */
-  public nodes(params:i.Schema.request.itemsList):Promise<i.Schema.itemsList>{
-    return this.fetcher.fetch('GET', '/{dataSource}/search/nodes', params);
+  public nodes(params:i.Schema.request.itemsList):Promise<i.Schema.itemsList> {
+    let fetchConfig = {
+      url   : '/{dataSource}/search/nodes',
+      method: 'GET',
+      query : params
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -56,8 +74,14 @@ export default class Search {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<itemsList>}
    */
-  public edges(params:i.Schema.request.itemsList):Promise<i.Schema.itemsList>{
-    return this.fetcher.fetch('GET', '/{dataSource}/search/edges', params);
+  public edges(params:i.Schema.request.itemsList):Promise<i.Schema.itemsList> {
+    let fetchConfig = {
+      url   : '/{dataSource}/search/edges',
+      method: 'GET',
+      query : params
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -67,7 +91,13 @@ export default class Search {
    * @returns {Promise<Array<User.model>>}
    */
   public users(data:i.User.request.list):Promise<Array<i.User.model>> {
-    return this.fetcher.fetch('GET', '/findUsers', Utils.fixSnakeCase(data));
+    let fetchConfig = {
+      url   : '/findUsers',
+      method: 'GET',
+      query : Utils.fixSnakeCase(data)
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -77,6 +107,12 @@ export default class Search {
    * @returns {Promise<Directory.list>}
    */
   public directory(data:i.Directory.request.list):Promise<i.Directory.list> {
-    return this.fetcher.fetch('POST', '/{dataSource}/directory', data);
+    let fetchConfig = {
+      url   : '/{dataSource}/directory',
+      method: 'POST',
+      body  : data
+    };
+    
+    return this.fetcher.fetch(fetchConfig);
   }
 }

@@ -351,7 +351,7 @@ describe('Linkurious class', function(){
 
   describe('login method', function(){
   it('must log a user and hydrate app state', function(){
-      return linkurious.login('testName','testPass').then(function(res){
+      return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(res){
         linkurious.user.should.eql({
           id: 6,
           username: 'testName',
@@ -367,8 +367,8 @@ describe('Linkurious class', function(){
     });
 
     it('must logout before login if another user is currently authenticated', function(){
-      return linkurious.login('testName','testPass').then(function(){
-        return linkurious.login('testName','testPass').then(function(res){
+      return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(res){
           linkurious.user.should.eql({
             id: 6,
             username: 'testName',
@@ -387,7 +387,7 @@ describe('Linkurious class', function(){
 
   describe('logout method', function(){
     it('must disconnect user and reset client state', function(){
-      return linkurious.login('testName','testPass').then(function(){
+      return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.logout();
       }).then(function(res){
         res.should.equal('user disconnected');
@@ -398,7 +398,7 @@ describe('Linkurious class', function(){
 
   describe('startClient method', function(){
     it('must set current user and default source', function(){
-      return linkurious.startClient('testName','testPass').then(function(){
+      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         linkurious.user.should.eql({
             id: 6,
             username: 'testName',
@@ -417,7 +417,7 @@ describe('Linkurious class', function(){
 
   describe('updateCurrentUser', function(){
     it('must update current user and reflect it in state', function(){
-      return linkurious.login('testName','testPass').then(function(){
+      return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.updateCurrentUser({
           username : 'nameChanged'
         });

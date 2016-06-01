@@ -16,7 +16,7 @@ export default class Edge {
 
   private fetcher;
 
-  constructor(fetcherInst){
+  constructor(fetcherInst) {
     this.fetcher = fetcherInst;
   }
 
@@ -26,7 +26,12 @@ export default class Edge {
    * @returns {Promise}
    */
   public count():Promise<any> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/edges/count');
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/edges/count',
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -36,7 +41,13 @@ export default class Edge {
    * @returns {Promise<Edge>}
    */
   public create(data:i.Edge.form.create):Promise<i.Edge.model> {
-    return this.fetcher.fetch('POST', '/{dataSource}/graph/edges', data);
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/edges',
+      method: 'POST',
+      body  : data
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -48,7 +59,13 @@ export default class Edge {
    * @returns {Promise<Edge>}
    */
   public update(edgeId:i.ItemId, data:i.Edge.form.update):Promise<i.Edge.model> {
-    return this.fetcher.fetch('PATCH', '/{dataSource}/graph/edges/' + edgeId, data);
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/edges/' + edgeId,
+      method: 'PATCH',
+      body  : data
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -57,9 +74,14 @@ export default class Edge {
    * @param edgeId : ItemId
    * @returns {Promise<string>}
    */
-  public deleteOne(edgeId:i.ItemId):Promise<string> {
-    return this.fetcher.fetch('DELETE', '/{dataSource}/graph/edges/' + edgeId)
-      .then(() => 'edge ' + edgeId + ' deleted');
+  public deleteOne(edgeId:i.ItemId):Promise<boolean> {
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/edges/' + edgeId,
+      method: 'DELETE'
+    };
+
+    return this.fetcher.fetch(fetchConfig)
+      .then(() => true);
   }
 
   /**
@@ -87,7 +109,13 @@ export default class Edge {
 
     query = Utils.fixSnakeCase(data);
 
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/edges', query);
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/edges',
+      method: 'GET',
+      query : query
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -97,7 +125,12 @@ export default class Edge {
    * @returns {Promise<Edge.model>}
    */
   public getOne(edgeId:i.ItemId):Promise<i.Edge.model> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/edges/' + edgeId);
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/edges/' + edgeId,
+      method: 'GET'
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -107,7 +140,13 @@ export default class Edge {
    * @returns {Promise<Schema.propertyList>}
    */
   public getProperties(params?:i.Schema.request.properties):Promise<i.Schema.propertyList> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/edgeTypes/properties', Utils.fixSnakeCase(params));
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/schema/edgeTypes/properties',
+      method: 'GET',
+      query : Utils.fixSnakeCase(params)
+    };
+    
+    return this.fetcher.fetch(fetchConfig);
   }
 
   /**
@@ -117,7 +156,13 @@ export default class Edge {
    * @returns {Promise<Schema.typesList>}
    */
   public getTypes(params?:i.Edge.request.types):Promise<i.Schema.typesList> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/edgeTypes', Utils.fixSnakeCase(params));
+    let fetchConfig = {
+      url   : '/{dataSource}/graph/schema/edgeTypes',
+      method: 'GET',
+      query : Utils.fixSnakeCase(params)
+    };
+
+    return this.fetcher.fetch(fetchConfig);
   }
 
 }
