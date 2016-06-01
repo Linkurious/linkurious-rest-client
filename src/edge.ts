@@ -10,14 +10,14 @@
 'use strict';
 
 import * as i from './interfaces';
-import {Utils} from './utils';
+import {Utils} from './Utils';
 
 export default class Edge {
 
-  private fetcher:i.Fetcher;
+  private fetcher;
 
-  constructor(fetcherInst:i.Fetcher){
-    this.fetcher = <i.Fetcher>fetcherInst;
+  constructor(fetcherInst){
+    this.fetcher = fetcherInst;
   }
 
   /**
@@ -85,7 +85,7 @@ export default class Edge {
     delete data.nodeId;
     delete data.orientation;
 
-    query = Utils.fixCase(data);
+    query = Utils.fixSnakeCase(data);
 
     return this.fetcher.fetch('GET', '/{dataSource}/graph/edges', query);
   }
@@ -107,7 +107,7 @@ export default class Edge {
    * @returns {Promise<Schema.propertyList>}
    */
   public getProperties(params?:i.Schema.request.properties):Promise<i.Schema.propertyList> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/edgeTypes/properties', Utils.fixCase(params));
+    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/edgeTypes/properties', Utils.fixSnakeCase(params));
   }
 
   /**
@@ -117,7 +117,7 @@ export default class Edge {
    * @returns {Promise<Schema.typesList>}
    */
   public getTypes(params?:i.Edge.request.types):Promise<i.Schema.typesList> {
-    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/edgeTypes', Utils.fixCase(params));
+    return this.fetcher.fetch('GET', '/{dataSource}/graph/schema/edgeTypes', Utils.fixSnakeCase(params));
   }
 
 }
