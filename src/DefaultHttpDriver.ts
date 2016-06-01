@@ -22,7 +22,9 @@ export default class DefaultHttpDriver implements HttpDriver {
   }
 
   private handleResponse(resolve: Function, reject: Function, err: Error, res: HttpResponse) {
-    if (err) { return reject(err); }
+    if ((typeof res.statusCode !== 'number' || res.statusCode < 100) && err) {
+      return reject(err);
+    }
 
     if (res.header && res.header['set-cookie']){
       this.cookie = res.header['set-cookie'];

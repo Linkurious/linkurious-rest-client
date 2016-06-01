@@ -21,7 +21,8 @@ import Node from './node';
 import Search from './search';
 import Visualization from './visualization';
 import * as i from './interfaces';
-import LinkuriousError from "./LinkuriousError";
+import LinkuriousError from './LinkuriousError';
+import {FetchConfig} from "./interfaces";
 
 class Linkurious {
   private _fetcher: Fetcher;
@@ -94,7 +95,7 @@ class Linkurious {
    * @returns {Promise<boolean>}
    */
   public login(data:i.User.form.login):Promise<boolean> {
-    let fetchConfig = {
+    let config: FetchConfig = {
       url   : '/auth/login',
       method: 'POST',
       body  : data
@@ -102,13 +103,13 @@ class Linkurious {
 
     if (this._user) {
       return this.logout().then(() => {
-        return this._fetcher.fetch(fetchConfig);
+        return this._fetcher.fetch(config);
       }).then(res => {
         this._user = res.user;
         return true;
       });
     } else {
-      return this._fetcher.fetch(fetchConfig).then(res => {
+      return this._fetcher.fetch(config).then(res => {
         this._user = res.user;
         return true;
       });
@@ -121,12 +122,10 @@ class Linkurious {
    * @returns {Promise<string>}
    */
   public logout():Promise<string> {
-    let fetchConfig = {
+    return this._fetcher.fetch({
       url   : '/auth/logout',
       method: 'GET'
-    };
-
-    return this._fetcher.fetch(fetchConfig)
+    })
       .then(() => {
         this._user = undefined;
         return 'user disconnected';
@@ -140,13 +139,11 @@ class Linkurious {
    * @returns {Promise}
    */
   public updateCurrentUser(data:i.User.form.update):Promise<any> {
-    let fetchConfig = {
+    return this._fetcher.fetch({
       url   : '/auth/me',
       method: 'PATCH',
       body  : data
-    };
-
-    return this._fetcher.fetch(fetchConfig)
+    })
       .then((res) => {
         this.user.username    = res.username;
         this.user.email       = res.email;
@@ -164,12 +161,10 @@ class Linkurious {
    * @returns {Promise<Source.list>}
    */
   public getSourceList():Promise<i.Source.list> {
-    let fetchConfig = {
+    return this._fetcher.fetch({
       url   : '/dataSources',
       method: 'GET'
-    };
-
-    return this._fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -240,12 +235,10 @@ class Linkurious {
    * @returns {Promise<App.status>}
    */
   public getAppStatus():Promise<i.App.status> {
-    let fetchConfig = {
+    return this._fetcher.fetch({
       url   : '/status',
       method: 'GET'
-    };
-
-    return this._fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -254,12 +247,10 @@ class Linkurious {
    * @returns {Promise<App.version>}
    */
   public getAppVersion():Promise<i.App.version> {
-    let fetchConfig = {
+    return this._fetcher.fetch({
       url   : '/version',
       method: 'GET'
-    };
-
-    return this._fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -269,13 +260,11 @@ class Linkurious {
    * @returns {Promise<App.config>}
    */
   public getAppConfig(sourceIndex?:number):Promise<i.App.config> {
-    let fetchConfig = {
+    return this._fetcher.fetch({
       url   : '/config',
       method: 'GET',
       query : sourceIndex
-    };
-
-    return this._fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -284,12 +273,10 @@ class Linkurious {
    * @returns {Promise<Schema.model>}
    */
   public getSchema():Promise<i.Schema.model> {
-    let fetchConfig = {
+    return this._fetcher.fetch({
       url   : '/{dataSource}/graph/schema/simple',
       method: 'GET'
-    };
-
-    return this._fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -298,24 +285,21 @@ class Linkurious {
    * @returns {Promise<Source.indexationStatus>}
    */
   public getIndexationStatus():Promise<i.Source.indexationStatus> {
-    let fetchConfig = {
+    return this._fetcher.fetch({
       url   : '/{dataSource}/search/status',
       method: 'GET'
-    };
+    }).then(r => {
+      if (r.indexed_source !== this._currentSource.key) {
+        this._logger.error(LinkuriousError.fromClientError(
+          'Indexation error',
+          'Server is indexing another source.'
+        ));
 
-    return this._fetcher.fetch(fetchConfig)
-      .then((res) => {
-        if (res.indexed_source !== this._currentSource.key) {
-          this._logger.error(LinkuriousError.fromClientError(
-            'Indexation error',
-            'Server is indexing another source.'
-          ));
+        return Promise.reject(r);
+      }
 
-          return Promise.reject(res);
-        }
-
-        return res;
-      })
+      return r;
+    });
   }
 
   /**
@@ -352,19 +336,18 @@ class Linkurious {
    */
   private listenIndexation(timeout:number, callback?:i.IndexationCallback):Promise<boolean> {
 
-    return this.getIndexationStatus()
-      .then((res) => {
-        if (res.indexing !== 'done') {
-          setTimeout(() => {
-            if (callback) {
-              callback(res);
-            }
-            this.listenIndexation(timeout, callback);
-          }, timeout);
-        } else {
-          return true;
-        }
-      });
+    return this.getIndexationStatus().then((res) => {
+      if (res.indexing !== 'done') {
+        setTimeout(() => {
+          if (callback) {
+            callback(res);
+          }
+          this.listenIndexation(timeout, callback);
+        }, timeout);
+      } else {
+        return true;
+      }
+    });
   }
 }
 

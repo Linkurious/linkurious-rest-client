@@ -11,33 +11,34 @@
 
 const should = require('should');
 const Linkurious = require('./../built/index');
-const LogDriver = require('./../built/logDriver');
-const HTTPDriver = require('./../built/HTTPDriver');
+const Logger = require('./../built/Logger');
 const Fetcher = require('./../built/fetcher');
 const Admin = require('./../built/admin');
 
 describe('Linkurious class', function(){
 
-  let linkurious, testLog, logFunctions, edgeID, nodeId;
+  let linkurious, testLog, logDriver, edgeID, nodeId, sourceKey;
 
   beforeEach(function(){
     testLog = false;
-    logFunctions = {
+    logDriver = {
+      debug: () => {},
       error: () => {
         testLog = true;
       }
     };
-    linkurious = new Linkurious('http://localhost:3001', 'error', logFunctions);
+    linkurious = new Linkurious('http://localhost:3001', 'error', logDriver);
+    sourceKey = global.sourceKey;
   });
 
   describe('constructor', function(){
 
     it('log must be an instance of logDriver', function(){
-      linkurious.log.should.be.an.instanceOf(LogDriver.default);
+      linkurious._logger.should.be.an.instanceOf(Logger.default);
     });
 
     it('fetcher must be an instance of fetcher', function(){
-      linkurious.fetcher.should.be.an.instanceOf(Fetcher.default);
+      linkurious._fetcher.should.be.an.instanceOf(Fetcher.default);
     });
 
     it('admin must be an instance of admin', function(){
@@ -76,11 +77,11 @@ describe('Linkurious class', function(){
   describe('transformUrl method', function(){
 
     it('must throw a console if no dataSource is set', function(){
-      linkurious.fetcher.transformUrl.bind(null, '/{dataSource}/api/test').should.throw()
+      linkurious._fetcher.transformUrl.bind(null, '/{dataSource}/api/test').should.throw()
     });
 
     it('must construct the url without sourceKey if no variable present in the url fragment', function(){
-      let url = linkurious.fetcher.transformUrl('/test');
+      let url = linkurious._fetcher.transformUrl('/test');
 
       url.should.equal('http://localhost:3001/api/test');
     })
@@ -90,7 +91,7 @@ describe('Linkurious class', function(){
     it('must set the right dataSource', function(){
       return linkurious.initCurrentSource().then(function(res){
         // todo: detect the sourceKey in beforeAll (is not fixed)
-        res.should.eql({ name: 'Database #0', key: '66a2bc71', configIndex: 0 });
+        res.should.eql({ name: 'Database #0', key: sourceKey, configIndex: 0 });
       });
     });
   });
@@ -98,13 +99,13 @@ describe('Linkurious class', function(){
   describe('setCurrentSource method', function(){
     it('must set the dataSource by ConfigIndex', function(){
       return linkurious.setCurrentSource(0).then(function(res){
-        res.should.eql({ name: 'Database #0', key: '66a2bc71', configIndex: 0 });
+        res.should.eql({ name: 'Database #0', key: sourceKey, configIndex: 0 });
       })
     });
 
     it('must set the dataSource by key', function(){
-      return linkurious.setCurrentSource('66a2bc71').then(function(res){
-        res.should.eql({ name: 'Database #0', key: '66a2bc71', configIndex: 0 });
+      return linkurious.setCurrentSource(sourceKey).then(function(res){
+        should(res).eql({name: 'Database #0', key: sourceKey, configIndex: 0});
       })
     });
   });
@@ -126,9 +127,10 @@ describe('Linkurious class', function(){
   describe('getNodesByQuery method', function(){
     it('must return the right nodes for the query', function(){
       return linkurious.initCurrentSource().then(function(){
+
         return linkurious.graph.getNodeList({
           dialect : 'cypher',
-          query : 'MATCH n\nreturn n LIMIT 1',
+          query : 'MATCH (n)\nreturn n LIMIT 1',
           withVersion : true
         });
       }).then(function(res){
@@ -410,7 +412,7 @@ describe('Linkurious class', function(){
             actions: { all: ['rawReadQuery', 'rawWriteQuery'] }
         });
 
-        linkurious.currentSource.should.eql({ name: 'Database #0', key: '66a2bc71', configIndex: 0 });
+        linkurious.currentSource.should.eql({ name: 'Database #0', key: global.sourceKey, configIndex: 0 });
       });
     });
   });

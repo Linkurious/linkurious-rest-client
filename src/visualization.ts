@@ -10,14 +10,13 @@
 'use strict';
 
 import * as i from './interfaces';
-import {Utils} from './Utils';
+import Utils from './Utils';
+import Module from "./Module";
 
-export default class Visualization {
+export default class Visualization extends Module {
 
-  private fetcher;
-
-  constructor(fetcherInst) {
-    this.fetcher = fetcherInst;
+  constructor(fetcher) {
+    super(fetcher);
   }
 
   /**
@@ -26,12 +25,10 @@ export default class Visualization {
    * @returns {Promise<Count>}
    */
   public count():Promise<i.Count> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/visualizations/count',
       method: 'GET'
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -41,13 +38,11 @@ export default class Visualization {
    * @returns {Promise<string>}
    */
   public createWidget(data:i.Visualization.form.createWidget):Promise<string> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/widget',
       method: 'POST',
       body  : data
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -57,13 +52,11 @@ export default class Visualization {
    * @returns {Promise<boolean>}
    */
   public createFolder(data:i.Visualization.form.createFolder):Promise<boolean> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/visualizations/folder',
       method: 'POST',
       body  : data
-    };
-
-    return this.fetcher.fetch(fetchConfig)
+    })
       .then(() => true);
   }
 
@@ -74,13 +67,11 @@ export default class Visualization {
    * @returns {Promise<Visualization.model>}
    */
   public create(data:i.Visualization.form.create):Promise<i.Visualization.model> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/visualization',
       method: 'POST',
       body  : data
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -90,12 +81,10 @@ export default class Visualization {
    * @returns {Promise<string>}
    */
   public deleteWidget(widgetKey:string):Promise<boolean> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/widget/' + widgetKey,
       method: 'DELETE'
-    };
-
-    return this.fetcher.fetch(fetchConfig)
+    })
       .then(() => true);
   }
 
@@ -106,12 +95,10 @@ export default class Visualization {
    * @returns {Promise<string>}
    */
   public deleteFolder(folderId:number):Promise<boolean> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/visualizations/folder/' + folderId,
       method: 'DELETE'
-    };
-
-    return this.fetcher.fetch(fetchConfig)
+    })
       .then(() => true);
   }
 
@@ -122,12 +109,10 @@ export default class Visualization {
    * @returns {Promise<Visualization.model>}
    */
   public duplicate(vizId:number):Promise<i.Visualization.model> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/visualizations/' + vizId + '/duplicate',
       method: 'POST'
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -137,12 +122,10 @@ export default class Visualization {
    * @returns {Promise<Visualization.widget>}
    */
   public getWidget(widgetKey:string):Promise<i.Visualization.widget> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/widget/' + widgetKey,
       method: 'GET'
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -152,13 +135,11 @@ export default class Visualization {
    * @returns {Promise<Visualization.model>}
    */
   public getSandbox(params:i.Visualization.request.sandbox):Promise<i.Visualization.model> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/sandbox',
       method: 'GET',
       query : Utils.fixSnakeCase(params)
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -168,12 +149,10 @@ export default class Visualization {
    * @returns {Promise<Visualization.model>}
    */
   public getOne(vizId:number):Promise<i.Visualization.model> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/visualizations/' + vizId,
       method: 'GET'
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -182,12 +161,10 @@ export default class Visualization {
    * @returns {Promise<Visualization.tree>}
    */
   public getTree():Promise<i.Visualization.tree> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/visualizations/tree',
       method: 'GET'
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -197,13 +174,10 @@ export default class Visualization {
    * @returns {Promise<string>}
    */
   public deleteOne(vizId:number):Promise<boolean> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/visualizations/' + vizId,
       method: 'DELETE'
-    };
-
-    return this.fetcher.fetch(fetchConfig)
-      .then(() => true);
+    }).then(() => true);
   }
 
   /**
@@ -212,12 +186,10 @@ export default class Visualization {
    * @returns {Promise<Visualization.Shares>}
    */
   public getShares(vizId:number):Promise<i.Visualization.Shares> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/visualizations/' + vizId + '/shares',
       method: 'GET'
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -227,15 +199,13 @@ export default class Visualization {
    * @returns {Promise<Visualization.shareRights>}
    */
   public share(data:i.Visualization.form.setShareRights):Promise<i.Visualization.shareRights> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/visualizations/' + data.vizId + '/share/' + data.userId,
       method: 'PUT',
       body  : {
         right: data.right
       }
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -245,13 +215,10 @@ export default class Visualization {
    * @returns {Promise<string>}
    */
   public unshare(data:i.Visualization.form.setShareRights):Promise<string> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/visualizations/' + data.vizId + '/shared/' + data.userId,
       method: 'DELETE'
-    };
-
-    return this.fetcher.fetch(fetchConfig)
-      .then(() => 'Visualization ' + data.vizId + 'unshared');
+    }).then(() => 'Visualization ' + data.vizId + 'unshared');
   }
 
   /**
@@ -262,14 +229,11 @@ export default class Visualization {
    * @returns {Promise<boolean>}
    */
   public updateFolder(folderId:number, data:i.Visualization.form.updateFolder):Promise<boolean> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/visualizations/folder/' + folderId,
       method: 'PATCH',
       body  : data
-    };
-
-    return this.fetcher.fetch(fetchConfig)
-      .then(() => true);
+    }).then(() => true);
   }
 
   /**
@@ -279,14 +243,11 @@ export default class Visualization {
    * @returns {Promise<boolean>}
    */
   public updateSandbox(data:i.Visualization.form.updateSandbox):Promise<boolean> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/sandbox',
       method: 'PATCH',
       body  : data
-    };
-
-    return this.fetcher.fetch(fetchConfig)
-      .then(() => true);
+    }).then(() => true);
   }
 
   /**
@@ -297,13 +258,10 @@ export default class Visualization {
    * @returns {Promise<boolean>}
    */
   public update(vizId:number, data:i.Visualization.form.update):Promise<boolean> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/visualizations/' + vizId,
       method: 'PATCH',
       body  : data
-    };
-
-    return this.fetcher.fetch(fetchConfig)
-      .then(() => true);
+    }).then(() => true);
   }
 }

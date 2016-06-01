@@ -12,7 +12,7 @@
 import LinkuriousError from './LinkuriousError';
 import {LogLevel, LoggerDriver} from './interfaces';
 
-class DefaultLoggerDriver implements LoggerDriver {
+export class DefaultLoggerDriver implements LoggerDriver {
   debug(message: string) {
     console.debug(message);
   }
@@ -25,6 +25,7 @@ class DefaultLoggerDriver implements LoggerDriver {
 const LOG_LEVELS: Map<LogLevel, number> = new Map<LogLevel, number>();
 LOG_LEVELS.set('debug', 0);
 LOG_LEVELS.set('error', 1);
+LOG_LEVELS.set('quiet', 99);
 
 export default class Logger {
   public level: LogLevel;
@@ -47,7 +48,7 @@ export default class Logger {
 
   private log(level: LogLevel, error: LinkuriousError) {
     if (LOG_LEVELS.get(level) >= this.numericalLevel) {
-      this.driver[level](`${error.key}: ${error.message}`);
+      this.driver[level](`[${error.type}] ${error.key}: ${error.message}`);
     }
   }
 }

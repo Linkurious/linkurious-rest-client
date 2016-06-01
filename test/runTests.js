@@ -14,7 +14,7 @@ const fs       = require('fs-extra');
 const path     = require('path');
 const request  = require('request');
 let retry      = 0;
-let sourceKey  = null;
+global.sourceKey  = null;
 const maxRetry = 50;
 
 const LKE = require('../../linkurious-server/server/services');
@@ -23,60 +23,85 @@ console.log('LKE VERSION: ' + LKE.getVersionString());
 var Config = LKE.get('configuration');
 Config.load();
 
-function testConnection() {
-  return new Promise(function (resolve) {
-    console.log('check for indexation to be done');
-    if (retry++ < maxRetry) {
-      if (!sourceKey) {
-        request({
-          method: 'GET',
-          uri   : 'http://localhost:3001/api/datasources',
-          json  : true
-        }, function (err, res, bod) {
-          if (err) {
-            resolve(false);
-          } else {
-            if (res.statusCode === 200) {
-              sourceKey = bod.sources[0].key;
-              resolve(false);
-            }
-          }
-        });
+/**
+ *
+ * @param {string} uri
+ * @returns {Promise.<object>}
+ */
+function queryTestServer(uri) {
+  return new Promise((resolve, reject) => {
+    request({
+      method: 'GET',
+      uri   : 'http://localhost:3001' + uri,
+      json  : true
+    },(err, res, body) => {
+      if (err) {
+        reject(err);
       } else {
-        request({
-          method: 'GET',
-          uri   : 'http://localhost:3001/api/' + sourceKey + '/search/status',
-          json  : true
-        }, function (err, res, bod) {
-          if (bod.indexing === 'done') {
-            resolve(true);
-          } else {
-            resolve(false);
-          }
-        });
+        resolve(body);
       }
-    }
-  }).then(function (isServerReady) {
+    });
+  });
+}
+
+/**
+ *
+ * @returns {Promise.<boolean>}
+ */
+function testConnection() {
+  var sourceKeyPromise = global.sourceKey !== null
+    ? Promise.resolve(global.sourceKey)
+    : queryTestServer('/api/dataSources').then(r => global.sourceKey = r.sources[0].key);
+
+  if (retry++ > maxRetry) {
+    console.log(`Check indexation status: Giving up after ${retry} tries`);
+    return Promise.resolve(false);
+  }
+
+  console.log(`check for indexation to be done (${retry}/${maxRetry})`);
+  return sourceKeyPromise.then(sourceKey => {
+    return queryTestServer(`/api/${sourceKey}/search/status`)
+  }).then(body => {
+    return body.indexing === 'done';
+  }).then(isServerReady => {
     if (isServerReady === false) {
-      testConnection();
+      return testConnection();
     }
+    console.log('Indexation done :)');
     return true;
+  }).catch(e => {
+    console.log(JSON.stringify(e.stack.split('\s*\n\s*'), null, ' '));
+    process.exit(0);
   })
 }
 
 function runTests() {
-  const mocha = new Mocha();
-
-  var testDir = './test';
-
-  fs.readdirSync(testDir).filter(function (file) {
-    return file.match(/_spec\.js/);
-  }).forEach(function (file) {
-    mocha.addFile(path.join(testDir, file));
+  const mocha = new Mocha({
+    // stop tests on first failure
+    bail: true,
+    // provide describe(), context(), it(), specify(), before(), after(), beforeEach(), and afterEach().
+    ui: 'bdd',
+    // default reporter
+    reporter: 'spec',
+    // 10 seconds per test max.
+    timeout: 10000,
+    // show slow tests in different colors
+    slow: 80
   });
 
-  mocha.run().on('end', function () {
-    process.exit();
+  var testDir = path.resolve(__dirname);
+  fs.readdirSync(testDir).filter(file => {
+    return file.match(/_spec\.js$/);
+  }).forEach(file => {
+    mocha.addFile(path.resolve(testDir, file));
+  });
+
+  console.log('Launching tests ...');
+  // Run the tests.
+  var failures = undefined;
+  mocha.run(_failures => { failures = _failures }).on('end', () => {
+    console.log('failures: '+ failures);
+    process.exit(failures);
   });
 }
 
@@ -146,10 +171,10 @@ Promise.resolve().then(() => {
     console.error('Unexpected Backend state: ' + state);
     return Promise.reject();
   }
-}).then(function () {
+}).then(() => {
   return runAsTestServer();
-}).then(function () {
+}).then(() => {
   return testConnection();
-}).then(function () {
+}).then(() => {
   runTests();
 });

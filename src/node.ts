@@ -10,14 +10,13 @@
 'use strict';
 
 import * as i from './interfaces';
-import {Utils} from './Utils';
+import Utils from './Utils';
+import Module from "./Module";
 
-export default class Node {
+export default class Node extends Module {
 
-  private fetcher;
-
-  constructor(fetcherInst) {
-    this.fetcher = fetcherInst;
+  constructor(fetcher) {
+    super(fetcher)
   }
 
   /**
@@ -26,12 +25,10 @@ export default class Node {
    * @returns {Promise<Interface.count>}
    */
   public count():Promise<i.Count> {
-    let fetchConfig = {
-      url   : '/{dataSource}/graph/nodes/count',
+    return this.fetch({
+      url   : '/dataSource/graph/nodes/count',
       method: 'GET'
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -41,13 +38,11 @@ export default class Node {
    * @returns {Promise<Node.model>}
    */
   public create(data:i.Node.form.create):Promise<i.Node.model> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/graph/nodes',
       method: 'POST',
       body  : data
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -55,15 +50,13 @@ export default class Node {
    *
    * @param nodeId:ItemId
    * @returns {Promise<string>}
+   *
    */
   public deleteOne(nodeId:i.ItemId):Promise<boolean> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/graph/nodes/' + nodeId,
       method: 'DELETE'
-    };
-
-    return this.fetcher.fetch(fetchConfig)
-      .then(() => true);
+    }).then(() => true);
   }
 
   /**
@@ -74,13 +67,11 @@ export default class Node {
    * @returns {Promise<Node.model>}
    */
   public getOne(nodeId:i.ItemId, params?:i.Node.request.one):Promise<i.Node.model> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/graph/nodes/' + nodeId,
       method: 'GET',
       query : Utils.fixSnakeCase(params)
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -94,13 +85,11 @@ export default class Node {
    * @returns {Promise<Array<Node.model>>}
    */
   public expand(data:i.Node.request.adjacentItems):Promise<Array<i.Node.model>> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/graph/nodes/expand',
       method: 'POST',
       body  : Utils.fixSnakeCase(data)
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -110,13 +99,11 @@ export default class Node {
    * @returns {Promise<Array<Schema.digest>>}
    */
   public getNeighborsCategories(data:i.Node.request.neighborsCategories):Promise<Array<i.Schema.digest>> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/graph/neighborhood/digest',
       method: 'POST',
       body  : data
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -127,13 +114,11 @@ export default class Node {
    * @returns {Promise<Node>}
    */
   public update(nodeId:i.ItemId, data:i.Node.form.update):Promise<i.Node.model> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/graph/nodes/' + nodeId,
       method: 'PATCH',
       body  : Utils.fixSnakeCase(data)
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -143,13 +128,11 @@ export default class Node {
    * @returns {Promise<Schema.propertyList>}
    */
   public getProperties(params?:i.Schema.request.properties):Promise<i.Schema.propertyList> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/graph/schema/nodeTypes/properties',
       method: 'GET',
       query : Utils.fixSnakeCase(params)
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 
   /**
@@ -159,12 +142,10 @@ export default class Node {
    * @returns {Promise<Schema.typesList>}
    */
   public getTypes(params?:i.Node.request.types):Promise<i.Schema.typesList> {
-    let fetchConfig = {
+    return this.fetch({
       url   : '/{dataSource}/graph/schema/nodeTypes',
       method: 'GET',
       query : Utils.fixSnakeCase(params)
-    };
-
-    return this.fetcher.fetch(fetchConfig);
+    });
   }
 }

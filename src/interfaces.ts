@@ -15,17 +15,17 @@ export interface HttpDriver {
   DELETE(uri:string, data?:any):Promise<HttpResponse>;
 }
 
-export interface FetcherConfig {
-  url:string;
-  method:string;
-  dataSource?:string;
-  data?:any;
-  query?:any;
+export interface FetchConfig {
+  url: string;
+  method: 'POST'|'GET'|'PUT'|'DELETE'|'PATCH';
+  dataSource?: string;
+  body?: any;
+  query?: any;
 }
 
 // LOGS
 
-export type LogLevel = 'debug'|'error';
+export type LogLevel = 'debug'|'error'|'quiet';
 
 export interface LoggerDriver {
   debug: (message: string) => void;
@@ -34,7 +34,7 @@ export interface LoggerDriver {
 
 // APIs
 
-export type GraphDBVendor = 'neo4j'|'titan'|'dse';
+//export type GraphDBVendor = 'neo4j'|'titan'|'dse';
 export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgeOrientation = 'in'|'out'|'both';
 export type ItemType = 'node'|'edge';

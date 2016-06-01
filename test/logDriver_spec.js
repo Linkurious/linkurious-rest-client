@@ -11,43 +11,42 @@
 
 const should = require('should');
 const bunyan     = require('bunyan');
-const LogDriver = require('./../built/logDriver');
+const Logger = require('./../built/Logger').default;
+const DefaultLoggerDriver = require('./../built/Logger').DefaultLoggerDriver;
 
 describe('logDriver class', function(){
   describe('constructor', function(){
-    it('logDriver.level must be "quiet" and logDriver.logger.debug must be "console.debug" and logDriver.logger.error must be "console.error"', function(){
-      let logger = new LogDriver.default('quiet');
+    it('Logger.level must be "quiet"', function() {
+      let logger = new Logger('quiet');
 
       logger.level.should.equal('quiet');
-      logger.logger.should.eql({
-        debug : console.debug,
-        error : console.error
-      })
+    });
+    
+    it('Logger.driver must be the default driver', function() {
+      let logger = new Logger('quiet');
+      logger.driver.debug.should.eql(DefaultLoggerDriver.prototype.debug);
+      logger.driver.error.should.eql(DefaultLoggerDriver.prototype.error);
     });
 
-    it('logDriver.logger must be bound to bunyan log functions', function(){
-
-      let logFunctions = {
-        error: m => bunyan.info(m),
-        debug: m => bunyan.warn(m)
+    it('Logger.driver must be bound to bunyan log functions', function(){
+      let bunyanDriver= {
+        error: m => bunyan.error(m),
+        debug: m => bunyan.debug(m)
       };
-
-      let logger = new LogDriver.default('quiet', logFunctions);
-
-      logger.logger.should.eql({
-        error: logFunctions.error,
-        debug: logFunctions.debug
+      let logger = new Logger('quiet', bunyanDriver);
+      logger.driver.should.eql({
+        error: bunyanDriver.error,
+        debug: bunyanDriver.debug
       });
     });
   });
 
   describe('debug method', function(){
-
-    let testLog, logFunctions;
+    let testLog, driver;
 
     beforeEach(function(){
       testLog = false;
-      logFunctions = {
+      driver = {
         debug: () => {
           testLog = true;
         }
@@ -55,48 +54,30 @@ describe('logDriver class', function(){
     });
 
     it('must return nothing if level is set to quiet', function(){
-
-      let logger = new LogDriver.default('quiet', logFunctions);
-
-      logger.debug({
-        key : 'test key',
-        message : 'test message'
-      });
-
+      let logger = new Logger('quiet', driver);
+      logger.debug({key : 'test key', message : 'test message'});
       testLog.should.equal(false);
     });
 
     it('must return nothing if level is set to error', function(){
-      let logger = new LogDriver.default('error', logFunctions);
-
-      logger.debug({
-        key : 'test key',
-        message : 'test message'
-      });
-
+      let logger = new Logger('error', driver);
+      logger.debug({key : 'test key', message : 'test message'});
       testLog.should.equal(false);
     });
 
     it('must return something if level is set to debug', function(){
-
-      let logger = new LogDriver.default('debug', logFunctions);
-
-      logger.debug({
-        key : 'test key',
-        message : 'test message'
-      });
-
+      let logger = new Logger('debug', driver);
+      logger.debug({key : 'test key', message : 'test message'});
       testLog.should.equal(true);
     });
   });
 
   describe('error method', function(){
-
-    let testLog, logFunctions;
+    let testLog, driver;
 
     beforeEach(function(){
       testLog = false;
-      logFunctions = {
+      driver = {
         error: () => {
           testLog = true;
         }
@@ -104,36 +85,26 @@ describe('logDriver class', function(){
     });
 
     it('must return nothing if level is set to quiet', function(){
+      let logger = new Logger('quiet', driver);
 
-      let logger = new LogDriver.default('quiet', logFunctions);
-
-      logger.error({
-        key : 'test key',
-        message : 'test message'
-      });
+      logger.error({key : 'test key', message : 'test message'});
 
       testLog.should.equal(false);
     });
 
     it('must return something if level is set to error', function(){
-      let logger = new LogDriver.default('error', logFunctions);
+      let logger = new Logger('error', driver);
 
-      logger.error({
-        key : 'test key',
-        message : 'test message'
-      });
+      logger.error({key : 'test key', message : 'test message'});
 
       testLog.should.equal(true);
     });
 
     it('must return something if level is set to debug', function(){
 
-      let logger = new LogDriver.default('debug', logFunctions);
+      let logger = new Logger('debug', driver);
 
-      logger.error({
-        key : 'test key',
-        message : 'test message'
-      });
+      logger.error({key : 'test key', message : 'test message'});
 
       testLog.should.equal(true);
     });

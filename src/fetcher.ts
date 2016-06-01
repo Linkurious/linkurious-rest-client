@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import {HttpResponse, HttpDriver, Source, FetcherConfig} from './interfaces';
+import {HttpResponse, HttpDriver, Source, FetchConfig} from './interfaces';
 import LinkuriousError from './LinkuriousError';
 import DefaultHttpDriver from './DefaultHttpDriver';
 import Logger from './Logger';
@@ -36,7 +36,7 @@ export default class Fetcher {
    * @returns {string}      - return the API url formatted
    */
   private transformUrl(uri:string, dataSource?:string): string {
-
+    // todo: handle configIndex vs sourceKey parameters (depending on APIs)
     const dataSourceTest = /\{dataSource}/;
 
     if (dataSourceTest.test(uri)) {
@@ -60,27 +60,36 @@ export default class Fetcher {
   /**
    * HTTPDriver wrapper method
    *
-   * @param {FetcherConfig} config
+   * @param {FetchConfig} config
    * @returns {Promise.<object>} the response body
    */
-  public fetch(config: FetcherConfig): Promise<any> {
-    let url = this.transformUrl(config.url, config.dataSource);
-    let fetchPromise;
+  public fetch(config: FetchConfig): Promise<any> {
 
-    if (config.method === 'GET'){
-      fetchPromise = this.httpDriver[config.method](url, config.query)
-    } else {
-      fetchPromise = this.httpDriver[config.method](url, config.data)
+    // clone config + inject current source (if no explicit source)
+    let configCopy = global.JSON.parse(global.JSON.stringify(config));
+    if (configCopy.dataSource === undefined && this.currentSource) {
+      configCopy.dataSource = this.currentSource.key;
     }
 
-    return fetchPromise.catch((error: Error) => {
+    configCopy.url = this.transformUrl(configCopy.url, configCopy.dataSource);
+    let responsePromise;
+
+    if (configCopy.method === 'GET'){
+      responsePromise = this.httpDriver[configCopy.method](configCopy.url, configCopy.query);
+    } else {
+      responsePromise = this.httpDriver[configCopy.method](configCopy.url, configCopy.body);
+    }
+
+    return responsePromise.catch((error: Error) => {
+      //console.log(JSON.stringify(error.stack.split(/\s*\n\s*/), null, ' '));
+
       // create a linkurious error from "hard" errors
       return Promise.reject(LinkuriousError.fromError(error));
 
     }).then((response: HttpResponse) => {
 
       // create a linkurious error from "soft" error
-      if (response.statusCode <= 1 || response.statusCode >= 400) {
+      if (LinkuriousError.isError(response)) {
         var linkuriousError = LinkuriousError.fromHttpResponse(response);
         return Promise.reject(linkuriousError);
       }

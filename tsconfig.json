@@ -7,8 +7,13 @@
     "declaration": false,
     "outDir": "./built"
   },
-  "files": [
-    "src/index.ts",
-    "src/interfaces.ts"
+  "filesGlob": [
+    "src/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "test",
+    "typings",
+    "built"
   ]
 }

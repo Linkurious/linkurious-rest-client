@@ -10,7 +10,7 @@
 'use strict';
 
 const should = require('should');
-const utils = require('./../built/utils');
+const Utils = require('./../built/Utils').default;
 
 describe('Fix case', function(){
   it('must return a object with snake_cases keys rather than camelCase ones.', function(){
@@ -21,7 +21,7 @@ describe('Fix case', function(){
       test4_Test : 'ok'
     };
 
-    var result = utils.Utils.fixSnakeCase(data);
+    var result = Utils.fixSnakeCase(data);
 
     result.should.eql({
       test_key : 'ok',
