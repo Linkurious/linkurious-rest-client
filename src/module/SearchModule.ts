@@ -12,10 +12,11 @@
 import {Schema, User, Directory, Node} from '../interfaces';
 import Utils from '../http/utils';
 import Module from './Module';
+import Fetcher from '../http/fetcher';
 
 export default class SearchModule extends Module {
 
-  constructor(fetcher) {
+  constructor(fetcher: Fetcher) {
     super(fetcher);
   }
 

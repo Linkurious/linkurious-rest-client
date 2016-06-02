@@ -12,9 +12,10 @@
 import {Schema, Graph, Query, Node} from '../interfaces';
 import Utils from '../http/utils';
 import Module from './Module';
+import Fetcher from '../http/fetcher';
 
 export default class GraphModule extends Module {
-  constructor(fetcher) {
+  constructor(fetcher: Fetcher) {
     super(fetcher);
   }
 

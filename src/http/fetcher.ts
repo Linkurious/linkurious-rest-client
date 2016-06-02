@@ -67,17 +67,17 @@ export default class Fetcher {
    * HTTPDriver wrapper method
    *
    * @param {IFetchConfig} config
-   * @returns {Promise.<object>} the response body
+   * @returns {Promise.<*>} the response body
    */
   public fetch(config: IFetchConfig): Promise<any> {
 
     config.url = this.transformUrl(config.url, config.dataSource);
-    let responsePromise;
+    let responsePromise: Promise<IHttpResponse>;
 
     if (config.method === 'GET') {
-      responsePromise = this._httpDriver[config.method](config.url, config.query);
+      responsePromise = (<any> this._httpDriver)[config.method](config.url, config.query);
     } else {
-      responsePromise = this._httpDriver[config.method](config.url, config.body);
+      responsePromise = (<any> this._httpDriver)[config.method](config.url, config.body);
     }
 
     return responsePromise.catch((error: Error) => {

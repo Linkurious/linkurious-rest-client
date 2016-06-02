@@ -41,7 +41,7 @@ export class Logger {
 
   private log(level:LogLevel, error:LinkuriousError) {
     if (LOG_LEVELS.get(level) >= this.numericalLevel) {
-      this.driver[level](`[${error.type}] ${error.key}: ${error.message}`);
+      (<any> this.driver)[level](`[${error.type}] ${error.key}: ${error.message}`);
     }
   }
 }
