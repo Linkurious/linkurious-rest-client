@@ -33,7 +33,9 @@
   "scripts": {
     "pretest": "./node_modules/.bin/tsc",
     "test": "node test/runTests.js",
-    "postinstall": "./node_modules/.bin/typings install"
+    "postinstall": "node_modules/.bin/typings install",
+    "remapCover": "node_modules/.bin/remap-istanbul -i coverage/coverage.raw.json -o coverage/html -t html",
+    "cover": "node_modules/.bin/istanbul cover test/runTests.js & npm run remapCover"
   },
   "dependencies": {
     "es6-promise": "^3.1.2",
@@ -51,6 +53,8 @@
     "typedoc": "sierrasoftworks/typedoc#v1.8.10",
     "typescript": "^1.8.10",
     "typings": "^1.0.4",
-    "request": "~2.72"
+    "request": "~2.72",
+    "istanbul": "v1.0.0-alpha.2",
+    "remap-istanbul": "0.6.4"
   }
 }
