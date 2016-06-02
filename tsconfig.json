@@ -6,7 +6,16 @@
     "sourceMap": true,
     "declaration": false,
     "outDir": "./built",
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "allowJs": false,
+    "charset": "utf8",
+    "emitBOM": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "newLine": "crlf",
+    "noImplicitReturns": true,
+    "stripInternal": true
   },
   "filesGlob": [
     "src/*.ts"
