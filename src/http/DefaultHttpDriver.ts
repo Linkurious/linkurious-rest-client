@@ -7,9 +7,6 @@
  * File: HTTPDriver.ts
  * Description : Wrapper for HTTP requests + promises
  */
-/// <reference path="./../../typings/main/ambient/superagent/index.d.ts" />
-
-'use strict';
 
 import * as request from 'superagent';
 import {IHttpResponse} from './IHttpResponse';

@@ -10,7 +10,7 @@
 'use strict';
 
 import Fetcher from '../http/fetcher';
-import {IFetchConfig} from "../http/IFetchConfig";
+import {IFetchConfig} from '../http/IFetchConfig';
 
 /**
  * @abstract

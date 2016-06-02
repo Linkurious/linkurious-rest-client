@@ -2,6 +2,10 @@
   "name": "linkurious-rest-client",
   "version": "1.0.0",
   "description": "linkurious REST client",
+  "engines": {
+    "node" : ">=4.0.0 <6.0.0",
+    "npm" : ">=2.0.0 <3.0.0"
+  },
   "main": "index.ts",
   "repository": {
     "type": "git",
@@ -33,7 +37,7 @@
     "should": "^8.3.1",
     "typedoc": "sierrasoftworks/typedoc#v1.8.10",
     "typescript": "^1.8.10",
-    "typings": "^0.8.1",
+    "typings": "^1.0.4",
     "request": "~2.72"
   }
 }

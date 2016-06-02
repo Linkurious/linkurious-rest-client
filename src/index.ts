@@ -8,9 +8,6 @@
  * Description :
  */
 
-/// <reference path="./../node_modules/typescript/lib/lib.es6.d.ts" />
-/// <reference path="./../typings/main/ambient/node/index.d.ts" />
-
 import {Logger, LogLevel} from './log/Logger';
 import {ILoggerDriver} from './log/ILoggerDriver';
 
@@ -216,16 +213,16 @@ class Linkurious {
    * @returns {Promise<DataSource.clientModel>}
    */
   public initCurrentSource():Promise<DataSource.clientModel> {
-    return this.getSourceList()
-      .then((res) => {
-        for (let i = 0, l = res.sources.length; i < l; ++i) {
-          let sourceIteration = res.sources[i];
+    return this.getSourceList().then(res => {
+      for (let i = 0, l = res.sources.length; i < l; ++i) {
+        let sourceIteration = res.sources[i];
 
-          if (this.storeSource(sourceIteration, 'connected', true)) {
-            return this._currentSource;
-          }
+        if (this.storeSource(sourceIteration, 'connected', true)) {
+          return this._currentSource;
         }
-      });
+      }
+      return undefined;
+    });
   }
 
   /**
@@ -235,23 +232,23 @@ class Linkurious {
    * @returns {Promise<DataSource.clientModel>}
    */
   public setCurrentSource(keyOrConfig:string | number):Promise<DataSource.clientModel> {
-    return this.getSourceList()
-      .then((res) => {
-        for (let i = 0, l = res.sources.length; i < l; ++i) {
-          let sourceIteration = res.sources[i],
-              sourceComparator: string;
+    return this.getSourceList().then(res => {
+      for (let i = 0, l = res.sources.length; i < l; ++i) {
+        let sourceIteration = res.sources[i],
+            sourceComparator: string;
 
-          if (typeof keyOrConfig === 'string') {
-            sourceComparator = 'key';
-          } else {
-            sourceComparator = 'configIndex';
-          }
-
-          if (this.storeSource(sourceIteration, sourceComparator, keyOrConfig)) {
-            return this._currentSource;
-          }
+        if (typeof keyOrConfig === 'string') {
+          sourceComparator = 'key';
+        } else {
+          sourceComparator = 'configIndex';
         }
-      });
+
+        if (this.storeSource(sourceIteration, sourceComparator, keyOrConfig)) {
+          return this._currentSource;
+        }
+      }
+      return undefined;
+    });
   }
 
   /**
@@ -337,7 +334,6 @@ class Linkurious {
           'Indexation error',
           'Server is indexing another source.'
         ));
-
         return Promise.reject(r);
       }
 
@@ -379,7 +375,7 @@ class Linkurious {
    */
   private listenIndexation(timeout:number, callback?: IndexationCallback):Promise<boolean> {
 
-    return this.getIndexationStatus().then((res) => {
+    return this.getIndexationStatus().then(res => {
       if (res.indexing !== 'done') {
         setTimeout(() => {
           if (callback) {
@@ -387,6 +383,7 @@ class Linkurious {
           }
           this.listenIndexation(timeout, callback);
         }, timeout);
+        return undefined;
       } else {
         return true;
       }

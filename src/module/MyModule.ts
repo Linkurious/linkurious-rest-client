@@ -11,7 +11,7 @@
 
 import {Query} from '../interfaces';
 import Module from './Module';
-import Fetcher from "../http/fetcher";
+import Fetcher from '../http/fetcher';
 
 export default class MyModule extends Module {
 

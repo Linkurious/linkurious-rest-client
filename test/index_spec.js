@@ -10,10 +10,10 @@
 'use strict';
 
 const should = require('should');
-const Linkurious = require('./../built/index');
-const Logger = require('./../built/log/Logger').Logger;
-const Fetcher = require('./../built/http/fetcher').default;
-const AdminModule = require('./../built/module/AdminModule').default;
+const Linkurious = require('../built/index');
+const Logger = require('../built/log/Logger').Logger;
+const Fetcher = require('../built/http/fetcher').default;
+const AdminModule = require('../built/module/AdminModule').default;
 
 describe('Linkurious class', function(){
 

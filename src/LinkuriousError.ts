@@ -48,7 +48,7 @@ export default class LinkuriousError {
       0,
       'communication',
       'unknown_error',
-      global.JSON.stringify(error.message ? error.message : error)
+      JSON.stringify(error.message ? error.message : error)
     );
   }
 

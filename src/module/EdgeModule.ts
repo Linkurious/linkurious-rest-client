@@ -86,7 +86,7 @@ export default class EdgeModule extends Module {
    */
   public getAdjacentFromNode(data: Edge.request.getAdjacent):Promise<Array<Edge.model>> {
     // clone
-    let query: any = global.JSON.parse(global.JSON.stringify(data));
+    let query: any = JSON.parse(JSON.stringify(data));
     if (query.orientation === 'in') {
       query['source'] = data.nodeId;
     } else if (data.orientation === 'out') {

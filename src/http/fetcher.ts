@@ -9,13 +9,13 @@
  */
 'use strict';
 
-import {DataSource} from './../interfaces';
-import LinkuriousError from './../LinkuriousError';
+import {DataSource} from '../interfaces';
+import LinkuriousError from '../LinkuriousError';
 import DefaultHttpDriver from './DefaultHttpDriver';
-import {Logger} from './../log/Logger';
-import {IHttpDriver} from "./IHttpDriver";
-import {IHttpResponse} from "./IHttpResponse";
-import {IFetchConfig} from "./IFetchConfig";
+import {Logger} from '../log/Logger';
+import {IHttpDriver} from './IHttpDriver';
+import {IHttpResponse} from './IHttpResponse';
+import {IFetchConfig} from './IFetchConfig';
 
 export default class Fetcher {
 
