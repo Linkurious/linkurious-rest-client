@@ -25,7 +25,7 @@ export default class SearchModule extends Module {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<Array<Node.model>>}
    */
-  public fullNodes(params: Schema.request.itemsList):Promise<Array<Node.model>> {
+  public fullNodes(params:Schema.request.itemsList):Promise<Array<Node.model>> {
     return this.fetch({
       url   : '/{dataSource}/search/nodes/full',
       method: 'GET',
@@ -39,7 +39,7 @@ export default class SearchModule extends Module {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<Array<Node.model>>}
    */
-  public fullEdges(params: Schema.request.itemsList):Promise<Array<Node.model>> {
+  public fullEdges(params:Schema.request.itemsList):Promise<Array<Node.model>> {
     return this.fetch({
       url   : '/{dataSource}/search/edges/full',
       method: 'GET',
@@ -53,7 +53,7 @@ export default class SearchModule extends Module {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<itemsList>}
    */
-  public nodes(params: Schema.request.itemsList):Promise<Schema.itemsList> {
+  public nodes(params:Schema.request.itemsList):Promise<Schema.itemsList> {
     return this.fetch({
       url   : '/{dataSource}/search/nodes',
       method: 'GET',
@@ -67,7 +67,7 @@ export default class SearchModule extends Module {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<itemsList>}
    */
-  public edges(params: Schema.request.itemsList):Promise<Schema.itemsList> {
+  public edges(params:Schema.request.itemsList):Promise<Schema.itemsList> {
     return this.fetch({
       url   : '/{dataSource}/search/edges',
       method: 'GET',
@@ -81,7 +81,7 @@ export default class SearchModule extends Module {
    * @param data : User.request.list
    * @returns {Promise<Array<User.model>>}
    */
-  public users(data: User.request.list):Promise<Array<User.model>> {
+  public users(data:User.request.list):Promise<Array<User.model>> {
     return this.fetch({
       url   : '/findUsers',
       method: 'GET',
@@ -95,7 +95,7 @@ export default class SearchModule extends Module {
    * @param data:Interface.RequestDirectory
    * @returns {Promise<Directory.list>}
    */
-  public directory(data: Directory.request.list):Promise<Directory.list> {
+  public directory(data:Directory.request.list):Promise<Directory.list> {
     return this.fetch({
       url   : '/{dataSource}/directory',
       method: 'POST',

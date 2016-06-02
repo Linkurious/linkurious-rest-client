@@ -1,9 +1,8 @@
-
 // Global state
 
 export interface StateModel {
-  user: User.model;
-  currentSource: DataSource.clientModel;
+  user:User.model;
+  currentSource:DataSource.clientModel;
 }
 
 // APIs

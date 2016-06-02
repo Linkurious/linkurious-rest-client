@@ -37,7 +37,7 @@ export default class NodeModule extends Module {
    * @param data:Interface.Form.node.create
    * @returns {Promise<Node.model>}
    */
-  public create(data: Node.form.create):Promise<Node.model> {
+  public create(data:Node.form.create):Promise<Node.model> {
     return this.fetch({
       url   : '/{dataSource}/graph/nodes',
       method: 'POST',
@@ -52,7 +52,7 @@ export default class NodeModule extends Module {
    * @returns {Promise<string>}
    *
    */
-  public deleteOne(nodeId: ItemId):Promise<boolean> {
+  public deleteOne(nodeId:ItemId):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSource}/graph/nodes/' + nodeId,
       method: 'DELETE'
@@ -66,7 +66,7 @@ export default class NodeModule extends Module {
    * @param params:Interface.RequestNode
    * @returns {Promise<Node.model>}
    */
-  public getOne(nodeId: ItemId, params?: Node.request.one):Promise<Node.model> {
+  public getOne(nodeId:ItemId, params?:Node.request.one):Promise<Node.model> {
     return this.fetch({
       url   : '/{dataSource}/graph/nodes/' + nodeId,
       method: 'GET',
@@ -84,7 +84,7 @@ export default class NodeModule extends Module {
    * @param data:Interface.RequestNodeAdjacentItems
    * @returns {Promise<Array<Node.model>>}
    */
-  public expand(data: Node.request.adjacentItems):Promise<Array<Node.model>> {
+  public expand(data:Node.request.adjacentItems):Promise<Array<Node.model>> {
     return this.fetch({
       url   : '/{dataSource}/graph/nodes/expand',
       method: 'POST',
@@ -98,7 +98,7 @@ export default class NodeModule extends Module {
    * @param data:Interface.RequestNodeNeighbors
    * @returns {Promise<Array<Schema.digest>>}
    */
-  public getNeighborsCategories(data: Node.request.neighborsCategories):Promise<Array<Schema.digest>> {
+  public getNeighborsCategories(data:Node.request.neighborsCategories):Promise<Array<Schema.digest>> {
     return this.fetch({
       url   : '/{dataSource}/graph/neighborhood/digest',
       method: 'POST',
@@ -113,7 +113,7 @@ export default class NodeModule extends Module {
    * @param data:Interface.Form.node.update
    * @returns {Promise<Node>}
    */
-  public update(nodeId: ItemId, data: Node.form.update):Promise<Node.model> {
+  public update(nodeId:ItemId, data:Node.form.update):Promise<Node.model> {
     return this.fetch({
       url   : '/{dataSource}/graph/nodes/' + nodeId,
       method: 'PATCH',
@@ -127,7 +127,7 @@ export default class NodeModule extends Module {
    * @param params:Interface.RequestProperties
    * @returns {Promise<Schema.propertyList>}
    */
-  public getProperties(params?: Schema.request.properties):Promise<Schema.propertyList> {
+  public getProperties(params?:Schema.request.properties):Promise<Schema.propertyList> {
     return this.fetch({
       url   : '/{dataSource}/graph/schema/nodeTypes/properties',
       method: 'GET',
@@ -141,7 +141,7 @@ export default class NodeModule extends Module {
    * @param params:Interface.RequestNodeType
    * @returns {Promise<Schema.typesList>}
    */
-  public getTypes(params?: Node.request.types):Promise<Schema.typesList> {
+  public getTypes(params?:Node.request.types):Promise<Schema.typesList> {
     return this.fetch({
       url   : '/{dataSource}/graph/schema/nodeTypes',
       method: 'GET',

@@ -24,7 +24,7 @@ export default class GraphModule extends Module {
    * @param nodesAndEdgesVersions : Schema.lists
    * @returns {Promise}
    */
-  public getItemsVersions(nodesAndEdgesVersions: Schema.lists):Promise<any> {
+  public getItemsVersions(nodesAndEdgesVersions:Schema.lists):Promise<any> {
     return this.fetch({
       url   : '/{dataSource}/graph/versions',
       method: 'POST',
@@ -38,7 +38,7 @@ export default class GraphModule extends Module {
    * @param nodesConfig : Graph.request.shortestPath
    * @returns {Promise}
    */
-  public getShortestPaths(nodesConfig: Graph.request.shortestPath):Promise<Array<Node.model>> {
+  public getShortestPaths(nodesConfig:Graph.request.shortestPath):Promise<Array<Node.model>> {
     return this.fetch({
       url   : '/{dataSource}/graph/shortestPaths',
       method: 'GET',
@@ -52,7 +52,7 @@ export default class GraphModule extends Module {
    * @param data:RequestGraphWithQueryInterface
    * @returns {Promise}
    */
-  public getNodeList(data: Query.form.request):Promise<Array<Node.model>> {
+  public getNodeList(data:Query.form.request):Promise<Array<Node.model>> {
     return this.fetch({
       url   : '/{dataSource}/graph/rawQuery',
       method: 'POST',

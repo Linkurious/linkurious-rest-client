@@ -32,18 +32,18 @@ import {
 } from './interfaces';
 
 class Linkurious {
-  private _fetcher: Fetcher;
-  private _currentSource: DataSource.clientModel;
-  private _user: User.model;
-  private _logger: Logger;
+  private _fetcher:Fetcher;
+  private _currentSource:DataSource.clientModel;
+  private _user:User.model;
+  private _logger:Logger;
 
-  private _admin: AdminModule;
-  private _my: MyModule;
-  private _edge: EdgeModule;
-  private _graph: GraphModule;
-  private _node: NodeModule;
-  private _search: SearchModule;
-  private _visualization : VisualizationModule;
+  private _admin:AdminModule;
+  private _my:MyModule;
+  private _edge:EdgeModule;
+  private _graph:GraphModule;
+  private _node:NodeModule;
+  private _search:SearchModule;
+  private _visualization:VisualizationModule;
 
   get currentSource() {
     return this._currentSource;
@@ -59,55 +59,69 @@ class Linkurious {
    * @param {string} logLevel       - Level of log wanted
    * @param {object} [loggerDriver] - logger object
    */
-  constructor(host: string, logLevel: LogLevel, loggerDriver?: ILoggerDriver) {
+  constructor(host:string, logLevel:LogLevel, loggerDriver?:ILoggerDriver) {
     this._currentSource = <DataSource.clientModel> {};
     this._user          = <User.model>undefined;
     this._logger        = new Logger(logLevel, loggerDriver);
     this._fetcher       = new Fetcher(this._logger, this._currentSource, host);
 
-    this._admin          = new AdminModule(this._fetcher);
-    this._my             = new MyModule(this._fetcher);
-    this._graph          = new GraphModule(this._fetcher);
+    this._admin         = new AdminModule(this._fetcher);
+    this._my            = new MyModule(this._fetcher);
+    this._graph         = new GraphModule(this._fetcher);
     this._edge          = new EdgeModule(this._fetcher);
     this._node          = new NodeModule(this._fetcher);
-    this._search         = new SearchModule(this._fetcher);
-    this._visualization  = new VisualizationModule(this._fetcher);
+    this._search        = new SearchModule(this._fetcher);
+    this._visualization = new VisualizationModule(this._fetcher);
   }
 
   /**
    * @returns {AdminModule}
    */
-  get admin() { return this._admin; }
+  get admin() {
+    return this._admin;
+  }
 
   /**
    * @returns {MyModule}
    */
-  get my() { return this._my; }
+  get my() {
+    return this._my;
+  }
 
   /**
    * @returns {GraphModule}
    */
-  get graph() { return this._graph; }
+  get graph() {
+    return this._graph;
+  }
 
   /**
    * @returns {EdgeModule}
    */
-  get edge() { return this._edge; }
+  get edge() {
+    return this._edge;
+  }
 
   /**
    * @returns {NodeModule}
    */
-  get node() { return this._node; }
+  get node() {
+    return this._node;
+  }
 
   /**
    * @returns {SearchModule}
    */
-  get search() { return this._search; }
+  get search() {
+    return this._search;
+  }
 
   /**
    * @returns {VisualizationModule}
    */
-  get visualization() { return this._visualization; }
+  get visualization() {
+    return this._visualization;
+  }
 
   /**
    *
@@ -116,7 +130,7 @@ class Linkurious {
    * @param matchValue:any
    * @returns {DataSource.clientModel}
    */
-  private storeSource(source: DataSource.model, property:string, matchValue:string|number|boolean): DataSource.clientModel {
+  private storeSource(source:DataSource.model, property:string, matchValue:string|number|boolean):DataSource.clientModel {
     if (source[property] === matchValue) {
       this._currentSource.name        = source.name;
       this._currentSource.key         = source.key;
@@ -134,8 +148,8 @@ class Linkurious {
    * @param data : User.form.login
    * @returns {Promise<boolean>}
    */
-  public login(data: User.form.login):Promise<boolean> {
-    let config: IFetchConfig = {
+  public login(data:User.form.login):Promise<boolean> {
+    let config:IFetchConfig = {
       url   : '/auth/login',
       method: 'POST',
       body  : data
@@ -178,7 +192,7 @@ class Linkurious {
    * @param data {user.form.update}
    * @returns {Promise}
    */
-  public updateCurrentUser(data: User.form.update):Promise<any> {
+  public updateCurrentUser(data:User.form.update):Promise<any> {
     return this._fetcher.fetch({
       url   : '/auth/me',
       method: 'PATCH',
@@ -257,7 +271,7 @@ class Linkurious {
    * @param data:User.form.login
    * @returns {Promise<StateModel>}
    */
-  public startClient(data: User.form.login):Promise<StateModel> {
+  public startClient(data:User.form.login):Promise<StateModel> {
 
     return this.login(data).then(() => {
       return this.initCurrentSource();
@@ -349,7 +363,7 @@ class Linkurious {
    * @param callback:Function
    * @returns {Promise<boolean>}
    */
-  public processIndexation(timeout:number, callback?: IndexationCallback):Promise<boolean> {
+  public processIndexation(timeout:number, callback?:IndexationCallback):Promise<boolean> {
 
     const minTimeout = 200,
           maxTimeout = 3000;
@@ -374,7 +388,7 @@ class Linkurious {
    * @param callback:Function
    * @returns {Promise<boolean>}
    */
-  private listenIndexation(timeout:number, callback?: IndexationCallback):Promise<boolean> {
+  private listenIndexation(timeout:number, callback?:IndexationCallback):Promise<boolean> {
 
     return this.getIndexationStatus().then((res) => {
       if (res.indexing !== 'done') {

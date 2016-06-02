@@ -37,7 +37,7 @@ export default class VisualizationModule extends Module {
    * @param data: Form.visualization.createWidget
    * @returns {Promise<string>}
    */
-  public createWidget(data: Visualization.form.createWidget):Promise<string> {
+  public createWidget(data:Visualization.form.createWidget):Promise<string> {
     return this.fetch({
       url   : '/widget',
       method: 'POST',
@@ -51,7 +51,7 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.createFolder
    * @returns {Promise<boolean>}
    */
-  public createFolder(data: Visualization.form.createFolder):Promise<boolean> {
+  public createFolder(data:Visualization.form.createFolder):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/folder',
       method: 'POST',
@@ -66,7 +66,7 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.create
    * @returns {Promise<Visualization.model>}
    */
-  public create(data: Visualization.form.create):Promise<Visualization.model> {
+  public create(data:Visualization.form.create):Promise<Visualization.model> {
     return this.fetch({
       url   : '/{dataSource}/visualization',
       method: 'POST',
@@ -134,7 +134,7 @@ export default class VisualizationModule extends Module {
    * @param params:Interface.RequestSandbox
    * @returns {Promise<Visualization.model>}
    */
-  public getSandbox(params: Visualization.request.sandbox):Promise<Visualization.model> {
+  public getSandbox(params:Visualization.request.sandbox):Promise<Visualization.model> {
     return this.fetch({
       url   : '/{dataSource}/sandbox',
       method: 'GET',
@@ -198,7 +198,7 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.share
    * @returns {Promise<Visualization.shareRights>}
    */
-  public share(data: Visualization.form.setShareRights):Promise<Visualization.shareRights> {
+  public share(data:Visualization.form.setShareRights):Promise<Visualization.shareRights> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/' + data.vizId + '/share/' + data.userId,
       method: 'PUT',
@@ -214,7 +214,7 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.share
    * @returns {Promise<string>}
    */
-  public unshare(data: Visualization.form.setShareRights):Promise<string> {
+  public unshare(data:Visualization.form.setShareRights):Promise<string> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/' + data.vizId + '/shared/' + data.userId,
       method: 'DELETE'
@@ -228,7 +228,7 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.updateFolder
    * @returns {Promise<boolean>}
    */
-  public updateFolder(folderId:number, data: Visualization.form.updateFolder):Promise<boolean> {
+  public updateFolder(folderId:number, data:Visualization.form.updateFolder):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/folder/' + folderId,
       method: 'PATCH',
@@ -242,7 +242,7 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.updateSandbox
    * @returns {Promise<boolean>}
    */
-  public updateSandbox(data: Visualization.form.updateSandbox):Promise<boolean> {
+  public updateSandbox(data:Visualization.form.updateSandbox):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSource}/sandbox',
       method: 'PATCH',
@@ -257,7 +257,7 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.update
    * @returns {Promise<boolean>}
    */
-  public update(vizId:number, data: Visualization.form.update):Promise<boolean> {
+  public update(vizId:number, data:Visualization.form.update):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/' + vizId,
       method: 'PATCH',

@@ -16,13 +16,13 @@ import {IFetchConfig} from "../http/IFetchConfig";
  * @abstract
  */
 export default class Module {
-  private _fetcher: Fetcher;
+  private _fetcher:Fetcher;
 
-  constructor(fetcher: Fetcher) {
+  constructor(fetcher:Fetcher) {
     this._fetcher = fetcher;
   }
 
-  protected fetch(config: IFetchConfig) {
+  protected fetch(config:IFetchConfig) {
     return this._fetcher.fetch(config);
   }
 }

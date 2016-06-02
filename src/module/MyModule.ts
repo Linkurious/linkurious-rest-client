@@ -63,7 +63,7 @@ export default class MyModule extends Module {
    */
   public getGraphQuery(graphQueryId:number):Promise<Query.model> {
     return this.fetch({
-      url   : '/{dataSource}/graph/my/rawQuery/',
+      url   : '/{dataSource}/graph/my/rawQuery/' + graphQueryId,
       method: 'GET'
     });
   }
@@ -85,7 +85,7 @@ export default class MyModule extends Module {
    * @param data : Query.form.create
    * @returns {Promise<Query.model>}
    */
-  public saveGraphQuery(data: Query.form.create):Promise<Query.model> {
+  public saveGraphQuery(data:Query.form.create):Promise<Query.model> {
     return this.fetch({
       url   : '/{dataSource}/graph/my/rawQuery',
       method: 'POST',
@@ -99,7 +99,7 @@ export default class MyModule extends Module {
    * @param data : Query.form.update
    * @returns {Promise<Query.model>}
    */
-  public updateGraphQuery(graphQueryId:number, data: Query.form.update):Promise<Query.model> {
+  public updateGraphQuery(graphQueryId:number, data:Query.form.update):Promise<Query.model> {
     return this.fetch({
       url   : '/{dataSource}/graph/my/rawQuery' + graphQueryId,
       method: 'PATCH',

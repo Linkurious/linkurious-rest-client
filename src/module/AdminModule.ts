@@ -9,7 +9,6 @@
  */
 'use strict';
 
-import {IFetchConfig} from '../http/IFetchConfig';
 import {DataSource, App, User, Group} from '../interfaces';
 import Utils from '../http/utils';
 import Module from './Module';
@@ -26,7 +25,7 @@ export default class AdminModule extends Module {
    * @param sourceIndex:number
    * @returns {Promise<boolean>}
    */
-  public connectDataSource(sourceIndex:number): Promise<boolean> {
+  public connectDataSource(sourceIndex:number):Promise<boolean> {
     return this.fetch({
       url   : '/admin/source/' + sourceIndex + '/connect',
       method: 'POST'
@@ -39,7 +38,7 @@ export default class AdminModule extends Module {
    * @param data:Interface.Form.dataSource.create
    * @returns {Promise<boolean>}
    */
-  public createDataSourceConfig(data: DataSource.form.create): Promise<boolean> {
+  public createDataSourceConfig(data:DataSource.form.create):Promise<boolean> {
     return this.fetch({
       url   : '/admin/sources/config',
       method: 'POST',
@@ -69,7 +68,7 @@ export default class AdminModule extends Module {
    * @param data:Interface.RequestDeleteDatas
    * @returns {Promise<DataSource.deletedDatas>}
    */
-  public deleteFullDataSource(data: DataSource.form.Delete): Promise<DataSource.deletedDatas> {
+  public deleteFullDataSource(data:DataSource.form.Delete):Promise<DataSource.deletedDatas> {
     let mergeOptions = (data.mergeInto) ? {mergeInto: data.mergeInto} : null;
 
     return this.fetch({
@@ -84,7 +83,7 @@ export default class AdminModule extends Module {
    *
    * @returns {Promise<Array<DataSource.adminModel>>}
    */
-  public getDataSourcesList(): Promise<Array<DataSource.adminModel>> {
+  public getDataSourcesList():Promise<Array<DataSource.adminModel>> {
     return this.fetch({
       url   : '/admin/sources',
       method: 'GET'
@@ -97,7 +96,7 @@ export default class AdminModule extends Module {
    * @param dataSource:string
    * @returns {Promise<Array<string>>}
    */
-  public getHiddenEdgeProperties(dataSource?:string): Promise<Array<string>> {
+  public getHiddenEdgeProperties(dataSource?:string):Promise<Array<string>> {
     return this.fetch({
       url       : '/admin/source/{dataSource}/hidden/edgeProperties',
       method    : 'GET',
@@ -111,7 +110,7 @@ export default class AdminModule extends Module {
    * @param dataSource:string
    * @returns {Promise<Array<string>>}
    */
-  public getHiddenNodeProperties(dataSource?:string): Promise<Array<string>> {
+  public getHiddenNodeProperties(dataSource?:string):Promise<Array<string>> {
     return this.fetch({
       url       : '/admin/source/{dataSource}/hidden/nodeProperties',
       method    : 'GET',
@@ -125,7 +124,7 @@ export default class AdminModule extends Module {
    * @param dataSource:string
    * @returns {Promise<Array<string>>}
    */
-  public getNonIndexedEdgeProperties(dataSource?:string): Promise<Array<string>> {
+  public getNonIndexedEdgeProperties(dataSource?:string):Promise<Array<string>> {
     return this.fetch({
       url       : '/admin/source/dataSource/noIndex/edgeProperties',
       method    : 'GET',
@@ -139,7 +138,7 @@ export default class AdminModule extends Module {
    * @param dataSource:string
    * @returns {Promise<Array<string>>}
    */
-  public getNonIndexedNodeProperties(dataSource?:string): Promise<Array<string>> {
+  public getNonIndexedNodeProperties(dataSource?:string):Promise<Array<string>> {
     return this.fetch({
       url       : '/admin/source/{dataSource}/noIndex/nodeProperties',
       method    : 'GET',
@@ -154,7 +153,7 @@ export default class AdminModule extends Module {
    * @param data:Interface.RequestArrayProperties
    * @returns {Promise<boolean>}
    */
-  public setHiddenEdgeProperties(data: DataSource.form.setProperties, dataSource?:string): Promise<boolean> {
+  public setHiddenEdgeProperties(data:DataSource.form.setProperties, dataSource?:string):Promise<boolean> {
     return this.fetch({
       url       : '/admin/source/{dataSource}/hidden/edgeProperties',
       method    : 'PUT',
@@ -170,7 +169,7 @@ export default class AdminModule extends Module {
    * @param data:Interface.RequestArrayProperties
    * @returns {Promise<boolean>}
    */
-  public setHiddenNodeProperties(data: DataSource.form.setProperties, dataSource?:string): Promise<boolean> {
+  public setHiddenNodeProperties(data:DataSource.form.setProperties, dataSource?:string):Promise<boolean> {
     return this.fetch({
       url       : '/admin/source/{dataSource}/hidden/nodeProperties',
       method    : 'PUT',
@@ -186,7 +185,7 @@ export default class AdminModule extends Module {
    * @param data:Interface.RequestArrayProperties
    * @returns {Promise<boolean>}
    */
-  public setNotIndexedEdgeProperties(data: DataSource.form.setProperties, dataSource?:string): Promise<boolean> {
+  public setNotIndexedEdgeProperties(data:DataSource.form.setProperties, dataSource?:string):Promise<boolean> {
     return this.fetch({
       url       : '/admin/source/{dataSource}/noIndex/edgeProperties',
       method    : 'PUT',
@@ -202,7 +201,7 @@ export default class AdminModule extends Module {
    * @param data:Interface.RequestArrayProperties
    * @returns {Promise<boolean>}
    */
-  public setNotIndexedNodeProperties(data: DataSource.form.setProperties, dataSource?:string):Promise<boolean> {
+  public setNotIndexedNodeProperties(data:DataSource.form.setProperties, dataSource?:string):Promise<boolean> {
     return this.fetch({
       url       : '/admin/source/{dataSource}/noIndex/nodeProperties',
       method    : 'PUT',
@@ -217,7 +216,7 @@ export default class AdminModule extends Module {
    * @param data:User.form.create
    * @returns {Promise<User.model>}
    */
-  public createUser(data: User.form.create):Promise<User.model> {
+  public createUser(data:User.form.create):Promise<User.model> {
     return this.fetch({
       url   : '/admin/users',
       method: 'POST',
@@ -243,7 +242,7 @@ export default class AdminModule extends Module {
    * @param data:Group.form.create
    * @returns {Promise<Group.model>}
    */
-  public createGroup(data: Group.form.create):Promise<Group.model> {
+  public createGroup(data:Group.form.create):Promise<Group.model> {
     return this.fetch({
       url   : 'admin/groups',
       method: 'POST',
@@ -319,7 +318,7 @@ export default class AdminModule extends Module {
    * @param dataSource?:string default : take the current source key.
    * @returns {Promise<boolean>}
    */
-  public updateBatchGroupsRights(data: Group.form.batchRights, dataSource?:string):Promise<boolean> {
+  public updateBatchGroupsRights(data:Group.form.batchRights, dataSource?:string):Promise<boolean> {
     return this.fetch({
       url       : '/admin/{dataSource}/groups/group_rights',
       method    : 'PUT',
@@ -336,7 +335,7 @@ export default class AdminModule extends Module {
    * @param dataSource?:string default : take the current source key.
    * @returns {Promise<Group.accessRights>}
    */
-  public updateGroupRights(data: Group.form.updateRights, groupId:number, dataSource?:string):Promise< Group.accessRights> {
+  public updateGroupRights(data:Group.form.updateRights, groupId:number, dataSource?:string):Promise< Group.accessRights> {
     return this.fetch({
       url       : '/admin/{dataSource}/groups/' + groupId + '/group_rights',
       method    : 'PUT',
@@ -351,7 +350,7 @@ export default class AdminModule extends Module {
    * @param data:User.form.batch
    * @returns {Promise<boolean>}
    */
-  public updateBatchUser(data: User.form.batch):Promise<boolean> {
+  public updateBatchUser(data:User.form.batch):Promise<boolean> {
     return this.fetch({
       url   : '/admin/users',
       method: 'PATCH',
@@ -366,7 +365,7 @@ export default class AdminModule extends Module {
    * @param userId:number
    * @returns {Promise<User.model>}
    */
-  public updateUser(data: User.form.update, userId:number):Promise<User.model> {
+  public updateUser(data:User.form.update, userId:number):Promise<User.model> {
     return this.fetch({
       url   : '/admin/users/' + userId,
       method: 'PATCH',
@@ -380,7 +379,7 @@ export default class AdminModule extends Module {
    * @param data:Interface.Form.config.update
    * @returns {Promise<string>}
    */
-  public updateConfig(data: App.form.update):Promise<string> {
+  public updateConfig(data:App.form.update):Promise<string> {
     return this.fetch({
       url   : '/config',
       method: 'POST',
