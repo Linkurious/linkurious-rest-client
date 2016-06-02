@@ -10,7 +10,7 @@
 'use strict';
 
 const should = require('should');
-const LkError = require('./../built/LinkuriousError').default;
+const LkError = require('../built/LinkuriousError').default;
 
 describe('ErrorDriver', function(){
 

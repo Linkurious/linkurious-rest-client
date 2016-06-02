@@ -8,9 +8,6 @@
  * Description :
  */
 
-/// <reference path="./../node_modules/typescript/lib/lib.es6.d.ts" />
-/// <reference path="./../typings/globals/node/index.d.ts" />
-
 import {Logger, LogLevel} from './log/Logger';
 import {ILoggerDriver} from './log/ILoggerDriver';
 

@@ -18,12 +18,12 @@
     "stripInternal": true
   },
   "filesGlob": [
-    "src/*.ts"
+    "src/*.ts",
+    "typings/index.d.ts"
   ],
   "exclude": [
     "node_modules",
     "test",
-    "typings",
     "built"
   ]
 }
