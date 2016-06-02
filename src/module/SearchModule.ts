@@ -71,7 +71,7 @@ export default class SearchModule extends Module {
     return this.fetch({
       url   : '/{dataSource}/search/edges',
       method: 'GET',
-      query : params
+      query : Utils.fixSnakeCase(params)
     });
   }
 

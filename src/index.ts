@@ -197,16 +197,15 @@ class Linkurious {
       url   : '/auth/me',
       method: 'PATCH',
       body  : data
-    })
-      .then((res) => {
-        this.user.username    = res.username;
-        this.user.email       = res.email;
-        this.user.groups      = res.groups;
-        this.user.ldap        = res.ldap;
-        this.user.admin       = res.admin;
-        this.user.preferences = res.preferences;
-        return res;
-      });
+    }).then((res) => {
+      this.user.username    = res.username;
+      this.user.email       = res.email;
+      this.user.groups      = res.groups;
+      this.user.ldap        = res.ldap;
+      this.user.admin       = res.admin;
+      this.user.preferences = res.preferences;
+      return res;
+    });
   }
 
   /**
@@ -317,7 +316,7 @@ class Linkurious {
     return this._fetcher.fetch({
       url   : '/config',
       method: 'GET',
-      query : sourceIndex
+      query : {sourceIndex: sourceIndex}
     });
   }
 
