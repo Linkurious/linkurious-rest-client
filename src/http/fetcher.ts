@@ -19,16 +19,16 @@ import {IFetchConfig} from "./IFetchConfig";
 
 export default class Fetcher {
 
-  private httpDriver: IHttpDriver;
-  private logger: Logger;
-  private host: string;
-  private currentSource: DataSource.clientModel;
+  private _httpDriver: IHttpDriver;
+  private _logger: Logger;
+  private _host: string;
+  private _currentSource: DataSource.clientModel;
 
   constructor(logger: Logger, currentSource: DataSource.clientModel, host: string, httpDriver?: IHttpDriver){
-    this.httpDriver = httpDriver ? httpDriver : new DefaultHttpDriver();
-    this.logger = logger;
-    this.currentSource = currentSource;
-    this.host = host;
+    this._httpDriver = httpDriver ? httpDriver : new DefaultHttpDriver();
+    this._logger = logger;
+    this._currentSource = currentSource;
+    this._host = host;
   }
 
   /**
@@ -45,21 +45,21 @@ export default class Fetcher {
     if (uri.indexOf(sourceKeyTemplate) >= 0) {
       if (dataSource) {
         // explicit dataSource
-        return this.host + '/api' + uri.replace(sourceKeyTemplate, dataSource);
-      } else if (this.currentSource) {
+        return this._host + '/api' + uri.replace(sourceKeyTemplate, dataSource);
+      } else if (this._currentSource) {
         // current dataSource
-        let currentSource: DataSource.clientModel = this.currentSource;
-        return this.host + '/api' + uri.replace(sourceKeyTemplate, currentSource.key);
+        let currentSource: DataSource.clientModel = this._currentSource;
+        return this._host + '/api' + uri.replace(sourceKeyTemplate, currentSource.key);
       } else {
         //
-        this.logger.error(LinkuriousError.fromClientError(
+        this._logger.error(LinkuriousError.fromClientError(
           'state_error',
           `You need to set a current source to fetch this API (${uri}).`
         ));
         throw new Error('You need to set a current source to fetch this API.');
       }
     } else {
-      return this.host + '/api' + uri;
+      return this._host + '/api' + uri;
     }
   }
 
@@ -71,19 +71,13 @@ export default class Fetcher {
    */
   public fetch(config: IFetchConfig): Promise<any> {
 
-    // clone config + inject current source (if no explicit source)
-    let configCopy = global.JSON.parse(global.JSON.stringify(config));
-    if (configCopy.dataSource === undefined && this.currentSource) {
-      configCopy.dataSource = this.currentSource.key;
-    }
-
-    configCopy.url = this.transformUrl(configCopy.url, configCopy.dataSource);
+    config.url = this.transformUrl(config.url, config.dataSource);
     let responsePromise;
 
-    if (configCopy.method === 'GET'){
-      responsePromise = this.httpDriver[configCopy.method](configCopy.url, configCopy.query);
+    if (config.method === 'GET') {
+      responsePromise = this._httpDriver[config.method](config.url, config.query);
     } else {
-      responsePromise = this.httpDriver[configCopy.method](configCopy.url, configCopy.body);
+      responsePromise = this._httpDriver[config.method](config.url, config.body);
     }
 
     return responsePromise.catch((error: Error) => {
@@ -105,7 +99,7 @@ export default class Fetcher {
 
     }).catch((error: LinkuriousError) => {
       // logging interceptor
-      this.logger.error(error);
+      this._logger.error(error);
       return Promise.reject(error);
     });
   }

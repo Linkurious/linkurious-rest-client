@@ -11,16 +11,7 @@
 
 import LinkuriousError from '../LinkuriousError';
 import {ILoggerDriver} from './ILoggerDriver';
-
-export class DefaultLoggerDriver implements ILoggerDriver {
-  debug(message: string) {
-    console.debug(message);
-  }
-
-  error(message: string) {
-    console.error(message);
-  }
-}
+import DefaultLoggerDriver from './DefaultLoggerDriver';
 
 export type LogLevel = 'debug'|'error'|'quiet';
 

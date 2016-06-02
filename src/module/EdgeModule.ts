@@ -22,13 +22,13 @@ export default class EdgeModule extends Module {
   /**
    * return the number of edges in the graph.
    *
-   * @returns {Promise}
+   * @returns {Promise<number>}
    */
-  public count():Promise<any> {
+  public count():Promise<number> {
     return this.fetch({
       url   : '/{dataSource}/graph/edges/count',
       method: 'GET'
-    });
+    }).then(r => r.count);
   }
 
   /**
