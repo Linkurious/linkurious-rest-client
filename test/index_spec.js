@@ -11,9 +11,9 @@
 
 const should = require('should');
 const Linkurious = require('./../built/index');
-const Logger = require('./../built/Logger');
-const Fetcher = require('./../built/fetcher');
-const Admin = require('./../built/admin');
+const Logger = require('./../built/log/Logger').Logger;
+const Fetcher = require('./../built/http/fetcher').default;
+const AdminModule = require('./../built/module/AdminModule').default;
 
 describe('Linkurious class', function(){
 
@@ -34,15 +34,15 @@ describe('Linkurious class', function(){
   describe('constructor', function(){
 
     it('log must be an instance of logDriver', function(){
-      linkurious._logger.should.be.an.instanceOf(Logger.default);
+      linkurious._logger.should.be.an.instanceOf(Logger);
     });
 
     it('fetcher must be an instance of fetcher', function(){
-      linkurious._fetcher.should.be.an.instanceOf(Fetcher.default);
+      linkurious._fetcher.should.be.an.instanceOf(Fetcher);
     });
 
     it('admin must be an instance of admin', function(){
-      linkurious.admin.should.be.an.instanceOf(Admin.default);
+      linkurious.admin.should.be.an.instanceOf(AdminModule);
     });
   });
 
@@ -148,8 +148,8 @@ describe('Linkurious class', function(){
       }).then(function(res){
         res.should.eql({
           found: 1,
-          results:
-            [ {
+          results: [
+            {
               id: 3,
               username: 'adminUser',
               email: 'adminUser@example.com',
@@ -157,9 +157,10 @@ describe('Linkurious class', function(){
               ldap: false,
               admin: true,
               preferences: {},
-              visCount: 0 }
-            ]
-        })
+              visCount: 0
+            }
+          ]
+        });
       })
     })
   });

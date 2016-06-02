@@ -9,7 +9,7 @@
  */
 'use strict';
 
-export namespace Utils {
+export default class Utils {
 
   /**
    * take an object with camelCase fields and return one with only snake_case fields.
@@ -17,7 +17,7 @@ export namespace Utils {
    * @param data:any
    * @returns any
    */
-  export function fixSnakeCase(data:any):any {
+  static fixSnakeCase(data:any):any {
     if (!data) {
       return null;
     }

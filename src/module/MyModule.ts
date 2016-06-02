@@ -9,10 +9,10 @@
  */
 'use strict';
 
-import * as i from './interfaces';
-import Module from "./Module";
+import {Query} from '../interfaces';
+import Module from './Module';
 
-export default class My extends Module {
+export default class MyModule extends Module {
 
   constructor(fetcher) {
     super(fetcher);
@@ -56,12 +56,12 @@ export default class My extends Module {
   }
 
   /**
-   * Returns a saved Graph Query owned by the current user
+   * Returns a saved GraphModule Query owned by the current user
    *
    * @param graphQueryId : number
    * @returns {Promise<Query.model>}
    */
-  public getGraphQuery(graphQueryId:number):Promise<i.Query.model> {
+  public getGraphQuery(graphQueryId:number):Promise<Query.model> {
     return this.fetch({
       url   : '/{dataSource}/graph/my/rawQuery/',
       method: 'GET'
@@ -69,11 +69,11 @@ export default class My extends Module {
   }
 
   /**
-   * Returns all saved Graph Queries owned by the current user
+   * Returns all saved GraphModule Queries owned by the current user
    *
    * @returns {Promise<Array<Query.model>>}
    */
-  public getAllGraphQueries():Promise<Array<i.Query.model>> {
+  public getAllGraphQueries():Promise<Array<Query.model>> {
     return this.fetch({
       url   : '/{dataSource}/graph/my/rawQuery/all',
       method: 'GET'
@@ -85,7 +85,7 @@ export default class My extends Module {
    * @param data : Query.form.create
    * @returns {Promise<Query.model>}
    */
-  public saveGraphQuery(data:i.Query.form.create):Promise<i.Query.model> {
+  public saveGraphQuery(data: Query.form.create):Promise<Query.model> {
     return this.fetch({
       url   : '/{dataSource}/graph/my/rawQuery',
       method: 'POST',
@@ -99,7 +99,7 @@ export default class My extends Module {
    * @param data : Query.form.update
    * @returns {Promise<Query.model>}
    */
-  public updateGraphQuery(graphQueryId:number, data:i.Query.form.update):Promise<i.Query.model> {
+  public updateGraphQuery(graphQueryId:number, data: Query.form.update):Promise<Query.model> {
     return this.fetch({
       url   : '/{dataSource}/graph/my/rawQuery' + graphQueryId,
       method: 'PATCH',

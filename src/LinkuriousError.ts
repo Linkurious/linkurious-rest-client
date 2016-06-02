@@ -1,8 +1,15 @@
 /**
- * Created by david on 01/06/16.
+ * LINKURIOUS CONFIDENTIAL
+ * Copyright Linkurious SAS 2012 - 2016
+ *
+ * Created by david on 2016-05-27.
+ *
+ * File:
+ * Description :
  */
+'use strict';
 
-import {HttpResponse} from './interfaces';
+import {IHttpResponse} from './http/IHttpResponse';
 
 export type ErrorType = 'client'|'communication'|'access'|'technical'|'business';
 
@@ -19,7 +26,7 @@ export default class LinkuriousError {
     this.message = message;
   }
 
-  public static fromHttpResponse(r: HttpResponse) {
+  public static fromHttpResponse(r: IHttpResponse) {
     let status = r.statusCode;
     let type: ErrorType = LinkuriousError.getErrorType(r.statusCode);
     let key, message;
@@ -49,7 +56,7 @@ export default class LinkuriousError {
     return new LinkuriousError(0, 'client', key, message);
   }
 
-  public static isError(r: HttpResponse): boolean {
+  public static isError(r: IHttpResponse): boolean {
     return r.statusCode === undefined || r.statusCode < 100 || r.statusCode >= 400;
   }
 

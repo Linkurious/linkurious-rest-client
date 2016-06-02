@@ -9,35 +9,35 @@
  */
 'use strict';
 
-import * as i from './interfaces';
-import Utils from './Utils';
-import Module from "./Module";
+import {Visualization} from '../interfaces';
+import Utils from '../http/utils';
+import Module from './Module';
 
-export default class Visualization extends Module {
+export default class VisualizationModule extends Module {
 
   constructor(fetcher) {
     super(fetcher);
   }
 
   /**
-   * Get the number of visualizations for this data-source.
+   * Get the number of visualizations for the current user in this data-source.
    *
-   * @returns {Promise<Count>}
+   * @returns {Promise<number>}
    */
-  public count():Promise<i.Count> {
+  public count():Promise<number> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/count',
       method: 'GET'
-    });
+    }).then(r => r.count);
   }
 
   /**
    * Create a widget for a visualization.
    *
-   * @param data:Interface.Form.visualization.createWidget
+   * @param data: Form.visualization.createWidget
    * @returns {Promise<string>}
    */
-  public createWidget(data:i.Visualization.form.createWidget):Promise<string> {
+  public createWidget(data: Visualization.form.createWidget):Promise<string> {
     return this.fetch({
       url   : '/widget',
       method: 'POST',
@@ -51,7 +51,7 @@ export default class Visualization extends Module {
    * @param data:Interface.Form.visualization.createFolder
    * @returns {Promise<boolean>}
    */
-  public createFolder(data:i.Visualization.form.createFolder):Promise<boolean> {
+  public createFolder(data: Visualization.form.createFolder):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/folder',
       method: 'POST',
@@ -66,7 +66,7 @@ export default class Visualization extends Module {
    * @param data:Interface.Form.visualization.create
    * @returns {Promise<Visualization.model>}
    */
-  public create(data:i.Visualization.form.create):Promise<i.Visualization.model> {
+  public create(data: Visualization.form.create):Promise<Visualization.model> {
     return this.fetch({
       url   : '/{dataSource}/visualization',
       method: 'POST',
@@ -108,7 +108,7 @@ export default class Visualization extends Module {
    * @param vizId:number
    * @returns {Promise<Visualization.model>}
    */
-  public duplicate(vizId:number):Promise<i.Visualization.model> {
+  public duplicate(vizId:number):Promise<Visualization.model> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/' + vizId + '/duplicate',
       method: 'POST'
@@ -121,7 +121,7 @@ export default class Visualization extends Module {
    * @param widgetKey:string
    * @returns {Promise<Visualization.widget>}
    */
-  public getWidget(widgetKey:string):Promise<i.Visualization.widget> {
+  public getWidget(widgetKey:string):Promise<Visualization.widget> {
     return this.fetch({
       url   : '/widget/' + widgetKey,
       method: 'GET'
@@ -134,7 +134,7 @@ export default class Visualization extends Module {
    * @param params:Interface.RequestSandbox
    * @returns {Promise<Visualization.model>}
    */
-  public getSandbox(params:i.Visualization.request.sandbox):Promise<i.Visualization.model> {
+  public getSandbox(params: Visualization.request.sandbox):Promise<Visualization.model> {
     return this.fetch({
       url   : '/{dataSource}/sandbox',
       method: 'GET',
@@ -148,7 +148,7 @@ export default class Visualization extends Module {
    * @param vizId:number
    * @returns {Promise<Visualization.model>}
    */
-  public getOne(vizId:number):Promise<i.Visualization.model> {
+  public getOne(vizId:number):Promise< Visualization.model> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/' + vizId,
       method: 'GET'
@@ -160,7 +160,7 @@ export default class Visualization extends Module {
    *
    * @returns {Promise<Visualization.tree>}
    */
-  public getTree():Promise<i.Visualization.tree> {
+  public getTree():Promise<Visualization.tree> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/tree',
       method: 'GET'
@@ -185,7 +185,7 @@ export default class Visualization extends Module {
    * @param vizId:number
    * @returns {Promise<Visualization.Shares>}
    */
-  public getShares(vizId:number):Promise<i.Visualization.Shares> {
+  public getShares(vizId:number):Promise<Visualization.Shares> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/' + vizId + '/shares',
       method: 'GET'
@@ -198,7 +198,7 @@ export default class Visualization extends Module {
    * @param data:Interface.Form.visualization.share
    * @returns {Promise<Visualization.shareRights>}
    */
-  public share(data:i.Visualization.form.setShareRights):Promise<i.Visualization.shareRights> {
+  public share(data: Visualization.form.setShareRights):Promise<Visualization.shareRights> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/' + data.vizId + '/share/' + data.userId,
       method: 'PUT',
@@ -214,7 +214,7 @@ export default class Visualization extends Module {
    * @param data:Interface.Form.visualization.share
    * @returns {Promise<string>}
    */
-  public unshare(data:i.Visualization.form.setShareRights):Promise<string> {
+  public unshare(data: Visualization.form.setShareRights):Promise<string> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/' + data.vizId + '/shared/' + data.userId,
       method: 'DELETE'
@@ -228,7 +228,7 @@ export default class Visualization extends Module {
    * @param data:Interface.Form.visualization.updateFolder
    * @returns {Promise<boolean>}
    */
-  public updateFolder(folderId:number, data:i.Visualization.form.updateFolder):Promise<boolean> {
+  public updateFolder(folderId:number, data: Visualization.form.updateFolder):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/folder/' + folderId,
       method: 'PATCH',
@@ -242,7 +242,7 @@ export default class Visualization extends Module {
    * @param data:Interface.Form.visualization.updateSandbox
    * @returns {Promise<boolean>}
    */
-  public updateSandbox(data:i.Visualization.form.updateSandbox):Promise<boolean> {
+  public updateSandbox(data: Visualization.form.updateSandbox):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSource}/sandbox',
       method: 'PATCH',
@@ -257,7 +257,7 @@ export default class Visualization extends Module {
    * @param data:Interface.Form.visualization.update
    * @returns {Promise<boolean>}
    */
-  public update(vizId:number, data:i.Visualization.form.update):Promise<boolean> {
+  public update(vizId:number, data: Visualization.form.update):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSource}/visualizations/' + vizId,
       method: 'PATCH',

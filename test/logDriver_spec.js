@@ -10,9 +10,9 @@
 'use strict';
 
 const should = require('should');
-const bunyan     = require('bunyan');
-const Logger = require('./../built/Logger').default;
-const DefaultLoggerDriver = require('./../built/Logger').DefaultLoggerDriver;
+const bunyan = require('bunyan');
+const Logger = require('./../built/log/Logger').Logger;
+const DefaultLoggerDriver = require('./../built/log/Logger').DefaultLoggerDriver;
 
 describe('logDriver class', function(){
   describe('constructor', function(){

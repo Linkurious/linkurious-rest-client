@@ -9,11 +9,11 @@
  */
 'use strict';
 
-import * as i from './interfaces';
-import Utils from './Utils';
+import Utils from '../http/utils';
 import Module from './Module';
+import {Edge, Schema, ItemId} from '../interfaces';
 
-export default class Edge extends Module {
+export default class EdgeModule extends Module {
 
   constructor(fetcher) {
     super(fetcher);
@@ -37,7 +37,7 @@ export default class Edge extends Module {
    * @param data : object
    * @returns {Promise<Edge>}
    */
-  public create(data:i.Edge.form.create):Promise<i.Edge.model> {
+  public create(data: Edge.form.create):Promise<Edge.model> {
     return this.fetch({
       url   : '/{dataSource}/graph/edges',
       method: 'POST',
@@ -53,7 +53,7 @@ export default class Edge extends Module {
    * @param data : Edge.form.update
    * @returns {Promise<Edge>}
    */
-  public update(edgeId:i.ItemId, data:i.Edge.form.update):Promise<i.Edge.model> {
+  public update(edgeId: ItemId, data: Edge.form.update):Promise<Edge.model> {
     return this.fetch({
       url   : '/{dataSource}/graph/edges/' + edgeId,
       method: 'PATCH',
@@ -67,7 +67,7 @@ export default class Edge extends Module {
    * @param edgeId : ItemId
    * @returns {Promise<string>}
    */
-  public deleteOne(edgeId:i.ItemId):Promise<boolean> {
+  public deleteOne(edgeId: ItemId):Promise<boolean> {
     return this.fetch({
         url   : '/{dataSource}/graph/edges/' + edgeId,
         method: 'DELETE'
@@ -83,7 +83,7 @@ export default class Edge extends Module {
    * @param data : object
    * @returns {Promise<Array<Edge.model>>}
    */
-  public getAdjacentFromNode(data:i.Edge.request.getAdjacent):Promise<Array<i.Edge.model>> {
+  public getAdjacentFromNode(data: Edge.request.getAdjacent):Promise<Array<Edge.model>> {
     let query;
 
     if (data.orientation === 'in') {
@@ -111,7 +111,7 @@ export default class Edge extends Module {
    * @param edgeId : ItemId
    * @returns {Promise<Edge.model>}
    */
-  public getOne(edgeId:i.ItemId):Promise<i.Edge.model> {
+  public getOne(edgeId: ItemId):Promise<Edge.model> {
     return this.fetch({
       url   : '/{dataSource}/graph/edges/' + edgeId,
       method: 'GET'
@@ -124,7 +124,7 @@ export default class Edge extends Module {
    * @param params:Interface.RequestProperties
    * @returns {Promise<Schema.propertyList>}
    */
-  public getProperties(params?:i.Schema.request.properties):Promise<i.Schema.propertyList> {
+  public getProperties(params?: Schema.request.properties):Promise<Schema.propertyList> {
     return this.fetch({
       url   : '/{dataSource}/graph/schema/edgeTypes/properties',
       method: 'GET',
@@ -138,7 +138,7 @@ export default class Edge extends Module {
    * @param params:Interface.RequestEdgeType
    * @returns {Promise<Schema.typesList>}
    */
-  public getTypes(params?:i.Edge.request.types):Promise<i.Schema.typesList> {
+  public getTypes(params?: Edge.request.types):Promise<Schema.typesList> {
     return this.fetch({
       url   : '/{dataSource}/graph/schema/edgeTypes',
       method: 'GET',

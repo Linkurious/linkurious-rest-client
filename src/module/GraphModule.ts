@@ -9,11 +9,11 @@
  */
 'use strict';
 
-import * as i from './interfaces';
-import Utils from './Utils';
-import Module from "./Module";
+import {Schema, Graph, Query, Node} from '../interfaces';
+import Utils from '../http/utils';
+import Module from './Module';
 
-export default class Graph extends Module {
+export default class GraphModule extends Module {
   constructor(fetcher) {
     super(fetcher);
   }
@@ -24,7 +24,7 @@ export default class Graph extends Module {
    * @param nodesAndEdgesVersions : Schema.lists
    * @returns {Promise}
    */
-  public getItemsVersions(nodesAndEdgesVersions:i.Schema.lists):Promise<any> {
+  public getItemsVersions(nodesAndEdgesVersions: Schema.lists):Promise<any> {
     return this.fetch({
       url   : '/{dataSource}/graph/versions',
       method: 'POST',
@@ -38,7 +38,7 @@ export default class Graph extends Module {
    * @param nodesConfig : Graph.request.shortestPath
    * @returns {Promise}
    */
-  public getShortestPaths(nodesConfig:i.Graph.request.shortestPath):Promise<Array<i.Node.model>> {
+  public getShortestPaths(nodesConfig: Graph.request.shortestPath):Promise<Array<Node.model>> {
     return this.fetch({
       url   : '/{dataSource}/graph/shortestPaths',
       method: 'GET',
@@ -52,7 +52,7 @@ export default class Graph extends Module {
    * @param data:RequestGraphWithQueryInterface
    * @returns {Promise}
    */
-  public getNodeList(data:i.Query.form.request):Promise<Array<i.Node.model>> {
+  public getNodeList(data: Query.form.request):Promise<Array<Node.model>> {
     return this.fetch({
       url   : '/{dataSource}/graph/rawQuery',
       method: 'POST',

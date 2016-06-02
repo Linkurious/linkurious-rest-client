@@ -9,19 +9,22 @@
  */
 'use strict';
 
-import {HttpResponse, HttpDriver, Source, FetchConfig} from './interfaces';
-import LinkuriousError from './LinkuriousError';
+import {DataSource} from './../interfaces';
+import LinkuriousError from './../LinkuriousError';
 import DefaultHttpDriver from './DefaultHttpDriver';
-import Logger from './Logger';
+import {Logger} from './../log/Logger';
+import {IHttpDriver} from "./IHttpDriver";
+import {IHttpResponse} from "./IHttpResponse";
+import {IFetchConfig} from "./IFetchConfig";
 
 export default class Fetcher {
 
-  private httpDriver: HttpDriver;
+  private httpDriver: IHttpDriver;
   private logger: Logger;
   private host: string;
-  private currentSource: Source.clientModel;
+  private currentSource: DataSource.clientModel;
 
-  constructor(logger: Logger, currentSource: Source.clientModel, host: string, httpDriver?: HttpDriver){
+  constructor(logger: Logger, currentSource: DataSource.clientModel, host: string, httpDriver?: IHttpDriver){
     this.httpDriver = httpDriver ? httpDriver : new DefaultHttpDriver();
     this.logger = logger;
     this.currentSource = currentSource;
@@ -37,18 +40,21 @@ export default class Fetcher {
    */
   private transformUrl(uri:string, dataSource?:string): string {
     // todo: handle configIndex vs sourceKey parameters (depending on APIs)
-    const dataSourceTest = /\{dataSource}/;
+    const sourceKeyTemplate = '{dataSource}';
 
-    if (dataSourceTest.test(uri)) {
+    if (uri.indexOf(sourceKeyTemplate) >= 0) {
       if (dataSource) {
-        return this.host + '/api' + uri.replace(dataSourceTest, dataSource);
+        // explicit dataSource
+        return this.host + '/api' + uri.replace(sourceKeyTemplate, dataSource);
       } else if (this.currentSource) {
-        let currentSource: Source.clientModel = this.currentSource;
-        return this.host + '/api' + uri.replace(dataSourceTest, currentSource.key);
+        // current dataSource
+        let currentSource: DataSource.clientModel = this.currentSource;
+        return this.host + '/api' + uri.replace(sourceKeyTemplate, currentSource.key);
       } else {
+        //
         this.logger.error(LinkuriousError.fromClientError(
-          'configuration_error',
-          'You need to set a current source to fetch this API.'
+          'state_error',
+          `You need to set a current source to fetch this API (${uri}).`
         ));
         throw new Error('You need to set a current source to fetch this API.');
       }
@@ -60,10 +66,10 @@ export default class Fetcher {
   /**
    * HTTPDriver wrapper method
    *
-   * @param {FetchConfig} config
+   * @param {IFetchConfig} config
    * @returns {Promise.<object>} the response body
    */
-  public fetch(config: FetchConfig): Promise<any> {
+  public fetch(config: IFetchConfig): Promise<any> {
 
     // clone config + inject current source (if no explicit source)
     let configCopy = global.JSON.parse(global.JSON.stringify(config));
@@ -86,7 +92,7 @@ export default class Fetcher {
       // create a linkurious error from "hard" errors
       return Promise.reject(LinkuriousError.fromError(error));
 
-    }).then((response: HttpResponse) => {
+    }).then((response: IHttpResponse) => {
 
       // create a linkurious error from "soft" error
       if (LinkuriousError.isError(response)) {

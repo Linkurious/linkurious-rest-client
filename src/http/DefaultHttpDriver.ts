@@ -7,21 +7,22 @@
  * File: HTTPDriver.ts
  * Description : Wrapper for HTTP requests + promises
  */
-/// <reference path="./../typings/main/ambient/superagent/index.d.ts" />
+/// <reference path="./../../typings/main/ambient/superagent/index.d.ts" />
 
 'use strict';
 
 import * as request from 'superagent';
-import {HttpResponse, HttpDriver} from './interfaces';
+import {IHttpResponse} from './IHttpResponse';
+import {IHttpDriver} from './IHttpDriver';
 
-export default class DefaultHttpDriver implements HttpDriver {
+export default class DefaultHttpDriver implements IHttpDriver {
   private cookie: string;
 
   constructor() {
     this.cookie = '';
   }
 
-  private handleResponse(resolve: Function, reject: Function, err: Error, res: HttpResponse) {
+  private handleResponse(resolve: Function, reject: Function, err: Error, res: IHttpResponse) {
     if ((typeof res.statusCode !== 'number' || res.statusCode < 100) && err) {
       return reject(err);
     }
@@ -33,7 +34,7 @@ export default class DefaultHttpDriver implements HttpDriver {
     resolve(res);
   }
 
-  POST(uri:string, data?:any):Promise<HttpResponse> {
+  POST(uri:string, data?:any):Promise<IHttpResponse> {
     return new Promise((resolve:Function, reject:Function) => {
       request
         .post(uri)
@@ -46,7 +47,7 @@ export default class DefaultHttpDriver implements HttpDriver {
     });
   }
 
-  PUT(uri:string, data:any):Promise<HttpResponse> {
+  PUT(uri:string, data:any):Promise<IHttpResponse> {
     return new Promise((resolve:Function, reject:Function) => {
       request
         .put(uri)
@@ -59,7 +60,7 @@ export default class DefaultHttpDriver implements HttpDriver {
     });
   }
 
-  PATCH(uri:string, data:any):Promise<HttpResponse> {
+  PATCH(uri:string, data:any):Promise<IHttpResponse> {
     return new Promise((resolve:Function, reject:Function) => {
       request
         .patch(uri)
@@ -72,7 +73,7 @@ export default class DefaultHttpDriver implements HttpDriver {
     });
   }
 
-  GET(uri:string, data?:any):Promise<HttpResponse> {
+  GET(uri:string, data?:any):Promise<IHttpResponse> {
     return new Promise((resolve:any, reject:any) => {
       request
         .get(uri)
@@ -85,7 +86,7 @@ export default class DefaultHttpDriver implements HttpDriver {
     });
   }
 
-  DELETE(uri:string, data?:any):Promise<HttpResponse> {
+  DELETE(uri:string, data?:any):Promise<IHttpResponse> {
     return new Promise((resolve:any, reject:any) => {
       request
         .del(uri)

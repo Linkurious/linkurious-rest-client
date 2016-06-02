@@ -9,10 +9,10 @@
  */
 'use strict';
 
-import LinkuriousError from './LinkuriousError';
-import {LogLevel, LoggerDriver} from './interfaces';
+import LinkuriousError from '../LinkuriousError';
+import {ILoggerDriver} from './ILoggerDriver';
 
-export class DefaultLoggerDriver implements LoggerDriver {
+export class DefaultLoggerDriver implements ILoggerDriver {
   debug(message: string) {
     console.debug(message);
   }
@@ -22,17 +22,19 @@ export class DefaultLoggerDriver implements LoggerDriver {
   }
 }
 
+export type LogLevel = 'debug'|'error'|'quiet';
+
 const LOG_LEVELS: Map<LogLevel, number> = new Map<LogLevel, number>();
 LOG_LEVELS.set('debug', 0);
 LOG_LEVELS.set('error', 1);
 LOG_LEVELS.set('quiet', 99);
 
-export default class Logger {
+export class Logger {
   public level: LogLevel;
   private numericalLevel: number;
-  public driver: LoggerDriver;
+  public driver: ILoggerDriver;
 
-  constructor(level: LogLevel, driver?: LoggerDriver) {
+  constructor(level: LogLevel, driver?: ILoggerDriver) {
     this.level = level;
     this.numericalLevel = LOG_LEVELS.get(level);
     this.driver = driver ? driver : new DefaultLoggerDriver();
