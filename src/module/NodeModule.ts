@@ -12,10 +12,11 @@
 import {Node, ItemId, Schema} from '../interfaces';
 import Utils from '../http/utils';
 import Module from './Module';
+import Fetcher from '../http/fetcher';
 
 export default class NodeModule extends Module {
 
-  constructor(fetcher) {
+  constructor(fetcher: Fetcher) {
     super(fetcher)
   }
 

@@ -29,7 +29,7 @@ export default class LinkuriousError {
   public static fromHttpResponse(r: IHttpResponse) {
     let status = r.statusCode;
     let type: ErrorType = LinkuriousError.getErrorType(r.statusCode);
-    let key, message;
+    let key: string, message: string;
 
     if (type === 'communication') {
       key = 'communication_error';

@@ -5,7 +5,8 @@
     "removeComments": false,
     "sourceMap": true,
     "declaration": false,
-    "outDir": "./built"
+    "outDir": "./built",
+    "noImplicitAny": true
   },
   "filesGlob": [
     "src/*.ts"

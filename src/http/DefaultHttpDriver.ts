@@ -22,8 +22,13 @@ export default class DefaultHttpDriver implements IHttpDriver {
     this.cookie = '';
   }
 
-  private handleResponse(resolve: Function, reject: Function, err: Error, res: IHttpResponse) {
-    if ((typeof res.statusCode !== 'number' || res.statusCode < 100) && err) {
+  private handleResponse(
+    resolve: (r: IHttpResponse) => void,
+    reject: (error: any) => void,
+    err: Error,
+    res: request.Response
+  ) {
+    if ((typeof res.status !== 'number' || res.status < 100) && err) {
       return reject(err);
     }
 
@@ -31,71 +36,75 @@ export default class DefaultHttpDriver implements IHttpDriver {
       this.cookie = res.header['set-cookie'];
     }
 
-    resolve(res);
+    resolve({
+      statusCode: res.status,
+      body: res.body,
+      header: res.header
+    });
   }
 
   POST(uri:string, data?:any):Promise<IHttpResponse> {
-    return new Promise((resolve:Function, reject:Function) => {
+    return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
       request
         .post(uri)
         .send(data)
         .set('cookie', this.cookie)
         .withCredentials()
-        .end(function(err, res) {
+        .end((err: any, res: request.Response) => {
           this.handleResponse(resolve, reject, err, res);
-        }.bind(this));
+        });
     });
   }
 
   PUT(uri:string, data:any):Promise<IHttpResponse> {
-    return new Promise((resolve:Function, reject:Function) => {
+    return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
       request
         .put(uri)
         .send(data)
         .set('cookie', this.cookie)
         .withCredentials()
-        .end(function(err, res) {
+        .end((err: any, res: request.Response) => {
           this.handleResponse(resolve, reject, err, res);
-        }.bind(this));
+        });
     });
   }
 
   PATCH(uri:string, data:any):Promise<IHttpResponse> {
-    return new Promise((resolve:Function, reject:Function) => {
+    return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
       request
         .patch(uri)
         .send(data)
         .set('cookie', this.cookie)
         .withCredentials()
-        .end(function(err, res) {
+        .end((err: any, res: request.Response) => {
           this.handleResponse(resolve, reject, err, res);
-        }.bind(this));
+        });
     });
   }
 
   GET(uri:string, data?:any):Promise<IHttpResponse> {
-    return new Promise((resolve:any, reject:any) => {
+    return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
       request
         .get(uri)
         .query(data)
         .set('cookie', this.cookie)
         .withCredentials()
-        .end(function(err, res) {
+        .end((err: any, res: request.Response) => {
           this.handleResponse(resolve, reject, err, res);
-        }.bind(this));
+        });
     });
   }
 
   DELETE(uri:string, data?:any):Promise<IHttpResponse> {
-    return new Promise((resolve:any, reject:any) => {
+    return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
       request
         .del(uri)
         .send(data)
         .set('cookie', this.cookie)
         .withCredentials()
-        .end(function(err, res) {
+        .end((err: any, res: request.Response) => {
           this.handleResponse(resolve, reject, err, res);
-        }.bind(this));
+        });
     });
   }
 }

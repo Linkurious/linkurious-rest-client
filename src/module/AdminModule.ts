@@ -10,13 +10,14 @@
 'use strict';
 
 import {IFetchConfig} from '../http/IFetchConfig';
+import Fetcher from '../http/fetcher';
 import {DataSource, App, User, Group} from '../interfaces';
 import Utils from '../http/utils';
 import Module from './Module';
 
 export default class AdminModule extends Module {
 
-  constructor(fetcher) {
+  constructor(fetcher: Fetcher) {
     super(fetcher)
   }
 

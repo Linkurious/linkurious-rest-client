@@ -12,10 +12,11 @@
 import Utils from '../http/utils';
 import Module from './Module';
 import {Edge, Schema, ItemId} from '../interfaces';
+import Fetcher from '../http/fetcher';
 
 export default class EdgeModule extends Module {
 
-  constructor(fetcher) {
+  constructor(fetcher: Fetcher) {
     super(fetcher);
   }
 
@@ -84,24 +85,22 @@ export default class EdgeModule extends Module {
    * @returns {Promise<Array<Edge.model>>}
    */
   public getAdjacentFromNode(data: Edge.request.getAdjacent):Promise<Array<Edge.model>> {
-    let query;
-
-    if (data.orientation === 'in') {
-      data['source'] = data.nodeId;
+    // clone
+    let query: any = global.JSON.parse(global.JSON.stringify(data));
+    if (query.orientation === 'in') {
+      query['source'] = data.nodeId;
     } else if (data.orientation === 'out') {
-      data['target'] = data.nodeId;
+      query['target'] = data.nodeId;
     } else if (data.orientation === 'both') {
-      data['adjacent'] = data.nodeId;
+      query['adjacent'] = data.nodeId;
     }
-    delete data.nodeId;
-    delete data.orientation;
+    query.nodeId = undefined;
+    query.orientation = undefined;
 
-    query = Utils.fixSnakeCase(data);
-    
     return this.fetch({
       url   : '/{dataSource}/graph/edges',
       method: 'GET',
-      query : query
+      query : Utils.fixSnakeCase(query)
     });
   }
 

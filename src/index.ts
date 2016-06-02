@@ -116,8 +116,12 @@ class Linkurious {
    * @param matchValue:any
    * @returns {DataSource.clientModel}
    */
-  private storeSource(source: DataSource.model, property:string, matchValue:string|number|boolean): DataSource.clientModel {
-    if (source[property] === matchValue) {
+  private storeSource(
+    source: DataSource.model,
+    property:string,
+    matchValue:string|number|boolean
+  ): DataSource.clientModel {
+    if ((<any> source)[property] === matchValue) {
       this._currentSource.name        = source.name;
       this._currentSource.key         = source.key;
       this._currentSource.configIndex = source.configIndex;
@@ -235,7 +239,7 @@ class Linkurious {
       .then((res) => {
         for (let i = 0, l = res.sources.length; i < l; ++i) {
           let sourceIteration = res.sources[i],
-              sourceComparator;
+              sourceComparator: string;
 
           if (typeof keyOrConfig === 'string') {
             sourceComparator = 'key';
