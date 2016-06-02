@@ -7,7 +7,7 @@
  * File: HTTPDriver.ts
  * Description : Wrapper for HTTP requests + promises
  */
-/// <reference path="./../../typings/main/ambient/superagent/index.d.ts" />
+/// <reference path="./../../typings/globals/superagent/index.d.ts" />
 
 'use strict';
 
