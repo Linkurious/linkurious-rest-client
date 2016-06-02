@@ -12,11 +12,11 @@
 import {ILoggerDriver} from './ILoggerDriver';
 
 export default class DefaultLoggerDriver implements ILoggerDriver {
-  debug(message: string) {
+  debug(message:string) {
     console.debug(message);
   }
 
-  error(message: string) {
+  error(message:string) {
     console.error(message);
   }
 }
