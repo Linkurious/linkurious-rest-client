@@ -9,57 +9,94 @@
  */
 'use strict';
 
-import {DataSource} from '../interfaces';
-import LinkuriousError from '../LinkuriousError';
+import {IDataSource, IDatasToSend} from './../interfaces';
+import LinkuriousError from './../LinkuriousError';
 import DefaultHttpDriver from './DefaultHttpDriver';
-import {Logger} from '../log/Logger';
-import {IHttpDriver} from './IHttpDriver';
-import {IHttpResponse} from './IHttpResponse';
-import {IFetchConfig} from './IFetchConfig';
+import {Logger} from './../log/Logger';
+import {IHttpDriver} from "./IHttpDriver";
+import {IHttpResponse} from "./IHttpResponse";
+import {IFetchConfig, IDataSourceRelative} from "./IFetchConfig";
+import Utils from "./utils";
 
 export default class Fetcher {
 
   private _httpDriver: IHttpDriver;
   private _logger: Logger;
   private _host: string;
-  private _currentSource: DataSource.clientModel;
+  private _currentSource: IDataSource;
+  private static SOURCE_KEY_TEMPLATE:string   = '{dataSourceKey}';
+  private static SOURCE_INDEX_TEMPLATE:string = '{dataSourceIndex}';
+  private static OBJECT_ID_TEMPLATE:string = '{id}'
 
-  constructor(logger: Logger, currentSource: DataSource.clientModel, host: string, httpDriver?: IHttpDriver){
+  constructor(logger: Logger, currentSource: IDataSource, host: string, httpDriver?: IHttpDriver){
     this._httpDriver = httpDriver ? httpDriver : new DefaultHttpDriver();
     this._logger = logger;
     this._currentSource = currentSource;
     this._host = host;
   }
 
-  /**
-   * construct the API URL with sourceId if needed and throw error if doesn't exists.
-   *
-   * @param uri:string     - the url fragment to format the API url
-   * @param dataSource:string - the sourceKey
-   * @returns {string}      - return the API url formatted
-   */
-  private transformUrl(uri:string, dataSource?:string): string {
-    // todo: handle configIndex vs sourceKey parameters (depending on APIs)
-    const sourceKeyTemplate = '{dataSource}';
-
-    if (uri.indexOf(sourceKeyTemplate) >= 0) {
-      if (dataSource) {
-        // explicit dataSource
-        return this._host + '/api' + uri.replace(sourceKeyTemplate, dataSource);
-      } else if (this._currentSource) {
-        // current dataSource
-        let currentSource: DataSource.clientModel = this._currentSource;
-        return this._host + '/api' + uri.replace(sourceKeyTemplate, currentSource.key);
-      } else {
-        //
-        this._logger.error(LinkuriousError.fromClientError(
-          'state_error',
-          `You need to set a current source to fetch this API (${uri}).`
-        ));
-        throw new Error('You need to set a current source to fetch this API.');
-      }
+  private addSourceKeyToUrl(url:string, explicitSource?:IDataSourceRelative):string{
+    if(explicitSource){
+      return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource.dataSourceKey);
+    } else if (this._currentSource){
+      return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._currentSource.key);
     } else {
-      return this._host + '/api' + uri;
+      this._logger.error(LinkuriousError.fromClientError(
+        'state_error',
+        `You need to set a current source to fetch this API (${url}).`
+      ));
+      throw new Error('You need to set a current source to fetch this API.');
+    }
+  }
+
+  private addSourceIndexToUrl(url:string, explicitSource?:IDataSourceRelative):string{
+    if(explicitSource){
+      return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource.dataSourceIndex + '');
+    } else if (this._currentSource){
+      return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._currentSource.key);
+    } else {
+      this._logger.error(LinkuriousError.fromClientError(
+        'state_error',
+        `You need to set a current source to fetch this API (${url}).`
+      ));
+      throw new Error('You need to set a current source to fetch this API.');
+    }
+  }
+
+  private handleIdInUrl(url:string, body:any, query:any){
+    if(body){
+      let id = body.id;
+      delete body.id;
+      return url.replace(Fetcher.OBJECT_ID_TEMPLATE, id + '');
+    }
+
+    if (query){
+      let id = query.id;
+      delete query.id;
+      return url.replace(Fetcher.OBJECT_ID_TEMPLATE, id + '');
+    }
+
+    this._logger.error(LinkuriousError.fromClientError(
+      'state_error',
+      `You need an ID to fetch this API (${url}).`
+    ));
+    throw new Error('You need an ID to fetch this API.');
+
+  }
+
+  private transformUrl(config:IFetchConfig, datas:IDatasToSend):string {
+    const baseUrl = this._host + '/api';
+
+    if(config.url.indexOf(Fetcher.OBJECT_ID_TEMPLATE) >= 0) {
+      config.url = this.handleIdInUrl(config.url, datas.bodyData, datas.queryData);
+    }
+
+    if (config.url.indexOf(Fetcher.SOURCE_KEY_TEMPLATE) >= 0) {
+      return baseUrl + this.addSourceKeyToUrl(config.url, config.dataSource);
+    } else if (config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0){
+      return baseUrl + this.addSourceIndexToUrl(config.url, config.dataSource);
+    } else {
+      return baseUrl + config.url;
     }
   }
 
@@ -71,13 +108,19 @@ export default class Fetcher {
    */
   public fetch(config: IFetchConfig): Promise<any> {
 
-    config.url = this.transformUrl(config.url, config.dataSource);
+    let datas = {
+      queryData : config.query,
+      bodyData : config.body
+    };
+
+    config.url = this.transformUrl(config, datas);
+
     let responsePromise: Promise<IHttpResponse>;
 
     if (config.method === 'GET') {
-      responsePromise = (<any> this._httpDriver)[config.method](config.url, config.query);
+      responsePromise = (<any> this._httpDriver)[config.method](config.url, Utils.fixSnakeCase(datas.queryData));
     } else {
-      responsePromise = (<any> this._httpDriver)[config.method](config.url, config.body);
+      responsePromise = (<any> this._httpDriver)[config.method](config.url, datas.bodyData, Utils.fixSnakeCase(datas.queryData));
     }
 
     return responsePromise.catch((error: Error) => {

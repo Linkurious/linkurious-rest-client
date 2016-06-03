@@ -23,15 +23,24 @@ import SearchModule from './module/SearchModule';
 import VisualizationModule from './module/VisualizationModule';
 
 import LinkuriousError from './LinkuriousError';
-
+import * as Request from './Query';
 import {
-  DataSource, User, StateModel, App, IndexationCallback, Schema
-} from './interfaces';
+  IDataSource,
+  IFullUser,
+  IDataSourceState,
+  IStateModel,
+  IAppStatus,
+  IAppVersion,
+  IAppConfig,
+  ISchema,
+  IIndexationStatus,
+  IIndexationCallback
+} from "./interfaces";
 
 class Linkurious {
   private _fetcher: Fetcher;
-  private _currentSource: DataSource.clientModel;
-  private _user: User.model;
+  private _currentSource: IDataSource;
+  private _user: IFullUser;
   private _logger: Logger;
 
   private _admin: AdminModule;
@@ -42,11 +51,11 @@ class Linkurious {
   private _search: SearchModule;
   private _visualization : VisualizationModule;
 
-  get currentSource() {
+  get currentSource():IDataSource {
     return this._currentSource;
   }
 
-  get user() {
+  get user():IFullUser {
     return this._user;
   }
 
@@ -57,8 +66,8 @@ class Linkurious {
    * @param {object} [loggerDriver] - logger object
    */
   constructor(host: string, logLevel: LogLevel, loggerDriver?: ILoggerDriver) {
-    this._currentSource = <DataSource.clientModel> {};
-    this._user          = <User.model>undefined;
+    this._currentSource = <IDataSource> {};
+    this._user          = <IFullUser>undefined;
     this._logger        = new Logger(logLevel, loggerDriver);
     this._fetcher       = new Fetcher(this._logger, this._currentSource, host);
 
@@ -108,16 +117,16 @@ class Linkurious {
 
   /**
    *
-   * @param source:Source.model
+   * @param source:IFullDataSource
    * @param property:string
    * @param matchValue:any
-   * @returns {DataSource.clientModel}
+   * @returns {IDataSource}
    */
   private storeSource(
-    source: DataSource.model,
+    source: IDataSourceState,
     property:string,
     matchValue:string|number|boolean
-  ): DataSource.clientModel {
+  ): IDataSource {
     if ((<any> source)[property] === matchValue) {
       this._currentSource.name        = source.name;
       this._currentSource.key         = source.key;
@@ -132,10 +141,10 @@ class Linkurious {
   /**
    * Process to login of the corresponding user and return it.
    *
-   * @param data : User.form.login
+   * @param data : ILoginUser
    * @returns {Promise<boolean>}
    */
-  public login(data: User.form.login):Promise<boolean> {
+  public login(data: Request.ILoginUser):Promise<boolean> {
     let config: IFetchConfig = {
       url   : '/auth/login',
       method: 'POST',
@@ -179,12 +188,12 @@ class Linkurious {
    * @param data {user.form.update}
    * @returns {Promise}
    */
-  public updateCurrentUser(data: User.form.update):Promise<any> {
+  public updateCurrentUser(data: Request.IUpdateUser):Promise<IFullUser> {
     return this._fetcher.fetch({
       url   : '/auth/me',
       method: 'PATCH',
       body  : data
-    }).then((res) => {
+    }).then((res:IFullUser) => {
       this.user.username    = res.username;
       this.user.email       = res.email;
       this.user.groups      = res.groups;
@@ -198,24 +207,25 @@ class Linkurious {
   /**
    * Get the status of the all data-sources.
    *
-   * @returns {Promise<DataSource.list>}
+   * @returns {Promise<IDataSourceState>}
    */
-  public getSourceList():Promise<DataSource.list> {
+  public getSourceList():Promise<Array<IDataSourceState>> {
     return this._fetcher.fetch({
       url   : '/dataSources',
       method: 'GET'
-    });
+    }).then((res) => res.sources);
   }
 
   /**
    * Set the currentSource to the first source connected
    *
-   * @returns {Promise<DataSource.clientModel>}
+   * @returns {Promise<IDataSourceState>}
    */
-  public initCurrentSource():Promise<DataSource.clientModel> {
+  public initCurrentSource():Promise<IDataSource> {
+
     return this.getSourceList().then(res => {
-      for (let i = 0, l = res.sources.length; i < l; ++i) {
-        let sourceIteration = res.sources[i];
+      for (let i = 0, l = res.length; i < l; ++i) {
+        let sourceIteration = res[i];
 
         if (this.storeSource(sourceIteration, 'connected', true)) {
           return this._currentSource;
@@ -229,12 +239,12 @@ class Linkurious {
    * Set the currentSource by passing the sourceKey or configIndex
    *
    * @param keyOrConfig : string|number
-   * @returns {Promise<DataSource.clientModel>}
+   * @returns {Promise<IDataSourceState>}
    */
-  public setCurrentSource(keyOrConfig:string | number):Promise<DataSource.clientModel> {
+  public setCurrentSource(keyOrConfig:string | number):Promise<IDataSourceState> {
     return this.getSourceList().then(res => {
-      for (let i = 0, l = res.sources.length; i < l; ++i) {
-        let sourceIteration = res.sources[i],
+      for (let i = 0, l = res.length; i < l; ++i) {
+        let sourceIteration = res[i],
             sourceComparator: string;
 
         if (typeof keyOrConfig === 'string') {
@@ -255,9 +265,9 @@ class Linkurious {
    * Process to login and set the default source state and return the REST client state.
    *
    * @param data:User.form.login
-   * @returns {Promise<StateModel>}
+   * @returns {Promise<IStateModel>}
    */
-  public startClient(data: User.form.login):Promise<StateModel> {
+  public startClient(data: Request.ILoginUser):Promise<IStateModel> {
 
     return this.login(data).then(() => {
       return this.initCurrentSource();
@@ -272,9 +282,9 @@ class Linkurious {
   /**
    * Get the status of the Linkurious API.
    *
-   * @returns {Promise<App.status>}
+   * @returns {Promise<IAppStatus>}
    */
-  public getAppStatus():Promise<App.status> {
+  public getAppStatus():Promise<IAppStatus> {
     return this._fetcher.fetch({
       url   : '/status',
       method: 'GET'
@@ -284,9 +294,9 @@ class Linkurious {
   /**
    * Get Linkurious' current version information
    *
-   * @returns {Promise<App.version>}
+   * @returns {Promise<IAppVersion>}
    */
-  public getAppVersion():Promise<App.version> {
+  public getAppVersion():Promise<IAppVersion> {
     return this._fetcher.fetch({
       url   : '/version',
       method: 'GET'
@@ -297,9 +307,9 @@ class Linkurious {
    * Return the configuration of the application.
    *
    * @param sourceIndex:number
-   * @returns {Promise<App.config>}
+   * @returns {Promise<IAppConfig>}
    */
-  public getAppConfig(sourceIndex?:number):Promise<App.config> {
+  public getAppConfig(sourceIndex?:number):Promise<IAppConfig> {
     return this._fetcher.fetch({
       url   : '/config',
       method: 'GET',
@@ -310,11 +320,11 @@ class Linkurious {
   /**
    * List nodeCategories, edgeTypes, nodeProperties and edgeProperties before the first indexation.
    *
-   * @returns {Promise<Schema.model>}
+   * @returns {Promise<ISchema>}
    */
-  public getSchema():Promise<Schema.model> {
+  public getSchema():Promise<ISchema> {
     return this._fetcher.fetch({
-      url   : '/{dataSource}/graph/schema/simple',
+      url   : '/{dataSourceKey}/graph/schema/simple',
       method: 'GET'
     });
   }
@@ -322,11 +332,11 @@ class Linkurious {
   /**
    * Get the status of the Search API and return the indexing progress.
    *
-   * @returns {Promise<DataSource.indexationStatus>}
+   * @returns {Promise<IIndexationStatus>}
    */
-  public getIndexationStatus():Promise<DataSource.indexationStatus> {
+  public getIndexationStatus():Promise<IIndexationStatus> {
     return this._fetcher.fetch({
-      url   : '/{dataSource}/search/status',
+      url   : '/{dataSourceKey}/search/status',
       method: 'GET'
     }).then(r => {
       if (r.indexed_source !== this._currentSource.key) {
@@ -348,7 +358,7 @@ class Linkurious {
    * @param callback:Function
    * @returns {Promise<boolean>}
    */
-  public processIndexation(timeout:number, callback?: IndexationCallback):Promise<boolean> {
+  public processIndexation(timeout:number, callback?: IIndexationCallback):Promise<boolean> {
 
     const minTimeout = 200,
           maxTimeout = 3000;
@@ -373,7 +383,7 @@ class Linkurious {
    * @param callback:Function
    * @returns {Promise<boolean>}
    */
-  private listenIndexation(timeout:number, callback?: IndexationCallback):Promise<boolean> {
+  private listenIndexation(timeout:number, callback?: IIndexationCallback):Promise<boolean> {
 
     return this.getIndexationStatus().then(res => {
       if (res.indexing !== 'done') {

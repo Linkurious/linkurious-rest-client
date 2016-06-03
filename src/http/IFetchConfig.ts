@@ -12,7 +12,13 @@
 export interface IFetchConfig {
   url: string;
   method: 'POST'|'GET'|'PUT'|'DELETE'|'PATCH';
-  dataSource?: string;
+  dataSource?: IDataSourceRelative;
   body?: any;
   query?: any;
 }
+
+export interface IDataSourceRelative {
+  dataSourceKey ?: string;
+  dataSourceIndex ?:number
+}
+

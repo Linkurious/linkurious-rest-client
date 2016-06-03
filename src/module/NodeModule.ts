@@ -9,7 +9,14 @@
  */
 'use strict';
 
-import {Node, ItemId, Schema} from '../interfaces';
+import * as Request from '../Query';
+import {
+  INode,
+  ItemId,
+  IDigest,
+  IProperty,
+  IItemType
+} from '../interfaces';
 import Utils from '../http/utils';
 import Module from './Module';
 import Fetcher from '../http/fetcher';
@@ -27,7 +34,7 @@ export default class NodeModule extends Module {
    */
   public count():Promise<number> {
     return this.fetch({
-      url   : '/dataSource/graph/nodes/count',
+      url   : '/{dataSourceKey}/graph/nodes/count',
       method: 'GET'
     }).then(r => r.count);
   }
@@ -38,9 +45,9 @@ export default class NodeModule extends Module {
    * @param data:Interface.Form.node.create
    * @returns {Promise<Node.model>}
    */
-  public create(data:Node.form.create):Promise<Node.model> {
+  public create(data:Request.ICreateNode):Promise<INode> {
     return this.fetch({
-      url   : '/{dataSource}/graph/nodes',
+      url   : '/{dataSourceKey}/graph/nodes',
       method: 'POST',
       body  : data
     });
@@ -55,23 +62,23 @@ export default class NodeModule extends Module {
    */
   public deleteOne(nodeId:ItemId):Promise<boolean> {
     return this.fetch({
-      url   : '/{dataSource}/graph/nodes/' + nodeId,
-      method: 'DELETE'
+      url   : '/{dataSourceKey}/graph/nodes/{id}',
+      method: 'DELETE',
+      body : {id:nodeId}
     }).then(() => true);
   }
 
   /**
    * Get a node from the graph.
    *
-   * @param nodeId:ItemId
    * @param params:Interface.RequestNode
    * @returns {Promise<Node.model>}
    */
-  public getOne(nodeId:ItemId, params?:Node.request.one):Promise<Node.model> {
+  public getOne(params?:Request.IGetNode):Promise<INode> {
     return this.fetch({
-      url   : '/{dataSource}/graph/nodes/' + nodeId,
+      url   : '/{dataSourceKey}/graph/nodes/{id}',
       method: 'GET',
-      query : Utils.fixSnakeCase(params)
+      query : params
     });
   }
 
@@ -85,9 +92,9 @@ export default class NodeModule extends Module {
    * @param data:Interface.RequestNodeAdjacentItems
    * @returns {Promise<Array<Node.model>>}
    */
-  public expand(data:Node.request.adjacentItems):Promise<Array<Node.model>> {
+  public expand(data:Request.IGetAdjacentItems):Promise<Array<INode>> {
     return this.fetch({
-      url   : '/{dataSource}/graph/nodes/expand',
+      url   : '/{dataSourceKey}/graph/nodes/expand',
       method: 'POST',
       body  : Utils.fixSnakeCase(data)
     });
@@ -99,9 +106,9 @@ export default class NodeModule extends Module {
    * @param data:Interface.RequestNodeNeighbors
    * @returns {Promise<Array<Schema.digest>>}
    */
-  public getNeighborsCategories(data:Node.request.neighborsCategories):Promise<Array<Schema.digest>> {
+  public getNeighborsCategories(data:Array<number>):Promise<Array<IDigest>> {
     return this.fetch({
-      url   : '/{dataSource}/graph/neighborhood/digest',
+      url   : '/{dataSourceKey}/graph/neighborhood/digest',
       method: 'POST',
       body  : data
     });
@@ -110,13 +117,12 @@ export default class NodeModule extends Module {
   /**
    * Modify the properties of a node in the graph by the given ones, and keeps the other properties of the node.
    *
-   * @param nodeId:ItemId
    * @param data:Interface.Form.node.update
    * @returns {Promise<Node>}
    */
-  public update(nodeId:ItemId, data:Node.form.update):Promise<Node.model> {
+  public update(data:Request.IUpdateNode):Promise<INode> {
     return this.fetch({
-      url   : '/{dataSource}/graph/nodes/' + nodeId,
+      url   : '/{dataSourceKey}/graph/nodes/{id}',
       method: 'PATCH',
       body  : Utils.fixSnakeCase(data)
     });
@@ -128,12 +134,12 @@ export default class NodeModule extends Module {
    * @param params:Interface.RequestProperties
    * @returns {Promise<Schema.propertyList>}
    */
-  public getProperties(params?:Schema.request.properties):Promise<Schema.propertyList> {
+  public getProperties(params?:Request.IGetItemProperties):Promise<Array<IProperty>> {
     return this.fetch({
-      url   : '/{dataSource}/graph/schema/nodeTypes/properties',
+      url   : '/{dataSourceKey}/graph/schema/nodeTypes/properties',
       method: 'GET',
-      query : Utils.fixSnakeCase(params)
-    });
+      query : params
+    }).then(res => res.properties);
   }
 
   /**
@@ -142,11 +148,11 @@ export default class NodeModule extends Module {
    * @param params:Interface.RequestNodeType
    * @returns {Promise<Schema.typesList>}
    */
-  public getTypes(params?:Node.request.types):Promise<Schema.typesList> {
+  public getTypes(params?:Request.IGetItemTypes):Promise<Array<IItemType>> {
     return this.fetch({
-      url   : '/{dataSource}/graph/schema/nodeTypes',
+      url   : '/{dataSourceKey}/graph/schema/nodeTypes',
       method: 'GET',
-      query : Utils.fixSnakeCase(params)
-    });
+      query : params
+    }).then(res => res.nodeTypes);
   }
 }

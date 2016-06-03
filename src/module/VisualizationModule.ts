@@ -9,8 +9,14 @@
  */
 'use strict';
 
-import {Visualization} from '../interfaces';
-import Utils from '../http/utils';
+import * as Request from '../Query';
+import {
+  IVisualization,
+  IWidget,
+  ITree,
+  ISharers,
+  IShare
+} from '../interfaces';
 import Module from './Module';
 import Fetcher from '../http/fetcher';
 
@@ -27,7 +33,7 @@ export default class VisualizationModule extends Module {
    */
   public count():Promise<number> {
     return this.fetch({
-      url   : '/{dataSource}/visualizations/count',
+      url   : '/{dataSourceKey}/visualizations/count',
       method: 'GET'
     }).then(r => r.count);
   }
@@ -38,7 +44,7 @@ export default class VisualizationModule extends Module {
    * @param data: Form.visualization.createWidget
    * @returns {Promise<string>}
    */
-  public createWidget(data:Visualization.form.createWidget):Promise<string> {
+  public createWidget(data:Request.ICreateWidget):Promise<string> {
     return this.fetch({
       url   : '/widget',
       method: 'POST',
@@ -52,9 +58,9 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.createFolder
    * @returns {Promise<boolean>}
    */
-  public createFolder(data:Visualization.form.createFolder):Promise<boolean> {
+  public createFolder(data:Request.ICreateFolder):Promise<boolean> {
     return this.fetch({
-      url   : '/{dataSource}/visualizations/folder',
+      url   : '/{dataSourceKey}/visualizations/folder',
       method: 'POST',
       body  : data
     })
@@ -64,12 +70,12 @@ export default class VisualizationModule extends Module {
   /**
    * Create a new visualization.
    *
-   * @param data:Interface.Form.visualization.create
-   * @returns {Promise<Visualization.model>}
+   * @param data:ICreateVisualization
+   * @returns {Promise<IVisualization>}
    */
-  public create(data:Visualization.form.create):Promise<Visualization.model> {
+  public create(data:Request.ICreateVisualization):Promise<IVisualization> {
     return this.fetch({
-      url   : '/{dataSource}/visualization',
+      url   : '/{dataSourceKey}/visualization',
       method: 'POST',
       body  : data
     });
@@ -97,7 +103,7 @@ export default class VisualizationModule extends Module {
    */
   public deleteFolder(folderId:number):Promise<boolean> {
     return this.fetch({
-      url   : '/{dataSource}/visualizations/folder/' + folderId,
+      url   : '/{dataSourceKey}/visualizations/folder/' + folderId,
       method: 'DELETE'
     })
       .then(() => true);
@@ -107,11 +113,11 @@ export default class VisualizationModule extends Module {
    * Duplicates a visualization.
    *
    * @param vizId:number
-   * @returns {Promise<Visualization.model>}
+   * @returns {Promise<IVisualization>}
    */
-  public duplicate(vizId:number):Promise<Visualization.model> {
+  public duplicate(vizId:number):Promise<IVisualization> {
     return this.fetch({
-      url   : '/{dataSource}/visualizations/' + vizId + '/duplicate',
+      url   : '/{dataSourceKey}/visualizations/' + vizId + '/duplicate',
       method: 'POST'
     });
   }
@@ -120,9 +126,9 @@ export default class VisualizationModule extends Module {
    * Get a visualization widget's data by key
    *
    * @param widgetKey:string
-   * @returns {Promise<Visualization.widget>}
+   * @returns {Promise<IWidget>}
    */
-  public getWidget(widgetKey:string):Promise<Visualization.widget> {
+  public getWidget(widgetKey:string):Promise<IWidget> {
     return this.fetch({
       url   : '/widget/' + widgetKey,
       method: 'GET'
@@ -133,13 +139,13 @@ export default class VisualizationModule extends Module {
    * Return the visualization sandbox of the current user for a given data-source
    *
    * @param params:Interface.RequestSandbox
-   * @returns {Promise<Visualization.model>}
+   * @returns {Promise<IVisualization>}
    */
-  public getSandbox(params:Visualization.request.sandbox):Promise<Visualization.model> {
+  public getSandbox(params:Request.IGetSandbox):Promise<IVisualization> {
     return this.fetch({
-      url   : '/{dataSource}/sandbox',
+      url   : '/{dataSourceKey}/sandbox',
       method: 'GET',
-      query : Utils.fixSnakeCase(params)
+      query : params
     });
   }
 
@@ -147,11 +153,11 @@ export default class VisualizationModule extends Module {
    * Return one visualizations selected by ID.
    *
    * @param vizId:number
-   * @returns {Promise<Visualization.model>}
+   * @returns {Promise<IVisualization>}
    */
-  public getOne(vizId:number):Promise< Visualization.model> {
+  public getOne(vizId:number):Promise<IVisualization> {
     return this.fetch({
-      url   : '/{dataSource}/visualizations/' + vizId,
+      url   : '/{dataSourceKey}/visualizations/' + vizId,
       method: 'GET'
     });
   }
@@ -159,11 +165,11 @@ export default class VisualizationModule extends Module {
   /**
    * Return visualizations ordered with folders hierarchy.
    *
-   * @returns {Promise<Visualization.tree>}
+   * @returns {Promise<ITree>}
    */
-  public getTree():Promise<Visualization.tree> {
+  public getTree():Promise<ITree> {
     return this.fetch({
-      url   : '/{dataSource}/visualizations/tree',
+      url   : '/{dataSourceKey}/visualizations/tree',
       method: 'GET'
     });
   }
@@ -176,7 +182,7 @@ export default class VisualizationModule extends Module {
    */
   public deleteOne(vizId:number):Promise<boolean> {
     return this.fetch({
-      url   : '/{dataSource}/visualizations/' + vizId,
+      url   : '/{dataSourceKey}/visualizations/' + vizId,
       method: 'DELETE'
     }).then(() => true);
   }
@@ -184,11 +190,11 @@ export default class VisualizationModule extends Module {
   /**
    * Get all share rights on a visualization
    * @param vizId:number
-   * @returns {Promise<Visualization.Shares>}
+   * @returns {Promise<ISharers>}
    */
-  public getShares(vizId:number):Promise<Visualization.Shares> {
+  public getShares(vizId:number):Promise<ISharers> {
     return this.fetch({
-      url   : '/{dataSource}/visualizations/' + vizId + '/shares',
+      url   : '/{dataSourceKey}/visualizations/' + vizId + '/shares',
       method: 'GET'
     });
   }
@@ -197,11 +203,17 @@ export default class VisualizationModule extends Module {
    * Set the share right of a user on a visualization
    *
    * @param data:Interface.Form.visualization.share
-   * @returns {Promise<Visualization.shareRights>}
+   * @returns {Promise<IShare>}
    */
-  public share(data:Visualization.form.setShareRights):Promise<Visualization.shareRights> {
+  public share(data:Request.ISetShareRights):Promise<IShare> {
+
+    let url = '/{dataSourceKey}/visualizations/' + data.vizId + '/share/' + data.userId;
+
+    delete data.vizId;
+    delete data.userId;
+
     return this.fetch({
-      url   : '/{dataSource}/visualizations/' + data.vizId + '/share/' + data.userId,
+      url   : url,
       method: 'PUT',
       body  : {
         right: data.right
@@ -212,26 +224,25 @@ export default class VisualizationModule extends Module {
   /**
    * Remove a share right of a user on a visualization
    *
-   * @param data:Interface.Form.visualization.share
-   * @returns {Promise<string>}
+   * @param data:IUnshareVisualization
+   * @returns {Promise<boolean>}
    */
-  public unshare(data:Visualization.form.setShareRights):Promise<string> {
+  public unshare(data:Request.IUnshareVisualization):Promise<boolean> {
     return this.fetch({
-      url   : '/{dataSource}/visualizations/' + data.vizId + '/shared/' + data.userId,
+      url   : '/{dataSourceKey}/visualizations/' + data.id + '/shared/' + data.userId,
       method: 'DELETE'
-    }).then(() => 'Visualization ' + data.vizId + 'unshared');
+    }).then(() => true);
   }
 
   /**
    * Update a property of a folder
    *
-   * @param folderId:number
    * @param data:Interface.Form.visualization.updateFolder
    * @returns {Promise<boolean>}
    */
-  public updateFolder(folderId:number, data:Visualization.form.updateFolder):Promise<boolean> {
+  public updateFolder(data:Request.IUpdateFolder):Promise<boolean> {
     return this.fetch({
-      url   : '/{dataSource}/visualizations/folder/' + folderId,
+      url   : '/{dataSourceKey}/visualizations/folder/{id}',
       method: 'PATCH',
       body  : data
     }).then(() => true);
@@ -243,9 +254,9 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.updateSandbox
    * @returns {Promise<boolean>}
    */
-  public updateSandbox(data:Visualization.form.updateSandbox):Promise<boolean> {
+  public updateSandbox(data:Request.IUpdateSandbox):Promise<boolean> {
     return this.fetch({
-      url   : '/{dataSource}/sandbox',
+      url   : '/{dataSourceKey}/sandbox',
       method: 'PATCH',
       body  : data
     }).then(() => true);
@@ -258,9 +269,9 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.update
    * @returns {Promise<boolean>}
    */
-  public update(vizId:number, data:Visualization.form.update):Promise<boolean> {
+  public update(vizId:number, data:Request.IUpdateVisualization):Promise<boolean> {
     return this.fetch({
-      url   : '/{dataSource}/visualizations/' + vizId,
+      url   : '/{dataSourceKey}/visualizations/{id}',
       method: 'PATCH',
       body  : data
     }).then(() => true);

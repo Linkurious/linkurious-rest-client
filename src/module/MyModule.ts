@@ -9,7 +9,8 @@
  */
 'use strict';
 
-import {Query} from '../interfaces';
+import * as Request from '../Query';
+import {IGraphQuery} from '../interfaces';
 import Module from './Module';
 import Fetcher from '../http/fetcher';
 
@@ -49,11 +50,12 @@ export default class MyModule extends Module {
    * @param graphQueryId : number
    * @returns {Promise<string>}
    */
-  public deleteGraphQuery(graphQueryId:number):Promise<string> {
+  public deleteGraphQuery(graphQueryId:number):Promise<boolean> {
     return this.fetch({
-      url   : '/{dataSource}/graph/my/rawQuery/' + graphQueryId,
-      method: 'DELETE'
-    }).then(() => 'graph query ' + graphQueryId + ' deleted');
+      url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
+      method: 'DELETE',
+      body : {id:graphQueryId}
+    }).then(() => true);
   }
 
   /**
@@ -62,10 +64,11 @@ export default class MyModule extends Module {
    * @param graphQueryId : number
    * @returns {Promise<Query.model>}
    */
-  public getGraphQuery(graphQueryId:number):Promise<Query.model> {
+  public getGraphQuery(graphQueryId:number):Promise<IGraphQuery> {
     return this.fetch({
-      url   : '/{dataSource}/graph/my/rawQuery/' + graphQueryId,
-      method: 'GET'
+      url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
+      method: 'GET',
+      query : {id:graphQueryId}
     });
   }
 
@@ -74,9 +77,9 @@ export default class MyModule extends Module {
    *
    * @returns {Promise<Array<Query.model>>}
    */
-  public getAllGraphQueries():Promise<Array<Query.model>> {
+  public getAllGraphQueries():Promise<Array<IGraphQuery>> {
     return this.fetch({
-      url   : '/{dataSource}/graph/my/rawQuery/all',
+      url   : '/{dataSourceKey}/graph/my/rawQuery/all',
       method: 'GET'
     });
   }
@@ -86,9 +89,9 @@ export default class MyModule extends Module {
    * @param data : Query.form.create
    * @returns {Promise<Query.model>}
    */
-  public saveGraphQuery(data:Query.form.create):Promise<Query.model> {
+  public saveGraphQuery(data:Request.ICreateGraphQuery):Promise<IGraphQuery> {
     return this.fetch({
-      url   : '/{dataSource}/graph/my/rawQuery',
+      url   : '/{dataSourceKey}/graph/my/rawQuery',
       method: 'POST',
       body  : data
     });
@@ -100,12 +103,11 @@ export default class MyModule extends Module {
    * @param data : Query.form.update
    * @returns {Promise<Query.model>}
    */
-  public updateGraphQuery(graphQueryId:number, data:Query.form.update):Promise<Query.model> {
+  public updateGraphQuery(data : Request.IUpdateGraphQuery):Promise<IGraphQuery> {
     return this.fetch({
-      url   : '/{dataSource}/graph/my/rawQuery' + graphQueryId,
+      url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
       method: 'PATCH',
       body  : data
     });
   }
-
 }

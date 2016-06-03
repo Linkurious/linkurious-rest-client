@@ -9,7 +9,8 @@
  */
 'use strict';
 
-import {Schema, Graph, Query, Node} from '../interfaces';
+import * as Request from '../Query';
+import {INode} from '../interfaces';
 import Utils from '../http/utils';
 import Module from './Module';
 import Fetcher from '../http/fetcher';
@@ -25,11 +26,12 @@ export default class GraphModule extends Module {
    * @param nodesAndEdgesVersions : Schema.lists
    * @returns {Promise}
    */
-  public getItemsVersions(nodesAndEdgesVersions:Schema.lists):Promise<any> {
+  public getItemsVersions(data:Request.IGetItemVersions):Promise<any> {
     return this.fetch({
-      url   : '/{dataSource}/graph/versions',
+      url   : '/{dataSourceKey}/graph/versions',
       method: 'POST',
-      body  : nodesAndEdgesVersions
+      body  : data,
+      dataSource:{dataSourceKey:data.dataSourceKey}
     });
   }
 
@@ -39,11 +41,11 @@ export default class GraphModule extends Module {
    * @param nodesConfig : Graph.request.shortestPath
    * @returns {Promise}
    */
-  public getShortestPaths(nodesConfig:Graph.request.shortestPath):Promise<Array<Node.model>> {
+  public getShortestPaths(nodesConfig:Request.IGetShortestPaths):Promise<Array<INode>> {
     return this.fetch({
-      url   : '/{dataSource}/graph/shortestPaths',
+      url   : '/{dataSourceKey}/graph/shortestPaths',
       method: 'GET',
-      query : Utils.fixSnakeCase(nodesConfig)
+      query : nodesConfig
     });
   }
 
@@ -53,9 +55,9 @@ export default class GraphModule extends Module {
    * @param data:RequestGraphWithQueryInterface
    * @returns {Promise}
    */
-  public getNodeList(data:Query.form.request):Promise<Array<Node.model>> {
+  public getNodeList(data:Request.ISendQuery):Promise<Array<INode>> {
     return this.fetch({
-      url   : '/{dataSource}/graph/rawQuery',
+      url   : '/{dataSourceKey}/graph/rawQuery',
       method: 'POST',
       body  : Utils.fixSnakeCase(data)
     });

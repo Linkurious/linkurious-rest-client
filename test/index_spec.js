@@ -81,7 +81,9 @@ describe('Linkurious class', function(){
     });
 
     it('must construct the url without sourceKey if no variable present in the url fragment', function(){
-      let url = linkurious._fetcher.transformUrl('/test');
+      let url = linkurious._fetcher.transformUrl({
+        url : '/test'
+      });
 
       url.should.equal('http://localhost:3001/api/test');
     })
@@ -168,7 +170,8 @@ describe('Linkurious class', function(){
   describe('getNode method', function(){
     it('must return the right node', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.node.getOne(nodeId, {
+        return linkurious.node.getOne({
+          id:nodeId,
           withVersion : true,
           withEdges : true
         });
@@ -198,7 +201,8 @@ describe('Linkurious class', function(){
   describe('updateNode method', function(){
     it('must return an error object', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.node.update(nodeId, {
+        return linkurious.node.update({
+          id:nodeId,
           addedCategories : [],
           deletedCategories : [],
           deletedProperties : [],
@@ -217,7 +221,8 @@ describe('Linkurious class', function(){
 
     it('must return true', function(){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.node.update(nodeId, {
+        return linkurious.node.update({
+          id:nodeId,
           addedCategories : [],
           deletedCategories : [],
           deletedProperties : [],
@@ -225,6 +230,7 @@ describe('Linkurious class', function(){
           version : 2
         });
       }).catch(function(res){
+        console.log(res);
         res.should.be.true();
       });
     });
@@ -237,7 +243,7 @@ describe('Linkurious class', function(){
           omitNoindex : true
         });
       }).then(function(res){
-        res.should.eql({ properties: [ { key: 'altEdgeID', count: 1 }, { key: 'roles', count: 4 } ] });
+        res.should.eql([ { key: 'altEdgeID', count: 1 }, { key: 'roles', count: 4 } ]);
       });
     });
   });
@@ -249,9 +255,9 @@ describe('Linkurious class', function(){
           omitNoindex : true
         });
       }).then(function(res){
-        res.properties.should.have.length(6);
-        res.properties[0].key.should.equal('born');
-        res.properties[0].count.should.equal(8);
+        res.should.have.length(6);
+        res[0].key.should.equal('born');
+        res[0].count.should.equal(8);
       });
     });
   });
@@ -263,13 +269,12 @@ describe('Linkurious class', function(){
           includeType : true
         });
       }).then(function(res){
-        res.should.eql({
-          edgeTypes: [
+        res.should.eql([
             { name: 'DIRECTED', count: 7, properties: [] },
             { name: 'IS_BRO_OF', count: 2, properties: [{count:1, key:'altEdgeID', type:'string'}] },
             { name: 'ACTED_IN', count: 7, properties: [{count:1, key:'edgeHiddenProp'}, {count:1, key:'edgeNoIndexProp'}, {count:4, key:'roles', type:'string'}] },
             { name: 'SON_OF', count: 1, properties: [] }
-          ]}
+          ]
         )
       });
     });
@@ -280,8 +285,8 @@ describe('Linkurious class', function(){
       return linkurious.initCurrentSource().then(function(){
         return linkurious.node.getTypes();
       }).then(function(res){
-        res.nodeTypes.should.have.length(7);
-        res.nodeTypes[0].name.should.equal('Person');
+        res.should.have.length(7);
+        res[0].name.should.equal('Person');
       });
     })
   });

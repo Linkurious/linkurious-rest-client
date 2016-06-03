@@ -1,13 +1,8 @@
-// Global state
-
-export interface StateModel {
-  user:User.model;
-  currentSource:DataSource.clientModel;
+export interface IStateModel {
+  user:IFullUser;
+  currentSource:IDataSource;
 }
 
-// APIs
-
-//export type GraphDBVendor = 'neo4j'|'titan'|'dse';
 export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgeOrientation = 'in'|'out'|'both';
 export type ItemType = 'node'|'edge';
@@ -16,748 +11,494 @@ export type RightType = 'read'|'write'|'none'|'do';
 export type PopulateType = 'expandNodeId'|'nodeId'|'edgeId'|'searchNodes'|'searchEdges'|'pattern';
 export type ItemId = string | number;
 
-export type IndexationCallback = (res:DataSource.indexationStatus) => void;
+export type IIndexationCallback = (res:IIndexationStatus) => void;
 
-export namespace User {
-  export interface model {
-    id:number;
-    username:string;
-    email:string;
-    groups?:Array<Group.model>;
-    admin?:boolean;
-    preferences?:any;
-    actions?:any;
-    ldap?:boolean;
-  }
-
-  export namespace request {
-    export interface list {
-      filter?:string;
-      groupId?:Array<number>;
-      unwantedIds?:Array<number>;
-      size?:number;
-      start?:number;
-    }
-  }
-
-  export namespace form {
-
-    export interface login {
-      usernameOrEmail:string,
-      password:string
-    }
-
-    export interface update {
-      username ?:string;
-      email ?:string;
-      password ?:string;
-      preferences ?:any;
-    }
-
-    export interface create {
-      username:string;
-      email:string;
-      password:string;
-      groups ?:Array<string>;
-    }
-
-    export interface batch {
-      users:Array<number>;
-      addGroups:Array<number>;
-      rmGroups:Array<number>;
-    }
-  }
+export interface IDatasToSend {
+  queryData ?: any;
+  bodyData ?: any;
 }
 
-export namespace Group {
-  export interface model {
-    id:number;
-    name:string;
-    userCount ?:number;
-    builtIn:boolean;
-    accessRights ?:Array<accessRights>;
-  }
-
-  export interface sourceAccessRights {
-    types:Array<string>;
-    targetTypes:Array<string>;
-    actions:Array<string>;
-  }
-
-  export interface accessRights {
-    sourceKey?:string;
-    type:RightType;
-    targetType:string;
-    targetName:string;
-  }
-
-  export namespace form {
-
-    export interface create {
-      name:string;
-      dataSource ?:string;
-    }
-
-    export interface batchRights {
-      groupIds:Array<number>;
-      rightType:RightType;
-      targetType:string;
-    }
-
-    export interface updateRights {
-      type:RightType;
-      targetType:string;
-      targetName:string;
-    }
-  }
+export interface IArrayResponse {
+  sources ?: Array<any>;
 }
 
-export namespace DataSource {
-  export interface model {
-    name:string;
-    configIndex:number;
-    key:string;
-    connected:boolean;
-    state:string;
-    reason:string;
-    error?:string;
-  }
+// NODE & EDGE
 
-  export interface list {
-    sources:Array<model>;
-  }
-
-  export interface clientModel {
-    name:string;
-    key:string;
-    configIndex:number;
-  }
-
-  export interface adminModel {
-    lastSeen:string;
-    indexedDate:string;
-    key:string;
-    host:string;
-    port:string;
-    storeId:string;
-    state:string;
-    visualizationCount:number;
-    configIndex:number;
-  }
-
-  export interface indexationStatus {
-    indexing_progress:number;
-    node_count:number;
-    edge_count:number;
-    index_size:number;
-    indexed_source:string;
-    indexing_status:string;
-    indexing:indexingStatus;
-  }
-
-  export interface deletedDatas {
-    migrated:boolean;
-    affected:affectedSource;
-  }
-
-  export namespace form {
-    export interface create {
-      name:string;
-      graphDb:neo4Config|titanConfig|dseConfig;
-      index:elasticSearchConfig;
-    }
-
-    export interface Delete {
-      sourceKey:string;
-      mergeInto:string;
-    }
-
-    export interface setProperties {
-      properties:Array<string>;
-    }
-  }
-
-  interface affectedSource {
-    visualizations:number;
-    folders:number;
-  }
-
-  interface neo4Config extends GenericGraphConfig {
-    vendor:'neo4j',
-    url:string,
-    webAdmin?:string,
-    user?:string,
-    password?:string
-  }
-
-  interface titanConfig extends GenericGraphConfig {
-    vendor:'titan',
-    url:string,
-    configurationPath:string
-  }
-
-  interface dseConfig extends GenericGraphConfig {
-    vendor:'dse',
-    url:string,
-    graphName:string,
-    create ?:boolean
-  }
-
-  interface elasticSearchConfig {
-    vendor:'elasticSearch';
-    host:string;
-    port:number;
-    forceReindex:boolean;
-    dynamicMapping:boolean;
-    dateDetection?:boolean;
-    https?:boolean;
-    user?:string;
-    password?:string;
-  }
-
-  interface GenericGraphConfig {
-    alternativeEdgeId?:string;
-    alternativeNodeId?:string;
-    latitudeProperty?:string;
-    longitudeProperty?:string;
-  }
+export interface IIdentifiedItem {
+  id : ItemId;
 }
 
-export namespace Edge {
-
-  export interface model {
-    id:ItemId;
-    source?:ItemId;
-    target?:ItemId;
-    type:string;
-    data:any;
-    version ?:number;
-    nodes ?:Array<Node>;
-  }
-
-  export namespace request {
-    export interface getAdjacent {
-      orientation:EdgeOrientation;
-      nodeId:ItemId;
-      type ?:string;
-      skip:number;
-      limit:number;
-      withVersion ?:boolean;
-    }
-
-    export interface types {
-      includeType ?:boolean;
-    }
-  }
-
-  export namespace form {
-    export interface create {
-      source:ItemId;
-      target:ItemId;
-      type:string;
-      data:any;
-    }
-
-    export interface update {
-      properties:any;
-      deleteProperties:Array<string>;
-      type:string;
-    }
-  }
+export interface IIdentifiedItemList {
+  ids : Array<number>,
 }
 
-export namespace Query {
-  export interface model {
-    content:string;
-    name:string;
-    dialect:string;
-    createdAt:string;
-    updatedAt:string;
-  }
-
-  export namespace form {
-    export interface create {
-      dialect:string;
-      content:string;
-      name ?:string;
-    }
-
-    export interface update {
-      name:string;
-      content:string;
-    }
-
-    export interface request {
-      dialect:string;
-      query:string;
-      withVersion:boolean;
-    }
-  }
+export interface IItem extends IIdentifiedItem {
+  data:any;
 }
 
-export namespace Graph {
-  export namespace request {
-    export interface shortestPath {
-      startNode:number;
-      endNode:number;
-      maxDepth ?:number;
-      withVersion ?:boolean;
-    }
-  }
+export interface IEdge extends IItem {
+  type:string;
+  source:ItemId;
+  target:ItemId;
+  version?: number;
 }
 
-export namespace Directory {
-
-  export interface list {
-    type:ItemsType;
-    totalHits:number;
-    results:Node.model | Edge.model;
-  }
-
-  export namespace request {
-    export interface list {
-      type:ItemsType;
-      categoryOrTypes:Array<string>;
-      properties:Array<string>;
-      constraints:constraints;
-      pageSize:number;
-      pageStart:number;
-    }
-  }
-
-  interface constraints {
-    property:string;
-    operator:string;
-    value:any;
-  }
+export interface INode extends IItem {
+  statistics ?:Array<IDigest>;
+  categories:any;
 }
 
-export namespace Schema {
-
-  export interface model {
-    nodeCategories:Array<string>;
-    edgeTypes:Array<string>;
-    nodeProperties:Array<string>;
-    edgeProperties:Array<string>;
-  }
-
-  export interface lists {
-    nodes:Array<number>;
-    edges:Array<number>;
-  }
-
-  export interface typesList {
-    edgeTypes ?:Array<type>
-    nodeTypes ?:Array<type>
-  }
-
-  export interface alternativeIds {
-    node:string;
-    edge:string;
-  }
-
-  export interface directory {
-    nodes:boolean;
-    edges:boolean;
-  }
-
-  export interface digest {
-    edgeType:string;
-    nodeCategories:Array<string>;
-    nodes:number;
-    edges:number;
-  }
-
-  export interface propertyList {
-    properties:Array<property>
-  }
-
-  export interface itemsList {
-    type:ItemType;
-    totalHits:number;
-    results:Array<item>;
-  }
-
-  export namespace request {
-    export interface properties {
-      includeType ?:string;
-      omitNoindex ?:boolean;
-    }
-
-    export interface itemsList {
-      q:string;
-      strictEdges ?:boolean;
-      fuzziness ?:number;
-      size ?:number;
-      from ?:number;
-      filter ?:string;
-    }
-  }
-
-  interface property {
-    key:string;
-    count:number;
-    type ?:string;
-  }
-
-  interface type {
-    count:number;
-    name:string;
-    properties:Array<property>;
-  }
-
-  interface item {
-    title:string;
-    categories:Array<string>;
-    children:Array<itemChildren>;
-  }
-
-  interface itemChildren {
-    id:number;
-    name:string;
-    field:string;
-    value:string;
-  }
+export interface IFullNode extends INode {
+  edges : Array<IEdge>;
 }
 
-export namespace Node {
-  export interface model {
-    id:ItemId;
-    data:any;
-    statistics ?:Array<Schema.digest>;
-    categories:any;
-    edges ?:Array<Edge.model>;
-    version ?:number;
-  }
+// USER
 
-  export namespace request {
-    export interface one {
-      withEdges ?:boolean;
-      withDigest ?:boolean;
-      withVersion ?:boolean;
-    }
-
-    export interface adjacentItems {
-      ids:Array<ItemId>;
-      ignoredNodes:Array<number>;
-      visibleNodes:Array<number>;
-      nodeCategory?:string;
-      edgeType?:string;
-      limit?:number;
-      limitType?:string;
-      withVersion:boolean;
-    }
-
-    export interface neighborsCategories {
-      ids:Array<ItemId>;
-    }
-
-    export interface types {
-      includeType ?:boolean;
-      omitInferred:boolean;
-    }
-  }
-
-  export namespace form {
-    export interface create {
-      properties ?:any;
-      categories ?:Array<string>;
-    }
-
-    export interface update {
-      properties:any;
-      deletedProperties:Array<string>;
-      addedProperties:Array<string>;
-      deletedCategories:Array<string>;
-      version:number;
-    }
-  }
+export interface IIdentified {
+  id:number;
 }
 
-export namespace App {
-  export interface status {
-    code:number;
-    name:string;
-    message:string;
-    uptime:number;
-  }
-
-  export interface version {
-    tag_name:string;
-    name:string;
-    prerelease:boolean;
-  }
-
-  export interface config {
-    allSources:AllSourcesConfig;
-    rights:RightsConfig;
-    analytics:AnalyticsConfig;
-    sigma:any;
-    palette:any;
-    styles:any;
-    leaflet:LeafletConfig;
-    source:SourceConfig;
-    graphDb:any;
-    index:any;
-    enterprise:boolean;
-    domain:string;
-  }
-
-  export namespace form {
-    export interface update {
-      path:string;
-      configuration:any;
-      sourceIndex ?:number;
-      reset ?:boolean;
-    }
-  }
-
-  interface AllSourcesConfig {
-    maxPathLength:number;
-    shortestPathsMaxResults:number;
-    connectionRetries:number;
-    pollInterval:number;
-    indexationChunkSize:number;
-    expandThreshold:number;
-    searchAddAllThreshold:number;
-    searchThreshold:number;
-    minSearchQueryLength:number;
-    rawQueryTimeout:number;
-  }
-
-  interface RightsConfig {
-    dataEdition:boolean;
-    loginTimeout:number;
-    widget:boolean;
-  }
-
-  interface AnalyticsConfig {
-    enabled:boolean;
-    code:string;
-    domain:string;
-  }
-
-  interface LeafletConfig {
-    name:string;
-    thumbnail:string;
-    urlTemplate:string;
-    attribution:string;
-    subdomains:string;
-    id:string;
-    accessToken:string;
-    minZoom:number;
-    maxZoom:number;
-  }
-
-  interface SourceConfig {
-    features:any;
-    alternativeIds?:Schema.alternativeIds;
-    latitudeProperty?:string;
-    longitudeProperty?:string;
-    directory:Schema.directory;
-  }
+export interface ISimpleUser extends IIdentified {
+  username:string;
+  email:string;
 }
 
-export namespace Visualization {
+export interface IUser extends ISimpleUser {
+  groups:Array<ISimpleGroup>;
+  ldap:boolean;
+}
 
-  export interface model {
-    title:string;
-    folder:number;
-    nodes:VisualizationNode;
-    edges:VisualizationEdge;
-    alternativeIds:Schema.alternativeIds;
-    layout:VisualizationLayout;
-    geo:VisualizationGeo;
-    mode:string;
-    design:VisualizationDesign;
-    filters:Array<any>;
-    nodeFields:ItemFields;
-    edgeFields:ItemFields;
-  }
+export interface IFullUser extends IUser {
+  admin:boolean;
+  preferences:any;
+  actions:any;
+}
 
-  export interface widget {
-    title:string;
-    key:string;
-    userId:number;
-    visualizationId:number;
-    content:widgetContent;
-  }
+// GROUP
 
-  export interface tree {
-    tree:Array<branch>;
-  }
+export interface ISimpleGroup extends IIdentified {
+  name:string;
+  builtIn:boolean;
+}
 
-  export interface Shares {
-    owner:User.model;
-    shares:Array<Share>;
-  }
+export interface IGroup extends ISimpleGroup {
+  userCount ?:number;
+  accessRights ?:Array<IAccessRights>;
+}
 
-  export interface shareRights {
-    visualizationId:number;
-    userId:number;
-    right:string;
-    updatedAt:string;
-    createdAt:string;
-  }
+export interface IBaseAccessRights {
+  type:RightType;
+  targetType:string;
+  targetName:string;
+}
 
-  export namespace request {
-    export interface sandbox {
-      populate:PopulateType;
-      itemId ?:number;
-      searchQuery ?:string;
-      searchFuzziness ?:number;
-      patternQuery ?:string;
-      doLayout ?:boolean;
-      patternDialect ?:string;
-    }
-  }
+export interface IAccessRights {
+  sourceKey:string;
+}
 
-  export namespace form {
-    export interface createWidget {
-      visualization_id:number;
-      content:widgetContent;
-    }
+export interface IGroupRights {
+  types:Array<string>;
+  targetTypes:Array<string>;
+  actions:Array<string>;
+}
 
-    export interface createFolder {
-      title:string;
-      parent:number;
-    }
+// DATASOURCE
 
-    export interface create {
-      title:string;
-      folder ?:number;
-      nodes:Array<VisualizationNode>;
-      edges:Array<VisualizationEdge>;
-      alternativeIds ?:Schema.alternativeIds;
-      layout ?:VisualizationLayout;
-      mode ?:string;
-      geo ?:VisualizationGeo;
-      design ?:VisualizationDesign;
-      filters ?:Array<any>;
-      nodeFields:ItemFields;
-      edgeFields:ItemFields;
-    }
+export interface IDataSource {
+  name:string;
+  key:string;
+  configIndex:number;
+}
 
-    export interface setShareRights {
-      userId:number;
-      right ?:string;
-      vizId:number;
-    }
+export interface IDataSourceState extends IDataSource {
+  connected:boolean;
+  state:string;
+  reason:string;
+  error?:string;
+}
 
-    export interface updateFolder {
-      key:string;
-      value:string;
-    }
+export interface IFullDataSource extends IDataSource {
+  state:string;
+  lastSeen:string;
+  indexedDate:string;
+  host:string;
+  port:string;
+  storeId:string;
+  visualizationCount:number;
+}
 
-    export interface updateSandbox {
-      visualization:sandbox;
-    }
+export interface IIndexationStatus {
+  indexing_progress:number;
+  node_count:number;
+  edge_count:number;
+  index_size:number;
+  indexed_source:string;
+  indexing_status:string;
+  indexing:indexingStatus;
+}
 
-    export interface update {
-      visualization:model;
-      force_lock ?:boolean;
-    }
-  }
+export interface IDeletedDataSource {
+  migrated:boolean;
+  affected:IAffectedSource;
+}
 
-  interface Share {
-    userId:number;
-    username:string;
-    email:string;
-    visualizationId:number;
-    right:string;
-  }
+interface IAffectedSource {
+  visualizations:number;
+  folders:number;
+}
 
-  interface sandbox {
-    design:VisualizationDesign;
-    nodeFields:ItemFields;
-    edgeFields:ItemFields;
-  }
+interface IBaseGraphConfig {
+  alternativeEdgeId?:string;
+  alternativeNodeId?:string;
+  latitudeProperty?:string;
+  longitudeProperty?:string;
+}
 
-  interface VisualizationNode {
-    id:ItemId;
-    selected ?:boolean;
-    nodeLink:nodeLink;
-    geo ?:nodeGeo;
-  }
+export interface INeo4Config extends IBaseGraphConfig {
+  vendor:'neo4j',
+  url:string,
+  webAdmin?:string,
+  user?:string,
+  password?:string
+}
 
-  interface nodeLink {
-    x:number;
-    y:number;
-    fixed ?:boolean;
-  }
+export interface ITitanConfig extends IBaseGraphConfig {
+  vendor:'titan',
+  url:string,
+  configurationPath:string
+}
 
-  interface nodeGeo {
-    latitude ?:number;
-    longitude ?:number;
-    latitudeDiff ?:number;
-    longitudeDiff ?:number
-  }
+export interface IDseConfig extends IBaseGraphConfig {
+  vendor:'dse',
+  url:string,
+  graphName:string,
+  create ?:boolean
+}
 
-  interface VisualizationEdge {
-    id:ItemId;
-    selected ?:boolean;
-  }
+export interface IElasticSearchConfig {
+  vendor:'elasticSearch';
+  host:string;
+  port:number;
+  forceReindex:boolean;
+  dynamicMapping:boolean;
+  dateDetection?:boolean;
+  https?:boolean;
+  user?:string;
+  password?:string;
+}
 
-  interface VisualizationLayout {
-    algorithm ?:string;
-    mode ?:string;
-  }
+// QUERY
 
-  interface VisualizationGeo {
-    latitudeProperty ?:string;
-    longitudeProperty ?:string;
-    layers ?:Array<string>;
-  }
+export interface IBaseGraphQuery {
+  name:string;
+  content:string;
+}
 
-  interface VisualizationDesign {
-    styles:any;
-    palette:any;
-  }
+export interface ISimpleGraphQuery extends IBaseGraphQuery{
+  dialect:string;
+}
 
-  interface ItemFields {
-    captions:any;
-    fields:Array<Fields>;
-  }
+export interface IGraphQuery extends ISimpleGraphQuery {
+  createdAt:string;
+  updatedAt:string;
+}
 
-  interface Fields {
-    name:string;
-    active:boolean;
-  }
+// SEARCH
 
-  interface widgetContent {
-    graph:graph;
-    title ?:string;
-    description ?:string;
-    url ?:string;
-    mode ?:string;
-    styles ?:any;
-    palette ?:any;
-    mapLayers ?:Array<any>;
-    ui ?:widgetUI;
-  }
+export interface ISearchResult {
+  type:ItemsType|ItemType;
+  totalHits:number;
+}
 
-  interface graph {
-    nodes:Array<Node.model>;
-    edges:Array<Edge.model>;
-  }
+export interface ISearchDirectory extends ISearchResult{
+  results:INode | IEdge;
+}
 
-  interface widgetUI {
-    search ?:boolean;
-    share ?:boolean;
-    layout ?:boolean;
-    fullscreen ?:boolean;
-    zoom ?:boolean;
-    legend ?:boolean;
-    geo ?:boolean;
-  }
+export interface ISearchItemList extends ISearchResult {
+  results:Array<IGroupedItem>;
+}
 
-  interface branch {
-    type:'visu'|'folder';
-    id:number;
-    title:string;
-    children ?:Array<branch>;
-    shareCount ?:number;
-    widgetKey ?:string;
-  }
+export interface ISearchFullItems extends ISearchResult {
+  results:Array<IFullNode>;
+}
 
+interface IGroupedItem {
+  title:string;
+  categories:Array<string>;
+  children:Array<IGroupedItemChildren>;
+}
+
+interface IGroupedItemChildren {
+  id:number;
+  name:string;
+  field:string;
+  value:string;
+}
+
+// SCHEMA
+
+export interface IBaseSchema {
+  nodeCategories:Array<string>;
+}
+
+export interface ISchema extends IBaseSchema{
+  edgeTypes:Array<string>;
+  nodeProperties:Array<string>;
+  edgeProperties:Array<string>;
+}
+
+export interface IDigest extends IBaseSchema{
+  edgeType:string;
+  nodes:number;
+  edges:number;
+}
+
+export interface IAlternativeIds {
+  node:string;
+  edge:string;
+}
+
+interface ICountItemType {
+  count:number;
+}
+
+export interface IProperty extends ICountItemType {
+  key:string;
+  type ?:string;
+}
+
+export interface IItemType extends ICountItemType{
+  name:string;
+  properties:Array<IProperty>;
+}
+
+// APP
+
+export interface IAppStatus {
+  code:number;
+  name:string;
+  message:string;
+  uptime:number;
+}
+
+export interface IAppVersion {
+  tag_name:string;
+  name:string;
+  prerelease:boolean;
+}
+
+export interface IAppConfig {
+  allSources:IDataSourcesConfig;
+  rights:IRightsConfig;
+  analytics:IAnalyticsConfig;
+  sigma:any;
+  palette:any;
+  styles:any;
+  leaflet:ILeafletConfig;
+  source:ISourceConfig;
+  graphDb:any;
+  index:any;
+  enterprise:boolean;
+  domain:string;
+}
+
+interface IDataSourcesConfig {
+  maxPathLength:number;
+  shortestPathsMaxResults:number;
+  connectionRetries:number;
+  pollInterval:number;
+  indexationChunkSize:number;
+  expandThreshold:number;
+  searchAddAllThreshold:number;
+  searchThreshold:number;
+  minSearchQueryLength:number;
+  rawQueryTimeout:number;
+}
+
+interface IRightsConfig {
+  dataEdition:boolean;
+  loginTimeout:number;
+  widget:boolean;
+}
+
+interface IAnalyticsConfig {
+  enabled:boolean;
+  code:string;
+  domain:string;
+}
+
+interface ILeafletConfig {
+  name:string;
+  thumbnail:string;
+  urlTemplate:string;
+  attribution:string;
+  subdomains:string;
+  id:string;
+  accessToken:string;
+  minZoom:number;
+  maxZoom:number;
+}
+
+interface ISourceConfig {
+  features:any;
+  alternativeIds?:IAlternativeIds;
+  latitudeProperty?:string;
+  longitudeProperty?:string;
+  directory:IDirectoryConfig;
+}
+
+interface IDirectoryConfig {
+  nodes : boolean;
+  edges : boolean;
+}
+
+// VISUALIZATION
+
+export interface ISandBox {
+  design:IVisualizationDesign;
+  nodeFields:IItemFields;
+  edgeFields:IItemFields;
+}
+
+export interface IVisualization extends ISandBox {
+  title:string;
+  folder:number;
+  nodes:IVisualizationNode;
+  edges:IVisualizationItem;
+  alternativeIds:IAlternativeIds;
+  layout:IVisualizationLayout;
+  geo:IVisualizationGeo;
+  mode:string;
+  filters:Array<any>;
+}
+
+export interface IItemFields {
+  captions:any;
+  fields:Array<IFields>;
+}
+
+interface IFields {
+  name:string;
+  active:boolean;
+}
+
+export interface IVisualizationItem extends IIdentifiedItem{
+  selected ?:boolean;
+}
+
+export interface IVisualizationNode extends IVisualizationItem {
+  nodeLink:INodeLink;
+  geo ?:INodeGeo;
+}
+
+interface INodeGeo {
+  latitude ?:number;
+  longitude ?:number;
+  latitudeDiff ?:number;
+  longitudeDiff ?:number
+}
+
+interface INodeLink {
+  x:number;
+  y:number;
+  fixed ?:boolean;
+}
+
+export interface IVisualizationLayout {
+  algorithm ?:string;
+  mode ?:string;
+}
+
+export interface IVisualizationGeo {
+  latitudeProperty ?:string;
+  longitudeProperty ?:string;
+  layers ?:Array<string>;
+}
+
+export interface IVisualizationDesign {
+  styles?:any;
+  palette?:any;
+}
+
+export interface IWidget {
+  title:string;
+  key:string;
+  userId:number;
+  visualizationId:number;
+  content:IWidgetContent;
+}
+
+export interface IWidgetContent extends IVisualizationDesign{
+  graph:IWidgetGraph;
+  title ?:string;
+  description ?:string;
+  url ?:string;
+  mode ?:string;
+  mapLayers ?:Array<any>;
+  ui ?:IWidgetUI;
+}
+
+interface IWidgetUI {
+  search ?:boolean;
+  share ?:boolean;
+  layout ?:boolean;
+  fullscreen ?:boolean;
+  zoom ?:boolean;
+  legend ?:boolean;
+  geo ?:boolean;
+}
+
+interface IWidgetGraph {
+  nodes:Array<INode>;
+  edges:Array<IEdge>;
+}
+
+interface IBaseShare {
+  userId:number;
+  right:string;
+  visualizationId : number;
+}
+
+export interface IShare extends IBaseShare{
+  updatedAt:string;
+  createdAt:string;
+}
+
+interface ISharer extends IBaseShare {
+  username:string;
+  email:string;
+}
+
+export interface ISharers {
+  owner:ISimpleUser;
+  shares:Array<ISharer>;
+}
+
+export interface ITree {
+  tree:Array<ITreeChildren>;
+}
+
+interface ITreeChildren {
+  type:'visu'|'folder';
+  id:number;
+  title:string;
+  children ?:Array<ITreeChildren>;
+  shareCount ?:number;
+  widgetKey ?:string;
+}
+
+export interface IConstraints {
+  property:string;
+  operator:string;
+  value:any;
+}
+
+export interface IBaseRequest {}
+
+export interface IDataSourceRelative {
+  dataSourceKey ?: string;
+}
+
+export interface IDataSourceConfig {
+  dataSourceIndex ?: number;
 }

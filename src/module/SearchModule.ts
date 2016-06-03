@@ -9,8 +9,12 @@
  */
 'use strict';
 
-import {Schema, User, Directory, Node} from '../interfaces';
-import Utils from '../http/utils';
+import * as Request from '../Query';
+import {ISearchItemList,
+  ISearchFullItems,
+  IUser,
+  ISearchDirectory
+} from '../interfaces';
 import Module from './Module';
 import Fetcher from '../http/fetcher';
 
@@ -26,11 +30,11 @@ export default class SearchModule extends Module {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<Array<Node.model>>}
    */
-  public fullNodes(params:Schema.request.itemsList):Promise<Array<Node.model>> {
+  public fullNodes(params:Request.ISearchItemList):Promise<Array<ISearchItemList>> {
     return this.fetch({
-      url   : '/{dataSource}/search/nodes/full',
+      url   : '/{dataSourceKey}/search/nodes/full',
       method: 'GET',
-      query : Utils.fixSnakeCase(params)
+      query : params
     });
   }
 
@@ -40,11 +44,11 @@ export default class SearchModule extends Module {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<Array<Node.model>>}
    */
-  public fullEdges(params:Schema.request.itemsList):Promise<Array<Node.model>> {
+  public fullEdges(params:Request.ISearchItemList):Promise<Array<ISearchItemList>> {
     return this.fetch({
-      url   : '/{dataSource}/search/edges/full',
+      url   : '/{dataSourceKey}/search/edges/full',
       method: 'GET',
-      query : Utils.fixSnakeCase(params)
+      query : params
     });
   }
 
@@ -54,9 +58,9 @@ export default class SearchModule extends Module {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<itemsList>}
    */
-  public nodes(params:Schema.request.itemsList):Promise<Schema.itemsList> {
+  public nodes(params:Request.ISearchItemList):Promise<ISearchFullItems> {
     return this.fetch({
-      url   : '/{dataSource}/search/nodes',
+      url   : '/{dataSourceKey}/search/nodes',
       method: 'GET',
       query : params
     });
@@ -68,11 +72,11 @@ export default class SearchModule extends Module {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<itemsList>}
    */
-  public edges(params:Schema.request.itemsList):Promise<Schema.itemsList> {
+  public edges(params:Request.ISearchItemList):Promise<ISearchFullItems> {
     return this.fetch({
-      url   : '/{dataSource}/search/edges',
+      url   : '/{dataSourceKey}/search/edges',
       method: 'GET',
-      query : Utils.fixSnakeCase(params)
+      query : params
     });
   }
 
@@ -82,11 +86,11 @@ export default class SearchModule extends Module {
    * @param data : User.request.list
    * @returns {Promise<Array<User.model>>}
    */
-  public users(data:User.request.list):Promise<Array<User.model>> {
+  public users(data:Request.IGetUserList):Promise<Array<IUser>> {
     return this.fetch({
       url   : '/findUsers',
       method: 'GET',
-      query : Utils.fixSnakeCase(data)
+      query : data
     });
   }
 
@@ -96,9 +100,9 @@ export default class SearchModule extends Module {
    * @param data:Interface.RequestDirectory
    * @returns {Promise<Directory.list>}
    */
-  public directory(data:Directory.request.list):Promise<Directory.list> {
+  public directory(data:Request.IGetDirectory):Promise<ISearchDirectory> {
     return this.fetch({
-      url   : '/{dataSource}/directory',
+      url   : '/{dataSourceKey}/directory',
       method: 'POST',
       body  : data
     });

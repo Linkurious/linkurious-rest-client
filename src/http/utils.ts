@@ -8,7 +8,6 @@
  * Description :
  */
 'use strict';
-
 export default class Utils {
 
   /**
