@@ -9,7 +9,6 @@
  */
 'use strict';
 
-import {} from './interfaces';
 import {
   IIdentifiedItem,
   IDataSourceRelative,
@@ -24,15 +23,15 @@ import {
   IDseConfig,
   IElasticSearchConfig,
   ItemsType,
-  IConstraints,
+  IConstraint,
   IIdentifiedItemList,
   IDataSourceConfig,
   PopulateType,
   IWidgetContent,
   IVisualizationNode,
-  IVisualizationItem,
+  IVisualizationEdge,
   IVisualizationLayout,
-  IAlternativeIds,
+  IAlternativeIdConfig,
   IVisualizationGeo,
   IVisualizationDesign,
   IItemFields,
@@ -161,7 +160,7 @@ export interface IGetDirectory extends IDataSourceRelative, IBaseRequest {
   type:ItemsType;
   categoryOrTypes:Array<string>;
   properties:Array<string>;
-  constraints:IConstraints;
+  constraints:IConstraint;
   pageSize:number;
   pageStart:number;
 }
@@ -234,6 +233,7 @@ export interface IGetSandbox extends IDataSourceRelative, IBaseRequest {
   doLayout ?:boolean;
   patternDialect ?:string;
 }
+
 export interface ICreateWidget extends IDataSourceRelative, IBaseRequest {
   visualization_id:number;
   content:IWidgetContent;
@@ -248,8 +248,8 @@ export interface ICreateVisualization extends IDataSourceRelative, IBaseRequest 
   title:string;
   folder ?:number;
   nodes:Array<IVisualizationNode>;
-  edges:Array<IVisualizationItem>;
-  alternativeIds ?:IAlternativeIds;
+  edges:Array<IVisualizationEdge>;
+  alternativeIds ?:IAlternativeIdConfig;
   layout ?:IVisualizationLayout;
   mode ?:string;
   geo ?:IVisualizationGeo;
@@ -280,5 +280,6 @@ export interface IUpdateSandbox extends IDataSourceRelative, IBaseRequest {
 
 export interface IUpdateVisualization extends IDataSourceRelative, IBaseRequest {
   visualization:IVisualization;
+  // todo: force_lock can be sent in queryString
   force_lock ?:boolean;
 }

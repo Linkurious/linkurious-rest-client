@@ -18,10 +18,6 @@ export interface IDatasToSend {
   bodyData ?: any;
 }
 
-export interface IArrayResponse {
-  sources ?: Array<any>;
-}
-
 // NODE & EDGE
 
 export interface IIdentifiedItem {
@@ -29,18 +25,18 @@ export interface IIdentifiedItem {
 }
 
 export interface IIdentifiedItemList {
-  ids : Array<number>,
+  ids : Array<ItemId>,
 }
 
 export interface IItem extends IIdentifiedItem {
   data:any;
+  version?: number;
 }
 
 export interface IEdge extends IItem {
   type:string;
   source:ItemId;
   target:ItemId;
-  version?: number;
 }
 
 export interface INode extends IItem {
@@ -66,10 +62,10 @@ export interface ISimpleUser extends IIdentified {
 export interface IUser extends ISimpleUser {
   groups:Array<ISimpleGroup>;
   ldap:boolean;
+  admin?:boolean;
 }
 
 export interface IFullUser extends IUser {
-  admin:boolean;
   preferences:any;
   actions:any;
 }
@@ -83,26 +79,23 @@ export interface ISimpleGroup extends IIdentified {
 
 export interface IGroup extends ISimpleGroup {
   userCount ?:number;
-  accessRights ?:Array<IAccessRights>;
+  accessRights ?:Array<IAccessRight>;
 }
 
-export interface IBaseAccessRights {
+export interface IAccessRight extends IDataSourceRelative {
   type:RightType;
   targetType:string;
   targetName:string;
 }
 
-export interface IAccessRights {
-  sourceKey:string;
-}
-
+// todo: check why this is not used
 export interface IGroupRights {
   types:Array<string>;
   targetTypes:Array<string>;
   actions:Array<string>;
 }
 
-// DATASOURCE
+// DATA-SOURCE
 
 export interface IDataSource {
   name:string;
@@ -138,8 +131,8 @@ export interface IIndexationStatus {
 }
 
 export interface IDeletedDataSource {
-  migrated:boolean;
-  affected:IAffectedSource;
+  migrated: boolean;
+  affected: IAffectedSource;
 }
 
 interface IAffectedSource {
@@ -160,6 +153,7 @@ export interface INeo4Config extends IBaseGraphConfig {
   webAdmin?:string,
   user?:string,
   password?:string
+  // todo: undocumented (allowUnsignedSSL, see ConfigChecker on server)
 }
 
 export interface ITitanConfig extends IBaseGraphConfig {
@@ -189,12 +183,9 @@ export interface IElasticSearchConfig {
 
 // QUERY
 
-export interface IBaseGraphQuery {
+export interface ISimpleGraphQuery {
   name:string;
   content:string;
-}
-
-export interface ISimpleGraphQuery extends IBaseGraphQuery{
   dialect:string;
 }
 
@@ -206,30 +197,32 @@ export interface IGraphQuery extends ISimpleGraphQuery {
 // SEARCH
 
 export interface ISearchResult {
+  // todo: remove ambiguity node/nodes/edge/edges (i.e. fix on server too)
   type:ItemsType|ItemType;
   totalHits:number;
 }
 
+// todo: split the method into two, one for nodes, one for edges
 export interface ISearchDirectory extends ISearchResult{
   results:INode | IEdge;
 }
 
 export interface ISearchItemList extends ISearchResult {
-  results:Array<IGroupedItem>;
+  results:Array<ISearchMatchGroup>;
 }
 
 export interface ISearchFullItems extends ISearchResult {
   results:Array<IFullNode>;
 }
 
-interface IGroupedItem {
+interface ISearchMatchGroup {
   title:string;
   categories:Array<string>;
-  children:Array<IGroupedItemChildren>;
+  children:Array<ISearchMatch>;
 }
 
-interface IGroupedItemChildren {
-  id:number;
+interface ISearchMatch {
+  id:ItemId;
   name:string;
   field:string;
   value:string;
@@ -253,7 +246,7 @@ export interface IDigest extends IBaseSchema{
   edges:number;
 }
 
-export interface IAlternativeIds {
+export interface IAlternativeIdConfig {
   node:string;
   edge:string;
 }
@@ -296,8 +289,9 @@ export interface IAppConfig {
   styles:any;
   leaflet:ILeafletConfig;
   source:ISourceConfig;
-  graphDb:any;
-  index:any;
+  graphDb?:any;
+  index?:any;
+  sourceName?:string;
   enterprise:boolean;
   domain:string;
 }
@@ -341,13 +335,13 @@ interface ILeafletConfig {
 
 interface ISourceConfig {
   features:any;
-  alternativeIds?:IAlternativeIds;
+  alternativeIds?:IAlternativeIdConfig;
   latitudeProperty?:string;
   longitudeProperty?:string;
-  directory:IDirectoryConfig;
+  directory:IDirectoryEnabled;
 }
 
-interface IDirectoryConfig {
+interface IDirectoryEnabled {
   nodes : boolean;
   edges : boolean;
 }
@@ -363,11 +357,12 @@ export interface ISandBox {
 export interface IVisualization extends ISandBox {
   title:string;
   folder:number;
-  nodes:IVisualizationNode;
-  edges:IVisualizationItem;
-  alternativeIds:IAlternativeIds;
+  nodes:Array<IVisualizationNode>;
+  edges:Array<IVisualizationEdge>;
+  alternativeIds:IAlternativeIdConfig;
   layout:IVisualizationLayout;
   geo:IVisualizationGeo;
+  // todo: mode can be "nodeLink" or "geo", check in VisualizationChecker
   mode:string;
   filters:Array<any>;
 }
@@ -382,11 +377,11 @@ interface IFields {
   active:boolean;
 }
 
-export interface IVisualizationItem extends IIdentifiedItem{
+export interface IVisualizationEdge extends IIdentifiedItem{
   selected ?:boolean;
 }
 
-export interface IVisualizationNode extends IVisualizationItem {
+export interface IVisualizationNode extends IVisualizationEdge {
   nodeLink:INodeLink;
   geo ?:INodeGeo;
 }
@@ -455,11 +450,12 @@ interface IWidgetGraph {
 
 interface IBaseShare {
   userId:number;
+  // todo: check that the right is one of "read", "write", "owner" ...
   right:string;
   visualizationId : number;
 }
 
-export interface IShare extends IBaseShare{
+export interface IShare extends IBaseShare {
   updatedAt:string;
   createdAt:string;
 }
@@ -487,8 +483,9 @@ interface ITreeChildren {
   widgetKey ?:string;
 }
 
-export interface IConstraints {
+export interface IConstraint {
   property:string;
+  // todo: document the list of legal constraints (startsWith, ...)
   operator:string;
   value:any;
 }
