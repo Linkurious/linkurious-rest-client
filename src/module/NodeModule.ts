@@ -23,7 +23,7 @@ import Fetcher from '../http/fetcher';
 
 export default class NodeModule extends Module {
 
-  constructor(fetcher: Fetcher) {
+  constructor(fetcher:Fetcher) {
     super(fetcher)
   }
 
@@ -64,7 +64,7 @@ export default class NodeModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/{id}',
       method: 'DELETE',
-      body : {id:nodeId}
+      body  : {id: nodeId}
     }).then(() => true);
   }
 

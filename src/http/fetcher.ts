@@ -20,25 +20,25 @@ import Utils from "./utils";
 
 export default class Fetcher {
 
-  private _httpDriver: IHttpDriver;
-  private _logger: Logger;
-  private _host: string;
-  private _currentSource: IDataSource;
+  private _httpDriver:IHttpDriver;
+  private _logger:Logger;
+  private _host:string;
+  private _currentSource:IDataSource;
   private static SOURCE_KEY_TEMPLATE:string   = '{dataSourceKey}';
   private static SOURCE_INDEX_TEMPLATE:string = '{dataSourceIndex}';
-  private static OBJECT_ID_TEMPLATE:string = '{id}'
+  private static OBJECT_ID_TEMPLATE:string    = '{id}'
 
-  constructor(logger: Logger, currentSource: IDataSource, host: string, httpDriver?: IHttpDriver){
-    this._httpDriver = httpDriver ? httpDriver : new DefaultHttpDriver();
-    this._logger = logger;
+  constructor(logger:Logger, currentSource:IDataSource, host:string, httpDriver?:IHttpDriver) {
+    this._httpDriver    = httpDriver ? httpDriver : new DefaultHttpDriver();
+    this._logger        = logger;
     this._currentSource = currentSource;
-    this._host = host;
+    this._host          = host;
   }
 
-  private addSourceKeyToUrl(url:string, explicitSource?:IDataSourceRelative):string{
-    if(explicitSource){
+  private addSourceKeyToUrl(url:string, explicitSource?:IDataSourceRelative):string {
+    if (explicitSource) {
       return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource.dataSourceKey);
-    } else if (this._currentSource){
+    } else if (this._currentSource) {
       return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._currentSource.key);
     } else {
       this._logger.error(LinkuriousError.fromClientError(
@@ -49,10 +49,10 @@ export default class Fetcher {
     }
   }
 
-  private addSourceIndexToUrl(url:string, explicitSource?:IDataSourceRelative):string{
-    if(explicitSource){
+  private addSourceIndexToUrl(url:string, explicitSource?:IDataSourceRelative):string {
+    if (explicitSource) {
       return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource.dataSourceIndex + '');
-    } else if (this._currentSource){
+    } else if (this._currentSource) {
       return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._currentSource.key);
     } else {
       this._logger.error(LinkuriousError.fromClientError(
@@ -63,14 +63,14 @@ export default class Fetcher {
     }
   }
 
-  private handleIdInUrl(url:string, body:any, query:any){
-    if(body){
+  private handleIdInUrl(url:string, body:any, query:any) {
+    if (body) {
       let id = body.id;
       delete body.id;
       return url.replace(Fetcher.OBJECT_ID_TEMPLATE, id + '');
     }
 
-    if (query){
+    if (query) {
       let id = query.id;
       delete query.id;
       return url.replace(Fetcher.OBJECT_ID_TEMPLATE, id + '');
@@ -87,13 +87,13 @@ export default class Fetcher {
   private transformUrl(config:IFetchConfig, datas:IDatasToSend):string {
     const baseUrl = this._host + '/api';
 
-    if(config.url.indexOf(Fetcher.OBJECT_ID_TEMPLATE) >= 0) {
+    if (config.url.indexOf(Fetcher.OBJECT_ID_TEMPLATE) >= 0) {
       config.url = this.handleIdInUrl(config.url, datas.bodyData, datas.queryData);
     }
 
     if (config.url.indexOf(Fetcher.SOURCE_KEY_TEMPLATE) >= 0) {
       return baseUrl + this.addSourceKeyToUrl(config.url, config.dataSource);
-    } else if (config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0){
+    } else if (config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0) {
       return baseUrl + this.addSourceIndexToUrl(config.url, config.dataSource);
     } else {
       return baseUrl + config.url;
@@ -106,16 +106,16 @@ export default class Fetcher {
    * @param {IFetchConfig} config
    * @returns {Promise.<*>} the response body
    */
-  public fetch(config: IFetchConfig): Promise<any> {
+  public fetch(config:IFetchConfig):Promise<any> {
 
     let datas = {
-      queryData : config.query,
+      queryData: config.query,
       bodyData : config.body
     };
 
     config.url = this.transformUrl(config, datas);
 
-    let responsePromise: Promise<IHttpResponse>;
+    let responsePromise:Promise<IHttpResponse>;
 
     if (config.method === 'GET') {
       responsePromise = (<any> this._httpDriver)[config.method](config.url, Utils.fixSnakeCase(datas.queryData));
@@ -123,13 +123,13 @@ export default class Fetcher {
       responsePromise = (<any> this._httpDriver)[config.method](config.url, datas.bodyData, Utils.fixSnakeCase(datas.queryData));
     }
 
-    return responsePromise.catch((error: Error) => {
+    return responsePromise.catch((error:Error) => {
       //console.log(JSON.stringify(error.stack.split(/\s*\n\s*/), null, ' '));
 
       // create a linkurious error from "hard" errors
       return Promise.reject(LinkuriousError.fromError(error));
 
-    }).then((response: IHttpResponse) => {
+    }).then((response:IHttpResponse) => {
 
       // create a linkurious error from "soft" error
       if (LinkuriousError.isError(response)) {
@@ -140,7 +140,7 @@ export default class Fetcher {
       // resolve with response body in case of success
       return response.body;
 
-    }).catch((error: LinkuriousError) => {
+    }).catch((error:LinkuriousError) => {
       // logging interceptor
       this._logger.error(error);
       return Promise.reject(error);

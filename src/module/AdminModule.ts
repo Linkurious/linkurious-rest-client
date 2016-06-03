@@ -25,7 +25,7 @@ import {IDataSourceRelative} from "../http/IFetchConfig";
 
 export default class AdminModule extends Module {
 
-  constructor(fetcher: Fetcher) {
+  constructor(fetcher:Fetcher) {
     super(fetcher)
   }
 
@@ -35,11 +35,11 @@ export default class AdminModule extends Module {
    * @param dataSourceIndex:number
    * @returns {Promise<boolean>}
    */
-  public connectDataSource(data?:IDataSourceRelative): Promise<boolean> {
+  public connectDataSource(data?:IDataSourceRelative):Promise<boolean> {
     return this.fetch({
-      url   : '/admin/source/{dataSourceIndex}/connect',
-      method: 'POST',
-      dataSource : data
+      url       : '/admin/source/{dataSourceIndex}/connect',
+      method    : 'POST',
+      dataSource: data
     }).then(() => true);
   }
 
@@ -49,7 +49,7 @@ export default class AdminModule extends Module {
    * @param data:Interface.Form.dataSource.create
    * @returns {Promise<boolean>}
    */
-  public createDataSourceConfig(data: Request.ICreateDataSource): Promise<boolean> {
+  public createDataSourceConfig(data:Request.ICreateDataSource):Promise<boolean> {
     return this.fetch({
       url   : '/admin/sources/config',
       method: 'POST',
@@ -65,9 +65,9 @@ export default class AdminModule extends Module {
    */
   public deleteDataSourceConfig(data?:IDataSourceRelative):Promise<boolean> {
     return this.fetch({
-      url   : '/admin/sources/config/{dataSourceIndex}',
-      method: 'DELETE',
-      dataSource : data
+      url       : '/admin/sources/config/{dataSourceIndex}',
+      method    : 'DELETE',
+      dataSource: data
     }).then(() => true);
   }
 
@@ -80,14 +80,14 @@ export default class AdminModule extends Module {
    * @param data:Interface.RequestDeleteDatas
    * @returns {Promise<DataSource.deletedDatas>}
    */
-  public deleteFullDataSource(data: Request.IDeleteDataSource): Promise<IDeletedDataSource> {
+  public deleteFullDataSource(data:Request.IDeleteDataSource):Promise<IDeletedDataSource> {
     let mergeOptions = (data.mergeInto) ? {mergeInto: data.mergeInto} : null;
 
     return this.fetch({
-      url   : '/admin/sources/data/{dataSourceKey}',
-      method: 'DELETE',
-      body  : Utils.fixSnakeCase(mergeOptions),
-      dataSource : {dataSourceKey : data.dataSourceKey}
+      url       : '/admin/sources/data/{dataSourceKey}',
+      method    : 'DELETE',
+      body      : Utils.fixSnakeCase(mergeOptions),
+      dataSource: {dataSourceKey: data.dataSourceKey}
     });
   }
 
@@ -96,7 +96,7 @@ export default class AdminModule extends Module {
    *
    * @returns {Promise<Array<DataSource.adminModel>>}
    */
-  public getDataSourcesList(): Promise<Array<IFullDataSource>> {
+  public getDataSourcesList():Promise<Array<IFullDataSource>> {
     return this.fetch({
       url   : '/admin/sources',
       method: 'GET'
@@ -109,7 +109,7 @@ export default class AdminModule extends Module {
    * @param dataSourceKey:string
    * @returns {Promise<Array<string>>}
    */
-  public getHiddenEdgeProperties(data?:IDataSourceRelative): Promise<Array<string>> {
+  public getHiddenEdgeProperties(data?:IDataSourceRelative):Promise<Array<string>> {
     return this.fetch({
       url       : '/admin/source/{dataSourceKey}/hidden/edgeProperties',
       method    : 'GET',
@@ -123,7 +123,7 @@ export default class AdminModule extends Module {
    * @param dataSourceKey:string
    * @returns {Promise<Array<string>>}
    */
-  public getHiddenNodeProperties(data?:IDataSourceRelative): Promise<Array<string>> {
+  public getHiddenNodeProperties(data?:IDataSourceRelative):Promise<Array<string>> {
     return this.fetch({
       url       : '/admin/source/{dataSourceKey}/hidden/nodeProperties',
       method    : 'GET',
@@ -137,7 +137,7 @@ export default class AdminModule extends Module {
    * @param dataSourceKey:string
    * @returns {Promise<Array<string>>}
    */
-  public getNonIndexedEdgeProperties(data?:IDataSourceRelative): Promise<Array<string>> {
+  public getNonIndexedEdgeProperties(data?:IDataSourceRelative):Promise<Array<string>> {
     return this.fetch({
       url       : '/admin/source/{dataSourceKey}/noIndex/edgeProperties',
       method    : 'GET',
@@ -151,7 +151,7 @@ export default class AdminModule extends Module {
    * @param dataSourceKey:string
    * @returns {Promise<Array<string>>}
    */
-  public getNonIndexedNodeProperties(data?:IDataSourceRelative): Promise<Array<string>> {
+  public getNonIndexedNodeProperties(data?:IDataSourceRelative):Promise<Array<string>> {
     return this.fetch({
       url       : '/admin/source/{dataSourceKey}/noIndex/nodeProperties',
       method    : 'GET',
@@ -166,12 +166,12 @@ export default class AdminModule extends Module {
    * @param data:Interface.RequestArrayProperties
    * @returns {Promise<boolean>}
    */
-  public setHiddenEdgeProperties(data: Request.ISetDataSourceProperties): Promise<boolean> {
+  public setHiddenEdgeProperties(data:Request.ISetDataSourceProperties):Promise<boolean> {
     return this.fetch({
       url       : '/admin/source/{dataSourceKey}/hidden/edgeProperties',
       method    : 'PUT',
       body      : data,
-      dataSource: {dataSourceKey : data.dataSourceKey}
+      dataSource: {dataSourceKey: data.dataSourceKey}
     });
   }
 
@@ -182,12 +182,12 @@ export default class AdminModule extends Module {
    * @param data:Interface.RequestArrayProperties
    * @returns {Promise<boolean>}
    */
-  public setHiddenNodeProperties(data: Request.ISetDataSourceProperties): Promise<boolean> {
+  public setHiddenNodeProperties(data:Request.ISetDataSourceProperties):Promise<boolean> {
     return this.fetch({
       url       : '/admin/source/{dataSourceKey}/hidden/nodeProperties',
       method    : 'PUT',
       body      : data,
-      dataSource: {dataSourceKey : data.dataSourceKey}
+      dataSource: {dataSourceKey: data.dataSourceKey}
     }).then(() => true);
   }
 
@@ -198,12 +198,12 @@ export default class AdminModule extends Module {
    * @param data:Interface.RequestArrayProperties
    * @returns {Promise<boolean>}
    */
-  public setNotIndexedEdgeProperties(data: Request.ISetDataSourceProperties): Promise<boolean> {
+  public setNotIndexedEdgeProperties(data:Request.ISetDataSourceProperties):Promise<boolean> {
     return this.fetch({
       url       : '/admin/source/{dataSourceKey}/noIndex/edgeProperties',
       method    : 'PUT',
       body      : data,
-      dataSource: {dataSourceKey : data.dataSourceKey}
+      dataSource: {dataSourceKey: data.dataSourceKey}
     }).then(() => true);
   }
 
@@ -214,12 +214,12 @@ export default class AdminModule extends Module {
    * @param data:Interface.RequestArrayProperties
    * @returns {Promise<boolean>}
    */
-  public setNotIndexedNodeProperties(data: Request.ISetDataSourceProperties):Promise<boolean> {
+  public setNotIndexedNodeProperties(data:Request.ISetDataSourceProperties):Promise<boolean> {
     return this.fetch({
       url       : '/admin/source/{dataSourceKey}/noIndex/nodeProperties',
       method    : 'PUT',
       body      : data,
-      dataSource: {dataSourceKey : data.dataSourceKey}
+      dataSource: {dataSourceKey: data.dataSourceKey}
     }).then(() => true);
   }
 
@@ -229,7 +229,7 @@ export default class AdminModule extends Module {
    * @param data:User.form.create
    * @returns {Promise<User.model>}
    */
-  public createUser(data: Request.ICreateUser):Promise<IFullUser> {
+  public createUser(data:Request.ICreateUser):Promise<IFullUser> {
     return this.fetch({
       url   : '/admin/users',
       method: 'POST',
@@ -247,7 +247,7 @@ export default class AdminModule extends Module {
     return this.fetch({
       url   : '/admin/users/{id}',
       method: 'DELETE',
-      body : {id : userId}
+      body  : {id: userId}
     }).then(() => true);
   }
 
@@ -256,7 +256,7 @@ export default class AdminModule extends Module {
    * @param data:Group.form.create
    * @returns {Promise<Group.model>}
    */
-  public createGroup(data: Request.ICreateGroup):Promise<IGroup> {
+  public createGroup(data:Request.ICreateGroup):Promise<IGroup> {
     return this.fetch({
       url   : 'admin/groups',
       method: 'POST',
@@ -274,7 +274,7 @@ export default class AdminModule extends Module {
     return this.fetch({
       url   : '/admin/groups/{id}',
       method: 'DELETE',
-      body:{id:groupId}
+      body  : {id: groupId}
     }).then(() => true);
   }
 
@@ -288,7 +288,7 @@ export default class AdminModule extends Module {
     return this.fetch({
       url   : '/admin/groups/{id}',
       method: 'GET',
-      query : {id:groupId}
+      query : {id: groupId}
     });
   }
 
@@ -334,12 +334,12 @@ export default class AdminModule extends Module {
    * @param dataSourceKey?:string default : take the current source key.
    * @returns {Promise<boolean>}
    */
-  public updateBatchGroupsRights(data: Request.IUpdateBatchGroupRights):Promise<boolean> {
+  public updateBatchGroupsRights(data:Request.IUpdateBatchGroupRights):Promise<boolean> {
     return this.fetch({
       url       : '/admin/{dataSourceKey}/groups/group_rights',
       method    : 'PUT',
       body      : data,
-      dataSource: {dataSourceKey : data.dataSourceKey}
+      dataSource: {dataSourceKey: data.dataSourceKey}
     }).then(() => true);
   }
 
@@ -351,12 +351,12 @@ export default class AdminModule extends Module {
    * @param dataSourceKey?:string default : take the current source key.
    * @returns {Promise<Group.accessRights>}
    */
-  public updateGroupRights(data: Request.IUpdateGroupRights):Promise<IAccessRights> {
+  public updateGroupRights(data:Request.IUpdateGroupRights):Promise<IAccessRights> {
     return this.fetch({
       url       : '/admin/{dataSourceKey}/groups/{id}/group_rights',
       method    : 'PUT',
       body      : data,
-      dataSource: {dataSourceKey : data.dataSourceKey}
+      dataSource: {dataSourceKey: data.dataSourceKey}
     });
   }
 
@@ -366,7 +366,7 @@ export default class AdminModule extends Module {
    * @param data:User.form.batch
    * @returns {Promise<boolean>}
    */
-  public updateBatchUser(data: Request.IUpdateBatchUser):Promise<boolean> {
+  public updateBatchUser(data:Request.IUpdateBatchUser):Promise<boolean> {
     return this.fetch({
       url   : '/admin/users',
       method: 'PATCH',
@@ -381,7 +381,7 @@ export default class AdminModule extends Module {
    * @param userId:number
    * @returns {Promise<User.model>}
    */
-  public updateUser(data: Request.IUpdateUser):Promise<IFullUser> {
+  public updateUser(data:Request.IUpdateUser):Promise<IFullUser> {
     return this.fetch({
       url   : '/admin/users/{id}',
       method: 'PATCH',
@@ -395,17 +395,17 @@ export default class AdminModule extends Module {
    * @param data:Interface.Form.config.update
    * @returns {Promise<string>}
    */
-  public updateConfig(data: Request.IUpdateAppConfig):Promise<string> {
+  public updateConfig(data:Request.IUpdateAppConfig):Promise<string> {
     let query = {
-      reset : data.reset,
-      sourceIndex : data.dataSourceIndex
+      reset      : data.reset,
+      sourceIndex: data.dataSourceIndex
     };
 
     let body = {
-      path : data.path,
-      configuration : data.configuration
+      path         : data.path,
+      configuration: data.configuration
     };
-    
+
     return this.fetch({
       url   : '/config',
       method: 'POST',

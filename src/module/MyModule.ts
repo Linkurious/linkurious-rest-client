@@ -16,7 +16,7 @@ import Fetcher from '../http/fetcher';
 
 export default class MyModule extends Module {
 
-  constructor(fetcher: Fetcher) {
+  constructor(fetcher:Fetcher) {
     super(fetcher);
   }
 
@@ -54,7 +54,7 @@ export default class MyModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
       method: 'DELETE',
-      body : {id:graphQueryId}
+      body  : {id: graphQueryId}
     }).then(() => true);
   }
 
@@ -68,7 +68,7 @@ export default class MyModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
       method: 'GET',
-      query : {id:graphQueryId}
+      query : {id: graphQueryId}
     });
   }
 
@@ -103,7 +103,7 @@ export default class MyModule extends Module {
    * @param data : Query.form.update
    * @returns {Promise<Query.model>}
    */
-  public updateGraphQuery(data : Request.IUpdateGraphQuery):Promise<IGraphQuery> {
+  public updateGraphQuery(data:Request.IUpdateGraphQuery):Promise<IGraphQuery> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
       method: 'PATCH',

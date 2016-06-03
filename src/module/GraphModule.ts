@@ -16,7 +16,7 @@ import Module from './Module';
 import Fetcher from '../http/fetcher';
 
 export default class GraphModule extends Module {
-  constructor(fetcher: Fetcher) {
+  constructor(fetcher:Fetcher) {
     super(fetcher);
   }
 
@@ -28,10 +28,10 @@ export default class GraphModule extends Module {
    */
   public getItemsVersions(data:Request.IGetItemVersions):Promise<any> {
     return this.fetch({
-      url   : '/{dataSourceKey}/graph/versions',
-      method: 'POST',
-      body  : data,
-      dataSource:{dataSourceKey:data.dataSourceKey}
+      url       : '/{dataSourceKey}/graph/versions',
+      method    : 'POST',
+      body      : data,
+      dataSource: {dataSourceKey: data.dataSourceKey}
     });
   }
 

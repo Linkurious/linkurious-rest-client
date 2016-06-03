@@ -14,36 +14,36 @@ import {IHttpResponse} from './http/IHttpResponse';
 export type ErrorType = 'client'|'communication'|'access'|'technical'|'business';
 
 export default class LinkuriousError {
-  public status: number;
-  public type: ErrorType;
-  public key: string;
-  public message: string;
+  public status:number;
+  public type:ErrorType;
+  public key:string;
+  public message:string;
 
-  constructor(status: number, type: ErrorType, key: string, message: string) {
-    this.status = status;
-    this.type = type;
-    this.key = key;
+  constructor(status:number, type:ErrorType, key:string, message:string) {
+    this.status  = status;
+    this.type    = type;
+    this.key     = key;
     this.message = message;
   }
 
-  public static fromHttpResponse(r: IHttpResponse) {
-    let status = r.statusCode;
-    let type: ErrorType = LinkuriousError.getErrorType(r.statusCode);
-    let key: string, message: string;
+  public static fromHttpResponse(r:IHttpResponse) {
+    let status         = r.statusCode;
+    let type:ErrorType = LinkuriousError.getErrorType(r.statusCode);
+    let key:string, message:string;
 
     if (type === 'communication') {
-      key = 'communication_error';
+      key     = 'communication_error';
       message = 'Could not get response from server';
 
     } else {
-      key = r.body.key;
+      key     = r.body.key;
       message = r.body.message;
     }
 
     return new LinkuriousError(status, type, key, message);
   }
 
-  public static fromError(error: Error): LinkuriousError {
+  public static fromError(error:Error):LinkuriousError {
     return new LinkuriousError(
       0,
       'communication',
@@ -52,15 +52,15 @@ export default class LinkuriousError {
     );
   }
 
-  public static fromClientError(key: string, message: string) {
+  public static fromClientError(key:string, message:string) {
     return new LinkuriousError(0, 'client', key, message);
   }
 
-  public static isError(r: IHttpResponse): boolean {
+  public static isError(r:IHttpResponse):boolean {
     return r.statusCode === undefined || r.statusCode < 100 || r.statusCode >= 400;
   }
 
-  private static getErrorType(status: number): ErrorType {
+  private static getErrorType(status:number):ErrorType {
     if (status === undefined) {
       return 'communication';
     } else if (status < 100) {

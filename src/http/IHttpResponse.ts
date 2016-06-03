@@ -10,7 +10,7 @@
 'use strict';
 
 export interface IHttpResponse {
-  statusCode: number;
-  body: any;
-  header: Object;
+  statusCode:number;
+  body:any;
+  header:Object;
 }

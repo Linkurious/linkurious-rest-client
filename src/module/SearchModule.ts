@@ -10,7 +10,8 @@
 'use strict';
 
 import * as Request from '../Query';
-import {ISearchItemList,
+import {
+  ISearchItemList,
   ISearchFullItems,
   IUser,
   ISearchDirectory
@@ -20,7 +21,7 @@ import Fetcher from '../http/fetcher';
 
 export default class SearchModule extends Module {
 
-  constructor(fetcher: Fetcher) {
+  constructor(fetcher:Fetcher) {
     super(fetcher);
   }
 

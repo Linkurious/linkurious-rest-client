@@ -22,7 +22,7 @@ import Fetcher from '../http/fetcher';
 
 export default class VisualizationModule extends Module {
 
-  constructor(fetcher: Fetcher) {
+  constructor(fetcher:Fetcher) {
     super(fetcher);
   }
 
