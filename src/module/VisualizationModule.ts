@@ -273,7 +273,8 @@ export default class VisualizationModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/{id}',
       method: 'PATCH',
-      body  : data
+      body  : {id:data.id, visualization:data.visualization},
+      query : {forceLock : data.forceLock}
     }).then(() => true);
   }
 }

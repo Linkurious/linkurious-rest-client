@@ -10,6 +10,9 @@ export type ItemsType = 'nodes'|'edges';
 export type RightType = 'read'|'write'|'none'|'do';
 export type PopulateType = 'expandNodeId'|'nodeId'|'edgeId'|'searchNodes'|'searchEdges'|'pattern';
 export type ItemId = string | number;
+export type VisualizationModeType = 'nodelink'|'geo';
+export type ShareRightType = 'read'|'write'|'owner';
+export type ConstraintsOperatorType = 'contains'|'equals'|'more than'|'less than'|'starts with';
 
 export type IIndexationCallback = (res:IIndexationStatus) => void;
 
@@ -88,7 +91,6 @@ export interface IAccessRight extends IDataSourceRelative {
   targetName:string;
 }
 
-// todo: check why this is not used
 export interface IGroupRights {
   types:Array<string>;
   targetTypes:Array<string>;
@@ -152,8 +154,10 @@ export interface INeo4Config extends IBaseGraphConfig {
   url:string,
   webAdmin?:string,
   user?:string,
-  password?:string
-  // todo: undocumented (allowUnsignedSSL, see ConfigChecker on server)
+  password?:string,
+  allowSelfSigned ?: boolean;
+  proxy ?: string;
+  writeUrl ?: string;
 }
 
 export interface ITitanConfig extends IBaseGraphConfig {
@@ -202,9 +206,12 @@ export interface ISearchResult {
   totalHits:number;
 }
 
-// todo: split the method into two, one for nodes, one for edges
-export interface ISearchDirectory extends ISearchResult{
-  results:INode | IEdge;
+export interface ISearchEdgesInDirectory extends ISearchResult{
+  results:IEdge;
+}
+
+export interface ISearchNodesInDirectory extends ISearchResult{
+  results:INode;
 }
 
 export interface ISearchItemList extends ISearchResult {
@@ -362,8 +369,7 @@ export interface IVisualization extends ISandBox {
   alternativeIds:IAlternativeIdConfig;
   layout:IVisualizationLayout;
   geo:IVisualizationGeo;
-  // todo: mode can be "nodeLink" or "geo", check in VisualizationChecker
-  mode:string;
+  mode:VisualizationModeType;
   filters:Array<any>;
 }
 
@@ -450,8 +456,7 @@ interface IWidgetGraph {
 
 interface IBaseShare {
   userId:number;
-  // todo: check that the right is one of "read", "write", "owner" ...
-  right:string;
+  right:ShareRightType;
   visualizationId : number;
 }
 
@@ -485,8 +490,7 @@ interface ITreeChildren {
 
 export interface IConstraint {
   property:string;
-  // todo: document the list of legal constraints (startsWith, ...)
-  operator:string;
+  operator:ConstraintsOperatorType;
   value:any;
 }
 

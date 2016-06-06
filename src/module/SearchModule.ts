@@ -14,7 +14,8 @@ import {
   ISearchItemList,
   ISearchFullItems,
   IUser,
-  ISearchDirectory
+  ISearchEdgesInDirectory,
+  ISearchNodesInDirectory
 } from '../interfaces';
 import Module from './Module';
 import Fetcher from '../http/fetcher';
@@ -96,16 +97,38 @@ export default class SearchModule extends Module {
   }
 
   /**
-   * get a list of items for directory.
+   * get a list of nodes for directory.
    *
    * @param data:Interface.RequestDirectory
    * @returns {Promise<Directory.list>}
    */
-  public directory(data:Request.IGetDirectory):Promise<ISearchDirectory> {
+  public NodesInDirectory(data:Request.IGetDirectory):Promise<ISearchNodesInDirectory> {
+
+    let body:any = data;
+    body['type'] = 'nodes';
+
     return this.fetch({
       url   : '/{dataSourceKey}/directory',
       method: 'POST',
-      body  : data
+      body  : body
+    });
+  }
+
+  /**
+   * get a list of edges for directory.
+   *
+   * @param data:Interface.RequestDirectory
+   * @returns {Promise<Directory.list>}
+   */
+  public EdgesInDirectory(data:Request.IGetDirectory):Promise<ISearchEdgesInDirectory> {
+
+    let body:any = data;
+    body['type'] = 'edges';
+
+    return this.fetch({
+      url   : '/{dataSourceKey}/directory',
+      method: 'POST',
+      body  : body
     });
   }
 }

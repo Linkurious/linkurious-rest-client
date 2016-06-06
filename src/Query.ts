@@ -22,7 +22,6 @@ import {
   ITitanConfig,
   IDseConfig,
   IElasticSearchConfig,
-  ItemsType,
   IConstraint,
   IIdentifiedItemList,
   IDataSourceConfig,
@@ -157,7 +156,6 @@ export interface IGetShortestPaths extends IDataSourceRelative, IBaseRequest {
 }
 
 export interface IGetDirectory extends IDataSourceRelative, IBaseRequest {
-  type:ItemsType;
   categoryOrTypes:Array<string>;
   properties:Array<string>;
   constraints:IConstraint;
@@ -279,7 +277,7 @@ export interface IUpdateSandbox extends IDataSourceRelative, IBaseRequest {
 }
 
 export interface IUpdateVisualization extends IDataSourceRelative, IBaseRequest {
+  id:IIdentified;
   visualization:IVisualization;
-  // todo: force_lock can be sent in queryString
-  force_lock ?:boolean;
+  forceLock ?:boolean;
 }

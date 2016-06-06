@@ -17,7 +17,8 @@ import {
   IFullUser,
   IGroup,
   ISimpleGroup,
-  IAccessRights
+  IGroupRights,
+  IAccessRight
 } from '../interfaces';
 import Utils from '../http/utils';
 import Module from './Module';
@@ -319,7 +320,7 @@ export default class AdminModule extends Module {
    * @param dataSourceKey?:string default : take the current source key.
    * @returns {Promise<Group.sourceAccessRights>}
    */
-  public getGroupsRights(data:IDataSourceRelative):Promise<IAccessRights> {
+  public getGroupsRights(data:IDataSourceRelative):Promise<IGroupRights> {
     return this.fetch({
       url       : '/admin/{dataSourceKey}/groups/rights_info',
       method    : 'GET',
@@ -351,7 +352,7 @@ export default class AdminModule extends Module {
    * @param dataSourceKey?:string default : take the current source key.
    * @returns {Promise<Group.accessRights>}
    */
-  public updateGroupRights(data:Request.IUpdateGroupRights):Promise<IAccessRights> {
+  public updateGroupRights(data:Request.IUpdateGroupRights):Promise<IAccessRight> {
     return this.fetch({
       url       : '/admin/{dataSourceKey}/groups/{id}/group_rights',
       method    : 'PUT',
