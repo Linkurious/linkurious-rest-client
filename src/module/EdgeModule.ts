@@ -40,8 +40,8 @@ export default class EdgeModule extends Module {
   /**
    * Add an edge in the graph.
    *
-   * @param data : object
-   * @returns {Promise<Edge>}
+   * @param {ICreateEdge} data
+   * @returns {Promise<IEdge>}
    */
   public create(data: Query.ICreateEdge):Promise<IEdge> {
     return this.fetch({
@@ -55,9 +55,8 @@ export default class EdgeModule extends Module {
    * Modify the properties of an edge in the graph by the given ones. Keeps the other properties of
    * the edge unchanged.
    *
-   * @param edgeId : ItemId
-   * @param data : Edge.form.update
-   * @returns {Promise<Edge>}
+   * @param {IUpdateEdge} data
+   * @returns {Promise<IEdge>}
    */
   public update(data:Query.IUpdateEdge):Promise<IEdge> {
     return this.fetch({
@@ -70,8 +69,8 @@ export default class EdgeModule extends Module {
   /**
    * Delete a edge from the graph.
    *
-   * @param edgeId : ItemId
-   * @returns {Promise<string>}
+   * @param {ItemId} edgeId
+   * @returns {Promise<boolean>}
    */
   public deleteOne(edgeId: ItemId):Promise<boolean> {
     return this.fetch({
@@ -87,8 +86,8 @@ export default class EdgeModule extends Module {
    * Else if target is provided, return incoming edges only.
    * Else if adjacent is provided, return all adjacent edges.
    *
-   * @param data : object
-   * @returns {Promise<Array<Edge.model>>}
+   * @param {IGetAdjacentEdges} data
+   * @returns {Promise<Array<IEdge>>}
    */
   public getAdjacentFromNode(data: Query.IGetAdjacentEdges):Promise<Array<IEdge>> {
     // clone
@@ -113,8 +112,8 @@ export default class EdgeModule extends Module {
   /**
    * Get an edge of the graph.
    *
-   * @param edgeId : ItemId
-   * @returns {Promise<Edge.model>}
+   * @param {ItemId} edgeId
+   * @returns {Promise<IEdge>}
    */
   public getOne(edgeId: ItemId):Promise<IEdge> {
     return this.fetch({
@@ -127,8 +126,8 @@ export default class EdgeModule extends Module {
   /**
    * List all edgeType properties (aggregated from all edgeTypes)
    *
-   * @param params:Interface.RequestProperties
-   * @returns {Promise<Schema.propertyList>}
+   * @param {IGetItemProperties} params
+   * @returns {Promise<Array<IProperty>>}
    */
   public getProperties(params?: Query.IGetItemProperties):Promise<Array<IProperty>> {
     return this.fetch({
@@ -141,8 +140,8 @@ export default class EdgeModule extends Module {
   /**
    * List edge-types indexed by linkurious
    *
-   * @param params:Interface.RequestEdgeType
-   * @returns {Promise<Schema.typesList>}
+   * @param {IGetEdgeTypes} params
+   * @returns {Promise<Array<IItemType>>}
    */
   public getTypes(params?: Query.IGetEdgeTypes):Promise<Array<IItemType>> {
     return this.fetch({

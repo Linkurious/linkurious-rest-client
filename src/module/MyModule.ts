@@ -47,8 +47,8 @@ export default class MyModule extends Module {
   /**
    * Delete a saved Graph Query owned by the current user
    *
-   * @param graphQueryId : number
-   * @returns {Promise<string>}
+   * @param {number} graphQueryId
+   * @returns {Promise<boolean>}
    */
   public deleteGraphQuery(graphQueryId:number):Promise<boolean> {
     return this.fetch({
@@ -61,8 +61,8 @@ export default class MyModule extends Module {
   /**
    * Returns a saved GraphModule Query owned by the current user
    *
-   * @param graphQueryId : number
-   * @returns {Promise<Query.model>}
+   * @param {number} graphQueryId
+   * @returns {Promise<IGraphQuery>}
    */
   public getGraphQuery(graphQueryId:number):Promise<IGraphQuery> {
     return this.fetch({
@@ -75,7 +75,7 @@ export default class MyModule extends Module {
   /**
    * Returns all saved GraphModule Queries owned by the current user
    *
-   * @returns {Promise<Array<Query.model>>}
+   * @returns {Promise<Array<IGraphQuery>>}
    */
   public getAllGraphQueries():Promise<Array<IGraphQuery>> {
     return this.fetch({
@@ -86,8 +86,8 @@ export default class MyModule extends Module {
 
   /**
    * Save and Returns the created GraphQuery
-   * @param data : Query.form.create
-   * @returns {Promise<Query.model>}
+   * @param {ICreateGraphQuery} data
+   * @returns {Promise<IGraphQuery>}
    */
   public saveGraphQuery(data:Query.ICreateGraphQuery):Promise<IGraphQuery> {
     return this.fetch({
@@ -99,9 +99,9 @@ export default class MyModule extends Module {
 
   /**
    * Update a graph query owned but the current user
-   * @param graphQueryId : number
-   * @param data : Query.form.update
-   * @returns {Promise<Query.model>}
+   *
+   * @param {IUpdateGraphQuery} data
+   * @returns {Promise<IGraphQuery>}
    */
   public updateGraphQuery(data:Query.IUpdateGraphQuery):Promise<IGraphQuery> {
     return this.fetch({

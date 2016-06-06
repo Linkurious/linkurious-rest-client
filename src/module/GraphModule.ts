@@ -23,7 +23,7 @@ export default class GraphModule extends Module {
   /**
    * Get the edit-versions for nodes and edges.
    *
-   * @param nodesAndEdgesVersions : Schema.lists
+   * @param {IGetItemVersions} data
    * @returns {Promise}
    */
   public getItemsVersions(data:Query.IGetItemVersions):Promise<any> {
@@ -38,8 +38,8 @@ export default class GraphModule extends Module {
   /**
    * Returns an array of <LkNode[]> corresponding to all the shortest paths between two nodes that the user can read.
    *
-   * @param nodesConfig : Graph.request.shortestPath
-   * @returns {Promise}
+   * @param {IGetShortestPaths} nodesConfig
+   * @returns {Promise<Array<INode>>}
    */
   public getShortestPaths(nodesConfig:Query.IGetShortestPaths):Promise<Array<INode>> {
     return this.fetch({
@@ -52,8 +52,8 @@ export default class GraphModule extends Module {
   /**
    * Returns an array of LkNode[] matching the sent query.
    *
-   * @param data:RequestGraphWithQueryInterface
-   * @returns {Promise}
+   * @param {ISendQuery} data
+   * @returns {Promise<Array<INode>>}
    */
   public getNodeList(data:Query.ISendQuery):Promise<Array<INode>> {
     return this.fetch({
