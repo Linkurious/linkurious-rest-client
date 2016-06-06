@@ -21,7 +21,7 @@ import {
   IAccessRight,
   IIndexationStatus,
   IIndexationCallback,
-  IClientState
+  IClientState, IDataSourceConfig
 } from '../interfaces';
 import Utils from '../http/utils';
 import LinkuriousError from './../LinkuriousError';
@@ -71,10 +71,10 @@ export default class AdminModule extends Module {
   /**
    * Delete a data-source configuration that has currently no connected data-source.
    *
-   * @param {IDataSourceRelative} [data]
+   * @param {IDataSourceConfig} [data]
    * @returns {Promise<boolean>}
    */
-  public deleteDataSourceConfig(data?:IDataSourceRelative):Promise<boolean> {
+  public deleteDataSourceConfig(data?:IDataSourceConfig):Promise<boolean> {
     return this.fetch({
       url       : '/admin/sources/config/{dataSourceIndex}',
       method    : 'DELETE',
