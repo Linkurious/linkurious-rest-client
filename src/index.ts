@@ -65,7 +65,7 @@ class Linkurious {
     this._logger        = new Logger(logLevel, loggerDriver);
     this._fetcher       = new Fetcher(this._logger, this._clientState, host);
 
-    this._admin         = new AdminModule(this._fetcher);
+    this._admin         = new AdminModule(this._fetcher, this._logger, this._clientState);
     this._my            = new MyModule(this._fetcher);
     this._graph         = new GraphModule(this._fetcher);
     this._edge          = new EdgeModule(this._fetcher);
@@ -326,77 +326,6 @@ class Linkurious {
     return this._fetcher.fetch({
       url   : '/{dataSourceKey}/graph/schema/simple',
       method: 'GET'
-    });
-  }
-
-  /**
-   * Get the status of the Search API and return the indexing progress.
-   *
-   * @returns {Promise<IIndexationStatus>}
-   */
-  public getIndexationStatus():Promise<IIndexationStatus> {
-    return this._fetcher.fetch({
-      url   : '/{dataSourceKey}/search/status',
-      method: 'GET'
-    }).then(r => {
-      if (r.indexed_source !== this._clientState.currentSource.key) {
-        this._logger.error(LinkuriousError.fromClientError(
-          'Indexation error',
-          'Server is indexing another source.'
-        ));
-        return Promise.reject(r);
-      }
-
-      return r;
-    });
-  }
-
-  /**
-   * Launch the indexation and return true when finish. Possibility to had callback called each 300ms during indexation.
-   *
-   * @param timeout:number
-   * @param callback:Function
-   * @returns {Promise<boolean>}
-   */
-  public processIndexation(timeout:number, callback?:IIndexationCallback):Promise<boolean> {
-
-    const minTimeout = 200,
-          maxTimeout = 3000;
-
-    if (timeout < minTimeout) {
-      timeout = 200;
-    }
-
-    if (timeout > maxTimeout) {
-      timeout = 500;
-    }
-
-    return this.admin.startIndexation()
-      .then(() => this.listenIndexation(timeout, callback))
-      .then(() => true);
-  }
-
-  /**
-   * return true when indexation if finished, else launch callback.
-   *
-   * @param timeout:number
-   * @param callback:Function
-   * @returns {Promise<boolean>}
-   */
-  private listenIndexation(timeout:number, callback?:IIndexationCallback):Promise<boolean> {
-
-    return this.getIndexationStatus().then(res => {
-      if (res.indexing !== 'done') {
-        setTimeout(() => {
-          if (callback) {
-            callback(res);
-          }
-          this.listenIndexation(timeout, callback);
-        }, timeout);
-        return undefined;
-      } else {
-        return true;
-      }
     });
   }
 }

@@ -18,16 +18,26 @@ import {
   IGroup,
   ISimpleGroup,
   IGroupRights,
-  IAccessRight
+  IAccessRight,
+  IIndexationStatus,
+  IIndexationCallback,
+  IClientState
 } from '../interfaces';
 import Utils from '../http/utils';
+import LinkuriousError from './../LinkuriousError';
+import {Logger} from './../log/Logger';
 import Module from './Module';
 import {IDataSourceRelative} from "../http/IFetchConfig";
 
 export default class AdminModule extends Module {
+  private _logger:Logger;
+  private _clientState:IClientState;
 
-  constructor(fetcher:Fetcher) {
+  constructor(fetcher:Fetcher, logger:Logger, clientState:IClientState) {
     super(fetcher)
+
+    this._logger      = <Logger>logger;
+    this._clientState = <IClientState>clientState;
   }
 
   /**
@@ -425,6 +435,82 @@ export default class AdminModule extends Module {
       url   : '/{dataSourceKey}/search/reindex',
       method: 'GET'
     }).then(() => true);
+  }
+
+  /**
+   * Get the status of the Search API and return the indexing progress.
+   *
+   * @returns {Promise<IIndexationStatus>}
+   */
+  public getIndexationStatus():Promise<IIndexationStatus> {
+    return this.fetch({
+      url   : '/{dataSourceKey}/search/status',
+      method: 'GET'
+    }).then(r => {
+      if (r.indexed_source !== this._clientState.currentSource.key && r.indexing !== 'done') {
+        this._logger.error(LinkuriousError.fromClientError(
+          'Indexation error',
+          'Server is indexing another source.'
+        ));
+        return Promise.reject(r);
+      }
+      return r;
+    });
+  }
+
+  /**
+   * Launch the indexation and return true when finish. Possibility to had callback called each 300ms during indexation.
+   *
+   * @param timeout:number
+   * @param callback:Function
+   * @returns {Promise<boolean>}
+   */
+  public processIndexation(timeout:number, callback?:IIndexationCallback):Promise<boolean> {
+
+    let minTimeout   = 200;
+    const maxTimeout = 3000;
+
+    if (this._logger.level === 'debug') {
+      minTimeout = 50
+    }
+
+    if (timeout < minTimeout) {
+      timeout = 200;
+    }
+
+    if (timeout > maxTimeout) {
+      timeout = 500;
+    }
+
+    return this.startIndexation()
+      .then(() => this.listenIndexation(timeout, callback))
+      .then(() => true);
+  }
+
+  /**
+   * return true when indexation if finished, else launch callback.
+   *
+   * @param timeout:number
+   * @param callback:Function
+   * @returns {Promise<boolean>}
+   */
+  private listenIndexation(timeout:number, callback?:IIndexationCallback):Promise<boolean> {
+    return this.getIndexationStatus()
+      .then(res => {
+        if (res.indexing !== 'done') {
+          if (callback) {
+            callback(res);
+          }
+
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              return resolve(this.listenIndexation(timeout, callback));
+            }, timeout);
+          });
+        } else {
+          return true;
+        }
+      });
   }
 
 }

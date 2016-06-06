@@ -446,5 +446,17 @@ describe('Linkurious class', function(){
       });
     });
   });
+  
+  describe('processIndexation method', function(){
+    it('must start indexation and return true when finish', function(){
+      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.processIndexation(50, function(res){
+          res.indexing.should.equal('ongoing');
+        })
+      }).then(function(res){
+        res.should.equal(true);
+      });
+    })
+  })
 
 });
