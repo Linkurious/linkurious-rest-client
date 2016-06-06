@@ -21,7 +21,8 @@ import {
   IAccessRight,
   IIndexationStatus,
   IIndexationCallback,
-  IClientState, IDataSourceConfig
+  IClientState,
+  IDataSourceConfig
 } from '../interfaces';
 import Utils from '../http/utils';
 import LinkuriousError from './../LinkuriousError';
