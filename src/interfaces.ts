@@ -132,12 +132,12 @@ export interface IDeletedDataSource {
   affected: IAffectedSource;
 }
 
-interface IAffectedSource {
+export interface IAffectedSource {
   visualizations:number;
   folders:number;
 }
 
-interface IBaseGraphConfig {
+export interface IBaseGraphConfig {
   alternativeEdgeId?:string;
   alternativeNodeId?:string;
   latitudeProperty?:string;
@@ -217,13 +217,13 @@ export interface ISearchFullItems extends ISearchResult {
   results:Array<IFullNode>;
 }
 
-interface ISearchMatchGroup {
+export interface ISearchMatchGroup {
   title:string;
   categories:Array<string>;
   children:Array<ISearchMatch>;
 }
 
-interface ISearchMatch {
+export interface ISearchMatch {
   id:ItemId;
   name:string;
   field:string;
@@ -253,7 +253,7 @@ export interface IAlternativeIdConfig {
   edge:string;
 }
 
-interface ICountItemType {
+export interface ICountItemType {
   count:number;
 }
 
@@ -298,7 +298,7 @@ export interface IAppConfig {
   domain:string;
 }
 
-interface IDataSourcesConfig {
+export interface IDataSourcesConfig {
   maxPathLength:number;
   shortestPathsMaxResults:number;
   connectionRetries:number;
@@ -311,19 +311,19 @@ interface IDataSourcesConfig {
   rawQueryTimeout:number;
 }
 
-interface IRightsConfig {
+export interface IRightsConfig {
   dataEdition:boolean;
   loginTimeout:number;
   widget:boolean;
 }
 
-interface IAnalyticsConfig {
+export interface IAnalyticsConfig {
   enabled:boolean;
   code:string;
   domain:string;
 }
 
-interface ILeafletConfig {
+export interface ILeafletConfig {
   name:string;
   thumbnail:string;
   urlTemplate:string;
@@ -335,7 +335,7 @@ interface ILeafletConfig {
   maxZoom:number;
 }
 
-interface ISourceConfig {
+export interface ISourceConfig {
   features:any;
   alternativeIds?:IAlternativeIdConfig;
   latitudeProperty?:string;
@@ -343,7 +343,7 @@ interface ISourceConfig {
   directory:IDirectoryEnabled;
 }
 
-interface IDirectoryEnabled {
+export interface IDirectoryEnabled {
   nodes : boolean;
   edges : boolean;
 }
@@ -373,7 +373,7 @@ export interface IItemFields {
   fields:Array<IFields>;
 }
 
-interface IFields {
+export interface IFields {
   name:string;
   active:boolean;
 }
@@ -387,14 +387,14 @@ export interface IVisualizationNode extends IVisualizationEdge {
   geo ?:INodeGeo;
 }
 
-interface INodeGeo {
+export interface INodeGeo {
   latitude ?:number;
   longitude ?:number;
   latitudeDiff ?:number;
   longitudeDiff ?:number
 }
 
-interface INodeLink {
+export interface INodeLink {
   x:number;
   y:number;
   fixed ?:boolean;
@@ -434,7 +434,7 @@ export interface IWidgetContent extends IVisualizationDesign{
   ui ?:IWidgetUI;
 }
 
-interface IWidgetUI {
+export interface IWidgetUI {
   search ?:boolean;
   share ?:boolean;
   layout ?:boolean;
@@ -444,12 +444,12 @@ interface IWidgetUI {
   geo ?:boolean;
 }
 
-interface IWidgetGraph {
+export interface IWidgetGraph {
   nodes:Array<INode>;
   edges:Array<IEdge>;
 }
 
-interface IBaseShare {
+export interface IBaseShare {
   userId:number;
   right:ShareRightType;
   visualizationId : number;
@@ -460,7 +460,7 @@ export interface IShare extends IBaseShare {
   createdAt:string;
 }
 
-interface ISharer extends IBaseShare {
+export interface ISharer extends IBaseShare {
   username:string;
   email:string;
 }
@@ -474,7 +474,7 @@ export interface ITree {
   tree:Array<ITreeChildren>;
 }
 
-interface ITreeChildren {
+export interface ITreeChildren {
   type:'visu'|'folder';
   id:number;
   title:string;
