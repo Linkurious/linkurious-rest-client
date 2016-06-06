@@ -360,7 +360,7 @@ describe('Linkurious class', function(){
   describe('login method', function(){
   it('must log a user and hydrate app state', function(){
       return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(res){
-        linkurious.user.should.eql({
+        linkurious.state.user.should.eql({
           id: 6,
           username: 'testName',
           email: 'testName@test.fr',
@@ -377,7 +377,7 @@ describe('Linkurious class', function(){
     it('must logout before login if another user is currently authenticated', function(){
       return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(res){
-          linkurious.user.should.eql({
+          linkurious.state.user.should.eql({
             id: 6,
             username: 'testName',
             email: 'testName@test.fr',
@@ -399,7 +399,7 @@ describe('Linkurious class', function(){
         return linkurious.logout();
       }).then(function(res){
         res.should.equal('user disconnected');
-        should(linkurious.user).not.ok();
+        should(linkurious.state.user).not.ok();
       })
     })
   });
@@ -407,7 +407,7 @@ describe('Linkurious class', function(){
   describe('startClient method', function(){
     it('must set current user and default source', function(){
       return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
-        linkurious.user.should.eql({
+        linkurious.state.user.should.eql({
             id: 6,
             username: 'testName',
             email: 'testName@test.fr',
@@ -418,7 +418,7 @@ describe('Linkurious class', function(){
             actions: { all: ['rawReadQuery', 'rawWriteQuery'] }
         });
 
-        linkurious.currentSource.should.eql({ name: 'Database #0', key: global.sourceKey, configIndex: 0 });
+        linkurious.state.currentSource.should.eql({ name: 'Database #0', key: global.sourceKey, configIndex: 0 });
       });
     });
   });
@@ -430,10 +430,10 @@ describe('Linkurious class', function(){
           username : 'nameChanged'
         });
       }).then(function(){
-        linkurious.user.username.should.equal('nameChanged');
-        linkurious.user.id.should.equal(6);
-        linkurious.user.email.should.equal('testName@test.fr');
-        linkurious.user.should.eql({
+        linkurious.state.user.username.should.equal('nameChanged');
+        linkurious.state.user.id.should.equal(6);
+        linkurious.state.user.email.should.equal('testName@test.fr');
+        linkurious.state.user.should.eql({
           id: 6,
           username: 'nameChanged',
           email: 'testName@test.fr',

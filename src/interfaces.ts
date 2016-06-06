@@ -1,8 +1,3 @@
-export interface IStateModel {
-  user:IFullUser;
-  currentSource:IDataSource;
-}
-
 export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgeOrientation = 'in'|'out'|'both';
 export type ItemType = 'node'|'edge';
@@ -15,6 +10,11 @@ export type ShareRightType = 'read'|'write'|'owner';
 export type ConstraintsOperatorType = 'contains'|'equals'|'more than'|'less than'|'starts with';
 
 export type IIndexationCallback = (res:IIndexationStatus) => void;
+
+export interface IClientState {
+  user : IFullUser,
+  currentSource : IDataSource
+}
 
 export interface IDatasToSend {
   queryData ?: any;

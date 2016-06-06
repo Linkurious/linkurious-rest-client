@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import {IDataSource, IDatasToSend} from './../interfaces';
+import {IClientState, IDatasToSend} from './../interfaces';
 import LinkuriousError from './../LinkuriousError';
 import DefaultHttpDriver from './DefaultHttpDriver';
 import {Logger} from './../log/Logger';
@@ -23,23 +23,23 @@ export default class Fetcher {
   private _httpDriver:IHttpDriver;
   private _logger:Logger;
   private _host:string;
-  private _currentSource:IDataSource;
+  private _clientState:IClientState;
   private static SOURCE_KEY_TEMPLATE:string   = '{dataSourceKey}';
   private static SOURCE_INDEX_TEMPLATE:string = '{dataSourceIndex}';
   private static OBJECT_ID_TEMPLATE:string    = '{id}'
 
-  constructor(logger:Logger, currentSource:IDataSource, host:string, httpDriver?:IHttpDriver) {
+  constructor(logger:Logger, clientState:IClientState, host:string, httpDriver?:IHttpDriver) {
     this._httpDriver    = httpDriver ? httpDriver : new DefaultHttpDriver();
     this._logger        = logger;
-    this._currentSource = currentSource;
+    this._clientState   = clientState;
     this._host          = host;
   }
 
   private addSourceKeyToUrl(url:string, explicitSource?:IDataSourceRelative):string {
     if (explicitSource) {
       return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource.dataSourceKey);
-    } else if (this._currentSource) {
-      return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._currentSource.key);
+    } else if (this._clientState.currentSource) {
+      return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key);
     } else {
       this._logger.error(LinkuriousError.fromClientError(
         'state_error',
@@ -52,8 +52,8 @@ export default class Fetcher {
   private addSourceIndexToUrl(url:string, explicitSource?:IDataSourceRelative):string {
     if (explicitSource) {
       return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource.dataSourceIndex + '');
-    } else if (this._currentSource) {
-      return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._currentSource.key);
+    } else if (this._clientState.currentSource) {
+      return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.key);
     } else {
       this._logger.error(LinkuriousError.fromClientError(
         'state_error',
@@ -114,7 +114,7 @@ export default class Fetcher {
     };
 
     config.url = this.transformUrl(config, datas);
-
+    
     let responsePromise:Promise<IHttpResponse>;
 
     if (config.method === 'GET') {

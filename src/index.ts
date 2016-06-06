@@ -28,19 +28,18 @@ import {
   IDataSource,
   IFullUser,
   IDataSourceState,
-  IStateModel,
   IAppStatus,
   IAppVersion,
   IAppConfig,
   ISchema,
   IIndexationStatus,
-  IIndexationCallback
+  IIndexationCallback,
+  IClientState
 } from "./interfaces";
 
 class Linkurious {
   private _fetcher:Fetcher;
-  private _currentSource:IDataSource;
-  private _user:IFullUser;
+  private _clientState : IClientState;
   private _logger:Logger;
 
   private _admin:AdminModule;
@@ -51,12 +50,8 @@ class Linkurious {
   private _search:SearchModule;
   private _visualization:VisualizationModule;
 
-  get currentSource():IDataSource {
-    return this._currentSource;
-  }
-
-  get user():IFullUser {
-    return this._user;
+  get state():IClientState {
+    return this._clientState;
   }
 
   /**
@@ -66,10 +61,9 @@ class Linkurious {
    * @param {object} [loggerDriver] - logger object
    */
   constructor(host:string, logLevel:LogLevel, loggerDriver?:ILoggerDriver) {
-    this._currentSource = <IDataSource> {};
-    this._user          = <IFullUser>undefined;
+    this._clientState   = <IClientState>{};
     this._logger        = new Logger(logLevel, loggerDriver);
-    this._fetcher       = new Fetcher(this._logger, this._currentSource, host);
+    this._fetcher       = new Fetcher(this._logger, this._clientState, host);
 
     this._admin         = new AdminModule(this._fetcher);
     this._my            = new MyModule(this._fetcher);
@@ -140,11 +134,13 @@ class Linkurious {
                       property:string,
                       matchValue:string|number|boolean):IDataSource {
     if ((<any> source)[property] === matchValue) {
-      this._currentSource.name        = source.name;
-      this._currentSource.key         = source.key;
-      this._currentSource.configIndex = source.configIndex;
+      this._clientState.currentSource = {
+        name : source.name,
+        key : source.key,
+        configIndex : source.configIndex
+      };
 
-      return this._currentSource;
+      return this._clientState.currentSource;
     } else {
       return null;
     }
@@ -163,16 +159,16 @@ class Linkurious {
       body  : data
     };
 
-    if (this._user) {
+    if (this._clientState.user) {
       return this.logout().then(() => {
         return this._fetcher.fetch(config);
       }).then(res => {
-        this._user = res.user;
+        this._clientState.user = res.user;
         return true;
       });
     } else {
       return this._fetcher.fetch(config).then(res => {
-        this._user = res.user;
+        this._clientState.user = res.user;
         return true;
       });
     }
@@ -189,7 +185,7 @@ class Linkurious {
       method: 'GET'
     })
       .then(() => {
-        this._user = undefined;
+        this._clientState.user = undefined;
         return 'user disconnected';
       });
   }
@@ -206,13 +202,8 @@ class Linkurious {
       method: 'PATCH',
       body  : data
     }).then((res:IFullUser) => {
-      this.user.username    = res.username;
-      this.user.email       = res.email;
-      this.user.groups      = res.groups;
-      this.user.ldap        = res.ldap;
-      this.user.admin       = res.admin;
-      this.user.preferences = res.preferences;
-      return res;
+      this._clientState.user = Object.assign(this._clientState.user, res);
+      return this._clientState.user;
     });
   }
 
@@ -240,7 +231,7 @@ class Linkurious {
         let sourceIteration = res[i];
 
         if (this.storeSource(sourceIteration, 'connected', true)) {
-          return this._currentSource;
+          return this._clientState.currentSource;
         }
       }
       return undefined;
@@ -266,7 +257,7 @@ class Linkurious {
         }
 
         if (this.storeSource(sourceIteration, sourceComparator, keyOrConfig)) {
-          return this._currentSource;
+          return this._clientState.currentSource;
         }
       }
       return undefined;
@@ -279,15 +270,12 @@ class Linkurious {
    * @param data:User.form.login
    * @returns {Promise<IStateModel>}
    */
-  public startClient(data:Request.ILoginUser):Promise<IStateModel> {
+  public startClient(data:Request.ILoginUser):Promise<IClientState> {
 
     return this.login(data).then(() => {
       return this.initCurrentSource();
     }).then(() => {
-      return {
-        user         : this._user,
-        currentSource: this._currentSource
-      };
+      return this._clientState;
     });
   }
 
@@ -351,7 +339,7 @@ class Linkurious {
       url   : '/{dataSourceKey}/search/status',
       method: 'GET'
     }).then(r => {
-      if (r.indexed_source !== this._currentSource.key) {
+      if (r.indexed_source !== this._clientState.currentSource.key) {
         this._logger.error(LinkuriousError.fromClientError(
           'Indexation error',
           'Server is indexing another source.'
