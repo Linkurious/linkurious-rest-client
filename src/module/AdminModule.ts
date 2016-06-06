@@ -34,7 +34,7 @@ export default class AdminModule extends Module {
   private _clientState:IClientState;
 
   constructor(fetcher:Fetcher, logger:Logger, clientState:IClientState) {
-    super(fetcher)
+    super(fetcher);
 
     this._logger      = <Logger>logger;
     this._clientState = <IClientState>clientState;

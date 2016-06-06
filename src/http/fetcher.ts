@@ -26,7 +26,7 @@ export default class Fetcher {
   private _clientState:IClientState;
   private static SOURCE_KEY_TEMPLATE:string   = '{dataSourceKey}';
   private static SOURCE_INDEX_TEMPLATE:string = '{dataSourceIndex}';
-  private static OBJECT_ID_TEMPLATE:string    = '{id}'
+  private static OBJECT_ID_TEMPLATE:string    = '{id}';
 
   constructor(logger:Logger, clientState:IClientState, host:string, httpDriver?:IHttpDriver) {
     this._httpDriver    = httpDriver ? httpDriver : new DefaultHttpDriver();
