@@ -307,9 +307,11 @@ class Linkurious {
    * @param {string|number|boolean} matchValue
    * @returns {IDataSource}
    */
-  private storeSource(source:IDataSourceState,
-                      property:string,
-                      matchValue:string|number|boolean):IDataSource {
+  private storeSource(
+    source:IDataSourceState,
+    property:string,
+    matchValue:string|number|boolean
+  ):IDataSource {
     if ((<any> source)[property] === matchValue) {
       this._clientState.currentSource = {
         name : source.name,
