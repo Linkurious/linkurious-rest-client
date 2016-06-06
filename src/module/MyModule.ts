@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import * as Request from '../Query';
+import * as Query from '../Query';
 import {IGraphQuery} from '../interfaces';
 import Module from './Module';
 import Fetcher from '../http/fetcher';
@@ -89,7 +89,7 @@ export default class MyModule extends Module {
    * @param data : Query.form.create
    * @returns {Promise<Query.model>}
    */
-  public saveGraphQuery(data:Request.ICreateGraphQuery):Promise<IGraphQuery> {
+  public saveGraphQuery(data:Query.ICreateGraphQuery):Promise<IGraphQuery> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/my/rawQuery',
       method: 'POST',
@@ -103,7 +103,7 @@ export default class MyModule extends Module {
    * @param data : Query.form.update
    * @returns {Promise<Query.model>}
    */
-  public updateGraphQuery(data:Request.IUpdateGraphQuery):Promise<IGraphQuery> {
+  public updateGraphQuery(data:Query.IUpdateGraphQuery):Promise<IGraphQuery> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
       method: 'PATCH',

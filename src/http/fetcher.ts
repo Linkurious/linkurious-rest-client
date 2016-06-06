@@ -15,13 +15,8 @@ import DefaultHttpDriver from './DefaultHttpDriver';
 import {Logger} from './../log/Logger';
 import {IHttpDriver} from "./IHttpDriver";
 import {IHttpResponse} from "./IHttpResponse";
-import {IFetchConfig, IDataSourceRelative} from "./IFetchConfig";
+import {IFetchConfig, IDataSourceRelative, IDataToSend} from "./IFetchConfig";
 import Utils from "./utils";
-
-interface IDataToSend {
-  queryData ?: any;
-  bodyData ?: any;
-}
 
 export default class Fetcher {
 
@@ -31,7 +26,7 @@ export default class Fetcher {
   private _clientState:IClientState;
   private static SOURCE_KEY_TEMPLATE:string   = '{dataSourceKey}';
   private static SOURCE_INDEX_TEMPLATE:string = '{dataSourceIndex}';
-  private static OBJECT_ID_TEMPLATE:string    = '{id}'
+  private static OBJECT_ID_TEMPLATE:string    = '{id}';
 
   constructor(logger:Logger, clientState:IClientState, host:string, httpDriver?:IHttpDriver) {
     this._httpDriver    = httpDriver ? httpDriver : new DefaultHttpDriver();

@@ -21,9 +21,7 @@ import EdgeModule from './module/EdgeModule';
 import NodeModule from './module/NodeModule';
 import SearchModule from './module/SearchModule';
 import VisualizationModule from './module/VisualizationModule';
-
-import LinkuriousError from './LinkuriousError';
-import * as Request from './Query';
+import * as Query from './Query';
 import {
   IDataSource,
   IFullUser,
@@ -32,8 +30,6 @@ import {
   IAppVersion,
   IAppConfig,
   ISchema,
-  IIndexationStatus,
-  IIndexationCallback,
   IClientState
 } from "./interfaces";
 
@@ -152,7 +148,7 @@ class Linkurious {
    * @param data : ILoginUser
    * @returns {Promise<boolean>}
    */
-  public login(data:Request.ILoginUser):Promise<boolean> {
+  public login(data:Query.ILoginUser):Promise<boolean> {
     let config:IFetchConfig = {
       url   : '/auth/login',
       method: 'POST',
@@ -196,7 +192,7 @@ class Linkurious {
    * @param data {user.form.update}
    * @returns {Promise}
    */
-  public updateCurrentUser(data:Request.IUpdateUser):Promise<IFullUser> {
+  public updateCurrentUser(data:Query.IUpdateUser):Promise<IFullUser> {
     return this._fetcher.fetch({
       url   : '/auth/me',
       method: 'PATCH',
@@ -270,7 +266,7 @@ class Linkurious {
    * @param data:User.form.login
    * @returns {Promise<IStateModel>}
    */
-  public startClient(data:Request.ILoginUser):Promise<IClientState> {
+  public startClient(data:Query.ILoginUser):Promise<IClientState> {
 
     return this.login(data).then(() => {
       return this.initCurrentSource();

@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import * as Request from '../Query';
+import * as Query from '../Query';
 import {
   ISearchItemList,
   ISearchFullItems,
@@ -32,7 +32,7 @@ export default class SearchModule extends Module {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<Array<Node.model>>}
    */
-  public fullNodes(params:Request.ISearchItemList):Promise<Array<ISearchItemList>> {
+  public fullNodes(params:Query.ISearchItemList):Promise<Array<ISearchItemList>> {
     return this.fetch({
       url   : '/{dataSourceKey}/search/nodes/full',
       method: 'GET',
@@ -46,7 +46,7 @@ export default class SearchModule extends Module {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<Array<Node.model>>}
    */
-  public fullEdges(params:Request.ISearchItemList):Promise<Array<ISearchItemList>> {
+  public fullEdges(params:Query.ISearchItemList):Promise<Array<ISearchItemList>> {
     return this.fetch({
       url   : '/{dataSourceKey}/search/edges/full',
       method: 'GET',
@@ -60,7 +60,7 @@ export default class SearchModule extends Module {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<itemsList>}
    */
-  public nodes(params:Request.ISearchItemList):Promise<ISearchFullItems> {
+  public nodes(params:Query.ISearchItemList):Promise<ISearchFullItems> {
     return this.fetch({
       url   : '/{dataSourceKey}/search/nodes',
       method: 'GET',
@@ -74,7 +74,7 @@ export default class SearchModule extends Module {
    * @param params:i.Schema.request.itemsList
    * @returns {Promise<itemsList>}
    */
-  public edges(params:Request.ISearchItemList):Promise<ISearchFullItems> {
+  public edges(params:Query.ISearchItemList):Promise<ISearchFullItems> {
     return this.fetch({
       url   : '/{dataSourceKey}/search/edges',
       method: 'GET',
@@ -88,7 +88,7 @@ export default class SearchModule extends Module {
    * @param data : User.request.list
    * @returns {Promise<Array<User.model>>}
    */
-  public users(data:Request.IGetUserList):Promise<Array<IUser>> {
+  public users(data:Query.IGetUserList):Promise<Array<IUser>> {
     return this.fetch({
       url   : '/findUsers',
       method: 'GET',
@@ -102,7 +102,7 @@ export default class SearchModule extends Module {
    * @param data:Interface.RequestDirectory
    * @returns {Promise<Directory.list>}
    */
-  public NodesInDirectory(data:Request.IGetDirectory):Promise<ISearchNodesInDirectory> {
+  public NodesInDirectory(data:Query.IGetDirectory):Promise<ISearchNodesInDirectory> {
 
     let body:any = data;
     body['type'] = 'nodes';
@@ -120,7 +120,7 @@ export default class SearchModule extends Module {
    * @param data:Interface.RequestDirectory
    * @returns {Promise<Directory.list>}
    */
-  public EdgesInDirectory(data:Request.IGetDirectory):Promise<ISearchEdgesInDirectory> {
+  public EdgesInDirectory(data:Query.IGetDirectory):Promise<ISearchEdgesInDirectory> {
 
     let body:any = data;
     body['type'] = 'edges';

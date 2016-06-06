@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import * as Request from '../Query';
+import * as Query from '../Query';
 import Module from './Module';
 import {
   IEdge,
@@ -43,7 +43,7 @@ export default class EdgeModule extends Module {
    * @param data : object
    * @returns {Promise<Edge>}
    */
-  public create(data: Request.ICreateEdge):Promise<IEdge> {
+  public create(data: Query.ICreateEdge):Promise<IEdge> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/edges',
       method: 'POST',
@@ -59,7 +59,7 @@ export default class EdgeModule extends Module {
    * @param data : Edge.form.update
    * @returns {Promise<Edge>}
    */
-  public update(data:Request.IUpdateEdge):Promise<IEdge> {
+  public update(data:Query.IUpdateEdge):Promise<IEdge> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/edges/{id}',
       method: 'PATCH',
@@ -90,7 +90,7 @@ export default class EdgeModule extends Module {
    * @param data : object
    * @returns {Promise<Array<Edge.model>>}
    */
-  public getAdjacentFromNode(data: Request.IGetAdjacentEdges):Promise<Array<IEdge>> {
+  public getAdjacentFromNode(data: Query.IGetAdjacentEdges):Promise<Array<IEdge>> {
     // clone
     let query: any = JSON.parse(JSON.stringify(data));
     if (query.orientation === 'in') {
@@ -130,7 +130,7 @@ export default class EdgeModule extends Module {
    * @param params:Interface.RequestProperties
    * @returns {Promise<Schema.propertyList>}
    */
-  public getProperties(params?: Request.IGetItemProperties):Promise<Array<IProperty>> {
+  public getProperties(params?: Query.IGetItemProperties):Promise<Array<IProperty>> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/schema/edgeTypes/properties',
       method: 'GET',
@@ -144,7 +144,7 @@ export default class EdgeModule extends Module {
    * @param params:Interface.RequestEdgeType
    * @returns {Promise<Schema.typesList>}
    */
-  public getTypes(params?: Request.IGetEdgeTypes):Promise<Array<IItemType>> {
+  public getTypes(params?: Query.IGetEdgeTypes):Promise<Array<IItemType>> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/schema/edgeTypes',
       method: 'GET',

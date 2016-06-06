@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import * as Request from '../Query';
+import * as Query from '../Query';
 import {
   IVisualization,
   IWidget,
@@ -44,7 +44,7 @@ export default class VisualizationModule extends Module {
    * @param data: Form.visualization.createWidget
    * @returns {Promise<string>}
    */
-  public createWidget(data:Request.ICreateWidget):Promise<string> {
+  public createWidget(data:Query.ICreateWidget):Promise<string> {
     return this.fetch({
       url   : '/widget',
       method: 'POST',
@@ -58,7 +58,7 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.createFolder
    * @returns {Promise<boolean>}
    */
-  public createFolder(data:Request.ICreateFolder):Promise<boolean> {
+  public createFolder(data:Query.ICreateFolder):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/folder',
       method: 'POST',
@@ -73,7 +73,7 @@ export default class VisualizationModule extends Module {
    * @param data:ICreateVisualization
    * @returns {Promise<IVisualization>}
    */
-  public create(data:Request.ICreateVisualization):Promise<IVisualization> {
+  public create(data:Query.ICreateVisualization):Promise<IVisualization> {
     return this.fetch({
       url   : '/{dataSourceKey}/visualization',
       method: 'POST',
@@ -141,7 +141,7 @@ export default class VisualizationModule extends Module {
    * @param params:Interface.RequestSandbox
    * @returns {Promise<IVisualization>}
    */
-  public getSandbox(params:Request.IGetSandbox):Promise<IVisualization> {
+  public getSandbox(params:Query.IGetSandbox):Promise<IVisualization> {
     return this.fetch({
       url   : '/{dataSourceKey}/sandbox',
       method: 'GET',
@@ -205,7 +205,7 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.share
    * @returns {Promise<IShare>}
    */
-  public share(data:Request.ISetShareRights):Promise<IShare> {
+  public share(data:Query.ISetShareRights):Promise<IShare> {
 
     let url = '/{dataSourceKey}/visualizations/' + data.vizId + '/share/' + data.userId;
 
@@ -227,7 +227,7 @@ export default class VisualizationModule extends Module {
    * @param data:IUnshareVisualization
    * @returns {Promise<boolean>}
    */
-  public unshare(data:Request.IUnshareVisualization):Promise<boolean> {
+  public unshare(data:Query.IUnshareVisualization):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/' + data.id + '/shared/' + data.userId,
       method: 'DELETE'
@@ -240,7 +240,7 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.updateFolder
    * @returns {Promise<boolean>}
    */
-  public updateFolder(data:Request.IUpdateFolder):Promise<boolean> {
+  public updateFolder(data:Query.IUpdateFolder):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/folder/{id}',
       method: 'PATCH',
@@ -254,7 +254,7 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.updateSandbox
    * @returns {Promise<boolean>}
    */
-  public updateSandbox(data:Request.IUpdateSandbox):Promise<boolean> {
+  public updateSandbox(data:Query.IUpdateSandbox):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSourceKey}/sandbox',
       method: 'PATCH',
@@ -269,7 +269,7 @@ export default class VisualizationModule extends Module {
    * @param data:Interface.Form.visualization.update
    * @returns {Promise<boolean>}
    */
-  public update(vizId:number, data:Request.IUpdateVisualization):Promise<boolean> {
+  public update(vizId:number, data:Query.IUpdateVisualization):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/{id}',
       method: 'PATCH',

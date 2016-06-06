@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import * as Request from '../Query';
+import * as Query from '../Query';
 import {
   INode,
   ItemId,
@@ -45,7 +45,7 @@ export default class NodeModule extends Module {
    * @param data:Interface.Form.node.create
    * @returns {Promise<Node.model>}
    */
-  public create(data:Request.ICreateNode):Promise<INode> {
+  public create(data:Query.ICreateNode):Promise<INode> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes',
       method: 'POST',
@@ -74,7 +74,7 @@ export default class NodeModule extends Module {
    * @param params:Interface.RequestNode
    * @returns {Promise<Node.model>}
    */
-  public getOne(params?:Request.IGetNode):Promise<INode> {
+  public getOne(params?:Query.IGetNode):Promise<INode> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/{id}',
       method: 'GET',
@@ -92,7 +92,7 @@ export default class NodeModule extends Module {
    * @param data:Interface.RequestNodeAdjacentItems
    * @returns {Promise<Array<Node.model>>}
    */
-  public expand(data:Request.IGetAdjacentItems):Promise<Array<INode>> {
+  public expand(data:Query.IGetAdjacentItems):Promise<Array<INode>> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/expand',
       method: 'POST',
@@ -120,7 +120,7 @@ export default class NodeModule extends Module {
    * @param data:Interface.Form.node.update
    * @returns {Promise<Node>}
    */
-  public update(data:Request.IUpdateNode):Promise<INode> {
+  public update(data:Query.IUpdateNode):Promise<INode> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/{id}',
       method: 'PATCH',
@@ -134,7 +134,7 @@ export default class NodeModule extends Module {
    * @param params:Interface.RequestProperties
    * @returns {Promise<Schema.propertyList>}
    */
-  public getProperties(params?:Request.IGetItemProperties):Promise<Array<IProperty>> {
+  public getProperties(params?:Query.IGetItemProperties):Promise<Array<IProperty>> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/schema/nodeTypes/properties',
       method: 'GET',
@@ -148,7 +148,7 @@ export default class NodeModule extends Module {
    * @param params:Interface.RequestNodeType
    * @returns {Promise<Schema.typesList>}
    */
-  public getTypes(params?:Request.IGetItemTypes):Promise<Array<IItemType>> {
+  public getTypes(params?:Query.IGetItemTypes):Promise<Array<IItemType>> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/schema/nodeTypes',
       method: 'GET',
