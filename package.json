@@ -36,7 +36,7 @@
     "test": "node test/runTests.js",
     "postinstall": "node_modules/.bin/typings install",
     "remapCover": "node_modules/.bin/remap-istanbul -i coverage/coverage.raw.json -o coverage/html -t html",
-    "cover": "node_modules/.bin/istanbul cover test/runTests.js & npm run remapCover"
+    "cover": "node_modules/.bin/istanbul cover test/runTests.js && npm run remapCover"
   },
   "dependencies": {
     "es6-promise": "^3.1.2",
