@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import * as Request from '../Query';
+import * as Query from '../Query';
 import Fetcher from '../http/fetcher';
 import {
   IDeletedDataSource,
@@ -43,7 +43,7 @@ export default class AdminModule extends Module {
   /**
    * Connect a disconnected data-source
    *
-   * @param dataSourceIndex:number
+   * @param {IDataSourceRelative} data
    * @returns {Promise<boolean>}
    */
   public connectDataSource(data?:IDataSourceRelative):Promise<boolean> {
@@ -57,10 +57,10 @@ export default class AdminModule extends Module {
   /**
    * Create a new data-source configuration (contains a graph database configuration and an index configuration).
    *
-   * @param data:Interface.Form.dataSource.create
+   * @param {ICreateDataSource} data
    * @returns {Promise<boolean>}
    */
-  public createDataSourceConfig(data:Request.ICreateDataSource):Promise<boolean> {
+  public createDataSourceConfig(data:Query.ICreateDataSource):Promise<boolean> {
     return this.fetch({
       url   : '/admin/sources/config',
       method: 'POST',
@@ -71,7 +71,7 @@ export default class AdminModule extends Module {
   /**
    * Delete a data-source configuration that has currently no connected data-source.
    *
-   * @param dataSourceIndex:number
+   * @param {IDataSourceRelative} data
    * @returns {Promise<boolean>}
    */
   public deleteDataSourceConfig(data?:IDataSourceRelative):Promise<boolean> {
@@ -88,10 +88,10 @@ export default class AdminModule extends Module {
    * Warning: when merging into another data-source, visualizations may break if node and edge IDs
    * are not the same in to target data-source.
    *
-   * @param data:Interface.RequestDeleteDatas
-   * @returns {Promise<DataSource.deletedDatas>}
+   * @param {IDeleteDataSource} data
+   * @returns {Promise<IDeletedDataSource>}
    */
-  public deleteFullDataSource(data:Request.IDeleteDataSource):Promise<IDeletedDataSource> {
+  public deleteFullDataSource(data:Query.IDeleteDataSource):Promise<IDeletedDataSource> {
     let mergeOptions = (data.mergeInto) ? {mergeInto: data.mergeInto} : null;
 
     return this.fetch({
@@ -105,7 +105,7 @@ export default class AdminModule extends Module {
   /**
    * Get information for all data-source, including data-sources that do not exist online.
    *
-   * @returns {Promise<Array<DataSource.adminModel>>}
+   * @returns {Promise<Array<IFullDataSource>>}
    */
   public getDataSourcesList():Promise<Array<IFullDataSource>> {
     return this.fetch({
@@ -117,7 +117,7 @@ export default class AdminModule extends Module {
   /**
    * Get the list of edge-properties hidden for the given data-source.
    *
-   * @param dataSourceKey:string
+   * @param {IDataSourceRelative} data
    * @returns {Promise<Array<string>>}
    */
   public getHiddenEdgeProperties(data?:IDataSourceRelative):Promise<Array<string>> {
@@ -131,7 +131,7 @@ export default class AdminModule extends Module {
   /**
    * Get the list of node-properties hidden for the given data-source.
    *
-   * @param dataSourceKey:string
+   * @param {IDataSourceRelative} data
    * @returns {Promise<Array<string>>}
    */
   public getHiddenNodeProperties(data?:IDataSourceRelative):Promise<Array<string>> {
@@ -145,7 +145,7 @@ export default class AdminModule extends Module {
   /**
    * Get the list of edge-properties that re not indexed for the given data-source.
    *
-   * @param dataSourceKey:string
+   * @param {IDataSourceRelative} data
    * @returns {Promise<Array<string>>}
    */
   public getNonIndexedEdgeProperties(data?:IDataSourceRelative):Promise<Array<string>> {
@@ -159,7 +159,7 @@ export default class AdminModule extends Module {
   /**
    * Get the list of node-properties that are not indexed for the given data-source.
    *
-   * @param dataSourceKey:string
+   * @param {IDataSourceRelative} data
    * @returns {Promise<Array<string>>}
    */
   public getNonIndexedNodeProperties(data?:IDataSourceRelative):Promise<Array<string>> {
@@ -173,11 +173,10 @@ export default class AdminModule extends Module {
   /**
    * Set the list of edge-properties that are hidden for the given data-source.
    *
-   * @param dataSourceKey:string
-   * @param data:Interface.RequestArrayProperties
+   * @param {ISetDataSourceProperties} data
    * @returns {Promise<boolean>}
    */
-  public setHiddenEdgeProperties(data:Request.ISetDataSourceProperties):Promise<boolean> {
+  public setHiddenEdgeProperties(data:Query.ISetDataSourceProperties):Promise<boolean> {
     return this.fetch({
       url       : '/admin/source/{dataSourceKey}/hidden/edgeProperties',
       method    : 'PUT',
@@ -189,11 +188,10 @@ export default class AdminModule extends Module {
   /**
    * Set the list of node-properties that are hidden for the given data-source.
    *
-   * @param dataSourceKey:string
-   * @param data:Interface.RequestArrayProperties
+   * @param {ISetDataSourceProperties} data
    * @returns {Promise<boolean>}
    */
-  public setHiddenNodeProperties(data:Request.ISetDataSourceProperties):Promise<boolean> {
+  public setHiddenNodeProperties(data:Query.ISetDataSourceProperties):Promise<boolean> {
     return this.fetch({
       url       : '/admin/source/{dataSourceKey}/hidden/nodeProperties',
       method    : 'PUT',
@@ -205,11 +203,10 @@ export default class AdminModule extends Module {
   /**
    * Set the list of edge-properties that are not indexed for the given data-source.
    *
-   * @param dataSourceKey:string
-   * @param data:Interface.RequestArrayProperties
+   * @param {ISetDataSourceProperties} data
    * @returns {Promise<boolean>}
    */
-  public setNotIndexedEdgeProperties(data:Request.ISetDataSourceProperties):Promise<boolean> {
+  public setNotIndexedEdgeProperties(data:Query.ISetDataSourceProperties):Promise<boolean> {
     return this.fetch({
       url       : '/admin/source/{dataSourceKey}/noIndex/edgeProperties',
       method    : 'PUT',
@@ -221,11 +218,10 @@ export default class AdminModule extends Module {
   /**
    * Set the list of node-properties that are not indexed for the given data-source.
    *
-   * @param dataSourceKey:string
-   * @param data:Interface.RequestArrayProperties
+   * @param {ISetDataSourceProperties} data
    * @returns {Promise<boolean>}
    */
-  public setNotIndexedNodeProperties(data:Request.ISetDataSourceProperties):Promise<boolean> {
+  public setNotIndexedNodeProperties(data:Query.ISetDataSourceProperties):Promise<boolean> {
     return this.fetch({
       url       : '/admin/source/{dataSourceKey}/noIndex/nodeProperties',
       method    : 'PUT',
@@ -237,10 +233,10 @@ export default class AdminModule extends Module {
   /**
    * Add a new user to the application.
    *
-   * @param data:User.form.create
-   * @returns {Promise<User.model>}
+   * @param {ICreateUser} data
+   * @returns {Promise<IFullUser>}
    */
-  public createUser(data:Request.ICreateUser):Promise<IFullUser> {
+  public createUser(data:Query.ICreateUser):Promise<IFullUser> {
     return this.fetch({
       url   : '/admin/users',
       method: 'POST',
@@ -251,8 +247,8 @@ export default class AdminModule extends Module {
   /**
    * Deletes a user in the application.
    *
-   * @param userId:number
-   * @returns {Promise<string>}
+   * @param {number} userId
+   * @returns {Promise<boolean>}
    */
   public deleteUser(userId:number):Promise<boolean> {
     return this.fetch({
@@ -264,10 +260,10 @@ export default class AdminModule extends Module {
 
   /**
    * Adds a new group to the application.
-   * @param data:Group.form.create
-   * @returns {Promise<Group.model>}
+   * @param {ICreateGroup} data
+   * @returns {Promise<IGroup>}
    */
-  public createGroup(data:Request.ICreateGroup):Promise<IGroup> {
+  public createGroup(data:Query.ICreateGroup):Promise<IGroup> {
     return this.fetch({
       url   : 'admin/groups',
       method: 'POST',
@@ -278,8 +274,8 @@ export default class AdminModule extends Module {
   /**
    * Deletes a group in the application.
    *
-   * @param groupId:number
-   * @returns {Promise<string>}
+   * @param {number} groupId
+   * @returns {Promise<boolean>}
    */
   public deleteGroup(groupId:number):Promise<boolean> {
     return this.fetch({
@@ -292,8 +288,8 @@ export default class AdminModule extends Module {
   /**
    * List a group already defined in the database.
    *
-   * @param groupId:number
-   * @returns {Promise<Group.model>}
+   * @param {number} groupId
+   * @returns {Promise<IGroup>}
    */
   public getGroup(groupId:number):Promise<IGroup> {
     return this.fetch({
@@ -304,10 +300,10 @@ export default class AdminModule extends Module {
   }
 
   /**
-   * List all the groups already defined in the database.
+   * List all the groups already defined in the database and based on the dataSource.
    *
-   * @param dataSourceKey:string
-   * @returns {Promise<Array<Group.model>>}
+   * @param {IDataSourceRelative} data
+   * @returns {Promise<Array<IGroup>>}
    */
   public getGroups(data:IDataSourceRelative):Promise<Array<IGroup>> {
     return this.fetch({
@@ -317,6 +313,11 @@ export default class AdminModule extends Module {
     });
   }
 
+  /**
+   * List all the groups available.
+   *
+   * @returns {Promise<ISimpleGroup>}
+   */
   public getSimpleGroups():Promise<Array<ISimpleGroup>> {
     return this.fetch({
       url   : '/admin/groups',
@@ -327,8 +328,8 @@ export default class AdminModule extends Module {
   /**
    * Get possible targetType, type and action names.
    *
-   * @param dataSourceKey?:string default : take the current source key.
-   * @returns {Promise<Group.sourceAccessRights>}
+   * @param {IDataSourceRelative} data
+   * @returns {Promise<IGroupRights>}
    */
   public getGroupsRights(data:IDataSourceRelative):Promise<IGroupRights> {
     return this.fetch({
@@ -341,11 +342,10 @@ export default class AdminModule extends Module {
   /**
    * Bulk-set rights for a whole targetType on one or many groups.
    *
-   * @param data:Group.form.batchRights
-   * @param dataSourceKey?:string default : take the current source key.
+   * @param {IUpdateBatchGroupRights} data
    * @returns {Promise<boolean>}
    */
-  public updateBatchGroupsRights(data:Request.IUpdateBatchGroupRights):Promise<boolean> {
+  public updateBatchGroupsRights(data:Query.IUpdateBatchGroupRights):Promise<boolean> {
     return this.fetch({
       url       : '/admin/{dataSourceKey}/groups/group_rights',
       method    : 'PUT',
@@ -357,12 +357,10 @@ export default class AdminModule extends Module {
   /**
    * Overrides a given right with the one specified.
    *
-   * @param data:Group.form.updateRights
-   * @param groupId:number
-   * @param dataSourceKey?:string default : take the current source key.
-   * @returns {Promise<Group.accessRights>}
+   * @param {IUpdateGroupRights} data
+   * @returns {Promise<IAccessRight>}
    */
-  public updateGroupRights(data:Request.IUpdateGroupRights):Promise<IAccessRight> {
+  public updateGroupRights(data:Query.IUpdateGroupRights):Promise<IAccessRight> {
     return this.fetch({
       url       : '/admin/{dataSourceKey}/groups/{id}/group_rights',
       method    : 'PUT',
@@ -374,10 +372,10 @@ export default class AdminModule extends Module {
   /**
    * Patches users in the application. Beware, if all the groups for a given user are deleted, the user is added to the default group.
    *
-   * @param data:User.form.batch
+   * @param {IUpdateBatchUser} data
    * @returns {Promise<boolean>}
    */
-  public updateBatchUser(data:Request.IUpdateBatchUser):Promise<boolean> {
+  public updateBatchUser(data:Query.IUpdateBatchUser):Promise<boolean> {
     return this.fetch({
       url   : '/admin/users',
       method: 'PATCH',
@@ -388,11 +386,10 @@ export default class AdminModule extends Module {
   /**
    * Patches a user in the application
    *
-   * @param data:User.form.update
-   * @param userId:number
-   * @returns {Promise<User.model>}
+   * @param {IUpdateUser} data
+   * @returns {Promise<IFullUser>}
    */
-  public updateUser(data:Request.IUpdateUser):Promise<IFullUser> {
+  public updateUser(data:Query.IUpdateUser):Promise<IFullUser> {
     return this.fetch({
       url   : '/admin/users/{id}',
       method: 'PATCH',
@@ -403,10 +400,10 @@ export default class AdminModule extends Module {
   /**
    * Sets the configuration of the application
    *
-   * @param data:Interface.Form.config.update
+   * @param {IUpdateAppConfig} data
    * @returns {Promise<string>}
    */
-  public updateConfig(data:Request.IUpdateAppConfig):Promise<string> {
+  public updateConfig(data:Query.IUpdateAppConfig):Promise<string> {
     let query = {
       reset      : data.reset,
       sourceIndex: data.dataSourceIndex
@@ -461,8 +458,8 @@ export default class AdminModule extends Module {
   /**
    * Launch the indexation and return true when finish. Possibility to had callback called each 300ms during indexation.
    *
-   * @param timeout:number
-   * @param callback:Function
+   * @param {number} timeout
+   * @param {IIndexationCallback} callback
    * @returns {Promise<boolean>}
    */
   public processIndexation(timeout:number, callback?:IIndexationCallback):Promise<boolean> {
@@ -490,8 +487,8 @@ export default class AdminModule extends Module {
   /**
    * return true when indexation if finished, else launch callback.
    *
-   * @param timeout:number
-   * @param callback:Function
+   * @param {number} timeout
+   * @param {IIndexationCallback} callback
    * @returns {Promise<boolean>}
    */
   private listenIndexation(timeout:number, callback?:IIndexationCallback):Promise<boolean> {

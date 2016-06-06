@@ -21,9 +21,7 @@ import EdgeModule from './module/EdgeModule';
 import NodeModule from './module/NodeModule';
 import SearchModule from './module/SearchModule';
 import VisualizationModule from './module/VisualizationModule';
-
-import LinkuriousError from './LinkuriousError';
-import * as Request from './Query';
+import * as Query from './Query';
 import {
   IDataSource,
   IFullUser,
@@ -32,8 +30,6 @@ import {
   IAppVersion,
   IAppConfig,
   ISchema,
-  IIndexationStatus,
-  IIndexationCallback,
   IClientState
 } from "./interfaces";
 
@@ -124,10 +120,11 @@ class Linkurious {
   }
 
   /**
+   * Store a source in clientState if condition is verified
    *
-   * @param source:IFullDataSource
-   * @param property:string
-   * @param matchValue:any
+   * @param {IFullDataSource} source
+   * @param {string} property
+   * @param {string|number|boolean} matchValue
    * @returns {IDataSource}
    */
   private storeSource(source:IDataSourceState,
@@ -149,10 +146,10 @@ class Linkurious {
   /**
    * Process to login of the corresponding user and return it.
    *
-   * @param data : ILoginUser
+   * @param {ILoginUser} data
    * @returns {Promise<boolean>}
    */
-  public login(data:Request.ILoginUser):Promise<boolean> {
+  public login(data:Query.ILoginUser):Promise<boolean> {
     let config:IFetchConfig = {
       url   : '/auth/login',
       method: 'POST',
@@ -193,10 +190,10 @@ class Linkurious {
   /**
    * Update the current user connected
    *
-   * @param data {user.form.update}
-   * @returns {Promise}
+   * @param {IUpdateUser} data
+   * @returns {Promise<IFullUser>}
    */
-  public updateCurrentUser(data:Request.IUpdateUser):Promise<IFullUser> {
+  public updateCurrentUser(data:Query.IUpdateUser):Promise<IFullUser> {
     return this._fetcher.fetch({
       url   : '/auth/me',
       method: 'PATCH',
@@ -222,7 +219,7 @@ class Linkurious {
   /**
    * Set the currentSource to the first source connected
    *
-   * @returns {Promise<IDataSourceState>}
+   * @returns {Promise<IDataSource>}
    */
   public initCurrentSource():Promise<IDataSource> {
 
@@ -241,7 +238,7 @@ class Linkurious {
   /**
    * Set the currentSource by passing the sourceKey or configIndex
    *
-   * @param keyOrConfig : string|number
+   * @param {string|number} keyOrConfig
    * @returns {Promise<IDataSourceState>}
    */
   public setCurrentSource(keyOrConfig:string | number):Promise<IDataSourceState> {
@@ -267,10 +264,10 @@ class Linkurious {
   /**
    * Process to login and set the default source state and return the REST client state.
    *
-   * @param data:User.form.login
-   * @returns {Promise<IStateModel>}
+   * @param {ILoginUser} data
+   * @returns {Promise<IClientState>}
    */
-  public startClient(data:Request.ILoginUser):Promise<IClientState> {
+  public startClient(data:Query.ILoginUser):Promise<IClientState> {
 
     return this.login(data).then(() => {
       return this.initCurrentSource();

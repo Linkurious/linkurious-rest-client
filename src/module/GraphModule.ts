@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import * as Request from '../Query';
+import * as Query from '../Query';
 import {INode} from '../interfaces';
 import Utils from '../http/utils';
 import Module from './Module';
@@ -23,10 +23,10 @@ export default class GraphModule extends Module {
   /**
    * Get the edit-versions for nodes and edges.
    *
-   * @param nodesAndEdgesVersions : Schema.lists
+   * @param {IGetItemVersions} data
    * @returns {Promise}
    */
-  public getItemsVersions(data:Request.IGetItemVersions):Promise<any> {
+  public getItemsVersions(data:Query.IGetItemVersions):Promise<any> {
     return this.fetch({
       url       : '/{dataSourceKey}/graph/versions',
       method    : 'POST',
@@ -38,10 +38,10 @@ export default class GraphModule extends Module {
   /**
    * Returns an array of <LkNode[]> corresponding to all the shortest paths between two nodes that the user can read.
    *
-   * @param nodesConfig : Graph.request.shortestPath
-   * @returns {Promise}
+   * @param {IGetShortestPaths} nodesConfig
+   * @returns {Promise<Array<INode>>}
    */
-  public getShortestPaths(nodesConfig:Request.IGetShortestPaths):Promise<Array<INode>> {
+  public getShortestPaths(nodesConfig:Query.IGetShortestPaths):Promise<Array<INode>> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/shortestPaths',
       method: 'GET',
@@ -52,10 +52,10 @@ export default class GraphModule extends Module {
   /**
    * Returns an array of LkNode[] matching the sent query.
    *
-   * @param data:RequestGraphWithQueryInterface
-   * @returns {Promise}
+   * @param {ISendQuery} data
+   * @returns {Promise<Array<INode>>}
    */
-  public getNodeList(data:Request.ISendQuery):Promise<Array<INode>> {
+  public getNodeList(data:Query.ISendQuery):Promise<Array<INode>> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/rawQuery',
       method: 'POST',

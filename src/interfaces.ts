@@ -12,13 +12,8 @@ export type ConstraintsOperatorType = 'contains'|'equals'|'more than'|'less than
 export type IIndexationCallback = (res:IIndexationStatus) => void;
 
 export interface IClientState {
-  user : IFullUser,
-  currentSource : IDataSource
-}
-
-export interface IDatasToSend {
-  queryData ?: any;
-  bodyData ?: any;
+  user : IFullUser;
+  currentSource : IDataSource;
 }
 
 // NODE & EDGE
@@ -28,7 +23,7 @@ export interface IIdentifiedItem {
 }
 
 export interface IIdentifiedItemList {
-  ids : Array<ItemId>,
+  ids : Array<ItemId>;
 }
 
 export interface IItem extends IIdentifiedItem {

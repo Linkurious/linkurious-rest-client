@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import * as Request from '../Query';
+import * as Query from '../Query';
 import {
   ISearchItemList,
   ISearchFullItems,
@@ -29,10 +29,10 @@ export default class SearchModule extends Module {
   /**
    * Search for nodes based on a query string and optional parameters. Return a list of full Nodes.
    *
-   * @param params:i.Schema.request.itemsList
-   * @returns {Promise<Array<Node.model>>}
+   * @param {ISearchItemList} params
+   * @returns {Promise<Array<ISearchItemList>>}
    */
-  public fullNodes(params:Request.ISearchItemList):Promise<Array<ISearchItemList>> {
+  public fullNodes(params:Query.ISearchItemList):Promise<Array<ISearchItemList>> {
     return this.fetch({
       url   : '/{dataSourceKey}/search/nodes/full',
       method: 'GET',
@@ -43,10 +43,10 @@ export default class SearchModule extends Module {
   /**
    * Search for edges based on a query string and optional parameters. Return a list of full Nodes.
    *
-   * @param params:i.Schema.request.itemsList
-   * @returns {Promise<Array<Node.model>>}
+   * @param {ISearchItemList} params
+   * @returns {Promise<Array<ISearchItemList>>}
    */
-  public fullEdges(params:Request.ISearchItemList):Promise<Array<ISearchItemList>> {
+  public fullEdges(params:Query.ISearchItemList):Promise<Array<ISearchItemList>> {
     return this.fetch({
       url   : '/{dataSourceKey}/search/edges/full',
       method: 'GET',
@@ -57,10 +57,10 @@ export default class SearchModule extends Module {
   /**
    * Search for nodes based on a query string and optional parameters. Return formatted results for the Linkurious client.
    *
-   * @param params:i.Schema.request.itemsList
-   * @returns {Promise<itemsList>}
+   * @param {ISearchItemList} params
+   * @returns {Promise<ISearchFullItems>}
    */
-  public nodes(params:Request.ISearchItemList):Promise<ISearchFullItems> {
+  public nodes(params:Query.ISearchItemList):Promise<ISearchFullItems> {
     return this.fetch({
       url   : '/{dataSourceKey}/search/nodes',
       method: 'GET',
@@ -71,10 +71,10 @@ export default class SearchModule extends Module {
   /**
    * Search for edges based on a query string and optional parameters. Return formatted results for the Linkurious client.
    *
-   * @param params:i.Schema.request.itemsList
-   * @returns {Promise<itemsList>}
+   * @param {ISearchItemList} params
+   * @returns {Promise<ISearchFullItems>}
    */
-  public edges(params:Request.ISearchItemList):Promise<ISearchFullItems> {
+  public edges(params:Query.ISearchItemList):Promise<ISearchFullItems> {
     return this.fetch({
       url   : '/{dataSourceKey}/search/edges',
       method: 'GET',
@@ -85,10 +85,10 @@ export default class SearchModule extends Module {
   /**
    * Find a list of users matching a filter (on username or email)
    *
-   * @param data : User.request.list
-   * @returns {Promise<Array<User.model>>}
+   * @param {IGetUserList} data
+   * @returns {Promise<Array<IUser>>}
    */
-  public users(data:Request.IGetUserList):Promise<Array<IUser>> {
+  public users(data:Query.IGetUserList):Promise<Array<IUser>> {
     return this.fetch({
       url   : '/findUsers',
       method: 'GET',
@@ -99,10 +99,10 @@ export default class SearchModule extends Module {
   /**
    * get a list of nodes for directory.
    *
-   * @param data:Interface.RequestDirectory
-   * @returns {Promise<Directory.list>}
+   * @param {IGetDirectory} data
+   * @returns {Promise<ISearchNodesInDirectory>}
    */
-  public NodesInDirectory(data:Request.IGetDirectory):Promise<ISearchNodesInDirectory> {
+  public NodesInDirectory(data:Query.IGetDirectory):Promise<ISearchNodesInDirectory> {
 
     let body:any = data;
     body['type'] = 'nodes';
@@ -117,10 +117,10 @@ export default class SearchModule extends Module {
   /**
    * get a list of edges for directory.
    *
-   * @param data:Interface.RequestDirectory
-   * @returns {Promise<Directory.list>}
+   * @param {IGetDirectory} data
+   * @returns {Promise<ISearchEdgesInDirectory>}
    */
-  public EdgesInDirectory(data:Request.IGetDirectory):Promise<ISearchEdgesInDirectory> {
+  public EdgesInDirectory(data:Query.IGetDirectory):Promise<ISearchEdgesInDirectory> {
 
     let body:any = data;
     body['type'] = 'edges';

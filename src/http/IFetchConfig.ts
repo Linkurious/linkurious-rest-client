@@ -22,3 +22,8 @@ export interface IDataSourceRelative {
   dataSourceIndex ?:number
 }
 
+export interface IDataToSend {
+  queryData ?: any;
+  bodyData ?: any;
+}
+

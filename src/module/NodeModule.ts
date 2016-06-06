@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import * as Request from '../Query';
+import * as Query from '../Query';
 import {
   INode,
   ItemId,
@@ -42,10 +42,10 @@ export default class NodeModule extends Module {
   /**
    * Add a node in the graph.
    *
-   * @param data:Interface.Form.node.create
-   * @returns {Promise<Node.model>}
+   * @param {ICreateNode} data
+   * @returns {Promise<INode>}
    */
-  public create(data:Request.ICreateNode):Promise<INode> {
+  public create(data:Query.ICreateNode):Promise<INode> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes',
       method: 'POST',
@@ -56,8 +56,8 @@ export default class NodeModule extends Module {
   /**
    * Delete the node and its adjacent edges from the graph.
    *
-   * @param nodeId:ItemId
-   * @returns {Promise<string>}
+   * @param {ItemId}nodeId
+   * @returns {Promise<boolean>}
    *
    */
   public deleteOne(nodeId:ItemId):Promise<boolean> {
@@ -71,10 +71,10 @@ export default class NodeModule extends Module {
   /**
    * Get a node from the graph.
    *
-   * @param params:Interface.RequestNode
-   * @returns {Promise<Node.model>}
+   * @param {IGetNode}params
+   * @returns {Promise<INode>}
    */
-  public getOne(params?:Request.IGetNode):Promise<INode> {
+  public getOne(params?:Query.IGetNode):Promise<INode> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/{id}',
       method: 'GET',
@@ -89,10 +89,10 @@ export default class NodeModule extends Module {
    * field. If visible_nodes was specified, edges between source nodes or their neighbors and
    * visible nodes are also included.
    *
-   * @param data:Interface.RequestNodeAdjacentItems
-   * @returns {Promise<Array<Node.model>>}
+   * @param {IGetAdjacentItems} data
+   * @returns {Promise<Array<INode>>}
    */
-  public expand(data:Request.IGetAdjacentItems):Promise<Array<INode>> {
+  public expand(data:Query.IGetAdjacentItems):Promise<Array<INode>> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/expand',
       method: 'POST',
@@ -103,8 +103,8 @@ export default class NodeModule extends Module {
   /**
    * Get node-categories and edge-types of neighbors
    *
-   * @param data:Interface.RequestNodeNeighbors
-   * @returns {Promise<Array<Schema.digest>>}
+   * @param {Array<number>} data
+   * @returns {Promise<Array<IDigest>>}
    */
   public getNeighborsCategories(data:Array<number>):Promise<Array<IDigest>> {
     return this.fetch({
@@ -117,10 +117,10 @@ export default class NodeModule extends Module {
   /**
    * Modify the properties of a node in the graph by the given ones, and keeps the other properties of the node.
    *
-   * @param data:Interface.Form.node.update
-   * @returns {Promise<Node>}
+   * @param {IUpdateNode} data
+   * @returns {Promise<INode>}
    */
-  public update(data:Request.IUpdateNode):Promise<INode> {
+  public update(data:Query.IUpdateNode):Promise<INode> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/{id}',
       method: 'PATCH',
@@ -131,10 +131,10 @@ export default class NodeModule extends Module {
   /**
    * List all node-type properties (aggregated from all nodeTypes)
    *
-   * @param params:Interface.RequestProperties
-   * @returns {Promise<Schema.propertyList>}
+   * @param {IGetItemProperties} params
+   * @returns {Promise<Array<IProperty>>}
    */
-  public getProperties(params?:Request.IGetItemProperties):Promise<Array<IProperty>> {
+  public getProperties(params?:Query.IGetItemProperties):Promise<Array<IProperty>> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/schema/nodeTypes/properties',
       method: 'GET',
@@ -145,10 +145,10 @@ export default class NodeModule extends Module {
   /**
    * List node-types indexed by Linkurious
    *
-   * @param params:Interface.RequestNodeType
-   * @returns {Promise<Schema.typesList>}
+   * @param {IGetItemTypes} params
+   * @returns {Promise<Array<IItemType>>}
    */
-  public getTypes(params?:Request.IGetItemTypes):Promise<Array<IItemType>> {
+  public getTypes(params?:Query.IGetItemTypes):Promise<Array<IItemType>> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/schema/nodeTypes',
       method: 'GET',

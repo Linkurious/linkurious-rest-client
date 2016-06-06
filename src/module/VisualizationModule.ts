@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import * as Request from '../Query';
+import * as Query from '../Query';
 import {
   IVisualization,
   IWidget,
@@ -41,10 +41,10 @@ export default class VisualizationModule extends Module {
   /**
    * Create a widget for a visualization.
    *
-   * @param data: Form.visualization.createWidget
+   * @param {ICreateWidget} data
    * @returns {Promise<string>}
    */
-  public createWidget(data:Request.ICreateWidget):Promise<string> {
+  public createWidget(data:Query.ICreateWidget):Promise<string> {
     return this.fetch({
       url   : '/widget',
       method: 'POST',
@@ -55,10 +55,10 @@ export default class VisualizationModule extends Module {
   /**
    * Create a folder for visualizations
    *
-   * @param data:Interface.Form.visualization.createFolder
+   * @param {ICreateFolder} data
    * @returns {Promise<boolean>}
    */
-  public createFolder(data:Request.ICreateFolder):Promise<boolean> {
+  public createFolder(data:Query.ICreateFolder):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/folder',
       method: 'POST',
@@ -70,10 +70,10 @@ export default class VisualizationModule extends Module {
   /**
    * Create a new visualization.
    *
-   * @param data:ICreateVisualization
+   * @param {ICreateVisualization} data
    * @returns {Promise<IVisualization>}
    */
-  public create(data:Request.ICreateVisualization):Promise<IVisualization> {
+  public create(data:Query.ICreateVisualization):Promise<IVisualization> {
     return this.fetch({
       url   : '/{dataSourceKey}/visualization',
       method: 'POST',
@@ -84,8 +84,8 @@ export default class VisualizationModule extends Module {
   /**
    * Delete a widget for a visualization.
    *
-   * @param widgetKey:string
-   * @returns {Promise<string>}
+   * @param {string} widgetKey
+   * @returns {Promise<boolean>}
    */
   public deleteWidget(widgetKey:string):Promise<boolean> {
     return this.fetch({
@@ -98,8 +98,8 @@ export default class VisualizationModule extends Module {
   /**
    * Remove the specified folder and its children (visualizations and sub-folders)
    *
-   * @param folderId:number
-   * @returns {Promise<string>}
+   * @param {number} folderId
+   * @returns {Promise<boolean>}
    */
   public deleteFolder(folderId:number):Promise<boolean> {
     return this.fetch({
@@ -112,7 +112,7 @@ export default class VisualizationModule extends Module {
   /**
    * Duplicates a visualization.
    *
-   * @param vizId:number
+   * @param {number} vizId
    * @returns {Promise<IVisualization>}
    */
   public duplicate(vizId:number):Promise<IVisualization> {
@@ -125,7 +125,7 @@ export default class VisualizationModule extends Module {
   /**
    * Get a visualization widget's data by key
    *
-   * @param widgetKey:string
+   * @param {string} widgetKey
    * @returns {Promise<IWidget>}
    */
   public getWidget(widgetKey:string):Promise<IWidget> {
@@ -138,10 +138,10 @@ export default class VisualizationModule extends Module {
   /**
    * Return the visualization sandbox of the current user for a given data-source
    *
-   * @param params:Interface.RequestSandbox
+   * @param {IGetSandbox} params
    * @returns {Promise<IVisualization>}
    */
-  public getSandbox(params:Request.IGetSandbox):Promise<IVisualization> {
+  public getSandbox(params:Query.IGetSandbox):Promise<IVisualization> {
     return this.fetch({
       url   : '/{dataSourceKey}/sandbox',
       method: 'GET',
@@ -152,7 +152,7 @@ export default class VisualizationModule extends Module {
   /**
    * Return one visualizations selected by ID.
    *
-   * @param vizId:number
+   * @param {number} vizId
    * @returns {Promise<IVisualization>}
    */
   public getOne(vizId:number):Promise<IVisualization> {
@@ -177,8 +177,8 @@ export default class VisualizationModule extends Module {
   /**
    * Remove visualization selected by id.
    *
-   * @param vizId:number
-   * @returns {Promise<string>}
+   * @param {number} vizId
+   * @returns {Promise<boolean>}
    */
   public deleteOne(vizId:number):Promise<boolean> {
     return this.fetch({
@@ -189,7 +189,7 @@ export default class VisualizationModule extends Module {
 
   /**
    * Get all share rights on a visualization
-   * @param vizId:number
+   * @param {number} vizId
    * @returns {Promise<ISharers>}
    */
   public getShares(vizId:number):Promise<ISharers> {
@@ -202,10 +202,10 @@ export default class VisualizationModule extends Module {
   /**
    * Set the share right of a user on a visualization
    *
-   * @param data:Interface.Form.visualization.share
+   * @param {ISetShareRights} data
    * @returns {Promise<IShare>}
    */
-  public share(data:Request.ISetShareRights):Promise<IShare> {
+  public share(data:Query.ISetShareRights):Promise<IShare> {
 
     let url = '/{dataSourceKey}/visualizations/' + data.vizId + '/share/' + data.userId;
 
@@ -224,10 +224,10 @@ export default class VisualizationModule extends Module {
   /**
    * Remove a share right of a user on a visualization
    *
-   * @param data:IUnshareVisualization
+   * @param {IUnshareVisualization} data
    * @returns {Promise<boolean>}
    */
-  public unshare(data:Request.IUnshareVisualization):Promise<boolean> {
+  public unshare(data:Query.IUnshareVisualization):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/' + data.id + '/shared/' + data.userId,
       method: 'DELETE'
@@ -237,10 +237,10 @@ export default class VisualizationModule extends Module {
   /**
    * Update a property of a folder
    *
-   * @param data:Interface.Form.visualization.updateFolder
+   * @param {IUpdateFolder} data
    * @returns {Promise<boolean>}
    */
-  public updateFolder(data:Request.IUpdateFolder):Promise<boolean> {
+  public updateFolder(data:Query.IUpdateFolder):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/folder/{id}',
       method: 'PATCH',
@@ -251,10 +251,10 @@ export default class VisualizationModule extends Module {
   /**
    * Update the sandbox of the current user for a given data-source.
    *
-   * @param data:Interface.Form.visualization.updateSandbox
+   * @param {IUpdateSandbox} data
    * @returns {Promise<boolean>}
    */
-  public updateSandbox(data:Request.IUpdateSandbox):Promise<boolean> {
+  public updateSandbox(data:Query.IUpdateSandbox):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSourceKey}/sandbox',
       method: 'PATCH',
@@ -265,11 +265,10 @@ export default class VisualizationModule extends Module {
   /**
    * Update visualization selected by id.
    *
-   * @param vizId:number
-   * @param data:Interface.Form.visualization.update
+   * @param {IUpdateVisualization} data
    * @returns {Promise<boolean>}
    */
-  public update(vizId:number, data:Request.IUpdateVisualization):Promise<boolean> {
+  public update(data:Query.IUpdateVisualization):Promise<boolean> {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/{id}',
       method: 'PATCH',

@@ -9,13 +9,13 @@
  */
 'use strict';
 
-import {IClientState, IDatasToSend} from './../interfaces';
+import {IClientState} from './../interfaces';
 import LinkuriousError from './../LinkuriousError';
 import DefaultHttpDriver from './DefaultHttpDriver';
 import {Logger} from './../log/Logger';
 import {IHttpDriver} from "./IHttpDriver";
 import {IHttpResponse} from "./IHttpResponse";
-import {IFetchConfig, IDataSourceRelative} from "./IFetchConfig";
+import {IFetchConfig, IDataSourceRelative, IDataToSend} from "./IFetchConfig";
 import Utils from "./utils";
 
 export default class Fetcher {
@@ -84,11 +84,11 @@ export default class Fetcher {
 
   }
 
-  private transformUrl(config:IFetchConfig, datas:IDatasToSend):string {
+  private transformUrl(config:IFetchConfig, data:IDataToSend):string {
     const baseUrl = this._host + '/api';
 
     if (config.url.indexOf(Fetcher.OBJECT_ID_TEMPLATE) >= 0) {
-      config.url = this.handleIdInUrl(config.url, datas.bodyData, datas.queryData);
+      config.url = this.handleIdInUrl(config.url, data.bodyData, data.queryData);
     }
 
     if (config.url.indexOf(Fetcher.SOURCE_KEY_TEMPLATE) >= 0) {
@@ -108,19 +108,19 @@ export default class Fetcher {
    */
   public fetch(config:IFetchConfig):Promise<any> {
 
-    let datas = {
+    let data:IDataToSend = {
       queryData: config.query,
       bodyData : config.body
     };
 
-    config.url = this.transformUrl(config, datas);
+    config.url = this.transformUrl(config, data);
     
     let responsePromise:Promise<IHttpResponse>;
 
     if (config.method === 'GET') {
-      responsePromise = (<any> this._httpDriver)[config.method](config.url, Utils.fixSnakeCase(datas.queryData));
+      responsePromise = (<any> this._httpDriver)[config.method](config.url, Utils.fixSnakeCase(data.queryData));
     } else {
-      responsePromise = (<any> this._httpDriver)[config.method](config.url, datas.bodyData, Utils.fixSnakeCase(datas.queryData));
+      responsePromise = (<any> this._httpDriver)[config.method](config.url, data.bodyData, Utils.fixSnakeCase(data.queryData));
     }
 
     return responsePromise.catch((error:Error) => {
