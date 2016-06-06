@@ -22,8 +22,8 @@ LOG_LEVELS.set('quiet', 99);
 
 export class Logger {
   public level:LogLevel;
-  private numericalLevel:number;
   public driver:ILoggerDriver;
+  private numericalLevel:number;
 
   constructor(level:LogLevel, driver?:ILoggerDriver) {
     this.level          = level;
@@ -36,10 +36,10 @@ export class Logger {
   }
 
   public error(error:LinkuriousError):void {
-    this.log('error', error)
+    this.log('error', error);
   }
 
-  private log(level:LogLevel, error:LinkuriousError) {
+  private log(level:LogLevel, error:LinkuriousError):void {
     if (LOG_LEVELS.get(level) >= this.numericalLevel) {
       (<any> this.driver)[level](`[${error.type}] ${error.key}: ${error.message}`);
     }

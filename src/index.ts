@@ -31,11 +31,11 @@ import {
   IAppConfig,
   ISchema,
   IClientState
-} from "./interfaces";
+} from './interfaces';
 
 class Linkurious {
   private _fetcher:Fetcher;
-  private _clientState : IClientState;
+  private _clientState:IClientState;
   private _logger:Logger;
 
   private _admin:AdminModule;
@@ -57,7 +57,7 @@ class Linkurious {
    * @param {object} [loggerDriver] - logger object
    */
   constructor(host:string, logLevel:LogLevel, loggerDriver?:ILoggerDriver) {
-    this._clientState   = <IClientState>{};
+    this._clientState   = <IClientState> {};
     this._logger        = new Logger(logLevel, loggerDriver);
     this._fetcher       = new Fetcher(this._logger, this._clientState, host);
 
@@ -73,74 +73,50 @@ class Linkurious {
   /**
    * @returns {AdminModule}
    */
-  get admin() {
+  get admin():AdminModule {
     return this._admin;
   }
 
   /**
    * @returns {MyModule}
    */
-  get my() {
+  get my():MyModule {
     return this._my;
   }
 
   /**
    * @returns {GraphModule}
    */
-  get graph() {
+  get graph():GraphModule {
     return this._graph;
   }
 
   /**
    * @returns {EdgeModule}
    */
-  get edge() {
+  get edge():EdgeModule {
     return this._edge;
   }
 
   /**
    * @returns {NodeModule}
    */
-  get node() {
+  get node():NodeModule {
     return this._node;
   }
 
   /**
    * @returns {SearchModule}
    */
-  get search() {
+  get search():SearchModule {
     return this._search;
   }
 
   /**
    * @returns {VisualizationModule}
    */
-  get visualization() {
+  get visualization():VisualizationModule {
     return this._visualization;
-  }
-
-  /**
-   * Store a source in clientState if condition is verified
-   *
-   * @param {IFullDataSource} source
-   * @param {string} property
-   * @param {string|number|boolean} matchValue
-   * @returns {IDataSource}
-   */
-  private storeSource(source:IDataSourceState,
-                      property:string,
-                      matchValue:string|number|boolean):IDataSource {
-    if ((<any> source)[property] === matchValue) {
-      this._clientState.currentSource = {
-        name : source.name,
-        key : source.key,
-        configIndex : source.configIndex
-      };
-
-      return this._clientState.currentSource;
-    } else {
-      return null;
-    }
   }
 
   /**
@@ -159,12 +135,12 @@ class Linkurious {
     if (this._clientState.user) {
       return this.logout().then(() => {
         return this._fetcher.fetch(config);
-      }).then(res => {
+      }).then((res:any) => {
         this._clientState.user = res.user;
         return true;
       });
     } else {
-      return this._fetcher.fetch(config).then(res => {
+      return this._fetcher.fetch(config).then((res:any) => {
         this._clientState.user = res.user;
         return true;
       });
@@ -213,7 +189,7 @@ class Linkurious {
     return this._fetcher.fetch({
       url   : '/dataSources',
       method: 'GET'
-    }).then((res) => res.sources);
+    }).then((res:any) => res.sources);
   }
 
   /**
@@ -223,9 +199,9 @@ class Linkurious {
    */
   public initCurrentSource():Promise<IDataSource> {
 
-    return this.getSourceList().then(res => {
-      for (let i = 0, l = res.length; i < l; ++i) {
-        let sourceIteration = res[i];
+    return this.getSourceList().then((res:Array<IDataSourceState>) => {
+      for (let i:number = 0, l:number = res.length; i < l; ++i) {
+        let sourceIteration:IDataSourceState = res[i];
 
         if (this.storeSource(sourceIteration, 'connected', true)) {
           return this._clientState.currentSource;
@@ -241,10 +217,10 @@ class Linkurious {
    * @param {string|number} keyOrConfig
    * @returns {Promise<IDataSourceState>}
    */
-  public setCurrentSource(keyOrConfig:string | number):Promise<IDataSourceState> {
-    return this.getSourceList().then(res => {
-      for (let i = 0, l = res.length; i < l; ++i) {
-        let sourceIteration = res[i],
+  public setCurrentSource(keyOrConfig:string | number):Promise<IDataSource> {
+    return this.getSourceList().then((res:Array<IDataSourceState>) => {
+      for (let i:number = 0, l:number = res.length; i < l; ++i) {
+        let sourceIteration:IDataSourceState = res[i],
             sourceComparator:string;
 
         if (typeof keyOrConfig === 'string') {
@@ -295,8 +271,8 @@ class Linkurious {
    */
   public getAppVersion():Promise<IAppVersion> {
     return this._fetcher.fetch({
-      url   : '/version',
-      method: 'GET'
+      method: 'GET',
+      url   : '/version'
     });
   }
 
@@ -308,9 +284,9 @@ class Linkurious {
    */
   public getAppConfig(sourceIndex?:number):Promise<IAppConfig> {
     return this._fetcher.fetch({
-      url   : '/config',
       method: 'GET',
-      query : {sourceIndex: sourceIndex}
+      query : {sourceIndex: sourceIndex},
+      url   : '/config'
     });
   }
 
@@ -321,9 +297,33 @@ class Linkurious {
    */
   public getSchema():Promise<ISchema> {
     return this._fetcher.fetch({
-      url   : '/{dataSourceKey}/graph/schema/simple',
-      method: 'GET'
+      method: 'GET',
+      url   : '/{dataSourceKey}/graph/schema/simple'
     });
+  }
+
+  /**
+   * Store a source in clientState if condition is verified
+   *
+   * @param {IFullDataSource} source
+   * @param {string} property
+   * @param {string|number|boolean} matchValue
+   * @returns {IDataSource}
+   */
+  private storeSource(source:IDataSourceState,
+                      property:string,
+                      matchValue:string|number|boolean):IDataSource {
+    if ((<any> source)[property] === matchValue) {
+      this._clientState.currentSource = {
+        name : source.name,
+        key : source.key,
+        configIndex : source.configIndex
+      };
+
+      return this._clientState.currentSource;
+    } else {
+      return undefined;
+    }
   }
 }
 

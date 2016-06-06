@@ -36,8 +36,7 @@ import {
   IItemFields,
   ISandBox,
   IVisualization
-} from "./interfaces";
-
+} from './interfaces';
 
 export interface IGetAdjacentEdges extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
   orientation?:EdgeOrientation;
@@ -77,8 +76,8 @@ export interface IGetUserList extends IBaseRequest {
 }
 
 export interface ILoginUser extends IBaseRequest {
-  usernameOrEmail:string,
-  password:string
+  usernameOrEmail:string;
+  password:string;
 }
 
 export interface IUpdateUser extends IIdentified, IBaseRequest {

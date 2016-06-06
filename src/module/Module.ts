@@ -22,7 +22,7 @@ export default class Module {
     this._fetcher = fetcher;
   }
 
-  protected fetch(config:IFetchConfig) {
+  protected fetch(config:IFetchConfig):Promise<any> {
     return this._fetcher.fetch(config);
   }
 }
