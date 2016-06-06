@@ -92,7 +92,10 @@ export default class Fetcher {
         'state_error',
         `You need to set a current source to fetch this API (${url}).`
       ));
-      throw new Error('You need to set a current source to fetch this API.');
+      throw LinkuriousError.fromClientError(
+        'state_error',
+        `You need to set a current source to fetch this API (${url}).`
+      );
     }
   }
 
@@ -106,7 +109,10 @@ export default class Fetcher {
         'state_error',
         `You need to set a current source to fetch this API (${url}).`
       ));
-      throw new Error('You need to set a current source to fetch this API.');
+      throw LinkuriousError.fromClientError(
+        'state_error',
+        `You need to set a current source to fetch this API (${url}).`
+      );
     }
   }
 
@@ -127,8 +133,10 @@ export default class Fetcher {
       'state_error',
       `You need an ID to fetch this API (${url}).`
     ));
-    throw new Error('You need an ID to fetch this API.');
-
+    throw LinkuriousError.fromClientError(
+      'state_error',
+      `You need an ID to fetch this API (${url}).`
+    );
   }
 
   private transformUrl(config:IFetchConfig, data:IDataToSend):string {
