@@ -126,7 +126,7 @@ export default class EdgeModule extends Module {
   /**
    * List all edgeType properties (aggregated from all edgeTypes)
    *
-   * @param {IGetItemProperties} params
+   * @param {IGetItemProperties} [params]
    * @returns {Promise<Array<IProperty>>}
    */
   public getProperties(params?: Query.IGetItemProperties):Promise<Array<IProperty>> {
@@ -140,7 +140,7 @@ export default class EdgeModule extends Module {
   /**
    * List edge-types indexed by linkurious
    *
-   * @param {IGetEdgeTypes} params
+   * @param {IGetEdgeTypes} [params]
    * @returns {Promise<Array<IItemType>>}
    */
   public getTypes(params?: Query.IGetEdgeTypes):Promise<Array<IItemType>> {

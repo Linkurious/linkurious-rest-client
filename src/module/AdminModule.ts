@@ -43,7 +43,7 @@ export default class AdminModule extends Module {
   /**
    * Connect a disconnected data-source
    *
-   * @param {IDataSourceRelative} data
+   * @param {IDataSourceRelative} [data]
    * @returns {Promise<boolean>}
    */
   public connectDataSource(data?:IDataSourceRelative):Promise<boolean> {
@@ -71,7 +71,7 @@ export default class AdminModule extends Module {
   /**
    * Delete a data-source configuration that has currently no connected data-source.
    *
-   * @param {IDataSourceRelative} data
+   * @param {IDataSourceRelative} [data]
    * @returns {Promise<boolean>}
    */
   public deleteDataSourceConfig(data?:IDataSourceRelative):Promise<boolean> {
@@ -117,7 +117,7 @@ export default class AdminModule extends Module {
   /**
    * Get the list of edge-properties hidden for the given data-source.
    *
-   * @param {IDataSourceRelative} data
+   * @param {IDataSourceRelative} [data]
    * @returns {Promise<Array<string>>}
    */
   public getHiddenEdgeProperties(data?:IDataSourceRelative):Promise<Array<string>> {
@@ -131,7 +131,7 @@ export default class AdminModule extends Module {
   /**
    * Get the list of node-properties hidden for the given data-source.
    *
-   * @param {IDataSourceRelative} data
+   * @param {IDataSourceRelative} [data]
    * @returns {Promise<Array<string>>}
    */
   public getHiddenNodeProperties(data?:IDataSourceRelative):Promise<Array<string>> {
@@ -145,7 +145,7 @@ export default class AdminModule extends Module {
   /**
    * Get the list of edge-properties that re not indexed for the given data-source.
    *
-   * @param {IDataSourceRelative} data
+   * @param {IDataSourceRelative} [data]
    * @returns {Promise<Array<string>>}
    */
   public getNonIndexedEdgeProperties(data?:IDataSourceRelative):Promise<Array<string>> {
@@ -159,7 +159,7 @@ export default class AdminModule extends Module {
   /**
    * Get the list of node-properties that are not indexed for the given data-source.
    *
-   * @param {IDataSourceRelative} data
+   * @param {IDataSourceRelative} [data]
    * @returns {Promise<Array<string>>}
    */
   public getNonIndexedNodeProperties(data?:IDataSourceRelative):Promise<Array<string>> {
@@ -454,12 +454,16 @@ export default class AdminModule extends Module {
       return r;
     });
   }
+  /**
+   * @callback IIndexationCallback
+   * @param {IIndexationStatus} responseStatus
+   */
 
   /**
    * Launch the indexation and return true when finish. Possibility to had callback called each 300ms during indexation.
    *
    * @param {number} timeout
-   * @param {IIndexationCallback} callback
+   * @param {IIndexationCallback} [callback]
    * @returns {Promise<boolean>}
    */
   public processIndexation(timeout:number, callback?:IIndexationCallback):Promise<boolean> {
@@ -485,10 +489,15 @@ export default class AdminModule extends Module {
   }
 
   /**
+   * @callback IIndexationCallback
+   * @param {IIndexationStatus} responseStatus
+   */
+
+  /**
    * return true when indexation if finished, else launch callback.
    *
    * @param {number} timeout
-   * @param {IIndexationCallback} callback
+   * @param {IIndexationCallback} [callback]
    * @returns {Promise<boolean>}
    */
   private listenIndexation(timeout:number, callback?:IIndexationCallback):Promise<boolean> {

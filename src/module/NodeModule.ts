@@ -71,7 +71,7 @@ export default class NodeModule extends Module {
   /**
    * Get a node from the graph.
    *
-   * @param {IGetNode}params
+   * @param {IGetNode} [params]
    * @returns {Promise<INode>}
    */
   public getOne(params?:Query.IGetNode):Promise<INode> {
@@ -131,7 +131,7 @@ export default class NodeModule extends Module {
   /**
    * List all node-type properties (aggregated from all nodeTypes)
    *
-   * @param {IGetItemProperties} params
+   * @param {IGetItemProperties} [params]
    * @returns {Promise<Array<IProperty>>}
    */
   public getProperties(params?:Query.IGetItemProperties):Promise<Array<IProperty>> {
@@ -145,7 +145,7 @@ export default class NodeModule extends Module {
   /**
    * List node-types indexed by Linkurious
    *
-   * @param {IGetItemTypes} params
+   * @param {IGetItemTypes} [params]
    * @returns {Promise<Array<IItemType>>}
    */
   public getTypes(params?:Query.IGetItemTypes):Promise<Array<IItemType>> {

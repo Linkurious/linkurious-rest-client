@@ -303,7 +303,7 @@ class Linkurious {
   /**
    * Return the configuration of the application.
    *
-   * @param sourceIndex:number
+   * @param {number} [sourceIndex]
    * @returns {Promise<IAppConfig>}
    */
   public getAppConfig(sourceIndex?:number):Promise<IAppConfig> {
