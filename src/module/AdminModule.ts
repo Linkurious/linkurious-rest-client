@@ -501,22 +501,19 @@ export default class AdminModule extends Module {
    * @returns {Promise<boolean>}
    */
   private listenIndexation(timeout:number, callback?:IIndexationCallback):Promise<boolean> {
-    return this.getIndexationStatus()
-      .then(res => {
-        if (res.indexing !== 'done') {
-          if (callback) {
-            callback(res);
-          }
-
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              return resolve(this.listenIndexation(timeout, callback));
-            }, timeout);
-          });
-        } else {
-          return true;
+    return this.getIndexationStatus().then(res => {
+      if (res.indexing !== 'done') {
+        if (callback) {
+          callback(res);
         }
-      });
+
+        return new Promise(resolve => {
+          return setTimeout(resolve, timeout);
+        }).then(() => this.listenIndexation(timeout, callback));
+      } else {
+        return true;
+      }
+    });
   }
 
 }
