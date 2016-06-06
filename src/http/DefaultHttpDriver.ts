@@ -19,27 +19,7 @@ export default class DefaultHttpDriver implements IHttpDriver {
     this.cookie = '';
   }
 
-  private handleResponse(resolve:(r:IHttpResponse) => void,
-                         reject:(error:any) => void,
-                         err:Error,
-                         res:request.Response) {
-
-    if ((typeof res.status !== 'number' || res.status < 100) && err) {
-      return reject(err);
-    }
-
-    if (res.header && res.header['set-cookie']) {
-      this.cookie = res.header['set-cookie'];
-    }
-
-    resolve({
-      statusCode: res.status,
-      body      : res.body,
-      header    : res.header
-    });
-  }
-
-  POST(uri:string, data?:any, query?:any):Promise<IHttpResponse> {
+  public POST(uri:string, data?:any, query?:any):Promise<IHttpResponse> {
     return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
       request
         .post(uri)
@@ -53,7 +33,7 @@ export default class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  PUT(uri:string, data:any, query?:any):Promise<IHttpResponse> {
+  public PUT(uri:string, data:any, query?:any):Promise<IHttpResponse> {
     return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
       request
         .put(uri)
@@ -67,7 +47,7 @@ export default class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  PATCH(uri:string, data:any, query?:any):Promise<IHttpResponse> {
+  public PATCH(uri:string, data:any, query?:any):Promise<IHttpResponse> {
     return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
       request
         .patch(uri)
@@ -81,7 +61,7 @@ export default class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  GET(uri:string, query?:any):Promise<IHttpResponse> {
+  public GET(uri:string, query?:any):Promise<IHttpResponse> {
     return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
       request
         .get(uri)
@@ -94,7 +74,7 @@ export default class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  DELETE(uri:string, data?:any, query?:any):Promise<IHttpResponse> {
+  public DELETE(uri:string, data?:any, query?:any):Promise<IHttpResponse> {
     return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
       request
         .del(uri)
@@ -105,6 +85,26 @@ export default class DefaultHttpDriver implements IHttpDriver {
         .end((err:any, res:request.Response) => {
           this.handleResponse(resolve, reject, err, res);
         });
+    });
+  }
+
+  private handleResponse(resolve:(r:IHttpResponse) => void,
+                         reject:(error:any) => void,
+                         err:Error,
+                         res:request.Response):void {
+
+    if ((typeof res.status !== 'number' || res.status < 100) && err) {
+      return reject(err);
+    }
+
+    if (res.header && res.header['set-cookie']) {
+      this.cookie = res.header['set-cookie'];
+    }
+
+    resolve({
+      statusCode: res.status,
+      body      : res.body,
+      header    : res.header
     });
   }
 }

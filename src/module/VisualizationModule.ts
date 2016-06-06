@@ -35,7 +35,7 @@ export default class VisualizationModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/count',
       method: 'GET'
-    }).then(r => r.count);
+    }).then((r:any) => r.count);
   }
 
   /**
@@ -207,7 +207,7 @@ export default class VisualizationModule extends Module {
    */
   public share(data:Query.ISetShareRights):Promise<IShare> {
 
-    let url = '/{dataSourceKey}/visualizations/' + data.vizId + '/share/' + data.userId;
+    let url:string = '/{dataSourceKey}/visualizations/' + data.vizId + '/share/' + data.userId;
 
     delete data.vizId;
     delete data.userId;

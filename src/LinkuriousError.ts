@@ -19,17 +19,18 @@ export default class LinkuriousError {
   public key:string;
   public message:string;
 
-  constructor(status:number, type:ErrorType, key:string, message:string) {
+  constructor (status:number, type:ErrorType, key:string, message:string) {
     this.status  = status;
     this.type    = type;
     this.key     = key;
     this.message = message;
   }
 
-  public static fromHttpResponse(r:IHttpResponse) {
-    let status         = r.statusCode;
+  public static fromHttpResponse (r:IHttpResponse):LinkuriousError {
+    let status:number  = r.statusCode;
     let type:ErrorType = LinkuriousError.getErrorType(r.statusCode);
-    let key:string, message:string;
+    let key:string;
+    let message:string;
 
     if (type === 'communication') {
       key     = 'communication_error';
@@ -43,24 +44,19 @@ export default class LinkuriousError {
     return new LinkuriousError(status, type, key, message);
   }
 
-  public static fromError(error:Error):LinkuriousError {
-    return new LinkuriousError(
-      0,
-      'communication',
-      'unknown_error',
-      JSON.stringify(error.message ? error.message : error)
-    );
+  public static fromError (error:Error):LinkuriousError {
+    return new LinkuriousError(0, 'communication', 'unknown_error', JSON.stringify(error.message ? error.message : error));
   }
 
-  public static fromClientError(key:string, message:string) {
+  public static fromClientError (key:string, message:string):LinkuriousError {
     return new LinkuriousError(0, 'client', key, message);
   }
 
-  public static isError(r:IHttpResponse):boolean {
+  public static isError (r:IHttpResponse):boolean {
     return r.statusCode === undefined || r.statusCode < 100 || r.statusCode >= 400;
   }
 
-  private static getErrorType(status:number):ErrorType {
+  private static getErrorType (status:number):ErrorType {
     if (status === undefined) {
       return 'communication';
     } else if (status < 100) {
@@ -68,7 +64,7 @@ export default class LinkuriousError {
     } else if (status === 401 || status === 403) {
       return 'access';
     } else if (status >= 500) {
-      return 'technical'
+      return 'technical';
     } else {
       return 'business';
     }

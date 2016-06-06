@@ -24,7 +24,7 @@ import Fetcher from '../http/fetcher';
 export default class NodeModule extends Module {
 
   constructor(fetcher:Fetcher) {
-    super(fetcher)
+    super(fetcher);
   }
 
   /**
@@ -36,7 +36,7 @@ export default class NodeModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/count',
       method: 'GET'
-    }).then(r => r.count);
+    }).then((res:any) => res.count);
   }
 
   /**
@@ -139,7 +139,7 @@ export default class NodeModule extends Module {
       url   : '/{dataSourceKey}/graph/schema/nodeTypes/properties',
       method: 'GET',
       query : params
-    }).then(res => res.properties);
+    }).then((res:any) => res.properties);
   }
 
   /**
@@ -153,6 +153,6 @@ export default class NodeModule extends Module {
       url   : '/{dataSourceKey}/graph/schema/nodeTypes',
       method: 'GET',
       query : params
-    }).then(res => res.nodeTypes);
+    }).then((res:any) => res.nodeTypes);
   }
 }

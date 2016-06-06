@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 /**
  * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2016
@@ -12,11 +13,11 @@
 import {ILoggerDriver} from './ILoggerDriver';
 
 export default class DefaultLoggerDriver implements ILoggerDriver {
-  debug(message:string) {
+  public debug(message:string):void {
     console.debug(message);
   }
 
-  error(message:string) {
+  public error(message:string):void {
     console.error(message);
   }
 }

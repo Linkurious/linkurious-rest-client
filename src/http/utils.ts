@@ -16,18 +16,18 @@ export default class Utils {
    * @param data
    * @returns any
    */
-  static fixSnakeCase(data:any):any {
+  public static fixSnakeCase(data:any):any {
     if (!data) {
-      return null;
+      return undefined;
     }
 
-    let result = <any>{};
+    let result:any = {};
 
     for (let key in data) {
       if (data.hasOwnProperty(key)) {
         let sanitizedKey:string;
 
-        sanitizedKey = key.replace(/([a-zA-Z0-9])([A-Z])/g, (substr, p1, p2) => p1 + '_' + p2.toLowerCase());
+        sanitizedKey = key.replace(/([a-zA-Z0-9])([A-Z])/g, (substr:string, p1:string, p2:string) => p1 + '_' + p2.toLowerCase());
 
         result[sanitizedKey] = data[key];
       }

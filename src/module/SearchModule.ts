@@ -105,7 +105,7 @@ export default class SearchModule extends Module {
   public NodesInDirectory(data:Query.IGetDirectory):Promise<ISearchNodesInDirectory> {
 
     let body:any = data;
-    body['type'] = 'nodes';
+    body.type = 'nodes';
 
     return this.fetch({
       url   : '/{dataSourceKey}/directory',
@@ -123,7 +123,7 @@ export default class SearchModule extends Module {
   public EdgesInDirectory(data:Query.IGetDirectory):Promise<ISearchEdgesInDirectory> {
 
     let body:any = data;
-    body['type'] = 'edges';
+    body.type = 'edges';
 
     return this.fetch({
       url   : '/{dataSourceKey}/directory',

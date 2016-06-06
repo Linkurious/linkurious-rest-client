@@ -12,23 +12,23 @@ export type ConstraintsOperatorType = 'contains'|'equals'|'more than'|'less than
 export type IIndexationCallback = (res:IIndexationStatus) => void;
 
 export interface IClientState {
-  user : IFullUser;
-  currentSource : IDataSource;
+  user:IFullUser;
+  currentSource:IDataSource;
 }
 
 // NODE & EDGE
 
 export interface IIdentifiedItem {
-  id : ItemId;
+  id:ItemId;
 }
 
 export interface IIdentifiedItemList {
-  ids : Array<ItemId>;
+  ids:Array<ItemId>;
 }
 
 export interface IItem extends IIdentifiedItem {
   data:any;
-  version?: number;
+  version?:number;
 }
 
 export interface IEdge extends IItem {
@@ -38,12 +38,12 @@ export interface IEdge extends IItem {
 }
 
 export interface INode extends IItem {
-  statistics ?:Array<IDigest>;
+  statistics?:Array<IDigest>;
   categories:any;
 }
 
 export interface IFullNode extends INode {
-  edges : Array<IEdge>;
+  edges:Array<IEdge>;
 }
 
 // USER
@@ -76,8 +76,8 @@ export interface ISimpleGroup extends IIdentified {
 }
 
 export interface IGroup extends ISimpleGroup {
-  userCount ?:number;
-  accessRights ?:Array<IAccessRight>;
+  userCount?:number;
+  accessRights?:Array<IAccessRight>;
 }
 
 export interface IAccessRight extends IDataSourceRelative {
@@ -128,8 +128,8 @@ export interface IIndexationStatus {
 }
 
 export interface IDeletedDataSource {
-  migrated: boolean;
-  affected: IAffectedSource;
+  migrated:boolean;
+  affected:IAffectedSource;
 }
 
 interface IAffectedSource {
@@ -145,27 +145,27 @@ interface IBaseGraphConfig {
 }
 
 export interface INeo4Config extends IBaseGraphConfig {
-  vendor:'neo4j',
-  url:string,
-  webAdmin?:string,
-  user?:string,
-  password?:string,
-  allowSelfSigned ?: boolean;
-  proxy ?: string;
-  writeUrl ?: string;
+  vendor:'neo4j';
+  url:string;
+  webAdmin?:string;
+  user?:string;
+  password?:string;
+  allowSelfSigned?:boolean;
+  proxy?:string;
+  writeUrl?:string;
 }
 
 export interface ITitanConfig extends IBaseGraphConfig {
-  vendor:'titan',
-  url:string,
-  configurationPath:string
+  vendor:'titan';
+  url:string;
+  configurationPath:string;
 }
 
 export interface IDseConfig extends IBaseGraphConfig {
-  vendor:'dse',
-  url:string,
-  graphName:string,
-  create ?:boolean
+  vendor:'dse';
+  url:string;
+  graphName:string;
+  create?:boolean;
 }
 
 export interface IElasticSearchConfig {
@@ -196,16 +196,16 @@ export interface IGraphQuery extends ISimpleGraphQuery {
 // SEARCH
 
 export interface ISearchResult {
-  // todo: remove ambiguity node/nodes/edge/edges (i.e. fix on server too)
+  // todo:remove ambiguity node/nodes/edge/edges (i.e. fix on server too)
   type:ItemsType|ItemType;
   totalHits:number;
 }
 
-export interface ISearchEdgesInDirectory extends ISearchResult{
+export interface ISearchEdgesInDirectory extends ISearchResult {
   results:IEdge;
 }
 
-export interface ISearchNodesInDirectory extends ISearchResult{
+export interface ISearchNodesInDirectory extends ISearchResult {
   results:INode;
 }
 
@@ -236,13 +236,13 @@ export interface IBaseSchema {
   nodeCategories:Array<string>;
 }
 
-export interface ISchema extends IBaseSchema{
+export interface ISchema extends IBaseSchema {
   edgeTypes:Array<string>;
   nodeProperties:Array<string>;
   edgeProperties:Array<string>;
 }
 
-export interface IDigest extends IBaseSchema{
+export interface IDigest extends IBaseSchema {
   edgeType:string;
   nodes:number;
   edges:number;
@@ -259,10 +259,10 @@ interface ICountItemType {
 
 export interface IProperty extends ICountItemType {
   key:string;
-  type ?:string;
+  type?:string;
 }
 
-export interface IItemType extends ICountItemType{
+export interface IItemType extends ICountItemType {
   name:string;
   properties:Array<IProperty>;
 }
@@ -344,8 +344,8 @@ interface ISourceConfig {
 }
 
 interface IDirectoryEnabled {
-  nodes : boolean;
-  edges : boolean;
+  nodes:boolean;
+  edges:boolean;
 }
 
 // VISUALIZATION
@@ -378,37 +378,37 @@ interface IFields {
   active:boolean;
 }
 
-export interface IVisualizationEdge extends IIdentifiedItem{
-  selected ?:boolean;
+export interface IVisualizationEdge extends IIdentifiedItem {
+  selected?:boolean;
 }
 
 export interface IVisualizationNode extends IVisualizationEdge {
   nodeLink:INodeLink;
-  geo ?:INodeGeo;
+  geo?:INodeGeo;
 }
 
 interface INodeGeo {
-  latitude ?:number;
-  longitude ?:number;
-  latitudeDiff ?:number;
-  longitudeDiff ?:number
+  latitude?:number;
+  longitude?:number;
+  latitudeDiff?:number;
+  longitudeDiff?:number;
 }
 
 interface INodeLink {
   x:number;
   y:number;
-  fixed ?:boolean;
+  fixed?:boolean;
 }
 
 export interface IVisualizationLayout {
-  algorithm ?:string;
-  mode ?:string;
+  algorithm?:string;
+  mode?:string;
 }
 
 export interface IVisualizationGeo {
-  latitudeProperty ?:string;
-  longitudeProperty ?:string;
-  layers ?:Array<string>;
+  latitudeProperty?:string;
+  longitudeProperty?:string;
+  layers?:Array<string>;
 }
 
 export interface IVisualizationDesign {
@@ -424,24 +424,24 @@ export interface IWidget {
   content:IWidgetContent;
 }
 
-export interface IWidgetContent extends IVisualizationDesign{
+export interface IWidgetContent extends IVisualizationDesign {
   graph:IWidgetGraph;
-  title ?:string;
-  description ?:string;
-  url ?:string;
-  mode ?:string;
-  mapLayers ?:Array<any>;
-  ui ?:IWidgetUI;
+  title?:string;
+  description?:string;
+  url?:string;
+  mode?:string;
+  mapLayers?:Array<any>;
+  ui?:IWidgetUI;
 }
 
 interface IWidgetUI {
-  search ?:boolean;
-  share ?:boolean;
-  layout ?:boolean;
-  fullscreen ?:boolean;
-  zoom ?:boolean;
-  legend ?:boolean;
-  geo ?:boolean;
+  search?:boolean;
+  share?:boolean;
+  layout?:boolean;
+  fullscreen?:boolean;
+  zoom?:boolean;
+  legend?:boolean;
+  geo?:boolean;
 }
 
 interface IWidgetGraph {
@@ -452,7 +452,7 @@ interface IWidgetGraph {
 interface IBaseShare {
   userId:number;
   right:ShareRightType;
-  visualizationId : number;
+  visualizationId:number;
 }
 
 export interface IShare extends IBaseShare {
@@ -478,9 +478,9 @@ interface ITreeChildren {
   type:'visu'|'folder';
   id:number;
   title:string;
-  children ?:Array<ITreeChildren>;
-  shareCount ?:number;
-  widgetKey ?:string;
+  children?:Array<ITreeChildren>;
+  shareCount?:number;
+  widgetKey?:string;
 }
 
 export interface IConstraint {
@@ -492,9 +492,9 @@ export interface IConstraint {
 export interface IBaseRequest {}
 
 export interface IDataSourceRelative {
-  dataSourceKey ?: string;
+  dataSourceKey?:string;
 }
 
 export interface IDataSourceConfig {
-  dataSourceIndex ?: number;
+  dataSourceIndex?:number;
 }

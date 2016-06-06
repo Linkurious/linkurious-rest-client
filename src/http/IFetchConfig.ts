@@ -18,12 +18,12 @@ export interface IFetchConfig {
 }
 
 export interface IDataSourceRelative {
-  dataSourceKey ?:string;
-  dataSourceIndex ?:number
+  dataSourceKey?:string;
+  dataSourceIndex?:number;
 }
 
 export interface IDataToSend {
-  queryData ?: any;
-  bodyData ?: any;
+  queryData?:any;
+  bodyData?:any;
 }
 

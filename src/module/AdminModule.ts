@@ -28,7 +28,7 @@ import Utils from '../http/utils';
 import LinkuriousError from './../LinkuriousError';
 import {Logger} from './../log/Logger';
 import Module from './Module';
-import {IDataSourceRelative} from "../http/IFetchConfig";
+import {IDataSourceRelative} from '../http/IFetchConfig';
 
 export default class AdminModule extends Module {
   private _logger:Logger;
@@ -37,8 +37,8 @@ export default class AdminModule extends Module {
   constructor(fetcher:Fetcher, logger:Logger, clientState:IClientState) {
     super(fetcher);
 
-    this._logger      = <Logger>logger;
-    this._clientState = <IClientState>clientState;
+    this._logger      = <Logger> logger;
+    this._clientState = <IClientState> clientState;
   }
 
   /**
@@ -93,7 +93,7 @@ export default class AdminModule extends Module {
    * @returns {Promise<IDeletedDataSource>}
    */
   public deleteFullDataSource(data:Query.IDeleteDataSource):Promise<IDeletedDataSource> {
-    let mergeOptions = (data.mergeInto) ? {mergeInto: data.mergeInto} : null;
+    let mergeOptions:any = (data.mergeInto) ? {mergeInto: data.mergeInto} : undefined;
 
     return this.fetch({
       url       : '/admin/sources/data/{dataSourceKey}',
@@ -405,12 +405,12 @@ export default class AdminModule extends Module {
    * @returns {Promise<string>}
    */
   public updateConfig(data:Query.IUpdateAppConfig):Promise<string> {
-    let query = {
+    let query:any = {
       reset      : data.reset,
       sourceIndex: data.dataSourceIndex
     };
 
-    let body = {
+    let body:any = {
       path         : data.path,
       configuration: data.configuration
     };
@@ -444,15 +444,15 @@ export default class AdminModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/search/status',
       method: 'GET'
-    }).then(r => {
-      if (r.indexed_source !== this._clientState.currentSource.key && r.indexing !== 'done') {
+    }).then((res:IIndexationStatus) => {
+      if (res.indexed_source !== this._clientState.currentSource.key && res.indexing !== 'done') {
         this._logger.error(LinkuriousError.fromClientError(
           'Indexation error',
           'Server is indexing another source.'
         ));
-        return Promise.reject(r);
+        return Promise.reject(res);
       }
-      return r;
+      return res;
     });
   }
   /**
@@ -469,11 +469,11 @@ export default class AdminModule extends Module {
    */
   public processIndexation(timeout:number, callback?:IIndexationCallback):Promise<boolean> {
 
-    let minTimeout   = 200;
-    const maxTimeout = 3000;
+    let minTimeout:number   = 200;
+    const maxTimeout:number = 3000;
 
     if (this._logger.level === 'debug') {
-      minTimeout = 50
+      minTimeout = 50;
     }
 
     if (timeout < minTimeout) {
@@ -502,13 +502,13 @@ export default class AdminModule extends Module {
    * @returns {Promise<boolean>}
    */
   private listenIndexation(timeout:number, callback?:IIndexationCallback):Promise<boolean> {
-    return this.getIndexationStatus().then(res => {
+    return this.getIndexationStatus().then((res:IIndexationStatus) => {
       if (res.indexing !== 'done') {
         if (callback) {
           callback(res);
         }
 
-        return new Promise(resolve => {
+        return new Promise((resolve:any) => {
           return setTimeout(resolve, timeout);
         }).then(() => this.listenIndexation(timeout, callback));
       } else {
