@@ -29,7 +29,8 @@ describe('ErrorDriver', function(){
         status  : 401,
         type    : 'access',
         key     : 'test',
-        message : 'test message'
+        message : 'test message',
+        cause: undefined
       });
     });
 
@@ -45,7 +46,8 @@ describe('ErrorDriver', function(){
         status  : 403,
         type    : 'access',
         key     : 'test',
-        message : 'test message'
+        message : 'test message',
+        cause: undefined
       })
     });
 
@@ -61,7 +63,8 @@ describe('ErrorDriver', function(){
         status  : 501,
         type    : 'technical',
         key     : 'test',
-        message : 'test message'
+        message : 'test message',
+        cause: undefined
       });
     });
 
@@ -77,7 +80,8 @@ describe('ErrorDriver', function(){
         status  : 500,
         type    : 'technical',
         key     : 'test',
-        message : 'test message'
+        message : 'test message',
+        cause: undefined
       });
     });
 
@@ -93,7 +97,8 @@ describe('ErrorDriver', function(){
         status  : 301,
         type    : 'business',
         key     : 'test',
-        message : 'test message'
+        message : 'test message',
+        cause: undefined
       });
     });
 
@@ -110,7 +115,8 @@ describe('ErrorDriver', function(){
         status  : 404,
         type    : 'business',
         key     : 'test',
-        message : 'test message'
+        message : 'test message',
+        cause: undefined
       });
     });
 

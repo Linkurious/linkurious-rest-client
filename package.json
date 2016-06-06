@@ -31,12 +31,13 @@
   },
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
   "scripts": {
-    "lint": "./node_modules/.bin/tslint \"src/**/*.ts\"",
-    "pretest": "./node_modules/.bin/tsc && npm run lint",
+    "lint": "node_modules/.bin/tslint \"src/**/*.ts\"",
+    "pretest": "node_modules/.bin/tsc && npm run lint",
     "test": "node test/runTests.js",
     "postinstall": "node_modules/.bin/typings install",
     "remapCover": "node_modules/.bin/remap-istanbul -i coverage/coverage.raw.json -o coverage/html -t html",
-    "cover": "node_modules/.bin/istanbul cover test/runTests.js && npm run remapCover"
+    "cover": "node_modules/.bin/istanbul cover test/runTests.js && npm run remapCover",
+    "clean": "rm -rf ./built && rm -rf ./typings && rm -rf ./node_modules"
   },
   "dependencies": {
     "es6-promise": "^3.1.2",
