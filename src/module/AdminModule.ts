@@ -444,7 +444,7 @@ export default class AdminModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/search/status',
       method: 'GET'
-    }).then((res:IIndexationStatus) => {
+    }).then((res:any):any => {
       if (res.indexed_source !== this._clientState.currentSource.key && res.indexing !== 'done') {
         this._logger.error(LinkuriousError.fromClientError(
           'Indexation error',
