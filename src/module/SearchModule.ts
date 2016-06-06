@@ -55,7 +55,8 @@ export default class SearchModule extends Module {
   }
 
   /**
-   * Search for nodes based on a query string and optional parameters. Return formatted results for the Linkurious client.
+   * Search for nodes based on a query string and optional parameters. Return formatted results for
+   * the Linkurious client.
    *
    * @param {ISearchItemList} params
    * @returns {Promise<ISearchFullItems>}
@@ -69,7 +70,8 @@ export default class SearchModule extends Module {
   }
 
   /**
-   * Search for edges based on a query string and optional parameters. Return formatted results for the Linkurious client.
+   * Search for edges based on a query string and optional parameters. Return formatted results for
+   * the Linkurious client.
    *
    * @param {ISearchItemList} params
    * @returns {Promise<ISearchFullItems>}

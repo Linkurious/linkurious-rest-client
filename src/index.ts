@@ -199,11 +199,9 @@ class Linkurious {
    */
   public initCurrentSource():Promise<IDataSource> {
 
-    return this.getSourceList().then((res:Array<IDataSourceState>) => {
-      for (let i:number = 0, l:number = res.length; i < l; ++i) {
-        let sourceIteration:IDataSourceState = res[i];
-
-        if (this.storeSource(sourceIteration, 'connected', true)) {
+    return this.getSourceList().then((sourceStates:Array<IDataSourceState>) => {
+      for (let sourceState of sourceStates) {
+        if (this.storeSource(sourceState, 'connected', true)) {
           return this._clientState.currentSource;
         }
       }
@@ -218,10 +216,9 @@ class Linkurious {
    * @returns {Promise<IDataSourceState>}
    */
   public setCurrentSource(keyOrConfig:string | number):Promise<IDataSource> {
-    return this.getSourceList().then((res:Array<IDataSourceState>) => {
-      for (let i:number = 0, l:number = res.length; i < l; ++i) {
-        let sourceIteration:IDataSourceState = res[i],
-            sourceComparator:string;
+    return this.getSourceList().then((sourceStates:Array<IDataSourceState>) => {
+      for (let sourceState of sourceStates) {
+        let sourceComparator:string;
 
         if (typeof keyOrConfig === 'string') {
           sourceComparator = 'key';
@@ -229,7 +226,7 @@ class Linkurious {
           sourceComparator = 'configIndex';
         }
 
-        if (this.storeSource(sourceIteration, sourceComparator, keyOrConfig)) {
+        if (this.storeSource(sourceState, sourceComparator, keyOrConfig)) {
           return this._clientState.currentSource;
         }
       }

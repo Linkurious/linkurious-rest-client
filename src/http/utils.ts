@@ -8,6 +8,9 @@
  * Description :
  */
 'use strict';
+
+const CAMEL_CASE_RE:RegExp = /([a-zA-Z0-9])([A-Z])/g;
+
 export default class Utils {
 
   /**
@@ -27,7 +30,10 @@ export default class Utils {
       if (data.hasOwnProperty(key)) {
         let sanitizedKey:string;
 
-        sanitizedKey = key.replace(/([a-zA-Z0-9])([A-Z])/g, (substr:string, p1:string, p2:string) => p1 + '_' + p2.toLowerCase());
+        sanitizedKey = key.replace(
+          CAMEL_CASE_RE,
+          (s:string, p1:string, p2:string) => p1 + '_' + p2.toLowerCase()
+        );
 
         result[sanitizedKey] = data[key];
       }

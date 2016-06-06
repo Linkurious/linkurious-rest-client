@@ -5,7 +5,11 @@
       "statements"
     ],
     "class-name": true,
-    "curly": false,
+    "comment-format": [
+      true,
+      "check-space"
+    ],
+    "curly": true,
     "eofline": true,
     "forin": true,
     "indent": [
@@ -21,7 +25,7 @@
     "label-undefined": true,
     "max-line-length": [
       true,
-      140
+      120
     ],
     "member-access": true,
     "member-ordering": [
@@ -39,7 +43,6 @@
     "no-consecutive-blank-lines": true,
     "no-console": [
       true,
-      "debug",
       "info",
       "time",
       "timeEnd",
@@ -48,7 +51,7 @@
     "no-construct": true,
     "no-constructor-vars": true,
     "no-debugger": true,
-    "no-default-export": false,
+    "no-default-export": true,
     "no-duplicate-key": true,
     "no-duplicate-variable": true,
     "no-empty": true,
@@ -84,7 +87,7 @@
       "check-finally",
       "check-whitespace"
     ],
-    "one-variable-per-declaration": false,
+    "one-variable-per-declaration": true,
     "quotemark": [
       true,
       "single",
@@ -147,7 +150,10 @@
       "check-branch",
       "check-decl",
       "check-operator",
+      "check-module",
+      "check-separator",
       "check-typecast"
+      // check type?
     ]
   }
 }

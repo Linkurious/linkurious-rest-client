@@ -53,13 +53,17 @@ export default class Fetcher {
     let responsePromise:Promise<IHttpResponse>;
 
     if (config.method === 'GET') {
-      responsePromise = (<any> this._httpDriver)[config.method](config.url, Utils.fixSnakeCase(data.queryData));
+      responsePromise = (<any> this._httpDriver)[config.method](
+        config.url, Utils.fixSnakeCase(data.queryData)
+      );
     } else {
-      responsePromise = (<any> this._httpDriver)[config.method](config.url, data.bodyData, Utils.fixSnakeCase(data.queryData));
+      responsePromise = (<any> this._httpDriver)[config.method](
+        config.url, data.bodyData, Utils.fixSnakeCase(data.queryData)
+      );
     }
 
     return responsePromise.catch((error:Error) => {
-      //console.log(JSON.stringify(error.stack.split(/\s*\n\s*/), null, ' '));
+      // console.log(JSON.stringify(error.stack.split(/\s*\n\s*/), null, ' '));
 
       // create a linkurious error from "hard" errors
       return Promise.reject(LinkuriousError.fromError(error));

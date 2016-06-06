@@ -371,7 +371,8 @@ export default class AdminModule extends Module {
   }
 
   /**
-   * Patches users in the application. Beware, if all the groups for a given user are deleted, the user is added to the default group.
+   * Patches users in the application.
+   * Beware, if all the groups for a given user are deleted, the user is added to the default group.
    *
    * @param {IUpdateBatchUser} data
    * @returns {Promise<boolean>}
@@ -461,7 +462,8 @@ export default class AdminModule extends Module {
    */
 
   /**
-   * Launch the indexation and return true when finish. Possibility to had callback called each 300ms during indexation.
+   * Launch the indexation and return true when finish. Possibility to had callback called each
+   * 300ms during indexation.
    *
    * @param {number} timeout
    * @param {IIndexationCallback} [callback]
