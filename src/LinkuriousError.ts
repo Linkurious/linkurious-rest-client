@@ -18,12 +18,14 @@ export default class LinkuriousError {
   public type:ErrorType;
   public key:string;
   public message:string;
+  public cause:Error;
 
-  constructor (status:number, type:ErrorType, key:string, message:string) {
+  constructor (status:number, type:ErrorType, key:string, message:string, cause?:Error) {
     this.status  = status;
     this.type    = type;
     this.key     = key;
     this.message = message;
+    this.cause   = cause;
   }
 
   public static fromHttpResponse (r:IHttpResponse):LinkuriousError {
@@ -45,7 +47,21 @@ export default class LinkuriousError {
   }
 
   public static fromError (error:Error):LinkuriousError {
-    return new LinkuriousError(0, 'communication', 'unknown_error', JSON.stringify(error.message ? error.message : error));
+    return new LinkuriousError(
+      0,
+      'communication',
+      'unknown_error',
+      error.message ? `${error.name}: ${error.message}` : JSON.stringify(error),
+      error
+    );
+  }
+
+  get stack():string {
+    return this.cause ? this.cause.stack : undefined;
+  }
+
+  get stackArray():Array<string> {
+    return this.stack === undefined ? [] : this.stack.split('\s*\n\s*');
   }
 
   public static fromClientError (key:string, message:string):LinkuriousError {
