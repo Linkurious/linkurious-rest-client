@@ -27,12 +27,14 @@ export default class Fetcher {
   private _logger:Logger;
   private _host:string;
   private _clientState:IClientState;
+  private _baseUrl:string;
 
   constructor(logger:Logger, clientState:IClientState, host:string, httpDriver?:IHttpDriver) {
     this._httpDriver    = httpDriver ? httpDriver : new DefaultHttpDriver();
     this._logger        = logger;
     this._clientState   = clientState;
     this._host          = host;
+    this._baseUrl       = this._host + '/api';
   }
 
   /**
@@ -88,35 +90,29 @@ export default class Fetcher {
 
   private addSourceKeyToUrl(url:string, explicitSource?:IDataSourceRelative):string {
     if (explicitSource) {
-      return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource.dataSourceKey);
+      return this._baseUrl + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource.dataSourceKey);
     } else if (this._clientState.currentSource) {
-      return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key);
+      return this._baseUrl + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key);
     } else {
       this._logger.error(LinkuriousError.fromClientError(
         'state_error',
         `You need to set a current source to fetch this API (${url}).`
       ));
-      throw LinkuriousError.fromClientError(
-        'state_error',
-        `You need to set a current source to fetch this API (${url}).`
-      );
+      return;
     }
   }
 
   private addSourceIndexToUrl(url:string, explicitSource?:IDataSourceRelative):string {
     if (explicitSource) {
-      return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource.dataSourceIndex + '');
+      return this._baseUrl + url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource.dataSourceIndex + '');
     } else if (this._clientState.currentSource) {
-      return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.key);
+      return this._baseUrl + url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.key);
     } else {
       this._logger.error(LinkuriousError.fromClientError(
         'state_error',
         `You need to set a current source to fetch this API (${url}).`
       ));
-      throw LinkuriousError.fromClientError(
-        'state_error',
-        `You need to set a current source to fetch this API (${url}).`
-      );
+      return;
     }
   }
 
@@ -137,25 +133,20 @@ export default class Fetcher {
       'state_error',
       `You need an ID to fetch this API (${url}).`
     ));
-    throw LinkuriousError.fromClientError(
-      'state_error',
-      `You need an ID to fetch this API (${url}).`
-    );
+    return;
   }
 
   private transformUrl(config:IFetchConfig, data:IDataToSend):string {
-    const baseUrl:string = this._host + '/api';
-
     if (config.url.indexOf(Fetcher.OBJECT_ID_TEMPLATE) >= 0) {
       config.url = this.handleIdInUrl(config.url, data.bodyData, data.queryData);
     }
 
     if (config.url.indexOf(Fetcher.SOURCE_KEY_TEMPLATE) >= 0) {
-      return baseUrl + this.addSourceKeyToUrl(config.url, config.dataSource);
+      return this.addSourceKeyToUrl(config.url, config.dataSource);
     } else if (config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0) {
-      return baseUrl + this.addSourceIndexToUrl(config.url, config.dataSource);
+      return this.addSourceIndexToUrl(config.url, config.dataSource);
     } else {
-      return baseUrl + config.url;
+      return this._baseUrl + config.url;
     }
   }
 }
