@@ -50,7 +50,11 @@ export default class Fetcher {
       bodyData : config.body
     };
 
-    config.url = this.transformUrl(config, data);
+    try {
+      config.url = this.transformUrl(config, data);
+    } catch (lkError) {
+      return Promise.reject(lkError);
+    }
 
     let responsePromise:Promise<IHttpResponse>;
 
@@ -94,11 +98,10 @@ export default class Fetcher {
     } else if (this._clientState.currentSource) {
       return this._baseUrl + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key);
     } else {
-      this._logger.error(LinkuriousError.fromClientError(
+      throw LinkuriousError.fromClientError(
         'state_error',
         `You need to set a current source to fetch this API (${url}).`
-      ));
-      return;
+      );
     }
   }
 
@@ -108,11 +111,10 @@ export default class Fetcher {
     } else if (this._clientState.currentSource) {
       return this._baseUrl + url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.key);
     } else {
-      this._logger.error(LinkuriousError.fromClientError(
+      throw LinkuriousError.fromClientError(
         'state_error',
         `You need to set a current source to fetch this API (${url}).`
-      ));
-      return;
+      );
     }
   }
 
@@ -129,11 +131,10 @@ export default class Fetcher {
       return url.replace(Fetcher.OBJECT_ID_TEMPLATE, id + '');
     }
 
-    this._logger.error(LinkuriousError.fromClientError(
+    throw LinkuriousError.fromClientError(
       'state_error',
       `You need an ID to fetch this API (${url}).`
-    ));
-    return;
+    );
   }
 
   private transformUrl(config:IFetchConfig, data:IDataToSend):string {
