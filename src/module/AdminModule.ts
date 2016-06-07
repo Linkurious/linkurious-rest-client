@@ -451,7 +451,6 @@ export default class AdminModule extends Module {
           'Indexation error',
           'Server is indexing another source.'
         ));
-        return Promise.reject(res);
       }
       return res;
     });
