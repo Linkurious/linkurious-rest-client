@@ -17,10 +17,10 @@ import {
   ISearchEdgesInDirectory,
   ISearchNodesInDirectory
 } from '../interfaces';
-import Module from './Module';
-import Fetcher from '../http/fetcher';
+import {Module} from './Module';
+import {Fetcher} from '../http/fetcher';
 
-export default class SearchModule extends Module {
+export class SearchModule extends Module {
 
   constructor(fetcher:Fetcher) {
     super(fetcher);

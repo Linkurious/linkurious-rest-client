@@ -11,10 +11,10 @@
 
 import * as Query from '../Query';
 import {IGraphQuery} from '../interfaces';
-import Module from './Module';
-import Fetcher from '../http/fetcher';
+import {Module} from './Module';
+import {Fetcher} from '../http/fetcher';
 
-export default class MyModule extends Module {
+export class MyModule extends Module {
 
   constructor(fetcher:Fetcher) {
     super(fetcher);

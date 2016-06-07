@@ -12,7 +12,7 @@
 
 import {ILoggerDriver} from './ILoggerDriver';
 
-export default class DefaultLoggerDriver implements ILoggerDriver {
+export class DefaultLoggerDriver implements ILoggerDriver {
   public debug(message:string):void {
     console.debug(message);
   }

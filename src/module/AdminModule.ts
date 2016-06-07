@@ -10,7 +10,7 @@
 'use strict';
 
 import * as Query from '../Query';
-import Fetcher from '../http/fetcher';
+import {Fetcher} from '../http/fetcher';
 import {
   IDeletedDataSource,
   IFullDataSource,
@@ -24,13 +24,13 @@ import {
   IClientState,
   IDataSourceConfig
 } from '../interfaces';
-import Utils from '../http/utils';
-import LinkuriousError from './../LinkuriousError';
+import {Utils} from '../http/utils';
+import {LinkuriousError} from './../LinkuriousError';
 import {Logger} from './../log/Logger';
-import Module from './Module';
+import {Module} from './Module';
 import {IDataSourceRelative} from '../http/IFetchConfig';
 
-export default class AdminModule extends Module {
+export class AdminModule extends Module {
   private _logger:Logger;
   private _clientState:IClientState;
 

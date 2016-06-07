@@ -9,9 +9,9 @@
  */
 'use strict';
 
-import LinkuriousError from '../LinkuriousError';
+import {LinkuriousError} from '../LinkuriousError';
 import {ILoggerDriver} from './ILoggerDriver';
-import DefaultLoggerDriver from './DefaultLoggerDriver';
+import {DefaultLoggerDriver} from './DefaultLoggerDriver';
 
 export type LogLevel = 'debug'|'error'|'quiet';
 

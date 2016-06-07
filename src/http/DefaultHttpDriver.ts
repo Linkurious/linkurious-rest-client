@@ -12,7 +12,7 @@ import * as request from 'superagent';
 import {IHttpResponse} from './IHttpResponse';
 import {IHttpDriver} from './IHttpDriver';
 
-export default class DefaultHttpDriver implements IHttpDriver {
+export class DefaultHttpDriver implements IHttpDriver {
   private cookie:string;
 
   constructor() {

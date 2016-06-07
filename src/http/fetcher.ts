@@ -10,15 +10,15 @@
 'use strict';
 
 import {IClientState} from './../interfaces';
-import LinkuriousError from './../LinkuriousError';
-import DefaultHttpDriver from './DefaultHttpDriver';
+import {LinkuriousError} from './../LinkuriousError';
+import {DefaultHttpDriver} from './DefaultHttpDriver';
 import {Logger} from './../log/Logger';
 import {IHttpDriver} from './IHttpDriver';
 import {IHttpResponse} from './IHttpResponse';
 import {IFetchConfig, IDataSourceRelative, IDataToSend} from './IFetchConfig';
-import Utils from './utils';
+import {Utils} from './utils';
 
-export default class Fetcher {
+export class Fetcher {
 
   private static SOURCE_KEY_TEMPLATE:string   = '{dataSourceKey}';
   private static SOURCE_INDEX_TEMPLATE:string = '{dataSourceIndex}';

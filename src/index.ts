@@ -11,16 +11,16 @@
 import {Logger, LogLevel} from './log/Logger';
 import {ILoggerDriver} from './log/ILoggerDriver';
 
-import Fetcher from './http/fetcher';
+import {Fetcher} from './http/fetcher';
 import {IFetchConfig} from './http/IFetchConfig';
 
-import AdminModule from './module/AdminModule';
-import MyModule from './module/MyModule';
-import GraphModule from './module/GraphModule';
-import EdgeModule from './module/EdgeModule';
-import NodeModule from './module/NodeModule';
-import SearchModule from './module/SearchModule';
-import VisualizationModule from './module/VisualizationModule';
+import {AdminModule} from './module/AdminModule';
+import {MyModule} from './module/MyModule';
+import {GraphModule} from './module/GraphModule';
+import {EdgeModule} from './module/EdgeModule';
+import {NodeModule} from './module/NodeModule';
+import {SearchModule} from './module/SearchModule';
+import {VisualizationModule} from './module/VisualizationModule';
 import * as Query from './Query';
 import {
   IDataSource,

@@ -9,13 +9,13 @@
  */
 'use strict';
 
-import Fetcher from '../http/fetcher';
+import {Fetcher} from '../http/fetcher';
 import {IFetchConfig} from '../http/IFetchConfig';
 
 /**
  * @abstract
  */
-export default class Module {
+export class Module {
   private _fetcher:Fetcher;
 
   constructor(fetcher:Fetcher) {

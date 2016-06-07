@@ -10,16 +10,16 @@
 'use strict';
 
 import * as Query from '../Query';
-import Module from './Module';
+import {Module} from './Module';
 import {
   IEdge,
   ItemId,
   IProperty,
   IItemType
 } from '../interfaces';
-import Fetcher from '../http/fetcher';
+import {Fetcher} from '../http/fetcher';
 
-export default class EdgeModule extends Module {
+export class EdgeModule extends Module {
 
   constructor(fetcher:Fetcher) {
     super(fetcher);

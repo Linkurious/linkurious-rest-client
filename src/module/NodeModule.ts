@@ -17,11 +17,11 @@ import {
   IProperty,
   IItemType
 } from '../interfaces';
-import Utils from '../http/utils';
-import Module from './Module';
-import Fetcher from '../http/fetcher';
+import {Utils} from '../http/utils';
+import {Module} from './Module';
+import {Fetcher} from '../http/fetcher';
 
-export default class NodeModule extends Module {
+export class NodeModule extends Module {
 
   constructor(fetcher:Fetcher) {
     super(fetcher);

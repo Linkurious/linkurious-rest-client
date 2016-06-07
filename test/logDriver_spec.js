@@ -12,7 +12,7 @@
 const should = require('should');
 const bunyan = require('bunyan');
 const Logger = require('../built/log/Logger').Logger;
-const DefaultLoggerDriver = require('../built/log/DefaultLoggerDriver').default;
+const DefaultLoggerDriver = require('../built/log/DefaultLoggerDriver').DefaultLoggerDriver;
 
 describe('logDriver class', function(){
   describe('constructor', function(){

@@ -10,7 +10,7 @@
 'use strict';
 
 const should = require('should');
-const Utils = require('../built/http/utils').default;
+const Utils = require('../built/http/utils').Utils;
 
 describe('Fix case', function(){
   it('must return a object with snake_cases keys rather than camelCase ones.', function(){

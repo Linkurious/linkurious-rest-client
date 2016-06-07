@@ -11,7 +11,7 @@
 
 const CAMEL_CASE_RE:RegExp = /([a-zA-Z0-9])([A-Z])/g;
 
-export default class Utils {
+export class Utils {
 
   /**
    * take an object with camelCase fields and return one with only snake_case fields.

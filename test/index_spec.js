@@ -12,8 +12,8 @@
 const should = require('should');
 const Linkurious = require('../built/index');
 const Logger = require('../built/log/Logger').Logger;
-const Fetcher = require('../built/http/fetcher').default;
-const AdminModule = require('../built/module/AdminModule').default;
+const Fetcher = require('../built/http/fetcher').Fetcher;
+const AdminModule = require('../built/module/AdminModule').AdminModule;
 
 describe('Linkurious class', function(){
 

@@ -17,10 +17,10 @@ import {
   ISharers,
   IShare
 } from '../interfaces';
-import Module from './Module';
-import Fetcher from '../http/fetcher';
+import {Module} from './Module';
+import {Fetcher} from '../http/fetcher';
 
-export default class VisualizationModule extends Module {
+export class VisualizationModule extends Module {
 
   constructor(fetcher:Fetcher) {
     super(fetcher);

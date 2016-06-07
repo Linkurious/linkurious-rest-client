@@ -11,11 +11,11 @@
 
 import * as Query from '../Query';
 import {INode} from '../interfaces';
-import Utils from '../http/utils';
-import Module from './Module';
-import Fetcher from '../http/fetcher';
+import {Utils} from '../http/utils';
+import {Module} from './Module';
+import {Fetcher} from '../http/fetcher';
 
-export default class GraphModule extends Module {
+export class GraphModule extends Module {
   constructor(fetcher:Fetcher) {
     super(fetcher);
   }

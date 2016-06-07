@@ -13,7 +13,7 @@ import {IHttpResponse} from './http/IHttpResponse';
 
 export type ErrorType = 'client'|'communication'|'access'|'technical'|'business';
 
-export default class LinkuriousError {
+export class LinkuriousError {
   public status:number;
   public type:ErrorType;
   public key:string;
