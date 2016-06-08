@@ -25,7 +25,6 @@ import {
   IDataSourceConfig
 } from '../interfaces';
 import {Utils} from '../http/utils';
-import {LinkuriousError} from './../LinkuriousError';
 import {Logger} from './../log/Logger';
 import {Module} from './Module';
 import {IDataSourceRelative} from '../http/IFetchConfig';
@@ -445,14 +444,6 @@ export class AdminModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/search/status',
       method: 'GET'
-    }).then((res:any):any => {
-      if (res.indexed_source !== this._clientState.currentSource.key && res.indexing !== 'done') {
-        this._logger.error(LinkuriousError.fromClientError(
-          'Indexation error',
-          'Server is indexing another source.'
-        ));
-      }
-      return res;
     });
   }
   /**
