@@ -36,11 +36,11 @@
   },
   "filesGlob": [
     "src/*.ts",
+    "test/*.ts",
     "typings/index.d.ts"
   ],
   "exclude": [
     "node_modules",
-    "test",
     "built",
     "coverage"
   ]
