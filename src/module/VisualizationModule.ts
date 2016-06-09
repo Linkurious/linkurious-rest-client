@@ -146,7 +146,7 @@ export class VisualizationModule extends Module {
       url   : '/{dataSourceKey}/sandbox',
       method: 'GET',
       query : params
-    });
+    }).then((res:any) => res.visualization);
   }
 
   /**

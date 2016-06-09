@@ -12,6 +12,7 @@
 import * as Query from '../Query';
 import {
   INode,
+  IFullNode,
   ItemId,
   IDigest,
   IProperty,
@@ -74,7 +75,7 @@ export class NodeModule extends Module {
    * @param {IGetNode} [params]
    * @returns {Promise<INode>}
    */
-  public getOne(params?:Query.IGetNode):Promise<INode> {
+  public getOne(params?:Query.IGetNode):Promise<IFullNode> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/{id}',
       method: 'GET',

@@ -16,7 +16,6 @@ import {
   EdgeOrientation,
   ItemId,
   IIdentified,
-  ISimpleUser,
   RightType,
   INeo4Config,
   ITitanConfig,
@@ -38,11 +37,11 @@ import {
   IVisualization
 } from './interfaces';
 
-export interface IGetAdjacentEdges extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
+export interface IGetAdjacentEdges extends IDataSourceRelative, IBaseRequest {
   orientation?:EdgeOrientation;
   type ?:string;
-  skip:number;
-  limit:number;
+  skip?:number;
+  limit?:number;
   withVersion ?:boolean;
   nodeId?:ItemId;
   source?:ItemId;
@@ -87,9 +86,11 @@ export interface IUpdateUser extends IIdentified, IBaseRequest {
   preferences ?:any;
 }
 
-export interface ICreateUser extends ISimpleUser, IBaseRequest {
+export interface ICreateUser extends IBaseRequest {
+  username:string;
+  email:string;
   password:string;
-  groups ?:Array<string>;
+  groups ?:Array<string|number>;
 }
 
 export interface ICreateGraphQuery extends IDataSourceRelative, IBaseRequest {
@@ -188,8 +189,8 @@ export interface IGetNode extends IIdentifiedItem, IDataSourceRelative, IBaseReq
 }
 
 export interface IGetAdjacentItems extends IIdentifiedItemList, IDataSourceRelative, IBaseRequest {
-  ignoredNodes:Array<number>;
-  visibleNodes:Array<number>;
+  ignoredNodes:Array<ItemId>;
+  visibleNodes:Array<ItemId>;
   nodeCategory?:string;
   edgeType?:string;
   limit?:number;
@@ -210,7 +211,7 @@ export interface ICreateNode extends IDataSourceRelative, IBaseRequest {
 export interface IUpdateNode extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
   properties:any;
   deletedProperties:Array<string>;
-  addedProperties:Array<string>;
+  addedCategories:Array<string>;
   deletedCategories:Array<string>;
   version:number;
 }
@@ -222,7 +223,7 @@ export interface IUpdateAppConfig extends IDataSourceConfig, IBaseRequest {
 }
 
 export interface IGetSandbox extends IDataSourceRelative, IBaseRequest {
-  populate:PopulateType;
+  populate?:PopulateType;
   itemId ?:number;
   searchQuery ?:string;
   searchFuzziness ?:number;

@@ -46,6 +46,11 @@ export interface IFullNode extends INode {
   edges:Array<IEdge>;
 }
 
+export interface ISearchNode extends INode {
+  children:Array<INode>;
+  title:string;
+}
+
 // USER
 
 export interface IIdentified {
@@ -214,7 +219,7 @@ export interface ISearchItemList extends ISearchResult {
 }
 
 export interface ISearchFullItems extends ISearchResult {
-  results:Array<IFullNode>;
+  results:Array<ISearchNode>;
 }
 
 export interface ISearchMatchGroup {
@@ -356,7 +361,7 @@ export interface ISandBox {
   edgeFields:IItemFields;
 }
 
-export interface IVisualization extends ISandBox {
+export interface IVisualization extends ISandBox, IIdentified {
   title:string;
   folder:number;
   nodes:Array<IVisualizationNode>;
