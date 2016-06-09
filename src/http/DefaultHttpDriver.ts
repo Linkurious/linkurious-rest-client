@@ -23,10 +23,9 @@ export class DefaultHttpDriver implements IHttpDriver {
     return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
       request
         .post(uri)
+        .withCredentials()
         .send(data)
         .query(query)
-        .set('cookie', this.cookie)
-        .withCredentials()
         .end((err:any, res:request.Response) => {
           this.handleResponse(resolve, reject, err, res);
         });
@@ -37,10 +36,9 @@ export class DefaultHttpDriver implements IHttpDriver {
     return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
       request
         .put(uri)
+        .withCredentials()
         .send(data)
         .query(query)
-        .set('cookie', this.cookie)
-        .withCredentials()
         .end((err:any, res:request.Response) => {
           this.handleResponse(resolve, reject, err, res);
         });
@@ -51,10 +49,9 @@ export class DefaultHttpDriver implements IHttpDriver {
     return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
       request
         .patch(uri)
+        .withCredentials()
         .send(data)
         .query(query)
-        .set('cookie', this.cookie)
-        .withCredentials()
         .end((err:any, res:request.Response) => {
           this.handleResponse(resolve, reject, err, res);
         });
@@ -65,9 +62,8 @@ export class DefaultHttpDriver implements IHttpDriver {
     return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
       request
         .get(uri)
-        .query(query)
-        .set('cookie', this.cookie)
         .withCredentials()
+        .query(query)
         .end((err:any, res:request.Response) => {
           this.handleResponse(resolve, reject, err, res);
         });
@@ -78,10 +74,9 @@ export class DefaultHttpDriver implements IHttpDriver {
     return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
       request
         .del(uri)
+        .withCredentials()
         .send(data)
         .query(query)
-        .set('cookie', this.cookie)
-        .withCredentials()
         .end((err:any, res:request.Response) => {
           this.handleResponse(resolve, reject, err, res);
         });
