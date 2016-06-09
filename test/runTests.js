@@ -9,7 +9,7 @@
  */
 'use strict';
 
-const Mocha    = require('mocha');
+const Karma = require('karma').Server;
 const fs       = require('fs-extra');
 const path     = require('path');
 const request  = require('request');
@@ -76,32 +76,15 @@ function testConnection() {
 }
 
 function runTests() {
-  const mocha = new Mocha({
-    // stop tests on first failure
-    bail: true,
-    // provide describe(), context(), it(), specify(), before(), after(), beforeEach(), and afterEach().
-    ui: 'bdd',
-    // default reporter
-    reporter: 'spec',
-    // 10 seconds per test max.
-    timeout: 10000,
-    // show slow tests in different colors
-    slow: 80
+  let karma = new Karma({configFile:__dirname + '/../karma.conf.js'}, exitCode => {
+    console.log('Karma has exited with ' + exitCode);
+    process.exit(exitCode);
   });
 
-  var testDir = path.resolve(__dirname);
-  fs.readdirSync(testDir).filter(file => {
-    return file.match(/_spec\.js$/);
-  }).forEach(file => {
-    mocha.addFile(path.resolve(testDir, file));
-  });
+  karma.start();
 
-  console.log('Launching tests ...');
-  // Run the tests.
-  var failures = undefined;
-  mocha.run(_failures => { failures = _failures }).on('end', () => {
-    console.log('failures: '+ failures);
-    process.exit(failures);
+  karma.on('run_complete', function(){
+    process.exit();
   });
 }
 
