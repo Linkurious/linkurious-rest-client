@@ -10,7 +10,7 @@
 'use strict';
 
 import * as Query from '../Query';
-import {INode} from '../interfaces';
+import {INode, IEdge, IFullNode} from '../interfaces';
 import {Utils} from '../http/utils';
 import {Module} from './Module';
 import {Fetcher} from '../http/fetcher';
@@ -31,7 +31,7 @@ export class GraphModule extends Module {
       url       : '/{dataSourceKey}/graph/versions',
       method    : 'POST',
       body      : data,
-      dataSource: {dataSourceKey: data.dataSourceKey}
+      dataSource: this.setDataSourceKey(data.dataSourceKey)
     });
   }
 
@@ -41,12 +41,12 @@ export class GraphModule extends Module {
    * @param {IGetShortestPaths} nodesConfig
    * @returns {Promise<Array<INode>>}
    */
-  public getShortestPaths(nodesConfig:Query.IGetShortestPaths):Promise<Array<INode>> {
+  public getShortestPaths(nodesConfig:Query.IGetShortestPaths):Promise<Array<Array<IFullNode|IEdge>>> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/shortestPaths',
       method: 'GET',
       query : nodesConfig
-    });
+    }).then((res:any) => res.results);
   }
 
   /**

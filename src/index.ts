@@ -258,6 +258,8 @@ export class Linkurious {
     return this._fetcher.fetch({
       url   : '/status',
       method: 'GET'
+    }).then((res:any) => {
+      return res.status;
     });
   }
 

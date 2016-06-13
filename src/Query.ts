@@ -34,7 +34,7 @@ import {
   IVisualizationDesign,
   IItemFields,
   ISandBox,
-  IVisualization
+  IQueryVisualization
 } from './interfaces';
 
 export interface IGetAdjacentEdges extends IDataSourceRelative, IBaseRequest {
@@ -61,9 +61,9 @@ export interface ICreateEdge extends IDataSourceRelative, IBaseRequest {
 }
 
 export interface IUpdateEdge extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
-  properties:any;
-  deleteProperties:Array<string>;
-  type:string;
+  data:any;
+  deletedData:Array<string>;
+  version:number;
 }
 
 export interface IGetUserList extends IBaseRequest {
@@ -105,10 +105,11 @@ export interface IUpdateBatchUser extends IBaseRequest {
   rmGroups:Array<number>;
 }
 
-export interface ICreateGroup extends IBaseRequest {
+export interface ICreateGroup extends IBaseRequest, IDataSourceRelative {
   name:string;
-  dataSource ?:string;
 }
+
+export interface IGetGroup extends IIdentified, IDataSourceRelative {}
 
 export interface IUpdateGroupRights extends IDataSourceRelative, IIdentified, IBaseRequest {
   type:string;
@@ -149,18 +150,22 @@ export interface ISendQuery extends IDataSourceRelative, IBaseRequest {
 }
 
 export interface IGetShortestPaths extends IDataSourceRelative, IBaseRequest {
-  startNode:number;
-  endNode:number;
+  startNode:ItemId;
+  endNode:ItemId;
   maxDepth ?:number;
   withVersion ?:boolean;
 }
 
+export interface IGetNeighborsCategories extends IDataSourceRelative, IBaseRequest {
+  ids:Array<ItemId>;
+}
+
 export interface IGetDirectory extends IDataSourceRelative, IBaseRequest {
-  categoryOrTypes:Array<string>;
+  categoryOrTypes?:Array<string>;
   properties:Array<string>;
-  constraints:IConstraint;
-  pageSize:number;
-  pageStart:number;
+  constraints?:IConstraint;
+  pageSize?:number;
+  pageStart?:number;
 }
 
 export interface IGetItemProperties extends IDataSourceRelative, IBaseRequest {
@@ -169,8 +174,8 @@ export interface IGetItemProperties extends IDataSourceRelative, IBaseRequest {
 }
 
 export interface IGetItemVersions extends IDataSourceRelative, IBaseRequest {
-  nodes:Array<number>;
-  edges:Array<number>;
+  nodes:Array<ItemId>;
+  edges:Array<ItemId>;
 }
 
 export interface ISearchItemList extends IDataSourceRelative, IBaseRequest {
@@ -204,13 +209,13 @@ export interface IGetItemTypes extends IDataSourceRelative, IBaseRequest {
 }
 
 export interface ICreateNode extends IDataSourceRelative, IBaseRequest {
-  properties ?:any;
+  data ?:any;
   categories ?:Array<string>;
 }
 
 export interface IUpdateNode extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
-  properties:any;
-  deletedProperties:Array<string>;
+  data:any;
+  deletedData:Array<string>;
   addedCategories:Array<string>;
   deletedCategories:Array<string>;
   version:number;
@@ -278,6 +283,6 @@ export interface IUpdateSandbox extends IDataSourceRelative, IBaseRequest {
 
 export interface IUpdateVisualization extends IDataSourceRelative, IBaseRequest {
   id:IIdentified;
-  visualization:IVisualization;
+  visualization:IQueryVisualization;
   forceLock ?:boolean;
 }

@@ -5,30 +5,25 @@ module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '.',
+    basePath: './',
 
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['systemjs', 'jasmine'],
 
-    plugins : ['karma-systemjs', 'karma-jasmine', 'karma-chrome-launcher', 'karma-firefox-launcher', 'karma-safari-launcher'],
+    plugins : ['karma-coverage', 'karma-systemjs', 'karma-jasmine', 'karma-chrome-launcher', 'karma-firefox-launcher', 'karma-safari-launcher', 'karma-remap-istanbul'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      'test/index_spec.ts'
+      'built/test/index_spec.js'
     ],
 
 
     // list of files to exclude
     exclude: [
     ],
-
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {},
 
     systemjs: {
       configFile: 'system.conf.js',
@@ -41,26 +36,46 @@ module.exports = function(config) {
           "es6-module-loader" : "node_modules/es6-module-loader/dist/es6-module-loader.js"
         },
         packages : {
-          'src' : {
-            defaultExtension : 'ts'
+          'built/src' : {
+            defaultExtension : 'js'
           },
-          'test' : {
-            defaultExtension:'ts'
+          'built/test' : {
+            defaultExtension:'js'
           }
-        },
-        transpiler : 'typescript'
+        }
       },
       serveFiles: [
         'node_modules/superagent/superagent.js',
-        'src/**/*.ts'
+        'built/src/**/*.js',
+        'built/test/*.js'
       ]
     },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage', 'karma-remap-istanbul'],
 
+    preprocessors: {
+      'built/src/**/*.js': ['coverage']
+    },
+
+    coverageReporter : {
+      reporters: [{
+        type: 'json',
+        subdir: '.',
+        file: 'coverage-final.json'
+      }]
+    },
+
+    remapIstanbulReporter: {
+      src: 'coverage/coverage-final.json',
+      reports: {
+        html: 'coverage'
+      },
+      timeoutNotCreated: 1000,
+      timeoutNoMoreFiles: 1000
+    },
 
     // web server port
     port: 9876,

@@ -187,7 +187,7 @@ export interface IElasticSearchConfig {
 
 // QUERY
 
-export interface ISimpleGraphQuery {
+export interface ISimpleGraphQuery extends IIdentified {
   name:string;
   content:string;
   dialect:string;
@@ -207,11 +207,11 @@ export interface ISearchResult {
 }
 
 export interface ISearchEdgesInDirectory extends ISearchResult {
-  results:IEdge;
+  results:Array<IEdge>;
 }
 
 export interface ISearchNodesInDirectory extends ISearchResult {
-  results:INode;
+  results:Array<INode>;
 }
 
 export interface ISearchItemList extends ISearchResult {
@@ -356,9 +356,9 @@ export interface IDirectoryEnabled {
 // VISUALIZATION
 
 export interface ISandBox {
-  design:IVisualizationDesign;
-  nodeFields:IItemFields;
-  edgeFields:IItemFields;
+  design?:IVisualizationDesign;
+  nodeFields?:IItemFields;
+  edgeFields?:IItemFields;
 }
 
 export interface IVisualization extends ISandBox, IIdentified {
@@ -371,6 +371,23 @@ export interface IVisualization extends ISandBox, IIdentified {
   geo:IVisualizationGeo;
   mode:VisualizationModeType;
   filters:Array<any>;
+  createdAt?:string;
+  updatedAt?:string;
+}
+
+export interface IQueryVisualization {
+  design?:IVisualizationDesign;
+  nodeFields?:IItemFields;
+  edgeFields?:IItemFields;
+  title?:string;
+  folder?:number;
+  nodes?:Array<IVisualizationNode>;
+  edges?:Array<IVisualizationEdge>;
+  alternativeIds?:IAlternativeIdConfig;
+  layout?:IVisualizationLayout;
+  geo?:IVisualizationGeo;
+  mode?:VisualizationModeType;
+  filters?:Array<any>;
 }
 
 export interface IItemFields {
@@ -388,7 +405,7 @@ export interface IVisualizationEdge extends IIdentifiedItem {
 }
 
 export interface IVisualizationNode extends IVisualizationEdge {
-  nodeLink:INodeLink;
+  nodelink:INodeLink;
   geo?:INodeGeo;
 }
 
@@ -454,6 +471,17 @@ export interface IWidgetGraph {
   edges:Array<IEdge>;
 }
 
+export interface IFolderFullResponse {
+  folder:IFolder;
+}
+
+export interface IFolder {
+  id:number;
+  title:string;
+  parent:number;
+  sourceKey:string;
+}
+
 export interface IBaseShare {
   userId:number;
   right:ShareRightType;
@@ -473,10 +501,6 @@ export interface ISharer extends IBaseShare {
 export interface ISharers {
   owner:ISimpleUser;
   shares:Array<ISharer>;
-}
-
-export interface ITree {
-  tree:Array<ITreeChildren>;
 }
 
 export interface ITreeChildren {

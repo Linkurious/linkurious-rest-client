@@ -47,6 +47,11 @@ export class NodeModule extends Module {
    * @returns {Promise<INode>}
    */
   public create(data:Query.ICreateNode):Promise<INode> {
+
+    let dataToSend:any = data;
+    dataToSend.properties = data.data;
+    delete dataToSend.data;
+
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes',
       method: 'POST',
@@ -107,7 +112,7 @@ export class NodeModule extends Module {
    * @param {Array<number>} data
    * @returns {Promise<Array<IDigest>>}
    */
-  public getNeighborsCategories(data:Array<number>):Promise<Array<IDigest>> {
+  public getNeighborsCategories(data:Query.IGetNeighborsCategories):Promise<Array<IDigest>> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/neighborhood/digest',
       method: 'POST',
@@ -122,6 +127,13 @@ export class NodeModule extends Module {
    * @returns {Promise<INode>}
    */
   public update(data:Query.IUpdateNode):Promise<INode> {
+
+    let dataToSend:any = data;
+    dataToSend.deleteProperties = data.deletedData;
+    dataToSend.properties = data.data;
+    delete dataToSend.deletedData;
+    delete dataToSend.data;
+
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/{id}',
       method: 'PATCH',

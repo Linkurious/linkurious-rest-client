@@ -9,15 +9,21 @@
  */
 'use strict';
 
+/// <reference path="../typings/globals/jasmine-ajax/index.d.ts"/>
+
 import {Linkurious} from '../src/index';
+import {INode} from '../src/interfaces';
+import {FetcherSpec} from './fetcher_spec';
+import {LinkuriousErrorSpec} from './LinkuriousError_spec';
+import {DefaultLoggerDriverSpec} from './DefaultLoggerDriver_spec';
 
-
-
+FetcherSpec.test();
+LinkuriousErrorSpec.test();
+DefaultLoggerDriverSpec.test();
 
 describe('Linkurious class', () => {
 
-  let linkurious:Linkurious, testLog:boolean, logDriver:any, edgeID:string|number, nodeId:string|number, sourceKey:string;
-
+  let visu:any, widget:any, node:INode, linkurious:Linkurious, testLog:boolean, logDriver:any, edgeID:string|number, nodeId:string|number, sourceKey:string, graphQueryId:number, sourceId:string|number, targetId:string|number, nodeToDelete:string|number;
   beforeEach(() => {
     testLog = false;
     logDriver = {
@@ -83,12 +89,66 @@ describe('Linkurious class', () => {
         done();
       })
     });
+
+    it('must return undefined', (done) => {
+      return linkurious.setCurrentSource(2).then(function(res){
+        expect(res).toBeUndefined();
+        done();
+      })
+    })
+  });
+
+  describe('getAppVersion', () => {
+    it('must return linkurious version', (done) => {
+      return linkurious.getAppVersion().then((res) => {
+        expect(res).toEqual(jasmine.objectContaining({
+          prerelease:false,
+        }));
+        expect(res).toEqual(jasmine.objectContaining({
+          enterprise: true,
+        }));
+        done();
+      })
+    });
+  });
+
+  describe('getAppStatus', () => {
+    it('must return linkurious status', (done) => {
+      return linkurious.getAppStatus().then((res) => {
+        expect(res).toEqual(jasmine.objectContaining({
+          message: 'Linkurious ready to go :)'
+        }));
+
+        expect(res).toEqual(jasmine.objectContaining({
+          name: 'initialized'
+        }));
+        done();
+      })
+    });
   });
 
   describe('getAdjacentEdges method', function(){
     it('must return correct value for in orientation', function(done){
       return linkurious.initCurrentSource().then(function(){
-        return linkurious.edge.getAdjacentFromNode({orientation:'in',nodeId:nodeId,withVersion:true}).then(function(res){
+        return linkurious.edge.getAdjacentFromNode({orientation:'in', nodeId:nodeId, withVersion:true}).then(function(res){
+          expect(res.length).toBe(3);
+          done();
+        });
+      });
+    });
+
+    it('must return correct value for out orientation', function(done){
+      return linkurious.initCurrentSource().then(function(){
+        return linkurious.edge.getAdjacentFromNode({orientation:'out',nodeId:nodeId,withVersion:true}).then(function(res){
+          expect(res.length).toBe(0);
+          done();
+        });
+      });
+    });
+
+    it('must return correct value for both orientation', function(done){
+      return linkurious.initCurrentSource().then(function(){
+        return linkurious.edge.getAdjacentFromNode({orientation:'both',nodeId:nodeId,withVersion:true}).then(function(res){
           expect(res.length).toBe(3);
           done();
         });
@@ -134,6 +194,19 @@ describe('Linkurious class', () => {
     })
   });
 
+  describe('getEdge method', () => {
+    it('must return a edge', (done) => {
+      return linkurious.initCurrentSource().then(() => {
+        return linkurious.edge.getOne(edgeID);
+      }).then(res => {
+        expect(res).toEqual(jasmine.objectContaining({
+          type : 'ACTED_IN'
+        }));
+        done();
+      });
+    });
+  });
+
   describe('getNode method', function(){
     it('must return the right node', function(done){
       return linkurious.initCurrentSource().then(function(){
@@ -143,6 +216,7 @@ describe('Linkurious class', () => {
           withEdges : true
         });
       }).then(function(res){
+        node = res;
         expect(res.id).toEqual(nodeId);
         expect(res.data).toEqual({ name: 'Keanu Reeves', born: 1964 });
         expect(res.edges.length).toEqual(3);
@@ -175,8 +249,8 @@ describe('Linkurious class', () => {
           id:nodeId,
           addedCategories : [],
           deletedCategories : [],
-          deletedProperties : [],
-          properties : {name : 'Keanu Reeves', born : 1964, test:'test update'},
+          deletedData : [],
+          data : {name : 'Keanu Reeves', born : 1964, test:'test update'},
           version : 2
         });
       }).catch(function(res){
@@ -262,6 +336,123 @@ describe('Linkurious class', () => {
     });
   });
 
+  describe('updateSandBox method', () => {
+    it('must update the sandbox', (done) => {
+      return linkurious.initCurrentSource().then(function(){
+        return linkurious.visualization.updateSandbox({
+          visualization : {
+            nodeFields : {
+              captions : {},
+              fields : [{
+                name : 'Keanu Reeves',
+                active : true
+              }]
+            }
+          }
+        });
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('createWidget method', () => {
+    it('must create a widget', (done) => {
+      return linkurious.initCurrentSource().then(() => {
+        return linkurious.visualization.getTree();
+      }).then(res => {
+        visu = res[2];
+        return linkurious.visualization.createWidget({
+          visualization_id : visu.id,
+          content : {
+            graph:{
+              nodes:[node],
+              edges:[]
+            }
+          }
+        });
+      }).then(res => {
+        widget = res;
+        expect(typeof res).toEqual('string');
+        done();
+      });
+    });
+  });
+
+  describe('get widget method', () => {
+    it('must return a widget', (done) => {
+      return linkurious.initCurrentSource().then(() => {
+        return linkurious.visualization.getWidget(widget);
+      }).then(res => {
+        expect(res.key).toEqual(widget);
+        expect(res.userId).toEqual(1);
+        done();
+      })
+    });
+  });
+
+  describe('deleteWidget method', () => {
+    it('must delete a widget', (done) => {
+      return linkurious.initCurrentSource().then(() => {
+        return linkurious.visualization.deleteWidget(widget);
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      })
+    });
+  });
+
+  describe('create visu method', () => {
+    it('musr return a visualization', (done) => {
+      return linkurious.initCurrentSource().then(() => {
+        return linkurious.visualization.create({
+          title : 'newVizuTest',
+          nodes:[{
+            id : nodeId,
+            nodelink:{
+              x:50,
+              y:50,
+            }
+          }],
+          edges:[{
+            id : edgeID
+          }],
+          nodeFields:{
+            captions : {},
+            fields : [{
+              name:'Keanu Reeves',
+              active:true
+            }]
+          },
+          edgeFields:{
+            captions : {},
+            fields : [{
+              name:'ACTED_IN',
+              active:false
+            }]
+          }
+        });
+      }).then(res => {
+        visu = res;
+        expect(res.title).toEqual('newVizuTest');
+        expect(res.createdAt).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('get a visu method', () => {
+    it('must return a visu', (done) => {
+      return linkurious.initCurrentSource().then(function(){
+        return linkurious.visualization.getOne(visu.id);
+      }).then(res => {
+        expect(res.title).toEqual('newVizuTest');
+        done();
+      });
+    });
+  });
+
   describe('shareVisualization method', function(){
     it('must share a visualization', function(done){
       return linkurious.initCurrentSource().then(function(){
@@ -297,7 +488,7 @@ describe('Linkurious class', () => {
         });
         done();
       });
-    } );
+    });
   });
 
   describe('updateConfig method', function(){
@@ -422,7 +613,732 @@ describe('Linkurious class', () => {
         done();
       });
     });
-  })
 
+    it('must start an indexation with 50ms timedOut', (done) => {
+      let linkurious50 = new Linkurious('http://localhost:3001', 'debug', logDriver);
+      return linkurious50.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious50.admin.processIndexation(50, function(res){
+          expect(res.indexing).toEqual('ongoing');
+        });
+      }).then(function(res){
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+
+    it('must start an indexation with 3000ms timedOut', (done) => {
+      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.processIndexation(4000, function(res){
+          expect(res.indexing).toEqual('ongoing');
+        });
+      }).then(function(res){
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('connectDataSource method', () => {
+    it('must return true', (done) => {
+      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.connectDataSource({dataSourceIndex : 0});
+      }).then(function(res){
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('createDataSourceConfig method', () => {
+    it('must return true', (done) => {
+      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.createDataSourceConfig({
+          graphDb : {
+            vendor:'neo4j',
+            url:'http://127.0.0.2',
+            user : 'test',
+            password : 'test'
+          },
+          index : {
+            vendor:'elasticSearch',
+            host:'127.0.0.3',
+            port:7878,
+            forceReindex:false,
+            dynamicMapping:false
+          },
+          name : 'test config'
+        });
+      }).then(function(res){
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  /*describe('deleteDataSourceConfig method', () => {
+    it('must return true', (done) => {
+      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.getSourceList();
+      }).then(function(res){
+        console.log(res);
+        return linkurious.admin.deleteDataSourceConfig({dataSourceIndex : 1});
+      }).then(res => {
+        console.log(res);
+      })
+    });
+  });*/
+
+  describe('getHiddenEdgeProperties method', () => {
+    it('must return an array of edge Properties', (done) => {
+      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.getHiddenEdgeProperties();
+      }).then(function(res){
+        expect(res.length).toEqual(1);
+        expect(res[0]).toBe('edgeHiddenProp');
+        done();
+      });
+    });
+  });
+
+  describe('getHiddenNodeProperties method', () => {
+    it('must return an array of node Properties', (done) => {
+      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.getHiddenNodeProperties();
+      }).then(function(res){
+        expect(res.length).toEqual(1);
+        expect(res[0]).toBe('nodeHiddenProp');
+        done();
+      });
+    });
+  });
+
+  describe('getNonIndexedEdgeProperties method', () => {
+    it('must return an array of edge Properties', (done) => {
+      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.getNonIndexedEdgeProperties();
+      }).then(function(res){
+        expect(res.length).toEqual(2);
+        expect(res[1]).toBe('edgeNoIndexProp');
+        done();
+      });
+    });
+  });
+
+  describe('getNonIndexedNodeProperties method', () => {
+    it('must return an array of node Properties', (done) => {
+      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.getNonIndexedNodeProperties();
+      }).then(function(res){
+        expect(res.length).toEqual(2);
+        expect(res[1]).toBe('nodeNoIndexProp');
+        done();
+      });
+    });
+  });
+
+  describe('setHiddenEdgeProperties method', () => {
+    it('must return true', (done) => {
+      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.setHiddenEdgeProperties({properties : ['testHiddenEdgeProp']});
+      }).then(function(res){
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('setHiddenNodeProperties method', () => {
+    it('must return true', (done) => {
+      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.setHiddenNodeProperties({properties : ['testHiddenNodeProp']});
+      }).then(function(res){
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('setNonIndexedEdgeProperties method', () => {
+    it('must return true', (done) => {
+      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.setNotIndexedEdgeProperties({properties : ['testNonIndexedEdgeProp']});
+      }).then(function(res){
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('setNonIndexedNodeProperties method', () => {
+    it('must return true', (done) => {
+      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.setNotIndexedNodeProperties({properties : ['testNonIndexedNodeProp'], dataSourceKey:'66a2bc71'});
+      }).then(function(res){
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('deleteUser method', () => {
+    it('must delete a user', (done) => {
+      return linkurious.admin.createUser({
+        username:'testdelete',
+        email:'testDelete@test.fr',
+        groups : [4],
+        password:'testPass'
+      }).then(res => {
+        return linkurious.admin.deleteUser(res.id);
+      }).then((res) => {
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('createGroup method', () => {
+    it('must return a group', (done) => {
+      return linkurious.admin.createGroup({
+        name:'testGroup',
+        dataSourceKey:'66a2bc71'
+      }).then(res => {
+        expect(res).toEqual(jasmine.objectContaining({
+          id : 7
+        }));
+        expect(res).toEqual(jasmine.objectContaining({
+          name : 'testGroup'
+        }));
+        done();
+      });
+    });
+  });
+
+  describe('deleteGroup method', () => {
+    it('must return true', (done) => {
+      return linkurious.admin.deleteGroup(7).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('getGroup method', () => {
+    it('must return a group', (done) => {
+      return linkurious.admin.getGroup({id:4, dataSourceKey:'66a2bc71'}).then(res => {
+        expect(res).toEqual(jasmine.objectContaining({
+          id : 4
+        }));
+        expect(res).toEqual(jasmine.objectContaining({
+          name : 'admin'
+        }));
+        done();
+      });
+    });
+  });
+
+  describe('getGroups method', () => {
+    it('must return a group list', (done) => {
+      return linkurious.admin.getGroups({dataSourceKey:'66a2bc71'}).then(res => {
+        expect(res.length).toEqual(4);
+        done();
+      });
+    });
+  });
+
+  describe('getSimplegroups method', () => {
+    it('must return a group list', (done) => {
+      return linkurious.admin.getSimpleGroups().then(res => {
+        expect(res.length).toEqual(4);
+        done();
+      });
+    });
+  });
+  
+  describe('getGroupsRights method', () => {
+    it('must return groups rights', (done) => {
+      return linkurious.admin.getGroupsRights({dataSourceKey:'66a2bc71'}).then(res => {
+        expect(res.types.length).toEqual(4);
+        expect(res.targetTypes.length).toEqual(3);
+        done();
+      })
+    });
+  });
+
+  describe('updateBatchGroupsRights method', () => {
+    it('must return true', (done) => {
+      return linkurious.admin.updateBatchGroupsRights({
+        dataSourceKey : '66a2bc71',
+        groupIds : [3],
+        rightType : 'none',
+        targetType : 'nodeCategory'
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      })
+    });
+  });
+
+  describe('updateGroupRights', () => {
+    it('must return access rights modified', (done) => {
+      return linkurious.admin.updateGroupRights({
+        id : 3,
+        dataSourceKey : '66a2bc71',
+        type : 'write',
+        targetType : 'nodeCategory',
+        targetName : 'test'
+      }).then(res => {
+        expect(res).toEqual(jasmine.objectContaining({
+          type : 'write'
+        }));
+        expect(res).toEqual(jasmine.objectContaining({
+          targetType : 'nodeCategory'
+        }));
+        done();
+      })
+    });
+  });
+
+  describe('updateBatchUser method', () => {
+    it('must return true', (done) => {
+      return linkurious.admin.updateBatchUser({
+        users : [6],
+        addGroups : [3],
+        rmGroups : []
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      })
+    });
+  });
+
+  describe('getDataSourcesList method', () => {
+    it('must resturn a list of all dataSource', (done) => {
+      return linkurious.admin.getDataSourcesList().then(res => {
+        expect(res.length).toEqual(2);
+        expect(res[0].state).toEqual('needReindex');
+        expect(res[1].state).toEqual('connecting');
+        done();
+      })
+    });
+  });
+
+  describe('updateUser method', () => {
+    it('must return user', (done) => {
+      return linkurious.admin.updateUser({
+        id:6,
+        username:'testName'
+      }).then(res => {
+        expect(res.username).toEqual('testName');
+        expect(res.email).toEqual('testName@test.fr');
+        done();
+      })
+    });
+  });
+
+  describe('countEdge method', () => {
+    it('must return the number of edges', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.edge.count();
+      }).then(res => {
+        expect(res).toEqual(17);
+        done();
+      });
+    });
+  });
+
+  let edgeToDelete:number|string;
+
+  describe('create Edge method', () => {
+    it('must create an edge', (done) => {
+      return linkurious.initCurrentSource().then(function(){
+        return linkurious.search.nodes({
+          q : 'Carrie-Anne Moss'
+        });
+      }).then(res => {
+        sourceId = res.results[0].children[0].id;
+        return linkurious.search.nodes({
+          q : 'Keanu Reeves'
+        });
+      }).then(res => {
+        targetId = res.results[0].children[0].id;
+        return linkurious.edge.create({
+          source : sourceId,
+          target : targetId,
+          type : 'PLAYS_WITH',
+          data : {}
+        });
+      }).then(res => {
+        edgeToDelete = res.id;
+        expect(res.type).toEqual('PLAYS_WITH');
+        done();
+      })
+    });
+  });
+
+  describe('update edge method', () => {
+    it('must return an edge updated', (done) => {
+      return linkurious.initCurrentSource().then(function(){
+        return linkurious.edge.update({
+          id : edgeID,
+          deletedData : [],
+          data : {tralala:'test'},
+          version : 1
+        });
+      }).then(res => {
+        expect(res.data).toEqual(jasmine.objectContaining({
+          tralala : 'test'
+        }));
+        done();
+      });
+    });
+  });
+
+  describe('delete edge method', () => {
+    it('must return true', (done) => {
+      return linkurious.initCurrentSource().then(function(){
+        return linkurious.edge.deleteOne(edgeToDelete);
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('isAuth method', () => {
+    it('must return true if user is auth', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+        return linkurious.my.IsAuth();
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('isAdmin method', () => {
+    it('must return true if user is admin', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+        return linkurious.my.IsAdmin();
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('getAllGraphQuery method', () => {
+    it('must return an array of graphQuery', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+        return linkurious.my.getAllGraphQueries();
+      }).then(res => {
+        expect(res.length).toEqual(0);
+        done();
+      });
+    });
+  });
+
+  describe('saveGraphQuery method', () => {
+    it('must save a graphQuery', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+        return linkurious.my.saveGraphQuery({
+          name : 'mygraphQuery',
+          dialect : 'cypher',
+          content : 'MATCH(Person {name: \'Keanu Reeves\'})\nRETURN(Person)'
+        });
+      }).then(res => {
+        expect(res.id).toEqual(1);
+        graphQueryId = res.id;
+        done();
+      });
+    });
+  });
+
+  describe('update GraphQuery', () => {
+    it('must update the graphQuery', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+        return linkurious.my.updateGraphQuery({
+          content : 'MATCH(Person {name: \'Carrie Anne Moss\'})\nRETURN(Person)',
+          id : graphQueryId
+        });
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('get a graphQuery method', () => {
+    it('must return the right graphQuery', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+        return linkurious.my.getGraphQuery(graphQueryId);
+      }).then(res => {
+        expect(res.id).toEqual(1);
+        done();
+      });
+    });
+  });
+
+  describe('delete a graphQuery method', () => {
+    it('must delete the right graphQuery', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+        return linkurious.my.deleteGraphQuery(graphQueryId);
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('getItemsVersions method', () => {
+    it('must return something', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+        return linkurious.graph.getItemsVersions({
+          edges : [edgeID],
+          nodes : [nodeId]
+        });
+      }).then(res => {
+        expect(res.nodes[nodeId]).toEqual(1);
+        expect(res.edges[edgeID]).toEqual(2);
+        done();
+      });
+    });
+  });
+
+  describe('getShortestsPaths method', () => {
+    it('must return an array of nodes', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+        return linkurious.graph.getShortestPaths({
+          startNode : sourceId,
+          endNode : targetId,
+          withVersion : true
+        });
+      }).then(res => {
+        expect(res.length).toEqual(3);
+        done();
+      })
+    });
+  });
+
+  describe('countNode method', () => {
+    it('must return thos number of nodes', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.node.count();
+      }).then(res => {
+        expect(res).toEqual(12);
+        done();
+      });
+    });
+  });
+
+  describe('createNode method', () => {
+    it('must create a node', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.node.create({
+          data : {
+            name : 'Robert Mitchum'
+          },
+          categories : ['actor']
+        });
+      }).then(res => {
+        nodeToDelete = res.id;
+        expect(res.data.name).toEqual('Robert Mitchum');
+        expect(res.version).toEqual(1);
+        done();
+      });
+    });
+  });
+
+  describe('deleteNode method', () => {
+    it('must delete a node', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.node.deleteOne(nodeToDelete);
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('getNeighborsCategories method', () => {
+    it('must return an array of digest', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.node.getNeighborsCategories({ids:[nodeId]});
+      }).then(res => {
+        expect(res.length).toEqual(3);
+        done();
+      })
+    });
+  });
+
+  describe('searchFullNodes method', () => {
+    it('must return an array of nodes', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.search.fullNodes({q:'matrix'});
+      }).then(res => {
+        expect(res.length).toEqual(3);
+        done();
+      });
+    });
+  });
+
+  describe('searchFullEdges method', () => {
+    it('must return a array of edges', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.search.fullEdges({q:'ACTED_IN'});
+      }).then(res => {
+        expect(res.length).toEqual(7);
+        done();
+      });
+    });
+  });
+
+  describe('search NodesInDirectory method', () => {
+    it('must return a search result', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.search.NodesInDirectory({
+          categoryOrTypes : ['Person'],
+          properties : ['name']
+        });
+      }).then(res => {
+        expect(res.totalHits).toEqual(12);
+        expect(res.type).toEqual('nodes');
+        expect(res.results.length).toEqual(12);
+        done();
+      });
+    });
+  });
+
+  describe('search EdgesInDirectory method', () => {
+    it('must return a search result', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.search.EdgesInDirectory({
+          properties : ['roles', 'altEdgeID']
+        });
+      }).then(res => {
+        expect(res.totalHits).toEqual(17);
+        expect(res.type).toEqual('edges');
+        expect(res.results.length).toEqual(17);
+        done();
+      });
+    });
+  });
+
+  describe('count visualization method', () => {
+    it('must return the number of visualization', (done) => {
+      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.visualization.count();
+      }).then(res => {
+        expect(res).toEqual(6);
+        done();
+      });
+    });
+  });
+
+  describe('getTree method', () => {
+    it('must return visualizations', (done) => {
+      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+        return linkurious.visualization.getTree();
+      }).then(res => {
+        expect(res[0].id).toEqual(5);
+        expect(res[0].type).toEqual('visu');
+        visu = res[0];
+        done();
+      });
+    });
+  });
+
+  let folderId:number;
+
+  describe('createFolder method', () => {
+    it('must create a folder', (done) => {
+      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+        return linkurious.visualization.createFolder({parent : 0, title : 'testFolder'});
+      }).then(res => {
+        expect(res.title).toEqual('testFolder');
+        folderId = res.id;
+        done();
+      })
+    });
+  });
+
+  describe('updateFolder method', () => {
+    it('must update te folder', (done) => {
+      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+        return linkurious.visualization.updateFolder({
+          id : folderId,
+          key : 'title',
+          value : 'newFolderName'
+        });
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('delete folder method', () => {
+    it('must delete a folder', (done) => {
+      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+        return linkurious.visualization.deleteFolder(folderId);
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  let visuToDelete:number;
+
+  describe('duplicate visu method', () => {
+    it('must return the created visu', (done) => {
+      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+        return linkurious.visualization.duplicate(visu.id);
+      }).then(res => {
+        expect(res.title).toEqual('Copy of youpi vizu');
+        visuToDelete = res.id;
+        done();
+      });
+    });
+  });
+
+  describe('delete a visu method', () => {
+    it('must delete a visu', (done) => {
+      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+        return linkurious.visualization.deleteOne(visuToDelete);
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('get share rights of a visu method', () => {
+    it('must return sharers', (done) => {
+      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+        return linkurious.visualization.getShares(visu.id);
+      }).then(res => {
+        expect(res.shares.length).toEqual(0);
+        expect(res.owner.id).toEqual(2);
+        done();
+      })
+    });
+  });
+
+  describe('updateVisu method', () => {
+    it('must update the visu', (done) => {
+      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+        return linkurious.visualization.update({
+          id : visu.id,
+          forceLock : false,
+          visualization : {
+            title : 'youpla visu'
+          }
+        });
+      }).then(res => {
+        expect(res).toBeTruthy();
+        done();
+      })
+    });
+  });
 });
 

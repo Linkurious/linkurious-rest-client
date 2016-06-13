@@ -44,10 +44,15 @@ export class EdgeModule extends Module {
    * @returns {Promise<IEdge>}
    */
   public create(data:Query.ICreateEdge):Promise<IEdge> {
+
+    let dataToSend:any = data;
+    dataToSend.properties = data.data;
+    delete dataToSend.data;
+
     return this.fetch({
       url   : '/{dataSourceKey}/graph/edges',
       method: 'POST',
-      body  : data
+      body  : dataToSend
     });
   }
 
@@ -59,6 +64,13 @@ export class EdgeModule extends Module {
    * @returns {Promise<IEdge>}
    */
   public update(data:Query.IUpdateEdge):Promise<IEdge> {
+
+    let dataToSend:any = data;
+    dataToSend.properties = data.data;
+    dataToSend.deleteProperties = data.deletedData;
+    delete dataToSend.data;
+    delete dataToSend.deletedData;
+
     return this.fetch({
       url   : '/{dataSourceKey}/graph/edges/{id}',
       method: 'PATCH',
@@ -94,14 +106,17 @@ export class EdgeModule extends Module {
     let query:any = JSON.parse(JSON.stringify(data));
     if (query.orientation === 'in') {
       query.source = data.nodeId;
-    } else if (data.orientation === 'out') {
+    }
+
+    if (data.orientation === 'out') {
       query.target = data.nodeId;
-    } else if (data.orientation === 'both') {
+    }
+
+    if (data.orientation === 'both') {
       query.adjacent = data.nodeId;
     }
     query.nodeId = undefined;
     query.orientation = undefined;
-
     return this.fetch({
       url   : '/{dataSourceKey}/graph/edges',
       method: 'GET',

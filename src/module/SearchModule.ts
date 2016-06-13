@@ -11,11 +11,7 @@
 
 import * as Query from '../Query';
 import {
-  ISearchItemList,
-  ISearchFullItems,
-  IUser,
-  ISearchEdgesInDirectory,
-  ISearchNodesInDirectory
+  ISearchFullItems, IUser, ISearchEdgesInDirectory, ISearchNodesInDirectory, IEdge, IFullNode
 } from '../interfaces';
 import {Module} from './Module';
 import {Fetcher} from '../http/fetcher';
@@ -32,7 +28,7 @@ export class SearchModule extends Module {
    * @param {ISearchItemList} params
    * @returns {Promise<Array<ISearchItemList>>}
    */
-  public fullNodes(params:Query.ISearchItemList):Promise<Array<ISearchItemList>> {
+  public fullNodes(params:Query.ISearchItemList):Promise<Array<IFullNode>> {
     return this.fetch({
       url   : '/{dataSourceKey}/search/nodes/full',
       method: 'GET',
@@ -46,7 +42,7 @@ export class SearchModule extends Module {
    * @param {ISearchItemList} params
    * @returns {Promise<Array<ISearchItemList>>}
    */
-  public fullEdges(params:Query.ISearchItemList):Promise<Array<ISearchItemList>> {
+  public fullEdges(params:Query.ISearchItemList):Promise<Array<IEdge>> {
     return this.fetch({
       url   : '/{dataSourceKey}/search/edges/full',
       method: 'GET',

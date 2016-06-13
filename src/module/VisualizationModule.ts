@@ -13,9 +13,11 @@ import * as Query from '../Query';
 import {
   IVisualization,
   IWidget,
-  ITree,
+  ITreeChildren,
   ISharers,
-  IShare
+  IShare,
+  IFolder,
+  IFolderFullResponse
 } from '../interfaces';
 import {Module} from './Module';
 import {Fetcher} from '../http/fetcher';
@@ -56,15 +58,14 @@ export class VisualizationModule extends Module {
    * Create a folder for visualizations
    *
    * @param {ICreateFolder} data
-   * @returns {Promise<boolean>}
+   * @returns {Promise<IFolder>}
    */
-  public createFolder(data:Query.ICreateFolder):Promise<boolean> {
+  public createFolder(data:Query.ICreateFolder):Promise<IFolder> {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/folder',
       method: 'POST',
       body  : data
-    })
-      .then(() => true);
+    }).then((res:IFolderFullResponse) => res.folder);
   }
 
   /**
@@ -75,10 +76,10 @@ export class VisualizationModule extends Module {
    */
   public create(data:Query.ICreateVisualization):Promise<IVisualization> {
     return this.fetch({
-      url   : '/{dataSourceKey}/visualization',
+      url   : '/{dataSourceKey}/visualizations',
       method: 'POST',
       body  : data
-    });
+    }).then((res:any) => res.visualization);
   }
 
   /**
@@ -91,8 +92,7 @@ export class VisualizationModule extends Module {
     return this.fetch({
       url   : '/widget/' + widgetKey,
       method: 'DELETE'
-    })
-      .then(() => true);
+    }).then(() => true);
   }
 
   /**
@@ -159,19 +159,19 @@ export class VisualizationModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/' + vizId,
       method: 'GET'
-    });
+    }).then((res:any) => res.visualization);
   }
 
   /**
    * Return visualizations ordered with folders hierarchy.
    *
-   * @returns {Promise<ITree>}
+   * @returns {Promise<ITreeChildren>}
    */
-  public getTree():Promise<ITree> {
+  public getTree():Promise<Array<ITreeChildren>> {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/tree',
       method: 'GET'
-    });
+    }).then((res:any) => res.tree);
   }
 
   /**

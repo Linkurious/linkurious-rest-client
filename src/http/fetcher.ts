@@ -55,7 +55,6 @@ export class Fetcher {
     } catch (lkError) {
       return Promise.reject(lkError);
     }
-
     let responsePromise:Promise<IHttpResponse>;
 
     if (config.method === 'GET') {

@@ -43,10 +43,10 @@ export class AdminModule extends Module {
   /**
    * Connect a disconnected data-source
    *
-   * @param {IDataSourceRelative} [data]
+   * @param {IDataSourceConfig} data
    * @returns {Promise<boolean>}
    */
-  public connectDataSource(data?:IDataSourceRelative):Promise<boolean> {
+  public connectDataSource(data:IDataSourceConfig):Promise<boolean> {
     return this.fetch({
       url       : '/admin/source/{dataSourceIndex}/connect',
       method    : 'POST',
@@ -98,7 +98,7 @@ export class AdminModule extends Module {
       url       : '/admin/sources/data/{dataSourceKey}',
       method    : 'DELETE',
       body      : Utils.fixSnakeCase(mergeOptions),
-      dataSource: {dataSourceKey: data.dataSourceKey}
+      dataSource: this.setDataSourceKey(data.dataSourceKey)
     });
   }
 
@@ -181,8 +181,8 @@ export class AdminModule extends Module {
       url       : '/admin/source/{dataSourceKey}/hidden/edgeProperties',
       method    : 'PUT',
       body      : data,
-      dataSource: {dataSourceKey: data.dataSourceKey}
-    });
+      dataSource: this.setDataSourceKey(data.dataSourceKey)
+    }).then(() => true);
   }
 
   /**
@@ -196,7 +196,7 @@ export class AdminModule extends Module {
       url       : '/admin/source/{dataSourceKey}/hidden/nodeProperties',
       method    : 'PUT',
       body      : data,
-      dataSource: {dataSourceKey: data.dataSourceKey}
+      dataSource: this.setDataSourceKey(data.dataSourceKey)
     }).then(() => true);
   }
 
@@ -211,7 +211,7 @@ export class AdminModule extends Module {
       url       : '/admin/source/{dataSourceKey}/noIndex/edgeProperties',
       method    : 'PUT',
       body      : data,
-      dataSource: {dataSourceKey: data.dataSourceKey}
+      dataSource: this.setDataSourceKey(data.dataSourceKey)
     }).then(() => true);
   }
 
@@ -226,7 +226,7 @@ export class AdminModule extends Module {
       url       : '/admin/source/{dataSourceKey}/noIndex/nodeProperties',
       method    : 'PUT',
       body      : data,
-      dataSource: {dataSourceKey: data.dataSourceKey}
+      dataSource: this.setDataSourceKey(data.dataSourceKey)
     }).then(() => true);
   }
 
@@ -264,10 +264,16 @@ export class AdminModule extends Module {
    * @returns {Promise<IGroup>}
    */
   public createGroup(data:Query.ICreateGroup):Promise<IGroup> {
+
+    let dataToSend:any = {
+      name : data.name
+    };
+
     return this.fetch({
-      url   : 'admin/groups',
+      url   : '/admin/{dataSourceKey}/groups',
       method: 'POST',
-      body  : data
+      body  : dataToSend,
+      dataSource: this.setDataSourceKey(data.dataSourceKey)
     });
   }
 
@@ -288,14 +294,15 @@ export class AdminModule extends Module {
   /**
    * List a group already defined in the database.
    *
-   * @param {number} groupId
+   * @param {number} data
    * @returns {Promise<IGroup>}
    */
-  public getGroup(groupId:number):Promise<IGroup> {
+  public getGroup(data:Query.IGetGroup):Promise<IGroup> {
     return this.fetch({
-      url   : '/admin/groups/{id}',
+      url   : '/admin/{dataSourceKey}/groups/{id}',
       method: 'GET',
-      query : {id: groupId}
+      query : {id: data.id},
+      dataSource : this.setDataSourceKey(data.dataSourceKey)
     });
   }
 
@@ -350,7 +357,7 @@ export class AdminModule extends Module {
       url       : '/admin/{dataSourceKey}/groups/group_rights',
       method    : 'PUT',
       body      : data,
-      dataSource: {dataSourceKey: data.dataSourceKey}
+      dataSource: this.setDataSourceKey(data.dataSourceKey)
     }).then(() => true);
   }
 
@@ -365,7 +372,7 @@ export class AdminModule extends Module {
       url       : '/admin/{dataSourceKey}/groups/{id}/group_rights',
       method    : 'PUT',
       body      : data,
-      dataSource: {dataSourceKey: data.dataSourceKey}
+      dataSource: this.setDataSourceKey(data.dataSourceKey)
     });
   }
 
@@ -473,7 +480,7 @@ export class AdminModule extends Module {
     }
 
     if (timeout > maxTimeout) {
-      timeout = 500;
+      timeout = 3000;
     }
 
     return this.startIndexation()

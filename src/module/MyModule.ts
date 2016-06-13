@@ -103,11 +103,19 @@ export class MyModule extends Module {
    * @param {IUpdateGraphQuery} data
    * @returns {Promise<IGraphQuery>}
    */
-  public updateGraphQuery(data:Query.IUpdateGraphQuery):Promise<IGraphQuery> {
+  public updateGraphQuery(data:Query.IUpdateGraphQuery):Promise<boolean> {
+    let body:any = JSON.parse(JSON.stringify(data));
+    body.properties = {
+      name : data.name,
+      content : data.content
+    };
+    body.name = undefined;
+    body.content = undefined;
+
     return this.fetch({
       url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
       method: 'PATCH',
-      body  : data
-    });
+      body  : body
+    }).then(() => true);
   }
 }

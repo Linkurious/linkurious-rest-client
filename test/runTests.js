@@ -84,7 +84,7 @@ function runTests() {
   karma.start();
 
   karma.on('run_complete', function(){
-    process.exit();
+    //process.exit();
   });
 }
 

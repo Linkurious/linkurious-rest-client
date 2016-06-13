@@ -61,7 +61,7 @@ export class LinkuriousError {
   }
 
   get stackArray():Array<string> {
-    return this.stack === undefined ? [] : this.stack.split('\s*\n\s*');
+    return this.stack === undefined ? [] : this.stack.split(/\n/g);
   }
 
   public static fromClientError (key:string, message:string):LinkuriousError {
