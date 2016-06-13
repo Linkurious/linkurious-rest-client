@@ -8,20 +8,20 @@
  * Description :
  */
 
-import {Logger, LogLevel} from './dist/log/Logger';
-import {ILoggerDriver} from './dist/log/ILoggerDriver';
+import {Logger, LogLevel} from './src/log/Logger';
+import {ILoggerDriver} from './src/log/ILoggerDriver';
 
-import {Fetcher} from './dist/http/fetcher';
-import {IFetchConfig} from './dist/http/IFetchConfig';
+import {Fetcher} from './src/http/fetcher';
+import {IFetchConfig} from './src/http/IFetchConfig';
 
-import {AdminModule} from './dist/module/AdminModule';
-import {MyModule} from './dist/module/MyModule';
-import {GraphModule} from './dist/module/GraphModule';
-import {EdgeModule} from './dist/module/EdgeModule';
-import {NodeModule} from './dist/module/NodeModule';
-import {SearchModule} from './dist/module/SearchModule';
-import {VisualizationModule} from './dist/module/VisualizationModule';
-import * as Query from './dist/Query';
+import {AdminModule} from './src/module/AdminModule';
+import {MyModule} from './src/module/MyModule';
+import {GraphModule} from './src/module/GraphModule';
+import {EdgeModule} from './src/module/EdgeModule';
+import {NodeModule} from './src/module/NodeModule';
+import {SearchModule} from './src/module/SearchModule';
+import {VisualizationModule} from './src/module/VisualizationModule';
+import * as Query from './src/Query';
 import {
   IDataSource,
   IFullUser,
@@ -31,9 +31,9 @@ import {
   IAppConfig,
   ISchema,
   IClientState
-} from './dist/interfaces';
+} from './src/interfaces';
 
-export class Linkurious {
+class Linkurious {
   private _fetcher:Fetcher;
   private _clientState:IClientState;
   private _logger:Logger;
@@ -327,3 +327,5 @@ export class Linkurious {
     }
   }
 }
+
+export = Linkurious;

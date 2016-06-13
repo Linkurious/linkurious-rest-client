@@ -9,10 +9,10 @@
  */
 'use strict';
 
-/// <reference path="../typings/globals/jasmine-ajax/index.d.ts"/>
+/// <reference path="../typings/globals/jasmine/index.d.ts"/>
 
-import {Linkurious} from '../index';
-import {INode} from '../dist/interfaces';
+import Linkurious = require('../index');
+import {INode} from '../src/interfaces';
 import {FetcherSpec} from './fetcher_spec';
 import {LinkuriousErrorSpec} from './LinkuriousError_spec';
 import {DefaultLoggerDriverSpec} from './DefaultLoggerDriver_spec';

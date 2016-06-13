@@ -17,7 +17,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/index_spec.js'
+      'tempTests/test/index_spec.js'
     ],
 
 
@@ -49,9 +49,9 @@ module.exports = function(config) {
       },
       serveFiles: [
         'node_modules/superagent/superagent.js',
-        'index.js',
-        'dist/**/*.js',
-        'test/*.js'
+        'tempTests/index.js',
+        'tempTests/src/**/*.js',
+        'tempTests/test/*.js'
       ]
     },
 
@@ -61,8 +61,8 @@ module.exports = function(config) {
     reporters: ['progress', 'coverage', 'karma-remap-istanbul'],
 
     preprocessors: {
-      'dist/**/*.js': ['coverage'],
-      'index.js' : ['coverage']
+      'tempTests/src/**/*.js': ['coverage'],
+      'tempTests/index.js' : ['coverage']
     },
 
     coverageReporter : {

@@ -19,7 +19,7 @@
     }
   ],
   "private": true,
-  "main": "index.ts",
+  "main": "dist-es6/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Linkurious/linkurious-rest-client.git"
@@ -32,19 +32,25 @@
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
   "scripts": {
     "lint": "node_modules/.bin/tslint \"src/**/*.ts\"",
-    "pretest": "node_modules/.bin/tsc && npm run lint",
+    "compileTests": "node_modules/.bin/tsc --project tsconfig_tests.json",
+    "pretest": "npm run compileTests && npm run lint",
     "test": "node test/runTests.js",
+    "posttest": "rm -rf tempTests",
     "postinstall": "node_modules/.bin/typings install",
-    "remapCover": "node_modules/.bin/remap-istanbul -i coverage/coverage.raw.json -o coverage/html -t html",
-    "cover": "node_modules/.bin/istanbul cover test/runTests.js && npm run remapCover",
-    "clean": "rm -rf ./built && rm -rf ./typings && rm -rf ./node_modules"
+    "clean": "rm -rf ./dist-es6 && rm -rf ./typings && rm -rf ./node_modules",
+    "bundling" : "./node_modules/.bin/browserify dist-es6/index.js -s Linkurious --outfile bundle.js",
+    "compile" : "./node_modules/.bin/babel bundle.js --out-file linkurious-rest-client-es5.js",
+    "build":"tsc && npm run bundling && npm run compile && rm bundle.js"
   },
   "dependencies": {
     "es6-promise": "^3.1.2",
     "superagent": "^1.8.3"
   },
   "devDependencies": {
+    "babel-cli": "^6.10.1",
     "babel-core": "^6.9.1",
+    "babel-preset-es2015": "^6.9.0",
+    "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "bunyan": "^1.8.1",
     "es6-module-loader": "^0.17.11",

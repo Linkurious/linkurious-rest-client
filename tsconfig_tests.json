@@ -13,7 +13,7 @@
     // generate SourceMap from generated ES6 to original TypeScript
     "sourceMap": true,
     // target ES6 directory
-    "outDir": "./dist-es6",
+    "outDir": "./tempTests",
     // forbid variable without explicit type
     "noImplicitAny": true,
     // forbid implicit returns in functions
@@ -36,7 +36,6 @@
   },
   "exclude": [
     "node_modules",
-    "test",
     "dist-es6"
   ]
 }

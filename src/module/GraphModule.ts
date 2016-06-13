@@ -39,7 +39,7 @@ export class GraphModule extends Module {
    * Returns an array of <LkNode[]> corresponding to all the shortest paths between two nodes that the user can read.
    *
    * @param {IGetShortestPaths} nodesConfig
-   * @returns {Promise<Array<INode>>}
+   * @returns {Promise<Array<Array<IFullNode|IEdge>>>}
    */
   public getShortestPaths(nodesConfig:Query.IGetShortestPaths):Promise<Array<Array<IFullNode|IEdge>>> {
     return this.fetch({

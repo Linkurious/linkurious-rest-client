@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import {DefaultLoggerDriver} from '../dist/log/DefaultLoggerDriver';
+import {DefaultLoggerDriver} from '../src/log/DefaultLoggerDriver';
 
 export class DefaultLoggerDriverSpec {
   constructor(){}

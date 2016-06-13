@@ -9,8 +9,8 @@
  */
 'use strict';
 
-import {Fetcher} from '../dist/http/fetcher';
-import {Logger} from '../dist/log/Logger';
+import {Fetcher} from '../src/http/fetcher';
+import {Logger} from '../src/log/Logger';
 
 export class FetcherSpec {
   constructor () {
@@ -28,7 +28,7 @@ export class FetcherSpec {
         fetch({
           url : '/test/{dataSourceKey}',
           method : 'GET'
-        }).catch((res:any) => {
+        }).catch(() => {
           expect(fetch).toThrow();
           done();
         })
@@ -62,7 +62,7 @@ export class FetcherSpec {
         fetch({
           url : '/test',
           method : 'GET'
-        }).catch((res:any) => {
+        }).catch(() => {
           expect(fetch).toThrow();
           done();
         })

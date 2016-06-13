@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import {LinkuriousError} from '../dist/LinkuriousError';
+import {LinkuriousError} from '../src/LinkuriousError';
 
 export class LinkuriousErrorSpec {
   constructor(){}
