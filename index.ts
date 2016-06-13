@@ -8,20 +8,20 @@
  * Description :
  */
 
-import {Logger, LogLevel} from './log/Logger';
-import {ILoggerDriver} from './log/ILoggerDriver';
+import {Logger, LogLevel} from './dist/log/Logger';
+import {ILoggerDriver} from './dist/log/ILoggerDriver';
 
-import {Fetcher} from './http/fetcher';
-import {IFetchConfig} from './http/IFetchConfig';
+import {Fetcher} from './dist/http/fetcher';
+import {IFetchConfig} from './dist/http/IFetchConfig';
 
-import {AdminModule} from './module/AdminModule';
-import {MyModule} from './module/MyModule';
-import {GraphModule} from './module/GraphModule';
-import {EdgeModule} from './module/EdgeModule';
-import {NodeModule} from './module/NodeModule';
-import {SearchModule} from './module/SearchModule';
-import {VisualizationModule} from './module/VisualizationModule';
-import * as Query from './Query';
+import {AdminModule} from './dist/module/AdminModule';
+import {MyModule} from './dist/module/MyModule';
+import {GraphModule} from './dist/module/GraphModule';
+import {EdgeModule} from './dist/module/EdgeModule';
+import {NodeModule} from './dist/module/NodeModule';
+import {SearchModule} from './dist/module/SearchModule';
+import {VisualizationModule} from './dist/module/VisualizationModule';
+import * as Query from './dist/Query';
 import {
   IDataSource,
   IFullUser,
@@ -31,7 +31,7 @@ import {
   IAppConfig,
   ISchema,
   IClientState
-} from './interfaces';
+} from './dist/interfaces';
 
 export class Linkurious {
   private _fetcher:Fetcher;
