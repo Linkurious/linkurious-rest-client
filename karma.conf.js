@@ -66,15 +66,14 @@ module.exports = function(config) {
     },
 
     coverageReporter : {
-      reporters: [{
-        type: 'json',
-        subdir: '.',
-        file: 'coverage-final.json'
-      }]
+      type: 'json',
+      dir: 'coverage',
+      subdir : 'json',
+      file: 'coverage-final.json'
     },
 
     remapIstanbulReporter: {
-      src: 'coverage/coverage-final.json',
+      src: 'coverage/json/coverage-final.json',
       reports: {
         html: 'coverage'
       },
