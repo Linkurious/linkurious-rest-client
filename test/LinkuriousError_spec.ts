@@ -64,7 +64,7 @@ export class LinkuriousErrorSpec {
     describe('get error stack', () => {
       it('must return the error stack', () => {
         try {
-          jasmine.Ajax.install()
+          jasmine.arrayContaining;
         } catch(e) {
           let linkuriousError = LinkuriousError.fromError(e);
 
