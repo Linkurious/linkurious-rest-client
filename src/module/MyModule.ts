@@ -116,6 +116,6 @@ export class MyModule extends Module {
       url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
       method: 'PATCH',
       body  : body
-    }).then(() => true);
+    });
   }
 }

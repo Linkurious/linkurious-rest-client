@@ -240,7 +240,7 @@ class Linkurious {
    * @param {ILoginUser} data
    * @returns {Promise<IClientState>}
    */
-  public startClient(data:Query.ILoginUser):Promise<IClientState> {
+  public init(data:Query.ILoginUser):Promise<IClientState> {
 
     return this.login(data).then(() => {
       return this.initCurrentSource();

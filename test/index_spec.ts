@@ -37,6 +37,7 @@ describe('Linkurious class', () => {
 
   describe('searchNodes method', function(){
     it('must return a node', function(done){
+      console.log('YO')
       return linkurious.initCurrentSource().then(function(){
         return linkurious.search.nodes({
           q : 'Keanu Reeves'
@@ -556,9 +557,9 @@ describe('Linkurious class', () => {
     })
   });
 
-  describe('startClient method', function(){
+  describe('init method', function(){
     it('must set current user and default source', function(done){
-      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         expect(linkurious.state.user).toEqual({
           id: 6,
           username: 'testName',
@@ -604,7 +605,7 @@ describe('Linkurious class', () => {
 
   describe('processIndexation method', function(){
     it('must start indexation and return true when finish', function(done){
-      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.processIndexation(50, function(res){
           expect(res.indexing).toEqual('ongoing');
         })
@@ -616,7 +617,7 @@ describe('Linkurious class', () => {
 
     it('must start an indexation with 50ms timedOut', (done) => {
       let linkurious50 = new Linkurious('http://localhost:3001', 'debug', logDriver);
-      return linkurious50.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious50.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious50.admin.processIndexation(50, function(res){
           expect(res.indexing).toEqual('ongoing');
         });
@@ -627,7 +628,7 @@ describe('Linkurious class', () => {
     });
 
     it('must start an indexation with 3000ms timedOut', (done) => {
-      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.processIndexation(4000, function(res){
           expect(res.indexing).toEqual('ongoing');
         });
@@ -640,7 +641,7 @@ describe('Linkurious class', () => {
 
   describe('connectDataSource method', () => {
     it('must return true', (done) => {
-      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.connectDataSource({dataSourceIndex : 0});
       }).then(function(res){
         expect(res).toBeTruthy();
@@ -651,7 +652,7 @@ describe('Linkurious class', () => {
 
   describe('createDataSourceConfig method', () => {
     it('must return true', (done) => {
-      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.createDataSourceConfig({
           graphDb : {
             vendor:'neo4j',
@@ -677,7 +678,7 @@ describe('Linkurious class', () => {
 
   /*describe('deleteDataSourceConfig method', () => {
     it('must return true', (done) => {
-      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.getSourceList();
       }).then(function(res){
         console.log(res);
@@ -690,7 +691,7 @@ describe('Linkurious class', () => {
 
   describe('getHiddenEdgeProperties method', () => {
     it('must return an array of edge Properties', (done) => {
-      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.getHiddenEdgeProperties();
       }).then(function(res){
         expect(res.length).toEqual(1);
@@ -702,7 +703,7 @@ describe('Linkurious class', () => {
 
   describe('getHiddenNodeProperties method', () => {
     it('must return an array of node Properties', (done) => {
-      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.getHiddenNodeProperties();
       }).then(function(res){
         expect(res.length).toEqual(1);
@@ -714,7 +715,7 @@ describe('Linkurious class', () => {
 
   describe('getNonIndexedEdgeProperties method', () => {
     it('must return an array of edge Properties', (done) => {
-      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.getNonIndexedEdgeProperties();
       }).then(function(res){
         expect(res.length).toEqual(2);
@@ -726,7 +727,7 @@ describe('Linkurious class', () => {
 
   describe('getNonIndexedNodeProperties method', () => {
     it('must return an array of node Properties', (done) => {
-      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.getNonIndexedNodeProperties();
       }).then(function(res){
         expect(res.length).toEqual(2);
@@ -738,7 +739,7 @@ describe('Linkurious class', () => {
 
   describe('setHiddenEdgeProperties method', () => {
     it('must return true', (done) => {
-      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.setHiddenEdgeProperties({properties : ['testHiddenEdgeProp']});
       }).then(function(res){
         expect(res).toBeTruthy();
@@ -749,7 +750,7 @@ describe('Linkurious class', () => {
 
   describe('setHiddenNodeProperties method', () => {
     it('must return true', (done) => {
-      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.setHiddenNodeProperties({properties : ['testHiddenNodeProp']});
       }).then(function(res){
         expect(res).toBeTruthy();
@@ -760,7 +761,7 @@ describe('Linkurious class', () => {
 
   describe('setNonIndexedEdgeProperties method', () => {
     it('must return true', (done) => {
-      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.setNotIndexedEdgeProperties({properties : ['testNonIndexedEdgeProp']});
       }).then(function(res){
         expect(res).toBeTruthy();
@@ -771,7 +772,7 @@ describe('Linkurious class', () => {
 
   describe('setNonIndexedNodeProperties method', () => {
     it('must return true', (done) => {
-      return linkurious.startClient({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.setNotIndexedNodeProperties({properties : ['testNonIndexedNodeProp'], dataSourceKey:'66a2bc71'});
       }).then(function(res){
         expect(res).toBeTruthy();
@@ -937,7 +938,7 @@ describe('Linkurious class', () => {
 
   describe('countEdge method', () => {
     it('must return the number of edges', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.edge.count();
       }).then(res => {
         expect(res).toEqual(17);
@@ -1006,7 +1007,7 @@ describe('Linkurious class', () => {
 
   describe('isAuth method', () => {
     it('must return true if user is auth', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.my.IsAuth();
       }).then(res => {
         expect(res).toBeTruthy();
@@ -1017,7 +1018,7 @@ describe('Linkurious class', () => {
 
   describe('isAdmin method', () => {
     it('must return true if user is admin', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.my.IsAdmin();
       }).then(res => {
         expect(res).toBeTruthy();
@@ -1028,7 +1029,7 @@ describe('Linkurious class', () => {
 
   describe('getAllGraphQuery method', () => {
     it('must return an array of graphQuery', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.my.getAllGraphQueries();
       }).then(res => {
         expect(res.length).toEqual(0);
@@ -1039,7 +1040,7 @@ describe('Linkurious class', () => {
 
   describe('saveGraphQuery method', () => {
     it('must save a graphQuery', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.my.saveGraphQuery({
           name : 'mygraphQuery',
           dialect : 'cypher',
@@ -1055,7 +1056,7 @@ describe('Linkurious class', () => {
 
   describe('update GraphQuery', () => {
     it('must update the graphQuery', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.my.updateGraphQuery({
           content : 'MATCH(Person {name: \'Carrie Anne Moss\'})\nRETURN(Person)',
           id : graphQueryId
@@ -1069,7 +1070,7 @@ describe('Linkurious class', () => {
 
   describe('get a graphQuery method', () => {
     it('must return the right graphQuery', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.my.getGraphQuery(graphQueryId);
       }).then(res => {
         expect(res.id).toEqual(1);
@@ -1080,7 +1081,7 @@ describe('Linkurious class', () => {
 
   describe('delete a graphQuery method', () => {
     it('must delete the right graphQuery', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.my.deleteGraphQuery(graphQueryId);
       }).then(res => {
         expect(res).toBeTruthy();
@@ -1091,7 +1092,7 @@ describe('Linkurious class', () => {
 
   describe('getItemsVersions method', () => {
     it('must return something', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.graph.getItemsVersions({
           edges : [edgeID],
           nodes : [nodeId]
@@ -1106,7 +1107,7 @@ describe('Linkurious class', () => {
 
   describe('getShortestsPaths method', () => {
     it('must return an array of nodes', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName', password:'testPass'}).then(() => {
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.graph.getShortestPaths({
           startNode : sourceId,
           endNode : targetId,
@@ -1121,7 +1122,7 @@ describe('Linkurious class', () => {
 
   describe('countNode method', () => {
     it('must return thos number of nodes', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.node.count();
       }).then(res => {
         expect(res).toEqual(12);
@@ -1132,7 +1133,7 @@ describe('Linkurious class', () => {
 
   describe('createNode method', () => {
     it('must create a node', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.node.create({
           data : {
             name : 'Robert Mitchum'
@@ -1150,7 +1151,7 @@ describe('Linkurious class', () => {
 
   describe('deleteNode method', () => {
     it('must delete a node', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.node.deleteOne(nodeToDelete);
       }).then(res => {
         expect(res).toBeTruthy();
@@ -1161,7 +1162,7 @@ describe('Linkurious class', () => {
 
   describe('getNeighborsCategories method', () => {
     it('must return an array of digest', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.node.getNeighborsCategories({ids:[nodeId]});
       }).then(res => {
         expect(res.length).toEqual(3);
@@ -1172,7 +1173,7 @@ describe('Linkurious class', () => {
 
   describe('searchFullNodes method', () => {
     it('must return an array of nodes', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.search.fullNodes({q:'matrix'});
       }).then(res => {
         expect(res.length).toEqual(3);
@@ -1183,7 +1184,7 @@ describe('Linkurious class', () => {
 
   describe('searchFullEdges method', () => {
     it('must return a array of edges', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.search.fullEdges({q:'ACTED_IN'});
       }).then(res => {
         expect(res.length).toEqual(7);
@@ -1194,7 +1195,7 @@ describe('Linkurious class', () => {
 
   describe('search NodesInDirectory method', () => {
     it('must return a search result', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.search.NodesInDirectory({
           categoryOrTypes : ['Person'],
           properties : ['name']
@@ -1210,7 +1211,7 @@ describe('Linkurious class', () => {
 
   describe('search EdgesInDirectory method', () => {
     it('must return a search result', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.search.EdgesInDirectory({
           properties : ['roles', 'altEdgeID']
         });
@@ -1225,7 +1226,7 @@ describe('Linkurious class', () => {
 
   describe('count visualization method', () => {
     it('must return the number of visualization', (done) => {
-      return linkurious.startClient({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.visualization.count();
       }).then(res => {
         expect(res).toEqual(6);
@@ -1236,7 +1237,7 @@ describe('Linkurious class', () => {
 
   describe('getTree method', () => {
     it('must return visualizations', (done) => {
-      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
         return linkurious.visualization.getTree();
       }).then(res => {
         expect(res[0].id).toEqual(5);
@@ -1251,7 +1252,7 @@ describe('Linkurious class', () => {
 
   describe('createFolder method', () => {
     it('must create a folder', (done) => {
-      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
         return linkurious.visualization.createFolder({parent : 0, title : 'testFolder'});
       }).then(res => {
         expect(res.title).toEqual('testFolder');
@@ -1263,7 +1264,7 @@ describe('Linkurious class', () => {
 
   describe('updateFolder method', () => {
     it('must update te folder', (done) => {
-      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
         return linkurious.visualization.updateFolder({
           id : folderId,
           key : 'title',
@@ -1278,7 +1279,7 @@ describe('Linkurious class', () => {
 
   describe('delete folder method', () => {
     it('must delete a folder', (done) => {
-      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
         return linkurious.visualization.deleteFolder(folderId);
       }).then(res => {
         expect(res).toBeTruthy();
@@ -1291,7 +1292,7 @@ describe('Linkurious class', () => {
 
   describe('duplicate visu method', () => {
     it('must return the created visu', (done) => {
-      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
         return linkurious.visualization.duplicate(visu.id);
       }).then(res => {
         expect(res.title).toEqual('Copy of youpi vizu');
@@ -1303,7 +1304,7 @@ describe('Linkurious class', () => {
 
   describe('delete a visu method', () => {
     it('must delete a visu', (done) => {
-      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
         return linkurious.visualization.deleteOne(visuToDelete);
       }).then(res => {
         expect(res).toBeTruthy();
@@ -1314,7 +1315,7 @@ describe('Linkurious class', () => {
 
   describe('get share rights of a visu method', () => {
     it('must return sharers', (done) => {
-      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
         return linkurious.visualization.getShares(visu.id);
       }).then(res => {
         expect(res.shares.length).toEqual(0);
@@ -1326,7 +1327,7 @@ describe('Linkurious class', () => {
 
   describe('updateVisu method', () => {
     it('must update the visu', (done) => {
-      return linkurious.startClient({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
         return linkurious.visualization.update({
           id : visu.id,
           forceLock : false,

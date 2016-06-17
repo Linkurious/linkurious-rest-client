@@ -182,7 +182,7 @@ export class AdminModule extends Module {
       method    : 'PUT',
       body      : data,
       dataSource: this.setDataSourceKey(data.dataSourceKey)
-    }).then(() => true);
+    });
   }
 
   /**
@@ -197,7 +197,7 @@ export class AdminModule extends Module {
       method    : 'PUT',
       body      : data,
       dataSource: this.setDataSourceKey(data.dataSourceKey)
-    }).then(() => true);
+    });
   }
 
   /**
@@ -212,7 +212,7 @@ export class AdminModule extends Module {
       method    : 'PUT',
       body      : data,
       dataSource: this.setDataSourceKey(data.dataSourceKey)
-    }).then(() => true);
+    });
   }
 
   /**
@@ -227,7 +227,7 @@ export class AdminModule extends Module {
       method    : 'PUT',
       body      : data,
       dataSource: this.setDataSourceKey(data.dataSourceKey)
-    }).then(() => true);
+    });
   }
 
   /**
