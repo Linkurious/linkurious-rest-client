@@ -53,7 +53,7 @@ const Linkurious = require('linkurious-rest-client');
 The library is also compilated to be used directly in the browser :
 
 ```html
-<script src="./linkurious-rest-client-es5.js"/>
+<script src="./linkurious-rest-client-es5.js"></script>
 ```
 
 ## First steps
