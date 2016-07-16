@@ -25,7 +25,7 @@
     "url": "git+https://github.com/Linkurious/linkurious-rest-client.git"
   },
   "author": "linkurious",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Linkurious/linkurious-rest-client/issues"
   },
