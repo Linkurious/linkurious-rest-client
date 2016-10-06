@@ -76,7 +76,7 @@ export class AlertModule extends Module {
     };
 
     return this.fetch({
-      url : '/{dataSourceKey}/alerts/{id}/matches/' + data.matchId + '/action',
+      url : `/{dataSourceKey}/alerts/{id}/matches/${data.matchId}/action`,
       method : 'POST',
       body : body
     }).then(() => true);
