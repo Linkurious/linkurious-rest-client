@@ -21,21 +21,6 @@ export class GraphModule extends Module {
   }
 
   /**
-   * Get the edit-versions for nodes and edges.
-   *
-   * @param {IGetItemVersions} data
-   * @returns {Promise}
-   */
-  public getItemsVersions(data:Query.IGetItemVersions):Promise<any> {
-    return this.fetch({
-      url       : '/{dataSourceKey}/graph/versions',
-      method    : 'POST',
-      body      : data,
-      dataSource: this.setDataSourceKey(data.dataSourceKey)
-    });
-  }
-
-  /**
    * Returns an array of <LkNode[]> corresponding to all the shortest paths between two nodes that the user can read.
    *
    * @param {IGetShortestPaths} nodesConfig
