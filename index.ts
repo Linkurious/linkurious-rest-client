@@ -21,6 +21,7 @@ import {EdgeModule} from './src/module/EdgeModule';
 import {NodeModule} from './src/module/NodeModule';
 import {SearchModule} from './src/module/SearchModule';
 import {VisualizationModule} from './src/module/VisualizationModule';
+import {AlertModule} from './src/module/AlertModule';
 import * as Query from './src/Query';
 import {
   IDataSource,
@@ -45,6 +46,7 @@ class Linkurious {
   private _node:NodeModule;
   private _search:SearchModule;
   private _visualization:VisualizationModule;
+  private _alert:AlertModule;
 
   get state():IClientState {
     return this._clientState;
@@ -68,6 +70,7 @@ class Linkurious {
     this._node          = new NodeModule(this._fetcher);
     this._search        = new SearchModule(this._fetcher);
     this._visualization = new VisualizationModule(this._fetcher);
+    this._alert         = new AlertModule(this._fetcher);
   }
 
   /**
@@ -120,6 +123,13 @@ class Linkurious {
   }
 
   /**
+   * @returns {AlertModule}
+   */
+  get alerts():AlertModule {
+    return this._alert;
+  }
+
+  /**
    * Process to login of the corresponding user and return it.
    *
    * @param {ILoginUser} data
@@ -145,6 +155,13 @@ class Linkurious {
         return true;
       });
     }
+  }
+
+  public oAuthAzure():Promise<boolean> {
+    return this._fetcher.fetch({
+      url : '/auth/azuread/login',
+      method : 'GET'
+    }).then(() => true);
   }
 
   /**

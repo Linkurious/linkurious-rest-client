@@ -12,17 +12,9 @@
 import * as Query from '../Query';
 import {Fetcher} from '../http/fetcher';
 import {
-  IDeletedDataSource,
-  IFullDataSource,
-  IFullUser,
-  IGroup,
-  ISimpleGroup,
-  IGroupRights,
-  IAccessRight,
-  IIndexationStatus,
-  IIndexationCallback,
-  IClientState,
-  IDataSourceConfig
+  IDeletedDataSource, IFullDataSource, IFullUser, IGroup, ISimpleGroup, IGroupRights, IAccessRight,
+  IIndexationStatus, IIndexationCallback, IClientState, IDataSourceConfig,
+  IFullAdminAlert
 } from '../interfaces';
 import {Utils} from '../http/utils';
 import {Logger} from './../log/Logger';
@@ -489,6 +481,85 @@ export class AdminModule extends Module {
   }
 
   /**
+   * Create and return new alert
+   * @param {ICreateAlert} data
+   * @returns {Promise<IFullAdminAlert>}
+   */
+  public createAlert(data:Query.ICreateAlert):Promise<IFullAdminAlert> {
+    return this.fetch({
+      url       : '/admin/{dataSourceKey}/alerts',
+      method    : 'POST',
+      body      : data,
+      dataSource: this.setDataSourceKey(data.dataSourceKey)
+    });
+  }
+
+  /**
+   * update existing alert
+   * @param {ICreateAlert} data
+   * @returns {Promise<IFullAdminAlert>}
+   */
+  public updateAlert(data:Query.IUpdateAlert):Promise<IFullAdminAlert> {
+    return this.fetch({
+      url       : '/admin/{dataSourceKey}/alerts/{id}',
+      method    : 'PATCH',
+      body      : data
+    });
+  }
+
+  /**
+   * delete existing alert
+   * @param {IAlert} data
+   * @returns {Promise<boolean>}
+   */
+  public deleteAlert(data:Query.IAlert):Promise<boolean> {
+    return this.fetch({
+      url : '/admin/{dataSourceKey}/alerts/{id}',
+      method : 'DELETE',
+      body : data
+    }).then(() => true);
+  }
+
+  /**
+   * get list of all alerts
+   * @param {IDataSourceRelative} data
+   * @returns {Promise<IFullAdminAlert>}
+   */
+  public getAlerts(data:IDataSourceRelative):Promise<Array<IFullAdminAlert>> {
+    return this.fetch({
+      url : '/admin/{dataSourceKey}/alerts',
+      method : 'GET',
+      dataSource: this.setDataSourceKey(data.dataSourceKey)
+    });
+  }
+
+  /**
+   * get an alert
+   * @param {IAlert} data
+   * @returns {Promise<IFullAdminAlert>}
+   */
+  public getAlert(data:Query.IAlert):Promise<IFullAdminAlert> {
+    return this.fetch({
+      url : '/admin/{dataSourceKey}/alerts/{id}',
+      method : 'GET',
+      body : data
+    });
+  }
+
+  /**
+   * reset all default styles for a dataSource
+   * @param {IDataSourceRelative} data
+   * @returns {Promise<boolean>}
+   */
+  public resetStyles(data:IDataSourceRelative):Promise<boolean> {
+    return this.fetch({
+      url : '/admin/source/{dataSourceKey}/resetDefaultStyles',
+      method : 'POST',
+      dataSource : this.setDataSourceKey(data.dataSourceKey)
+    }).then(() => true);
+  }
+
+  /**
    * @callback IIndexationCallback
    * @param {IIndexationStatus} responseStatus
    */
@@ -515,5 +586,4 @@ export class AdminModule extends Module {
       }
     });
   }
-
 }
