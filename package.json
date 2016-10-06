@@ -33,7 +33,7 @@
   "scripts": {
     "lint": "node_modules/.bin/tslint \"src/**/*.ts\"",
     "compileTests": "node_modules/.bin/tsc --project tsconfig_tests.json",
-    "pretest": "npm run compileTests && npm run lint",
+    "pretest": "rm -rf tempTests && npm run compileTests && npm run lint",
     "test": "node test/runTests.js",
     "posttest": "rm -rf tempTests",
     "postinstall": "node_modules/.bin/typings install",
