@@ -9,10 +9,9 @@
  */
 'use strict';
 import {Module} from './Module';
-import {IMatch, IMatchAction, IAlert, IMatchResults} from '../interfaces';
+import {IMatch, IMatchAction, IAlert, IMatchResults, IDataSourceRelative} from '../interfaces';
 import {Fetcher} from '../http/fetcher';
 import * as Query from '../Query';
-import {IDataSourceRelative} from '../../dist-es6/src/interfaces';
 
 export class AlertModule extends Module {
 
