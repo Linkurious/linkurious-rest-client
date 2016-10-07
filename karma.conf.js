@@ -68,14 +68,14 @@ module.exports = function(config) {
     coverageReporter : {
       type: 'json',
       dir: 'coverage',
-      subdir : 'json',
-      file: 'coverage-final.json'
+      subdir : 'tmp',
+      file: 'coverage.json'
     },
 
     remapIstanbulReporter: {
-      src: 'coverage/json/coverage-final.json',
+      src: 'coverage/tmp/coverage.json',
       reports: {
-        html: 'coverage'
+        json: 'coverage/coverage_client.json'
       },
       timeoutNotCreated: 1000,
       timeoutNoMoreFiles: 1000
