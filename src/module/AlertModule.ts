@@ -9,7 +9,7 @@
  */
 'use strict';
 import {Module} from './Module';
-import {IFullAlert, IMatchAction, IAlert, IMatchesResults} from '../interfaces';
+import {IMatch, IMatchAction, IAlert, IMatchResults} from '../interfaces';
 import {Fetcher} from '../http/fetcher';
 import * as Query from '../Query';
 import {IDataSourceRelative} from '../../dist-es6/src/interfaces';
@@ -40,9 +40,9 @@ export class AlertModule extends Module {
   /**
    * get an alert
    * @param {IAlert} data
-   * @returns {Promise<IFullAlert>}
+   * @returns {Promise<IMatch>}
    */
-  public getAlert(data:Query.IAlert):Promise<IFullAlert> {
+  public getAlert(data:Query.IAlert):Promise<IMatch> {
     return this.fetch({
       url : '/{dataSourceKey}/alerts/{id}',
       method : 'GET',
@@ -53,9 +53,9 @@ export class AlertModule extends Module {
   /**
    * get matches for an alert
    * @param {IFilteredAlert} data
-   * @returns {Promise<IMatchesResults>}
+   * @returns {Promise<IMatchResults>}
    */
-  public getMatches(data:Query.IFilteredAlert):Promise<IMatchesResults> {
+  public getMatches(data:Query.IFilteredAlert):Promise<IMatchResults> {
     return this.fetch({
       url : '/{dataSourceKey}/alerts/{id}/matches',
       method : 'GET',
@@ -85,9 +85,9 @@ export class AlertModule extends Module {
   /**
    * get a match
    * @param {IMatch} data
-   * @returns {Promise<IFullAlert>}
+   * @returns {Promise<IMatch>}
    */
-  public getMatch(data:Query.IMatch):Promise<IFullAlert> {
+  public getMatch(data:Query.IMatch):Promise<IMatch> {
     return this.fetch({
       url : `/{dataSourceKey}/alerts/{id}/matches/${data.matchId}`,
       method : 'GET',

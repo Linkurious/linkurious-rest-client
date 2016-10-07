@@ -9,7 +9,7 @@ export type VisualizationModeType = 'nodelink'|'geo';
 export type ShareRightType = 'read'|'write'|'owner';
 export type ConstraintsOperatorType = 'contains'|'equals'|'more than'|'less than'|'starts with';
 export type MatchStatus = 'unconfirmed'|'confirmed'|'dismissed';
-export type ActionStatus = 'open'|'confirm'|'dismiss'|'unconfirm';
+export type MatchActionType = 'open'|'confirm'|'dismiss'|'unconfirm';
 
 export type IIndexationCallback = (res:IIndexationStatus) => void;
 
@@ -564,11 +564,9 @@ export interface IFullAdminAlert extends IAdminAlert, IIdentified {
   lastRunProblem:IAlertRunProblem;
 }
 
-export interface IAlert extends IIdentified, IBaseAlert {
-  sourceKey:string;
-}
+export interface IAlert extends IIdentified, IBaseAlert, IDataSourceKey {}
 
-export interface IFullAlert extends IIdentified, IBaseAlert {
+export interface IMatch extends IIdentified, IBaseAlert {
   alertId:number;
   score:number;
   hash:string;
@@ -580,20 +578,20 @@ export interface IFullAlert extends IIdentified, IBaseAlert {
 }
 
 export interface IMatchAction extends IIdentified {
-  action:ActionStatus;
+  action:MatchActionType;
   matchId:number;
   user:ISimpleUser;
   createdAt:string;
   updatedAt:string;
 }
 
-export interface ICountMatches {
+export interface IMatchStats {
   unconfirmed:number;
   confirmed:number;
   dismissed:number;
 }
 
-export interface IMatchesResults {
-  counts:ICountMatches;
-  matches:Array<IFullAlert>;
+export interface IMatchResults {
+  counts:IMatchStats;
+  matches:Array<IMatch>;
 }
