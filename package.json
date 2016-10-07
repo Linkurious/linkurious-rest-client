@@ -33,8 +33,8 @@
   "scripts": {
     "lint": "node_modules/.bin/tslint \"src/**/*.ts\"",
     "compileTests": "node_modules/.bin/tsc --project tsconfig_tests.json",
-    "pretest": "npm run compileTests && npm run lint",
-    "test": "node test/runTests.js",
+    "pretest": "rm -rf tempTests && npm run compileTests && npm run lint",
+    "test": "node_modules/.bin/istanbul cover --root ../linkurious-server/server/services/webServer/routes --report html --dir cover_API test/runTests.js",
     "posttest": "rm -rf tempTests",
     "postinstall": "node_modules/.bin/typings install",
     "clean": "rm -rf ./dist-es6 && rm -rf ./typings && rm -rf ./node_modules && rm -rf ./coverage",

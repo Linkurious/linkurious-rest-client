@@ -8,6 +8,8 @@ export type ItemId = string | number;
 export type VisualizationModeType = 'nodelink'|'geo';
 export type ShareRightType = 'read'|'write'|'owner';
 export type ConstraintsOperatorType = 'contains'|'equals'|'more than'|'less than'|'starts with';
+export type MatchStatus = 'unconfirmed'|'confirmed'|'dismissed';
+export type MatchActionType = 'open'|'confirm'|'dismiss'|'unconfirm';
 
 export type IIndexationCallback = (res:IIndexationStatus) => void;
 
@@ -64,7 +66,7 @@ export interface ISimpleUser extends IIdentified {
 
 export interface IUser extends ISimpleUser {
   groups:Array<ISimpleGroup>;
-  ldap:boolean;
+  source:'string';
   admin?:boolean;
 }
 
@@ -526,4 +528,70 @@ export interface IDataSourceRelative {
 
 export interface IDataSourceConfig {
   dataSourceIndex?:number;
+}
+
+export interface IDataSourceKey {
+  sourceKey:string;
+}
+
+export interface IAlertRunProblem {
+  error:Object;
+  partial:boolean;
+}
+
+export interface IBaseAlert {
+  title:string;
+  createdAt:string;
+  updatedAt:string;
+}
+
+export interface IAdminAlert extends IBaseAlert, IDataSourceKey {
+  query:string;
+  dialect:string;
+  enabled:boolean;
+  cron:string;
+  nextRun:string;
+}
+
+export interface IFullAdminAlert extends IAdminAlert, IIdentified {
+  matchTTL:number;
+  scoreColumn:string;
+  sortDirection:string;
+  maxMatches:number;
+  maxRuntime:number;
+  userId:number;
+  lastRun:string;
+  lastRunProblem:IAlertRunProblem;
+}
+
+export interface IAlert extends IIdentified, IBaseAlert, IDataSourceKey {}
+
+export interface IMatch extends IIdentified, IBaseAlert {
+  alertId:number;
+  score:number;
+  hash:string;
+  status:MatchStatus;
+  user:ISimpleUser;
+  nodes:Array<number>;
+  edges:Array<number>;
+  expirationDate:string;
+}
+
+export interface IMatchAction extends IIdentified {
+  action:MatchActionType;
+  matchId:number;
+  user:ISimpleUser;
+  createdAt:string;
+  updatedAt:string;
+}
+
+export interface IMatchStats {
+  unconfirmed:number;
+  confirmed:number;
+  dismissed:number;
+}
+
+export interface IMatchResults {
+  counts:IMatchStats;
+  matches:Array<IMatch>;
 }

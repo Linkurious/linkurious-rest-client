@@ -128,7 +128,6 @@ function clearEnvFiles() {
 clearEnvFiles();
 
 var utils = require('../../linkurious-server/test/utils');
-
 Promise.resolve().then(() => {
   // switch to desired graph DB before running APP and tests.
   var graphConfig = {
@@ -140,6 +139,11 @@ Promise.resolve().then(() => {
   graphConfig.alternativeNodeId               = 'name';
   graphConfig.alternativeEdgeId               = 'altEdgeID';
   Config.defaultConfig.dataSources[0].graphdb = graphConfig;
+
+  // we delete the test.json file so created based on Config.defaultConfig
+  console.log('resetting user configuration file (automatic in TEST mode)');
+  var file = Config.getUserConfigPath();
+  if (fs.existsSync(file)) { fs.unlinkSync(file); }
 
   // force enterprise/starter edition
   LKE.getRelease().enterprise = true;

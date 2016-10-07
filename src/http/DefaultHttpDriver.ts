@@ -11,6 +11,7 @@
 import * as request from 'superagent';
 import {IHttpResponse} from './IHttpResponse';
 import {IHttpDriver} from './IHttpDriver';
+import {LinkuriousError} from '../LinkuriousError';
 
 export class DefaultHttpDriver implements IHttpDriver {
   private cookie:string;
@@ -90,6 +91,13 @@ export class DefaultHttpDriver implements IHttpDriver {
 
     if ((typeof res.status !== 'number' || res.status < 100) && err) {
       return reject(err);
+    }
+
+    if (res.type !== 'application/json') {
+      return reject(LinkuriousError.fromClientError(
+        'communication_error',
+        'Wrong content-type'
+      ));
     }
 
     if (res.header && res.header['set-cookie']) {
