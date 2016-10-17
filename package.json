@@ -41,13 +41,16 @@
     "bundling": "./node_modules/.bin/browserify dist-es6/index.js -s Linkurious --outfile bundle.js",
     "compile": "./node_modules/.bin/babel bundle.js --out-file linkurious-rest-client-es5.js",
     "build": "tsc && npm run bundling && npm run compile && rm bundle.js",
-    "doc" : "./node_modules/.bin/typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts"
+    "doc": "./node_modules/.bin/typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts"
   },
   "dependencies": {
     "es6-promise": "^3.1.2",
     "superagent": "^1.8.3"
   },
   "devDependencies": {
+    "@types/jasmine": "^2.5.35",
+    "@types/node": "^6.0.45",
+    "@types/superagent": "^2.0.35",
     "babel-cli": "^6.10.1",
     "babel-preset-es2015": "^6.9.0",
     "browserify": "^13.0.1",
@@ -67,7 +70,7 @@
     "systemjs-plugin-babel": "0.0.12",
     "tslint": "^3.10.2",
     "typedoc": "sierrasoftworks/typedoc#v1.8.10",
-    "typescript": "^1.8.10",
+    "typescript": "^2.0.0",
     "typings": "^1.0.4"
   }
 }
