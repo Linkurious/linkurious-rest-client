@@ -28,7 +28,7 @@ var MyModule = (function (_super) {
         return this.fetch({
             url: '/auth/me',
             method: 'GET'
-        });
+        }).then(function (response) { return response.user; });
     };
     /**
      * Check if the user is authenticated.

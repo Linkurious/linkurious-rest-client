@@ -28,7 +28,7 @@ export class MyModule extends Module {
     return this.fetch({
       url : '/auth/me',
       method : 'GET'
-    });
+    }).then((response:any) => response.user);
   }
 
   /**
