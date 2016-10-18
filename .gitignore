@@ -37,6 +37,4 @@ built/*
 # IDEA config
 .idea
 
-dist-es6/
-
 linkurious-rest-client-es5.js

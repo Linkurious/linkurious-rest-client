@@ -34,7 +34,7 @@ import {
   IClientState
 } from './src/interfaces';
 
-class Linkurious {
+export class Linkurious {
   private _fetcher:Fetcher;
   private _clientState:IClientState;
   private _logger:Logger;
@@ -303,7 +303,7 @@ class Linkurious {
       method: 'GET',
       query : {sourceIndex: sourceIndex},
       url   : '/config'
-    });
+    }).then(response => response.config);
   }
 
   /**
@@ -344,5 +344,3 @@ class Linkurious {
     }
   }
 }
-
-export = Linkurious;

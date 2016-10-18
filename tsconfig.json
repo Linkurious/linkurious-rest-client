@@ -1,25 +1,21 @@
 {
   "compilerOptions": {
-    "target" : "ES6",
+    "target" : "es5",
     "module": "commonjs",
+    "moduleResolution" : "node",
     "declaration": true,
     "removeComments": false,
-    "stripInternal": true,
     "sourceMap": true,
     "outDir": "./dist-es6",
     "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "allowUnreachableCode": false,
-    "allowJs": false,
-    "charset": "utf8",
-    "emitBOM": false,
-    "newLine": "crlf",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowUnusedLabels": false,
-    "allowSyntheticDefaultImports": true
+    "experimentalDecorators": true
   },
+  "include": [
+    "index.ts",
+    "src/**/*",
+    "node_modules/@types/**/*"
+  ],
   "exclude": [
     "node_modules",
     "test",
