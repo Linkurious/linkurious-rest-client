@@ -10,7 +10,7 @@
 'use strict';
 
 import * as Query from '../Query';
-import {IGraphQuery} from '../interfaces';
+import { IGraphQuery, IFullUser } from '../interfaces';
 import {Module} from './Module';
 import {Fetcher} from '../http/fetcher';
 
@@ -18,6 +18,17 @@ export class MyModule extends Module {
 
   constructor(fetcher:Fetcher) {
     super(fetcher);
+  }
+  /**
+   * get authenticated user infos
+   *
+   * @returns {Promise<IFullUser>}
+   */
+  public infos():Promise<IFullUser> {
+    return this.fetch({
+      url : '/auth/me',
+      method : 'GET'
+    });
   }
 
   /**
