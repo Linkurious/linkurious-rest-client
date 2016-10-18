@@ -8,30 +8,36 @@
  * Description :
  */
 'use strict';
-const Module_1 = require('./Module');
-class EdgeModule extends Module_1.Module {
-    constructor(fetcher) {
-        super(fetcher);
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Module_1 = require('./Module');
+var EdgeModule = (function (_super) {
+    __extends(EdgeModule, _super);
+    function EdgeModule(fetcher) {
+        _super.call(this, fetcher);
     }
     /**
      * return the number of edges in the graph.
      *
      * @returns {Promise<number>}
      */
-    count() {
+    EdgeModule.prototype.count = function () {
         return this.fetch({
             url: '/{dataSourceKey}/graph/edges/count',
             method: 'GET'
-        }).then((res) => res.count);
-    }
+        }).then(function (res) { return res.count; });
+    };
     /**
      * Add an edge in the graph.
      *
      * @param {ICreateEdge} data
      * @returns {Promise<IEdge>}
      */
-    create(data) {
-        let dataToSend = data;
+    EdgeModule.prototype.create = function (data) {
+        var dataToSend = data;
         dataToSend.properties = data.data;
         delete dataToSend.data;
         return this.fetch({
@@ -39,7 +45,7 @@ class EdgeModule extends Module_1.Module {
             method: 'POST',
             body: dataToSend
         });
-    }
+    };
     /**
      * Modify the properties of an edge in the graph by the given ones. Keeps the other properties of
      * the edge unchanged.
@@ -47,8 +53,8 @@ class EdgeModule extends Module_1.Module {
      * @param {IUpdateEdge} data
      * @returns {Promise<IEdge>}
      */
-    update(data) {
-        let dataToSend = data;
+    EdgeModule.prototype.update = function (data) {
+        var dataToSend = data;
         dataToSend.properties = data.data;
         dataToSend.deleteProperties = data.deletedData;
         delete dataToSend.data;
@@ -58,20 +64,20 @@ class EdgeModule extends Module_1.Module {
             method: 'PATCH',
             body: data
         });
-    }
+    };
     /**
      * Delete a edge from the graph.
      *
      * @param {ItemId} edgeId
      * @returns {Promise<boolean>}
      */
-    deleteOne(edgeId) {
+    EdgeModule.prototype.deleteOne = function (edgeId) {
         return this.fetch({
             url: '/{dataSourceKey}/graph/edges/{id}',
             method: 'DELETE',
             body: { id: edgeId }
-        }).then(() => true);
-    }
+        }).then(function () { return true; });
+    };
     /**
      * Get the adjacent edges of a node from the graph.
      * If source is provided, return outgoing edges only.
@@ -81,9 +87,9 @@ class EdgeModule extends Module_1.Module {
      * @param {IGetAdjacentEdges} data
      * @returns {Promise<Array<IEdge>>}
      */
-    getAdjacentFromNode(data) {
+    EdgeModule.prototype.getAdjacentFromNode = function (data) {
         // clone
-        let query = JSON.parse(JSON.stringify(data));
+        var query = JSON.parse(JSON.stringify(data));
         if (query.orientation === 'in') {
             query.source = data.nodeId;
         }
@@ -100,46 +106,47 @@ class EdgeModule extends Module_1.Module {
             method: 'GET',
             query: query
         });
-    }
+    };
     /**
      * Get an edge of the graph.
      *
      * @param {ItemId} edgeId
      * @returns {Promise<IEdge>}
      */
-    getOne(edgeId) {
+    EdgeModule.prototype.getOne = function (edgeId) {
         return this.fetch({
             url: '/{dataSourceKey}/graph/edges/{id}',
             method: 'GET',
             body: { id: edgeId }
         });
-    }
+    };
     /**
      * List all edgeType properties (aggregated from all edgeTypes)
      *
      * @param {IGetItemProperties} [params]
      * @returns {Promise<Array<IProperty>>}
      */
-    getProperties(params) {
+    EdgeModule.prototype.getProperties = function (params) {
         return this.fetch({
             url: '/{dataSourceKey}/graph/schema/edgeTypes/properties',
             method: 'GET',
             query: params
-        }).then((res) => res.properties);
-    }
+        }).then(function (res) { return res.properties; });
+    };
     /**
      * List edge-types indexed by linkurious
      *
      * @param {IGetEdgeTypes} [params]
      * @returns {Promise<Array<IItemType>>}
      */
-    getTypes(params) {
+    EdgeModule.prototype.getTypes = function (params) {
         return this.fetch({
             url: '/{dataSourceKey}/graph/schema/edgeTypes',
             method: 'GET',
             query: params
-        }).then((res) => res.edgeTypes);
-    }
-}
+        }).then(function (res) { return res.edgeTypes; });
+    };
+    return EdgeModule;
+}(Module_1.Module));
 exports.EdgeModule = EdgeModule;
 //# sourceMappingURL=EdgeModule.js.map

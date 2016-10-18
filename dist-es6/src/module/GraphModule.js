@@ -8,25 +8,17 @@
  * Description :
  */
 'use strict';
-const utils_1 = require('../http/utils');
-const Module_1 = require('./Module');
-class GraphModule extends Module_1.Module {
-    constructor(fetcher) {
-        super(fetcher);
-    }
-    /**
-     * Get the edit-versions for nodes and edges.
-     *
-     * @param {IGetItemVersions} data
-     * @returns {Promise}
-     */
-    getItemsVersions(data) {
-        return this.fetch({
-            url: '/{dataSourceKey}/graph/versions',
-            method: 'POST',
-            body: data,
-            dataSource: this.setDataSourceKey(data.dataSourceKey)
-        });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var utils_1 = require('../http/utils');
+var Module_1 = require('./Module');
+var GraphModule = (function (_super) {
+    __extends(GraphModule, _super);
+    function GraphModule(fetcher) {
+        _super.call(this, fetcher);
     }
     /**
      * Returns an array of <LkNode[]> corresponding to all the shortest paths between two nodes that the user can read.
@@ -34,26 +26,27 @@ class GraphModule extends Module_1.Module {
      * @param {IGetShortestPaths} nodesConfig
      * @returns {Promise<Array<Array<IFullNode|IEdge>>>}
      */
-    getShortestPaths(nodesConfig) {
+    GraphModule.prototype.getShortestPaths = function (nodesConfig) {
         return this.fetch({
             url: '/{dataSourceKey}/graph/shortestPaths',
             method: 'GET',
             query: nodesConfig
-        }).then((res) => res.results);
-    }
+        }).then(function (res) { return res.results; });
+    };
     /**
      * Returns an array of LkNode[] matching the sent query.
      *
      * @param {ISendQuery} data
      * @returns {Promise<Array<INode>>}
      */
-    getNodeList(data) {
+    GraphModule.prototype.getNodeList = function (data) {
         return this.fetch({
             url: '/{dataSourceKey}/graph/rawQuery',
             method: 'POST',
             body: utils_1.Utils.fixSnakeCase(data)
         });
-    }
-}
+    };
+    return GraphModule;
+}(Module_1.Module));
 exports.GraphModule = GraphModule;
 //# sourceMappingURL=GraphModule.js.map

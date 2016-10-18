@@ -8,177 +8,183 @@
  * Description :
  */
 'use strict';
-const Module_1 = require('./Module');
-class VisualizationModule extends Module_1.Module {
-    constructor(fetcher) {
-        super(fetcher);
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Module_1 = require('./Module');
+var VisualizationModule = (function (_super) {
+    __extends(VisualizationModule, _super);
+    function VisualizationModule(fetcher) {
+        _super.call(this, fetcher);
     }
     /**
      * Get the number of visualizations for the current user in this data-source.
      *
      * @returns {Promise<number>}
      */
-    count() {
+    VisualizationModule.prototype.count = function () {
         return this.fetch({
             url: '/{dataSourceKey}/visualizations/count',
             method: 'GET'
-        }).then((r) => r.count);
-    }
+        }).then(function (r) { return r.count; });
+    };
     /**
      * Create a widget for a visualization.
      *
      * @param {ICreateWidget} data
      * @returns {Promise<string>}
      */
-    createWidget(data) {
+    VisualizationModule.prototype.createWidget = function (data) {
         return this.fetch({
             url: '/widget',
             method: 'POST',
             body: data
         });
-    }
+    };
     /**
      * Create a folder for visualizations
      *
      * @param {ICreateFolder} data
      * @returns {Promise<IFolder>}
      */
-    createFolder(data) {
+    VisualizationModule.prototype.createFolder = function (data) {
         return this.fetch({
             url: '/{dataSourceKey}/visualizations/folder',
             method: 'POST',
             body: data
-        }).then((res) => res.folder);
-    }
+        }).then(function (res) { return res.folder; });
+    };
     /**
      * Create a new visualization.
      *
      * @param {ICreateVisualization} data
      * @returns {Promise<IVisualization>}
      */
-    create(data) {
+    VisualizationModule.prototype.create = function (data) {
         return this.fetch({
             url: '/{dataSourceKey}/visualizations',
             method: 'POST',
             body: data
-        }).then((res) => res.visualization);
-    }
+        }).then(function (res) { return res.visualization; });
+    };
     /**
      * Delete a widget for a visualization.
      *
      * @param {string} widgetKey
      * @returns {Promise<boolean>}
      */
-    deleteWidget(widgetKey) {
+    VisualizationModule.prototype.deleteWidget = function (widgetKey) {
         return this.fetch({
             url: '/widget/' + widgetKey,
             method: 'DELETE'
-        }).then(() => true);
-    }
+        }).then(function () { return true; });
+    };
     /**
      * Remove the specified folder and its children (visualizations and sub-folders)
      *
      * @param {number} folderId
      * @returns {Promise<boolean>}
      */
-    deleteFolder(folderId) {
+    VisualizationModule.prototype.deleteFolder = function (folderId) {
         return this.fetch({
             url: '/{dataSourceKey}/visualizations/folder/' + folderId,
             method: 'DELETE'
         })
-            .then(() => true);
-    }
+            .then(function () { return true; });
+    };
     /**
      * Duplicates a visualization.
      *
      * @param {number} vizId
      * @returns {Promise<IVisualization>}
      */
-    duplicate(vizId) {
+    VisualizationModule.prototype.duplicate = function (vizId) {
         return this.fetch({
             url: '/{dataSourceKey}/visualizations/' + vizId + '/duplicate',
             method: 'POST'
         });
-    }
+    };
     /**
      * Get a visualization widget's data by key
      *
      * @param {string} widgetKey
      * @returns {Promise<IWidget>}
      */
-    getWidget(widgetKey) {
+    VisualizationModule.prototype.getWidget = function (widgetKey) {
         return this.fetch({
             url: '/widget/' + widgetKey,
             method: 'GET'
         });
-    }
+    };
     /**
      * Return the visualization sandbox of the current user for a given data-source
      *
      * @param {IGetSandbox} params
      * @returns {Promise<IVisualization>}
      */
-    getSandbox(params) {
+    VisualizationModule.prototype.getSandbox = function (params) {
         return this.fetch({
             url: '/{dataSourceKey}/sandbox',
             method: 'GET',
             query: params
-        }).then((res) => res.visualization);
-    }
+        }).then(function (res) { return res.visualization; });
+    };
     /**
      * Return one visualizations selected by ID.
      *
      * @param {number} vizId
      * @returns {Promise<IVisualization>}
      */
-    getOne(vizId) {
+    VisualizationModule.prototype.getOne = function (vizId) {
         return this.fetch({
             url: '/{dataSourceKey}/visualizations/' + vizId,
             method: 'GET'
-        }).then((res) => res.visualization);
-    }
+        }).then(function (res) { return res.visualization; });
+    };
     /**
      * Return visualizations ordered with folders hierarchy.
      *
      * @returns {Promise<ITreeChildren>}
      */
-    getTree() {
+    VisualizationModule.prototype.getTree = function () {
         return this.fetch({
             url: '/{dataSourceKey}/visualizations/tree',
             method: 'GET'
-        }).then((res) => res.tree);
-    }
+        }).then(function (res) { return res.tree; });
+    };
     /**
      * Remove visualization selected by id.
      *
      * @param {number} vizId
      * @returns {Promise<boolean>}
      */
-    deleteOne(vizId) {
+    VisualizationModule.prototype.deleteOne = function (vizId) {
         return this.fetch({
             url: '/{dataSourceKey}/visualizations/' + vizId,
             method: 'DELETE'
-        }).then(() => true);
-    }
+        }).then(function () { return true; });
+    };
     /**
      * Get all share rights on a visualization
      * @param {number} vizId
      * @returns {Promise<ISharers>}
      */
-    getShares(vizId) {
+    VisualizationModule.prototype.getShares = function (vizId) {
         return this.fetch({
             url: '/{dataSourceKey}/visualizations/' + vizId + '/shares',
             method: 'GET'
         });
-    }
+    };
     /**
      * Set the share right of a user on a visualization
      *
      * @param {ISetShareRights} data
      * @returns {Promise<IShare>}
      */
-    share(data) {
-        let url = '/{dataSourceKey}/visualizations/' + data.vizId + '/share/' + data.userId;
+    VisualizationModule.prototype.share = function (data) {
+        var url = '/{dataSourceKey}/visualizations/' + data.vizId + '/share/' + data.userId;
         delete data.vizId;
         delete data.userId;
         return this.fetch({
@@ -188,59 +194,60 @@ class VisualizationModule extends Module_1.Module {
                 right: data.right
             }
         });
-    }
+    };
     /**
      * Remove a share right of a user on a visualization
      *
      * @param {IUnshareVisualization} data
      * @returns {Promise<boolean>}
      */
-    unshare(data) {
+    VisualizationModule.prototype.unshare = function (data) {
         return this.fetch({
             url: '/{dataSourceKey}/visualizations/' + data.id + '/shared/' + data.userId,
             method: 'DELETE'
-        }).then(() => true);
-    }
+        }).then(function () { return true; });
+    };
     /**
      * Update a property of a folder
      *
      * @param {IUpdateFolder} data
      * @returns {Promise<boolean>}
      */
-    updateFolder(data) {
+    VisualizationModule.prototype.updateFolder = function (data) {
         return this.fetch({
             url: '/{dataSourceKey}/visualizations/folder/{id}',
             method: 'PATCH',
             body: data
-        }).then(() => true);
-    }
+        });
+    };
     /**
      * Update the sandbox of the current user for a given data-source.
      *
      * @param {IUpdateSandbox} data
      * @returns {Promise<boolean>}
      */
-    updateSandbox(data) {
+    VisualizationModule.prototype.updateSandbox = function (data) {
         return this.fetch({
             url: '/{dataSourceKey}/sandbox',
             method: 'PATCH',
             body: data
-        }).then(() => true);
-    }
+        }).then(function () { return true; });
+    };
     /**
      * Update visualization selected by id.
      *
      * @param {IUpdateVisualization} data
      * @returns {Promise<boolean>}
      */
-    update(data) {
+    VisualizationModule.prototype.update = function (data) {
         return this.fetch({
             url: '/{dataSourceKey}/visualizations/{id}',
             method: 'PATCH',
             body: { id: data.id, visualization: data.visualization },
             query: { forceLock: data.forceLock }
-        }).then(() => true);
-    }
-}
+        }).then(function () { return true; });
+    };
+    return VisualizationModule;
+}(Module_1.Module));
 exports.VisualizationModule = VisualizationModule;
 //# sourceMappingURL=VisualizationModule.js.map

@@ -11,16 +11,17 @@
 /**
  * @abstract
  */
-class Module {
-    constructor(fetcher) {
+var Module = (function () {
+    function Module(fetcher) {
         this._fetcher = fetcher;
     }
-    fetch(config) {
+    Module.prototype.fetch = function (config) {
         return this._fetcher.fetch(config);
-    }
-    setDataSourceKey(dataSourceKey) {
+    };
+    Module.prototype.setDataSourceKey = function (dataSourceKey) {
         return dataSourceKey ? { dataSourceKey: dataSourceKey } : undefined;
-    }
-}
+    };
+    return Module;
+}());
 exports.Module = Module;
 //# sourceMappingURL=Module.js.map

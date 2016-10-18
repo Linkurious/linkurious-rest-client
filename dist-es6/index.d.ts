@@ -16,9 +16,10 @@ import { EdgeModule } from './src/module/EdgeModule';
 import { NodeModule } from './src/module/NodeModule';
 import { SearchModule } from './src/module/SearchModule';
 import { VisualizationModule } from './src/module/VisualizationModule';
+import { AlertModule } from './src/module/AlertModule';
 import * as Query from './src/Query';
 import { IDataSource, IFullUser, IDataSourceState, IAppStatus, IAppVersion, IAppConfig, ISchema, IClientState } from './src/interfaces';
-declare class Linkurious {
+export declare class Linkurious {
     private _fetcher;
     private _clientState;
     private _logger;
@@ -29,6 +30,7 @@ declare class Linkurious {
     private _node;
     private _search;
     private _visualization;
+    private _alert;
     state: IClientState;
     /**
      *
@@ -66,12 +68,17 @@ declare class Linkurious {
      */
     visualization: VisualizationModule;
     /**
+     * @returns {AlertModule}
+     */
+    alerts: AlertModule;
+    /**
      * Process to login of the corresponding user and return it.
      *
      * @param {ILoginUser} data
      * @returns {Promise<boolean>}
      */
     login(data: Query.ILoginUser): Promise<boolean>;
+    oAuthAzure(): Promise<boolean>;
     /**
      * Clear the user session.
      *
@@ -110,7 +117,7 @@ declare class Linkurious {
      * @param {ILoginUser} data
      * @returns {Promise<IClientState>}
      */
-    startClient(data: Query.ILoginUser): Promise<IClientState>;
+    init(data: Query.ILoginUser): Promise<IClientState>;
     /**
      * Get the status of the Linkurious API.
      *
@@ -146,4 +153,3 @@ declare class Linkurious {
      */
     private storeSource(source, property, matchValue);
 }
-export = Linkurious;

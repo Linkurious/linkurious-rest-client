@@ -1,4 +1,4 @@
-import { IIdentifiedItem, IDataSourceRelative, IBaseRequest, EdgeOrientation, ItemId, IIdentified, RightType, INeo4Config, ITitanConfig, IDseConfig, IElasticSearchConfig, IConstraint, IIdentifiedItemList, IDataSourceConfig, PopulateType, IWidgetContent, IVisualizationNode, IVisualizationEdge, IVisualizationLayout, IAlternativeIdConfig, IVisualizationGeo, IVisualizationDesign, IItemFields, ISandBox, IQueryVisualization } from './interfaces';
+import { IIdentifiedItem, IDataSourceRelative, IBaseRequest, EdgeOrientation, ItemId, IIdentified, RightType, INeo4Config, ITitanConfig, IDseConfig, IElasticSearchConfig, IConstraint, IIdentifiedItemList, IDataSourceConfig, PopulateType, IWidgetContent, IVisualizationNode, IVisualizationEdge, IVisualizationLayout, IAlternativeIdConfig, IVisualizationGeo, IVisualizationDesign, IItemFields, ISandBox, IQueryVisualization, MatchStatus } from './interfaces';
 export interface IGetAdjacentEdges extends IDataSourceRelative, IBaseRequest {
     orientation?: EdgeOrientation;
     type?: string;
@@ -103,7 +103,7 @@ export interface IGetNeighborsCategories extends IDataSourceRelative, IBaseReque
     ids: Array<ItemId>;
 }
 export interface IGetDirectory extends IDataSourceRelative, IBaseRequest {
-    categoryOrTypes?: Array<string>;
+    categoriesOrTypes?: Array<string>;
     properties: Array<string>;
     constraints?: IConstraint;
     pageSize?: number;
@@ -209,4 +209,34 @@ export interface IUpdateVisualization extends IDataSourceRelative, IBaseRequest 
     id: IIdentified;
     visualization: IQueryVisualization;
     forceLock?: boolean;
+}
+export interface ICreateAlert extends IDataSourceRelative, IBaseRequest {
+    title?: string;
+    query?: string;
+    dialect?: string;
+    enabled?: boolean;
+    cron?: string;
+    matchTTL?: number;
+    scoreColumn?: string;
+    scoreDirection?: string;
+    maxMatches?: number;
+    maxRuntime?: number;
+}
+export interface IUpdateAlert extends ICreateAlert, IIdentified {
+}
+export interface IAlert extends IDataSourceRelative, IBaseRequest {
+    id: number;
+}
+export interface IMatch extends IDataSourceRelative, IAlert {
+    matchId: number;
+}
+export interface IAddActionMatch extends IMatch {
+    action: string;
+}
+export interface IFilteredAlert extends IAlert {
+    offset?: number;
+    limit?: number;
+    sort_direction?: 'asc' | 'desc';
+    sort_by?: string;
+    status?: MatchStatus;
 }

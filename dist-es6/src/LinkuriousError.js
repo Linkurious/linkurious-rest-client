@@ -8,19 +8,19 @@
  * Description :
  */
 'use strict';
-class LinkuriousError {
-    constructor(status, type, key, message, cause) {
+var LinkuriousError = (function () {
+    function LinkuriousError(status, type, key, message, cause) {
         this.status = status;
         this.type = type;
         this.key = key;
         this.message = message;
         this.cause = cause;
     }
-    static fromHttpResponse(r) {
-        let status = r.statusCode;
-        let type = LinkuriousError.getErrorType(r.statusCode);
-        let key;
-        let message;
+    LinkuriousError.fromHttpResponse = function (r) {
+        var status = r.statusCode;
+        var type = LinkuriousError.getErrorType(r.statusCode);
+        var key;
+        var message;
         if (type === 'communication') {
             key = 'communication_error';
             message = 'Could not get response from server';
@@ -30,23 +30,31 @@ class LinkuriousError {
             message = r.body.message;
         }
         return new LinkuriousError(status, type, key, message);
-    }
-    static fromError(error) {
-        return new LinkuriousError(0, 'communication', 'unknown_error', error.message ? `${error.name}: ${error.message}` : JSON.stringify(error), error);
-    }
-    get stack() {
-        return this.cause ? this.cause.stack : undefined;
-    }
-    get stackArray() {
-        return this.stack === undefined ? [] : this.stack.split(/\n/g);
-    }
-    static fromClientError(key, message) {
+    };
+    LinkuriousError.fromError = function (error) {
+        return new LinkuriousError(0, 'communication', 'unknown_error', error.message ? error.name + ": " + error.message : JSON.stringify(error), error);
+    };
+    Object.defineProperty(LinkuriousError.prototype, "stack", {
+        get: function () {
+            return this.cause ? this.cause.stack : undefined;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(LinkuriousError.prototype, "stackArray", {
+        get: function () {
+            return this.stack === undefined ? [] : this.stack.split(/\n/g);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    LinkuriousError.fromClientError = function (key, message) {
         return new LinkuriousError(0, 'client', key, message);
-    }
-    static isError(r) {
+    };
+    LinkuriousError.isError = function (r) {
         return r.statusCode === undefined || r.statusCode < 100 || r.statusCode >= 400;
-    }
-    static getErrorType(status) {
+    };
+    LinkuriousError.getErrorType = function (status) {
         if (status === undefined) {
             return 'communication';
         }
@@ -62,7 +70,8 @@ class LinkuriousError {
         else {
             return 'business';
         }
-    }
-}
+    };
+    return LinkuriousError;
+}());
 exports.LinkuriousError = LinkuriousError;
 //# sourceMappingURL=LinkuriousError.js.map

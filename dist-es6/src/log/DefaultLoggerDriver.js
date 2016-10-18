@@ -9,13 +9,16 @@
  * Description :
  */
 'use strict';
-class DefaultLoggerDriver {
-    debug(message) {
+var DefaultLoggerDriver = (function () {
+    function DefaultLoggerDriver() {
+    }
+    DefaultLoggerDriver.prototype.debug = function (message) {
         console.debug(message);
-    }
-    error(message) {
+    };
+    DefaultLoggerDriver.prototype.error = function (message) {
         console.error(message);
-    }
-}
+    };
+    return DefaultLoggerDriver;
+}());
 exports.DefaultLoggerDriver = DefaultLoggerDriver;
 //# sourceMappingURL=DefaultLoggerDriver.js.map

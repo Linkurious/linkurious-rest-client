@@ -1,6 +1,6 @@
 import * as Query from '../Query';
 import { Fetcher } from '../http/fetcher';
-import { IDeletedDataSource, IFullDataSource, IFullUser, IGroup, ISimpleGroup, IGroupRights, IAccessRight, IIndexationStatus, IIndexationCallback, IClientState, IDataSourceConfig } from '../interfaces';
+import { IDeletedDataSource, IFullDataSource, IFullUser, IGroup, ISimpleGroup, IGroupRights, IAccessRight, IIndexationStatus, IIndexationCallback, IClientState, IDataSourceConfig, IFullAdminAlert } from '../interfaces';
 import { Logger } from './../log/Logger';
 import { Module } from './Module';
 import { IDataSourceRelative } from '../http/IFetchConfig';
@@ -216,6 +216,42 @@ export declare class AdminModule extends Module {
      * @returns {Promise<boolean>}
      */
     processIndexation(timeout: number, callback?: IIndexationCallback): Promise<boolean>;
+    /**
+     * Create and return new alert
+     * @param {ICreateAlert} data
+     * @returns {Promise<IFullAdminAlert>}
+     */
+    createAlert(data: Query.ICreateAlert): Promise<IFullAdminAlert>;
+    /**
+     * update existing alert
+     * @param {ICreateAlert} data
+     * @returns {Promise<IFullAdminAlert>}
+     */
+    updateAlert(data: Query.IUpdateAlert): Promise<IFullAdminAlert>;
+    /**
+     * delete existing alert
+     * @param {IAlert} data
+     * @returns {Promise<boolean>}
+     */
+    deleteAlert(data: Query.IAlert): Promise<boolean>;
+    /**
+     * get list of all alerts
+     * @param {IDataSourceRelative} data
+     * @returns {Promise<IFullAdminAlert>}
+     */
+    getAlerts(data: IDataSourceRelative): Promise<Array<IFullAdminAlert>>;
+    /**
+     * get an alert
+     * @param {IAlert} data
+     * @returns {Promise<IFullAdminAlert>}
+     */
+    getAlert(data: Query.IAlert): Promise<IFullAdminAlert>;
+    /**
+     * reset all default styles for a dataSource
+     * @param {IDataSourceRelative} data
+     * @returns {Promise<boolean>}
+     */
+    resetStyles(data: IDataSourceRelative): Promise<boolean>;
     /**
      * @callback IIndexationCallback
      * @param {IIndexationStatus} responseStatus

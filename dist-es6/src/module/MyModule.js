@@ -8,90 +8,96 @@
  * Description :
  */
 'use strict';
-const Module_1 = require('./Module');
-class MyModule extends Module_1.Module {
-    constructor(fetcher) {
-        super(fetcher);
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Module_1 = require('./Module');
+var MyModule = (function (_super) {
+    __extends(MyModule, _super);
+    function MyModule(fetcher) {
+        _super.call(this, fetcher);
     }
     /**
      * Check if the user is authenticated.
      *
      * @returns {Promise<boolean>}
      */
-    IsAuth() {
+    MyModule.prototype.IsAuth = function () {
         return this.fetch({
             url: '/auth/authenticated',
             method: 'GET'
-        }).then(() => true);
-    }
+        }).then(function () { return true; });
+    };
     /**
      * Check if the user is authenticated as an admin.
      *
      * @returns {Promise<boolean>}
      */
-    IsAdmin() {
+    MyModule.prototype.IsAdmin = function () {
         return this.fetch({
             url: '/auth/admin',
             method: 'GET'
-        }).then(() => true);
-    }
+        }).then(function () { return true; });
+    };
     /**
      * Delete a saved Graph Query owned by the current user
      *
      * @param {number} graphQueryId
      * @returns {Promise<boolean>}
      */
-    deleteGraphQuery(graphQueryId) {
+    MyModule.prototype.deleteGraphQuery = function (graphQueryId) {
         return this.fetch({
             url: '/{dataSourceKey}/graph/my/rawQuery/{id}',
             method: 'DELETE',
             body: { id: graphQueryId }
-        }).then(() => true);
-    }
+        }).then(function () { return true; });
+    };
     /**
      * Returns a saved GraphModule Query owned by the current user
      *
      * @param {number} graphQueryId
      * @returns {Promise<IGraphQuery>}
      */
-    getGraphQuery(graphQueryId) {
+    MyModule.prototype.getGraphQuery = function (graphQueryId) {
         return this.fetch({
             url: '/{dataSourceKey}/graph/my/rawQuery/{id}',
             method: 'GET',
             query: { id: graphQueryId }
         });
-    }
+    };
     /**
      * Returns all saved GraphModule Queries owned by the current user
      *
      * @returns {Promise<Array<IGraphQuery>>}
      */
-    getAllGraphQueries() {
+    MyModule.prototype.getAllGraphQueries = function () {
         return this.fetch({
             url: '/{dataSourceKey}/graph/my/rawQuery/all',
             method: 'GET'
         });
-    }
+    };
     /**
      * Save and Returns the created GraphQuery
      * @param {ICreateGraphQuery} data
      * @returns {Promise<IGraphQuery>}
      */
-    saveGraphQuery(data) {
+    MyModule.prototype.saveGraphQuery = function (data) {
         return this.fetch({
             url: '/{dataSourceKey}/graph/my/rawQuery',
             method: 'POST',
             body: data
         });
-    }
+    };
     /**
      * Update a graph query owned but the current user
      *
      * @param {IUpdateGraphQuery} data
      * @returns {Promise<IGraphQuery>}
      */
-    updateGraphQuery(data) {
-        let body = JSON.parse(JSON.stringify(data));
+    MyModule.prototype.updateGraphQuery = function (data) {
+        var body = JSON.parse(JSON.stringify(data));
         body.properties = {
             name: data.name,
             content: data.content
@@ -102,8 +108,9 @@ class MyModule extends Module_1.Module {
             url: '/{dataSourceKey}/graph/my/rawQuery/{id}',
             method: 'PATCH',
             body: body
-        }).then(() => true);
-    }
-}
+        });
+    };
+    return MyModule;
+}(Module_1.Module));
 exports.MyModule = MyModule;
 //# sourceMappingURL=MyModule.js.map
