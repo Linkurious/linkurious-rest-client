@@ -20,6 +20,17 @@ var MyModule = (function (_super) {
         _super.call(this, fetcher);
     }
     /**
+     * get authenticated user infos
+     *
+     * @returns {Promise<IFullUser>}
+     */
+    MyModule.prototype.infos = function () {
+        return this.fetch({
+            url: '/auth/me',
+            method: 'GET'
+        });
+    };
+    /**
      * Check if the user is authenticated.
      *
      * @returns {Promise<boolean>}

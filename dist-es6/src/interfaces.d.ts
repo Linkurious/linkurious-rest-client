@@ -253,6 +253,8 @@ export interface IDataSourcesConfig {
     rawQueryTimeout: number;
 }
 export interface IRightsConfig {
+    authStrategies: Array<string>;
+    authRequired: boolean;
     dataEdition: boolean;
     loginTimeout: number;
     widget: boolean;
