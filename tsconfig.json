@@ -20,6 +20,11 @@
     "allowUnusedLabels": false,
     "allowSyntheticDefaultImports": true
   },
+  "include": [
+    "index.ts",
+    "src/**/*",
+    "node_modules/@types/**/*"
+  ],
   "exclude": [
     "node_modules",
     "test",
