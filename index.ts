@@ -303,7 +303,7 @@ export class Linkurious {
       method: 'GET',
       query : {sourceIndex: sourceIndex},
       url   : '/config'
-    });
+    }).then(response => response.config);
   }
 
   /**

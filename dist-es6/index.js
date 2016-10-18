@@ -294,7 +294,7 @@ var Linkurious = (function () {
             method: 'GET',
             query: { sourceIndex: sourceIndex },
             url: '/config'
-        });
+        }).then(function (response) { return response.config; });
     };
     /**
      * List nodeCategories, edgeTypes, nodeProperties and edgeProperties before the first indexation.
