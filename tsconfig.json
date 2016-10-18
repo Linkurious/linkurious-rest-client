@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target" : "es5",
+    "module": "commonjs",
+    "moduleResolution" : "node",
+    "declaration": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "outDir": "./dist-es6",
+    "noImplicitAny": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "index.ts",
+    "src/**/*",
+    "node_modules/@types/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "test",
+    "dist-es6"
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "name": "linkurious-rest-client",
+  "version": "1.0.0",
+  "description": "Linkurious REST client",
+  "engines": {
+    "node": ">=4.0.0 <6.0.0",
+    "npm": ">=2.0.0 <3.0.0"
+  },
+  "contributors": [
+    {
+      "name": "Maxime Allex",
+      "email": "maxime@linkurio.us",
+      "url": "https://github.com/maxime-allex"
+    },
+    {
+      "name": "David Rapin",
+      "email": "david@linkurio.us",
+      "url": "https://github.com/davidrapin"
+    }
+  ],
+  "private": true,
+  "main": "dist-es6/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Linkurious/linkurious-rest-client.git"
+  },
+  "author": "linkurious",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Linkurious/linkurious-rest-client/issues"
+  },
+  "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
+  "scripts": {
+    "lint": "node_modules/.bin/tslint \"src/**/*.ts\"",
+    "compileTests": "node_modules/.bin/tsc --project tsconfig_tests.json",
+    "pretest": "rm -rf tempTests && npm run compileTests && npm run lint",
+    "test": "node_modules/.bin/istanbul cover --root ../linkurious-server/server/services/webServer/routes --report html --dir cover_API test/runTests.js",
+    "posttest": "rm -rf tempTests",
+    "postinstall": "node_modules/.bin/typings install",
+    "clean": "rm -rf ./dist-es6 && rm -rf ./typings && rm -rf ./node_modules && rm -rf ./coverage",
+    "bundling": "./node_modules/.bin/browserify dist-es6/index.js -s Linkurious --outfile bundle.js",
+    "compile": "./node_modules/.bin/babel bundle.js --out-file linkurious-rest-client-es5.js",
+    "build": "tsc && npm run bundling && npm run compile && rm bundle.js",
+    "doc": "./node_modules/.bin/typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts"
+  },
+  "dependencies": {
+    "es6-promise": "^3.1.2",
+    "superagent": "^1.8.3",
+    "@types/node": "^6.0.45",
+    "@types/superagent": "^2.0.35"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.5.35",
+    "babel-cli": "^6.10.1",
+    "babel-preset-es2015": "^6.9.0",
+    "browserify": "^13.0.1",
+    "bunyan": "^1.8.1",
+    "fs-extra": "^0.30.0",
+    "istanbul": "^0.4.3",
+    "jasmine-core": "2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-coverage": "^1.0.0",
+    "karma-jasmine": "^0.3.0",
+    "karma-remap-istanbul": "^0.1.0",
+    "karma-systemjs": "^0.13.0",
+    "path": "^0.12.7",
+    "request": "~2.72",
+    "systemjs": "^0.19.29",
+    "systemjs-plugin-babel": "0.0.12",
+    "tslint": "^3.10.2",
+    "typedoc": "sierrasoftworks/typedoc#v1.8.10",
+    "typescript": "^2.0.0",
+    "typings": "^1.0.4"
+  }
+}
