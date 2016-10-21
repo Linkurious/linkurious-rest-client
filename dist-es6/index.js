@@ -214,13 +214,12 @@ var Linkurious = (function () {
             for (var _i = 0, sourceStates_1 = sourceStates; _i < sourceStates_1.length; _i++) {
                 var sourceState = sourceStates_1[_i];
                 if (_this.storeSource(sourceState, 'connected', true)) {
-                    return _this._clientState.currentSource;
+                    return {
+                        sources: sourceStates,
+                        currentSource: _this._clientState.currentSource
+                    };
                 }
             }
-            return {
-                sources: sourceStates,
-                currentSource: _this._clientState.currentSource
-            };
         });
     };
     /**

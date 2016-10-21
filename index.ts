@@ -219,13 +219,12 @@ export class Linkurious {
     return this.getSourceList().then((sourceStates:Array<IDataSourceState>) => {
       for (let sourceState of sourceStates) {
         if (this.storeSource(sourceState, 'connected', true)) {
-          return this._clientState.currentSource;
+          return {
+            sources : sourceStates,
+            currentSource : this._clientState.currentSource
+          };
         }
       }
-      return {
-        sources : sourceStates,
-        currentSource : this._clientState.currentSource
-      };
     });
   }
 
