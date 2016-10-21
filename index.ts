@@ -135,7 +135,7 @@ export class Linkurious {
    * @param {ILoginUser} data
    * @returns {Promise<boolean>}
    */
-  public login(data:Query.ILoginUser):Promise<boolean> {
+  public login(data:Query.ILoginUser):Promise<any> {
     let config:IFetchConfig = {
       url   : '/auth/login',
       method: 'POST',
@@ -147,12 +147,12 @@ export class Linkurious {
         return this._fetcher.fetch(config);
       }).then((res:any) => {
         this._clientState.user = res.user;
-        return true;
+        return this._clientState.user;
       });
     } else {
       return this._fetcher.fetch(config).then((res:any) => {
         this._clientState.user = res.user;
-        return true;
+        return this._clientState.user;
       });
     }
   }
