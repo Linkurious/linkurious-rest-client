@@ -212,9 +212,9 @@ export class Linkurious {
   /**
    * Set the currentSource to the first source connected
    *
-   * @returns {Promise<IDataSource>}
+   * @returns {Promise<any>}
    */
-  public initCurrentSource():Promise<IDataSource> {
+  public initSources():Promise<any> {
 
     return this.getSourceList().then((sourceStates:Array<IDataSourceState>) => {
       for (let sourceState of sourceStates) {
@@ -222,7 +222,10 @@ export class Linkurious {
           return this._clientState.currentSource;
         }
       }
-      return undefined;
+      return {
+        sources : sourceStates,
+        currentSource : this._clientState.currentSource
+      };
     });
   }
 
@@ -260,7 +263,7 @@ export class Linkurious {
   public init(data:Query.ILoginUser):Promise<IClientState> {
 
     return this.login(data).then(() => {
-      return this.initCurrentSource();
+      return this.initSources();
     }).then(() => {
       return this._clientState;
     });

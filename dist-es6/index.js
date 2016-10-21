@@ -206,9 +206,9 @@ var Linkurious = (function () {
     /**
      * Set the currentSource to the first source connected
      *
-     * @returns {Promise<IDataSource>}
+     * @returns {Promise<any>}
      */
-    Linkurious.prototype.initCurrentSource = function () {
+    Linkurious.prototype.initSources = function () {
         var _this = this;
         return this.getSourceList().then(function (sourceStates) {
             for (var _i = 0, sourceStates_1 = sourceStates; _i < sourceStates_1.length; _i++) {
@@ -217,7 +217,10 @@ var Linkurious = (function () {
                     return _this._clientState.currentSource;
                 }
             }
-            return undefined;
+            return {
+                sources: sourceStates,
+                currentSource: _this._clientState.currentSource
+            };
         });
     };
     /**
@@ -254,7 +257,7 @@ var Linkurious = (function () {
     Linkurious.prototype.init = function (data) {
         var _this = this;
         return this.login(data).then(function () {
-            return _this.initCurrentSource();
+            return _this.initSources();
         }).then(function () {
             return _this._clientState;
         });

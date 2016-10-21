@@ -101,9 +101,9 @@ export declare class Linkurious {
     /**
      * Set the currentSource to the first source connected
      *
-     * @returns {Promise<IDataSource>}
+     * @returns {Promise<any>}
      */
-    initCurrentSource(): Promise<IDataSource>;
+    initSources(): Promise<any>;
     /**
      * Set the currentSource by passing the sourceKey or configIndex
      *
