@@ -143,13 +143,13 @@ var Linkurious = (function () {
                 return _this._fetcher.fetch(config);
             }).then(function (res) {
                 _this._clientState.user = res.user;
-                return true;
+                return _this._clientState.user;
             });
         }
         else {
             return this._fetcher.fetch(config).then(function (res) {
                 _this._clientState.user = res.user;
-                return true;
+                return _this._clientState.user;
             });
         }
     };

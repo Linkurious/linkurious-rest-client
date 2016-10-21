@@ -77,7 +77,7 @@ export declare class Linkurious {
      * @param {ILoginUser} data
      * @returns {Promise<boolean>}
      */
-    login(data: Query.ILoginUser): Promise<boolean>;
+    login(data: Query.ILoginUser): Promise<any>;
     oAuthAzure(): Promise<boolean>;
     /**
      * Clear the user session.
