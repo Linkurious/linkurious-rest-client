@@ -211,7 +211,7 @@ var VisualizationModule = (function (_super) {
      * Update a property of a folder
      *
      * @param {IUpdateFolder} data
-     * @returns {Promise<boolean>}
+     * @returns {Promise<any>}
      */
     VisualizationModule.prototype.updateFolder = function (data) {
         return this.fetch({

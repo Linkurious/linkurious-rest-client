@@ -110,9 +110,9 @@ export declare class VisualizationModule extends Module {
      * Update a property of a folder
      *
      * @param {IUpdateFolder} data
-     * @returns {Promise<boolean>}
+     * @returns {Promise<any>}
      */
-    updateFolder(data: Query.IUpdateFolder): Promise<boolean>;
+    updateFolder(data: Query.IUpdateFolder): Promise<IFolder>;
     /**
      * Update the sandbox of the current user for a given data-source.
      *

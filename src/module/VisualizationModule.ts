@@ -238,9 +238,9 @@ export class VisualizationModule extends Module {
    * Update a property of a folder
    *
    * @param {IUpdateFolder} data
-   * @returns {Promise<boolean>}
+   * @returns {Promise<any>}
    */
-  public updateFolder(data:Query.IUpdateFolder):Promise<boolean> {
+  public updateFolder(data:Query.IUpdateFolder):Promise<IFolder> {
     return this.fetch({
       url   : '/{dataSourceKey}/visualizations/folder/{id}',
       method: 'PATCH',
