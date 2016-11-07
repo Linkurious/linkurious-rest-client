@@ -15,10 +15,10 @@ export declare class Fetcher {
     /**
      * HTTPDriver wrapper method
      *
-     * @param {IFetchConfig} config
+     * @param {IFetchConfig} configData
      * @returns {Promise.<*>} the response body
      */
-    fetch(config: IFetchConfig): Promise<any>;
+    fetch(configData: IFetchConfig): Promise<any>;
     private addSourceKeyToUrl(url, explicitSource?);
     private addSourceIndexToUrl(url, explicitSource?);
     private handleIdInUrl(url, body, query);

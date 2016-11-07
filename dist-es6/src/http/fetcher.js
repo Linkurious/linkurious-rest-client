@@ -22,11 +22,12 @@ var Fetcher = (function () {
     /**
      * HTTPDriver wrapper method
      *
-     * @param {IFetchConfig} config
+     * @param {IFetchConfig} configData
      * @returns {Promise.<*>} the response body
      */
-    Fetcher.prototype.fetch = function (config) {
+    Fetcher.prototype.fetch = function (configData) {
         var _this = this;
+        var config = JSON.parse(JSON.stringify(configData));
         var data = {
             queryData: config.query,
             bodyData: config.body

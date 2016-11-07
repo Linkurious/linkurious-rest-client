@@ -40,10 +40,12 @@ export class Fetcher {
   /**
    * HTTPDriver wrapper method
    *
-   * @param {IFetchConfig} config
+   * @param {IFetchConfig} configData
    * @returns {Promise.<*>} the response body
    */
-  public fetch(config:IFetchConfig):Promise<any> {
+  public fetch(configData:IFetchConfig):Promise<any> {
+
+    let config:IFetchConfig = JSON.parse(JSON.stringify(configData));
 
     let data:IDataToSend = {
       queryData: config.query,

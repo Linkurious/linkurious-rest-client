@@ -245,7 +245,7 @@ export class VisualizationModule extends Module {
       url   : '/{dataSourceKey}/visualizations/folder/{id}',
       method: 'PATCH',
       body  : data
-    });
+    }).then((response:any) => response.folder);
   }
 
   /**

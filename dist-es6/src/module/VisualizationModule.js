@@ -218,7 +218,7 @@ var VisualizationModule = (function (_super) {
             url: '/{dataSourceKey}/visualizations/folder/{id}',
             method: 'PATCH',
             body: data
-        });
+        }).then(function (response) { return response.folder; });
     };
     /**
      * Update the sandbox of the current user for a given data-source.
