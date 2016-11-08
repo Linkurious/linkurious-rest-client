@@ -91,7 +91,7 @@ export class SearchModule extends Module {
       url   : '/findUsers',
       method: 'GET',
       query : data
-    });
+    }).then((response:any) => response.results);
   }
 
   /**

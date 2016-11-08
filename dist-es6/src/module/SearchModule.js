@@ -84,7 +84,7 @@ var SearchModule = (function (_super) {
             url: '/findUsers',
             method: 'GET',
             query: data
-        });
+        }).then(function (response) { return response.results; });
     };
     /**
      * get a list of nodes for directory.
