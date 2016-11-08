@@ -231,7 +231,7 @@ export class VisualizationModule extends Module {
    */
   public unshare(data:Query.IUnshareVisualization):Promise<boolean> {
     return this.fetch({
-      url   : '/{dataSourceKey}/visualizations/' + data.id + '/shared/' + data.userId,
+      url   : '/{dataSourceKey}/visualizations/' + data.id + '/share/' + data.userId,
       method: 'DELETE'
     }).then(() => true);
   }

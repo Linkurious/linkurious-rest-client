@@ -204,7 +204,7 @@ var VisualizationModule = (function (_super) {
      */
     VisualizationModule.prototype.unshare = function (data) {
         return this.fetch({
-            url: '/{dataSourceKey}/visualizations/' + data.id + '/shared/' + data.userId,
+            url: '/{dataSourceKey}/visualizations/' + data.id + '/share/' + data.userId,
             method: 'DELETE'
         }).then(function () { return true; });
     };
