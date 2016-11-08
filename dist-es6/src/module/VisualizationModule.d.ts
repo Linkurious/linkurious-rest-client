@@ -2,6 +2,7 @@ import * as Query from '../Query';
 import { IVisualization, IWidget, ITreeChildren, ISharers, IShare, IFolder } from '../interfaces';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
+import { IDuplicateVisualization } from '../Query';
 export declare class VisualizationModule extends Module {
     constructor(fetcher: Fetcher);
     /**
@@ -48,10 +49,10 @@ export declare class VisualizationModule extends Module {
     /**
      * Duplicates a visualization.
      *
-     * @param {number} vizId
+     * @param {IDuplicateVisualization} data
      * @returns {Promise<IVisualization>}
      */
-    duplicate(vizId: number): Promise<IVisualization>;
+    duplicate(data: IDuplicateVisualization): Promise<IVisualization>;
     /**
      * Get a visualization widget's data by key
      *

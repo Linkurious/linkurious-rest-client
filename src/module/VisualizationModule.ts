@@ -21,6 +21,7 @@ import {
 } from '../interfaces';
 import {Module} from './Module';
 import {Fetcher} from '../http/fetcher';
+import { IDuplicateVisualization } from '../Query';
 
 export class VisualizationModule extends Module {
 
@@ -112,13 +113,14 @@ export class VisualizationModule extends Module {
   /**
    * Duplicates a visualization.
    *
-   * @param {number} vizId
+   * @param {IDuplicateVisualization} data
    * @returns {Promise<IVisualization>}
    */
-  public duplicate(vizId:number):Promise<IVisualization> {
+  public duplicate(data:IDuplicateVisualization):Promise<IVisualization> {
     return this.fetch({
-      url   : '/{dataSourceKey}/visualizations/' + vizId + '/duplicate',
-      method: 'POST'
+      url   : '/{dataSourceKey}/visualizations/{id}/duplicate',
+      method: 'POST',
+      body : data
     });
   }
 

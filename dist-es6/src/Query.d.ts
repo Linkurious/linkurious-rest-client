@@ -176,6 +176,10 @@ export interface ICreateFolder extends IDataSourceRelative, IBaseRequest {
     title: string;
     parent: number;
 }
+export interface IDuplicateVisualization extends IDataSourceRelative, IIdentified {
+    title: string;
+    folder: number;
+}
 export interface ICreateVisualization extends IDataSourceRelative, IBaseRequest {
     title: string;
     folder?: number;

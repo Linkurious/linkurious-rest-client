@@ -97,13 +97,14 @@ var VisualizationModule = (function (_super) {
     /**
      * Duplicates a visualization.
      *
-     * @param {number} vizId
+     * @param {IDuplicateVisualization} data
      * @returns {Promise<IVisualization>}
      */
-    VisualizationModule.prototype.duplicate = function (vizId) {
+    VisualizationModule.prototype.duplicate = function (data) {
         return this.fetch({
-            url: '/{dataSourceKey}/visualizations/' + vizId + '/duplicate',
-            method: 'POST'
+            url: '/{dataSourceKey}/visualizations/{id}/duplicate',
+            method: 'POST',
+            body: data
         });
     };
     /**
