@@ -31,17 +31,17 @@
   },
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
   "scripts": {
-    "lint": "node_modules/.bin/tslint \"src/**/*.ts\"",
-    "compileTests": "node_modules/.bin/tsc --project tsconfig_tests.json",
+    "lint": "tslint \"src/**/*.ts\"",
+    "compileTests": "tsc --project tsconfig_tests.json",
     "pretest": "rm -rf tempTests && npm run compileTests && npm run lint",
-    "test": "node_modules/.bin/istanbul cover --root ../linkurious-server/server/services/webServer/routes --report html --dir cover_API test/runTests.js",
+    "test": "istanbul cover --root ../linkurious-server/server/services/webServer/routes --report html --dir cover_API test/runTests.js",
     "posttest": "rm -rf tempTests",
-    "postinstall": "node_modules/.bin/typings install",
+    "postinstall": "typings install",
     "clean": "rm -rf ./dist-es6 && rm -rf ./typings && rm -rf ./node_modules && rm -rf ./coverage",
-    "bundling": "./node_modules/.bin/browserify dist-es6/index.js -s Linkurious --outfile bundle.js",
-    "compile": "./node_modules/.bin/babel bundle.js --out-file linkurious-rest-client-es5.js",
+    "bundling": "browserify dist-es6/index.js -s Linkurious --outfile bundle.js",
+    "compile": "babel bundle.js --out-file linkurious-rest-client-es5.js",
     "build": "tsc && npm run bundling && npm run compile && rm bundle.js",
-    "doc": "./node_modules/.bin/typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts"
+    "doc": "typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts"
   },
   "dependencies": {
     "es6-promise": "^3.1.2",
