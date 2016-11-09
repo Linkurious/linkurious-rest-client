@@ -36,7 +36,7 @@
     "pretest": "rm -rf tempTests && npm run compileTests && npm run lint",
     "test": "istanbul cover --root ../linkurious-server/server/services/webServer/routes --report html --dir cover_API test/runTests.js",
     "posttest": "rm -rf tempTests",
-    "postinstall": "typings install",
+    "postinstall": "node ./scripts/installTypings.js",
     "clean": "rm -rf ./dist-es6 && rm -rf ./typings && rm -rf ./node_modules && rm -rf ./coverage",
     "bundling": "browserify dist-es6/index.js -s Linkurious --outfile bundle.js",
     "compile": "babel bundle.js --out-file linkurious-rest-client-es5.js",
