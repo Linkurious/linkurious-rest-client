@@ -185,14 +185,15 @@ var VisualizationModule = (function (_super) {
      * @returns {Promise<IShare>}
      */
     VisualizationModule.prototype.share = function (data) {
-        var url = '/{dataSourceKey}/visualizations/' + data.vizId + '/share/' + data.userId;
-        delete data.vizId;
-        delete data.userId;
+        var model = JSON.parse(JSON.stringify(data));
+        var url = '/{dataSourceKey}/visualizations/' + model.vizId + '/share/' + model.userId;
+        delete model.vizId;
+        delete model.userId;
         return this.fetch({
             url: url,
             method: 'PUT',
             body: {
-                right: data.right
+                right: model.right
             }
         });
     };

@@ -208,17 +208,17 @@ export class VisualizationModule extends Module {
    * @returns {Promise<IShare>}
    */
   public share(data:Query.ISetShareRights):Promise<IShare> {
+    let model:any = JSON.parse(JSON.stringify(data));
+    let url:string = '/{dataSourceKey}/visualizations/' + model.vizId + '/share/' + model.userId;
 
-    let url:string = '/{dataSourceKey}/visualizations/' + data.vizId + '/share/' + data.userId;
-
-    delete data.vizId;
-    delete data.userId;
+    delete model.vizId;
+    delete model.userId;
 
     return this.fetch({
       url   : url,
       method: 'PUT',
       body  : {
-        right: data.right
+        right: model.right
       }
     });
   }
