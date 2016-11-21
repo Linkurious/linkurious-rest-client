@@ -309,6 +309,13 @@ var Linkurious = (function () {
             url: '/{dataSourceKey}/graph/schema/simple'
         });
     };
+    Linkurious.prototype.track = function (data) {
+        return this._fetcher.fetch({
+            method: 'POST',
+            url: '/track',
+            body: data
+        });
+    };
     /**
      * Store a source in clientState if condition is verified
      *

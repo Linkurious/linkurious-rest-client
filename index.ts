@@ -320,6 +320,14 @@ export class Linkurious {
     });
   }
 
+  public track(data:any):Promise<any> {
+    return this._fetcher.fetch({
+      method: 'POST',
+      url : '/track',
+      body : data
+    });
+  }
+
   /**
    * Store a source in clientState if condition is verified
    *

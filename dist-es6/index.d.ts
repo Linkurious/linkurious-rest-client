@@ -143,6 +143,7 @@ export declare class Linkurious {
      * @returns {Promise<ISchema>}
      */
     getSchema(): Promise<ISchema>;
+    track(data: any): Promise<any>;
     /**
      * Store a source in clientState if condition is verified
      *
