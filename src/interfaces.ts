@@ -291,6 +291,7 @@ export interface IAppVersion {
 
 export interface IAppConfig {
   allSources:IDataSourcesConfig;
+  locale:string;
   rights:IRightsConfig;
   analytics:IAnalyticsConfig;
   sigma:any;
