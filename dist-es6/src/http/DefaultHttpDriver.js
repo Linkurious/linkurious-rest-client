@@ -79,8 +79,9 @@ var DefaultHttpDriver = (function () {
         });
     };
     DefaultHttpDriver.prototype.handleResponse = function (resolve, reject, err, res) {
-        console.log(res);
-        console.log(err);
+        if (!res) {
+            return reject(LinkuriousError_1.LinkuriousError.fromClientError('communication_error', 'offline'));
+        }
         if ((typeof res.status !== 'number' || res.status < 100) && err) {
             return reject(err);
         }

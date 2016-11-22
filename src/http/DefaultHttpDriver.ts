@@ -88,8 +88,14 @@ export class DefaultHttpDriver implements IHttpDriver {
                          reject:(error:any) => void,
                          err:Error,
                          res:request.Response):void {
-    console.log(res);
-    console.log(err);
+
+    if (!res) {
+      return reject(LinkuriousError.fromClientError(
+        'communication_error',
+        'offline'
+      ));
+    }
+
     if ((typeof res.status !== 'number' || res.status < 100) && err) {
       return reject(err);
     }
