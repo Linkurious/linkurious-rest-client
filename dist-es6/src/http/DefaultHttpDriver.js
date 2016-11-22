@@ -79,6 +79,8 @@ var DefaultHttpDriver = (function () {
         });
     };
     DefaultHttpDriver.prototype.handleResponse = function (resolve, reject, err, res) {
+        console.log(res);
+        console.log(err);
         if ((typeof res.status !== 'number' || res.status < 100) && err) {
             return reject(err);
         }

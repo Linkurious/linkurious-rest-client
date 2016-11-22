@@ -35,6 +35,7 @@ import {
   IClientState
 } from './src/interfaces';
 
+
 export class Linkurious {
   private _fetcher:Fetcher;
   private _clientState:IClientState;
