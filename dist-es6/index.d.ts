@@ -9,6 +9,8 @@
  */
 import { LogLevel } from './src/log/Logger';
 import { ILoggerDriver } from './src/log/ILoggerDriver';
+import { Fetcher } from './src/http/fetcher';
+import { FetcherFactory } from './src/http/FetcherFactory';
 import { AdminModule } from './src/module/AdminModule';
 import { MyModule } from './src/module/MyModule';
 import { GraphModule } from './src/module/GraphModule';
@@ -37,8 +39,13 @@ export declare class Linkurious {
      * @param {string} host           - Host URL of the linkurious server
      * @param {string} logLevel       - Level of log wanted
      * @param {object} [loggerDriver] - logger object
+     * @param {FetcherFactory} [fetcherFactory] - fetcher factory
      */
-    constructor(host: string, logLevel: LogLevel, loggerDriver?: ILoggerDriver);
+    constructor(host: string, logLevel: LogLevel, loggerDriver?: ILoggerDriver, fetcherFactory?: FetcherFactory);
+    /**
+     * @returns {Fetcher}
+     */
+    fetcher: Fetcher;
     /**
      * @returns {AdminModule}
      */

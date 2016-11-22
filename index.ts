@@ -12,6 +12,7 @@ import {Logger, LogLevel} from './src/log/Logger';
 import {ILoggerDriver} from './src/log/ILoggerDriver';
 
 import {Fetcher} from './src/http/fetcher';
+import {FetcherFactory} from './src/http/FetcherFactory';
 import {IFetchConfig} from './src/http/IFetchConfig';
 
 import {AdminModule} from './src/module/AdminModule';
@@ -57,11 +58,13 @@ export class Linkurious {
    * @param {string} host           - Host URL of the linkurious server
    * @param {string} logLevel       - Level of log wanted
    * @param {object} [loggerDriver] - logger object
+   * @param {FetcherFactory} [fetcherFactory] - fetcher factory
    */
-  constructor(host:string, logLevel:LogLevel, loggerDriver?:ILoggerDriver) {
+  constructor(host:string, logLevel:LogLevel, loggerDriver?:ILoggerDriver, fetcherFactory?: FetcherFactory) {
     this._clientState   = <IClientState> {};
     this._logger        = new Logger(logLevel, loggerDriver);
-    this._fetcher       = new Fetcher(this._logger, this._clientState, host);
+    if (!fetcherFactory) { fetcherFactory = new FetcherFactory(); }
+    this._fetcher       = fetcherFactory.create(this._logger, this._clientState, host);
 
     this._admin         = new AdminModule(this._fetcher, this._logger, this._clientState);
     this._my            = new MyModule(this._fetcher);
@@ -71,6 +74,13 @@ export class Linkurious {
     this._search        = new SearchModule(this._fetcher);
     this._visualization = new VisualizationModule(this._fetcher);
     this._alert         = new AlertModule(this._fetcher);
+  }
+
+  /**
+   * @returns {Fetcher}
+   */
+  get fetcher():Fetcher {
+    return this._fetcher;
   }
 
   /**

@@ -9,7 +9,7 @@
  */
 "use strict";
 var Logger_1 = require('./src/log/Logger');
-var fetcher_1 = require('./src/http/fetcher');
+var FetcherFactory_1 = require('./src/http/FetcherFactory');
 var AdminModule_1 = require('./src/module/AdminModule');
 var MyModule_1 = require('./src/module/MyModule');
 var GraphModule_1 = require('./src/module/GraphModule');
@@ -24,11 +24,15 @@ var Linkurious = (function () {
      * @param {string} host           - Host URL of the linkurious server
      * @param {string} logLevel       - Level of log wanted
      * @param {object} [loggerDriver] - logger object
+     * @param {FetcherFactory} [fetcherFactory] - fetcher factory
      */
-    function Linkurious(host, logLevel, loggerDriver) {
+    function Linkurious(host, logLevel, loggerDriver, fetcherFactory) {
         this._clientState = {};
         this._logger = new Logger_1.Logger(logLevel, loggerDriver);
-        this._fetcher = new fetcher_1.Fetcher(this._logger, this._clientState, host);
+        if (!fetcherFactory) {
+            fetcherFactory = new FetcherFactory_1.FetcherFactory();
+        }
+        this._fetcher = fetcherFactory.create(this._logger, this._clientState, host);
         this._admin = new AdminModule_1.AdminModule(this._fetcher, this._logger, this._clientState);
         this._my = new MyModule_1.MyModule(this._fetcher);
         this._graph = new GraphModule_1.GraphModule(this._fetcher);
@@ -41,6 +45,16 @@ var Linkurious = (function () {
     Object.defineProperty(Linkurious.prototype, "state", {
         get: function () {
             return this._clientState;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Linkurious.prototype, "fetcher", {
+        /**
+         * @returns {Fetcher}
+         */
+        get: function () {
+            return this._fetcher;
         },
         enumerable: true,
         configurable: true
