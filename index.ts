@@ -9,5 +9,14 @@
  */
 'use strict';
 
-export * from './src';
-export * from './src/http';
+import {Linkurious} from './src/index';
+import {Fetcher} from './src/http/fetcher';
+import {FetcherFactory} from './src/http/FetcherFactory';
+import * as IFetchConfig from './src/http/IFetchConfig';
+
+export {
+  Linkurious,
+  Fetcher,
+  FetcherFactory,
+  IFetchConfig
+}
