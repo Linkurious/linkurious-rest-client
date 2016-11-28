@@ -19,7 +19,7 @@
     }
   ],
   "private": true,
-  "main": "dist-es6/index.js",
+  "main": "index.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Linkurious/linkurious-rest-client.git"
