@@ -6,6 +6,12 @@ import { IDuplicateVisualization } from '../Query';
 export declare class VisualizationModule extends Module {
     constructor(fetcher: Fetcher);
     /**
+     * get shared visualizations
+     *
+     * @returns {Promise<any>}
+     */
+    getShared(): Promise<Array<IVisualization>>;
+    /**
      * Get the number of visualizations for the current user in this data-source.
      *
      * @returns {Promise<number>}

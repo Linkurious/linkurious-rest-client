@@ -30,6 +30,18 @@ export class VisualizationModule extends Module {
   }
 
   /**
+   * get shared visualizations
+   *
+   * @returns {Promise<any>}
+   */
+  public getShared():Promise<Array<IVisualization>> {
+    return this.fetch({
+      url : '/{dataSourceKey}/visualizations/shared',
+      method : 'GET'
+    });
+  }
+
+  /**
    * Get the number of visualizations for the current user in this data-source.
    *
    * @returns {Promise<number>}

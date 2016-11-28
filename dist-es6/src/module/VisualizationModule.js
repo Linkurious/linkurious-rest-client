@@ -20,6 +20,17 @@ var VisualizationModule = (function (_super) {
         _super.call(this, fetcher);
     }
     /**
+     * get shared visualizations
+     *
+     * @returns {Promise<any>}
+     */
+    VisualizationModule.prototype.getShared = function () {
+        return this.fetch({
+            url: '/{dataSourceKey}/visualizations/shared',
+            method: 'GET'
+        });
+    };
+    /**
      * Get the number of visualizations for the current user in this data-source.
      *
      * @returns {Promise<number>}
