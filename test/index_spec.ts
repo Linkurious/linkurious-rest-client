@@ -11,7 +11,7 @@
 
 /// <reference path="../typings/globals/jasmine/index.d.ts"/>
 
-import Linkurious = require('../index');
+import Linkurious = require('../src/index');
 import {INode} from '../src/interfaces';
 import {FetcherSpec} from './fetcher_spec';
 import {LinkuriousErrorSpec} from './LinkuriousError_spec';
