@@ -9,7 +9,6 @@
  */
 'use strict';
 
-import * as Query from '../Query';
 import {
   IVisualization,
   IWidget,
@@ -17,15 +16,16 @@ import {
   ISharers,
   IShare,
   IFolder,
-  IFolderFullResponse
-} from '../interfaces';
-import {Module} from './Module';
-import {Fetcher} from '../http/fetcher';
-import { IDuplicateVisualization } from '../Query';
+  IFolderFullResponse, ICreateWidget, ICreateFolder, ICreateVisualization, IDuplicateVisualization,
+  IGetSandbox, ISetShareRights, IUnshareVisualization, IUpdateFolder, IUpdateSandbox,
+  IUpdateVisualization
+} from '../../index';
+import { Module } from './Module';
+import { Fetcher } from '../http/fetcher';
 
 export class VisualizationModule extends Module {
 
-  constructor(fetcher:Fetcher) {
+  constructor ( fetcher:Fetcher ) {
     super(fetcher);
   }
 
@@ -34,11 +34,13 @@ export class VisualizationModule extends Module {
    *
    * @returns {Promise<any>}
    */
-  public getShared():Promise<Array<IVisualization>> {
-    return this.fetch({
-      url : '/{dataSourceKey}/visualizations/shared',
-      method : 'GET'
-    });
+  public getShared ():Promise<Array<IVisualization>> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/visualizations/shared',
+        method: 'GET'
+      }
+    );
   }
 
   /**
@@ -46,11 +48,13 @@ export class VisualizationModule extends Module {
    *
    * @returns {Promise<number>}
    */
-  public count():Promise<number> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/visualizations/count',
-      method: 'GET'
-    }).then((r:any) => r.count);
+  public count ():Promise<number> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/visualizations/count',
+        method: 'GET'
+      }
+    ).then(( r:any ) => r.count);
   }
 
   /**
@@ -59,12 +63,14 @@ export class VisualizationModule extends Module {
    * @param {ICreateWidget} data
    * @returns {Promise<string>}
    */
-  public createWidget(data:Query.ICreateWidget):Promise<string> {
-    return this.fetch({
-      url   : '/widget',
-      method: 'POST',
-      body  : data
-    });
+  public createWidget ( data:ICreateWidget ):Promise<string> {
+    return this.fetch(
+      {
+        url   : '/widget',
+        method: 'POST',
+        body  : data
+      }
+    );
   }
 
   /**
@@ -73,12 +79,14 @@ export class VisualizationModule extends Module {
    * @param {ICreateFolder} data
    * @returns {Promise<IFolder>}
    */
-  public createFolder(data:Query.ICreateFolder):Promise<IFolder> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/visualizations/folder',
-      method: 'POST',
-      body  : data
-    }).then((res:IFolderFullResponse) => res.folder);
+  public createFolder ( data:ICreateFolder ):Promise<IFolder> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/visualizations/folder',
+        method: 'POST',
+        body  : data
+      }
+    ).then(( res:IFolderFullResponse ) => res.folder);
   }
 
   /**
@@ -87,12 +95,14 @@ export class VisualizationModule extends Module {
    * @param {ICreateVisualization} data
    * @returns {Promise<IVisualization>}
    */
-  public create(data:Query.ICreateVisualization):Promise<IVisualization> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/visualizations',
-      method: 'POST',
-      body  : data
-    }).then((res:any) => res.visualization);
+  public create ( data:ICreateVisualization ):Promise<IVisualization> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/visualizations',
+        method: 'POST',
+        body  : data
+      }
+    ).then(( res:any ) => res.visualization);
   }
 
   /**
@@ -101,11 +111,13 @@ export class VisualizationModule extends Module {
    * @param {string} widgetKey
    * @returns {Promise<boolean>}
    */
-  public deleteWidget(widgetKey:string):Promise<boolean> {
-    return this.fetch({
-      url   : '/widget/' + widgetKey,
-      method: 'DELETE'
-    }).then(() => true);
+  public deleteWidget ( widgetKey:string ):Promise<boolean> {
+    return this.fetch(
+      {
+        url   : '/widget/' + widgetKey,
+        method: 'DELETE'
+      }
+    ).then(() => true);
   }
 
   /**
@@ -114,11 +126,13 @@ export class VisualizationModule extends Module {
    * @param {number} folderId
    * @returns {Promise<boolean>}
    */
-  public deleteFolder(folderId:number):Promise<boolean> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/visualizations/folder/' + folderId,
-      method: 'DELETE'
-    })
+  public deleteFolder ( folderId:number ):Promise<boolean> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/visualizations/folder/' + folderId,
+        method: 'DELETE'
+      }
+    )
       .then(() => true);
   }
 
@@ -128,12 +142,14 @@ export class VisualizationModule extends Module {
    * @param {IDuplicateVisualization} data
    * @returns {Promise<IVisualization>}
    */
-  public duplicate(data:IDuplicateVisualization):Promise<IVisualization> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/visualizations/{id}/duplicate',
-      method: 'POST',
-      body : data
-    });
+  public duplicate ( data:IDuplicateVisualization ):Promise<IVisualization> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/visualizations/{id}/duplicate',
+        method: 'POST',
+        body  : data
+      }
+    );
   }
 
   /**
@@ -142,11 +158,13 @@ export class VisualizationModule extends Module {
    * @param {string} widgetKey
    * @returns {Promise<IWidget>}
    */
-  public getWidget(widgetKey:string):Promise<IWidget> {
-    return this.fetch({
-      url   : '/widget/' + widgetKey,
-      method: 'GET'
-    });
+  public getWidget ( widgetKey:string ):Promise<IWidget> {
+    return this.fetch(
+      {
+        url   : '/widget/' + widgetKey,
+        method: 'GET'
+      }
+    );
   }
 
   /**
@@ -155,12 +173,14 @@ export class VisualizationModule extends Module {
    * @param {IGetSandbox} params
    * @returns {Promise<IVisualization>}
    */
-  public getSandbox(params:Query.IGetSandbox):Promise<IVisualization> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/sandbox',
-      method: 'GET',
-      query : params
-    }).then((res:any) => res.visualization);
+  public getSandbox ( params:IGetSandbox ):Promise<IVisualization> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/sandbox',
+        method: 'GET',
+        query : params
+      }
+    ).then(( res:any ) => res.visualization);
   }
 
   /**
@@ -169,11 +189,13 @@ export class VisualizationModule extends Module {
    * @param {number} vizId
    * @returns {Promise<IVisualization>}
    */
-  public getOne(vizId:number):Promise<IVisualization> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/visualizations/' + vizId,
-      method: 'GET'
-    }).then((res:any) => res.visualization);
+  public getOne ( vizId:number ):Promise<IVisualization> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/visualizations/' + vizId,
+        method: 'GET'
+      }
+    ).then(( res:any ) => res.visualization);
   }
 
   /**
@@ -181,11 +203,13 @@ export class VisualizationModule extends Module {
    *
    * @returns {Promise<ITreeChildren>}
    */
-  public getTree():Promise<Array<ITreeChildren>> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/visualizations/tree',
-      method: 'GET'
-    }).then((res:any) => res.tree);
+  public getTree ():Promise<Array<ITreeChildren>> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/visualizations/tree',
+        method: 'GET'
+      }
+    ).then(( res:any ) => res.tree);
   }
 
   /**
@@ -194,11 +218,13 @@ export class VisualizationModule extends Module {
    * @param {number} vizId
    * @returns {Promise<boolean>}
    */
-  public deleteOne(vizId:number):Promise<boolean> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/visualizations/' + vizId,
-      method: 'DELETE'
-    }).then(() => true);
+  public deleteOne ( vizId:number ):Promise<boolean> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/visualizations/' + vizId,
+        method: 'DELETE'
+      }
+    ).then(() => true);
   }
 
   /**
@@ -206,11 +232,13 @@ export class VisualizationModule extends Module {
    * @param {number} vizId
    * @returns {Promise<ISharers>}
    */
-  public getShares(vizId:number):Promise<ISharers> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/visualizations/' + vizId + '/shares',
-      method: 'GET'
-    });
+  public getShares ( vizId:number ):Promise<ISharers> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/visualizations/' + vizId + '/shares',
+        method: 'GET'
+      }
+    );
   }
 
   /**
@@ -219,20 +247,22 @@ export class VisualizationModule extends Module {
    * @param {ISetShareRights} data
    * @returns {Promise<IShare>}
    */
-  public share(data:Query.ISetShareRights):Promise<IShare> {
+  public share ( data:ISetShareRights ):Promise<IShare> {
     let model:any = JSON.parse(JSON.stringify(data));
     let url:string = '/{dataSourceKey}/visualizations/' + model.vizId + '/share/' + model.userId;
 
     delete model.vizId;
     delete model.userId;
 
-    return this.fetch({
-      url   : url,
-      method: 'PUT',
-      body  : {
-        right: model.right
+    return this.fetch(
+      {
+        url   : url,
+        method: 'PUT',
+        body  : {
+          right: model.right
+        }
       }
-    });
+    );
   }
 
   /**
@@ -241,11 +271,13 @@ export class VisualizationModule extends Module {
    * @param {IUnshareVisualization} data
    * @returns {Promise<boolean>}
    */
-  public unshare(data:Query.IUnshareVisualization):Promise<boolean> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/visualizations/' + data.id + '/share/' + data.userId,
-      method: 'DELETE'
-    }).then(() => true);
+  public unshare ( data:IUnshareVisualization ):Promise<boolean> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/visualizations/' + data.id + '/share/' + data.userId,
+        method: 'DELETE'
+      }
+    ).then(() => true);
   }
 
   /**
@@ -254,12 +286,14 @@ export class VisualizationModule extends Module {
    * @param {IUpdateFolder} data
    * @returns {Promise<any>}
    */
-  public updateFolder(data:Query.IUpdateFolder):Promise<IFolder> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/visualizations/folder/{id}',
-      method: 'PATCH',
-      body  : data
-    }).then((response:any) => response.folder);
+  public updateFolder ( data:IUpdateFolder ):Promise<IFolder> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/visualizations/folder/{id}',
+        method: 'PATCH',
+        body  : data
+      }
+    ).then(( response:any ) => response.folder);
   }
 
   /**
@@ -268,12 +302,14 @@ export class VisualizationModule extends Module {
    * @param {IUpdateSandbox} data
    * @returns {Promise<boolean>}
    */
-  public updateSandbox(data:Query.IUpdateSandbox):Promise<boolean> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/sandbox',
-      method: 'PATCH',
-      body  : data
-    }).then(() => true);
+  public updateSandbox ( data:IUpdateSandbox ):Promise<boolean> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/sandbox',
+        method: 'PATCH',
+        body  : data
+      }
+    ).then(() => true);
   }
 
   /**
@@ -282,12 +318,14 @@ export class VisualizationModule extends Module {
    * @param {IUpdateVisualization} data
    * @returns {Promise<boolean>}
    */
-  public update(data:Query.IUpdateVisualization):Promise<boolean> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/visualizations/{id}',
-      method: 'PATCH',
-      body  : {id:data.id, visualization:data.visualization},
-      query : {forceLock : data.forceLock}
-    }).then(() => true);
+  public update ( data:IUpdateVisualization ):Promise<boolean> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/visualizations/{id}',
+        method: 'PATCH',
+        body  : { id: data.id, visualization: data.visualization },
+        query : { forceLock: data.forceLock }
+      }
+    ).then(() => true);
   }
 }

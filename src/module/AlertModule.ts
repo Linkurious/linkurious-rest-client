@@ -8,10 +8,15 @@
  * Description :
  */
 'use strict';
-import {Module} from './Module';
-import {IMatch, IMatchAction, IAlert, IMatchResults, IDataSourceRelative} from '../interfaces';
-import {Fetcher} from '../http/fetcher';
-import * as Query from '../Query';
+import { Module } from './Module';
+import {
+  IMatch,
+  IMatchAction,
+  IAlert,
+  IMatchResults,
+  IDataSourceRelative, IQueryAlert, IFilteredAlert, IAddActionMatch
+} from '../../index';
+import { Fetcher } from '../http/fetcher';
 
 export class AlertModule extends Module {
 
@@ -19,7 +24,7 @@ export class AlertModule extends Module {
    *
    * @param {Fetcher} fetcher
    */
-  constructor(fetcher:Fetcher) {
+  constructor ( fetcher:Fetcher ) {
     super(fetcher);
   }
 
@@ -28,12 +33,14 @@ export class AlertModule extends Module {
    * @param {IDataSourceRelative} data
    * @returns {Promise<IAlert>}
    */
-  public getAlerts(data:IDataSourceRelative):Promise<Array<IAlert>> {
-    return this.fetch({
-      url : '/{dataSourceKey}/alerts',
-      method : 'GET',
-      query : this.setDataSourceKey(data.dataSourceKey)
-    });
+  public getAlerts ( data:IDataSourceRelative ):Promise<Array<IAlert>> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/alerts',
+        method: 'GET',
+        query : this.setDataSourceKey(data.dataSourceKey)
+      }
+    );
   }
 
   /**
@@ -41,12 +48,14 @@ export class AlertModule extends Module {
    * @param {IAlert} data
    * @returns {Promise<IMatch>}
    */
-  public getAlert(data:Query.IAlert):Promise<IMatch> {
-    return this.fetch({
-      url : '/{dataSourceKey}/alerts/{id}',
-      method : 'GET',
-      query : data
-    });
+  public getAlert ( data:IQueryAlert ):Promise<IMatch> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/alerts/{id}',
+        method: 'GET',
+        query : data
+      }
+    );
   }
 
   /**
@@ -54,12 +63,14 @@ export class AlertModule extends Module {
    * @param {IFilteredAlert} data
    * @returns {Promise<IMatchResults>}
    */
-  public getMatches(data:Query.IFilteredAlert):Promise<IMatchResults> {
-    return this.fetch({
-      url : '/{dataSourceKey}/alerts/{id}/matches',
-      method : 'GET',
-      query : data
-    });
+  public getMatches ( data:IFilteredAlert ):Promise<IMatchResults> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/alerts/{id}/matches',
+        method: 'GET',
+        query : data
+      }
+    );
   }
 
   /**
@@ -67,18 +78,20 @@ export class AlertModule extends Module {
    * @param {IAddActionMatch} data
    * @returns {Promise<boolean>}
    */
-  public addActionToMatch(data:Query.IAddActionMatch):Promise<boolean> {
+  public addActionToMatch ( data:IAddActionMatch ):Promise<boolean> {
     let body:any = {
-      dataSource : data.dataSourceKey,
-      id : data.id,
-      action : data.action
+      dataSource: data.dataSourceKey,
+      id        : data.id,
+      action    : data.action
     };
 
-    return this.fetch({
-      url : `/{dataSourceKey}/alerts/{id}/matches/${data.matchId}/action`,
-      method : 'POST',
-      body : body
-    }).then(() => true);
+    return this.fetch(
+      {
+        url   : `/{dataSourceKey}/alerts/{id}/matches/${data.matchId}/action`,
+        method: 'POST',
+        body  : body
+      }
+    ).then(() => true);
   }
 
   /**
@@ -86,12 +99,14 @@ export class AlertModule extends Module {
    * @param {IMatch} data
    * @returns {Promise<IMatch>}
    */
-  public getMatch(data:Query.IMatch):Promise<IMatch> {
-    return this.fetch({
-      url : `/{dataSourceKey}/alerts/{id}/matches/${data.matchId}`,
-      method : 'GET',
-      body : data
-    });
+  public getMatch ( data:IMatch ):Promise<IMatch> {
+    return this.fetch(
+      {
+        url   : `/{dataSourceKey}/alerts/{id}/matches/${data.matchId}`,
+        method: 'GET',
+        body  : data
+      }
+    );
   }
 
   /**
@@ -99,11 +114,13 @@ export class AlertModule extends Module {
    * @param {IMatch} data
    * @returns {Promise<IMatchAction>}
    */
-  public getMatchActions(data:Query.IMatch):Promise<Array<IMatchAction>> {
-    return this.fetch({
-      url : `/{dataSourceKey}/alerts/{id}/matches/${data.matchId}/actions`,
-      method : 'GET',
-      body : data
-    });
+  public getMatchActions ( data:IMatch ):Promise<Array<IMatchAction>> {
+    return this.fetch(
+      {
+        url   : `/{dataSourceKey}/alerts/{id}/matches/${data.matchId}/actions`,
+        method: 'GET',
+        body  : data
+      }
+    );
   }
 }

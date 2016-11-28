@@ -19,20 +19,24 @@ export class Utils {
    * @param data
    * @returns any
    */
-  public static fixSnakeCase(data:any):any {
-    if (!data) {
+  public static fixSnakeCase ( data:any ):any {
+    if ( !data ) {
       return undefined;
     }
 
     let result:any = {};
 
-    for (let key in data) {
-      if (data.hasOwnProperty(key)) {
+    for ( let key in data ) {
+      if ( data.hasOwnProperty(key) ) {
         let sanitizedKey:string;
 
         sanitizedKey = key.replace(
           CAMEL_CASE_RE,
-          (s:string, p1:string, p2:string) => p1 + '_' + p2.toLowerCase()
+          (
+            s:string,
+            p1:string,
+            p2:string
+          ) => p1 + '_' + p2.toLowerCase()
         );
 
         result[sanitizedKey] = data[key];

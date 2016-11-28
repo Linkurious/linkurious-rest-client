@@ -9,8 +9,8 @@
  */
 'use strict';
 
-import {Fetcher} from '../http/fetcher';
-import {IFetchConfig} from '../http/IFetchConfig';
+import { Fetcher } from '../http/fetcher';
+import { IFetchConfig } from '../../index';
 
 /**
  * @abstract
@@ -18,15 +18,15 @@ import {IFetchConfig} from '../http/IFetchConfig';
 export class Module {
   private _fetcher:Fetcher;
 
-  constructor(fetcher:Fetcher) {
+  constructor ( fetcher:Fetcher ) {
     this._fetcher = fetcher;
   }
 
-  protected fetch(config:IFetchConfig):Promise<any> {
+  protected fetch ( config:IFetchConfig ):Promise<any> {
     return this._fetcher.fetch(config);
   }
 
-  protected setDataSourceKey(dataSourceKey:string):any {
-    return dataSourceKey ? {dataSourceKey : dataSourceKey} : undefined;
+  protected setDataSourceKey ( dataSourceKey:string ):any {
+    return dataSourceKey ? { dataSourceKey: dataSourceKey } : undefined;
   }
 }

@@ -8,23 +8,22 @@
  * Description :
  */
 
-import {Logger, LogLevel} from './log/Logger';
-import {ILoggerDriver} from './log/ILoggerDriver';
+import { Logger, LogLevel } from './log/Logger';
 
-import {Fetcher} from './http/fetcher';
-import {FetcherFactory} from './http/FetcherFactory';
-import {IFetchConfig} from './http/IFetchConfig';
+import { Fetcher } from './http/fetcher';
+import { FetcherFactory } from './http/FetcherFactory';
 
-import {AdminModule} from './module/AdminModule';
-import {MyModule} from './module/MyModule';
-import {GraphModule} from './module/GraphModule';
-import {EdgeModule} from './module/EdgeModule';
-import {NodeModule} from './module/NodeModule';
-import {SearchModule} from './module/SearchModule';
-import {VisualizationModule} from './module/VisualizationModule';
-import {AlertModule} from './module/AlertModule';
-import * as Query from './Query';
+import { AdminModule } from './module/AdminModule';
+import { MyModule } from './module/MyModule';
+import { GraphModule } from './module/GraphModule';
+import { EdgeModule } from './module/EdgeModule';
+import { NodeModule } from './module/NodeModule';
+import { SearchModule } from './module/SearchModule';
+import { VisualizationModule } from './module/VisualizationModule';
+import { AlertModule } from './module/AlertModule';
 import {
+  ILoggerDriver,
+  IFetchConfig,
   IDataSource,
   IFullUser,
   IDataSourceState,
@@ -32,9 +31,8 @@ import {
   IAppVersion,
   IAppConfig,
   ISchema,
-  IClientState
-} from './interfaces';
-
+  IClientState, ILoginUser, IUpdateUser
+} from '../index';
 
 export class Linkurious {
   private _fetcher:Fetcher;
@@ -50,7 +48,7 @@ export class Linkurious {
   private _visualization:VisualizationModule;
   private _alert:AlertModule;
 
-  get state():IClientState {
+  get state ():IClientState {
     return this._clientState;
   }
 
@@ -61,82 +59,89 @@ export class Linkurious {
    * @param {object} [loggerDriver] - logger object
    * @param {FetcherFactory} [fetcherFactory] - fetcher factory
    */
-  constructor(host:string, logLevel:LogLevel, loggerDriver?:ILoggerDriver, fetcherFactory?: FetcherFactory) {
-    this._clientState   = <IClientState> {};
-    this._logger        = new Logger(logLevel, loggerDriver);
-    if (!fetcherFactory) { fetcherFactory = new FetcherFactory(); }
-    this._fetcher       = fetcherFactory.create(this._logger, this._clientState, host);
+  constructor (
+    host:string,
+    logLevel:LogLevel,
+    loggerDriver?:ILoggerDriver,
+    fetcherFactory?:FetcherFactory
+  ) {
+    this._clientState = <IClientState> {};
+    this._logger = new Logger(logLevel, loggerDriver);
+    if ( !fetcherFactory ) {
+      fetcherFactory = new FetcherFactory();
+    }
+    this._fetcher = fetcherFactory.create(this._logger, this._clientState, host);
 
-    this._admin         = new AdminModule(this._fetcher, this._logger, this._clientState);
-    this._my            = new MyModule(this._fetcher);
-    this._graph         = new GraphModule(this._fetcher);
-    this._edge          = new EdgeModule(this._fetcher);
-    this._node          = new NodeModule(this._fetcher);
-    this._search        = new SearchModule(this._fetcher);
+    this._admin = new AdminModule(this._fetcher, this._logger, this._clientState);
+    this._my = new MyModule(this._fetcher);
+    this._graph = new GraphModule(this._fetcher);
+    this._edge = new EdgeModule(this._fetcher);
+    this._node = new NodeModule(this._fetcher);
+    this._search = new SearchModule(this._fetcher);
     this._visualization = new VisualizationModule(this._fetcher);
-    this._alert         = new AlertModule(this._fetcher);
+    this._alert = new AlertModule(this._fetcher);
   }
 
   /**
    * @returns {Fetcher}
    */
-  get fetcher():Fetcher {
+  get fetcher ():Fetcher {
     return this._fetcher;
   }
 
   /**
    * @returns {AdminModule}
    */
-  get admin():AdminModule {
+  get admin ():AdminModule {
     return this._admin;
   }
 
   /**
    * @returns {MyModule}
    */
-  get my():MyModule {
+  get my ():MyModule {
     return this._my;
   }
 
   /**
    * @returns {GraphModule}
    */
-  get graph():GraphModule {
+  get graph ():GraphModule {
     return this._graph;
   }
 
   /**
    * @returns {EdgeModule}
    */
-  get edge():EdgeModule {
+  get edge ():EdgeModule {
     return this._edge;
   }
 
   /**
    * @returns {NodeModule}
    */
-  get node():NodeModule {
+  get node ():NodeModule {
     return this._node;
   }
 
   /**
    * @returns {SearchModule}
    */
-  get search():SearchModule {
+  get search ():SearchModule {
     return this._search;
   }
 
   /**
    * @returns {VisualizationModule}
    */
-  get visualization():VisualizationModule {
+  get visualization ():VisualizationModule {
     return this._visualization;
   }
 
   /**
    * @returns {AlertModule}
    */
-  get alerts():AlertModule {
+  get alerts ():AlertModule {
     return this._alert;
   }
 
@@ -146,33 +151,41 @@ export class Linkurious {
    * @param {ILoginUser} data
    * @returns {Promise<boolean>}
    */
-  public login(data:Query.ILoginUser):Promise<any> {
+  public login ( data:ILoginUser ):Promise<any> {
     let config:IFetchConfig = {
       url   : '/auth/login',
       method: 'POST',
       body  : data
     };
 
-    if (this._clientState.user) {
-      return this.logout().then(() => {
-        return this._fetcher.fetch(config);
-      }).then((res:any) => {
-        this._clientState.user = res.user;
-        return this._clientState.user;
-      });
+    if ( this._clientState.user ) {
+      return this.logout().then(
+        () => {
+          return this._fetcher.fetch(config);
+        }
+      ).then(
+        ( res:any ) => {
+          this._clientState.user = res.user;
+          return this._clientState.user;
+        }
+      );
     } else {
-      return this._fetcher.fetch(config).then((res:any) => {
-        this._clientState.user = res.user;
-        return this._clientState.user;
-      });
+      return this._fetcher.fetch(config).then(
+        ( res:any ) => {
+          this._clientState.user = res.user;
+          return this._clientState.user;
+        }
+      );
     }
   }
 
-  public oAuthAzure():Promise<boolean> {
-    return this._fetcher.fetch({
-      url : '/auth/azuread/login',
-      method : 'GET'
-    }).then(() => true);
+  public oAuthAzure ():Promise<boolean> {
+    return this._fetcher.fetch(
+      {
+        url   : '/auth/azuread/login',
+        method: 'GET'
+      }
+    ).then(() => true);
   }
 
   /**
@@ -180,15 +193,19 @@ export class Linkurious {
    *
    * @returns {Promise<string>}
    */
-  public logout():Promise<string> {
-    return this._fetcher.fetch({
-      url   : '/auth/logout',
-      method: 'GET'
-    })
-      .then(() => {
-        this._clientState.user = undefined;
-        return 'user disconnected';
-      });
+  public logout ():Promise<string> {
+    return this._fetcher.fetch(
+      {
+        url   : '/auth/logout',
+        method: 'GET'
+      }
+    )
+      .then(
+        () => {
+          this._clientState.user = undefined;
+          return 'user disconnected';
+        }
+      );
   }
 
   /**
@@ -197,15 +214,19 @@ export class Linkurious {
    * @param {IUpdateUser} data
    * @returns {Promise<IFullUser>}
    */
-  public updateCurrentUser(data:Query.IUpdateUser):Promise<IFullUser> {
-    return this._fetcher.fetch({
-      url   : '/auth/me',
-      method: 'PATCH',
-      body  : data
-    }).then((res:IFullUser) => {
-      this._clientState.user = Object.assign(this._clientState.user, res);
-      return this._clientState.user;
-    });
+  public updateCurrentUser ( data:IUpdateUser ):Promise<IFullUser> {
+    return this._fetcher.fetch(
+      {
+        url   : '/auth/me',
+        method: 'PATCH',
+        body  : data
+      }
+    ).then(
+      ( res:IFullUser ) => {
+        this._clientState.user = Object.assign(this._clientState.user, res);
+        return this._clientState.user;
+      }
+    );
   }
 
   /**
@@ -213,11 +234,13 @@ export class Linkurious {
    *
    * @returns {Promise<IDataSourceState>}
    */
-  public getSourceList():Promise<Array<IDataSourceState>> {
-    return this._fetcher.fetch({
-      url   : '/dataSources',
-      method: 'GET'
-    }).then((res:any) => res.sources);
+  public getSourceList ():Promise<Array<IDataSourceState>> {
+    return this._fetcher.fetch(
+      {
+        url   : '/dataSources',
+        method: 'GET'
+      }
+    ).then(( res:any ) => res.sources);
   }
 
   /**
@@ -225,18 +248,20 @@ export class Linkurious {
    *
    * @returns {Promise<any>}
    */
-  public initSources():Promise<any> {
+  public initSources ():Promise<any> {
 
-    return this.getSourceList().then((sourceStates:Array<IDataSourceState>) => {
-      for (let sourceState of sourceStates) {
-        if (this.storeSource(sourceState, 'connected', true)) {
-          return {
-            sources : sourceStates,
-            currentSource : this._clientState.currentSource
-          };
+    return this.getSourceList().then(
+      ( sourceStates:Array<IDataSourceState> ) => {
+        for ( let sourceState of sourceStates ) {
+          if ( this.storeSource(sourceState, 'connected', true) ) {
+            return {
+              sources      : sourceStates,
+              currentSource: this._clientState.currentSource
+            };
+          }
         }
       }
-    });
+    );
   }
 
   /**
@@ -245,23 +270,25 @@ export class Linkurious {
    * @param {string|number} keyOrConfig
    * @returns {Promise<IDataSourceState>}
    */
-  public setCurrentSource(keyOrConfig:string | number):Promise<IDataSource> {
-    return this.getSourceList().then((sourceStates:Array<IDataSourceState>) => {
-      for (let sourceState of sourceStates) {
-        let sourceComparator:string;
+  public setCurrentSource ( keyOrConfig:string | number ):Promise<IDataSource> {
+    return this.getSourceList().then(
+      ( sourceStates:Array<IDataSourceState> ) => {
+        for ( let sourceState of sourceStates ) {
+          let sourceComparator:string;
 
-        if (typeof keyOrConfig === 'string') {
-          sourceComparator = 'key';
-        } else {
-          sourceComparator = 'configIndex';
-        }
+          if ( typeof keyOrConfig === 'string' ) {
+            sourceComparator = 'key';
+          } else {
+            sourceComparator = 'configIndex';
+          }
 
-        if (this.storeSource(sourceState, sourceComparator, keyOrConfig)) {
-          return this._clientState.currentSource;
+          if ( this.storeSource(sourceState, sourceComparator, keyOrConfig) ) {
+            return this._clientState.currentSource;
+          }
         }
+        return undefined;
       }
-      return undefined;
-    });
+    );
   }
 
   /**
@@ -270,13 +297,17 @@ export class Linkurious {
    * @param {ILoginUser} data
    * @returns {Promise<IClientState>}
    */
-  public init(data:Query.ILoginUser):Promise<IClientState> {
+  public init ( data:ILoginUser ):Promise<IClientState> {
 
-    return this.login(data).then(() => {
-      return this.initSources();
-    }).then(() => {
-      return this._clientState;
-    });
+    return this.login(data).then(
+      () => {
+        return this.initSources();
+      }
+    ).then(
+      () => {
+        return this._clientState;
+      }
+    );
   }
 
   /**
@@ -284,13 +315,17 @@ export class Linkurious {
    *
    * @returns {Promise<IAppStatus>}
    */
-  public getAppStatus():Promise<IAppStatus> {
-    return this._fetcher.fetch({
-      url   : '/status',
-      method: 'GET'
-    }).then((res:any) => {
-      return res.status;
-    });
+  public getAppStatus ():Promise<IAppStatus> {
+    return this._fetcher.fetch(
+      {
+        url   : '/status',
+        method: 'GET'
+      }
+    ).then(
+      ( res:any ) => {
+        return res.status;
+      }
+    );
   }
 
   /**
@@ -298,11 +333,13 @@ export class Linkurious {
    *
    * @returns {Promise<IAppVersion>}
    */
-  public getAppVersion():Promise<IAppVersion> {
-    return this._fetcher.fetch({
-      method: 'GET',
-      url   : '/version'
-    });
+  public getAppVersion ():Promise<IAppVersion> {
+    return this._fetcher.fetch(
+      {
+        method: 'GET',
+        url   : '/version'
+      }
+    );
   }
 
   /**
@@ -311,12 +348,16 @@ export class Linkurious {
    * @param {number} [sourceIndex]
    * @returns {Promise<IAppConfig>}
    */
-  public getAppConfig(sourceIndex?:number):Promise<IAppConfig> {
-    return this._fetcher.fetch({
-      method: 'GET',
-      query : {sourceIndex: sourceIndex},
-      url   : '/config'
-    }).then(response => response.config);
+  public getAppConfig ( sourceIndex?:number ):Promise<IAppConfig> {
+    return this._fetcher.fetch(
+      {
+        method: 'GET',
+        query : { sourceIndex: sourceIndex },
+        url   : '/config'
+      }
+    ).then(
+      response => response.config
+    );
   }
 
   /**
@@ -324,19 +365,23 @@ export class Linkurious {
    *
    * @returns {Promise<ISchema>}
    */
-  public getSchema():Promise<ISchema> {
-    return this._fetcher.fetch({
-      method: 'GET',
-      url   : '/{dataSourceKey}/graph/schema/simple'
-    });
+  public getSchema ():Promise<ISchema> {
+    return this._fetcher.fetch(
+      {
+        method: 'GET',
+        url   : '/{dataSourceKey}/graph/schema/simple'
+      }
+    );
   }
 
-  public track(data:any):Promise<any> {
-    return this._fetcher.fetch({
-      method: 'POST',
-      url : '/track',
-      body : data
-    });
+  public track ( data:any ):Promise<any> {
+    return this._fetcher.fetch(
+      {
+        method: 'POST',
+        url   : '/track',
+        body  : data
+      }
+    );
   }
 
   /**
@@ -347,16 +392,16 @@ export class Linkurious {
    * @param {string|number|boolean} matchValue
    * @returns {IDataSource}
    */
-  private storeSource(
+  private storeSource (
     source:IDataSourceState,
     property:string,
     matchValue:string|number|boolean
   ):IDataSource {
-    if ((<any> source)[property] === matchValue) {
+    if ( (<any> source)[property] === matchValue ) {
       this._clientState.currentSource = {
-        name : source.name,
-        key : source.key,
-        configIndex : source.configIndex
+        name       : source.name,
+        key        : source.key,
+        configIndex: source.configIndex
       };
 
       return this._clientState.currentSource;

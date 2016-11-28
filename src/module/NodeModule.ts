@@ -9,22 +9,22 @@
  */
 'use strict';
 
-import * as Query from '../Query';
 import {
   INode,
   IFullNode,
   ItemId,
   IDigest,
   IProperty,
-  IItemType
-} from '../interfaces';
-import {Utils} from '../http/utils';
-import {Module} from './Module';
-import {Fetcher} from '../http/fetcher';
+  IItemType, ICreateNode, IGetNode, IGetAdjacentItems, IGetNeighborsCategories, IUpdateNode,
+  IGetItemProperties, IGetItemTypes
+} from '../../index';
+import { Utils } from '../http/utils';
+import { Module } from './Module';
+import { Fetcher } from '../http/fetcher';
 
 export class NodeModule extends Module {
 
-  constructor(fetcher:Fetcher) {
+  constructor ( fetcher:Fetcher ) {
     super(fetcher);
   }
 
@@ -33,11 +33,13 @@ export class NodeModule extends Module {
    *
    * @returns {Promise<number>}
    */
-  public count():Promise<number> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/nodes/count',
-      method: 'GET'
-    }).then((res:any) => res.count);
+  public count ():Promise<number> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/nodes/count',
+        method: 'GET'
+      }
+    ).then(( res:any ) => res.count);
   }
 
   /**
@@ -46,17 +48,19 @@ export class NodeModule extends Module {
    * @param {ICreateNode} data
    * @returns {Promise<INode>}
    */
-  public create(data:Query.ICreateNode):Promise<INode> {
+  public create ( data:ICreateNode ):Promise<INode> {
 
     let dataToSend:any = data;
     dataToSend.properties = data.data;
     delete dataToSend.data;
 
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/nodes',
-      method: 'POST',
-      body  : data
-    });
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/nodes',
+        method: 'POST',
+        body  : data
+      }
+    );
   }
 
   /**
@@ -66,12 +70,14 @@ export class NodeModule extends Module {
    * @returns {Promise<boolean>}
    *
    */
-  public deleteOne(nodeId:ItemId):Promise<boolean> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/nodes/{id}',
-      method: 'DELETE',
-      body  : {id: nodeId}
-    }).then(() => true);
+  public deleteOne ( nodeId:ItemId ):Promise<boolean> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/nodes/{id}',
+        method: 'DELETE',
+        body  : { id: nodeId }
+      }
+    ).then(() => true);
   }
 
   /**
@@ -80,12 +86,14 @@ export class NodeModule extends Module {
    * @param {IGetNode} [params]
    * @returns {Promise<INode>}
    */
-  public getOne(params?:Query.IGetNode):Promise<IFullNode> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/nodes/{id}',
-      method: 'GET',
-      query : params
-    });
+  public getOne ( params?:IGetNode ):Promise<IFullNode> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/nodes/{id}',
+        method: 'GET',
+        query : params
+      }
+    );
   }
 
   /**
@@ -98,12 +106,14 @@ export class NodeModule extends Module {
    * @param {IGetAdjacentItems} data
    * @returns {Promise<Array<INode>>}
    */
-  public expand(data:Query.IGetAdjacentItems):Promise<Array<INode>> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/nodes/expand',
-      method: 'POST',
-      body  : Utils.fixSnakeCase(data)
-    });
+  public expand ( data:IGetAdjacentItems ):Promise<Array<INode>> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/nodes/expand',
+        method: 'POST',
+        body  : Utils.fixSnakeCase(data)
+      }
+    );
   }
 
   /**
@@ -112,12 +122,14 @@ export class NodeModule extends Module {
    * @param {Array<number>} data
    * @returns {Promise<Array<IDigest>>}
    */
-  public getNeighborsCategories(data:Query.IGetNeighborsCategories):Promise<Array<IDigest>> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/neighborhood/digest',
-      method: 'POST',
-      body  : data
-    });
+  public getNeighborsCategories ( data:IGetNeighborsCategories ):Promise<Array<IDigest>> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/neighborhood/digest',
+        method: 'POST',
+        body  : data
+      }
+    );
   }
 
   /**
@@ -126,7 +138,7 @@ export class NodeModule extends Module {
    * @param {IUpdateNode} data
    * @returns {Promise<INode>}
    */
-  public update(data:Query.IUpdateNode):Promise<INode> {
+  public update ( data:IUpdateNode ):Promise<INode> {
 
     let dataToSend:any = data;
     dataToSend.deleteProperties = data.deletedData;
@@ -134,11 +146,13 @@ export class NodeModule extends Module {
     delete dataToSend.deletedData;
     delete dataToSend.data;
 
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/nodes/{id}',
-      method: 'PATCH',
-      body  : Utils.fixSnakeCase(data)
-    });
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/nodes/{id}',
+        method: 'PATCH',
+        body  : Utils.fixSnakeCase(data)
+      }
+    );
   }
 
   /**
@@ -147,12 +161,14 @@ export class NodeModule extends Module {
    * @param {IGetItemProperties} [params]
    * @returns {Promise<Array<IProperty>>}
    */
-  public getProperties(params?:Query.IGetItemProperties):Promise<Array<IProperty>> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/schema/nodeTypes/properties',
-      method: 'GET',
-      query : params
-    }).then((res:any) => res.properties);
+  public getProperties ( params?:IGetItemProperties ):Promise<Array<IProperty>> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/schema/nodeTypes/properties',
+        method: 'GET',
+        query : params
+      }
+    ).then(( res:any ) => res.properties);
   }
 
   /**
@@ -161,11 +177,13 @@ export class NodeModule extends Module {
    * @param {IGetItemTypes} [params]
    * @returns {Promise<Array<IItemType>>}
    */
-  public getTypes(params?:Query.IGetItemTypes):Promise<Array<IItemType>> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/schema/nodeTypes',
-      method: 'GET',
-      query : params
-    }).then((res:any) => res.nodeTypes);
+  public getTypes ( params?:IGetItemTypes ):Promise<Array<IItemType>> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/schema/nodeTypes',
+        method: 'GET',
+        query : params
+      }
+    ).then(( res:any ) => res.nodeTypes);
   }
 }

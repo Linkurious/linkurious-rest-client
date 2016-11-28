@@ -9,19 +9,18 @@
  */
 'use strict';
 
-import * as Query from '../Query';
-import {Module} from './Module';
+import { Module } from './Module';
 import {
   IEdge,
   ItemId,
   IProperty,
-  IItemType
-} from '../interfaces';
-import {Fetcher} from '../http/fetcher';
+  IItemType, ICreateEdge, IUpdateEdge, IGetAdjacentEdges, IGetItemProperties, IGetEdgeTypes
+} from '../../index';
+import { Fetcher } from '../http/fetcher';
 
 export class EdgeModule extends Module {
 
-  constructor(fetcher:Fetcher) {
+  constructor ( fetcher:Fetcher ) {
     super(fetcher);
   }
 
@@ -30,11 +29,13 @@ export class EdgeModule extends Module {
    *
    * @returns {Promise<number>}
    */
-  public count():Promise<number> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/edges/count',
-      method: 'GET'
-    }).then((res:any) => res.count);
+  public count ():Promise<number> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/edges/count',
+        method: 'GET'
+      }
+    ).then(( res:any ) => res.count);
   }
 
   /**
@@ -43,17 +44,19 @@ export class EdgeModule extends Module {
    * @param {ICreateEdge} data
    * @returns {Promise<IEdge>}
    */
-  public create(data:Query.ICreateEdge):Promise<IEdge> {
+  public create ( data:ICreateEdge ):Promise<IEdge> {
 
     let dataToSend:any = data;
     dataToSend.properties = data.data;
     delete dataToSend.data;
 
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/edges',
-      method: 'POST',
-      body  : dataToSend
-    });
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/edges',
+        method: 'POST',
+        body  : dataToSend
+      }
+    );
   }
 
   /**
@@ -63,7 +66,7 @@ export class EdgeModule extends Module {
    * @param {IUpdateEdge} data
    * @returns {Promise<IEdge>}
    */
-  public update(data:Query.IUpdateEdge):Promise<IEdge> {
+  public update ( data:IUpdateEdge ):Promise<IEdge> {
 
     let dataToSend:any = data;
     dataToSend.properties = data.data;
@@ -71,11 +74,13 @@ export class EdgeModule extends Module {
     delete dataToSend.data;
     delete dataToSend.deletedData;
 
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/edges/{id}',
-      method: 'PATCH',
-      body  : data
-    });
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/edges/{id}',
+        method: 'PATCH',
+        body  : data
+      }
+    );
   }
 
   /**
@@ -84,12 +89,14 @@ export class EdgeModule extends Module {
    * @param {ItemId} edgeId
    * @returns {Promise<boolean>}
    */
-  public deleteOne(edgeId:ItemId):Promise<boolean> {
-    return this.fetch({
+  public deleteOne ( edgeId:ItemId ):Promise<boolean> {
+    return this.fetch(
+      {
         url   : '/{dataSourceKey}/graph/edges/{id}',
         method: 'DELETE',
-        body:{id:edgeId}
-      }).then(() => true);
+        body  : { id: edgeId }
+      }
+    ).then(() => true);
   }
 
   /**
@@ -101,27 +108,29 @@ export class EdgeModule extends Module {
    * @param {IGetAdjacentEdges} data
    * @returns {Promise<Array<IEdge>>}
    */
-  public getAdjacentFromNode(data:Query.IGetAdjacentEdges):Promise<Array<IEdge>> {
+  public getAdjacentFromNode ( data:IGetAdjacentEdges ):Promise<Array<IEdge>> {
     // clone
     let query:any = JSON.parse(JSON.stringify(data));
-    if (query.orientation === 'in') {
+    if ( query.orientation === 'in' ) {
       query.source = data.nodeId;
     }
 
-    if (data.orientation === 'out') {
+    if ( data.orientation === 'out' ) {
       query.target = data.nodeId;
     }
 
-    if (data.orientation === 'both') {
+    if ( data.orientation === 'both' ) {
       query.adjacent = data.nodeId;
     }
     query.nodeId = undefined;
     query.orientation = undefined;
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/edges',
-      method: 'GET',
-      query : query
-    });
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/edges',
+        method: 'GET',
+        query : query
+      }
+    );
   }
 
   /**
@@ -130,12 +139,14 @@ export class EdgeModule extends Module {
    * @param {ItemId} edgeId
    * @returns {Promise<IEdge>}
    */
-  public getOne(edgeId:ItemId):Promise<IEdge> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/edges/{id}',
-      method: 'GET',
-      body : {id:edgeId}
-    });
+  public getOne ( edgeId:ItemId ):Promise<IEdge> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/edges/{id}',
+        method: 'GET',
+        body  : { id: edgeId }
+      }
+    );
   }
 
   /**
@@ -144,12 +155,14 @@ export class EdgeModule extends Module {
    * @param {IGetItemProperties} [params]
    * @returns {Promise<Array<IProperty>>}
    */
-  public getProperties(params?:Query.IGetItemProperties):Promise<Array<IProperty>> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/schema/edgeTypes/properties',
-      method: 'GET',
-      query : params
-    }).then((res:any) => res.properties);
+  public getProperties ( params?:IGetItemProperties ):Promise<Array<IProperty>> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/schema/edgeTypes/properties',
+        method: 'GET',
+        query : params
+      }
+    ).then(( res:any ) => res.properties);
   }
 
   /**
@@ -158,12 +171,14 @@ export class EdgeModule extends Module {
    * @param {IGetEdgeTypes} [params]
    * @returns {Promise<Array<IItemType>>}
    */
-  public getTypes(params?:Query.IGetEdgeTypes):Promise<Array<IItemType>> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/schema/edgeTypes',
-      method: 'GET',
-      query : params
-    }).then((res:any) => <Array<IItemType>> res.edgeTypes);
+  public getTypes ( params?:IGetEdgeTypes ):Promise<Array<IItemType>> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/schema/edgeTypes',
+        method: 'GET',
+        query : params
+      }
+    ).then(( res:any ) => <Array<IItemType>> res.edgeTypes);
   }
 
 }

@@ -9,26 +9,28 @@
  */
 'use strict';
 
-import * as Query from '../Query';
-import { IGraphQuery, IFullUser } from '../interfaces';
-import {Module} from './Module';
-import {Fetcher} from '../http/fetcher';
+import { IGraphQuery, IFullUser, ICreateGraphQuery, IUpdateGraphQuery } from '../../index';
+import { Module } from './Module';
+import { Fetcher } from '../http/fetcher';
 
 export class MyModule extends Module {
 
-  constructor(fetcher:Fetcher) {
+  constructor ( fetcher:Fetcher ) {
     super(fetcher);
   }
+
   /**
    * get authenticated user infos
    *
    * @returns {Promise<IFullUser>}
    */
-  public infos():Promise<IFullUser> {
-    return this.fetch({
-      url : '/auth/me',
-      method : 'GET'
-    }).then((response:any) => response.user);
+  public infos ():Promise<IFullUser> {
+    return this.fetch(
+      {
+        url   : '/auth/me',
+        method: 'GET'
+      }
+    ).then(( response:any ) => response.user);
   }
 
   /**
@@ -36,11 +38,13 @@ export class MyModule extends Module {
    *
    * @returns {Promise<boolean>}
    */
-  public IsAuth():Promise<boolean> {
-    return this.fetch({
-      url   : '/auth/authenticated',
-      method: 'GET'
-    }).then(() => true);
+  public IsAuth ():Promise<boolean> {
+    return this.fetch(
+      {
+        url   : '/auth/authenticated',
+        method: 'GET'
+      }
+    ).then(() => true);
   }
 
   /**
@@ -48,11 +52,13 @@ export class MyModule extends Module {
    *
    * @returns {Promise<boolean>}
    */
-  public IsAdmin():Promise<boolean> {
-    return this.fetch({
-      url   : '/auth/admin',
-      method: 'GET'
-    }).then(() => true);
+  public IsAdmin ():Promise<boolean> {
+    return this.fetch(
+      {
+        url   : '/auth/admin',
+        method: 'GET'
+      }
+    ).then(() => true);
   }
 
   /**
@@ -61,12 +67,14 @@ export class MyModule extends Module {
    * @param {number} graphQueryId
    * @returns {Promise<boolean>}
    */
-  public deleteGraphQuery(graphQueryId:number):Promise<boolean> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
-      method: 'DELETE',
-      body  : {id: graphQueryId}
-    }).then(() => true);
+  public deleteGraphQuery ( graphQueryId:number ):Promise<boolean> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
+        method: 'DELETE',
+        body  : { id: graphQueryId }
+      }
+    ).then(() => true);
   }
 
   /**
@@ -75,12 +83,14 @@ export class MyModule extends Module {
    * @param {number} graphQueryId
    * @returns {Promise<IGraphQuery>}
    */
-  public getGraphQuery(graphQueryId:number):Promise<IGraphQuery> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
-      method: 'GET',
-      query : {id: graphQueryId}
-    });
+  public getGraphQuery ( graphQueryId:number ):Promise<IGraphQuery> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
+        method: 'GET',
+        query : { id: graphQueryId }
+      }
+    );
   }
 
   /**
@@ -88,11 +98,13 @@ export class MyModule extends Module {
    *
    * @returns {Promise<Array<IGraphQuery>>}
    */
-  public getAllGraphQueries():Promise<Array<IGraphQuery>> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/my/rawQuery/all',
-      method: 'GET'
-    });
+  public getAllGraphQueries ():Promise<Array<IGraphQuery>> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/my/rawQuery/all',
+        method: 'GET'
+      }
+    );
   }
 
   /**
@@ -100,12 +112,14 @@ export class MyModule extends Module {
    * @param {ICreateGraphQuery} data
    * @returns {Promise<IGraphQuery>}
    */
-  public saveGraphQuery(data:Query.ICreateGraphQuery):Promise<IGraphQuery> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/my/rawQuery',
-      method: 'POST',
-      body  : data
-    });
+  public saveGraphQuery ( data:ICreateGraphQuery ):Promise<IGraphQuery> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/my/rawQuery',
+        method: 'POST',
+        body  : data
+      }
+    );
   }
 
   /**
@@ -114,19 +128,21 @@ export class MyModule extends Module {
    * @param {IUpdateGraphQuery} data
    * @returns {Promise<IGraphQuery>}
    */
-  public updateGraphQuery(data:Query.IUpdateGraphQuery):Promise<boolean> {
+  public updateGraphQuery ( data:IUpdateGraphQuery ):Promise<boolean> {
     let body:any = JSON.parse(JSON.stringify(data));
     body.properties = {
-      name : data.name,
-      content : data.content
+      name   : data.name,
+      content: data.content
     };
     body.name = undefined;
     body.content = undefined;
 
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
-      method: 'PATCH',
-      body  : body
-    });
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
+        method: 'PATCH',
+        body  : body
+      }
+    );
   }
 }

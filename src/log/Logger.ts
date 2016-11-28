@@ -9,9 +9,9 @@
  */
 'use strict';
 
-import {LinkuriousError} from '../LinkuriousError';
-import {ILoggerDriver} from './ILoggerDriver';
-import {DefaultLoggerDriver} from './DefaultLoggerDriver';
+import { LinkuriousError } from '../LinkuriousError';
+import { ILoggerDriver } from './../../index';
+import { DefaultLoggerDriver } from './DefaultLoggerDriver';
 
 export type LogLevel = 'debug'|'error'|'quiet';
 
@@ -25,22 +25,28 @@ export class Logger {
   public driver:ILoggerDriver;
   private numericalLevel:number;
 
-  constructor(level:LogLevel, driver?:ILoggerDriver) {
-    this.level          = level;
+  constructor (
+    level:LogLevel,
+    driver?:ILoggerDriver
+  ) {
+    this.level = level;
     this.numericalLevel = LOG_LEVELS.get(level);
-    this.driver         = driver ? driver : new DefaultLoggerDriver();
+    this.driver = driver ? driver : new DefaultLoggerDriver();
   }
 
-  public debug(error:LinkuriousError):void {
+  public debug ( error:LinkuriousError ):void {
     this.log('debug', error);
   }
 
-  public error(error:LinkuriousError):void {
+  public error ( error:LinkuriousError ):void {
     this.log('error', error);
   }
 
-  private log(level:LogLevel, error:LinkuriousError):void {
-    if (LOG_LEVELS.get(level) >= this.numericalLevel) {
+  private log (
+    level:LogLevel,
+    error:LinkuriousError
+  ):void {
+    if ( LOG_LEVELS.get(level) >= this.numericalLevel ) {
       (<any> this.driver)[level](`[${error.type}] ${error.key}: ${error.message}`);
     }
   }

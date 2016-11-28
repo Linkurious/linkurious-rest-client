@@ -9,14 +9,13 @@
  */
 'use strict';
 
-import * as Query from '../Query';
-import {INode, IEdge, IFullNode} from '../interfaces';
-import {Utils} from '../http/utils';
-import {Module} from './Module';
-import {Fetcher} from '../http/fetcher';
+import { INode, IEdge, IFullNode, IGetShortestPaths, ISendQuery } from '../../index';
+import { Utils } from '../http/utils';
+import { Module } from './Module';
+import { Fetcher } from '../http/fetcher';
 
 export class GraphModule extends Module {
-  constructor(fetcher:Fetcher) {
+  constructor ( fetcher:Fetcher ) {
     super(fetcher);
   }
 
@@ -26,12 +25,14 @@ export class GraphModule extends Module {
    * @param {IGetShortestPaths} nodesConfig
    * @returns {Promise<Array<Array<IFullNode|IEdge>>>}
    */
-  public getShortestPaths(nodesConfig:Query.IGetShortestPaths):Promise<Array<Array<IFullNode|IEdge>>> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/shortestPaths',
-      method: 'GET',
-      query : nodesConfig
-    }).then((res:any) => res.results);
+  public getShortestPaths ( nodesConfig:IGetShortestPaths ):Promise<Array<Array<IFullNode|IEdge>>> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/shortestPaths',
+        method: 'GET',
+        query : nodesConfig
+      }
+    ).then(( res:any ) => res.results);
   }
 
   /**
@@ -40,11 +41,13 @@ export class GraphModule extends Module {
    * @param {ISendQuery} data
    * @returns {Promise<Array<INode>>}
    */
-  public getNodeList(data:Query.ISendQuery):Promise<Array<INode>> {
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/rawQuery',
-      method: 'POST',
-      body  : Utils.fixSnakeCase(data)
-    });
+  public getNodeList ( data:ISendQuery ):Promise<Array<INode>> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/rawQuery',
+        method: 'POST',
+        body  : Utils.fixSnakeCase(data)
+      }
+    );
   }
 }

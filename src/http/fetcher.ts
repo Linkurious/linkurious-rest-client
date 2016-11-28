@@ -9,32 +9,41 @@
  */
 'use strict';
 
-import {IClientState} from './../interfaces';
-import {LinkuriousError} from './../LinkuriousError';
-import {DefaultHttpDriver} from './DefaultHttpDriver';
-import {Logger} from './../log/Logger';
-import {IHttpDriver} from './IHttpDriver';
-import {IHttpResponse} from './IHttpResponse';
-import {IFetchConfig, IDataSourceRelative, IDataToSend} from './IFetchConfig';
-import {Utils} from './utils';
+import {
+  IClientState,
+  IHttpDriver,
+  IHttpResponse,
+  IFetchConfig,
+  IDataSourceRelative,
+  IDataToSend
+} from './../../index';
+import { LinkuriousError } from './../LinkuriousError';
+import { DefaultHttpDriver } from './DefaultHttpDriver';
+import { Logger } from './../log/Logger';
+import { Utils } from './utils';
 
 export class Fetcher {
 
-  private static SOURCE_KEY_TEMPLATE:string   = '{dataSourceKey}';
+  private static SOURCE_KEY_TEMPLATE:string = '{dataSourceKey}';
   private static SOURCE_INDEX_TEMPLATE:string = '{dataSourceIndex}';
-  private static OBJECT_ID_TEMPLATE:string    = '{id}';
+  private static OBJECT_ID_TEMPLATE:string = '{id}';
   private _httpDriver:IHttpDriver;
   private _logger:Logger;
   private _host:string;
   private _clientState:IClientState;
   private _baseUrl:string;
 
-  constructor(logger:Logger, clientState:IClientState, host:string, httpDriver?:IHttpDriver) {
-    this._httpDriver    = httpDriver ? httpDriver : new DefaultHttpDriver();
-    this._logger        = logger;
-    this._clientState   = clientState;
-    this._host          = host;
-    this._baseUrl       = this._host + '/api';
+  constructor (
+    logger:Logger,
+    clientState:IClientState,
+    host:string,
+    httpDriver?:IHttpDriver
+  ) {
+    this._httpDriver = httpDriver ? httpDriver : new DefaultHttpDriver();
+    this._logger = logger;
+    this._clientState = clientState;
+    this._host = host;
+    this._baseUrl = this._host + '/api';
   }
 
   /**
@@ -43,7 +52,7 @@ export class Fetcher {
    * @param {IFetchConfig} configData
    * @returns {Promise.<*>} the response body
    */
-  public fetch(configData:IFetchConfig):Promise<any> {
+  public fetch ( configData:IFetchConfig ):Promise<any> {
 
     let config:IFetchConfig = JSON.parse(JSON.stringify(configData));
 
@@ -59,7 +68,7 @@ export class Fetcher {
     }
     let responsePromise:Promise<IHttpResponse>;
 
-    if (config.method === 'GET') {
+    if ( config.method === 'GET' ) {
       responsePromise = (<any> this._httpDriver)[config.method](
         config.url, Utils.fixSnakeCase(data.queryData)
       );
@@ -69,35 +78,46 @@ export class Fetcher {
       );
     }
 
-    return responsePromise.catch((error:Error) => {
-      // console.log(JSON.stringify(error.stack.split(/\s*\n\s*/), null, ' '));
+    return responsePromise.catch(
+      ( error:Error ) => {
+        // console.log(JSON.stringify(error.stack.split(/\s*\n\s*/), null, ' '));
 
-      // create a linkurious error from "hard" errors
-      return Promise.reject(LinkuriousError.fromError(error));
+        // create a linkurious error from "hard" errors
+        return Promise.reject(LinkuriousError.fromError(error));
 
-    }).then((response:IHttpResponse) => {
-
-      // create a linkurious error from "soft" error
-      if (LinkuriousError.isError(response)) {
-        let linkuriousError:any = LinkuriousError.fromHttpResponse(response);
-        return Promise.reject(linkuriousError);
       }
+    ).then(
+      ( response:IHttpResponse ) => {
 
-      // resolve with response body in case of success
-      return response.body;
+        // create a linkurious error from "soft" error
+        if ( LinkuriousError.isError(response) ) {
+          let linkuriousError:any = LinkuriousError.fromHttpResponse(response);
+          return Promise.reject(linkuriousError);
+        }
 
-    }).catch((error:LinkuriousError) => {
-      // logging interceptor
-      this._logger.error(error);
-      return Promise.reject(error);
-    });
+        // resolve with response body in case of success
+        return response.body;
+
+      }
+    ).catch(
+      ( error:LinkuriousError ) => {
+        // logging interceptor
+        this._logger.error(error);
+        return Promise.reject(error);
+      }
+    );
   }
 
-  private addSourceKeyToUrl(url:string, explicitSource?:IDataSourceRelative):string {
-    if (explicitSource) {
+  private addSourceKeyToUrl (
+    url:string,
+    explicitSource?:IDataSourceRelative
+  ):string {
+    if ( explicitSource ) {
       return this._baseUrl + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource.dataSourceKey);
-    } else if (this._clientState.currentSource) {
-      return this._baseUrl + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key);
+    } else if ( this._clientState.currentSource ) {
+      return this._baseUrl + url.replace(
+          Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key
+        );
     } else {
       throw LinkuriousError.fromClientError(
         'state_error',
@@ -106,11 +126,18 @@ export class Fetcher {
     }
   }
 
-  private addSourceIndexToUrl(url:string, explicitSource?:IDataSourceRelative):string {
-    if (explicitSource) {
-      return this._baseUrl + url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource.dataSourceIndex + '');
-    } else if (this._clientState.currentSource) {
-      return this._baseUrl + url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.key);
+  private addSourceIndexToUrl (
+    url:string,
+    explicitSource?:IDataSourceRelative
+  ):string {
+    if ( explicitSource ) {
+      return this._baseUrl + url.replace(
+          Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource.dataSourceIndex + ''
+        );
+    } else if ( this._clientState.currentSource ) {
+      return this._baseUrl + url.replace(
+          Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.key
+        );
     } else {
       throw LinkuriousError.fromClientError(
         'state_error',
@@ -119,14 +146,18 @@ export class Fetcher {
     }
   }
 
-  private handleIdInUrl(url:string, body:any, query:any):string {
-    if (body) {
+  private handleIdInUrl (
+    url:string,
+    body:any,
+    query:any
+  ):string {
+    if ( body ) {
       let id:number = body.id;
       delete body.id;
       return url.replace(Fetcher.OBJECT_ID_TEMPLATE, id + '');
     }
 
-    if (query) {
+    if ( query ) {
       let id:number = query.id;
       delete query.id;
       return url.replace(Fetcher.OBJECT_ID_TEMPLATE, id + '');
@@ -138,14 +169,17 @@ export class Fetcher {
     );
   }
 
-  private transformUrl(config:IFetchConfig, data:IDataToSend):string {
-    if (config.url.indexOf(Fetcher.OBJECT_ID_TEMPLATE) >= 0) {
+  private transformUrl (
+    config:IFetchConfig,
+    data:IDataToSend
+  ):string {
+    if ( config.url.indexOf(Fetcher.OBJECT_ID_TEMPLATE) >= 0 ) {
       config.url = this.handleIdInUrl(config.url, data.bodyData, data.queryData);
     }
 
-    if (config.url.indexOf(Fetcher.SOURCE_KEY_TEMPLATE) >= 0) {
+    if ( config.url.indexOf(Fetcher.SOURCE_KEY_TEMPLATE) >= 0 ) {
       return this.addSourceKeyToUrl(config.url, config.dataSource);
-    } else if (config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0) {
+    } else if ( config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0 ) {
       return this.addSourceIndexToUrl(config.url, config.dataSource);
     } else {
       return this._baseUrl + config.url;

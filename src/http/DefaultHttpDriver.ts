@@ -9,112 +9,188 @@
  */
 
 import * as request from 'superagent';
-import {IHttpResponse} from './IHttpResponse';
-import {IHttpDriver} from './IHttpDriver';
-import {LinkuriousError} from '../LinkuriousError';
+import { IHttpResponse, IHttpDriver } from './../../index';
+import { LinkuriousError } from '../LinkuriousError';
 
 export class DefaultHttpDriver implements IHttpDriver {
   private cookie:string;
 
-  constructor() {
+  constructor () {
     this.cookie = '';
   }
 
-  public POST(uri:string, data?:any, query?:any):Promise<IHttpResponse> {
-    return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
-      request
-        .post(uri)
-        .withCredentials()
-        .send(data)
-        .query(query)
-        .end((err:any, res:request.Response) => {
-          this.handleResponse(resolve, reject, err, res);
-        });
-    });
+  public POST (
+    uri:string,
+    data?:any,
+    query?:any
+  ):Promise<IHttpResponse> {
+    return new Promise(
+      (
+        resolve:( r:IHttpResponse ) => void,
+        reject:( e:any ) => void
+      ) => {
+        request
+          .post(uri)
+          .withCredentials()
+          .send(data)
+          .query(query)
+          .end(
+            (
+              err:any,
+              res:request.Response
+            ) => {
+              this.handleResponse(resolve, reject, err, res);
+            }
+          );
+      }
+    );
   }
 
-  public PUT(uri:string, data:any, query?:any):Promise<IHttpResponse> {
-    return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
-      request
-        .put(uri)
-        .withCredentials()
-        .send(data)
-        .query(query)
-        .end((err:any, res:request.Response) => {
-          this.handleResponse(resolve, reject, err, res);
-        });
-    });
+  public PUT (
+    uri:string,
+    data:any,
+    query?:any
+  ):Promise<IHttpResponse> {
+    return new Promise(
+      (
+        resolve:( r:IHttpResponse ) => void,
+        reject:( e:any ) => void
+      ) => {
+        request
+          .put(uri)
+          .withCredentials()
+          .send(data)
+          .query(query)
+          .end(
+            (
+              err:any,
+              res:request.Response
+            ) => {
+              this.handleResponse(resolve, reject, err, res);
+            }
+          );
+      }
+    );
   }
 
-  public PATCH(uri:string, data:any, query?:any):Promise<IHttpResponse> {
-    return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
-      request
-        .patch(uri)
-        .withCredentials()
-        .send(data)
-        .query(query)
-        .end((err:any, res:request.Response) => {
-          this.handleResponse(resolve, reject, err, res);
-        });
-    });
+  public PATCH (
+    uri:string,
+    data:any,
+    query?:any
+  ):Promise<IHttpResponse> {
+    return new Promise(
+      (
+        resolve:( r:IHttpResponse ) => void,
+        reject:( e:any ) => void
+      ) => {
+        request
+          .patch(uri)
+          .withCredentials()
+          .send(data)
+          .query(query)
+          .end(
+            (
+              err:any,
+              res:request.Response
+            ) => {
+              this.handleResponse(resolve, reject, err, res);
+            }
+          );
+      }
+    );
   }
 
-  public GET(uri:string, query?:any):Promise<IHttpResponse> {
-    return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
-      request
-        .get(uri)
-        .withCredentials()
-        .query(query)
-        .end((err:any, res:request.Response) => {
-          this.handleResponse(resolve, reject, err, res);
-        });
-    });
+  public GET (
+    uri:string,
+    query?:any
+  ):Promise<IHttpResponse> {
+    return new Promise(
+      (
+        resolve:( r:IHttpResponse ) => void,
+        reject:( e:any ) => void
+      ) => {
+        request
+          .get(uri)
+          .withCredentials()
+          .query(query)
+          .end(
+            (
+              err:any,
+              res:request.Response
+            ) => {
+              this.handleResponse(resolve, reject, err, res);
+            }
+          );
+      }
+    );
   }
 
-  public DELETE(uri:string, data?:any, query?:any):Promise<IHttpResponse> {
-    return new Promise((resolve:(r:IHttpResponse) => void, reject:(e:any) => void) => {
-      request
-        .del(uri)
-        .withCredentials()
-        .send(data)
-        .query(query)
-        .end((err:any, res:request.Response) => {
-          this.handleResponse(resolve, reject, err, res);
-        });
-    });
+  public DELETE (
+    uri:string,
+    data?:any,
+    query?:any
+  ):Promise<IHttpResponse> {
+    return new Promise(
+      (
+        resolve:( r:IHttpResponse ) => void,
+        reject:( e:any ) => void
+      ) => {
+        request
+          .del(uri)
+          .withCredentials()
+          .send(data)
+          .query(query)
+          .end(
+            (
+              err:any,
+              res:request.Response
+            ) => {
+              this.handleResponse(resolve, reject, err, res);
+            }
+          );
+      }
+    );
   }
 
-  private handleResponse(resolve:(r:IHttpResponse) => void,
-                         reject:(error:any) => void,
-                         err:Error,
-                         res:request.Response):void {
+  private handleResponse (
+    resolve:( r:IHttpResponse ) => void,
+    reject:( error:any ) => void,
+    err:Error,
+    res:request.Response
+  ):void {
 
-    if (!res) {
-      return reject(LinkuriousError.fromClientError(
-        'communication_error',
-        'offline'
-      ));
+    if ( !res ) {
+      return reject(
+        LinkuriousError.fromClientError(
+          'communication_error',
+          'offline'
+        )
+      );
     }
 
-    if ((typeof res.status !== 'number' || res.status < 100) && err) {
+    if ( (typeof res.status !== 'number' || res.status < 100) && err ) {
       return reject(err);
     }
 
-    if (res.type !== 'application/json') {
-      return reject(LinkuriousError.fromClientError(
-        'communication_error',
-        'Wrong content-type'
-      ));
+    if ( res.type !== 'application/json' ) {
+      return reject(
+        LinkuriousError.fromClientError(
+          'communication_error',
+          'Wrong content-type'
+        )
+      );
     }
 
-    if (res.header && res.header['set-cookie']) {
+    if ( res.header && res.header['set-cookie'] ) {
       this.cookie = res.header['set-cookie'];
     }
 
-    resolve({
-      statusCode: res.status,
-      body      : res.body,
-      header    : res.header
-    });
+    resolve(
+      {
+        statusCode: res.status,
+        body      : res.body,
+        header    : res.header
+      }
+    );
   }
 }
