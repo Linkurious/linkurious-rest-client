@@ -30,6 +30,33 @@ export class VisualizationModule extends Module {
   }
 
   /**
+   * format visualization for Ogma
+   * @param viz
+   * @returns {any}
+   */
+  private static formatVisualization(viz:IVisualization):any {
+    let result:any = JSON.parse(JSON.stringify(viz));
+
+    VisualizationModule.refactorItemsForOgma(result.nodes);
+    VisualizationModule.refactorItemsForOgma(result.edges);
+
+    return result;
+  }
+
+  /**
+   * format nodes and edges for ogma
+   * @param items
+   */
+  private static refactorItemsForOgma(items:Array<any>):void {
+    items.map((item:any) => {
+      item.x = item.nodelink.x;
+      item.y = item.nodelink.y;
+      delete item.nodelink;
+      return item;
+    });
+  }
+
+  /**
    * get shared visualizations
    *
    * @returns {Promise<any>}
@@ -195,7 +222,7 @@ export class VisualizationModule extends Module {
         url   : '/{dataSourceKey}/visualizations/' + vizId,
         method: 'GET'
       }
-    ).then(( res:any ) => res.visualization);
+    ).then(( res:any ) => VisualizationModule.formatVisualization(res.visualization));
   }
 
   /**
