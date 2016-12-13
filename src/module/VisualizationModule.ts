@@ -225,7 +225,7 @@ export class VisualizationModule extends Module {
   public getOne ( vizId:number ):Promise<IVisualization> {
     return this.fetch(
       {
-        url   : '/{dataSourceKey}/visualizations/' + vizId,
+        url   : '/{dataSourceKey}/visualizations/' + vizId + '?populated=true',
         method: 'GET'
       }
     ).then(( res:any ) => VisualizationModule.formatVisualization(res.visualization));
