@@ -13,6 +13,7 @@ import { Linkurious } from './src/index';
 import { Fetcher } from './src/http/fetcher';
 import { FetcherFactory } from './src/http/FetcherFactory';
 import { Logger } from './src/log/Logger';
+import { LinkuriousError } from './src/LinkuriousError';
 
 export type indexingStatus = 'ongoing'|'needed'|'done'|'unknown';
 export type EdgeOrientation = 'in'|'out'|'both';
@@ -960,5 +961,6 @@ export {
   Linkurious,
   Fetcher,
   FetcherFactory,
-  Logger
+  Logger,
+  LinkuriousError
 }
