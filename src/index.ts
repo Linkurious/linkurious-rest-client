@@ -179,10 +179,10 @@ export class Linkurious {
     }
   }
 
-  public oAuthAzure ():Promise<boolean> {
+  public OAuthAuthentication ():Promise<boolean> {
     return this._fetcher.fetch(
       {
-        url   : '/auth/azuread/login',
+        url   : '/auth/oauth2/login',
         method: 'GET'
       }
     ).then(() => true);
