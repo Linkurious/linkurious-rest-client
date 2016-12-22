@@ -182,7 +182,7 @@ export class Linkurious {
   public OAuthAuthentication (data: {code: string, state: string}):Promise<boolean> {
     return this._fetcher.fetch(
       {
-        url   : '/auth/oauth2',
+        url   : '/auth/oauth2/return',
         method: 'GET',
         query : data
       }
