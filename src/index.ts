@@ -179,13 +179,14 @@ export class Linkurious {
     }
   }
 
-  public OAuthAuthentication ():Promise<boolean> {
+  public OAuthAuthentication (data: {code: string, state: string}):Promise<boolean> {
     return this._fetcher.fetch(
       {
-        url   : '/auth/oauth2/login',
-        method: 'GET'
+        url   : '/auth/oauth2',
+        method: 'GET',
+        query : data
       }
-    ).then(() => true);
+    );
   }
 
   /**
