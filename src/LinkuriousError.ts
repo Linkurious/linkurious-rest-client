@@ -56,7 +56,7 @@ export class LinkuriousError {
     return new LinkuriousError(
       0,
       'communication',
-      'unknown_error',
+      'critical',
       error.message ? `${error.name}: ${error.message}` : JSON.stringify(error),
       error
     );
