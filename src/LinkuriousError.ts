@@ -52,10 +52,10 @@ export class LinkuriousError {
     return new LinkuriousError(status, type, key, message);
   }
 
-  public static fromError ( error:Error ):LinkuriousError {
+  public static fromError ( error:Error, type?:ErrorType ):LinkuriousError {
     return new LinkuriousError(
       0,
-      'communication',
+      type ? type : 'communication',
       'critical',
       error.message ? `${error.name}: ${error.message}` : JSON.stringify(error),
       error
