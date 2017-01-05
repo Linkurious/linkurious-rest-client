@@ -210,7 +210,7 @@ export class VisualizationModule extends Module {
    * @param {IGetSandbox} params
    * @returns {Promise<IVisualization>}
    */
-  public getSandbox ( params:IGetSandbox ):Promise<IVisualization> {
+  public getSandbox ( params?:IGetSandbox ):Promise<IVisualization> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/sandbox',
