@@ -54,10 +54,13 @@ export class VisualizationModule extends Module {
    */
   private static refactorItemsForServer(items:Array<any>):void {
     items.map((item:any) => {
-      item.nodelink = {
-        x : item.x,
-        y : item.y
-      };
+      if (item.isNode) {
+        item.nodelink = {
+          x : item.x,
+          y : item.y
+        };
+      }
+
       item.categories = item.data.categories;
       item.type = item.data.type;
       item.statistics = item.data.statistics;
@@ -80,6 +83,10 @@ export class VisualizationModule extends Module {
       delete item.statistics;
       delete item.badges;
       delete item.icon;
+      delete item.curvature;
+      delete item.source;
+      delete item.target;
+      delete item.type;
 
       return item;
     });
