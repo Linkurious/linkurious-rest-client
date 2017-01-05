@@ -34,13 +34,36 @@ export class VisualizationModule extends Module {
    * @param viz
    * @returns {any}
    */
-  private static formatVisualization(viz:IVisualization):any {
+  private static formatVisualization(viz:IVisualization|IUpdateVisualization, forOgma?:boolean):any {
     let result:any = JSON.parse(JSON.stringify(viz));
 
-    VisualizationModule.refactorItemsForOgma(result.nodes);
-    VisualizationModule.refactorItemsForOgma(result.edges);
+    if (forOgma) {
+      VisualizationModule.refactorItemsForOgma(result.nodes);
+      VisualizationModule.refactorItemsForOgma(result.edges);
+    } else {
+      VisualizationModule.refactorItemsForServer(result.nodes);
+      VisualizationModule.refactorItemsForServer(result.edges);
+    }
 
     return result;
+  }
+
+  /**
+   * format nodes and edges for server
+   * @param items
+   */
+  private static refactorItemsForServer(items:Array<any>):void {
+    items.map((item:any) => {
+      item.nodelink = {
+        x : item.x,
+        y : item.y
+      };
+      item.categories = item.data.categories;
+      item.type = item.data.type;
+      item.statistics = item.data.statistics;
+      item.data = item.data.properties;
+      return item;
+    });
   }
 
   /**
@@ -232,7 +255,7 @@ export class VisualizationModule extends Module {
         url   : '/{dataSourceKey}/visualizations/' + vizId + '?populated=true',
         method: 'GET'
       }
-    ).then(( res:any ) => VisualizationModule.formatVisualization(res.visualization));
+    ).then(( res:any ) => VisualizationModule.formatVisualization(res.visualization, true));
   }
 
   /**
@@ -356,13 +379,14 @@ export class VisualizationModule extends Module {
    * @returns {Promise<boolean>}
    */
   public update ( data:IUpdateVisualization ):Promise<boolean> {
+    let visualization:IUpdateVisualization  = VisualizationModule.formatVisualization(data);
     return this.fetch(
       {
         url   : '/{dataSourceKey}/visualizations/{id}',
         method: 'PATCH',
-        body  : { id: data.id, visualization: data.visualization },
-        query : { forceLock: data.forceLock }
+        body  : { id: visualization.id, visualization: visualization.visualization },
+        query : { forceLock: visualization.forceLock }
       }
-    ).then(() => true);
+    );
   }
 }
