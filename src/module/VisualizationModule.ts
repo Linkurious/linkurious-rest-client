@@ -78,6 +78,8 @@ export class VisualizationModule extends Module {
       delete item.data;
       delete item.categories;
       delete item.statistics;
+      delete item.badges;
+      delete item.icons;
 
       return item;
     });
