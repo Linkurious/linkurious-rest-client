@@ -87,6 +87,7 @@ export class VisualizationModule extends Module {
       delete item.source;
       delete item.target;
       delete item.type;
+      delete item.color;
 
       return item;
     });
