@@ -62,6 +62,23 @@ export class VisualizationModule extends Module {
       item.type = item.data.type;
       item.statistics = item.data.statistics;
       item.data = item.data.properties;
+
+      delete item.degree;
+      delete item.inDegree;
+      delete item.outDegree;
+      delete item.active;
+      delete item.halo;
+      delete item.hidden;
+      delete item.pinned;
+      delete item.size;
+      delete item.text;
+      delete item.x;
+      delete item.y;
+      delete item.isNode;
+      delete item.data;
+      delete item.categories;
+      delete item.statistics;
+
       return item;
     });
   }
