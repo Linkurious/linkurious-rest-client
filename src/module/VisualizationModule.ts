@@ -34,64 +34,13 @@ export class VisualizationModule extends Module {
    * @param viz
    * @returns {any}
    */
-  private static formatVisualization(viz:IVisualization|IUpdateVisualization, forOgma?:boolean):any {
+  private static formatVisualization(viz:IVisualization|IUpdateVisualization):any {
     let result:any = JSON.parse(JSON.stringify(viz));
 
-    if (forOgma) {
-      VisualizationModule.refactorItemsForOgma(result.nodes);
-      VisualizationModule.refactorItemsForOgma(result.edges);
-    } else {
-      VisualizationModule.refactorItemsForServer(result.nodes);
-      VisualizationModule.refactorItemsForServer(result.edges);
-    }
+    VisualizationModule.refactorItemsForOgma(result.nodes);
+    VisualizationModule.refactorItemsForOgma(result.edges);
 
     return result;
-  }
-
-  /**
-   * format nodes and edges for server
-   * @param items
-   */
-  private static refactorItemsForServer(items:Array<any>):void {
-    items.map((item:any) => {
-      if (item.isNode) {
-        item.nodelink = {
-          fixed : item.pinned,
-          x : item.x,
-          y : item.y
-        };
-      }
-
-      item.categories = item.data.categories;
-      item.type = item.data.type;
-      item.statistics = item.data.statistics;
-      item.data = item.data.properties;
-
-      delete item.degree;
-      delete item.inDegree;
-      delete item.outDegree;
-      delete item.active;
-      delete item.halo;
-      delete item.hidden;
-      delete item.pinned;
-      delete item.size;
-      delete item.text;
-      delete item.x;
-      delete item.y;
-      delete item.isNode;
-      delete item.data;
-      delete item.categories;
-      delete item.statistics;
-      delete item.badges;
-      delete item.icon;
-      delete item.curvature;
-      delete item.source;
-      delete item.target;
-      delete item.type;
-      delete item.color;
-
-      return item;
-    });
   }
 
   /**
@@ -283,7 +232,7 @@ export class VisualizationModule extends Module {
         url   : '/{dataSourceKey}/visualizations/' + vizId + '?populated=true',
         method: 'GET'
       }
-    ).then(( res:any ) => VisualizationModule.formatVisualization(res.visualization, true));
+    ).then(( res:any ) => VisualizationModule.formatVisualization(res.visualization));
   }
 
   /**
@@ -407,13 +356,12 @@ export class VisualizationModule extends Module {
    * @returns {Promise<boolean>}
    */
   public update ( data:IUpdateVisualization ):Promise<boolean> {
-    let visualization:IUpdateVisualization  = VisualizationModule.formatVisualization(data);
     return this.fetch(
       {
         url   : '/{dataSourceKey}/visualizations/{id}',
         method: 'PATCH',
-        body  : { id: visualization.id, visualization: visualization },
-        query : { forceLock: visualization.forceLock }
+        body  : { id: data.id, visualization: data },
+        query : { forceLock: data.forceLock }
       }
     );
   }
