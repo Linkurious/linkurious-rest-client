@@ -56,6 +56,7 @@ export class VisualizationModule extends Module {
     items.map((item:any) => {
       if (item.isNode) {
         item.nodelink = {
+          fixed : item.pinned,
           x : item.x,
           y : item.y
         };
