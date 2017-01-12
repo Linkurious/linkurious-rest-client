@@ -262,7 +262,7 @@ export class Linkurious {
             };
           }
         }
-        return Promise.reject({
+        Promise.reject({
           currentSource: undefined,
           sources : sourceStates
         });
