@@ -33,6 +33,7 @@ import {
   ISchema,
   IClientState, ILoginUser, IUpdateUser
 } from '../index';
+import { LinkuriousError } from './LinkuriousError';
 
 export class Linkurious {
   private _fetcher:Fetcher;
@@ -259,6 +260,8 @@ export class Linkurious {
               sources      : sourceStates,
               currentSource: this._clientState.currentSource
             };
+          } else {
+            throw LinkuriousError.fromClientError('communication', 'no source connected');
           }
         }
       }
