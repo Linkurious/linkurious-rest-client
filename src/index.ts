@@ -255,6 +255,12 @@ export class Linkurious {
     for ( let sourceState of sourceList ) {
       if ( this.storeSource(sourceState, 'connected', true) ) {
         return this._clientState.currentSource;
+      } else {
+        this._clientState.currentSource = {
+          name       : sourceList[0].name,
+          key        : sourceList[0].key,
+          configIndex: sourceList[0].configIndex
+        };
       }
     }
     return sourceList[0];
