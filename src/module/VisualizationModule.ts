@@ -36,10 +36,8 @@ export class VisualizationModule extends Module {
    */
   private static formatVisualization(viz:IVisualization|IUpdateVisualization):any {
     let result:any = JSON.parse(JSON.stringify(viz));
-
     VisualizationModule.refactorItemsForOgma(result.nodes);
     VisualizationModule.refactorItemsForOgma(result.edges);
-
     return result;
   }
 
