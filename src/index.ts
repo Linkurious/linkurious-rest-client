@@ -260,10 +260,9 @@ export class Linkurious {
               sources      : sourceStates,
               currentSource: this._clientState.currentSource
             };
-          } else {
-            return Promise.reject({sources : sourceStates});
           }
         }
+        return Promise.reject({sources : sourceStates});
       }
     );
   }
