@@ -246,6 +246,21 @@ export class Linkurious {
   }
 
   /**
+   * Set the currentSource
+   *
+   * @param {Array<IDataSourceState>}sourceList
+   * @return {IDataSource}
+   */
+  public initCurrentSource(sourceList: Array<IDataSourceState>): IDataSource {
+    for ( let sourceState of sourceList ) {
+      if ( this.storeSource(sourceState, 'connected', true) ) {
+        return this._clientState.currentSource;
+      }
+    }
+    return sourceList[0];
+  };
+
+  /**
    * Set the currentSource to the first source connected
    *
    * @returns {Promise<any>}
@@ -254,18 +269,7 @@ export class Linkurious {
 
     return this.getSourceList().then(
       ( sourceStates:Array<IDataSourceState> ) => {
-        for ( let sourceState of sourceStates ) {
-          if ( this.storeSource(sourceState, 'connected', true) ) {
-            return {
-              sources      : sourceStates,
-              currentSource: this._clientState.currentSource
-            };
-          }
-        }
-        return {
-          sources      : sourceStates,
-          currentSource: sourceStates[0]
-        };
+        return this.initCurrentSource(sourceStates);
       }
     );
   }
