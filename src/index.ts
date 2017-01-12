@@ -261,7 +261,7 @@ export class Linkurious {
               currentSource: this._clientState.currentSource
             };
           } else {
-            throw LinkuriousError.fromClientError('communication', 'no source connected');
+            return Promise.reject({sources : sourceStates});
           }
         }
       }
