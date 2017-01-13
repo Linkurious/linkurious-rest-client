@@ -266,6 +266,16 @@ export class Linkurious {
     return sourceList[0];
   };
 
+  public storeCurrentSource(source: IDataSourceState): IDataSource {
+    this._clientState.currentSource = {
+      name       : source.name,
+      key        : source.key,
+      configIndex: source.configIndex
+    };
+
+    return this._clientState.currentSource;
+  }
+
   /**
    * Set the currentSource to the first source connected
    *
