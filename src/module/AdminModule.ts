@@ -206,7 +206,7 @@ export class AdminModule extends Module {
       {
         url       : '/admin/source/{dataSourceKey}/hidden/edgeProperties',
         method    : 'PUT',
-        body      : {properties : data},
+        body      : data.properties,
         dataSource: this.setDataSourceKey(data.dataSourceKey)
       }
     );
@@ -223,7 +223,7 @@ export class AdminModule extends Module {
       {
         url       : '/admin/source/{dataSourceKey}/hidden/nodeProperties',
         method    : 'PUT',
-        body      : {properties : data},
+        body      : data.properties,
         dataSource: this.setDataSourceKey(data.dataSourceKey)
       }
     );
@@ -240,7 +240,7 @@ export class AdminModule extends Module {
       {
         url       : '/admin/source/{dataSourceKey}/noIndex/edgeProperties',
         method    : 'PUT',
-        body      : {properties : data},
+        body      : data.properties,
         dataSource: this.setDataSourceKey(data.dataSourceKey)
       }
     );
@@ -257,7 +257,7 @@ export class AdminModule extends Module {
       {
         url       : '/admin/source/{dataSourceKey}/noIndex/nodeProperties',
         method    : 'PUT',
-        body      : {properties : data},
+        body      : data.properties,
         dataSource: this.setDataSourceKey(data.dataSourceKey)
       }
     );
