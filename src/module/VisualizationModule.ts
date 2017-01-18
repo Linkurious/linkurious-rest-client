@@ -227,7 +227,7 @@ export class VisualizationModule extends Module {
   public getOne ( data:IGetVisualization ):Promise<IVisualization> {
     return this.fetch(
       {
-        url   : '/{dataSourceKey}/visualizations/{id}?populated=true',
+        url   : '/{dataSourceKey}/visualizations/{id}',
         method: 'GET',
         query : {populate: data.populate}
       }
