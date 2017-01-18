@@ -262,21 +262,23 @@ export class Linkurious {
           configIndex: sourceList[0].configIndex,
           connected  : sourceList[0].connected,
           state      : sourceList[0].state,
-          reason     : sourceList[0].reason
+          reason     : sourceList[0].reason,
+          error      : sourceList[0].error
         };
       }
     }
     return sourceList[0];
   };
 
-  public storeCurrentSource(source: IDataSourceState): IDataSource {
+  public storeCurrentSource(source: IDataSourceState): IDataSourceState {
     this._clientState.currentSource = {
       name       : source.name,
       key        : source.key,
       configIndex: source.configIndex,
       connected  : source.connected,
       state      : source.state,
-      reason     : source.reason
+      reason     : source.reason,
+      error      : source.error
     };
 
     return this._clientState.currentSource;
@@ -436,7 +438,8 @@ export class Linkurious {
         configIndex: source.configIndex,
         connected  : source.connected,
         state      : source.state,
-        reason     : source.reason
+        reason     : source.reason,
+        error      : source.error
       };
 
       return this._clientState.currentSource;
