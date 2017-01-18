@@ -757,7 +757,7 @@ export interface IGetItemVersions extends IDataSourceRelative, IBaseRequest {
 }
 
 export interface IGetVisualization extends IIdentified {
-  populate?:boolean;
+  populated?:boolean;
 }
 
 export interface IQuerySearchItemList extends IDataSourceRelative, IBaseRequest {

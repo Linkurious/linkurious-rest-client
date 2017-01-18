@@ -229,7 +229,7 @@ export class VisualizationModule extends Module {
       {
         url   : '/{dataSourceKey}/visualizations/{id}',
         method: 'GET',
-        query : {populate: data.populate}
+        query : {populated: data.populated}
       }
     ).then(( res:any ) => VisualizationModule.formatVisualization(res.visualization));
   }
