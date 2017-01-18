@@ -32,7 +32,7 @@ export type IIndexationCallback = ( res:IIndexationStatus ) => void;
 
 export interface IClientState {
   user:IFullUser;
-  currentSource:IDataSource;
+  currentSource:IDataSourceState;
 }
 
 // NODE & EDGE

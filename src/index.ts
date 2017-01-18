@@ -251,7 +251,7 @@ export class Linkurious {
    * @param {Array<IDataSourceState>}sourceList
    * @return {IDataSource}
    */
-  public initCurrentSource(sourceList: Array<IDataSourceState>): IDataSource {
+  public initCurrentSource(sourceList: Array<IDataSourceState>): IDataSourceState {
     for ( let sourceState of sourceList ) {
       if ( this.storeSource(sourceState, 'connected', true) ) {
         return this._clientState.currentSource;
@@ -259,7 +259,10 @@ export class Linkurious {
         this._clientState.currentSource = {
           name       : sourceList[0].name,
           key        : sourceList[0].key,
-          configIndex: sourceList[0].configIndex
+          configIndex: sourceList[0].configIndex,
+          connected  : sourceList[0].connected,
+          state      : sourceList[0].state,
+          reason     : sourceList[0].reason
         };
       }
     }
@@ -270,7 +273,10 @@ export class Linkurious {
     this._clientState.currentSource = {
       name       : source.name,
       key        : source.key,
-      configIndex: source.configIndex
+      configIndex: source.configIndex,
+      connected  : source.connected,
+      state      : source.state,
+      reason     : source.reason
     };
 
     return this._clientState.currentSource;
@@ -422,12 +428,15 @@ export class Linkurious {
     source:IDataSourceState,
     property:string,
     matchValue:string|number|boolean
-  ):IDataSource {
+  ):IDataSourceState {
     if ( (<any> source)[property] === matchValue ) {
       this._clientState.currentSource = {
         name       : source.name,
         key        : source.key,
-        configIndex: source.configIndex
+        configIndex: source.configIndex,
+        connected  : source.connected,
+        state      : source.state,
+        reason     : source.reason
       };
 
       return this._clientState.currentSource;
