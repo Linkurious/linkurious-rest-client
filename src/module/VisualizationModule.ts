@@ -18,7 +18,7 @@ import {
   IFolder,
   IFolderFullResponse, ICreateWidget, ICreateFolder, ICreateVisualization, IDuplicateVisualization,
   IGetSandbox, ISetShareRights, IUnshareVisualization, IUpdateFolder, IUpdateSandbox,
-  IUpdateVisualization
+  IUpdateVisualization, IGetVisualization
 } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
@@ -221,14 +221,15 @@ export class VisualizationModule extends Module {
   /**
    * Return one visualizations selected by ID.
    *
-   * @param {number} vizId
+   * @param {IGetVisualization} data
    * @returns {Promise<IVisualization>}
    */
-  public getOne ( vizId:number ):Promise<IVisualization> {
+  public getOne ( data:IGetVisualization ):Promise<IVisualization> {
     return this.fetch(
       {
-        url   : '/{dataSourceKey}/visualizations/' + vizId + '?populated=true',
-        method: 'GET'
+        url   : '/{dataSourceKey}/visualizations/{id}?populated=true',
+        method: 'GET',
+        query : {populate: data.populate}
       }
     ).then(( res:any ) => VisualizationModule.formatVisualization(res.visualization));
   }

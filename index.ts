@@ -756,6 +756,10 @@ export interface IGetItemVersions extends IDataSourceRelative, IBaseRequest {
   edges:Array<ItemId>;
 }
 
+export interface IGetVisualization extends IIdentified {
+  populate?:boolean;
+}
+
 export interface IQuerySearchItemList extends IDataSourceRelative, IBaseRequest {
   q:string;
   strictEdges ?:boolean;
