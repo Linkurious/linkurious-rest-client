@@ -27,7 +27,7 @@ export class Fetcher {
   private static SOURCE_KEY_TEMPLATE:string = '{dataSourceKey}';
   private static SOURCE_INDEX_TEMPLATE:string = '{dataSourceIndex}';
   private static OBJECT_ID_TEMPLATE:string = '{id}';
-  private _httpDriver:IHttpDriver;
+  protected _httpDriver:IHttpDriver;
   private _logger:Logger;
   private _host:string;
   private _clientState:IClientState;
