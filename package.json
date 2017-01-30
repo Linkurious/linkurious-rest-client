@@ -3,8 +3,8 @@
   "version": "1.0.2",
   "description": "Linkurious REST client",
   "engines": {
-    "node": ">=4.0.0 <6.0.0",
-    "npm": ">=2.0.0 <3.0.0"
+    "node": "4.6.0",
+    "npm": "4.1.1"
   },
   "contributors": [
     {
