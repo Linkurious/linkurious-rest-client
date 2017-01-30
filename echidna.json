@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "test": "echidna_test.js",
+    "build": "echidna_build.js"
+  },
+  "concurrency": 1
+}
