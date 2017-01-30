@@ -24,6 +24,7 @@ module.exports = function(echidna) {
     exec('redir --lport=7484 --laddr=0.0.0.0 --cport=7484 ' +
       '--caddr=$(ip route show | awk \'/default/ {print $3}\') &');
 
+    exec('Xvfb :100 -ac &');
     // 5) Run grunt build
     exec('sudo npm run test');
   }).finally(() => {
