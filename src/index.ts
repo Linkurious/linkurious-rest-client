@@ -224,7 +224,7 @@ export class Linkurious {
       }
     ).then(
       ( res:IFullUser ) => {
-        this._clientState.user = Object.assign(this._clientState.user, res);
+        this._clientState.user = res;
         return this._clientState.user;
       }
     );

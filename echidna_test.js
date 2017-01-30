@@ -25,7 +25,7 @@ module.exports = function(echidna) {
       '--caddr=$(ip route show | awk \'/default/ {print $3}\') &');
 
     // 5) Run grunt build
-    exec('npm run test');
+    exec('sudo npm run test');
   }).finally(() => {
     // 6) Stop Neo4j and elasticsearch
     exec('docker rm -vf neo4j_test_client es_test_client || true');

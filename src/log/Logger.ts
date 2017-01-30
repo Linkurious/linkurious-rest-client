@@ -15,10 +15,11 @@ import { DefaultLoggerDriver } from './DefaultLoggerDriver';
 
 export type LogLevel = 'debug'|'error'|'quiet';
 
-const LOG_LEVELS:Map<LogLevel, number> = new Map<LogLevel, number>();
-LOG_LEVELS.set('debug', 0);
-LOG_LEVELS.set('error', 1);
-LOG_LEVELS.set('quiet', 99);
+const LOG_LEVELS:any = {
+  debug : 0,
+  error : 1,
+  quiet : 99
+};
 
 export class Logger {
   public level:LogLevel;
@@ -30,7 +31,7 @@ export class Logger {
     driver?:ILoggerDriver
   ) {
     this.level = level;
-    this.numericalLevel = LOG_LEVELS.get(level);
+    this.numericalLevel = LOG_LEVELS[level];
     this.driver = driver ? driver : new DefaultLoggerDriver();
   }
 
@@ -46,7 +47,7 @@ export class Logger {
     level:LogLevel,
     error:LinkuriousError
   ):void {
-    if ( LOG_LEVELS.get(level) >= this.numericalLevel ) {
+    if ( LOG_LEVELS[level] >= this.numericalLevel ) {
       (<any> this.driver)[level](`[${error.type}] ${error.key}: ${error.message}`);
     }
   }
