@@ -19,6 +19,7 @@ import {
   IGroupRights,
   IAccessRight,
   IIndexationStatus,
+  IResetDefaults,
   IIndexationCallback,
   IClientState,
   IDataSourceConfig,
@@ -636,12 +637,12 @@ export class AdminModule extends Module {
    * @param {IDataSourceRelative} data
    * @returns {Promise<boolean>}
    */
-  public resetStyles ( data:IDataSourceRelative ):Promise<boolean> {
+  public resetDefaults ( data:IResetDefaults ):Promise<boolean> {
     return this.fetch(
       {
-        url       : '/admin/source/{dataSourceKey}/resetDefaultStyles',
+        url       : '/admin/source/{dataSourceKey}/resetDefaults',
         method    : 'POST',
-        dataSource: this.setDataSourceKey(data.dataSourceKey)
+        body      : data
       }
     ).then(() => true);
   }

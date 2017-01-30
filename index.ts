@@ -35,6 +35,11 @@ export interface IClientState {
   currentSource:IDataSourceState;
 }
 
+export interface IFetcherClientState {
+  user:IFullUser;
+  currentSource:IDataSource;
+}
+
 // NODE & EDGE
 
 export interface IIdentifiedItem {
@@ -581,7 +586,7 @@ export interface IFullAdminAlert extends IAdminAlert, IIdentified {
   lastRunProblem:IAlertRunProblem;
 }
 
-export interface IQueryAlert extends IIdentified, IBaseAlert, IDataSourceKey {
+export interface IQueryAlert extends IIdentified, IDataSourceKey {
 }
 
 export interface IMatch extends IIdentified, IBaseAlert {
@@ -893,12 +898,13 @@ export interface IAlert extends IDataSourceRelative, IBaseRequest {
   id:number;
 }
 
-export interface IMatch extends IDataSourceRelative, IAlert {
+export interface IGetMatch extends IDataSourceRelative, IIdentified {
   matchId:number;
 }
 
-export interface IAddActionMatch extends IMatch {
+export interface IAddActionMatch extends IIdentified, IDataSourceRelative {
   action:string;
+  matchId:number;
 }
 
 export interface IFilteredAlert extends IAlert {
@@ -959,6 +965,11 @@ export interface IDataSourceRelative {
 export interface IDataToSend {
   queryData?:any;
   bodyData?:any;
+}
+
+export interface IResetDefaults extends IDataSourceRelative {
+  design?:boolean;
+  captions?:boolean;
 }
 
 export {

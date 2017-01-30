@@ -14,7 +14,7 @@ import {
   IMatchAction,
   IAlert,
   IMatchResults,
-  IDataSourceRelative, IQueryAlert, IFilteredAlert, IAddActionMatch
+  IDataSourceRelative, IQueryAlert, IFilteredAlert, IAddActionMatch, IGetMatch
 } from '../../index';
 import { Fetcher } from '../http/fetcher';
 
@@ -99,7 +99,7 @@ export class AlertModule extends Module {
    * @param {IMatch} data
    * @returns {Promise<IMatch>}
    */
-  public getMatch ( data:IMatch ):Promise<IMatch> {
+  public getMatch ( data:IGetMatch ):Promise<IMatch> {
     return this.fetch(
       {
         url   : `/{dataSourceKey}/alerts/{id}/matches/${data.matchId}`,
@@ -114,7 +114,7 @@ export class AlertModule extends Module {
    * @param {IMatch} data
    * @returns {Promise<IMatchAction>}
    */
-  public getMatchActions ( data:IMatch ):Promise<Array<IMatchAction>> {
+  public getMatchActions ( data:IGetMatch ):Promise<Array<IMatchAction>> {
     return this.fetch(
       {
         url   : `/{dataSourceKey}/alerts/{id}/matches/${data.matchId}/actions`,

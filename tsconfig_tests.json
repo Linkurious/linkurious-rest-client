@@ -1,39 +1,31 @@
 {
   "compilerOptions": {
-    // generate ES6 code
     "target" : "ES6",
-    // generate code containing "require"
     "module": "commonjs",
-    // generate type declarations
     "declaration": true,
-    // keep JSDoc comments
     "removeComments": false,
-    // don't emit code for function annotated with @internal (jsdoc)
     "stripInternal": true,
-    // generate SourceMap from generated ES6 to original TypeScript
     "sourceMap": true,
-    // target ES6 directory
     "outDir": "./tempTests",
-    // forbid variable without explicit type
     "noImplicitAny": true,
-    // forbid implicit returns in functions
     "noImplicitReturns": true,
-    // don't allow unreachabel code
     "allowUnreachableCode": false,
-    // don't JS files in source
     "allowJs": false,
-    // target ES6:  no BOM, CRLF newlines, utf-8 charset
     "charset": "utf8",
     "emitBOM": false,
     "newLine": "crlf",
-    // when available, emit type decorators (as "__metadata" in ES6)
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    // don't allow the same file to be included with different case across the project
     "forceConsistentCasingInFileNames": true,
     "allowUnusedLabels": false,
     "allowSyntheticDefaultImports": true
   },
+  "include" : [
+    "index.ts",
+    "src/*.ts",
+    "src/**/*.ts",
+    "test/*.ts"
+  ],
   "exclude": [
     "node_modules",
     "dist-es6"

@@ -10,12 +10,11 @@
 'use strict';
 
 import {
-  IClientState,
   IHttpDriver,
   IHttpResponse,
   IFetchConfig,
   IDataSourceRelative,
-  IDataToSend
+  IDataToSend, IFetcherClientState
 } from './../../index';
 import { LinkuriousError } from './../LinkuriousError';
 import { DefaultHttpDriver } from './DefaultHttpDriver';
@@ -30,12 +29,12 @@ export class Fetcher {
   protected _httpDriver:IHttpDriver;
   private _logger:Logger;
   private _host:string;
-  private _clientState:IClientState;
+  private _clientState:IFetcherClientState;
   private _baseUrl:string;
 
   constructor (
     logger:Logger,
-    clientState:IClientState,
+    clientState:IFetcherClientState,
     host:string,
     httpDriver?:IHttpDriver
   ) {

@@ -44,7 +44,7 @@ export class LinkuriousErrorSpec {
         let linkuriousError = LinkuriousError.fromError(error);
 
         expect(linkuriousError).toEqual(jasmine.objectContaining({
-          key:'unknown_error'
+          key:'critical'
         }));
 
         expect(linkuriousError).toEqual(jasmine.objectContaining({

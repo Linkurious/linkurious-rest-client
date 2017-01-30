@@ -36,7 +36,6 @@
     "pretest": "rm -rf tempTests && npm run compileTests && npm run lint",
     "test": "istanbul cover --root ../linkurious-server/server/services/webServer/routes --report html --dir cover_API test/runTests.js",
     "posttest": "rm -rf tempTests",
-    "postinstall": "node ./scripts/installTypings.js",
     "clean": "rm -rf ./dist-es6 && rm -rf ./typings && rm -rf ./node_modules && rm -rf ./coverage",
     "bundling": "browserify dist-es6/index.js -s Linkurious --outfile bundle.js",
     "compile": "babel bundle.js --out-file linkurious-rest-client-es5.js",
@@ -45,11 +44,11 @@
   },
   "dependencies": {
     "es6-promise": "^3.1.2",
-    "superagent": "^1.8.3",
-    "@types/node": "^6.0.45",
-    "@types/superagent": "^2.0.35"
+    "superagent": "^1.8.3"
   },
   "devDependencies": {
+    "@types/node": "^6.0.45",
+    "@types/superagent": "^2.0.35",
     "@types/jasmine": "^2.5.35",
     "babel-cli": "^6.10.1",
     "babel-preset-es2015": "^6.9.0",
@@ -70,7 +69,6 @@
     "systemjs-plugin-babel": "0.0.12",
     "tslint": "^3.10.2",
     "typedoc": "sierrasoftworks/typedoc#v1.8.10",
-    "typescript": "^2.0.0",
-    "typings": "^1.0.4"
+    "typescript": "^2.0.2"
   }
 }

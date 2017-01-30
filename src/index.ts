@@ -33,7 +33,6 @@ import {
   ISchema,
   IClientState, ILoginUser, IUpdateUser
 } from '../index';
-import { LinkuriousError } from './LinkuriousError';
 
 export class Linkurious {
   private _fetcher:Fetcher;
@@ -180,7 +179,7 @@ export class Linkurious {
     }
   }
 
-  public OAuthAuthentication (data: {code: string, state: string}):Promise<boolean> {
+  public OAuthAuthentication (data:{code:string, state:string}):Promise<boolean> {
     return this._fetcher.fetch(
       {
         url   : '/auth/oauth2/return',
@@ -232,6 +231,20 @@ export class Linkurious {
   }
 
   /**
+   * Get the source list and set the currentSource to the first source connected
+   *
+   * @returns {Promise<any>}
+   */
+  public initSources ():Promise<any> {
+
+    return this.getSourceList().then(
+      ( sourceStates:Array<IDataSourceState> ) => {
+        return this.storeDefaultCurrentSource(sourceStates);
+      }
+    );
+  }
+
+  /**
    * Get the status of the all data-sources.
    *
    * @returns {Promise<IDataSourceState>}
@@ -251,7 +264,7 @@ export class Linkurious {
    * @param {Array<IDataSourceState>}sourceList
    * @return {IDataSource}
    */
-  public initCurrentSource(sourceList: Array<IDataSourceState>): IDataSourceState {
+  public storeDefaultCurrentSource(sourceList:Array<IDataSourceState>):IDataSourceState {
     for ( let sourceState of sourceList ) {
       if ( this.storeSource(sourceState, 'connected', true) ) {
         return this._clientState.currentSource;
@@ -269,34 +282,6 @@ export class Linkurious {
     }
     return sourceList[0];
   };
-
-  public storeCurrentSource(source: IDataSourceState): IDataSourceState {
-    this._clientState.currentSource = {
-      name       : source.name,
-      key        : source.key,
-      configIndex: source.configIndex,
-      connected  : source.connected,
-      state      : source.state,
-      reason     : source.reason,
-      error      : source.error
-    };
-
-    return this._clientState.currentSource;
-  }
-
-  /**
-   * Set the currentSource to the first source connected
-   *
-   * @returns {Promise<any>}
-   */
-  public initSources ():Promise<any> {
-
-    return this.getSourceList().then(
-      ( sourceStates:Array<IDataSourceState> ) => {
-        return this.initCurrentSource(sourceStates);
-      }
-    );
-  }
 
   /**
    * Set the currentSource by passing the sourceKey or configIndex
@@ -389,9 +374,7 @@ export class Linkurious {
         query : { sourceIndex: sourceIndex },
         url   : '/config'
       }
-    ).then(
-      response => response.config
-    );
+    ).then((response:any) => response.config);
   }
 
   /**
