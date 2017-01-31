@@ -83,8 +83,8 @@ function runTests() {
 
   karma.start();
 
-  karma.on('browser_error', function(e){
-    throw new Error(e);
+  karma.on('browser_error', function(){
+    process.exit(1);
   });
 
   karma.on('run_complete', function(){
