@@ -859,7 +859,7 @@ describe('Linkurious class', () => {
     it('must return true', (done) => {
       return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'})
       .then(() => {
-        return linkurious.admin.setNotIndexedNodeProperties({properties : ['testNonIndexedNodeProp'], dataSourceKey:'66a2bc71'});
+        return linkurious.admin.setNotIndexedNodeProperties({properties : ['testNonIndexedNodeProp'], dataSourceKey:sourceKey});
       }).then(function(res){
         expect(res).toBeTruthy();
         done();
