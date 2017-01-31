@@ -840,7 +840,9 @@ describe('Linkurious class', () => {
         });
       }).then(function(res){
         expect(res).toBeTruthy();
-        done();
+        setTimeout(() => {
+          done();
+        }, 5000);
       });
     });
   });
