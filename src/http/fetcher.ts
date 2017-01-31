@@ -62,6 +62,7 @@ export class Fetcher {
 
     try {
       config.url = this.transformUrl(config, data);
+      console.log(config.url);
     } catch (lkError) {
       return Promise.reject(lkError);
     }

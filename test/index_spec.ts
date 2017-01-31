@@ -948,9 +948,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.getSourceList();
       }).then(sources => {
-        console.log(linkurious.state.currentSource);
         linkurious.setCurrentSource(sources[0].key);
-        console.log(linkurious.state.currentSource);
         return linkurious.admin.setNotIndexedNodeProperties({properties : ['testNonIndexedNodeProp'], dataSourceKey:'66a2bc71'});
       }).then(function(res){
         expect(res).toBeTruthy();
