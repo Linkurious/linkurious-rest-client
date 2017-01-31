@@ -808,41 +808,42 @@ describe('Linkurious class', () => {
     });
   });
 
-  describe('connectDataSource method', () => {
+  describe('createDataSourceConfig method', () => {
     it('must return true', (done) => {
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'})
+        .then(function(){
+          return linkurious.admin.createDataSourceConfig({
+            graphDb : {
+              vendor:'neo4j',
+              url:'http://127.0.0.2',
+              user : 'test',
+              password : 'test'
+            },
+            index : {
+              vendor:'elasticSearch',
+              host:'127.0.0.3',
+              port:7878,
+              forceReindex:false,
+              dynamicMapping:false
+            },
+            name : 'test config'
+          });
+        }).then(function(res){
+          expect(res).toBeTruthy();
+          setTimeout(() => {
+            done();
+          }, 5000);
+        });
+      });
+  });
+
+  describe('connectDataSource method', () => {
+    xit('must return true', (done) => {
       return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.connectDataSource({dataSourceIndex : 0});
       }).then(function(res){
         expect(res).toBeTruthy();
         done();
-      });
-    });
-  });
-
-  describe('createDataSourceConfig method', () => {
-    it('must return true', (done) => {
-      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
-        return linkurious.admin.createDataSourceConfig({
-          graphDb : {
-            vendor:'neo4j',
-            url:'http://127.0.0.2',
-            user : 'test',
-            password : 'test'
-          },
-          index : {
-            vendor:'elasticSearch',
-            host:'127.0.0.3',
-            port:7878,
-            forceReindex:false,
-            dynamicMapping:false
-          },
-          name : 'test config'
-        });
-      }).then(function(res){
-        expect(res).toBeTruthy();
-        setTimeout(() => {
-          done();
-        }, 5000);
       });
     });
   });
@@ -944,6 +945,9 @@ describe('Linkurious class', () => {
   describe('setNonIndexedNodeProperties method', () => {
     it('must return true', (done) => {
       return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        linkurious.getSourceList().then(sources => {
+          console.log(sources);
+        });
         return linkurious.admin.setNotIndexedNodeProperties({properties : ['testNonIndexedNodeProp'], dataSourceKey:'66a2bc71'});
       }).then(function(res){
         expect(res).toBeTruthy();
