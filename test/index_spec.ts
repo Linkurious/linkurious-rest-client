@@ -13,6 +13,7 @@ import {INode, Linkurious} from '../index';
 import {FetcherSpec} from './fetcher_spec';
 import {LinkuriousErrorSpec} from './LinkuriousError_spec';
 import {DefaultLoggerDriverSpec} from './DefaultLoggerDriver_spec';
+import { link } from 'fs';
 
 FetcherSpec.test();
 LinkuriousErrorSpec.test();
@@ -945,9 +946,11 @@ describe('Linkurious class', () => {
   describe('setNonIndexedNodeProperties method', () => {
     it('must return true', (done) => {
       return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
-        linkurious.getSourceList().then(sources => {
-          console.log(sources);
-        });
+        return linkurious.getSourceList();
+      }).then(sources => {
+        console.log(linkurious.state.currentSource);
+        linkurious.setCurrentSource(sources[0].key);
+        console.log(linkurious.state.currentSource);
         return linkurious.admin.setNotIndexedNodeProperties({properties : ['testNonIndexedNodeProp'], dataSourceKey:'66a2bc71'});
       }).then(function(res){
         expect(res).toBeTruthy();
