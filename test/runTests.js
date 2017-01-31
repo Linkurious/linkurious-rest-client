@@ -78,7 +78,7 @@ function testConnection() {
 function runTests() {
   let karma = new Karma({configFile:__dirname + '/../karma.conf.js'}, exitCode => {
     console.log('Karma has exited with ' + exitCode);
-    process.exit(exitCode);
+    throw new Error(exitCode);
   });
 
   karma.start();
