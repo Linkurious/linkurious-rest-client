@@ -43,7 +43,6 @@
     "doc": "typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts"
   },
   "dependencies": {
-    "es6-promise": "^3.1.2",
     "superagent": "^1.8.3"
   },
   "devDependencies": {
