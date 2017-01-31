@@ -976,7 +976,7 @@ describe('Linkurious class', () => {
     it('must return a group', (done) => {
       return linkurious.admin.createGroup({
         name:'testGroup',
-        dataSourceKey:'66a2bc71'
+        dataSourceKey:sourceKey
       }).then((res:any) => {
         expect(res).toEqual(jasmine.objectContaining({
           id : 7
@@ -1000,7 +1000,7 @@ describe('Linkurious class', () => {
 
   describe('getGroup method', () => {
     it('must return a group', (done) => {
-      return linkurious.admin.getGroup({id:4, dataSourceKey:'66a2bc71'}).then((res:any) => {
+      return linkurious.admin.getGroup({id:4, dataSourceKey:sourceKey}).then((res:any) => {
         expect(res).toEqual(jasmine.objectContaining({
           id : 4
         }));
@@ -1091,7 +1091,7 @@ describe('Linkurious class', () => {
     it('must resturn a list of all dataSource', (done) => {
       return linkurious.admin.getDataSourcesList().then((res:any) => {
         expect(res.length).toEqual(2);
-        expect(res[0].state).toEqual('needReindex');
+        expect(res[0].state).toEqual('ready');
         expect(res[1].state).toEqual('connecting');
         done();
       })
