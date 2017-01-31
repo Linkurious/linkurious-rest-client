@@ -935,6 +935,9 @@ describe('Linkurious class', () => {
   describe('setNonIndexedEdgeProperties method', () => {
     it('must return true', (done) => {
       return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.getSourceList();
+      }).then(sources => {
+        linkurious.setCurrentSource(sources[0].key);
         return linkurious.admin.setNotIndexedEdgeProperties({properties : ['testNonIndexedEdgeProp']});
       }).then(function(res){
         expect(res).toBeTruthy();
@@ -946,9 +949,7 @@ describe('Linkurious class', () => {
   describe('setNonIndexedNodeProperties method', () => {
     it('must return true', (done) => {
       return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
-        return linkurious.getSourceList();
-      }).then(sources => {
-        linkurious.setCurrentSource(sources[0].key);
+      }).then(() => {
         return linkurious.admin.setNotIndexedNodeProperties({properties : ['testNonIndexedNodeProp'], dataSourceKey:'66a2bc71'});
       }).then(function(res){
         expect(res).toBeTruthy();
