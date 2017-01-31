@@ -12,7 +12,7 @@ module.exports = function(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['systemjs', 'jasmine'],
 
-    plugins : ['karma-coverage', 'karma-systemjs', 'karma-jasmine', 'karma-chrome-launcher', 'karma-firefox-launcher', 'karma-safari-launcher', 'karma-remap-istanbul'],
+    plugins : ['karma-coverage', 'karma-systemjs', 'karma-jasmine', 'karma-phantomjs-launcher', 'karma-remap-istanbul'],
 
 
     // list of files / patterns to load in the browser
@@ -30,7 +30,6 @@ module.exports = function(config) {
       config : {
         baseURL : '.',
         paths : {
-          "typescript" : "node_modules/typescript/lib/typescript.js",
           "systemjs" : "node_modules/systemjs/dist/system.js",
           "system-polyfills" : "node_modules/systemjs/dist/system-polyfills.js",
           "es6-module-loader" : "node_modules/es6-module-loader/dist/es6-module-loader.js"
@@ -100,7 +99,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 
     // Continuous Integration mode
