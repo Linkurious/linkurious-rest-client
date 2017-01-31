@@ -773,6 +773,100 @@ describe('Linkurious class', () => {
     });
   });
 
+  describe('getHiddenEdgeProperties method', () => {
+    it('must return an array of edge Properties', (done) => {
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.getHiddenEdgeProperties();
+      }).then(function(res){
+        expect(res.length).toEqual(1);
+        expect(res[0]).toBe('edgeHiddenProp');
+        done();
+      });
+    });
+  });
+
+  describe('getHiddenNodeProperties method', () => {
+    it('must return an array of node Properties', (done) => {
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.getHiddenNodeProperties();
+      }).then(function(res){
+        expect(res.length).toEqual(1);
+        expect(res[0]).toBe('nodeHiddenProp');
+        done();
+      });
+    });
+  });
+
+  describe('getNonIndexedEdgeProperties method', () => {
+    it('must return an array of edge Properties', (done) => {
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.getNonIndexedEdgeProperties();
+      }).then(function(res){
+        expect(res.length).toEqual(2);
+        expect(res[1]).toBe('edgeNoIndexProp');
+        done();
+      });
+    });
+  });
+
+  describe('getNonIndexedNodeProperties method', () => {
+    it('must return an array of node Properties', (done) => {
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.getNonIndexedNodeProperties();
+      }).then(function(res){
+        expect(res.length).toEqual(2);
+        expect(res[1]).toBe('nodeNoIndexProp');
+        done();
+      });
+    });
+  });
+
+  describe('setHiddenEdgeProperties method', () => {
+    it('must return true', (done) => {
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.setHiddenEdgeProperties({properties : ['testHiddenEdgeProp']});
+      }).then(function(res){
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('setHiddenNodeProperties method', () => {
+    it('must return true', (done) => {
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
+        return linkurious.admin.setHiddenNodeProperties({properties : ['testHiddenNodeProp']});
+      }).then(function(res){
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('setNonIndexedEdgeProperties method', () => {
+    it('must return true', (done) => {
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'})
+      .then(() => {
+        return linkurious.admin.setNotIndexedEdgeProperties({properties : ['testNonIndexedEdgeProp']});
+      }).then(function(res){
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('setNonIndexedNodeProperties method', () => {
+    it('must return true', (done) => {
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'})
+      .then(() => {
+        return linkurious.admin.setNotIndexedNodeProperties({properties : ['testNonIndexedNodeProp'], dataSourceKey:'66a2bc71'});
+      }).then(function(res){
+        expect(res).toBeTruthy();
+        done();
+      });
+    });
+  });
+
   describe('processIndexation method', function(){
     it('must start indexation and return true when finish', function(done){
       return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
@@ -862,102 +956,6 @@ describe('Linkurious class', () => {
     });
   });*/
 
-  describe('getHiddenEdgeProperties method', () => {
-    it('must return an array of edge Properties', (done) => {
-      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
-        return linkurious.admin.getHiddenEdgeProperties();
-      }).then(function(res){
-        expect(res.length).toEqual(1);
-        expect(res[0]).toBe('edgeHiddenProp');
-        done();
-      });
-    });
-  });
-
-  describe('getHiddenNodeProperties method', () => {
-    it('must return an array of node Properties', (done) => {
-      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
-        return linkurious.admin.getHiddenNodeProperties();
-      }).then(function(res){
-        expect(res.length).toEqual(1);
-        expect(res[0]).toBe('nodeHiddenProp');
-        done();
-      });
-    });
-  });
-
-  describe('getNonIndexedEdgeProperties method', () => {
-    it('must return an array of edge Properties', (done) => {
-      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
-        return linkurious.admin.getNonIndexedEdgeProperties();
-      }).then(function(res){
-        expect(res.length).toEqual(2);
-        expect(res[1]).toBe('edgeNoIndexProp');
-        done();
-      });
-    });
-  });
-
-  describe('getNonIndexedNodeProperties method', () => {
-    it('must return an array of node Properties', (done) => {
-      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
-        return linkurious.admin.getNonIndexedNodeProperties();
-      }).then(function(res){
-        expect(res.length).toEqual(2);
-        expect(res[1]).toBe('nodeNoIndexProp');
-        done();
-      });
-    });
-  });
-
-  describe('setHiddenEdgeProperties method', () => {
-    it('must return true', (done) => {
-      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
-        return linkurious.admin.setHiddenEdgeProperties({properties : ['testHiddenEdgeProp']});
-      }).then(function(res){
-        expect(res).toBeTruthy();
-        done();
-      });
-    });
-  });
-
-  describe('setHiddenNodeProperties method', () => {
-    it('must return true', (done) => {
-      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
-        return linkurious.admin.setHiddenNodeProperties({properties : ['testHiddenNodeProp']});
-      }).then(function(res){
-        expect(res).toBeTruthy();
-        done();
-      });
-    });
-  });
-
-  describe('setNonIndexedEdgeProperties method', () => {
-    it('must return true', (done) => {
-      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
-        return linkurious.getSourceList();
-      }).then(sources => {
-        linkurious.setCurrentSource(sources[0].key);
-        return linkurious.admin.setNotIndexedEdgeProperties({properties : ['testNonIndexedEdgeProp']});
-      }).then(function(res){
-        expect(res).toBeTruthy();
-        done();
-      });
-    });
-  });
-
-  describe('setNonIndexedNodeProperties method', () => {
-    it('must return true', (done) => {
-      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
-      }).then(() => {
-        return linkurious.admin.setNotIndexedNodeProperties({properties : ['testNonIndexedNodeProp'], dataSourceKey:'66a2bc71'});
-      }).then(function(res){
-        expect(res).toBeTruthy();
-        done();
-      });
-    });
-  });
-
   describe('deleteUser method', () => {
     it('must delete a user', (done) => {
       return linkurious.admin.createUser({
@@ -1016,7 +1014,7 @@ describe('Linkurious class', () => {
 
   describe('getGroups method', () => {
     it('must return a group list', (done) => {
-      return linkurious.admin.getGroups({dataSourceKey:'66a2bc71'}).then((res:any) => {
+      return linkurious.admin.getGroups({dataSourceKey:sourceKey}).then((res:any) => {
         expect(res.length).toEqual(4);
         done();
       });
@@ -1034,7 +1032,7 @@ describe('Linkurious class', () => {
   
   describe('getGroupsRights method', () => {
     it('must return groups rights', (done) => {
-      return linkurious.admin.getGroupsRights({dataSourceKey:'66a2bc71'}).then((res:any) => {
+      return linkurious.admin.getGroupsRights({dataSourceKey:sourceKey}).then((res:any) => {
         expect(res.types.length).toEqual(4);
         expect(res.targetTypes.length).toEqual(4);
         done();
@@ -1045,7 +1043,7 @@ describe('Linkurious class', () => {
   describe('updateBatchGroupsRights method', () => {
     it('must return true', (done) => {
       return linkurious.admin.updateBatchGroupsRights({
-        dataSourceKey : '66a2bc71',
+        dataSourceKey : sourceKey,
         groupIds : [5],
         rightType : 'none',
         targetType : 'nodeCategory'
@@ -1060,7 +1058,7 @@ describe('Linkurious class', () => {
     it('must return access rights modified', (done) => {
       return linkurious.admin.updateGroupRights({
         id : 5,
-        dataSourceKey : '66a2bc71',
+        dataSourceKey : sourceKey,
         type : 'write',
         targetType : 'nodeCategory',
         targetName : 'test'
