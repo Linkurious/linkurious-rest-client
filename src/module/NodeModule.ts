@@ -21,6 +21,7 @@ import {
 import { Utils } from '../http/utils';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
+import { VisualizationParser } from './VisualizationParser';
 
 export class NodeModule extends Module {
 
@@ -93,7 +94,7 @@ export class NodeModule extends Module {
         method: 'GET',
         query : params
       }
-    );
+    ).then((response:any) => VisualizationParser.refactorItem(response));
   }
 
   /**

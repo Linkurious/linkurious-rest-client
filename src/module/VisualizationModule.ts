@@ -22,46 +22,12 @@ import {
 } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
+import { VisualizationParser } from './VisualizationParser';
 
 export class VisualizationModule extends Module {
 
   constructor ( fetcher:Fetcher ) {
     super(fetcher);
-  }
-
-  /**
-   * format visualization for Ogma
-   * @param viz
-   * @returns {any}
-   */
-  private static formatVisualization(viz:IVisualization|IUpdateVisualization):any {
-    let result:any = JSON.parse(JSON.stringify(viz));
-    VisualizationModule.refactorItemsForOgma(result.nodes);
-    VisualizationModule.refactorItemsForOgma(result.edges);
-    return result;
-  }
-
-  /**
-   * format nodes and edges for ogma
-   * @param items
-   */
-  private static refactorItemsForOgma(items:Array<any>):void {
-    items.map((item:any) => {
-      let data:any = JSON.parse(JSON.stringify(item.data));
-      if ( item.nodelink ) {
-        item.x = item.nodelink.x;
-        item.y = item.nodelink.y;
-      }
-      item.data = {
-        properties : data,
-        categories : item.categories,
-        type : item.type,
-        nodelink : item.nodelink,
-        statistics : item.statistics
-      };
-      delete item.nodelink;
-      return item;
-    });
   }
 
   /**
@@ -231,7 +197,7 @@ export class VisualizationModule extends Module {
         method: 'GET',
         query : data
       }
-    ).then(( res:any ) => VisualizationModule.formatVisualization(res.visualization));
+    ).then(( res:any ) => VisualizationParser.formatVisualization(res.visualization));
   }
 
   /**

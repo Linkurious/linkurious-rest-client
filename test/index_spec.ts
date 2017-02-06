@@ -404,7 +404,7 @@ describe('Linkurious class', () => {
       }).then(function(res){
         node = res;
         expect(res.id).toEqual(nodeId);
-        expect(res.data).toEqual({ name: 'Keanu Reeves', born: 1964 });
+        expect(res.data.properties).toEqual({ name: 'Keanu Reeves', born: 1964 });
         expect(res.edges.length).toEqual(3);
         done();
       });
