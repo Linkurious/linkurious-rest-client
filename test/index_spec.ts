@@ -262,29 +262,12 @@ describe('Linkurious class', () => {
 
   describe('setCurrentSource method', function(){
     it('must set the dataSource by ConfigIndex', function(done){
-      return linkurious.setCurrentSource(0).then(function(res){
-        expect(res).toEqual(jasmine.objectContaining({
-          configIndex: 0
-        }));
+      return linkurious.getSourceList().then(sources => {
+        linkurious.setCurrentSource(sources[0]);
+        expect(linkurious.state.currentSource.configIndex).toEqual(0);
         done();
-      })
+      });
     });
-
-    it('must set the dataSource by key', function(done){
-      return linkurious.setCurrentSource(sourceKey).then(function(res){
-        expect(res).toEqual(jasmine.objectContaining({
-          configIndex: 0
-        }));
-        done();
-      })
-    });
-
-    it('must return undefined', (done) => {
-      return linkurious.setCurrentSource(2).then(function(res){
-        expect(res).toBeUndefined();
-        done();
-      })
-    })
   });
 
   describe('getAppVersion', () => {

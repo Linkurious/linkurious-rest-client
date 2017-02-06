@@ -24,7 +24,6 @@ import { AlertModule } from './module/AlertModule';
 import {
   ILoggerDriver,
   IFetchConfig,
-  IDataSource,
   IFullUser,
   IDataSourceState,
   IAppStatus,
@@ -286,28 +285,19 @@ export class Linkurious {
   /**
    * Set the currentSource by passing the sourceKey or configIndex
    *
-   * @param {string|number} keyOrConfig
+   * @param {any} source
    * @returns {Promise<IDataSourceState>}
    */
-  public setCurrentSource ( keyOrConfig:string | number ):Promise<IDataSource> {
-    return this.getSourceList().then(
-      ( sourceStates:Array<IDataSourceState> ) => {
-        for ( let sourceState of sourceStates ) {
-          let sourceComparator:string;
-
-          if ( typeof keyOrConfig === 'string' ) {
-            sourceComparator = 'key';
-          } else {
-            sourceComparator = 'configIndex';
-          }
-
-          if ( this.storeSource(sourceState, sourceComparator, keyOrConfig) ) {
-            return this._clientState.currentSource;
-          }
-        }
-        return undefined;
-      }
-    );
+  public setCurrentSource ( source:any ):void {
+    this._clientState.currentSource = {
+      name       : source.name,
+      key        : source.key,
+      configIndex: source.configIndex,
+      connected  : source.connected,
+      state      : source.state,
+      reason     : source.reason,
+      error      : source.error
+    };
   }
 
   /**
