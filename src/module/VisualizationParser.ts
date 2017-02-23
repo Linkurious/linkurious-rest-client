@@ -42,6 +42,7 @@ export class VisualizationParser {
     }
     item.data = {
       properties: data,
+      selected  : item.selected,
       categories: item.categories,
       version   : item.version,
       type      : item.type,
