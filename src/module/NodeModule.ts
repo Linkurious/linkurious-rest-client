@@ -120,7 +120,9 @@ export class NodeModule extends Module {
             result.edges.push(VisualizationParser.refactorItem(edge));
           }
         });
-        result.nodes.push(VisualizationParser.refactorItem(node));
+        if ( data.ids.indexOf(node.id) < 0 ) {
+          result.nodes.push(VisualizationParser.refactorItem(node));
+        }
       });
 
       return result;
