@@ -116,7 +116,7 @@ export class NodeModule extends Module {
       let result:any = { nodes : [], edges : []};
       response.forEach((node:IFullNode) => {
         node.edges.forEach((edge:IEdge) => {
-          if ( result.edges.map((e:IEdge) => e.id).indexOf(edge.id) < -1 ) {
+          if ( result.edges.map((e:IEdge) => e.id).indexOf(edge.id) < 0 ) {
             result.edges.push(VisualizationParser.refactorItem(edge));
           }
         });
