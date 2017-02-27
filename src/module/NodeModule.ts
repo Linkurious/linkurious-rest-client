@@ -16,7 +16,7 @@ import {
   IDigest,
   IProperty,
   IItemType, ICreateNode, IGetNode, IGetAdjacentItems, IGetNeighborsCategories, IUpdateNode,
-  IGetItemProperties, IGetItemTypes
+  IGetItemProperties, IGetItemTypes, IEdge
 } from '../../index';
 import { Utils } from '../http/utils';
 import { Module } from './Module';
@@ -107,14 +107,24 @@ export class NodeModule extends Module {
    * @param {IGetAdjacentItems} data
    * @returns {Promise<Array<INode>>}
    */
-  public expand ( data:IGetAdjacentItems ):Promise<Array<INode>> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/nodes/expand',
-        method: 'POST',
-        body  : Utils.fixSnakeCase(data)
-      }
-    );
+  public expand ( data:IGetAdjacentItems ):Promise<any> {
+    return this.fetch({
+      url   : '/{dataSourceKey}/graph/nodes/expand',
+      method: 'POST',
+      body  : Utils.fixSnakeCase(data)
+    }).then((response:Array<IFullNode>) => {
+      let result:any = { nodes : [], edges : []};
+      response.forEach((node:IFullNode) => {
+        node.edges.forEach((edge:IEdge) => {
+          if ( result.edges.map((e:IEdge) => e.id).indexOf(edge.id) < -1 ) {
+            result.edges.push(VisualizationParser.refactorItem(edge));
+          }
+        });
+        result.nodes.push(VisualizationParser.refactorItem(node));
+      });
+
+      return result;
+    });
   }
 
   /**
