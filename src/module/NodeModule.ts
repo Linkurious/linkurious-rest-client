@@ -22,6 +22,7 @@ import { Utils } from '../http/utils';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
+import { Map, Array } from 'es6-shim';
 
 export class NodeModule extends Module {
 
@@ -113,19 +114,19 @@ export class NodeModule extends Module {
       method: 'POST',
       body  : Utils.fixSnakeCase(data)
     }).then((response:Array<IFullNode>) => {
-      let result:any = { nodes : [], edges : []};
+      let mn:Map<any> = new Map();
+      let me:Map<any> = new Map();
       response.forEach((node:IFullNode) => {
+        mn.set(node.id, node);
         node.edges.forEach((edge:IEdge) => {
-          if ( result.edges.map((e:IEdge) => e.id).indexOf(edge.id) < 0 ) {
-            result.edges.push(VisualizationParser.refactorItem(edge));
-          }
+          me.set(edge.id, edge);
         });
-        if ( data.visibleNodes.indexOf(node.id) < 0 ) {
-          result.nodes.push(VisualizationParser.refactorItem(node));
-        }
       });
 
-      return result;
+      return {
+        nodes : Array.from(mn.values()),
+        edges : Array.from(me.values())
+      };
     });
   }
 
