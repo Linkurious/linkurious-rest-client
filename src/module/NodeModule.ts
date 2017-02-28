@@ -117,7 +117,7 @@ export class NodeModule extends Module {
       let mn:Map<any> = new Map();
       let me:Map<any> = new Map();
       response.forEach((node:IFullNode) => {
-        if ( data.visibleNodes.indexOf(node.id) < 0 ) {
+        if ( data.visibleNodes.indexOf(node.id) < 0 && data.ids.indexOf(node.id) ) {
           mn.set(node.id, VisualizationParser.refactorItem(node));
         }
         node.edges.forEach((edge:IEdge) => {
