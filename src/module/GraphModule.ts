@@ -9,10 +9,11 @@
  */
 'use strict';
 
-import { INode, IEdge, IFullNode, IGetShortestPaths, ISendQuery } from '../../index';
+import { IEdge, IFullNode, IGetShortestPaths, ISendQuery } from '../../index';
 import { Utils } from '../http/utils';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
+import { VisualizationParser } from './VisualizationParser';
 
 export class GraphModule extends Module {
   constructor ( fetcher:Fetcher ) {
@@ -41,13 +42,13 @@ export class GraphModule extends Module {
    * @param {ISendQuery} data
    * @returns {Promise<Array<INode>>}
    */
-  public getNodeList ( data:ISendQuery ):Promise<Array<INode>> {
+  public getNodeList ( data:ISendQuery ):Promise<{nodes:any[], edges:any[]}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/rawQuery',
         method: 'POST',
         body  : Utils.fixSnakeCase(data)
       }
-    );
+    ).then((response:Array<IFullNode>) => VisualizationParser.splitResponse(response));
   }
 }

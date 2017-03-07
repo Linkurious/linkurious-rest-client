@@ -5,7 +5,8 @@
  * Created by maximeallex on 2017-02-06.
  */
 'use strict';
-import { IUpdateVisualization, IVisualization } from '../../index';
+import { IUpdateVisualization, IVisualization, IFullNode, IEdge } from '../../index';
+import { Map, Array } from 'es6-shim';
 
 /**
  * @class
@@ -52,5 +53,21 @@ export class VisualizationParser {
     delete item.nodelink;
     delete item.version;
     return item;
+  }
+
+  public static splitResponse (response:Array<IFullNode>):{nodes:any[], edges:any[]} {
+    let mn:Map<any> = new Map();
+    let me:Map<any> = new Map();
+    response.forEach((node:IFullNode) => {
+      mn.set(node.id, VisualizationParser.refactorItem(node));
+      node.edges.forEach((edge:IEdge) => {
+        me.set(edge.id, VisualizationParser.refactorItem(edge));
+      });
+    });
+
+    return {
+      nodes : Array.from(mn.values()),
+      edges : Array.from(me.values())
+    };
   }
 }
