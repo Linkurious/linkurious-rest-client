@@ -772,6 +772,7 @@ export interface IQuerySearchItemList extends IDataSourceRelative, IBaseRequest 
   size ?:number;
   from ?:number;
   filter ?:string;
+  full ?:boolean;
 }
 
 export interface IGetNode extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
