@@ -33,7 +33,21 @@ export class GraphModule extends Module {
         method: 'GET',
         query : nodesConfig
       }
-    ).then(( res:any ) => res.results);
+    ).then(( res:any ) => {
+      let results:Array<any> = [];
+      res.results.forEach((node:IFullNode, index:number) => {
+        results.push(VisualizationParser.refactorItem(node));
+        node.edges.forEach((edge:IEdge) => {
+          if (results[index].edges) {
+            results[index].edges.push(VisualizationParser.refactorItem(edge));
+          } else {
+            results[index].edges = [VisualizationParser.refactorItem(edge)];
+          }
+        });
+      });
+
+      return results;
+    });
   }
 
   /**
