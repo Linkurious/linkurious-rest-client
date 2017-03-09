@@ -43,6 +43,8 @@
     "doc": "typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts"
   },
   "dependencies": {
+    "@types/es6-shim": "^0.31.32",
+    "@types/superagent": "^2.0.35",
     "es6-shim": "^0.35.3",
     "superagent": "^1.8.3"
   },
@@ -50,7 +52,6 @@
     "@types/es6-promise": "0.0.32",
     "@types/jasmine": "^2.5.35",
     "@types/node": "^6.0.45",
-    "@types/superagent": "^2.0.35",
     "browserify": "^13.0.1",
     "bunyan": "^1.8.1",
     "es6-module-loader": "^0.17.11",
