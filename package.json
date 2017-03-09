@@ -43,7 +43,6 @@
     "doc": "typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts"
   },
   "dependencies": {
-    "@types/es6-shim": "^0.31.32",
     "@types/superagent": "^2.0.35",
     "es6-shim": "^0.35.3",
     "superagent": "^1.8.3"
