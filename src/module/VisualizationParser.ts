@@ -6,7 +6,6 @@
  */
 'use strict';
 import { IUpdateVisualization, IVisualization, IFullNode, IEdge } from '../../index';
-import { Map, Array } from 'es6-shim';
 
 /**
  * @class
@@ -56,8 +55,8 @@ export class VisualizationParser {
   }
 
   public static splitResponse (response:Array<IFullNode>):{nodes:any[], edges:any[]} {
-    let mn:Map<any> = new Map();
-    let me:Map<any> = new Map();
+    let mn:Map<any, any> = new Map();
+    let me:Map<any, any> = new Map();
     response.forEach((node:IFullNode) => {
       mn.set(node.id, VisualizationParser.refactorItem(node));
       node.edges.forEach((edge:IEdge) => {

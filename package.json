@@ -44,7 +44,6 @@
   },
   "dependencies": {
     "@types/superagent": "^2.0.35",
-    "es6-shim": "^0.35.3",
     "superagent": "^1.8.3"
   },
   "devDependencies": {
@@ -69,6 +68,6 @@
     "systemjs": "^0.19.29",
     "tslint": "^3.10.2",
     "typedoc": "sierrasoftworks/typedoc#v1.8.10",
-    "typescript": "^2.0.2"
+    "typescript": "^2.2.0"
   }
 }

@@ -22,7 +22,6 @@ import { Utils } from '../http/utils';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
-import { Map, Array } from 'es6-shim';
 
 export class NodeModule extends Module {
 
@@ -114,8 +113,8 @@ export class NodeModule extends Module {
       method: 'POST',
       body  : Utils.fixSnakeCase(data)
     }).then((response:Array<IFullNode>) => {
-      let mn:Map<any> = new Map();
-      let me:Map<any> = new Map();
+      let mn:Map<any, any> = new Map();
+      let me:Map<any, any> = new Map();
       response.forEach((node:IFullNode) => {
         if ( data.visibleNodes.indexOf(node.id) < 0 && data.ids.indexOf(node.id) ) {
           mn.set(node.id, VisualizationParser.refactorItem(node));
