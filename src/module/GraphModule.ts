@@ -35,17 +35,18 @@ export class GraphModule extends Module {
       }
     ).then(( res:any ) => {
       let results:Array<any> = [];
-      res.results.forEach((node:IFullNode, index:number) => {
-        results.push(VisualizationParser.refactorItem(node));
-        node.edges.forEach((edge:IEdge) => {
-          if (results[index].edges) {
-            results[index].edges.push(VisualizationParser.refactorItem(edge));
-          } else {
-            results[index].edges = [VisualizationParser.refactorItem(edge)];
-          }
+      res.results.forEach((path:Array<IFullNode>) => {
+        let resultPath:Array<IFullNode> = [];
+        path.forEach((node:IFullNode, index:number) => {
+          let edges:Array<IEdge> = [];
+          resultPath.push(VisualizationParser.refactorItem(node));
+          node.edges.forEach((edge:IEdge) => {
+            edges.push(VisualizationParser.refactorItem(edge));
+          });
+          resultPath[index].edges = edges;
         });
+        results.push(resultPath);
       });
-
       return results;
     });
   }
