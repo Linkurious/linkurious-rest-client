@@ -181,7 +181,7 @@ export class VisualizationModule extends Module {
         method: 'GET',
         query : params
       }
-    ).then(( res:any ) => res.visualization);
+    ).then(( res:any ) => VisualizationParser.formatVisualization(res.visualization));
   }
 
   /**
