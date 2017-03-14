@@ -151,15 +151,15 @@ export class Fetcher {
     query:any
   ):string {
     if ( body ) {
-      let id:number = body.id;
+      let id:number|string = body.id;
       delete body.id;
-      return url.replace(Fetcher.OBJECT_ID_TEMPLATE, id + '');
+      return url.replace(Fetcher.OBJECT_ID_TEMPLATE, encodeURIComponent(id + ''));
     }
 
     if ( query ) {
       let id:number = query.id;
       delete query.id;
-      return url.replace(Fetcher.OBJECT_ID_TEMPLATE, id + '');
+      return url.replace(Fetcher.OBJECT_ID_TEMPLATE, encodeURIComponent(id + ''));
     }
 
     throw LinkuriousError.fromClientError(
