@@ -111,7 +111,6 @@ export class DefaultHttpDriver implements IHttpDriver {
       ) => {
         request
           .get(uri)
-          .timeout(5000)
           .withCredentials()
           .query(query)
           .end(
