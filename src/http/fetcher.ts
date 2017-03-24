@@ -60,11 +60,14 @@ export class Fetcher {
       bodyData : config.body
     };
 
-    try {
-      config.url = this.transformUrl(config, data);
-    } catch (lkError) {
-      return Promise.reject(lkError);
+    if (config.url.indexOf('http://') < 0) {
+      try {
+        config.url = this.transformUrl(config, data);
+      } catch (lkError) {
+        return Promise.reject(lkError);
+      }
     }
+
     let responsePromise:Promise<IHttpResponse>;
 
     if ( config.method === 'GET' ) {
