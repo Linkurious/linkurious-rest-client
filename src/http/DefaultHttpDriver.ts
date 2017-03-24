@@ -191,7 +191,7 @@ export class DefaultHttpDriver implements IHttpDriver {
     resolve(
       {
         statusCode: res.status,
-        body      : res.body,
+        body      : (contentType) ? res.text : res.body,
         header    : res.header
       }
     );
