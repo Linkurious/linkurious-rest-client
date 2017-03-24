@@ -72,7 +72,7 @@ export class Fetcher {
 
     if ( config.method === 'GET' ) {
       responsePromise = (<any> this._httpDriver)[config.method](
-        config.url, Utils.fixSnakeCase(data.queryData)
+        config.url, Utils.fixSnakeCase(data.queryData), config.contentType
       );
     } else {
       responsePromise = (<any> this._httpDriver)[config.method](

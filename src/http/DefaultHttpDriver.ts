@@ -102,7 +102,8 @@ export class DefaultHttpDriver implements IHttpDriver {
 
   public GET (
     uri:string,
-    query?:any
+    query?:any,
+    contentType?:string
   ):Promise<IHttpResponse> {
     return new Promise(
       (
@@ -113,6 +114,7 @@ export class DefaultHttpDriver implements IHttpDriver {
           .get(uri)
           .withCredentials()
           .query(query)
+          .set('Accept', (!contentType) ? 'application/json' : contentType)
           .end(
             (
               err:any,
