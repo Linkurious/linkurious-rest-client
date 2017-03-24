@@ -120,7 +120,7 @@ export class DefaultHttpDriver implements IHttpDriver {
               err:any,
               res:request.Response
             ) => {
-              this.handleResponse(resolve, reject, err, res);
+              this.handleResponse(resolve, reject, err, res, contentType);
             }
           );
       }
@@ -158,7 +158,8 @@ export class DefaultHttpDriver implements IHttpDriver {
     resolve:( r:IHttpResponse ) => void,
     reject:( error:any ) => void,
     err:Error,
-    res:request.Response
+    res:request.Response,
+    contentType?:string
   ):void {
 
     if ( !res ) {
@@ -174,7 +175,7 @@ export class DefaultHttpDriver implements IHttpDriver {
       return reject(err);
     }
 
-    if ( res.type !== 'application/json' ) {
+    if (!contentType && res.type !== 'application/json' ) {
       return reject(
         LinkuriousError.fromClientError(
           'communication_error',
