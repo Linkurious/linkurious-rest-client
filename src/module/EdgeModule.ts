@@ -70,7 +70,7 @@ export class EdgeModule extends Module {
 
     let dataToSend:any = data;
     dataToSend.properties = data.data;
-    dataToSend.deleteProperties = data.deletedData;
+    dataToSend.deletedProperties = data.deletedData;
     delete dataToSend.data;
     delete dataToSend.deletedData;
 
