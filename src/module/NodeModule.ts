@@ -156,7 +156,7 @@ export class NodeModule extends Module {
   public update ( data:IUpdateNode ):Promise<INode> {
 
     let dataToSend:any = data;
-    dataToSend.deleteProperties = data.deletedData;
+    dataToSend.deletedProperties = data.deletedData;
     dataToSend.properties = data.data;
     delete dataToSend.deletedData;
     delete dataToSend.data;
