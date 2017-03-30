@@ -17,6 +17,7 @@ import {
   IItemType, ICreateEdge, IUpdateEdge, IGetAdjacentEdges, IGetItemProperties, IGetEdgeTypes
 } from '../../index';
 import { Fetcher } from '../http/fetcher';
+import { Utils } from '../http/utils';
 
 export class EdgeModule extends Module {
 
@@ -78,7 +79,7 @@ export class EdgeModule extends Module {
       {
         url   : '/{dataSourceKey}/graph/edges/{id}',
         method: 'PATCH',
-        body  : data
+        body  : Utils.fixSnakeCase(data)
       }
     );
   }
