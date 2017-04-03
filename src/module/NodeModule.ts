@@ -55,13 +55,11 @@ export class NodeModule extends Module {
     dataToSend.properties = data.data;
     delete dataToSend.data;
 
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/nodes',
-        method: 'POST',
-        body  : data
-      }
-    );
+    return this.fetch({
+      url   : '/{dataSourceKey}/graph/nodes',
+      method: 'POST',
+      body  : data
+    }).then((node:any) => VisualizationParser.refactorItem(node));
   }
 
   /**
