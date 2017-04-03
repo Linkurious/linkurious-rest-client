@@ -18,6 +18,7 @@ import {
 } from '../../index';
 import { Fetcher } from '../http/fetcher';
 import { Utils } from '../http/utils';
+import { VisualizationParser } from './VisualizationParser';
 
 export class EdgeModule extends Module {
 
@@ -51,13 +52,11 @@ export class EdgeModule extends Module {
     dataToSend.properties = data.data;
     delete dataToSend.data;
 
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/edges',
-        method: 'POST',
-        body  : dataToSend
-      }
-    );
+    return this.fetch({
+      url   : '/{dataSourceKey}/graph/edges',
+      method: 'POST',
+      body  : dataToSend
+    }).then((edge:any) => VisualizationParser.refactorItem(edge));
   }
 
   /**
