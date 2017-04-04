@@ -33,6 +33,9 @@ import {
   IClientState, ILoginUser, IUpdateUser
 } from '../index';
 
+export const LONGITUDE_HEURISTIC = ['longitude', 'long', 'lon', 'lng'];
+export const LATITUDE_HEURISTIC = ['latitude', 'lat'];
+
 export class Linkurious {
   private _fetcher:Fetcher;
   private _clientState:IClientState;
@@ -142,6 +145,24 @@ export class Linkurious {
    */
   get alerts ():AlertModule {
     return this._alert;
+  }
+
+  /**
+   * set latitude property at index 0 of heuristic
+   *
+   * @param {string}lat
+   */
+  set latitudeProperty(lat:string) {
+    LATITUDE_HEURISTIC.splice(0, 0, lat);
+  }
+
+  /**
+   * set longitude property at index 0 of heuristic
+   *
+   * @param {string}long
+   */
+  set longitudeProperty(long:string) {
+    LONGITUDE_HEURISTIC.splice(0, 0, long);
   }
 
   /**
