@@ -6,6 +6,7 @@
  */
 'use strict';
 import { IUpdateVisualization, IVisualization, IFullNode, IEdge } from '../../index';
+import { LONGITUDE_HEURISTIC, LATITUDE_HEURISTIC } from '../index';
 
 /**
  * @class
@@ -42,6 +43,7 @@ export class VisualizationParser {
     }
     item.data = {
       properties: data,
+      geo : {},
       selected  : item.selected,
       categories: item.categories,
       version   : item.version,
@@ -49,6 +51,16 @@ export class VisualizationParser {
       nodelink  : item.nodelink,
       statistics: item.statistics
     };
+
+    Object.keys(item.data.properties).forEach((key:any) => {
+      if ( LONGITUDE_HEURISTIC.indexOf(key) > -1 ) {
+        item.data.geo.longitude = item.data.properties[key];
+      }
+      if ( LATITUDE_HEURISTIC.indexOf(key) > -1 ) {
+        item.data.geo.latitude = item.data.properties[key];
+      }
+    });
+
     delete item.nodelink;
     delete item.version;
     return item;
