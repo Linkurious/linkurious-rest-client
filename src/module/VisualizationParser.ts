@@ -53,10 +53,10 @@ export class VisualizationParser {
     };
 
     Object.keys(item.data.properties).forEach((key:any) => {
-      if ( LONGITUDE_HEURISTIC.indexOf(key) > -1 ) {
+      if ( item.data.properties[key] && LONGITUDE_HEURISTIC.indexOf(key) > -1 ) {
         item.data.geo.longitude = parseFloat(item.data.properties[key].replace(',', '.'));
       }
-      if ( LATITUDE_HEURISTIC.indexOf(key) > -1 ) {
+      if ( item.data.properties[key] && LATITUDE_HEURISTIC.indexOf(key) > -1 ) {
         item.data.geo.latitude = parseFloat(item.data.properties[key].replace(',', '.'));
       }
     });
