@@ -329,7 +329,7 @@ export class VisualizationModule extends Module {
       {
         url   : '/{dataSourceKey}/visualizations/{id}',
         method: 'PATCH',
-        body  : { id: data.id, visualization: body },
+        body  : { id: data.id, visualization: vizBody },
         query : { forceLock: data.forceLock }
       }
     );
