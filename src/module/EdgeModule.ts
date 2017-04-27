@@ -140,13 +140,11 @@ export class EdgeModule extends Module {
    * @returns {Promise<IEdge>}
    */
   public getOne ( params:{id:ItemId, withVersion:boolean} ):Promise<IEdge> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/edges/{id}',
-        method: 'GET',
-        body  : Utils.fixSnakeCase(params)
-      }
-    );
+    return this.fetch({
+      url   : '/{dataSourceKey}/graph/edges/{id}',
+      method: 'GET',
+      query  : params
+    }).then((response:any) => VisualizationParser.refactorItem(response));
   }
 
   /**
