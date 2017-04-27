@@ -321,11 +321,15 @@ export class VisualizationModule extends Module {
    * @returns {Promise<boolean>}
    */
   public update ( data:IUpdateVisualization ):Promise<boolean> {
+    let vizBody:any = JSON.parse(JSON.stringify(data));
+    vizBody.id = undefined;
+    vizBody.forceLock = undefined;
+
     return this.fetch(
       {
         url   : '/{dataSourceKey}/visualizations/{id}',
         method: 'PATCH',
-        body  : { id: data.id, visualization: data },
+        body  : { id: data.id, visualization: body },
         query : { forceLock: data.forceLock }
       }
     );
