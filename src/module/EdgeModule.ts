@@ -136,15 +136,15 @@ export class EdgeModule extends Module {
   /**
    * Get an edge of the graph.
    *
-   * @param {ItemId} edgeId
+   * @param {{id: ItemId, withVersion: boolean}} params
    * @returns {Promise<IEdge>}
    */
-  public getOne ( edgeId:ItemId ):Promise<IEdge> {
+  public getOne ( params:{id:ItemId, withVersion:boolean} ):Promise<IEdge> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/edges/{id}',
         method: 'GET',
-        body  : { id: edgeId }
+        body  : Utils.fixSnakeCase(params)
       }
     );
   }
