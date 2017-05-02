@@ -75,6 +75,22 @@ export class VisualizationModule extends Module {
   }
 
   /**
+   * Update a widget for a visualization.
+   *
+   * @param {ICreateWidget} data
+   * @returns {Promise<string>}
+   */
+  public updateWidget ( data:ICreateWidget ):Promise<string> {
+    return this.fetch(
+      {
+        url   : '/widget',
+        method: 'PUT',
+        body  : data
+      }
+    );
+  }
+
+  /**
    * Create a folder for visualizations
    *
    * @param {ICreateFolder} data
