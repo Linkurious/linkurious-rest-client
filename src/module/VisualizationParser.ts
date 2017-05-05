@@ -54,10 +54,14 @@ export class VisualizationParser {
 
     Object.keys(item.data.properties).forEach((key:any) => {
       if ( item.data.properties[key] && LONGITUDE_HEURISTIC.indexOf(key) > -1 ) {
-        item.data.geo.longitude = parseFloat(item.data.properties[key].replace(',', '.'));
+        item.data.geo.longitude = (typeof item.data.properties[key] === 'number')
+          ? item.data.properties[key]
+          : parseFloat(item.data.properties[key].replace(',', '.'));
       }
       if ( item.data.properties[key] && LATITUDE_HEURISTIC.indexOf(key) > -1 ) {
-        item.data.geo.latitude = parseFloat(item.data.properties[key].replace(',', '.'));
+        item.data.geo.latitude = (typeof item.data.properties[key] === 'number')
+          ? item.data.properties[key]
+          : parseFloat(item.data.properties[key].replace(',', '.'));
       }
     });
 
