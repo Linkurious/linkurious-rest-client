@@ -68,12 +68,6 @@ export class EdgeModule extends Module {
    */
   public update ( data:IUpdateEdge ):Promise<IEdge> {
 
-    let dataToSend:any = data;
-    dataToSend.properties = data.data;
-    dataToSend.deletedProperties = data.deletedData;
-    delete dataToSend.data;
-    delete dataToSend.deletedData;
-
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/edges/{id}',

@@ -643,8 +643,8 @@ export interface ICreateEdge extends IDataSourceRelative, IBaseRequest {
 }
 
 export interface IUpdateEdge extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
-  data:any;
-  deletedData:Array<string>;
+  properties:any;
+  deletedProperties:Array<string>;
   version:number;
 }
 
