@@ -802,8 +802,8 @@ export interface ICreateNode extends IDataSourceRelative, IBaseRequest {
 }
 
 export interface IUpdateNode extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
-  data:any;
-  deletedData:Array<string>;
+  properties:any;
+  deletedProperties:Array<string>;
   addedCategories:Array<string>;
   deletedCategories:Array<string>;
   version:number;

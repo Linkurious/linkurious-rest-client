@@ -152,13 +152,6 @@ export class NodeModule extends Module {
    * @returns {Promise<INode>}
    */
   public update ( data:IUpdateNode ):Promise<INode> {
-
-    let dataToSend:any = data;
-    dataToSend.deletedProperties = data.deletedData;
-    dataToSend.properties = data.data;
-    delete dataToSend.deletedData;
-    delete dataToSend.data;
-
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/nodes/{id}',
