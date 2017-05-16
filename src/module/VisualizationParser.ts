@@ -53,24 +53,26 @@ export class VisualizationParser {
       statistics: item.statistics
     };
 
-    if ( !item.geo ) {
-      Object.keys(item.data.properties).forEach((key:any) => {
-        if ( item.data.properties[key] && LONGITUDE_HEURISTIC.indexOf(key) > -1 ) {
-          item.data.geo.longitude = VisualizationParser.computeCoordinate(item.data.properties[key]);
-        }
-        if ( item.data.properties[key] && LATITUDE_HEURISTIC.indexOf(key) > -1 ) {
-          item.data.geo.latitude = VisualizationParser.computeCoordinate(item.data.properties[key]);
-        }
-      });
-    }
+    if (VisualizationParser.isNode(item)) {
+      if ( !item.geo.latitude && !item.geo.longitude ) {
+        Object.keys(item.data.properties).forEach((key:any) => {
+          if ( item.data.properties[key] && LONGITUDE_HEURISTIC.indexOf(key) > -1 ) {
+            item.data.geo.longitude = VisualizationParser.computeCoordinate(item.data.properties[key]);
+          }
+          if ( item.data.properties[key] && LATITUDE_HEURISTIC.indexOf(key) > -1 ) {
+            item.data.geo.latitude = VisualizationParser.computeCoordinate(item.data.properties[key]);
+          }
+        });
+      }
 
-    if ( item.data.geo && item.data.geo.longitude && item.data.geo.latitude ) {
-      item.longitude = (item.data.geo.longitudeDiff)
-        ? item.data.geo.longitude + item.data.geo.longitudeDiff
-        : item.data.longitude;
-      item.latitude = (item.data.geo.latitudeDiff)
-        ? item.data.geo.latitude + item.data.geo.latitudeDiff
-        : item.data.latitude;
+      if ( item.data.geo && item.data.geo.longitude && item.data.geo.latitude ) {
+        item.longitude = (item.data.geo.longitudeDiff)
+          ? item.data.geo.longitude + item.data.geo.longitudeDiff
+          : item.data.geo.longitude;
+        item.latitude = (item.data.geo.latitudeDiff)
+          ? item.data.geo.latitude + item.data.geo.latitudeDiff
+          : item.data.geo.latitude;
+      }
     }
 
     delete item.nodelink;
@@ -98,5 +100,9 @@ export class VisualizationParser {
     return (typeof property === 'number')
       ? property
       : parseFloat(property.replace(',', '.'));
+  }
+
+  private static isNode(item:any):boolean {
+    return item.categories && !item.type && !item.source && !item.target;
   }
 }
