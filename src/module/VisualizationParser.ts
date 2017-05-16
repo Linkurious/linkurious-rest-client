@@ -54,18 +54,18 @@ export class VisualizationParser {
     };
 
     if (VisualizationParser.isNode(item)) {
-      if ( !item.geo.latitude && !item.geo.longitude ) {
+      if ( !item.data.geo ) {
         Object.keys(item.data.properties).forEach((key:any) => {
           if ( item.data.properties[key] && LONGITUDE_HEURISTIC.indexOf(key) > -1 ) {
-            item.data.geo.longitude = VisualizationParser.computeCoordinate(item.data.properties[key]);
+            item.data.geo['longitude'] = VisualizationParser.computeCoordinate(item.data.properties[key]);
           }
           if ( item.data.properties[key] && LATITUDE_HEURISTIC.indexOf(key) > -1 ) {
-            item.data.geo.latitude = VisualizationParser.computeCoordinate(item.data.properties[key]);
+            item.data.geo['latitude'] = VisualizationParser.computeCoordinate(item.data.properties[key]);
           }
         });
       }
 
-      if ( item.data.geo ) {
+      if ( item.data.geo && item.data.geo.longitude && item.data.geo.latitude ) {
         item.longitude = (item.data.geo.longitudeDiff)
           ? item.data.geo.longitude - item.data.geo.longitudeDiff
           : item.data.geo.longitude;
