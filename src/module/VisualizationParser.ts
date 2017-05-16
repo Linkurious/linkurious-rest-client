@@ -13,6 +13,7 @@ import { LONGITUDE_HEURISTIC, LATITUDE_HEURISTIC } from '../index';
  * @classdesc VisualizationParser : format server response for Ogma
  */
 export class VisualizationParser {
+
   /**
    * format visualization for Ogma
    * @param viz
@@ -43,7 +44,7 @@ export class VisualizationParser {
     }
     item.data = {
       properties: data,
-      geo : {},
+      geo : item.geo,
       selected  : item.selected,
       categories: item.categories,
       version   : item.version,
@@ -52,18 +53,25 @@ export class VisualizationParser {
       statistics: item.statistics
     };
 
-    Object.keys(item.data.properties).forEach((key:any) => {
-      if ( item.data.properties[key] && LONGITUDE_HEURISTIC.indexOf(key) > -1 ) {
-        item.data.geo.longitude = (typeof item.data.properties[key] === 'number')
-          ? item.data.properties[key]
-          : parseFloat(item.data.properties[key].replace(',', '.'));
-      }
-      if ( item.data.properties[key] && LATITUDE_HEURISTIC.indexOf(key) > -1 ) {
-        item.data.geo.latitude = (typeof item.data.properties[key] === 'number')
-          ? item.data.properties[key]
-          : parseFloat(item.data.properties[key].replace(',', '.'));
-      }
-    });
+    if ( !item.geo.latitude && !item.data.longitude ) {
+      Object.keys(item.data.properties).forEach((key:any) => {
+        if ( item.data.properties[key] && LONGITUDE_HEURISTIC.indexOf(key) > -1 ) {
+          item.data.geo.longitude = VisualizationParser.computeCoordinate(item.data.properties[key]);
+        }
+        if ( item.data.properties[key] && LATITUDE_HEURISTIC.indexOf(key) > -1 ) {
+          item.data.geo.latitude = VisualizationParser.computeCoordinate(item.data.properties[key]);
+        }
+      });
+    }
+
+    if ( item.data.geo.longitude && item.data.geo.latitude ) {
+      item.longitude = (item.data.geo.longitudeDiff)
+        ? item.data.geo.longitude + item.data.geo.longitudeDiff
+        : item.data.longitude;
+      item.latitude = (item.data.geo.latitudeDiff)
+        ? item.data.geo.latitude + item.data.geo.latitudeDiff
+        : item.data.latitude;
+    }
 
     delete item.nodelink;
     delete item.version;
@@ -84,5 +92,11 @@ export class VisualizationParser {
       nodes : Array.from(mn.values()),
       edges : Array.from(me.values())
     };
+  }
+
+  private static computeCoordinate(property:string|number):number {
+    return (typeof property === 'number')
+      ? property
+      : parseFloat(property.replace(',', '.'));
   }
 }
