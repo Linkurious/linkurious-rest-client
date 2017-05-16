@@ -64,7 +64,7 @@ export class VisualizationParser {
       });
     }
 
-    if ( item.data.geo.longitude && item.data.geo.latitude ) {
+    if ( item.data.geo && item.data.geo.longitude && item.data.geo.latitude ) {
       item.longitude = (item.data.geo.longitudeDiff)
         ? item.data.geo.longitude + item.data.geo.longitudeDiff
         : item.data.longitude;
