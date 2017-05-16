@@ -53,7 +53,7 @@ export class VisualizationParser {
       statistics: item.statistics
     };
 
-    if ( !item.geo.latitude && !item.data.longitude ) {
+    if ( !item.geo ) {
       Object.keys(item.data.properties).forEach((key:any) => {
         if ( item.data.properties[key] && LONGITUDE_HEURISTIC.indexOf(key) > -1 ) {
           item.data.geo.longitude = VisualizationParser.computeCoordinate(item.data.properties[key]);
