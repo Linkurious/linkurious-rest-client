@@ -57,9 +57,15 @@ export class VisualizationParser {
       if ( !item.data.geo ) {
         Object.keys(item.data.properties).forEach((key:any) => {
           if ( item.data.properties[key] && LONGITUDE_HEURISTIC.indexOf(key) > -1 ) {
+            if ( !item.data.geo ) {
+              item.data.geo = {};
+            }
             item.data.geo['longitude'] = VisualizationParser.computeCoordinate(item.data.properties[key]);
           }
           if ( item.data.properties[key] && LATITUDE_HEURISTIC.indexOf(key) > -1 ) {
+            if ( !item.data.geo ) {
+              item.data.geo = {};
+            }
             item.data.geo['latitude'] = VisualizationParser.computeCoordinate(item.data.properties[key]);
           }
         });
