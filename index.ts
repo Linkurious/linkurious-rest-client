@@ -789,6 +789,7 @@ export interface IGetAdjacentItems extends IIdentifiedItemList, IDataSourceRelat
   limit?:number;
   limitType?:string;
   withVersion:boolean;
+  withDigest:boolean;
 }
 
 export interface IGetItemTypes extends IDataSourceRelative, IBaseRequest {
