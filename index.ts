@@ -737,6 +737,7 @@ export interface IGetShortestPaths extends IDataSourceRelative, IBaseRequest {
   endNode:ItemId;
   maxDepth ?:number;
   withVersion ?:boolean;
+  withDigest ?:boolean;
 }
 
 export interface IGetNeighborsCategories extends IDataSourceRelative, IBaseRequest {
@@ -773,6 +774,7 @@ export interface IQuerySearchItemList extends IDataSourceRelative, IBaseRequest 
   from ?:number;
   filter ?:string;
   full ?:boolean;
+  withDigest?: true;
 }
 
 export interface IGetNode extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
