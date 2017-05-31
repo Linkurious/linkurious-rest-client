@@ -551,8 +551,7 @@ export class AdminModule extends Module {
       timeout = 3000;
     }
 
-    return this.startIndexation()
-      .then(() => this.listenIndexation(timeout, callback))
+    return this.listenIndexation(timeout, callback)
       .then(() => true);
   }
 
