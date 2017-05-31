@@ -551,8 +551,7 @@ export class AdminModule extends Module {
       timeout = 3000;
     }
 
-    return this.listenIndexation(timeout, callback)
-      .then(() => true);
+    return this.listenIndexation(timeout, callback);
   }
 
   /**
@@ -670,7 +669,7 @@ export class AdminModule extends Module {
   private listenIndexation (
     timeout:number,
     callback?:IIndexationCallback
-  ):Promise<boolean> {
+  ):Promise<any> {
     return this.getIndexationStatus().then(
       ( res:IIndexationStatus ) => {
         if ( res.indexing !== 'done' ) {
@@ -684,7 +683,7 @@ export class AdminModule extends Module {
             }
           ).then(() => this.listenIndexation(timeout, callback));
         } else {
-          return true;
+          return res;
         }
       }
     );
