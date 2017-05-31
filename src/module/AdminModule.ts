@@ -641,7 +641,7 @@ export class AdminModule extends Module {
       {
         url       : '/admin/source/{dataSourceKey}/resetDefaults',
         method    : 'POST',
-        body      : data
+        query      : data
       }
     ).then(() => true);
   }
