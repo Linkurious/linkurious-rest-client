@@ -76,7 +76,7 @@ export class Fetcher {
       );
     } else {
       responsePromise = (<any> this._httpDriver)[config.method](
-        config.url, data.bodyData, Utils.fixSnakeCase(data.queryData)
+        config.url, data.bodyData, data.queryData
       );
     }
 
