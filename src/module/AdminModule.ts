@@ -647,6 +647,15 @@ export class AdminModule extends Module {
   }
 
   /**
+   * check if an indexation is currently running
+   *
+   * @returns {Promise<any>}
+   */
+  public checkIndexation ():Promise<any> {
+    return this.getIndexationStatus();
+  }
+
+  /**
    * @callback IIndexationCallback
    * @param {IIndexationStatus} responseStatus
    */
