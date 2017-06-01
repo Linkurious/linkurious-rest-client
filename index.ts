@@ -742,6 +742,8 @@ export interface IGetShortestPaths extends IDataSourceRelative, IBaseRequest {
 
 export interface IGetNeighborsCategories extends IDataSourceRelative, IBaseRequest {
   ids:Array<ItemId>;
+  withDigest?:boolean;
+  withDegree?:boolean;
 }
 
 export interface IGetDirectory extends IDataSourceRelative, IBaseRequest {

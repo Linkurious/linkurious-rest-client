@@ -138,7 +138,7 @@ export class NodeModule extends Module {
   public getNeighborsCategories ( data:IGetNeighborsCategories ):Promise<Array<IDigest>> {
     return this.fetch(
       {
-        url   : '/{dataSourceKey}/graph/neighborhood/digest',
+        url   : '/{dataSourceKey}/graph/neighborhood/statistics',
         method: 'POST',
         body  : data
       }
