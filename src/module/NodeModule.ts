@@ -140,7 +140,7 @@ export class NodeModule extends Module {
       {
         url   : '/{dataSourceKey}/graph/neighborhood/statistics',
         method: 'POST',
-        body  : data
+        body  : Utils.fixSnakeCase(data)
       }
     );
   }
