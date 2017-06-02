@@ -23,6 +23,7 @@ import {
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
+import { Utils } from '../http/utils';
 
 export class VisualizationModule extends Module {
 
@@ -346,7 +347,7 @@ export class VisualizationModule extends Module {
         url   : '/{dataSourceKey}/visualizations/{id}',
         method: 'PATCH',
         body  : { id: data.id, visualization: vizBody },
-        query : { forceLock: data.forceLock }
+        query : Utils.fixSnakeCase({ forceLock: data.forceLock })
       }
     );
   }
