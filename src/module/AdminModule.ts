@@ -70,7 +70,7 @@ export class AdminModule extends Module {
    * @param {ICreateDataSource} data
    * @returns {Promise<boolean>}
    */
-  public createDataSourceConfig ( data:ICreateDataSource ):Promise<boolean> {
+  public createDataSourceConfig ( data:ICreateDataSource ):Promise<any> {
     return this.fetch(
       {
         url   : '/admin/sources/config',
