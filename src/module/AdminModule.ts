@@ -77,7 +77,7 @@ export class AdminModule extends Module {
         method: 'POST',
         body  : data
       }
-    ).then(() => true);
+    );
   }
 
   /**
