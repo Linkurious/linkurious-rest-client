@@ -714,7 +714,7 @@ export interface ICreateDataSource extends IBaseRequest {
 
 export interface IDeleteDataSource extends IDataSourceRelative, IBaseRequest {
   sourceKey:string;
-  mergeInto:string;
+  mergeInto?:string;
 }
 
 export interface ISetDataSourceProperties extends IDataSourceRelative, IBaseRequest {
