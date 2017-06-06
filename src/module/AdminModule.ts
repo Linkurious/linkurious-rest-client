@@ -112,8 +112,8 @@ export class AdminModule extends Module {
       {
         url       : '/admin/sources/data/{dataSourceKey}',
         method    : 'DELETE',
-        body      : Utils.fixSnakeCase(mergeOptions),
-        dataSource: this.setDataSourceKey(data.dataSourceKey)
+        query      : Utils.fixSnakeCase(mergeOptions),
+        dataSource: this.setDataSourceKey(data.sourceKey)
       }
     );
   }
