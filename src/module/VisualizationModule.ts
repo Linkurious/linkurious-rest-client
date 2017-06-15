@@ -212,7 +212,7 @@ export class VisualizationModule extends Module {
       {
         url   : '/{dataSourceKey}/visualizations/{id}',
         method: 'GET',
-        query : data
+        query : Utils.fixSnakeCase(data)
       }
     ).then(( res:any ) => VisualizationParser.formatVisualization(res.visualization));
   }
