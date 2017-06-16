@@ -185,14 +185,14 @@ export class Linkurious {
         }
       ).then(
         ( res:any ) => {
-          this._clientState.user = res.user;
+          this._clientState.user = res;
           return this._clientState.user;
         }
       );
     } else {
       return this._fetcher.fetch(config).then(
         ( res:any ) => {
-          this._clientState.user = res.user;
+          this._clientState.user = res;
           return this._clientState.user;
         }
       );
