@@ -30,7 +30,7 @@ export class MyModule extends Module {
         url   : '/auth/me',
         method: 'GET'
       }
-    ).then(( response:any ) => response.user);
+    );
   }
 
   /**
