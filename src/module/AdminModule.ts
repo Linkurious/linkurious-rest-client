@@ -378,7 +378,7 @@ export class AdminModule extends Module {
    * @param {IDataSourceRelative} data
    * @returns {Promise<Array<IGroup>>}
    */
-  public getGroups ( data:{
+  public getGroups ( data?:{
     dataSourceKey?:string,
     withAccessRights?:boolean
   } ):Promise<Array<IGroup>> {
