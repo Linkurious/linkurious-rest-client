@@ -15,7 +15,6 @@ import {
   IFullDataSource,
   IFullUser,
   IGroup,
-  ISimpleGroup,
   IGroupRights,
   IAccessRight,
   IIndexationStatus,
@@ -26,7 +25,7 @@ import {
   IFullAdminAlert,
   IDataSourceRelative,
   ICreateDataSource, IDeleteDataSource, ISetDataSourceProperties, ICreateUser, ICreateGroup,
-  IGetGroup, IUpdateBatchGroupRights, IUpdateGroupRights, IUpdateBatchUser, IUpdateUser,
+  IUpdateBatchGroupRights, IUpdateGroupRights, IUpdateBatchUser, IUpdateUser,
   IUpdateAppConfig, ICreateAlert, IAlert, IUpdateAlert
 } from '../../index';
 import { Utils } from '../http/utils';
@@ -359,7 +358,10 @@ export class AdminModule extends Module {
    * @param {number} data
    * @returns {Promise<IGroup>}
    */
-  public getGroup ( data:IGetGroup ):Promise<IGroup> {
+  public getGroup ( data:{
+    id:number,
+    dataSourceKey?:string,
+  } ):Promise<IGroup> {
     return this.fetch(
       {
         url       : '/admin/{dataSourceKey}/groups/{id}',
@@ -376,26 +378,16 @@ export class AdminModule extends Module {
    * @param {IDataSourceRelative} data
    * @returns {Promise<Array<IGroup>>}
    */
-  public getGroups ( data:IDataSourceRelative ):Promise<Array<IGroup>> {
+  public getGroups ( data:{
+    dataSourceKey?:string,
+    withAccessRights?:boolean
+  } ):Promise<Array<IGroup>> {
     return this.fetch(
       {
         url       : '/admin/{dataSourceKey}/groups',
         method    : 'GET',
-        dataSource: data
-      }
-    );
-  }
-
-  /**
-   * List all the groups available.
-   *
-   * @returns {Promise<ISimpleGroup>}
-   */
-  public getSimpleGroups ():Promise<Array<ISimpleGroup>> {
-    return this.fetch(
-      {
-        url   : '/admin/groups',
-        method: 'GET'
+        query : Utils.fixSnakeCase({withAccessRights: data.withAccessRights}),
+        dataSource : this.setDataSourceKey(data.dataSourceKey)
       }
     );
   }
@@ -403,15 +395,13 @@ export class AdminModule extends Module {
   /**
    * Get possible targetType, type and action names.
    *
-   * @param {IDataSourceRelative} data
    * @returns {Promise<IGroupRights>}
    */
-  public getGroupsRights ( data:IDataSourceRelative ):Promise<IGroupRights> {
+  public getGroupsRights ():Promise<IGroupRights> {
     return this.fetch(
       {
-        url       : '/admin/{dataSourceKey}/groups/rights_info',
-        method    : 'GET',
-        dataSource: data
+        url       : '/admin//groups/rights_info',
+        method    : 'GET'
       }
     );
   }
