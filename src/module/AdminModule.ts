@@ -25,7 +25,7 @@ import {
   IFullAdminAlert,
   IDataSourceRelative,
   ICreateDataSource, IDeleteDataSource, ISetDataSourceProperties, ICreateUser, ICreateGroup,
-  IUpdateBatchGroupRights, IUpdateGroupRights, IUpdateBatchUser, IUpdateUser,
+  IUpdateBatchGroupRights, IUpdateGroupRights, IUpdateBatchUser,
   IUpdateAppConfig, ICreateAlert, IAlert, IUpdateAlert
 } from '../../index';
 import { Utils } from '../http/utils';
@@ -463,7 +463,15 @@ export class AdminModule extends Module {
    * @param {IUpdateUser} data
    * @returns {Promise<IFullUser>}
    */
-  public updateUser ( data:IUpdateUser ):Promise<IFullUser> {
+  public updateUser ( data:{
+    id:number;
+    username?:string;
+    email?:string;
+    password?:string;
+    preferences?:any;
+    addGroups?:Array<number>;
+    rmGroups?:Array<number>;
+  } ):Promise<IFullUser> {
     return this.fetch(
       {
         url   : '/admin/users/{id}',
