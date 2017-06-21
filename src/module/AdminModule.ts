@@ -369,7 +369,7 @@ export class AdminModule extends Module {
    * @param {{id:number, dataSourceKey: string}} data
    * @returns {Promise<boolean>}
    */
-  public deleteGroup ( data:{id:number, dataSourceKey:string} ):Promise<boolean> {
+  public deleteGroup ( data:{id:number, dataSourceKey?:string} ):Promise<boolean> {
     return this.fetch(
       {
         url   : '/admin/{dataSourceKey}/groups/{id}',
