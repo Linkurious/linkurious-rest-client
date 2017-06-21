@@ -356,7 +356,7 @@ export class AdminModule extends Module {
     };
 
     return this.fetch({
-      url : '/admin/{dataSource}/groups/{id}/access_rights',
+      url : '/admin/{dataSourceKey}/groups/{id}/access_rights',
       method : 'PUT',
       body : dataToSend,
       dataSource: this.setDataSourceKey(data.dataSourceKey)
