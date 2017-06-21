@@ -337,6 +337,32 @@ export class AdminModule extends Module {
   }
 
   /**
+   * set access rights for a group
+   *
+   * @param data
+   * @return {Promise<any>}
+   */
+  public setGroupAccessRights(
+    data:{
+      id:number,
+      accessRights:Array<{type:string, targetType:string, targetName:string}>,
+      dataSourceKey?:string
+    }
+  ):Promise<any> {
+
+    let dataToSend:any = {
+      accessRights: data.accessRights
+    };
+
+    return this.fetch({
+      url : '/admin/{dataSource}/groups/{id}/access_rights',
+      method : 'PUT',
+      body : dataToSend,
+      dataSource: this.setDataSourceKey(data.dataSourceKey)
+    });
+  }
+
+  /**
    * Deletes a group in the application.
    *
    * @param {number} groupId
