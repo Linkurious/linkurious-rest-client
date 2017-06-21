@@ -380,6 +380,16 @@ export class AdminModule extends Module {
     );
   }
 
+  public updateGroup( data:{id:number, name:string, dataSourceKey?:string}):Promise<boolean> {
+    return this.fetch(
+      {
+        url   : '/admin/{dataSourceKey}/groups/{id}',
+        method: 'PATCH',
+        body  : data,
+        dataSource: this.setDataSourceKey(data.dataSourceKey)
+      }
+    );
+
   /**
    * List a group already defined in the database.
    *
