@@ -366,17 +366,18 @@ export class AdminModule extends Module {
   /**
    * Deletes a group in the application.
    *
-   * @param {number} groupId
+   * @param {{id:number, dataSourceKey: string}} data
    * @returns {Promise<boolean>}
    */
-  public deleteGroup ( groupId:number ):Promise<boolean> {
+  public deleteGroup ( data:{id:number, dataSourceKey:string} ):Promise<boolean> {
     return this.fetch(
       {
-        url   : '/admin/groups/{id}',
+        url   : '/admin/{dataSourceKey}/groups/{id}',
         method: 'DELETE',
-        body  : { id: groupId }
+        body  : data,
+        dataSource: this.setDataSourceKey(data.dataSourceKey)
       }
-    ).then(() => true);
+    );
   }
 
   /**
