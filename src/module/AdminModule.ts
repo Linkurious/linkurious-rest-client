@@ -351,6 +351,7 @@ export class AdminModule extends Module {
   ):Promise<any> {
 
     let dataToSend:any = {
+      id: data.id,
       accessRights: data.accessRights
     };
 
