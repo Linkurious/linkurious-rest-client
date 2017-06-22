@@ -103,7 +103,7 @@ export class SearchModule extends Module {
     limit?:number
   }):Promise<any> {
     return this.fetch({
-      url : '/admin/users',
+      url : '/users',
       method : 'GET',
       query: Utils.fixSnakeCase(data)
     });
