@@ -508,8 +508,8 @@ export class AdminModule extends Module {
     email?:string;
     password?:string;
     preferences?:any;
-    addGroups?:Array<number>;
-    rmGroups?:Array<number>;
+    addedGroups?:Array<number>;
+    removedGroups?:Array<number>;
   } ):Promise<IFullUser> {
     return this.fetch(
       {
