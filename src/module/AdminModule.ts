@@ -64,26 +64,6 @@ export class AdminModule extends Module {
   }
 
   /**
-   * get the list of users
-   *
-   * @param {any}data
-   * @return {Promise<any>}
-   */
-  public getUsers ( data:{
-    startsWith?:string,
-    contains?:string,
-    groupId?:string,
-    offset?:number,
-    limit?:number
-  }):Promise<any> {
-    return this.fetch({
-      url : '/admin/users',
-      method : 'GET',
-      query: Utils.fixSnakeCase(data)
-    });
-  }
-
-  /**
    * Create a new data-source configuration (contains a graph database configuration and an index configuration).
    *
    * @param {ICreateDataSource} data

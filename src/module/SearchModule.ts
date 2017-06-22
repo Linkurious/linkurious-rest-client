@@ -10,11 +10,12 @@
 'use strict';
 
 import {
-  ISearchFullItems, IUser, ISearchEdgesInDirectory, ISearchNodesInDirectory, IEdge, IFullNode,
-  IQuerySearchItemList, IGetUserList, IGetDirectory
+  ISearchFullItems, ISearchEdgesInDirectory, ISearchNodesInDirectory, IEdge, IFullNode,
+  IQuerySearchItemList, IGetDirectory
 } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
+import { Utils } from '../http/utils';
 
 export class SearchModule extends Module {
 
@@ -89,19 +90,23 @@ export class SearchModule extends Module {
   }
 
   /**
-   * Find a list of users matching a filter (on username or email)
+   * get the list of users
    *
-   * @param {IGetUserList} data
-   * @returns {Promise<Array<IUser>>}
+   * @param {any}data
+   * @return {Promise<any>}
    */
-  public users ( data:IGetUserList ):Promise<Array<IUser>> {
-    return this.fetch(
-      {
-        url   : '/findUsers',
-        method: 'GET',
-        query : data
-      }
-    ).then(( response:any ) => response.results);
+  public getUsers ( data:{
+    startsWith?:string,
+    contains?:string,
+    groupId?:string,
+    offset?:number,
+    limit?:number
+  }):Promise<any> {
+    return this.fetch({
+      url : '/admin/users',
+      method : 'GET',
+      query: Utils.fixSnakeCase(data)
+    });
   }
 
   /**
