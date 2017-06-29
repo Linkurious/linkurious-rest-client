@@ -30,11 +30,11 @@ import {
   IAppVersion,
   IAppConfig,
   ISchema,
-  IClientState, ILoginUser, IUpdateUser
+  IClientState
 } from '../index';
 
-export const LONGITUDE_HEURISTIC = ['longitude', 'long', 'lon', 'lng'];
-export const LATITUDE_HEURISTIC = ['latitude', 'lat'];
+export const LONGITUDE_HEURISTIC:Array<string> = ['longitude', 'long', 'lon', 'lng'];
+export const LATITUDE_HEURISTIC:Array<string> = ['latitude', 'lat'];
 
 export class Linkurious {
   private _fetcher:Fetcher;
@@ -171,7 +171,10 @@ export class Linkurious {
    * @param {ILoginUser} data
    * @returns {Promise<boolean>}
    */
-  public login ( data:ILoginUser ):Promise<any> {
+  public login ( data:{
+    usernameOrEmail:string;
+    password:string;
+  } ):Promise<any> {
     let config:IFetchConfig = {
       url   : '/auth/login',
       method: 'POST',
@@ -235,7 +238,13 @@ export class Linkurious {
    * @param {IUpdateUser} data
    * @returns {Promise<IFullUser>}
    */
-  public updateCurrentUser ( data:IUpdateUser ):Promise<IFullUser> {
+  public updateCurrentUser ( data:{
+    id:number;
+    username ?:string;
+    email ?:string;
+    password ?:string;
+    preferences ?:any;
+  } ):Promise<IFullUser> {
     return this._fetcher.fetch(
       {
         url   : '/auth/me',
@@ -284,7 +293,15 @@ export class Linkurious {
    * @param {Array<IDataSourceState>}sourceList
    * @return {IDataSource}
    */
-  public storeDefaultCurrentSource(sourceList:Array<IDataSourceState>):IDataSourceState {
+  public storeDefaultCurrentSource(sourceList:Array<{
+    connected:boolean;
+    state:string;
+    reason:string;
+    error?:string;
+    name:string;
+    key:string;
+    configIndex:number;
+  }>):IDataSourceState {
     for ( let sourceState of sourceList ) {
       if ( this.storeSource(sourceState, 'connected', true) ) {
         return this._clientState.currentSource;
@@ -304,12 +321,20 @@ export class Linkurious {
   };
 
   /**
-   * Set the currentSource by passing the sourceKey or configIndex
+   * Set the currentSource
    *
    * @param {any} source
    * @returns {Promise<IDataSourceState>}
    */
-  public setCurrentSource ( source:any ):void {
+  public setCurrentSource ( source:{
+    name:string;
+    key:string;
+    configIndex:number;
+    connected:boolean;
+    state:string;
+    reason:string;
+    error?:string;
+  } ):void {
     this._clientState.currentSource = {
       name       : source.name,
       key        : source.key,
@@ -327,7 +352,10 @@ export class Linkurious {
    * @param {ILoginUser} data
    * @returns {Promise<IClientState>}
    */
-  public init ( data:ILoginUser ):Promise<IClientState> {
+  public init ( data:{
+    usernameOrEmail:string;
+    password:string;
+  } ):Promise<IClientState> {
 
     return this.login(data).then(
       () => {

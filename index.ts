@@ -656,18 +656,6 @@ export interface IGetUserList extends IBaseRequest {
   start?:number;
 }
 
-export interface ILoginUser extends IBaseRequest {
-  usernameOrEmail:string;
-  password:string;
-}
-
-export interface IUpdateUser extends IIdentified, IBaseRequest {
-  username ?:string;
-  email ?:string;
-  password ?:string;
-  preferences ?:any;
-}
-
 export interface ICreateUser extends IBaseRequest {
   username:string;
   email:string;
