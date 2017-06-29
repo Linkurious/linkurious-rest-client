@@ -51,7 +51,14 @@ export class Fetcher {
    * @param {IFetchConfig} configData
    * @returns {Promise.<*>} the response body
    */
-  public fetch ( configData:IFetchConfig ):Promise<any> {
+  public fetch ( configData:{
+    url:string;
+    method:'POST'|'GET'|'PUT'|'DELETE'|'PATCH';
+    contentType?:string;
+    dataSource?:string|number;
+    body?:any;
+    query?:any;
+  } ):Promise<any> {
 
     let config:IFetchConfig = JSON.parse(JSON.stringify(configData));
 
