@@ -9,8 +9,7 @@
  */
 'use strict';
 
-import { IEdge, IFullNode, IGetShortestPaths, ISendQuery } from '../../index';
-import { Utils } from '../http/utils';
+import { IEdge, IFullNode } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
@@ -24,24 +23,35 @@ export class GraphModule extends Module {
    * Returns an array of <LkNode[]> corresponding to all the shortest paths between two nodes that the user can read.
    *
    * @param {IGetShortestPaths} nodesConfig
+   * @param {string} dataSourceKey
    * @returns {Promise<Array<Array<IFullNode|IEdge>>>}
    */
-  public getShortestPaths ( nodesConfig:IGetShortestPaths ):Promise<Array<Array<IFullNode|IEdge>>> {
+  public getShortestPaths (
+    nodesConfig:{
+      startNode:string|number;
+      endNode:string|number;
+      maxDepth ?:number;
+      withVersion ?:boolean;
+      withDigest ?:boolean;
+    },
+    dataSourceKey?:string
+  ):Promise<Array<Array<any>>> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/shortestPaths',
         method: 'GET',
-        query : nodesConfig
+        query : nodesConfig,
+        dataSource : dataSourceKey
       }
     ).then(( res:any ) => {
       let results:Array<any> = [];
       res.results.forEach((path:Array<IFullNode>) => {
-        let resultPath:Array<IFullNode> = [];
+        let resultPath:Array<any> = [];
         path.forEach((node:IFullNode, index:number) => {
-          let edges:Array<IEdge> = [];
-          resultPath.push(VisualizationParser.refactorItem(node));
+          let edges:Array<any> = [];
+          resultPath.push(VisualizationParser.parseNode(node));
           node.edges.forEach((edge:IEdge) => {
-            edges.push(VisualizationParser.refactorItem(edge));
+            edges.push(VisualizationParser.parseEdge(edge));
           });
           resultPath[index].edges = edges;
         });
@@ -55,14 +65,28 @@ export class GraphModule extends Module {
    * Returns an array of LkNode[] matching the sent query.
    *
    * @param {ISendQuery} data
+   * @param {string}dataSourceKey
    * @returns {Promise<Array<INode>>}
    */
-  public getNodeList ( data:ISendQuery ):Promise<{nodes:any[], edges:any[]}> {
+  public getNodeList (
+    data:{
+      dialect:string;
+      query:string;
+      withVersion:boolean;
+    },
+    dataSourceKey?:string
+  ):Promise<{nodes:any[], edges:any[]}> {
+    let body:any = {
+      dialect: data.dialect,
+      query: data.query
+    };
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/rawQuery',
         method: 'POST',
-        body  : Utils.fixSnakeCase(data)
+        body  : body,
+        query : { withVersion : data.withVersion },
+        dataSource : dataSourceKey
       }
     ).then((response:Array<IFullNode>) => VisualizationParser.splitResponse(response));
   }
