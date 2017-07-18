@@ -391,8 +391,8 @@ export interface ISandBox {
 export interface IVisualization extends ISandBox, IIdentified {
   title:string;
   folder:number;
-  nodes:Array<IVisualizationNode>;
-  edges:Array<IVisualizationEdge>;
+  nodes:Array<any>;
+  edges:Array<any>;
   alternativeIds:IAlternativeIdConfig;
   layout:IVisualizationLayout;
   geo:IVisualizationGeo;
@@ -948,7 +948,8 @@ export interface IFetchConfig {
   url:string;
   method:'POST'|'GET'|'PUT'|'DELETE'|'PATCH';
   contentType?:string;
-  dataSource?:IDataSourceRelative;
+  id?:number;
+  dataSource?:string|number;
   body?:any;
   query?:any;
 }
