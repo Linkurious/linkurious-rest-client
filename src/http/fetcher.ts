@@ -13,7 +13,6 @@ import {
   IHttpDriver,
   IHttpResponse,
   IFetchConfig,
-  IDataSourceRelative,
   IDataToSend, IFetcherClientState
 } from './../../index';
 import { LinkuriousError } from './../LinkuriousError';
@@ -89,21 +88,17 @@ export class Fetcher {
 
     return responsePromise.catch(
       ( error:Error ) => {
-        // console.log(JSON.stringify(error.stack.split(/\s*\n\s*/), null, ' '));
-
         // create a linkurious error from "hard" errors
         return Promise.reject(LinkuriousError.fromError(error));
 
       }
     ).then(
       ( response:IHttpResponse ) => {
-
         // create a linkurious error from "soft" error
         if ( LinkuriousError.isError(response) ) {
           let linkuriousError:any = LinkuriousError.fromHttpResponse(response);
           return Promise.reject(linkuriousError);
         }
-
         // resolve with response body in case of success
         return response.body;
 
@@ -117,44 +112,80 @@ export class Fetcher {
     );
   }
 
+  /**
+   * transform url to add current source key or a specific source key if exists in config
+   *
+   * @param url
+   * @param explicitSource
+   * @return {string}
+   */
   private addSourceKeyToUrl (
     url:string,
-    explicitSource?:IDataSourceRelative
+    explicitSource?:string|number
   ):string {
-    if ( explicitSource ) {
-      return this._baseUrl + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource.dataSourceKey);
+    if ( explicitSource && typeof explicitSource === 'string') {
+      return this._baseUrl + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource);
     } else if ( this._clientState.currentSource ) {
       return this._baseUrl + url.replace(
           Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key
         );
     } else {
-      throw LinkuriousError.fromClientError(
-        'state_error',
-        `You need to set a current source to fetch this API (${url}).`
-      );
+      if ( explicitSource && typeof explicitSource !== 'string' ) {
+        throw LinkuriousError.fromClientError(
+          'state_error',
+          `Source key must be a string.`
+        );
+      } else {
+        throw LinkuriousError.fromClientError(
+          'state_error',
+          `You need to set a current source to fetch this API (${url}).`
+        );
+      }
     }
   }
 
+  /**
+   * transform url to add current source index or a specific source index if exists in config
+   *
+   * @param url
+   * @param explicitSource
+   * @return {string}
+   */
   private addSourceIndexToUrl (
     url:string,
-    explicitSource?:IDataSourceRelative
+    explicitSource?:string|number
   ):string {
-    if ( explicitSource ) {
+    if ( explicitSource && typeof explicitSource === 'number') {
       return this._baseUrl + url.replace(
-          Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource.dataSourceIndex + ''
+          Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource + ''
         );
     } else if ( this._clientState.currentSource ) {
       return this._baseUrl + url.replace(
-          Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.key
+          Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.configIndex + ''
         );
     } else {
-      throw LinkuriousError.fromClientError(
-        'state_error',
-        `You need to set a current source to fetch this API (${url}).`
-      );
+      if ( explicitSource && typeof explicitSource !== 'number' ) {
+        throw LinkuriousError.fromClientError(
+          'state_error',
+          `Source index must be a number.`
+        );
+      } else {
+        throw LinkuriousError.fromClientError(
+          'state_error',
+          `You need to set a current source to fetch this API (${url}).`
+        );
+      }
     }
   }
 
+  /**
+   * transform url to add id
+   *
+   * @param url
+   * @param body
+   * @param query
+   * @return {string}
+   */
   private handleIdInUrl (
     url:string,
     body:any,
@@ -178,6 +209,13 @@ export class Fetcher {
     );
   }
 
+  /**
+   * parse url and return transformed url
+   *
+   * @param config
+   * @param data
+   * @return {string}
+   */
   private transformUrl (
     config:IFetchConfig,
     data:IDataToSend
