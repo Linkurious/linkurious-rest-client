@@ -5,43 +5,16 @@
  * Created by maximeallex on 2017-02-06.
  */
 'use strict';
-import { IVisualization, IFullNode, IEdge, INode } from '../../index';
+import {
+  IFullNode,
+  IEdge,
+  INode,
+  IOgmaEdge,
+  INodeCoordinates,
+  IOgmaNode,
+  IServerVisualization
+} from '../../index';
 import { LONGITUDE_HEURISTIC, LATITUDE_HEURISTIC } from '../index';
-
-export interface IOgmaEdge {
-  id:string|number;
-  source:string|number;
-  target:string|number;
-  data:{
-    type:string;
-    properties:any;
-    version?:number;
-  };
-}
-
-export interface IOgmaNode {
-  id:string|number;
-  x:number;
-  y:number;
-  data:{
-    categories:Array<string>;
-    properties:any;
-    statistics:any;
-    version:number;
-    geo?:INodeCoordinates;
-    nodelink?:any;
-    selected?:boolean;
-  };
-  latitude:number;
-  longitude:number;
-}
-
-export interface INodeCoordinates {
-  longitude?:number;
-  latitude?:number;
-  longitudeDiff?:number;
-  latitudeDiff?:number;
-}
 
 /**
  * @class
@@ -87,7 +60,7 @@ export class VisualizationParser {
   public static parseNode(node:{
     id:string|number;
     categories:Array<string>;
-    data:any;
+    data?:any;
     edges?:Array<any>;
     statistics?:any;
     version?:number;
@@ -95,8 +68,12 @@ export class VisualizationParser {
     geo?:INodeCoordinates;
     selected?:boolean;
   }):IOgmaNode {
-    let longitude:number = VisualizationParser.parseCoordinates('longitude', node);
-    let latitude:number = VisualizationParser.parseCoordinates('latitude', node);
+    let latitude:number;
+    let longitude:number;
+    if ( node.data ) {
+      longitude = VisualizationParser.parseCoordinates('longitude', node);
+      latitude = VisualizationParser.parseCoordinates('latitude', node);
+    }
     return {
       id:node.id,
       x : (node.nodelink) ? node.nodelink.x : undefined,
@@ -120,7 +97,7 @@ export class VisualizationParser {
    * @param viz
    * @returns {any}
    */
-  public static formatVisualization(viz:IVisualization):any {
+  public static formatVisualization(viz:IServerVisualization):any {
     viz.nodes.map((n:INode) => VisualizationParser.parseNode(n));
     viz.edges.map((e:IEdge) => VisualizationParser.parseEdge(e));
     return viz;
@@ -223,7 +200,7 @@ export class VisualizationParser {
     item:{
       id:string|number;
       categories:Array<string>;
-      data:any;
+      data?:any;
       statistics?:any;
       version?:number;
       nodelink?:any;

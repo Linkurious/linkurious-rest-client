@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import {INode, Linkurious} from '../index';
+import { IOgmaNode, Linkurious } from '../index';
 import {FetcherSpec} from './fetcher_spec';
 import {LinkuriousErrorSpec} from './LinkuriousError_spec';
 import {DefaultLoggerDriverSpec} from './DefaultLoggerDriver_spec';
@@ -22,7 +22,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
 describe('Linkurious class', () => {
 
-  let visu:any, widget:any, node:INode, linkurious:Linkurious, testLog:boolean, logDriver:any, edgeID:string|number, nodeId:string|number, sourceKey:string, graphQueryId:number, sourceId:string|number, targetId:string|number, nodeToDelete:string|number;
+  let visu:any, widget:any, node:IOgmaNode, linkurious:Linkurious, testLog:boolean, logDriver:any, edgeID:string|number, nodeId:string|number, sourceKey:string, graphQueryId:number, sourceId:string|number, targetId:string|number, nodeToDelete:string|number;
   beforeEach(() => {
     testLog = false;
     logDriver = {
@@ -515,13 +515,7 @@ describe('Linkurious class', () => {
       }).then((res:any) => {
         visu = res[2];
         return linkurious.visualization.createWidget({
-          visualization_id : visu.id,
-          content : {
-            graph:{
-              nodes:[node],
-              edges:[]
-            }
-          }
+          visualizationId : visu.id,
         });
       }).then((res:any) => {
         widget = res;

@@ -14,11 +14,12 @@ import {
   IEdge,
   ItemId,
   IProperty,
-  IItemType
+  IItemType,
+  IOgmaEdge
 } from '../../index';
 import { Fetcher } from '../http/fetcher';
 import { Utils } from '../http/utils';
-import { IOgmaEdge, VisualizationParser } from './VisualizationParser';
+import { VisualizationParser } from './VisualizationParser';
 
 export class EdgeModule extends Module {
 
@@ -57,7 +58,7 @@ export class EdgeModule extends Module {
       properties:any;
     },
     dataSourceKey?:string
-  ):Promise<any> {
+  ):Promise<IOgmaEdge> {
 
     return this.fetch({
       url   : '/{dataSourceKey}/graph/edges',
@@ -108,7 +109,7 @@ export class EdgeModule extends Module {
       id:string|number
     },
     dataSourceKey?:string
-  ):Promise<boolean> {
+  ):Promise<any> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/edges/{id}',
@@ -175,7 +176,13 @@ export class EdgeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<IEdge>}
    */
-  public getOne ( params:{id:ItemId, withVersion?:boolean}, dataSourceKey?:string ):Promise<any> {
+  public getOne (
+    params:{
+      id:ItemId,
+      withVersion?:boolean
+    },
+    dataSourceKey?:string
+  ):Promise<IOgmaEdge> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/edges/{id}',
       method: 'GET',

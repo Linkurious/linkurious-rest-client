@@ -382,17 +382,67 @@ export interface IDirectoryEnabled {
 
 // VISUALIZATION
 
+export interface IOgmaEdge {
+  id:string|number;
+  source:string|number;
+  target:string|number;
+  data:{
+    type:string;
+    properties:any;
+    version?:number;
+  };
+}
+
+export interface IOgmaNode {
+  id:string|number;
+  x:number;
+  y:number;
+  data:{
+    categories:Array<string>;
+    properties:any;
+    statistics:any;
+    version:number;
+    geo?:INodeCoordinates;
+    nodelink?:any;
+    selected?:boolean;
+  };
+  latitude:number;
+  longitude:number;
+}
+
+export interface INodeCoordinates {
+  longitude?:number;
+  latitude?:number;
+  longitudeDiff?:number;
+  latitudeDiff?:number;
+}
+
+
 export interface ISandBox {
   design?:IVisualizationDesign;
   nodeFields?:IItemFields;
   edgeFields?:IItemFields;
 }
 
+export interface IServerVisualization extends ISandBox, IIdentified {
+  title:string;
+  folder:number;
+  nodes:Array<INode>;
+  edges:Array<IEdge>;
+  alternativeIds:IAlternativeIdConfig;
+  layout:IVisualizationLayout;
+  geo:IVisualizationGeo;
+  mode:VisualizationModeType;
+  filters:Array<any>;
+  createdAt?:string;
+  updatedAt?:string;
+}
+
 export interface IVisualization extends ISandBox, IIdentified {
   title:string;
   folder:number;
-  nodes:Array<any>;
-  edges:Array<any>;
+  nodes:Array<IOgmaNode>;
+  edges:Array<IOgmaEdge>;
   alternativeIds:IAlternativeIdConfig;
   layout:IVisualizationLayout;
   geo:IVisualizationGeo;
@@ -474,7 +524,6 @@ export interface IWidget {
 }
 
 export interface IWidgetContent extends IVisualizationDesign {
-  graph:IWidgetGraph;
   title?:string;
   description?:string;
   url?:string;

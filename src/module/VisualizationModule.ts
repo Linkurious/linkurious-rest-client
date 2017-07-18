@@ -16,9 +16,17 @@ import {
   ISharers,
   IShare,
   IFolder,
-  IFolderFullResponse, IWidgetContent, IVisualizationNode, IVisualizationEdge,
-  IAlternativeIdConfig, IVisualizationLayout, IVisualizationGeo, IVisualizationDesign, IItemFields,
-  PopulateType, VisualizationModeType
+  IFolderFullResponse,
+  IWidgetContent,
+  IVisualizationNode,
+  IVisualizationEdge,
+  IAlternativeIdConfig,
+  IVisualizationLayout,
+  IVisualizationGeo,
+  IVisualizationDesign,
+  IItemFields,
+  PopulateType,
+  VisualizationModeType
 } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
@@ -71,15 +79,24 @@ export class VisualizationModule extends Module {
    */
   public createWidget (
     data:{
-      visualization_id:number;
-      content:IWidgetContent;
+      visualizationId:number;
+      content?:{
+        search?:boolean,
+        share?:boolean,
+        layout?:boolean,
+        fullscreen?:boolean,
+        zoom?:boolean,
+        legend?:boolean,
+        geo?:boolean,
+        password?:boolean
+      };
     }
   ):Promise<string> {
     return this.fetch(
       {
         url   : '/widget',
         method: 'POST',
-        body  : data
+        body  : Utils.fixSnakeCase(data)
       }
     );
   }
@@ -160,7 +177,7 @@ export class VisualizationModule extends Module {
         body  : data,
         dataSource : dataSourceKey
       }
-    ).then(( res:any ) => res.visualization);
+    ).then(( res:any ) => VisualizationParser.formatVisualization(res.visualization));
   }
 
   /**
@@ -332,7 +349,7 @@ export class VisualizationModule extends Module {
       id:number;
     },
     dataSourceKey?:string
-  ):Promise<boolean> {
+  ):Promise<any> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/visualizations/{id}',
@@ -406,7 +423,7 @@ export class VisualizationModule extends Module {
       userId:number;
     },
     dataSourceKey?:string
-  ):Promise<boolean> {
+  ):Promise<any> {
     return this.fetch(
       {
         url   : `/{dataSourceKey}/visualizations/{id}/share/${data.userId}`,
@@ -456,7 +473,7 @@ export class VisualizationModule extends Module {
       edgeFields?:IItemFields;
     },
     dataSourceKey?:string
-  ):Promise<boolean> {
+  ):Promise<any> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/sandbox',
@@ -492,7 +509,7 @@ export class VisualizationModule extends Module {
       forceLock?:boolean;
     },
     dataSourceKey?:string
-  ):Promise<boolean> {
+  ):Promise<any> {
     let vizBody:any = JSON.parse(JSON.stringify(data));
     vizBody.id = undefined;
     vizBody.forceLock = undefined;

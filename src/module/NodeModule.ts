@@ -14,7 +14,8 @@ import {
   ItemId,
   IDigest,
   IProperty,
-  IItemType } from '../../index';
+  IItemType, IOgmaNode, IOgmaEdge
+} from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
@@ -75,7 +76,7 @@ export class NodeModule extends Module {
       id:number|string
     },
     dataSourceKey?:string
-  ):Promise<boolean> {
+  ):Promise<any> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/nodes/{id}',
@@ -101,7 +102,7 @@ export class NodeModule extends Module {
       withVersion?:boolean;
     },
     dataSourceKey?:string
-  ):Promise<any> {
+  ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/nodes/{id}',
@@ -135,7 +136,7 @@ export class NodeModule extends Module {
       withDigest?:boolean;
     },
     dataSourceKey?:string
-  ):Promise<any> {
+  ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
     let body:any = {
       ids : data.ids,
       ignoredNodes : data.ignoredNodes,
