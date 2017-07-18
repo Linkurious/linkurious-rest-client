@@ -46,14 +46,14 @@ export class AdminModule extends Module {
    * @param {number} dataSourceIndex
    * @returns {Promise<boolean>}
    */
-  public connectDataSource ( dataSourceIndex?:number ):Promise<boolean> {
+  public connectDataSource ( dataSourceIndex?:number ):Promise<any> {
     return this.fetch(
       {
         url       : '/admin/source/{dataSourceIndex}/connect',
         method    : 'POST',
         dataSource: dataSourceIndex
       }
-    ).then(() => true);
+    );
   }
 
   /**
@@ -413,20 +413,20 @@ export class AdminModule extends Module {
   /**
    * List all the groups already defined in the database and based on the dataSource.
    *
-   * @param {{ withAccessRights?:boolean }} data
-   * @param {string} dataSourceKey
    * @returns {Promise<Array<IGroup>>}
    */
   public getGroups (
-    data?:{ withAccessRights?:boolean },
-    dataSourceKey?:string,
+    data:{
+      witAccessRights:boolean;
+    },
+    dataSourceKey?:string
   ):Promise<Array<IGroup>> {
     return this.fetch(
       {
         url       : '/admin/{dataSourceKey}/groups',
         method    : 'GET',
         query : data,
-        dataSource : dataSourceKey
+        dataSource: dataSourceKey
       }
     );
   }
@@ -477,11 +477,11 @@ export class AdminModule extends Module {
    */
   public updateConfig (
     data:{
-      path:string;
-      configuration:any;
-      dataSourceIndex:number;
+      path?:string;
+      configuration?:any;
+      dataSourceIndex?:number;
       reset?:boolean;
-    },
+    }
   ):Promise<string> {
     let query:any = {
       reset      : data.reset,
@@ -752,7 +752,9 @@ export class AdminModule extends Module {
 
           return new Promise(
             ( resolve:any ) => {
-              return setTimeout(resolve, timeout);
+              setTimeout(() => {
+                return resolve();
+              });
             }
           ).then(() => this.listenIndexation(timeout, callback));
         } else {
