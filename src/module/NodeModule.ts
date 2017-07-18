@@ -44,7 +44,7 @@ export class NodeModule extends Module {
   /**
    * Add a node in the graph.
    *
-   * @param {ICreateNode} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<INode>}
    */
@@ -66,7 +66,7 @@ export class NodeModule extends Module {
   /**
    * Delete the node and its adjacent edges from the graph.
    *
-   * @param {any}data
+   * @param {Object}data
    * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    *
@@ -90,7 +90,7 @@ export class NodeModule extends Module {
   /**
    * Get a node from the graph.
    *
-   * @param {IGetNode} [params]
+   * @param {Object} [params]
    * @param {string}dataSourceKey
    * @returns {Promise<INode>}
    */
@@ -119,7 +119,7 @@ export class NodeModule extends Module {
    * field. If visible_nodes was specified, edges between source nodes or their neighbors and
    * visible nodes are also included.
    *
-   * @param {IGetAdjacentItems} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<Array<INode>>}
    */
@@ -158,7 +158,7 @@ export class NodeModule extends Module {
   /**
    * Get node-categories and edge-types of neighbors
    *
-   * @param {Array<number>} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<Array<IDigest>>}
    */
@@ -184,7 +184,7 @@ export class NodeModule extends Module {
   /**
    * Modify the properties of a node in the graph by the given ones, and keeps the other properties of the node.
    *
-   * @param {IUpdateNode} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<INode>}
    */
@@ -212,7 +212,7 @@ export class NodeModule extends Module {
   /**
    * List all node-type properties (aggregated from all nodeTypes)
    *
-   * @param {IGetItemProperties} [params]
+   * @param {Object} [params]
    * @param {string}dataSourceKey
    * @returns {Promise<Array<IProperty>>}
    */
@@ -236,7 +236,7 @@ export class NodeModule extends Module {
   /**
    * List node-types indexed by Linkurious
    *
-   * @param {IGetItemTypes} [params]
+   * @param {Object} [params]
    * @param {string}dataSourceKey
    * @returns {Promise<Array<IItemType>>}
    */

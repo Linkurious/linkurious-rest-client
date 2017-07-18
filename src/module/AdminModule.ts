@@ -94,7 +94,7 @@ export class AdminModule extends Module {
    * Warning: when merging into another data-source, visualizations may break if node and edge IDs
    * are not the same in to target data-source.
    *
-   * @param {IDeleteDataSource} data
+   * @param {Object} data
    * @returns {Promise<IDeletedDataSource>}
    */
   public deleteFullDataSource ( data:{
@@ -194,7 +194,7 @@ export class AdminModule extends Module {
   /**
    * Set the list of edge-properties that are hidden for the given data-source.
    *
-   * @param {ISetDataSourceProperties} data
+   * @param {Object} data
    * @param {string} [dataSourceKey]
    * @returns {Promise<boolean>}
    */
@@ -214,7 +214,7 @@ export class AdminModule extends Module {
   /**
    * Set the list of node-properties that are hidden for the given data-source.
    *
-   * @param {ISetDataSourceProperties} data
+   * @param {Object} data
    * @param {string} [dataSourceKey]
    * @returns {Promise<boolean>}
    */
@@ -235,7 +235,7 @@ export class AdminModule extends Module {
   /**
    * Set the list of edge-properties that are not indexed for the given data-source.
    *
-   * @param {ISetDataSourceProperties} data
+   * @param {Object} data
    * @param {string} [dataSourceKey]
    * @returns {Promise<boolean>}
    */
@@ -256,7 +256,7 @@ export class AdminModule extends Module {
   /**
    * Set the list of node-properties that are not indexed for the given data-source.
    *
-   * @param {ISetDataSourceProperties} data
+   * @param {Object} data
    * @param {string} [dataSourceKey]
    * @returns {Promise<boolean>}
    */
@@ -277,7 +277,7 @@ export class AdminModule extends Module {
   /**
    * Add a new user to the application.
    *
-   * @param {ICreateUser} data
+   * @param {Object} data
    * @returns {Promise<IFullUser>}
    */
   public createUser ( data:{
@@ -314,7 +314,7 @@ export class AdminModule extends Module {
   /**
    * Adds a new group to the application.
    *
-   * @param {ICreateGroup} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IGroup>}
    */
@@ -336,7 +336,7 @@ export class AdminModule extends Module {
   /**
    * set access rights for a group
    *
-   * @param data
+   * @param {Object}data
    * @param {string}dataSourceKey
    * @return {Promise<any>}
    */
@@ -359,7 +359,7 @@ export class AdminModule extends Module {
   /**
    * Deletes a group in the application.
    *
-   * @param {{id:number, dataSourceKey: string}} data
+   * @param {Object} data
    * @param {string} dataSourceKey
    * @returns {Promise<boolean>}
    */
@@ -377,8 +377,8 @@ export class AdminModule extends Module {
   /**
    * Update a group (only name)
    *
-   * @param data
-   * @param dataSourceKey
+   * @param {Object}data
+   * @param {string}dataSourceKey
    * @return {Promise<any>}
    */
   public updateGroup( data:{id:number, name:string}, dataSourceKey?:string):Promise<boolean> {
@@ -395,7 +395,7 @@ export class AdminModule extends Module {
   /**
    * Get a group already defined in the database.
    *
-   * @param {any} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IGroup>}
    */
@@ -448,7 +448,7 @@ export class AdminModule extends Module {
   /**
    * Patches a user in the application
    *
-   * @param {IUpdateUser} data
+   * @param {Object} data
    * @returns {Promise<IFullUser>}
    */
   public updateUser ( data:{
@@ -472,7 +472,7 @@ export class AdminModule extends Module {
   /**
    * Sets the configuration of the application
    *
-   * @param {IUpdateAppConfig} data
+   * @param {Object} data
    * @returns {Promise<string>}
    */
   public updateConfig (
@@ -570,7 +570,7 @@ export class AdminModule extends Module {
   /**
    * Create and return new alert
    *
-   * @param {ICreateAlert} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IFullAdminAlert>}
    */
@@ -602,7 +602,7 @@ export class AdminModule extends Module {
   /**
    * update existing alert
    *
-   * @param {ICreateAlert} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IFullAdminAlert>}
    */
@@ -635,7 +635,7 @@ export class AdminModule extends Module {
   /**
    * delete existing alert
    *
-   * @param {IAlert} data
+   * @param {Object} data
    * @param {string} dataSourceKey
    * @returns {Promise<boolean>}
    */
@@ -674,7 +674,7 @@ export class AdminModule extends Module {
   /**
    * get an alert
    *
-   * @param {IAlert} data
+   * @param {Object} data
    * @param {string} dataSourceKey
    * @returns {Promise<IFullAdminAlert>}
    */
@@ -697,7 +697,7 @@ export class AdminModule extends Module {
   /**
    * reset all default styles for a dataSource
    *
-   * @param {IDataSourceRelative} data
+   * @param {Object} data
    * @param {number}dataSourceKey
    * @returns {Promise<boolean>}
    */

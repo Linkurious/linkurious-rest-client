@@ -22,12 +22,12 @@ export class GraphModule extends Module {
   /**
    * Returns an array of <LkNode[]> corresponding to all the shortest paths between two nodes that the user can read.
    *
-   * @param {IGetShortestPaths} nodesConfig
+   * @param {Object} data
    * @param {string} dataSourceKey
    * @returns {Promise<Array<Array<IFullNode|IEdge>>>}
    */
   public getShortestPaths (
-    nodesConfig:{
+    data:{
       startNode:string|number;
       endNode:string|number;
       maxDepth ?:number;
@@ -40,7 +40,7 @@ export class GraphModule extends Module {
       {
         url   : '/{dataSourceKey}/graph/shortestPaths',
         method: 'GET',
-        query : nodesConfig,
+        query : data,
         dataSource : dataSourceKey
       }
     ).then(( res:any ) => {
@@ -64,7 +64,7 @@ export class GraphModule extends Module {
   /**
    * Returns an array of LkNode[] matching the sent query.
    *
-   * @param {ISendQuery} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<Array<INode>>}
    */

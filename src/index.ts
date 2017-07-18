@@ -168,7 +168,7 @@ export class Linkurious {
   /**
    * Process to login of the corresponding user and return it.
    *
-   * @param {ILoginUser} data
+   * @param {Object} data
    * @returns {Promise<boolean>}
    */
   public login ( data:{
@@ -235,7 +235,7 @@ export class Linkurious {
   /**
    * Update the current user connected
    *
-   * @param {IUpdateUser} data
+   * @param {Object} data
    * @returns {Promise<IFullUser>}
    */
   public updateCurrentUser ( data:{
@@ -290,7 +290,7 @@ export class Linkurious {
   /**
    * Set the currentSource
    *
-   * @param {Array<IDataSourceState>}sourceList
+   * @param {Array<Object>}sourceList
    * @return {IDataSource}
    */
   public storeDefaultCurrentSource(sourceList:Array<{
@@ -323,7 +323,7 @@ export class Linkurious {
   /**
    * Set the currentSource
    *
-   * @param {any} source
+   * @param {Object} source
    * @returns {Promise<IDataSourceState>}
    */
   public setCurrentSource ( source:{
@@ -349,7 +349,7 @@ export class Linkurious {
   /**
    * Process to login and set the default source state and return the REST client state.
    *
-   * @param {ILoginUser} data
+   * @param {Object} data
    * @returns {Promise<IClientState>}
    */
   public init ( data:{
@@ -443,10 +443,10 @@ export class Linkurious {
   /**
    * Store a source in clientState if condition is verified
    *
-   * @param {IFullDataSource} source
+   * @param {IDataSourceState} source
    * @param {string} property
    * @param {string|number|boolean} matchValue
-   * @returns {IDataSource}
+   * @returns {IDataSourceState}
    */
   private storeSource (
     source:IDataSourceState,

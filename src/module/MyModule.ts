@@ -50,7 +50,7 @@ export class MyModule extends Module {
   /**
    * Delete a saved Graph Query owned by the current user
    *
-   * @param {any} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    */
@@ -73,7 +73,7 @@ export class MyModule extends Module {
   /**
    * Returns a saved GraphModule Query owned by the current user
    *
-   * @param {any} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IGraphQuery>}
    */
@@ -110,7 +110,7 @@ export class MyModule extends Module {
 
   /**
    * Save and Returns the created GraphQuery
-   * @param {ICreateGraphQuery} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IGraphQuery>}
    */
@@ -135,7 +135,7 @@ export class MyModule extends Module {
   /**
    * Update a graph query owned but the current user
    *
-   * @param {IUpdateGraphQuery} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IGraphQuery>}
    */

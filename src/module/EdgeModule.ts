@@ -46,7 +46,7 @@ export class EdgeModule extends Module {
   /**
    * Add an edge in the graph.
    *
-   * @param {ICreateEdge} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IEdge>}
    */
@@ -72,7 +72,7 @@ export class EdgeModule extends Module {
    * Modify the properties of an edge in the graph by the given ones. Keeps the other properties of
    * the edge unchanged.
    *
-   * @param {IUpdateEdge} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IEdge>}
    */
@@ -100,7 +100,7 @@ export class EdgeModule extends Module {
   /**
    * Delete a edge from the graph.
    *
-   * @param {ItemId} data,
+   * @param {Object} data,
    * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    */
@@ -126,7 +126,7 @@ export class EdgeModule extends Module {
    * Else if target is provided, return incoming edges only.
    * Else if adjacent is provided, return all adjacent edges.
    *
-   * @param {IGetAdjacentEdges} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<Array<IOgmaEdge>>}
    */
@@ -172,12 +172,12 @@ export class EdgeModule extends Module {
   /**
    * Get an edge of the graph.
    *
-   * @param {{id: ItemId, withVersion: boolean}} params
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IEdge>}
    */
   public getOne (
-    params:{
+    data:{
       id:ItemId,
       withVersion?:boolean
     },
@@ -186,7 +186,7 @@ export class EdgeModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/edges/{id}',
       method: 'GET',
-      query  : params,
+      query  : data,
       dataSource : dataSourceKey
     }).then((edge:any) => VisualizationParser.parseEdge(edge));
   }
@@ -194,12 +194,12 @@ export class EdgeModule extends Module {
   /**
    * List all edgeType properties (aggregated from all edgeTypes)
    *
-   * @param {IGetItemProperties} [params]
+   * @param {Object} [data]
    * @param {string}dataSourceKey
    * @returns {Promise<Array<IProperty>>}
    */
   public getProperties (
-    params?:{
+    data?:{
       includeType ?:string;
       omitNoindex ?:boolean;
     },
@@ -209,7 +209,7 @@ export class EdgeModule extends Module {
       {
         url   : '/{dataSourceKey}/graph/schema/edgeTypes/properties',
         method: 'GET',
-        query : params,
+        query : data,
         dataSource : dataSourceKey
       }
     ).then(( res:any ) => res.properties);
@@ -218,12 +218,12 @@ export class EdgeModule extends Module {
   /**
    * List edge-types indexed by linkurious
    *
-   * @param {IGetEdgeTypes} [params]
+   * @param {Object} [data]
    * @param {string}dataSourceKey
    * @returns {Promise<Array<IItemType>>}
    */
   public getTypes (
-    params?:{
+    data?:{
       includeType ?:boolean;
     },
     dataSourceKey?:string
@@ -232,7 +232,7 @@ export class EdgeModule extends Module {
       {
         url   : '/{dataSourceKey}/graph/schema/edgeTypes',
         method: 'GET',
-        query : params,
+        query : data,
         dataSource : dataSourceKey
       }
     ).then(( res:any ) => <Array<IItemType>> res.edgeTypes);

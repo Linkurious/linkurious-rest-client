@@ -74,7 +74,7 @@ export class VisualizationModule extends Module {
   /**
    * Create a widget for a visualization.
    *
-   * @param {ICreateWidget} data
+   * @param {Object} data
    * @returns {Promise<string>}
    */
   public createWidget (
@@ -104,7 +104,7 @@ export class VisualizationModule extends Module {
   /**
    * Update a widget for a visualization.
    *
-   * @param {ICreateWidget} data
+   * @param {Object} data
    * @returns {Promise<string>}
    */
   public updateWidget (
@@ -125,7 +125,7 @@ export class VisualizationModule extends Module {
   /**
    * Create a folder for visualizations
    *
-   * @param {ICreateFolder} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IFolder>}
    */
@@ -149,7 +149,7 @@ export class VisualizationModule extends Module {
   /**
    * Create a new visualization.
    *
-   * @param {ICreateVisualization} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IVisualization>}
    */
@@ -183,7 +183,7 @@ export class VisualizationModule extends Module {
   /**
    * Delete a widget for a visualization.
    *
-   * @param {any} data
+   * @param {Object} data
    * @returns {Promise<boolean>}
    */
   public deleteWidget (
@@ -203,7 +203,7 @@ export class VisualizationModule extends Module {
   /**
    * Remove the specified folder and its children (visualizations and sub-folders)
    *
-   * @param {number} data
+   * @param {Object} data
    * @param {string} dataSourceKey
    * @returns {Promise<boolean>}
    */
@@ -226,7 +226,7 @@ export class VisualizationModule extends Module {
   /**
    * Duplicates a visualization.
    *
-   * @param {IDuplicateVisualization} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IVisualization>}
    */
@@ -251,7 +251,7 @@ export class VisualizationModule extends Module {
   /**
    * Get a visualization widget's data by key
    *
-   * @param {any} data
+   * @param {Object} data
    * @returns {Promise<IWidget>}
    */
   public getWidget (
@@ -271,7 +271,7 @@ export class VisualizationModule extends Module {
   /**
    * Return the visualization sandbox of the current user for a given data-source
    *
-   * @param {IGetSandbox} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IVisualization>}
    */
@@ -300,7 +300,7 @@ export class VisualizationModule extends Module {
   /**
    * Return one visualizations selected by ID.
    *
-   * @param {IGetVisualization} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IVisualization>}
    */
@@ -340,7 +340,7 @@ export class VisualizationModule extends Module {
   /**
    * Remove visualization selected by id.
    *
-   * @param {any} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    */
@@ -363,7 +363,7 @@ export class VisualizationModule extends Module {
   /**
    * Get all share rights on a visualization
    *
-   * @param {any} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<ISharers>}
    */
@@ -386,7 +386,7 @@ export class VisualizationModule extends Module {
   /**
    * Set the share right of a user on a visualization
    *
-   * @param {ISetShareRights} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IShare>}
    */
@@ -413,7 +413,7 @@ export class VisualizationModule extends Module {
   /**
    * Remove a share right of a user on a visualization
    *
-   * @param {IUnshareVisualization} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    */
@@ -437,7 +437,7 @@ export class VisualizationModule extends Module {
   /**
    * Update a property of a folder
    *
-   * @param {IUpdateFolder} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<any>}
    */
@@ -462,7 +462,7 @@ export class VisualizationModule extends Module {
   /**
    * Update the sandbox of the current user for a given data-source.
    *
-   * @param {IUpdateSandbox} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    */
@@ -487,7 +487,7 @@ export class VisualizationModule extends Module {
   /**
    * Update visualization selected by id.
    *
-   * @param {IUpdateVisualization} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    */

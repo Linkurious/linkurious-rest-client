@@ -542,11 +542,6 @@ export interface IWidgetUI {
   geo?:boolean;
 }
 
-export interface IWidgetGraph {
-  nodes:Array<INode>;
-  edges:Array<IEdge>;
-}
-
 export interface IFolderFullResponse {
   folder:IFolder;
 }
@@ -633,9 +628,6 @@ export interface IFullAdminAlert extends IAdminAlert, IIdentified {
   userId:number;
   lastRun:string;
   lastRunProblem:IAlertRunProblem;
-}
-
-export interface IQueryAlert extends IIdentified, IDataSourceKey {
 }
 
 export interface IMatch extends IIdentified, IBaseAlert {
@@ -728,9 +720,6 @@ export interface ICreateGroup extends IBaseRequest, IDataSourceRelative {
   name:string;
 }
 
-export interface IGetGroup extends IIdentified, IDataSourceRelative {
-}
-
 export interface IUpdateGroupRights extends IDataSourceRelative, IIdentified, IBaseRequest {
   type:string;
   targetType:string;
@@ -777,12 +766,6 @@ export interface IGetShortestPaths extends IDataSourceRelative, IBaseRequest {
   withDigest ?:boolean;
 }
 
-export interface IGetNeighborsCategories extends IDataSourceRelative, IBaseRequest {
-  ids:Array<ItemId>;
-  withDigest?:boolean;
-  withDegree?:boolean;
-}
-
 export interface IGetDirectory extends IDataSourceRelative, IBaseRequest {
   categoriesOrTypes?:Array<string>;
   properties:Array<string>;
@@ -796,25 +779,9 @@ export interface IGetItemProperties extends IDataSourceRelative, IBaseRequest {
   omitNoindex ?:boolean;
 }
 
-export interface IGetItemVersions extends IDataSourceRelative, IBaseRequest {
-  nodes:Array<ItemId>;
-  edges:Array<ItemId>;
-}
-
 export interface IGetVisualization extends IIdentified {
   populated?:boolean;
   withDigest?:boolean;
-}
-
-export interface IQuerySearchItemList extends IDataSourceRelative, IBaseRequest {
-  q:string;
-  strictEdges ?:boolean;
-  fuzziness ?:number;
-  size ?:number;
-  from ?:number;
-  filter ?:string;
-  full ?:boolean;
-  withDigest?: true;
 }
 
 export interface IGetNode extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
@@ -935,15 +902,8 @@ export interface ICreateAlert extends IDataSourceRelative, IBaseRequest {
   maxRuntime?:number;
 }
 
-export interface IUpdateAlert extends ICreateAlert, IIdentified {
-}
-
 export interface IAlert extends IDataSourceRelative, IBaseRequest {
   id:number;
-}
-
-export interface IGetMatch extends IDataSourceRelative, IIdentified {
-  matchId:number;
 }
 
 export interface IAddActionMatch extends IIdentified, IDataSourceRelative {
@@ -1011,11 +971,6 @@ export interface IDataSourceRelative {
 export interface IDataToSend {
   queryData?:any;
   bodyData?:any;
-}
-
-export interface IResetDefaults extends IDataSourceRelative {
-  design?:boolean;
-  captions?:boolean;
 }
 
 export {

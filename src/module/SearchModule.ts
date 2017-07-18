@@ -23,7 +23,7 @@ export class SearchModule extends Module {
   /**
    * Search for nodes based on a query string and optional parameters. Return a list of full Nodes.
    *
-   * @param {ISearchItemList} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<Array<ISearchItemList>>}
    */
@@ -53,7 +53,7 @@ export class SearchModule extends Module {
   /**
    * Search for edges based on a query string and optional parameters. Return a list of full Nodes.
    *
-   * @param {ISearchItemList} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<Array<ISearchItemList>>}
    */
@@ -84,7 +84,7 @@ export class SearchModule extends Module {
    * Search for nodes based on a query string and optional parameters. Return formatted results for
    * the Linkurious client.
    *
-   * @param {ISearchItemList} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<ISearchFullItems>}
    */
@@ -115,7 +115,7 @@ export class SearchModule extends Module {
    * Search for edges based on a query string and optional parameters. Return formatted results for
    * the Linkurious client.
    *
-   * @param {ISearchItemList} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<ISearchFullItems>}
    */
@@ -145,7 +145,7 @@ export class SearchModule extends Module {
   /**
    * get the list of users
    *
-   * @param {any}data
+   * @param {Object}data
    * @return {Promise<any>}
    */
   public getUsers ( data:{

@@ -46,7 +46,7 @@ export class AlertModule extends Module {
   /**
    * get an alert
    *
-   * @param {IAlert} data
+   * @param {Object} data
    * @param {number}dataSourceKey
    * @returns {Promise<IMatch>}
    */
@@ -64,7 +64,7 @@ export class AlertModule extends Module {
   /**
    * get matches for an alert
    *
-   * @param {IFilteredAlert} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IMatchResults>}
    */
@@ -92,7 +92,7 @@ export class AlertModule extends Module {
   /**
    * Do an action on a match
    *
-   * @param {IAddActionMatch} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    */
@@ -117,7 +117,7 @@ export class AlertModule extends Module {
   /**
    * get a match
    *
-   * @param {IMatch}data
+   * @param {Object}data
    * @param {string}dataSourceKey
    * @returns {Promise<IMatch>}
    */
@@ -140,7 +140,7 @@ export class AlertModule extends Module {
   /**
    * get all actions for a match
    *
-   * @param {IMatch} data
+   * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<IMatchAction>}
    */

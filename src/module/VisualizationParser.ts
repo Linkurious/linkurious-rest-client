@@ -94,73 +94,13 @@ export class VisualizationParser {
 
   /**
    * format visualization for Ogma
-   * @param viz
+   * @param {IServerVisualization}viz
    * @returns {any}
    */
   public static formatVisualization(viz:IServerVisualization):any {
     viz.nodes.map((n:INode) => VisualizationParser.parseNode(n));
     viz.edges.map((e:IEdge) => VisualizationParser.parseEdge(e));
     return viz;
-  }
-
-  /**
-   * format nodes and edges for ogma
-   * @param items
-   */
-  public static refactorItemsForOgma(items:Array<any>):any {
-    return items.map((item:any) => {
-      VisualizationParser.refactorItem(item);
-    });
-  }
-
-  public static refactorItem(item:any):any {
-    let data:any = JSON.parse(JSON.stringify(item.data));
-    if ( item.nodelink ) {
-      item.x = item.nodelink.x;
-      item.y = item.nodelink.y;
-    }
-    item.data = {
-      properties: data,
-      geo : item.geo,
-      selected  : item.selected,
-      categories: item.categories,
-      version   : item.version,
-      type      : item.type,
-      nodelink  : item.nodelink,
-      statistics: item.statistics
-    };
-
-    if (VisualizationParser.isNode(item)) {
-      if ( !item.data.geo ) {
-        Object.keys(item.data.properties).forEach((key:any) => {
-          if ( item.data.properties[key] && LONGITUDE_HEURISTIC.indexOf(key) > -1 ) {
-            if ( !item.data.geo ) {
-              item.data.geo = {};
-            }
-            item.data.geo['longitude'] = VisualizationParser.computeCoordinate(item.data.properties[key]);
-          }
-          if ( item.data.properties[key] && LATITUDE_HEURISTIC.indexOf(key) > -1 ) {
-            if ( !item.data.geo ) {
-              item.data.geo = {};
-            }
-            item.data.geo['latitude'] = VisualizationParser.computeCoordinate(item.data.properties[key]);
-          }
-        });
-      }
-
-      if ( item.data.geo && item.data.geo.longitude && item.data.geo.latitude ) {
-        item.longitude = (item.data.geo.longitudeDiff)
-          ? item.data.geo.longitude - item.data.geo.longitudeDiff
-          : item.data.geo.longitude;
-        item.latitude = (item.data.geo.latitudeDiff)
-          ? item.data.geo.latitude - item.data.geo.latitudeDiff
-          : item.data.geo.latitude;
-      }
-    }
-
-    delete item.nodelink;
-    delete item.version;
-    return item;
   }
 
   public static splitResponse (response:Array<IFullNode>, data?:any):{nodes:any[], edges:any[]} {
@@ -189,10 +129,6 @@ export class VisualizationParser {
     return (typeof property === 'number')
       ? property
       : parseFloat(property.replace(',', '.'));
-  }
-
-  private static isNode(item:any):boolean {
-    return item.categories && !item.type && !item.source && !item.target;
   }
 
   private static parseCoordinates(
