@@ -729,7 +729,9 @@ export interface IUpdateGraphQuery extends IDataSourceRelative, IIdentified, IBa
 export interface ISendQuery extends IDataSourceRelative, IBaseRequest {
   dialect:string;
   query:string;
-  withVersion:boolean;
+  group_results?:boolean;
+  columns?:Array<{type:string, columnName:string}>;
+  withVersion?:boolean;
 }
 
 export interface IGetShortestPaths extends IDataSourceRelative, IBaseRequest {
