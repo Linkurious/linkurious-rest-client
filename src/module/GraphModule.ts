@@ -64,6 +64,9 @@ export class GraphModule extends Module {
         method: 'POST',
         body  : Utils.fixSnakeCase(data)
       }
-    ).then((response:Array<IFullNode>) => VisualizationParser.splitResponse(response));
+    ).then((response:Array<IFullNode>) => ( data.groupResults )
+      ? VisualizationParser.splitResponse(response)
+      : response
+    );
   }
 }
