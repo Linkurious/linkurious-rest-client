@@ -10,7 +10,6 @@
 'use strict';
 
 import { IEdge, IFullNode, IGetShortestPaths, ISendQuery } from '../../index';
-import { Utils } from '../http/utils';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
@@ -62,7 +61,7 @@ export class GraphModule extends Module {
       {
         url   : '/{dataSourceKey}/graph/rawQuery',
         method: 'POST',
-        body  : Utils.fixSnakeCase(data)
+        body  : data
       }
     ).then((response:Array<IFullNode>) => ( data.groupResults )
       ? VisualizationParser.splitResponse(response)
