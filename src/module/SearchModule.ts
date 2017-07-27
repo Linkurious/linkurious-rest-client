@@ -53,7 +53,7 @@ export class SearchModule extends Module {
         method: 'GET',
         query : params
       }
-    ).then((response:any) => VisualizationParser.refactorItem(response));
+    ).then((response:any) => VisualizationParser.splitResponse(response));
   }
 
   /**
