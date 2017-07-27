@@ -37,7 +37,10 @@ export class VisualizationParser {
   }
 
   public static refactorItem(item:any):any {
-    let data:any = JSON.parse(JSON.stringify(item.data));
+    let data:any;
+    if ( item.data ) {
+      data = JSON.parse(JSON.stringify(item.data));
+    }
     if ( item.nodelink ) {
       item.x = item.nodelink.x;
       item.y = item.nodelink.y;
