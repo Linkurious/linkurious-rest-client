@@ -16,6 +16,7 @@ import {
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { Utils } from '../http/utils';
+import { VisualizationParser } from './VisualizationParser';
 
 export class SearchModule extends Module {
 
@@ -36,7 +37,7 @@ export class SearchModule extends Module {
         method: 'GET',
         query : params
       }
-    );
+    ).then((response:any) => VisualizationParser.splitResponse(response));
   }
 
   /**
@@ -52,7 +53,7 @@ export class SearchModule extends Module {
         method: 'GET',
         query : params
       }
-    );
+    ).then((response:any) => VisualizationParser.refactorItem(response));
   }
 
   /**
