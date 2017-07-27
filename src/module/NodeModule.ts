@@ -92,7 +92,11 @@ export class NodeModule extends Module {
         method: 'GET',
         query : params
       }
-    ).then((response:any) => VisualizationParser.refactorItem(response));
+    ).then((response:any) => {
+      return ( params.withEdges )
+        ? VisualizationParser.splitResponse([response])
+        : VisualizationParser.refactorItem(response);
+    });
   }
 
   /**
