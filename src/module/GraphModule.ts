@@ -63,7 +63,7 @@ export class GraphModule extends Module {
         method: 'POST',
         body  : data
       }
-    ).then((response:Array<IFullNode>) => ( data.groupResults )
+    ).then((response:Array<IFullNode>) => ( data.groupResults !== false )
       ? VisualizationParser.splitResponse(response)
       : response
     );
