@@ -166,6 +166,13 @@ export class Linkurious {
   }
 
   /**
+   * remove user form state
+   */
+  public destroySession():void {
+    this._clientState.user = undefined;
+  }
+
+  /**
    * Process to login of the corresponding user and return it.
    *
    * @param {ILoginUser} data
