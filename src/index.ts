@@ -173,6 +173,31 @@ export class Linkurious {
   }
 
   /**
+   * Send a user event / navigation event or login to server
+   *
+   * @param {any}data
+   * @return {Promise<any>}
+   */
+  public analytics(
+    data : {
+      type:string;
+      userId?:number;
+      event?:string;
+      name?:string;
+      properties?:any;
+      traits?:any;
+      timestamp?:string;
+      context?:any
+    }
+  ): Promise<void> {
+    return this._fetcher.fetch({
+      url : '/analytics',
+      method : 'POST',
+      body : data
+    });
+  }
+
+  /**
    * Process to login of the corresponding user and return it.
    *
    * @param {ILoginUser} data
