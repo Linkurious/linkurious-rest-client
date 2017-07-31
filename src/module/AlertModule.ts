@@ -33,7 +33,7 @@ export class AlertModule extends Module {
    * @param {IDataSourceRelative} data
    * @returns {Promise<IAlert>}
    */
-  public getAlerts ( data:IDataSourceRelative ):Promise<Array<IAlert>> {
+  public getAlerts ( data?:IDataSourceRelative ):Promise<Array<IAlert>> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/alerts',
