@@ -178,6 +178,7 @@ export class Linkurious {
   public report():void {
     this._fetcher.fetch({
       url : '/admin/report',
+      contentType : 'application/octet-stream',
       method : 'GET'
     });
   }
