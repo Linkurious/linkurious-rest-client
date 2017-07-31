@@ -173,6 +173,16 @@ export class Linkurious {
   }
 
   /**
+   * Collect all the analytics and log files in a compressed tarball and return it.
+   */
+  public report():void {
+    this._fetcher.fetch({
+      url : '/admin/report',
+      method : 'GET'
+    });
+  }
+
+  /**
    * Send a user event / navigation event or login to server
    *
    * @param {any}data
