@@ -38,7 +38,9 @@ export class AlertModule extends Module {
       {
         url   : '/{dataSourceKey}/alerts',
         method: 'GET',
-        query : this.setDataSourceKey(data.dataSourceKey)
+        query : (data && data.dataSourceKey)
+          ? this.setDataSourceKey(data.dataSourceKey)
+          : undefined
       }
     );
   }
