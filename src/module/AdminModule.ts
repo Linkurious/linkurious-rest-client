@@ -647,7 +647,9 @@ export class AdminModule extends Module {
       {
         url       : '/admin/{dataSourceKey}/alerts',
         method    : 'GET',
-        dataSource: this.setDataSourceKey(data.dataSourceKey)
+        dataSource: (data && data.dataSourceKey)
+          ? this.setDataSourceKey(data.dataSourceKey)
+          : undefined
       }
     );
   }
