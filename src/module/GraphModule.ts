@@ -65,7 +65,10 @@ export class GraphModule extends Module {
       }
     ).then((response:Array<IFullNode>) => ( data.groupResults !== false )
       ? VisualizationParser.splitResponse(response)
-      : response
+      : response.map((r:any) => {
+        r.graph = VisualizationParser.splitResponse(r.nodes);
+        return r;
+      })
     );
   }
 }
