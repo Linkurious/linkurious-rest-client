@@ -642,7 +642,7 @@ export class AdminModule extends Module {
    * @param {IDataSourceRelative} data
    * @returns {Promise<IFullAdminAlert>}
    */
-  public getAlerts ( data:IDataSourceRelative ):Promise<Array<IFullAdminAlert>> {
+  public getAlerts ( data?:IDataSourceRelative ):Promise<Array<IFullAdminAlert>> {
     return this.fetch(
       {
         url       : '/admin/{dataSourceKey}/alerts',
