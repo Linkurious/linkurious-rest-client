@@ -134,6 +134,8 @@ export interface IDataSourceState extends IDataSource {
   state:string;
   reason:string;
   error?:string;
+  features:any;
+  settings:any;
 }
 
 export interface IFullDataSource extends IDataSource {

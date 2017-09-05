@@ -339,7 +339,9 @@ export class Linkurious {
           connected  : sourceList[0].connected,
           state      : sourceList[0].state,
           reason     : sourceList[0].reason,
-          error      : sourceList[0].error
+          error      : sourceList[0].error,
+          features   : sourceList[0].features,
+          settings   : sourceList[0].settings
         };
       }
     }
@@ -360,7 +362,9 @@ export class Linkurious {
       connected  : source.connected,
       state      : source.state,
       reason     : source.reason,
-      error      : source.error
+      error      : source.error,
+      features   : source.features,
+      settings   : source.settings
     };
   }
 
@@ -476,7 +480,9 @@ export class Linkurious {
         connected  : source.connected,
         state      : source.state,
         reason     : source.reason,
-        error      : source.error
+        error      : source.error,
+        features   : source.features,
+        settings   : source.settings
       };
 
       return this._clientState.currentSource;
