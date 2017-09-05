@@ -432,7 +432,7 @@ export class Linkurious {
         query : { sourceIndex: sourceIndex },
         url   : '/config'
       }
-    );
+    ).then((response:any) => response.config);
   }
 
   /**
