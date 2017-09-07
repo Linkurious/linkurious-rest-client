@@ -436,6 +436,16 @@ export class Linkurious {
   }
 
   /**
+   * Restart the server and send the new URL
+   */
+  public restartServer(): Promise<string> {
+    return this._fetcher.fetch({
+      method: 'POST',
+      url   : '/admin/restart'
+    }).then((response:any) => response.url);
+  }
+
+  /**
    * List nodeCategories, edgeTypes, nodeProperties and edgeProperties before the first indexation.
    *
    * @returns {Promise<ISchema>}
