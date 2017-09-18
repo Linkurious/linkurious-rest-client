@@ -732,7 +732,7 @@ export interface ISendQuery extends IDataSourceRelative, IBaseRequest {
   dialect:string;
   query:string;
   groupResults?:boolean;
-  maxLimit?:number;
+  limit?:number;
   timeout?:number;
   columns?:Array<{type:string, columnName:string}>;
   withVersion?:boolean;
