@@ -735,9 +735,9 @@ export interface ISendQuery extends IDataSourceRelative, IBaseRequest {
   limit?:number;
   timeout?:number;
   columns?:Array<{type:string, columnName:string}>;
-  withVersion?:boolean;
-  withDigest?:boolean;
-  withDegree?:boolean;
+  with_version?:boolean;
+  with_digest?:boolean;
+  with_degree?:boolean;
 }
 
 export interface IGetShortestPaths extends IDataSourceRelative, IBaseRequest {
