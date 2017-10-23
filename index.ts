@@ -129,7 +129,10 @@ export interface IDataSource {
   configIndex:number;
 }
 
-export interface IDataSourceState extends IDataSource {
+export interface IDataSourceState {
+  name:string;
+  key:string;
+  configIndex:number;
   connected:boolean;
   state:string;
   reason:string;

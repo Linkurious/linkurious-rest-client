@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import { IOgmaNode, Linkurious } from '../index';
+import {IOgmaNode, Linkurious} from '../index';
 import {FetcherSpec} from './fetcher_spec';
 import {LinkuriousErrorSpec} from './LinkuriousError_spec';
 import {DefaultLoggerDriverSpec} from './DefaultLoggerDriver_spec';

@@ -190,7 +190,7 @@ export class Linkurious {
    * @return {Promise<any>}
    */
   public analytics(
-    data : {
+    data:{
       type:string;
       userId?:number;
       event?:string;
@@ -200,7 +200,7 @@ export class Linkurious {
       timestamp?:string;
       context?:any
     }
-  ): Promise<void> {
+  ):Promise<void> {
     return this._fetcher.fetch({
       url : '/analytics',
       method : 'POST',
@@ -344,6 +344,8 @@ export class Linkurious {
     name:string;
     key:string;
     configIndex:number;
+    features:any;
+    settings:any;
   }>):IDataSourceState {
     for ( let sourceState of sourceList ) {
       if ( this.storeSource(sourceState, 'connected', true) ) {
@@ -379,6 +381,8 @@ export class Linkurious {
     state:string;
     reason:string;
     error?:string;
+    features:any;
+    settings:any;
   } ):void {
     this._clientState.currentSource = {
       name       : source.name,
@@ -466,7 +470,7 @@ export class Linkurious {
   /**
    * Restart the server and send the new URL
    */
-  public restartServer(): Promise<string> {
+  public restartServer():Promise<string> {
     return this._fetcher.fetch({
       method: 'POST',
       url   : '/admin/restart'
@@ -522,7 +526,6 @@ export class Linkurious {
         features   : source.features,
         settings   : source.settings
       };
-
       return this._clientState.currentSource;
     } else {
       return undefined;

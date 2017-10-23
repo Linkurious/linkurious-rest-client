@@ -73,9 +73,10 @@ export class GraphModule extends Module {
       dialect:string;
       query:string;
       withVersion:boolean;
+      groupResults?:boolean;
     },
     dataSourceKey?:string
-  ):Promise<{nodes:any[], edges:any[]}> {
+  ):Promise<{nodes:any[], edges:any[]}|Array<{graph:{nodes:any[], edges:any[]}}>> {
     let body:any = {
       dialect: data.dialect,
       query: data.query
