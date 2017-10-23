@@ -152,7 +152,6 @@ export class VisualizationParser {
         if ( item.data[key] && typeHeuristics.indexOf(key) > -1 ) {
           if ( !item.geo ) {
             item.geo = {};
-            console.log(VisualizationParser.computeCoordinate(item.data[key]));
             item.geo[type] = VisualizationParser.computeCoordinate(item.data[key]);
           }
         }
