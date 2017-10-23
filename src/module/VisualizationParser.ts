@@ -151,7 +151,10 @@ export class VisualizationParser {
       Object.keys(item.data).forEach((key:any) => {
         if ( item.data[key] && typeHeuristics.indexOf(key) > -1 ) {
           if ( !item.geo ) {
-            item.geo = {};
+            item.geo = {
+              longitudeDiff: 0,
+              latitudeDiff: 0
+            };
             item.geo[type] = VisualizationParser.computeCoordinate(item.data[key]);
           }
         }
