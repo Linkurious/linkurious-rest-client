@@ -140,7 +140,7 @@ export class VisualizationParser {
       statistics?:any;
       version?:number;
       nodelink?:any;
-      geo?:INodeCoordinates;
+      geo?:any;
       selected?:boolean;
     }
   ):number {
@@ -158,11 +158,10 @@ export class VisualizationParser {
         }
       });
     }
-    console.log(item.geo);
     if ( item.geo && item.geo[type] ) {
-      return  (item.data.geo[typeDiff])
-        ? item.data.geo[type] - item.data.geo[typeDiff]
-        : item.data.geo[type];
+      return  (item.geo[typeDiff])
+        ? item.geo[type] - item.geo[typeDiff]
+        : item.geo[type];
     }
 
     return undefined;
