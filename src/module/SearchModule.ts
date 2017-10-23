@@ -36,7 +36,8 @@ export class SearchModule extends Module {
       from?:number;
       filter?:string;
       full?:boolean;
-      withDigest?:true;
+      withDigest?:boolean;
+      withDegree?:boolean;
     },
     dataSourceKey?:string
   ):Promise<Array<IFullNode>> {

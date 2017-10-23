@@ -99,6 +99,7 @@ export class NodeModule extends Module {
       id:string|number;
       withEdges?:boolean;
       withDigest?:boolean;
+      withDegree?:boolean;
       withVersion?:boolean;
     },
     dataSourceKey?:string
@@ -138,6 +139,7 @@ export class NodeModule extends Module {
       limitType?:string;
       withVersion:boolean;
       withDigest?:boolean;
+      withDegree?:boolean;
     },
     dataSourceKey?:string
   ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
@@ -150,11 +152,16 @@ export class NodeModule extends Module {
       limit:data.limit,
       limitType:data.limitType
     };
+    let query:any = {
+      withVersion:data.withVersion,
+      withDigest:data.withDigest,
+      withDegree:data.withDegree
+    };
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/expand',
       method: 'POST',
       body  : body,
-      query : {withVersion:data.withVersion, withDigest:data.withDigest},
+      query : query,
       dataSource : dataSourceKey
     }).then((nodes:Array<IFullNode>) => VisualizationParser.splitResponse(nodes, data));
   }
@@ -178,8 +185,13 @@ export class NodeModule extends Module {
       {
         url   : '/{dataSourceKey}/graph/neighborhood/statistics',
         method: 'POST',
-        body  : {ids: data.ids},
-        query : {withDigest:data.withDigest, withDegree:data.withDegree},
+        body  : {
+          ids: data.ids
+        },
+        query : {
+          withDigest: data.withDigest,
+          withDegree: data.withDegree
+        },
         dataSource : dataSourceKey
       }
     );

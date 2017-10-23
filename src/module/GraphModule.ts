@@ -33,6 +33,7 @@ export class GraphModule extends Module {
       maxDepth ?:number;
       withVersion ?:boolean;
       withDigest ?:boolean;
+      withDegree?:boolean;
     },
     dataSourceKey?:string
   ):Promise<Array<Array<any>>> {
@@ -73,6 +74,8 @@ export class GraphModule extends Module {
       dialect:string;
       query:string;
       withVersion:boolean;
+      withDegree?:boolean;
+      withDigest?:boolean;
       groupResults?:boolean;
     },
     dataSourceKey?:string
@@ -81,12 +84,17 @@ export class GraphModule extends Module {
       dialect: data.dialect,
       query: data.query
     };
+    let query:any = {
+      withVersion : data.withVersion,
+      withDigest : data.withDigest,
+      withDegree : data.withDegree
+    };
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/rawQuery',
         method: 'POST',
         body  : body,
-        query : { withVersion : data.withVersion },
+        query : query,
         dataSource : dataSourceKey
       }
     ).then((response:Array<IFullNode>) => ( data.groupResults !== false )

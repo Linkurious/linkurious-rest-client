@@ -309,6 +309,7 @@ export class VisualizationModule extends Module {
       id:number;
       populated?:boolean;
       withDigest?:boolean;
+      withDegree?:boolean;
     },
     dataSourceKey?:string
   ):Promise<IVisualization> {
