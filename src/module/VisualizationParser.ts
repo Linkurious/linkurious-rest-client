@@ -151,22 +151,20 @@ export class VisualizationParser {
       Object.keys(item.data).forEach((key:any) => {
         if ( item.data[key] && typeHeuristics.indexOf(key) > -1 ) {
           if ( !item.geo ) {
-            item.geo = {
-              longitudeDiff: 0,
-              latitudeDiff: 0
-            };
+            item.geo = {};
+            console.log(VisualizationParser.computeCoordinate(item.data[key]));
             item.geo[type] = VisualizationParser.computeCoordinate(item.data[key]);
           }
         }
       });
     }
-
+    console.log(item.geo);
     if ( item.geo && item.geo[type] ) {
       return  (item.data.geo[typeDiff])
         ? item.data.geo[type] - item.data.geo[typeDiff]
         : item.data.geo[type];
-    } else {
-      return undefined;
     }
+
+    return undefined;
   }
 }
