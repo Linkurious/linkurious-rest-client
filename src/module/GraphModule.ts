@@ -76,7 +76,7 @@ export class GraphModule extends Module {
       limit?:number;
       timeout?:number,
       columns?:Array<{type:string, columnName:string}>,
-      withVersion:boolean;
+      withVersion?:boolean;
       withDegree?:boolean;
       withDigest?:boolean;
       groupResults?:boolean;
