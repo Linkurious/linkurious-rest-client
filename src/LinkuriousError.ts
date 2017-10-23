@@ -9,8 +9,6 @@
  */
 'use strict';
 
-import { IHttpResponse } from './../index';
-
 export type ErrorType = 'client'|'communication'|'access'|'technical'|'business';
 
 export class LinkuriousError {
@@ -34,7 +32,11 @@ export class LinkuriousError {
     this.cause = cause;
   }
 
-  public static fromHttpResponse ( r:IHttpResponse ):LinkuriousError {
+  public static fromHttpResponse ( r:{
+    statusCode:number;
+    body:any;
+    header:any;
+  } ):LinkuriousError {
     let status:number = r.statusCode;
     let type:ErrorType = LinkuriousError.getErrorType(r.statusCode);
     let key:string;
@@ -52,7 +54,10 @@ export class LinkuriousError {
     return new LinkuriousError(status, type, key, message);
   }
 
-  public static fromError ( error:Error, type?:ErrorType ):LinkuriousError {
+  public static fromError (
+    error:Error,
+    type?:'client'|'communication'|'access'|'technical'|'business'
+  ):LinkuriousError {
     return new LinkuriousError(
       0,
       type ? type : 'communication',
@@ -77,7 +82,11 @@ export class LinkuriousError {
     return new LinkuriousError(0, 'client', key, message);
   }
 
-  public static isError ( r:IHttpResponse ):boolean {
+  public static isError ( r:{
+    statusCode:number;
+    body:any;
+    header:any;
+  } ):boolean {
     return r.statusCode === undefined || r.statusCode < 100 || r.statusCode >= 400;
   }
 

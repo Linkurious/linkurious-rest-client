@@ -20,7 +20,7 @@ const maxRetry = 50;
 const LKE = require('../../linkurious-server/server/services');
 LKE.init({mode: 'test'});
 console.log('LKE VERSION: ' + LKE.getVersionString());
-var Config = LKE.get('configuration');
+var Config = LKE.getConfig();
 Config.load();
 
 /**
@@ -100,7 +100,7 @@ function runAsTestServer() {
 
   return utils.cleanUpDatabases().then(() => {
     // add a route to allow the client to reset the database during tests
-    var app = LKE.get('webServer').app;
+    var app = LKE.getWebServer().app;
     app.delete('/api/cleanup/all', function (req, res) {
       utils.cleanUpDatabases().then(
         function () {
@@ -156,7 +156,7 @@ Promise.resolve().then(() => {
   return require('../../linkurious-server/server/app');
 }).then(function () {
   // check state after APP start
-  var StateMachine = LKE.get('stateMachine');
+  var StateMachine = LKE.getStateMachine();
   var state        = StateMachine.get().code;
   if (state !== 200) {
     console.error('Unexpected Backend state: ' + state);

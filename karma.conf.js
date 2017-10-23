@@ -12,7 +12,15 @@ module.exports = function(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['systemjs', 'jasmine'],
 
-    plugins : ['karma-coverage', 'karma-systemjs', 'karma-jasmine', 'karma-phantomjs-launcher', 'karma-remap-istanbul'],
+    plugins : [
+      'karma-coverage',
+      'karma-systemjs',
+      'karma-jasmine',
+      'karma-chrome-launcher',
+      'karma-remap-istanbul',
+      'karma-mocha-reporter',
+      'karma-clear-screen-reporter'
+    ],
 
 
     // list of files / patterns to load in the browser
@@ -35,15 +43,15 @@ module.exports = function(config) {
           "es6-module-loader" : "node_modules/es6-module-loader/dist/es6-module-loader.js"
         },
         packages : {
-          '' : {
-            defaultExtension : 'js'
-          },
           'dist' : {
             defaultExtension : 'js'
           },
           'test' : {
             defaultExtension:'js'
-          }
+          },
+          '' : {
+            defaultExtension : 'js'
+          },
         }
       },
       serveFiles: [
@@ -53,11 +61,14 @@ module.exports = function(config) {
         'tempTests/test/*.js'
       ]
     },
+    client:{
+      clearContext: false // leave Jasmine Spec Runner output visible in browser
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage', 'karma-remap-istanbul'],
+    reporters: ['mocha', 'clear-screen', 'coverage', 'karma-remap-istanbul'],
 
     preprocessors: {
       'tempTests/src/**/*.js': ['coverage'],
@@ -99,7 +110,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
 
 
     // Continuous Integration mode

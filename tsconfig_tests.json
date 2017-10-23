@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target" : "ES5",
+    "target" : "es5",
     "module": "commonjs",
+    "lib" : ["es2016", "dom"],
     "declaration": true,
     "removeComments": false,
     "stripInternal": true,

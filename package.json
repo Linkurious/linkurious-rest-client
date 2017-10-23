@@ -1,6 +1,6 @@
 {
   "name": "linkurious-rest-client",
-  "version": "2.1.5",
+  "version": "1.0.2",
   "description": "Linkurious REST client",
   "engines": {
     "node": "4.6.0",
@@ -42,14 +42,10 @@
     "build": "tsc && npm run bundling && npm run compile && rm bundle.js",
     "doc": "typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts"
   },
-  "dependencies": {
-    "superagent": "3.5.0"
-  },
   "devDependencies": {
-    "@types/es6-promise": "0.0.32",
     "@types/jasmine": "^2.5.35",
-    "@types/node": "^6.0.45",
-    "@types/superagent": "^3.5.0",
+    "@types/node": "^8.0.10",
+    "@types/superagent": "^3.5.2",
     "browserify": "^13.0.1",
     "bunyan": "^1.8.1",
     "es6-module-loader": "^0.17.11",
@@ -57,17 +53,23 @@
     "istanbul": "^0.4.3",
     "jasmine-core": "2.4.1",
     "karma": "^0.13.22",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-clear-screen-reporter": "^1.0.0",
     "karma-coverage": "^1.0.0",
+    "karma-html-reporter": "^0.2.7",
     "karma-jasmine": "^0.3.0",
+    "karma-mocha-reporter": "^2.2.3",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-remap-istanbul": "^0.1.0",
     "karma-systemjs": "^0.13.0",
     "path": "^0.12.7",
-    "phantomjs": "^2.1.7",
     "request": "~2.72",
     "systemjs": "^0.19.29",
     "tslint": "^3.10.2",
     "typedoc": "sierrasoftworks/typedoc#v1.8.10",
-    "typescript": "^2.2.0"
+    "typescript": "2.2.0"
+  },
+  "dependencies": {
+    "superagent": "^3.5.2"
   }
 }

@@ -25,8 +25,4 @@ export class Module {
   protected fetch ( config:IFetchConfig ):Promise<any> {
     return this._fetcher.fetch(config);
   }
-
-  protected setDataSourceKey ( dataSourceKey:string ):any {
-    return dataSourceKey ? { dataSourceKey: dataSourceKey } : undefined;
-  }
 }

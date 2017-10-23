@@ -10,13 +10,9 @@
 'use strict';
 
 import {
-  ISearchFullItems, ISearchEdgesInDirectory, ISearchNodesInDirectory, IEdge, IFullNode,
-  IQuerySearchItemList, IGetDirectory
-} from '../../index';
+  ISearchFullItems, IEdge, IFullNode } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
-import { Utils } from '../http/utils';
-import { VisualizationParser } from './VisualizationParser';
 
 export class SearchModule extends Module {
 
@@ -27,48 +23,91 @@ export class SearchModule extends Module {
   /**
    * Search for nodes based on a query string and optional parameters. Return a list of full Nodes.
    *
-   * @param {ISearchItemList} params
+   * @param {Object} data
+   * @param {string}dataSourceKey
    * @returns {Promise<Array<ISearchItemList>>}
    */
-  public fullNodes ( params:IQuerySearchItemList ):Promise<Array<IFullNode>> {
+  public fullNodes (
+    data:{
+      q:string;
+      strictEdges?:boolean;
+      fuzziness?:number;
+      size?:number;
+      from?:number;
+      filter?:string;
+      full?:boolean;
+      withDigest?:boolean;
+      withDegree?:boolean;
+    },
+    dataSourceKey?:string
+  ):Promise<Array<IFullNode>> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/search/nodes/full',
         method: 'GET',
-        query : params
+        query : data,
+        dataSource : dataSourceKey
       }
-    ).then((response:any) => VisualizationParser.splitResponse(response));
+    );
   }
 
   /**
    * Search for edges based on a query string and optional parameters. Return a list of full Nodes.
    *
-   * @param {ISearchItemList} params
+   * @param {Object} data
+   * @param {string}dataSourceKey
    * @returns {Promise<Array<ISearchItemList>>}
    */
-  public fullEdges ( params:IQuerySearchItemList ):Promise<Array<IEdge>> {
+  public fullEdges (
+    data:{
+      q:string;
+      strictEdges?:boolean;
+      fuzziness?:number;
+      size?:number;
+      from?:number;
+      filter?:string;
+      full?:boolean;
+      withDigest?:true;
+    },
+    dataSourceKey?:string
+  ):Promise<Array<IEdge>> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/search/edges/full',
         method: 'GET',
-        query : params
+        query : data,
+        dataSource: dataSourceKey
       }
-    ).then((response:any) => VisualizationParser.splitResponse(response));
+    );
   }
 
   /**
    * Search for nodes based on a query string and optional parameters. Return formatted results for
    * the Linkurious client.
    *
-   * @param {ISearchItemList} params
+   * @param {Object} data
+   * @param {string}dataSourceKey
    * @returns {Promise<ISearchFullItems>}
    */
-  public nodes ( params:IQuerySearchItemList ):Promise<ISearchFullItems> {
+  public nodes (
+    data:{
+      q:string;
+      strictEdges?:boolean;
+      fuzziness?:number;
+      size?:number;
+      from?:number;
+      filter?:string;
+      full?:boolean;
+      withDigest?:true;
+    },
+    dataSourceKey?:string
+  ):Promise<ISearchFullItems> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/search/nodes',
         method: 'GET',
-        query : params
+        query : data,
+        dataSource : dataSourceKey
       }
     );
   }
@@ -77,15 +116,29 @@ export class SearchModule extends Module {
    * Search for edges based on a query string and optional parameters. Return formatted results for
    * the Linkurious client.
    *
-   * @param {ISearchItemList} params
+   * @param {Object} data
+   * @param {string}dataSourceKey
    * @returns {Promise<ISearchFullItems>}
    */
-  public edges ( params:IQuerySearchItemList ):Promise<ISearchFullItems> {
+  public edges (
+    data:{
+      q:string;
+      strictEdges?:boolean;
+      fuzziness?:number;
+      size?:number;
+      from?:number;
+      filter?:string;
+      full?:boolean;
+      withDigest?:true;
+    },
+    dataSourceKey?:string
+  ):Promise<ISearchFullItems> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/search/edges',
         method: 'GET',
-        query : params
+        query : data,
+        dataSource : dataSourceKey
       }
     );
   }
@@ -93,60 +146,20 @@ export class SearchModule extends Module {
   /**
    * get the list of users
    *
-   * @param {any}data
+   * @param {Object}data
    * @return {Promise<any>}
    */
   public getUsers ( data:{
     startsWith?:string,
     contains?:string,
-    groupId?:string,
+    groupId?:number,
     offset?:number,
     limit?:number
   }):Promise<any> {
     return this.fetch({
       url : '/users',
       method : 'GET',
-      query: Utils.fixSnakeCase(data)
+      query: data
     });
-  }
-
-  /**
-   * get a list of nodes for directory.
-   *
-   * @param {IGetDirectory} data
-   * @returns {Promise<ISearchNodesInDirectory>}
-   */
-  public NodesInDirectory ( data:IGetDirectory ):Promise<ISearchNodesInDirectory> {
-
-    let body:any = data;
-    body.type = 'nodes';
-
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/directory',
-        method: 'POST',
-        body  : body
-      }
-    );
-  }
-
-  /**
-   * get a list of edges for directory.
-   *
-   * @param {IGetDirectory} data
-   * @returns {Promise<ISearchEdgesInDirectory>}
-   */
-  public EdgesInDirectory ( data:IGetDirectory ):Promise<ISearchEdgesInDirectory> {
-
-    let body:any = data;
-    body.type = 'edges';
-
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/directory',
-        method: 'POST',
-        body  : body
-      }
-    );
   }
 }
