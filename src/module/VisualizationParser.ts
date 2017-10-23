@@ -12,7 +12,7 @@ import {
   IOgmaEdge,
   INodeCoordinates,
   IOgmaNode,
-  IServerVisualization
+  IServerVisualization, IVisualization
 } from '../../index';
 import { LONGITUDE_HEURISTIC, LATITUDE_HEURISTIC } from '../index';
 
@@ -98,9 +98,10 @@ export class VisualizationParser {
    * @returns {any}
    */
   public static formatVisualization(viz:IServerVisualization):any {
-    viz.nodes.map((n:INode) => VisualizationParser.parseNode(n));
-    viz.edges.map((e:IEdge) => VisualizationParser.parseEdge(e));
-    return viz;
+    let visualization:IVisualization = JSON.parse(JSON.stringify(viz));
+    visualization.nodes = viz.nodes.map((n:INode) => VisualizationParser.parseNode(n));
+    visualization.edges = viz.edges.map((e:IEdge) => VisualizationParser.parseEdge(e));
+    return visualization;
   }
 
   public static splitResponse (response:Array<IFullNode>, data?:any):{nodes:any[], edges:any[]} {
