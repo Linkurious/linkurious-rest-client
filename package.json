@@ -63,12 +63,11 @@
     "karma-remap-istanbul": "^0.1.0",
     "karma-systemjs": "^0.13.0",
     "path": "^0.12.7",
-    "phantomjs": "^2.1.7",
     "request": "~2.72",
     "systemjs": "^0.19.29",
     "tslint": "^3.10.2",
     "typedoc": "sierrasoftworks/typedoc#v1.8.10",
-    "typescript": "^2.2.0"
+    "typescript": "2.2.0"
   },
   "dependencies": {
     "superagent": "^3.5.2"
