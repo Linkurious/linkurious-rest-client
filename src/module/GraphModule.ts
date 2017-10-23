@@ -74,6 +74,8 @@ export class GraphModule extends Module {
       dialect:string;
       query:string;
       limit?:number;
+      timeout?:number,
+      columns?:Array<{type:string, columnName:string}>,
       withVersion:boolean;
       withDegree?:boolean;
       withDigest?:boolean;
@@ -83,7 +85,11 @@ export class GraphModule extends Module {
   ):Promise<{nodes:any[], edges:any[]}|Array<{graph:{nodes:any[], edges:any[]}}>> {
     let body:any = {
       dialect: data.dialect,
-      query: data.query
+      query: data.query,
+      columns: data.columns,
+      limit: data.limit,
+      timeout: data.timeout,
+      groupResults: data.groupResults
     };
     let query:any = {
       withVersion : data.withVersion,
