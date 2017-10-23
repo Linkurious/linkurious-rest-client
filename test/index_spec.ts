@@ -87,7 +87,7 @@ describe('Linkurious class', () => {
           cron:'* * * * *'
         }, sourceKey).then((res: any) => {
           expect(res.id).toEqual(1);
-          expect(res.matchTTL).toEqual(30);
+          expect(res.matchTTL).toEqual(0);
           setTimeout(() => {
             done();
           }, 5000);
@@ -636,8 +636,8 @@ describe('Linkurious class', () => {
         configuration : true
       }).then(function(){
         return linkurious.getAppConfig();
-      }).then(function(res){
-        expect(res.rights.authRequired).toBeTruthy();
+      }).then(function(res:any){
+        expect(res.access.authRequired).toBeTruthy();
         done();
       });
     });
@@ -705,7 +705,7 @@ describe('Linkurious class', () => {
     it('must return an array of edge Properties', (done) => {
       return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.getHiddenEdgeProperties();
-      }).then(function(res){
+      }).then(function(res:any){
         expect(res.length).toEqual(1);
         expect(res[0]).toBe('edgeHiddenProp');
         done();
@@ -717,7 +717,7 @@ describe('Linkurious class', () => {
     it('must return an array of node Properties', (done) => {
       return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.getHiddenNodeProperties();
-      }).then(function(res){
+      }).then(function(res:any){
         expect(res.length).toEqual(1);
         expect(res[0]).toBe('nodeHiddenProp');
         done();
@@ -729,7 +729,7 @@ describe('Linkurious class', () => {
     it('must return an array of edge Properties', (done) => {
       return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.getNonIndexedEdgeProperties();
-      }).then(function(res){
+      }).then(function(res:any){
         expect(res.length).toEqual(2);
         expect(res[1]).toBe('edgeNoIndexProp');
         done();
@@ -741,7 +741,7 @@ describe('Linkurious class', () => {
     it('must return an array of node Properties', (done) => {
       return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.admin.getNonIndexedNodeProperties();
-      }).then(function(res){
+      }).then(function(res:any){
         expect(res.length).toEqual(2);
         expect(res[1]).toBe('nodeNoIndexProp');
         done();
@@ -1161,7 +1161,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.visualization.count();
       }).then((res:any) => {
-        expect(res).toEqual(7);
+        expect(res).toEqual(8);
         done();
       });
     });
@@ -1277,7 +1277,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
         return linkurious.admin.startIndexation();
       }).catch((e) => {
-        expect(e.message).toEqual('You can\'t do action "admin.index" on data-source 93464338.');
+        expect(e.message).toEqual('You can\'t do action "admin.index" on data-source 914bcf85.');
         done();
       })
     });

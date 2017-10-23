@@ -319,7 +319,7 @@ export interface IAppVersion {
 export interface IAppConfig {
   allSources:IDataSourcesConfig;
   locale:string;
-  rights:IRightsConfig;
+  access:IRightsConfig;
   analytics:IAnalyticsConfig;
   sigma:any;
   palette:any;
