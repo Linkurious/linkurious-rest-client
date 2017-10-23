@@ -88,6 +88,12 @@ export class GraphModule extends Module {
         query : { withVersion : data.withVersion },
         dataSource : dataSourceKey
       }
-    ).then((response:Array<IFullNode>) => VisualizationParser.splitResponse(response));
+    ).then((response:Array<IFullNode>) => ( data.groupResults !== false )
+      ? VisualizationParser.splitResponse(response)
+      : response.map((r:any) => {
+        r.graph = VisualizationParser.splitResponse(r.nodes);
+        return r;
+      })
+    );
   }
 }

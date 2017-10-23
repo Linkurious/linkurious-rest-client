@@ -134,6 +134,8 @@ export interface IDataSourceState extends IDataSource {
   state:string;
   reason:string;
   error?:string;
+  features:any;
+  settings:any;
 }
 
 export interface IFullDataSource extends IDataSource {
@@ -755,7 +757,13 @@ export interface IUpdateGraphQuery extends IDataSourceRelative, IIdentified, IBa
 export interface ISendQuery extends IDataSourceRelative, IBaseRequest {
   dialect:string;
   query:string;
-  withVersion:boolean;
+  groupResults?:boolean;
+  limit?:number;
+  timeout?:number;
+  columns?:Array<{type:string, columnName:string}>;
+  with_version?:boolean;
+  with_digest?:boolean;
+  with_degree?:boolean;
 }
 
 export interface IGetShortestPaths extends IDataSourceRelative, IBaseRequest {

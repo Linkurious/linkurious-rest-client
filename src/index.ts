@@ -166,6 +166,49 @@ export class Linkurious {
   }
 
   /**
+   * remove user form state
+   */
+  public destroySession():void {
+    this._clientState.user = undefined;
+  }
+
+  /**
+   * Collect all the analytics and log files in a compressed tarball and return it.
+   */
+  public report():void {
+    this._fetcher.fetch({
+      url : '/admin/report',
+      contentType : 'application/octet-stream',
+      method : 'GET'
+    });
+  }
+
+  /**
+   * Send a user event / navigation event or login to server
+   *
+   * @param {any}data
+   * @return {Promise<any>}
+   */
+  public analytics(
+    data : {
+      type:string;
+      userId?:number;
+      event?:string;
+      name?:string;
+      properties?:any;
+      traits?:any;
+      timestamp?:string;
+      context?:any
+    }
+  ): Promise<void> {
+    return this._fetcher.fetch({
+      url : '/analytics',
+      method : 'POST',
+      body : data
+    });
+  }
+
+  /**
    * Process to login of the corresponding user and return it.
    *
    * @param {Object} data
@@ -205,7 +248,7 @@ export class Linkurious {
   public OAuthAuthentication (data:{code:string, state:string}):Promise<boolean> {
     return this._fetcher.fetch(
       {
-        url   : '/auth/oauth2/return',
+        url   : '/auth/sso/return',
         method: 'GET',
         query : data
       }
@@ -313,7 +356,9 @@ export class Linkurious {
           connected  : sourceList[0].connected,
           state      : sourceList[0].state,
           reason     : sourceList[0].reason,
-          error      : sourceList[0].error
+          error      : sourceList[0].error,
+          features   : sourceList[0].features,
+          settings   : sourceList[0].settings
         };
       }
     }
@@ -342,7 +387,9 @@ export class Linkurious {
       connected  : source.connected,
       state      : source.state,
       reason     : source.reason,
-      error      : source.error
+      error      : source.error,
+      features   : source.features,
+      settings   : source.settings
     };
   }
 
@@ -413,7 +460,17 @@ export class Linkurious {
         query : { sourceIndex: sourceIndex },
         url   : '/config'
       }
-    ).then((response:any) => response.config);
+    );
+  }
+
+  /**
+   * Restart the server and send the new URL
+   */
+  public restartServer(): Promise<string> {
+    return this._fetcher.fetch({
+      method: 'POST',
+      url   : '/admin/restart'
+    }).then((response:any) => response.url);
   }
 
   /**
@@ -461,7 +518,9 @@ export class Linkurious {
         connected  : source.connected,
         state      : source.state,
         reason     : source.reason,
-        error      : source.error
+        error      : source.error,
+        features   : source.features,
+        settings   : source.settings
       };
 
       return this._clientState.currentSource;
