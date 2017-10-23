@@ -73,6 +73,7 @@ export class GraphModule extends Module {
     data:{
       dialect:string;
       query:string;
+      limit?:number;
       withVersion:boolean;
       withDegree?:boolean;
       withDigest?:boolean;
