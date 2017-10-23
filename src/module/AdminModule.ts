@@ -417,7 +417,7 @@ export class AdminModule extends Module {
    */
   public getGroups (
     data:{
-      witAccessRights:boolean;
+      withAccessRights:boolean;
     },
     dataSourceKey?:string
   ):Promise<Array<IGroup>> {
