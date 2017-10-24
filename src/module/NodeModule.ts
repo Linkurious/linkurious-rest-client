@@ -113,7 +113,7 @@ export class NodeModule extends Module {
     ).then((response:any) => {
       return ( params.withEdges )
         ? VisualizationParser.splitResponse([response])
-        : VisualizationParser.splitResponse([response]);
+        : VisualizationParser.parseNode(response);
     });
   }
 
