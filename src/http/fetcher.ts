@@ -7,13 +7,14 @@
  * File:
  * Description :
  */
+
 'use strict';
 
 import {
   IHttpDriver,
   IHttpResponse,
   IFetchConfig,
-  IDataToSend, IFetcherClientState
+  IDataToSend, IFetcherClientState, IDataSourceRelative
 } from './../../index';
 import { LinkuriousError } from './../LinkuriousError';
 import { DefaultHttpDriver } from './DefaultHttpDriver';
@@ -53,8 +54,8 @@ export class Fetcher {
   public fetch ( configData:{
     url:string;
     method:'POST'|'GET'|'PUT'|'DELETE'|'PATCH';
-    contentType?:string;
-    dataSource?:string|number;
+    ignoreContentType?:boolean;
+    dataSource?:IDataSourceRelative;
     body?:any;
     query?:any;
   } ):Promise<any> {
@@ -78,7 +79,7 @@ export class Fetcher {
 
     if ( config.method === 'GET' ) {
       responsePromise = (<any> this._httpDriver)[config.method](
-        config.url, Utils.fixSnakeCase(data.queryData), config.contentType
+        config.url, Utils.fixSnakeCase(data.queryData), config.ignoreContentType
       );
     } else {
       responsePromise = (<any> this._httpDriver)[config.method](
@@ -121,7 +122,7 @@ export class Fetcher {
    */
   private addSourceKeyToUrl (
     url:string,
-    explicitSource?:string|number
+    explicitSource?:IDataSourceRelative
   ):string {
     if ( explicitSource && typeof explicitSource === 'string') {
       return this._baseUrl + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource);
@@ -153,7 +154,7 @@ export class Fetcher {
    */
   private addSourceIndexToUrl (
     url:string,
-    explicitSource?:string|number
+    explicitSource?:IDataSourceRelative
   ):string {
     if ( explicitSource && typeof explicitSource === 'number') {
       return this._baseUrl + url.replace(
