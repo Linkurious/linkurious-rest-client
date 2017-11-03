@@ -24,17 +24,11 @@ export class LinkuriousErrorSpec {
           header:undefined
         });
 
-        expect(linkuriousError).toEqual(jasmine.objectContaining({
-          type:'communication'
-        }));
+        expect(linkuriousError.type).toEqual('communication');
 
-        expect(linkuriousError).toEqual(jasmine.objectContaining({
-          key:'communication_error'
-        }));
+        expect(linkuriousError.key).toEqual('communication_error');
 
-        expect(linkuriousError).toEqual(jasmine.objectContaining({
-          message:'Could not get response from server'
-        }));
+        expect(linkuriousError.message).toEqual('Could not get response from server');
       });
     });
 
@@ -43,13 +37,9 @@ export class LinkuriousErrorSpec {
         let error = new Error('test error');
         let linkuriousError = LinkuriousError.fromError(error);
 
-        expect(linkuriousError).toEqual(jasmine.objectContaining({
-          key:'critical'
-        }));
+        expect(linkuriousError.key).toEqual('critical');
 
-        expect(linkuriousError).toEqual(jasmine.objectContaining({
-          message:'Error: test error'
-        }));
+        expect(linkuriousError.message).toEqual('Error: test error');
       });
 
       it('must return a error object to string', () => {

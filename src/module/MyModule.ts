@@ -9,7 +9,7 @@
  */
 'use strict';
 
-import { IGraphQuery, IFullUser, ICreateGraphQuery, IUpdateGraphQuery } from '../../index';
+import { IGraphQuery, IFullUser } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 
@@ -44,51 +44,51 @@ export class MyModule extends Module {
         url   : '/auth/authenticated',
         method: 'GET'
       }
-    ).then(() => true);
-  }
-
-  /**
-   * Check if the user is authenticated as an admin.
-   *
-   * @returns {Promise<boolean>}
-   */
-  public IsAdmin ():Promise<boolean> {
-    return this.fetch(
-      {
-        url   : '/auth/admin',
-        method: 'GET'
-      }
-    ).then(() => true);
+    );
   }
 
   /**
    * Delete a saved Graph Query owned by the current user
    *
-   * @param {number} graphQueryId
+   * @param {Object} data
+   * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    */
-  public deleteGraphQuery ( graphQueryId:number ):Promise<boolean> {
+  public deleteGraphQuery (
+    data:{
+      id:number
+    },
+    dataSourceKey?:string
+  ):Promise<boolean> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
         method: 'DELETE',
-        body  : { id: graphQueryId }
+        body  : data,
+        dataSource : dataSourceKey
       }
-    ).then(() => true);
+    );
   }
 
   /**
    * Returns a saved GraphModule Query owned by the current user
    *
-   * @param {number} graphQueryId
+   * @param {Object} data
+   * @param {string}dataSourceKey
    * @returns {Promise<IGraphQuery>}
    */
-  public getGraphQuery ( graphQueryId:number ):Promise<IGraphQuery> {
+  public getGraphQuery (
+    data:{
+      id:number
+    },
+    dataSourceKey?:string
+  ):Promise<IGraphQuery> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
         method: 'GET',
-        query : { id: graphQueryId }
+        query : data,
+        dataSource : dataSourceKey
       }
     );
   }
@@ -98,26 +98,36 @@ export class MyModule extends Module {
    *
    * @returns {Promise<Array<IGraphQuery>>}
    */
-  public getAllGraphQueries ():Promise<Array<IGraphQuery>> {
+  public getAllGraphQueries (dataSourceKey?:string):Promise<Array<IGraphQuery>> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/my/rawQuery/all',
-        method: 'GET'
+        method: 'GET',
+        dataSource: dataSourceKey
       }
     );
   }
 
   /**
    * Save and Returns the created GraphQuery
-   * @param {ICreateGraphQuery} data
+   * @param {Object} data
+   * @param {string}dataSourceKey
    * @returns {Promise<IGraphQuery>}
    */
-  public saveGraphQuery ( data:ICreateGraphQuery ):Promise<IGraphQuery> {
+  public saveGraphQuery (
+    data:{
+      dialect:string;
+      content:string;
+      name?:string;
+    },
+    dataSourceKey?:string
+  ):Promise<IGraphQuery> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/my/rawQuery',
         method: 'POST',
-        body  : data
+        body  : data,
+        dataSource : dataSourceKey
       }
     );
   }
@@ -125,23 +135,24 @@ export class MyModule extends Module {
   /**
    * Update a graph query owned but the current user
    *
-   * @param {IUpdateGraphQuery} data
+   * @param {Object} data
+   * @param {string}dataSourceKey
    * @returns {Promise<IGraphQuery>}
    */
-  public updateGraphQuery ( data:IUpdateGraphQuery ):Promise<boolean> {
-    let body:any = JSON.parse(JSON.stringify(data));
-    body.properties = {
-      name   : data.name,
-      content: data.content
-    };
-    body.name = undefined;
-    body.content = undefined;
-
+  public updateGraphQuery (
+    data:{
+      id:number;
+      name?:string;
+      content?:string;
+    },
+    dataSourceKey?:string
+  ):Promise<boolean> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
         method: 'PATCH',
-        body  : body
+        body  : {id: data.id, properties : data},
+        dataSource : dataSourceKey
       }
     );
   }

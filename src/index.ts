@@ -30,11 +30,11 @@ import {
   IAppVersion,
   IAppConfig,
   ISchema,
-  IClientState, ILoginUser, IUpdateUser
+  IClientState
 } from '../index';
 
-export const LONGITUDE_HEURISTIC = ['longitude', 'long', 'lon', 'lng'];
-export const LATITUDE_HEURISTIC = ['latitude', 'lat'];
+export const LONGITUDE_HEURISTIC:Array<string> = ['longitude', 'long', 'lon', 'lng'];
+export const LATITUDE_HEURISTIC:Array<string> = ['latitude', 'lat'];
 
 export class Linkurious {
   private _fetcher:Fetcher;
@@ -190,7 +190,7 @@ export class Linkurious {
    * @return {Promise<any>}
    */
   public analytics(
-    data : {
+    data:{
       type:string;
       userId?:number;
       event?:string;
@@ -200,7 +200,7 @@ export class Linkurious {
       timestamp?:string;
       context?:any
     }
-  ): Promise<void> {
+  ):Promise<void> {
     return this._fetcher.fetch({
       url : '/analytics',
       method : 'POST',
@@ -211,10 +211,13 @@ export class Linkurious {
   /**
    * Process to login of the corresponding user and return it.
    *
-   * @param {ILoginUser} data
+   * @param {Object} data
    * @returns {Promise<boolean>}
    */
-  public login ( data:ILoginUser ):Promise<any> {
+  public login ( data:{
+    usernameOrEmail:string;
+    password:string;
+  } ):Promise<any> {
     let config:IFetchConfig = {
       url   : '/auth/login',
       method: 'POST',
@@ -275,10 +278,16 @@ export class Linkurious {
   /**
    * Update the current user connected
    *
-   * @param {IUpdateUser} data
+   * @param {Object} data
    * @returns {Promise<IFullUser>}
    */
-  public updateCurrentUser ( data:IUpdateUser ):Promise<IFullUser> {
+  public updateCurrentUser ( data:{
+    id:number;
+    username ?:string;
+    email ?:string;
+    password ?:string;
+    preferences ?:any;
+  } ):Promise<IFullUser> {
     return this._fetcher.fetch(
       {
         url   : '/auth/me',
@@ -324,10 +333,20 @@ export class Linkurious {
   /**
    * Set the currentSource
    *
-   * @param {Array<IDataSourceState>}sourceList
+   * @param {Array<Object>}sourceList
    * @return {IDataSource}
    */
-  public storeDefaultCurrentSource(sourceList:Array<IDataSourceState>):IDataSourceState {
+  public storeDefaultCurrentSource(sourceList:Array<{
+    connected:boolean;
+    state:string;
+    reason:string;
+    error?:string;
+    name:string;
+    key:string;
+    configIndex:number;
+    features:any;
+    settings:any;
+  }>):IDataSourceState {
     for ( let sourceState of sourceList ) {
       if ( this.storeSource(sourceState, 'connected', true) ) {
         return this._clientState.currentSource;
@@ -349,12 +368,22 @@ export class Linkurious {
   };
 
   /**
-   * Set the currentSource by passing the sourceKey or configIndex
+   * Set the currentSource
    *
-   * @param {any} source
+   * @param {Object} source
    * @returns {Promise<IDataSourceState>}
    */
-  public setCurrentSource ( source:any ):void {
+  public setCurrentSource ( source:{
+    name:string;
+    key:string;
+    configIndex:number;
+    connected:boolean;
+    state:string;
+    reason:string;
+    error?:string;
+    features:any;
+    settings:any;
+  } ):void {
     this._clientState.currentSource = {
       name       : source.name,
       key        : source.key,
@@ -371,10 +400,13 @@ export class Linkurious {
   /**
    * Process to login and set the default source state and return the REST client state.
    *
-   * @param {ILoginUser} data
+   * @param {Object} data
    * @returns {Promise<IClientState>}
    */
-  public init ( data:ILoginUser ):Promise<IClientState> {
+  public init ( data:{
+    usernameOrEmail:string;
+    password:string;
+  } ):Promise<IClientState> {
 
     return this.login(data).then(
       () => {
@@ -438,7 +470,7 @@ export class Linkurious {
   /**
    * Restart the server and send the new URL
    */
-  public restartServer(): Promise<string> {
+  public restartServer():Promise<string> {
     return this._fetcher.fetch({
       method: 'POST',
       url   : '/admin/restart'
@@ -472,10 +504,10 @@ export class Linkurious {
   /**
    * Store a source in clientState if condition is verified
    *
-   * @param {IFullDataSource} source
+   * @param {IDataSourceState} source
    * @param {string} property
    * @param {string|number|boolean} matchValue
-   * @returns {IDataSource}
+   * @returns {IDataSourceState}
    */
   private storeSource (
     source:IDataSourceState,
@@ -494,7 +526,6 @@ export class Linkurious {
         features   : source.features,
         settings   : source.settings
       };
-
       return this._clientState.currentSource;
     } else {
       return undefined;

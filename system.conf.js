@@ -1,4 +1,5 @@
 System.config({
+  transpiler: null,
   defaultJSExtensions : false,
   paths: {
     "superagent": "node_modules/superagent/superagent.js",

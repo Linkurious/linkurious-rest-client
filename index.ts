@@ -129,7 +129,10 @@ export interface IDataSource {
   configIndex:number;
 }
 
-export interface IDataSourceState extends IDataSource {
+export interface IDataSourceState {
+  name:string;
+  key:string;
+  configIndex:number;
   connected:boolean;
   state:string;
   reason:string;
@@ -316,7 +319,7 @@ export interface IAppVersion {
 export interface IAppConfig {
   allSources:IDataSourcesConfig;
   locale:string;
-  rights:IRightsConfig;
+  access:IRightsConfig;
   analytics:IAnalyticsConfig;
   sigma:any;
   palette:any;
@@ -384,17 +387,67 @@ export interface IDirectoryEnabled {
 
 // VISUALIZATION
 
+export interface IOgmaEdge {
+  id:string|number;
+  source:string|number;
+  target:string|number;
+  data:{
+    type:string;
+    properties:any;
+    version?:number;
+  };
+}
+
+export interface IOgmaNode {
+  id:string|number;
+  x:number;
+  y:number;
+  data:{
+    categories:Array<string>;
+    properties:any;
+    statistics:any;
+    version:number;
+    geo?:INodeCoordinates;
+    nodelink?:any;
+    selected?:boolean;
+  };
+  latitude:number;
+  longitude:number;
+}
+
+export interface INodeCoordinates {
+  longitude?:number;
+  latitude?:number;
+  longitudeDiff?:number;
+  latitudeDiff?:number;
+}
+
+
 export interface ISandBox {
   design?:IVisualizationDesign;
   nodeFields?:IItemFields;
   edgeFields?:IItemFields;
 }
 
+export interface IServerVisualization extends ISandBox, IIdentified {
+  title:string;
+  folder:number;
+  nodes:Array<INode>;
+  edges:Array<IEdge>;
+  alternativeIds:IAlternativeIdConfig;
+  layout:IVisualizationLayout;
+  geo:IVisualizationGeo;
+  mode:VisualizationModeType;
+  filters:Array<any>;
+  createdAt?:string;
+  updatedAt?:string;
+}
+
 export interface IVisualization extends ISandBox, IIdentified {
   title:string;
   folder:number;
-  nodes:Array<IVisualizationNode>;
-  edges:Array<IVisualizationEdge>;
+  nodes:Array<IOgmaNode>;
+  edges:Array<IOgmaEdge>;
   alternativeIds:IAlternativeIdConfig;
   layout:IVisualizationLayout;
   geo:IVisualizationGeo;
@@ -476,7 +529,6 @@ export interface IWidget {
 }
 
 export interface IWidgetContent extends IVisualizationDesign {
-  graph:IWidgetGraph;
   title?:string;
   description?:string;
   url?:string;
@@ -493,11 +545,6 @@ export interface IWidgetUI {
   zoom?:boolean;
   legend?:boolean;
   geo?:boolean;
-}
-
-export interface IWidgetGraph {
-  nodes:Array<INode>;
-  edges:Array<IEdge>;
 }
 
 export interface IFolderFullResponse {
@@ -588,9 +635,6 @@ export interface IFullAdminAlert extends IAdminAlert, IIdentified {
   lastRunProblem:IAlertRunProblem;
 }
 
-export interface IQueryAlert extends IIdentified, IDataSourceKey {
-}
-
 export interface IMatch extends IIdentified, IBaseAlert {
   alertId:number;
   score:number;
@@ -658,18 +702,6 @@ export interface IGetUserList extends IBaseRequest {
   start?:number;
 }
 
-export interface ILoginUser extends IBaseRequest {
-  usernameOrEmail:string;
-  password:string;
-}
-
-export interface IUpdateUser extends IIdentified, IBaseRequest {
-  username ?:string;
-  email ?:string;
-  password ?:string;
-  preferences ?:any;
-}
-
 export interface ICreateUser extends IBaseRequest {
   username:string;
   email:string;
@@ -691,9 +723,6 @@ export interface IUpdateBatchUser extends IBaseRequest {
 
 export interface ICreateGroup extends IBaseRequest, IDataSourceRelative {
   name:string;
-}
-
-export interface IGetGroup extends IIdentified, IDataSourceRelative {
 }
 
 export interface IUpdateGroupRights extends IDataSourceRelative, IIdentified, IBaseRequest {
@@ -748,12 +777,6 @@ export interface IGetShortestPaths extends IDataSourceRelative, IBaseRequest {
   withDigest ?:boolean;
 }
 
-export interface IGetNeighborsCategories extends IDataSourceRelative, IBaseRequest {
-  ids:Array<ItemId>;
-  withDigest?:boolean;
-  withDegree?:boolean;
-}
-
 export interface IGetDirectory extends IDataSourceRelative, IBaseRequest {
   categoriesOrTypes?:Array<string>;
   properties:Array<string>;
@@ -767,25 +790,9 @@ export interface IGetItemProperties extends IDataSourceRelative, IBaseRequest {
   omitNoindex ?:boolean;
 }
 
-export interface IGetItemVersions extends IDataSourceRelative, IBaseRequest {
-  nodes:Array<ItemId>;
-  edges:Array<ItemId>;
-}
-
 export interface IGetVisualization extends IIdentified {
   populated?:boolean;
   withDigest?:boolean;
-}
-
-export interface IQuerySearchItemList extends IDataSourceRelative, IBaseRequest {
-  q:string;
-  strictEdges ?:boolean;
-  fuzziness ?:number;
-  size ?:number;
-  from ?:number;
-  filter ?:string;
-  full ?:boolean;
-  withDigest?: true;
 }
 
 export interface IGetNode extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
@@ -906,15 +913,8 @@ export interface ICreateAlert extends IDataSourceRelative, IBaseRequest {
   maxRuntime?:number;
 }
 
-export interface IUpdateAlert extends ICreateAlert, IIdentified {
-}
-
 export interface IAlert extends IDataSourceRelative, IBaseRequest {
   id:number;
-}
-
-export interface IGetMatch extends IDataSourceRelative, IIdentified {
-  matchId:number;
 }
 
 export interface IAddActionMatch extends IIdentified, IDataSourceRelative {
@@ -969,6 +969,8 @@ export interface IFetchConfig {
   method:'POST'|'GET'|'PUT'|'DELETE'|'PATCH';
   ignoreContentType?:boolean;
   dataSource?:IDataSourceRelative;
+  id?:number;
+  dataSource?:string|number;
   body?:any;
   query?:any;
 }
@@ -981,11 +983,6 @@ export interface IDataSourceRelative {
 export interface IDataToSend {
   queryData?:any;
   bodyData?:any;
-}
-
-export interface IResetDefaults extends IDataSourceRelative {
-  design?:boolean;
-  captions?:boolean;
 }
 
 export {
