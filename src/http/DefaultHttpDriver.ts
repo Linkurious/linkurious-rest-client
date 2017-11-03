@@ -103,24 +103,28 @@ export class DefaultHttpDriver implements IHttpDriver {
   public GET (
     uri:string,
     query?:any,
-    contentType?:string
+    ignoreContentType?:boolean
   ):Promise<IHttpResponse> {
     return new Promise(
       (
         resolve:( r:IHttpResponse ) => void,
         reject:( e:any ) => void
       ) => {
-        request
+        let q:any = request
           .get(uri)
           .withCredentials()
-          .query(query)
-          .set('Accept', (!contentType) ? 'application/json' : contentType)
-          .end(
+          .query(query);
+
+        if ( !ignoreContentType ) {
+          q = q.set('Accept', 'application/json');
+        }
+
+        q.end(
             (
               err:any,
               res:request.Response
             ) => {
-              this.handleResponse(resolve, reject, err, res, contentType);
+              this.handleResponse(resolve, reject, err, res, ignoreContentType);
             }
           );
       }
@@ -159,7 +163,7 @@ export class DefaultHttpDriver implements IHttpDriver {
     reject:( error:any ) => void,
     err:Error,
     res:request.Response,
-    contentType?:string
+    ignoreContentType?:boolean
   ):void {
 
     if ( !res ) {
@@ -175,7 +179,12 @@ export class DefaultHttpDriver implements IHttpDriver {
       return reject(err);
     }
 
-    if (!contentType && res.type !== 'application/json' ) {
+    if (
+      !ignoreContentType &&
+      (res.header['content-length'] && res.header['content-length'] > 0) &&
+      res.status !== 204 &&
+      res.type !== 'application/json'
+    ) {
       return reject(
         LinkuriousError.fromClientError(
           'communication_error',
