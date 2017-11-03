@@ -970,7 +970,6 @@ export interface IFetchConfig {
   ignoreContentType?:boolean;
   dataSource?:IDataSourceRelative;
   id?:number;
-  dataSource?:string|number;
   body?:any;
   query?:any;
 }
