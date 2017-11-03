@@ -967,7 +967,8 @@ export interface IHttpDriver {
 export interface IFetchConfig {
   url:string;
   method:'POST'|'GET'|'PUT'|'DELETE'|'PATCH';
-  contentType?:string;
+  ignoreContentType?:boolean;
+  dataSource?:IDataSourceRelative;
   id?:number;
   dataSource?:string|number;
   body?:any;
