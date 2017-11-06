@@ -109,7 +109,7 @@ export class VisualizationModule extends Module {
    */
   public updateWidget (
     data:{
-      visualization_id:number;
+      visualizationId:number;
       content:IWidgetContent;
     }
   ):Promise<string> {
@@ -117,7 +117,7 @@ export class VisualizationModule extends Module {
       {
         url   : '/widget',
         method: 'PUT',
-        body  : data
+        body  : Utils.fixSnakeCase(data)
       }
     );
   }
