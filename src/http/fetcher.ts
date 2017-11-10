@@ -62,8 +62,17 @@ export class Fetcher {
 
     let config:IFetchConfig = JSON.parse(JSON.stringify(configData));
 
+    let cachedQuery:any;
+    if ( !configData.query ) {
+      cachedQuery = {
+        random: Math.random()
+      };
+    } else {
+      cachedQuery = JSON.parse(JSON.stringify(configData.query));
+    }
+
     let data:IDataToSend = {
-      queryData: config.query,
+      queryData: cachedQuery,
       bodyData : config.body
     };
 
