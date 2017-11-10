@@ -69,6 +69,7 @@ export class Fetcher {
       };
     } else {
       cachedQuery = JSON.parse(JSON.stringify(configData.query));
+      cachedQuery.random = Math.random();
     }
 
     let data:IDataToSend = {
