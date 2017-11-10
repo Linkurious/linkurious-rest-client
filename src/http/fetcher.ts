@@ -65,11 +65,11 @@ export class Fetcher {
     let cachedQuery:any;
     if ( !configData.query ) {
       cachedQuery = {
-        random: Date.now()
+        _: Date.now()
       };
     } else {
       cachedQuery = JSON.parse(JSON.stringify(configData.query));
-      cachedQuery.random = Date.now();
+      cachedQuery._ = Date.now();
     }
 
     let data:IDataToSend = {
