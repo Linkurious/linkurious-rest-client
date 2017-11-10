@@ -968,7 +968,7 @@ export interface IFetchConfig {
   url:string;
   method:'POST'|'GET'|'PUT'|'DELETE'|'PATCH';
   ignoreContentType?:boolean;
-  dataSource?:IDataSourceRelative;
+  dataSource?:string|number;
   id?:number;
   body?:any;
   query?:any;
