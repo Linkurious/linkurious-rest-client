@@ -109,7 +109,7 @@ export class VisualizationModule extends Module {
    */
   public updateWidget (
     data:{
-      visualization_id:number;
+      visualizationId:number;
       content:IWidgetContent;
     }
   ):Promise<string> {
@@ -117,7 +117,7 @@ export class VisualizationModule extends Module {
       {
         url   : '/widget',
         method: 'PUT',
-        body  : data
+        body  : Utils.fixSnakeCase(data)
       }
     );
   }
@@ -278,12 +278,15 @@ export class VisualizationModule extends Module {
   public getSandbox (
     data?:{
       populate?:PopulateType;
-      itemId ?:number;
-      searchQuery ?:string;
-      searchFuzziness ?:number;
-      patternQuery ?:string;
-      doLayout ?:boolean;
-      patternDialect ?:string;
+      itemId?:number;
+      searchQuery?:string;
+      searchFuzziness?:number;
+      doLayout?:boolean;
+      patternDialect?:string;
+      patternQuery?:boolean;
+      withDigest?:boolean;
+      withDegree?:boolean;
+      matchId?:boolean;
     },
     dataSourceKey?:string
   ):Promise<IVisualization> {

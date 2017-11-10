@@ -7,12 +7,14 @@
  * File:
  * Description :
  */
+
 'use strict';
 
 import {
   ISearchFullItems, IEdge, IFullNode } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
+import { VisualizationParser } from './VisualizationParser';
 
 export class SearchModule extends Module {
 
@@ -48,7 +50,9 @@ export class SearchModule extends Module {
         query : data,
         dataSource : dataSourceKey
       }
-    );
+    ).then((response:Array<IFullNode>) => {
+      return VisualizationParser.splitResponse(response);
+    });
   }
 
   /**
@@ -78,7 +82,9 @@ export class SearchModule extends Module {
         query : data,
         dataSource: dataSourceKey
       }
-    );
+    ).then((response:Array<IFullNode>) => {
+      return VisualizationParser.splitResponse(response);
+    });
   }
 
   /**

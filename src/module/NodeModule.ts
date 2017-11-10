@@ -7,6 +7,7 @@
  * File:
  * Description :
  */
+
 'use strict';
 
 import {
@@ -19,6 +20,7 @@ import {
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
+import { Utils } from '../http/utils';
 
 export class NodeModule extends Module {
 
@@ -160,7 +162,7 @@ export class NodeModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/expand',
       method: 'POST',
-      body  : body,
+      body  : Utils.fixSnakeCase(body),
       query : query,
       dataSource : dataSourceKey
     }).then((nodes:Array<IFullNode>) => VisualizationParser.splitResponse(nodes, data));
@@ -219,7 +221,7 @@ export class NodeModule extends Module {
       {
         url   : '/{dataSourceKey}/graph/nodes/{id}',
         method: 'PATCH',
-        body  : data,
+        body  : Utils.fixSnakeCase(data),
         dataSource: dataSourceKey
       }
     );
