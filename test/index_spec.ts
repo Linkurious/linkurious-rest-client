@@ -1139,7 +1139,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.search.fullNodes({q:'matrix'});
       }).then((res:any) => {
-        expect(res.length).toEqual(3);
+        expect(res.nodes.length).toEqual(3);
         done();
       });
     });
@@ -1150,7 +1150,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.search.fullEdges({q:'ACTED_IN'});
       }).then((res:any) => {
-        expect(res.length).toEqual(7);
+        expect(res.nodes.length).toEqual(7);
         done();
       });
     });
@@ -1274,10 +1274,12 @@ describe('Linkurious class', () => {
 
   describe('processIndexation method', function(){
     it('cannot start indexation', function(done){
+      let sourceKey: string;
       return linkurious.init({usernameOrEmail:'simpleUser',password:'123'}).then(function(){
+        sourceKey = linkurious.state.currentSource.key;
         return linkurious.admin.startIndexation();
       }).catch((e) => {
-        expect(e.message).toEqual('You can\'t do action "admin.index" on data-source 914bcf85.');
+        expect(e.message).toEqual('You can\'t do action "admin.index" on data-source ' + sourceKey + '.');
         done();
       })
     });
