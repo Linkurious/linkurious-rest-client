@@ -1,6 +1,6 @@
 {
   "name": "linkurious-rest-client",
-  "version": "2.1.8",
+  "version": "2.2.0",
   "description": "Linkurious REST client",
   "engines": {
     "node": "4.6.0",
