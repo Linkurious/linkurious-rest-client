@@ -707,7 +707,7 @@ export class AdminModule extends Module {
       captions?:boolean;
     },
     dataSourceKey?:string
-  ):Promise<boolean> {
+  ):Promise<void> {
     return this.fetch(
       {
         url       : '/admin/source/{dataSourceKey}/resetDefaults',
