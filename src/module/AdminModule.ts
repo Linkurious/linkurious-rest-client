@@ -754,7 +754,7 @@ export class AdminModule extends Module {
             ( resolve:any ) => {
               setTimeout(() => {
                 return resolve();
-              });
+              }, timeout);
             }
           ).then(() => this.listenIndexation(timeout, callback));
         } else {
