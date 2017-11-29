@@ -160,7 +160,9 @@ export class SearchModule extends Module {
     contains?:string,
     groupId?:number,
     offset?:number,
-    limit?:number
+    limit?:number,
+    sortBy?:string,
+    sortDirection?:string,
   }):Promise<any> {
     return this.fetch({
       url : '/users',
