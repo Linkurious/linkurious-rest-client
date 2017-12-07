@@ -35,7 +35,6 @@ import {
 
 export const LONGITUDE_HEURISTIC:Array<string> = ['longitude', 'long', 'lon', 'lng'];
 export const LATITUDE_HEURISTIC:Array<string> = ['latitude', 'lat'];
-export let GUEST_STATUS:boolean = false;
 
 export class Linkurious {
   private _fetcher:Fetcher;
@@ -163,15 +162,6 @@ export class Linkurious {
    */
   set longitudeProperty(long:string) {
     LONGITUDE_HEURISTIC.splice(0, 0, long);
-  }
-
-  /**
-   * change the guest status
-   *
-   * @param {boolean}status
-   */
-  set guestStatus(status:boolean) {
-    GUEST_STATUS = status;
   }
 
   /**
