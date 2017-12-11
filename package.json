@@ -66,8 +66,7 @@
     "request": "~2.72",
     "systemjs": "^0.19.29",
     "tslint": "^3.10.2",
-    "typedoc": "sierrasoftworks/typedoc#v1.8.10",
-    "typescript": "2.2.0"
+    "typescript": "2.6.2"
   },
   "dependencies": {
     "superagent": "^3.5.2"
