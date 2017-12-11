@@ -20,7 +20,7 @@ pipeline {
       steps {
         throttle(['FrontendTestEnv']) {
           dir('linkurious-rest-client') {
-            sh 'node ../linkurious-server/test/runMocha.js -s & echo $! > SERVER_PID'
+            sh 'node ../linkurious-server/test/runMocha.js -sm & echo $! > SERVER_PID'
             sh 'npm run compileTests && npm run lint'
             sh 'xvfb-run node_modules/.bin/karma start karma.conf.js'
             sh 'kill -9 `cat SERVER_PID`'
