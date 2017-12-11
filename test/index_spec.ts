@@ -340,11 +340,11 @@ describe('Linkurious class', () => {
       return linkurious.initSources().then(function(){
         return linkurious.graph.getNodeList({
           dialect : 'cypher',
-          query : 'MATCH (n)\nreturn n LIMIT 1',
+          query : 'MATCH (n)\n WHERE ID(n)=' + nodeId + ' return n LIMIT 1',
           withVersion : true
         });
       }).then(function(res: any){
-        expect(res.nodes[0].data.properties.name).toEqual('Andy Wachowski');
+        expect(res.nodes[0].data.properties.name).toEqual('Keanu Reeves');
         done();
       });
     });
@@ -457,8 +457,15 @@ describe('Linkurious class', () => {
         return linkurious.edge.getTypes({
           includeType : true
         });
-      }).then(function(res){
-        expect(res[0].name).toEqual('DIRECTED');
+      }).then(function(res: Array<any>){
+        let sortedResponse = res.sort((a, b) => {
+          if (a.name < b.name)
+            return -1;
+          if (a.name > b.name)
+            return 1;
+          return 0;
+        });
+        expect(sortedResponse[0].name).toEqual('ACTED_IN');
         done();
       });
     });
