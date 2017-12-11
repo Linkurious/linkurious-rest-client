@@ -23,7 +23,6 @@ import { VisualizationModule } from './module/VisualizationModule';
 import { AlertModule } from './module/AlertModule';
 import {
   ILoggerDriver,
-  IFetchConfig,
   IFullUser,
   IDataSourceState,
   IAppStatus,
@@ -217,7 +216,7 @@ export class Linkurious {
     usernameOrEmail:string;
     password:string;
   } ):Promise<any> {
-    let config:IFetchConfig = {
+    let config:{url:string, method:'POST', body:any} = {
       url   : '/auth/login',
       method: 'POST',
       body  : data
