@@ -19,6 +19,7 @@ import { LinkuriousError } from './../LinkuriousError';
 import { DefaultHttpDriver } from './DefaultHttpDriver';
 import { Logger } from './../log/Logger';
 import { Utils } from './utils';
+import { GUEST_MODE } from '../index';
 
 export class Fetcher {
 
@@ -60,6 +61,17 @@ export class Fetcher {
   } ):Promise<any> {
 
     let config:IFetchConfig = JSON.parse(JSON.stringify(configData));
+
+    if ( GUEST_MODE ) {
+      if (!configData.query) {
+        configData.query = {
+            'guest' : true
+        };
+      } else {
+        configData.query.guest = true;
+      }
+    }
+
     let cachedQuery:any;
     if ( !configData.query ) {
       cachedQuery = {
