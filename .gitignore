@@ -31,11 +31,19 @@ node_modules
 .npm
 
 # Optional REPL history
-typings/*
-built/*
 .node_repl_history
 
 # IDEA config
 .idea
 
+# specific
 linkurious-rest-client-es5.js
+built/*
+dist-es6
+docs
+
+# TypeScript
+typings/*
+src/**/*.d.ts
+src/**/*.js
+src/**/*.map

@@ -65,6 +65,7 @@
     "request": "~2.72",
     "systemjs": "^0.19.29",
     "tslint": "^3.10.2",
+    "typedoc": "0.9.0",
     "typescript": "2.6.2"
   },
   "dependencies": {
