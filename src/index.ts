@@ -34,7 +34,6 @@ import {
 
 export const LONGITUDE_HEURISTIC:Array<string> = ['longitude', 'long', 'lon', 'lng'];
 export const LATITUDE_HEURISTIC:Array<string> = ['latitude', 'lat'];
-export let GUEST_MODE:boolean = false;
 
 export class Linkurious {
   private _fetcher:Fetcher;
@@ -67,6 +66,7 @@ export class Linkurious {
     fetcherFactory?:FetcherFactory
   ) {
     this._clientState = <IClientState> {};
+    this._clientState.guestMode = false;
     this._logger = new Logger(logLevel, loggerDriver);
     if ( !fetcherFactory ) {
       fetcherFactory = new FetcherFactory();
@@ -168,7 +168,7 @@ export class Linkurious {
      * set guest mode to true
      */
     public setGuestModeOn() {
-        GUEST_MODE = true;
+        this._clientState.guestMode = true;
     }
 
   /**

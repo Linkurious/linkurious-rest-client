@@ -19,7 +19,6 @@ import { LinkuriousError } from './../LinkuriousError';
 import { DefaultHttpDriver } from './DefaultHttpDriver';
 import { Logger } from './../log/Logger';
 import { Utils } from './utils';
-import { GUEST_MODE } from '../index';
 
 export class Fetcher {
 
@@ -62,7 +61,7 @@ export class Fetcher {
 
     let config:IFetchConfig = JSON.parse(JSON.stringify(configData));
 
-    if ( GUEST_MODE ) {
+    if ( this._clientState.guestMode ) {
       if (!configData.query) {
         configData.query = {
             'guest' : true
