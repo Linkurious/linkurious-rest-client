@@ -7,9 +7,13 @@
  * File:
  * Description :
  */
+
 'use strict';
 
-import {IOgmaNode, Linkurious} from '../index';
+import {
+  IFullUser, IItemType, IOgmaEdge, IOgmaNode, IProperty, IShare, IVisualization,
+  Linkurious
+} from '../index';
 import {FetcherSpec} from './fetcher_spec';
 import {LinkuriousErrorSpec} from './LinkuriousError_spec';
 import {DefaultLoggerDriverSpec} from './DefaultLoggerDriver_spec';
@@ -293,7 +297,7 @@ describe('Linkurious class', () => {
           withVersion:true,
           skip : 0,
           limit:10
-        }).then(function(res){
+        }).then(function(res:Array<IOgmaEdge>){
           expect(res.length).toBe(3);
           done();
         });
@@ -308,7 +312,7 @@ describe('Linkurious class', () => {
           withVersion:true,
           skip:0,
           limit:10
-        }).then(function(res){
+        }).then(function(res:Array<IOgmaEdge>){
           expect(res.length).toBe(0);
           done();
         });
@@ -323,7 +327,7 @@ describe('Linkurious class', () => {
           withVersion:true,
           skip:0,
           limit:10
-        }).then(function(res){
+        }).then(function(res:Array<IOgmaEdge>){
           expect(res.length).toBe(3);
           done();
         });
@@ -336,11 +340,11 @@ describe('Linkurious class', () => {
       return linkurious.initSources().then(function(){
         return linkurious.graph.getNodeList({
           dialect : 'cypher',
-          query : 'MATCH (n)\nreturn n LIMIT 1',
+          query : 'MATCH (n)\n WHERE ID(n)=' + nodeId + ' return n LIMIT 1',
           withVersion : true
         });
       }).then(function(res: any){
-        expect(res.nodes[0].data.properties.name).toEqual('Andy Wachowski');
+        expect(res.nodes[0].data.properties.name).toEqual('Keanu Reeves');
         done();
       });
     });
@@ -348,7 +352,7 @@ describe('Linkurious class', () => {
 
   describe('searchUsers method', function(){
     it('must return a list of users', function(done){
-      return linkurious.search.getUsers({groupId:4, limit:4, offset:0, startsWith: ''}).then(function(res){
+      return linkurious.search.getUsers({groupId:4, limit:4, offset:0, startsWith: ''}).then(function(res: any){
         expect(res.found).toEqual(0);
         done();
       })
@@ -374,7 +378,7 @@ describe('Linkurious class', () => {
           withVersion : true,
           withEdges : true
         });
-      }).then(function(res){
+      }).then(function(res: {nodes: Array<IOgmaNode>, edges: Array<IOgmaEdge>}){
         node = res.nodes[0];
         expect(res.nodes[0].id).toEqual(nodeId);
         expect(res.nodes[0].data.properties).toEqual({ name: 'Keanu Reeves', born: 1964 });
@@ -393,7 +397,7 @@ describe('Linkurious class', () => {
           visibleNodes:[nodeId],
           withVersion:false
         });
-      }).then(function(res){
+      }).then(function(res: {nodes: Array<IOgmaNode>, edges: Array<IOgmaEdge>}){
         expect(res.nodes.length).toEqual(3);
         done();
       });
@@ -438,7 +442,7 @@ describe('Linkurious class', () => {
         return linkurious.node.getProperties({
           omitNoindex : true
         });
-      }).then(function(res){
+      }).then(function(res:Array<IProperty>){
         expect(res.length).toEqual(5);
         expect(res[0].key).toEqual('born');
         expect(res[0].count).toEqual(8);
@@ -453,8 +457,15 @@ describe('Linkurious class', () => {
         return linkurious.edge.getTypes({
           includeType : true
         });
-      }).then(function(res){
-        expect(res[0].name).toEqual('DIRECTED');
+      }).then(function(res: Array<any>){
+        let sortedResponse = res.sort((a, b) => {
+          if (a.name < b.name)
+            return -1;
+          if (a.name > b.name)
+            return 1;
+          return 0;
+        });
+        expect(sortedResponse[0].name).toEqual('ACTED_IN');
         done();
       });
     });
@@ -464,7 +475,7 @@ describe('Linkurious class', () => {
     it('must return node types', function(done){
       return linkurious.initSources().then(function(){
         return linkurious.node.getTypes();
-      }).then(function(res){
+      }).then(function(res:Array<IItemType>){
         expect(res.length).toEqual(7);
         expect(res[0].name).toEqual('Person');
         done();
@@ -478,7 +489,7 @@ describe('Linkurious class', () => {
         return linkurious.visualization.getSandbox({
           doLayout : false
         });
-      }).then(function(res){
+      }).then(function(res:IVisualization){
         expect(res.id).toBeTruthy();
         expect(res.title).toBeTruthy();
         expect(res.nodes.length).toEqual(0);
@@ -606,7 +617,7 @@ describe('Linkurious class', () => {
           right :'read',
           vizId:4
         });
-      }).then(function(res){
+      }).then(function(res:IShare){
         expect(res.visualizationId).toEqual(4);
         expect(res.userId).toEqual(3);
         done();
@@ -621,7 +632,7 @@ describe('Linkurious class', () => {
         email:'testName@test.fr',
         groups : [6],
         password:'testPass'
-      }).then(function(res){
+      }).then(function(res:IFullUser){
         expect(res.id).toEqual(13);
         expect(res.username).toEqual('testName');
         done();

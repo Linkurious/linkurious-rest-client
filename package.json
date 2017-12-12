@@ -33,8 +33,7 @@
   "scripts": {
     "lint": "tslint \"src/**/*.ts\"",
     "compileTests": "tsc --project tsconfig_tests.json",
-    "pretest": "rm -rf tempTests && npm run compileTests && npm run lint",
-    "test": "istanbul cover --root ../linkurious-server/server/services/webServer/routes --report html --dir cover_API test/runTests.js",
+    "test": "./test/runTests.sh",
     "posttest": "rm -rf tempTests",
     "clean": "rm -rf ./dist-es6 && rm -rf ./typings && rm -rf ./node_modules && rm -rf ./coverage",
     "build": "tsc && npm run bundle && npm run compile && rm bundle.js",
@@ -69,7 +68,7 @@
     "systemjs": "^0.19.29",
     "tslint": "^3.10.2",
     "typedoc": "0.9.0",
-    "typescript": "2.2.0"
+    "typescript": "2.6.2"
   },
   "dependencies": {
     "superagent": "^3.5.2"
