@@ -165,10 +165,10 @@ export class Linkurious {
   }
 
     /**
-     * set guest mode to true
+     * set guest mode
      */
-    public setGuestModeOn() {
-        this._clientState.guestMode = true;
+    public setGuestMode(value:any) {
+        this._clientState.guestMode = value;
     }
 
   /**
