@@ -167,7 +167,7 @@ export class Linkurious {
     /**
      * set guest mode
      */
-    public setGuestMode(value:any) {
+    public setGuestMode(value:boolean):void {
         this._clientState.guestMode = value;
     }
 

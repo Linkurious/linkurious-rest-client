@@ -25,7 +25,7 @@ export class MyModule extends Module {
      * @returns {Promise<IFullUser>}
      */
     public infos (status?:boolean):Promise<IFullUser> {
-        let data = {
+        let data:any = {
             'guest': status
         };
         return this.fetch(
