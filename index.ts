@@ -395,6 +395,7 @@ export interface IOgmaEdge {
   target:string|number;
   data:{
     type:string;
+    selected?:boolean;
     properties:any;
     version?:number;
   };
