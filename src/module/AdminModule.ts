@@ -743,24 +743,28 @@ export class AdminModule extends Module {
     timeout:number,
     callback?:( res:IIndexationStatus ) => void
   ):Promise<any> {
-    return this.getIndexationStatus().then(
-      ( res:IIndexationStatus ) => {
-        if ( res.indexing !== 'done' ) {
-          if ( callback ) {
-            callback(res);
-          }
-
-          return new Promise(
-            ( resolve:any ) => {
-              setTimeout(() => {
-                return resolve();
-              }, timeout);
+    if ( this._clientState.currentSource.connected ) {
+      return this.getIndexationStatus().then(
+        ( res:IIndexationStatus ) => {
+          if ( res.indexing !== 'done' ) {
+            if ( callback ) {
+              callback(res);
             }
-          ).then(() => this.listenIndexation(timeout, callback));
-        } else {
-          return res;
+
+            return new Promise(
+              ( resolve:any ) => {
+                setTimeout(() => {
+                  return resolve();
+                }, timeout);
+              }
+            ).then(() => this.listenIndexation(timeout, callback));
+          } else {
+            return res;
+          }
         }
-      }
-    );
+      );
+    } else {
+      return Promise.resolve('source is offline.');
+    }
   }
 }
