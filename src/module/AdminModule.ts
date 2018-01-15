@@ -564,7 +564,7 @@ export class AdminModule extends Module {
       timeout = 3000;
     }
 
-    return this.listenIndexation(timeout, callback);
+    return this.listenIndexation(this._clientState.currentSource.key, timeout, callback);
   }
 
   /**
@@ -735,15 +735,17 @@ export class AdminModule extends Module {
   /**
    * return true when indexation if finished, else launch callback.
    *
+   * @param {string} sourceKey
    * @param {number} timeout
    * @param {IIndexationCallback} [callback]
    * @returns {Promise<boolean>}
    */
   private listenIndexation (
+    sourceKey:string,
     timeout:number,
     callback?:( res:IIndexationStatus ) => void
   ):Promise<any> {
-    if ( this._clientState.currentSource.connected ) {
+    if ( this._clientState.currentSource.key === sourceKey ) {
       return this.getIndexationStatus().then(
         ( res:IIndexationStatus ) => {
           if ( res.indexing !== 'done' ) {
@@ -757,7 +759,7 @@ export class AdminModule extends Module {
                   return resolve();
                 }, timeout);
               }
-            ).then(() => this.listenIndexation(timeout, callback));
+            ).then(() => this.listenIndexation(sourceKey, timeout, callback));
           } else {
             return res;
           }
