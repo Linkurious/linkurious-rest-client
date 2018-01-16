@@ -414,8 +414,6 @@ export interface IOgmaNode {
     nodelink?:any;
     selected?:boolean;
   };
-  latitude:number;
-  longitude:number;
 }
 
 export interface INodeCoordinates {
