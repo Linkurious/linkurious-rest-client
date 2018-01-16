@@ -766,7 +766,7 @@ export class AdminModule extends Module {
         }
       );
     } else {
-      return Promise.resolve('source is offline.');
+      return Promise.resolve('source change during indexation');
     }
   }
 }
