@@ -114,6 +114,7 @@ describe('Linkurious class', () => {
     });
   });
 
+
   describe('getAlert for user method', () => {
     it('must return an alert', (done) => {
       return linkurious.initSources().then(() => {
