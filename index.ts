@@ -31,13 +31,15 @@ export type MatchActionType = 'open'|'confirm'|'dismiss'|'unconfirm';
 export type IIndexationCallback = ( res:IIndexationStatus ) => void;
 
 export interface IClientState {
-  user:IFullUser;
-  currentSource:IDataSourceState;
+    user:IFullUser;
+    currentSource:IDataSourceState;
+    guestMode:boolean;
 }
 
 export interface IFetcherClientState {
-  user:IFullUser;
-  currentSource:IDataSource;
+    user:IFullUser;
+    currentSource:IDataSource;
+    guestMode:boolean;
 }
 
 // NODE & EDGE
@@ -393,6 +395,7 @@ export interface IOgmaEdge {
   target:string|number;
   data:{
     type:string;
+    selected?:boolean;
     properties:any;
     version?:number;
   };

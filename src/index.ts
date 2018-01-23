@@ -23,7 +23,6 @@ import { VisualizationModule } from './module/VisualizationModule';
 import { AlertModule } from './module/AlertModule';
 import {
   ILoggerDriver,
-  IFetchConfig,
   IFullUser,
   IDataSourceState,
   IAppStatus,
@@ -40,7 +39,6 @@ export class Linkurious {
   private _fetcher:Fetcher;
   private _clientState:IClientState;
   private _logger:Logger;
-
   private _admin:AdminModule;
   private _my:MyModule;
   private _edge:EdgeModule;
@@ -68,6 +66,7 @@ export class Linkurious {
     fetcherFactory?:FetcherFactory
   ) {
     this._clientState = <IClientState> {};
+    this._clientState.guestMode = false;
     this._logger = new Logger(logLevel, loggerDriver);
     if ( !fetcherFactory ) {
       fetcherFactory = new FetcherFactory();
@@ -165,6 +164,13 @@ export class Linkurious {
     LONGITUDE_HEURISTIC.splice(0, 0, long);
   }
 
+    /**
+     * set guest mode
+     */
+    public setGuestMode(value:boolean):void {
+        this._clientState.guestMode = value;
+    }
+
   /**
    * remove user form state
    */
@@ -218,7 +224,7 @@ export class Linkurious {
     usernameOrEmail:string;
     password:string;
   } ):Promise<any> {
-    let config:IFetchConfig = {
+    let config:{url:string, method:'POST', body:any} = {
       url   : '/auth/login',
       method: 'POST',
       body  : data

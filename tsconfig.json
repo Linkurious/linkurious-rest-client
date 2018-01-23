@@ -1,25 +1,21 @@
 {
   "compilerOptions": {
-    "target" : "es5",
-    "module": "commonjs",
-    "lib" : ["es2016", "dom"],
-    "moduleResolution" : "node",
     "declaration": true,
-    "removeComments": false,
-    "sourceMap": true,
-    "outDir": "./dist-es6",
-    "noImplicitAny": true,
+    "stripInternal": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmitOnError": false,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "sourceMap": true,
+    "inlineSources": true,
+    "lib": ["es2015", "dom"],
+    "target": "es5",
+    "skipLibCheck": true
   },
-  "include": [
-    "index.ts",
-    "src/**/*",
-    "node_modules/@types/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "test",
-    "dist-es6"
+  "files": [
+    "index.ts"
   ]
 }

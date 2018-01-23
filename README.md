@@ -1,5 +1,3 @@
-[ ![Codeship Status for Linkurious/linkurious-rest-client](https://codeship.com/projects/ebf65de0-ed19-0133-063d-7e789489b0a6/status?branch=master)](https://codeship.com/projects/148375)
-
 # linkurious-rest-client
 
 **A javascript library to simplify interactions with Linkurious server.**
