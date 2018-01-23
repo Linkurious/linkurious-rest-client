@@ -7,14 +7,13 @@
  * File:
  * Description :
  */
-
 'use strict';
 
 import {
   IHttpDriver,
   IHttpResponse,
   IFetchConfig,
-  IDataToSend, IFetcherClientState, IDataSourceRelative
+  IDataToSend, IFetcherClientState
 } from './../../index';
 import { LinkuriousError } from './../LinkuriousError';
 import { DefaultHttpDriver } from './DefaultHttpDriver';
@@ -55,12 +54,22 @@ export class Fetcher {
     url:string;
     method:'POST'|'GET'|'PUT'|'DELETE'|'PATCH';
     ignoreContentType?:boolean;
-    dataSource?:IDataSourceRelative;
+    dataSource?:string|number;
     body?:any;
     query?:any;
   } ):Promise<any> {
 
     let config:IFetchConfig = JSON.parse(JSON.stringify(configData));
+
+    if ( this._clientState.guestMode ) {
+      if (!configData.query) {
+        configData.query = {
+            'guest' : true
+        };
+      } else {
+        configData.query.guest = true;
+      }
+    }
 
     let cachedQuery:any;
     if ( !configData.query ) {
@@ -132,7 +141,7 @@ export class Fetcher {
    */
   private addSourceKeyToUrl (
     url:string,
-    explicitSource?:IDataSourceRelative
+    explicitSource?:string|number
   ):string {
     if ( explicitSource && typeof explicitSource === 'string') {
       return this._baseUrl + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource);
@@ -164,7 +173,7 @@ export class Fetcher {
    */
   private addSourceIndexToUrl (
     url:string,
-    explicitSource?:IDataSourceRelative
+    explicitSource?:string|number
   ):string {
     if ( explicitSource && typeof explicitSource === 'number') {
       return this._baseUrl + url.replace(

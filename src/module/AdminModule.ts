@@ -520,13 +520,15 @@ export class AdminModule extends Module {
   /**
    * Get the status of the Search API and return the indexing progress.
    *
+   * @param {string} dataSourceKey
    * @returns {Promise<IIndexationStatus>}
    */
-  public getIndexationStatus ():Promise<IIndexationStatus> {
+  public getIndexationStatus (dataSourceKey?:string):Promise<IIndexationStatus> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/search/status',
-        method: 'GET'
+        method: 'GET',
+        dataSource: dataSourceKey
       }
     );
   }
@@ -707,7 +709,7 @@ export class AdminModule extends Module {
       captions?:boolean;
     },
     dataSourceKey?:string
-  ):Promise<boolean> {
+  ):Promise<void> {
     return this.fetch(
       {
         url       : '/admin/source/{dataSourceKey}/resetDefaults',
@@ -754,7 +756,7 @@ export class AdminModule extends Module {
             ( resolve:any ) => {
               setTimeout(() => {
                 return resolve();
-              });
+              }, timeout);
             }
           ).then(() => this.listenIndexation(timeout, callback));
         } else {

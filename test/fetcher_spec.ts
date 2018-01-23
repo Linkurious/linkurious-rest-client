@@ -20,22 +20,8 @@ export class FetcherSpec {
     describe('Fetcher class', () =>{
       let logger:Logger, fetcher:Fetcher;
 
-      it('must throw if key is not defined', (done) => {
-        fetcher = new Fetcher(logger, {user:undefined, currentSource:undefined}, 'http://127.0.0.1:3001');
-
-        let fetch = fetcher.fetch;
-
-        fetch({
-          url : '/test/{dataSourceKey}',
-          method : 'GET'
-        }).catch(() => {
-          expect(fetch).toThrow();
-          done();
-        })
-      });
-
       it('must return the right lkError object', (done) => {
-        fetcher = new Fetcher(logger, {user:undefined, currentSource:undefined}, 'http://127.0.0.1:3001');
+        fetcher = new Fetcher(logger, {user:undefined, currentSource:undefined, guestMode:false}, 'http://127.0.0.1:3001');
 
         fetcher.fetch({
           url : '/test/{dataSourceKey}',
@@ -53,17 +39,16 @@ export class FetcherSpec {
 
       beforeEach(() => {
         logger  = new Logger('quiet');
-        fetcher = new Fetcher(logger, {user:undefined, currentSource:{name: 'Database #0', key: '66a2bc71', configIndex: 0}}, 'http://127.0.0.1:3001');
+        fetcher = new Fetcher(logger, {user:undefined, currentSource:{name: 'Database #0', key: '66a2bc71', configIndex: 0}, guestMode:false}, 'http://127.0.0.1:3001');
       });
 
       it('must return an error', (done) => {
-        var fetch = fetcher.fetch;
 
-        fetch({
+        fetcher.fetch({
           url : '/test',
           method : 'GET'
-        }).catch(() => {
-          expect(fetch).toThrow();
+        }).catch((res) => {
+          expect(res.key).toEqual('api_not_found');
           done();
         })
       });

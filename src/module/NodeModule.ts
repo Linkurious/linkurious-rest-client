@@ -105,7 +105,7 @@ export class NodeModule extends Module {
       withVersion?:boolean;
     },
     dataSourceKey?:string
-  ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
+  ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}|IOgmaNode> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/nodes/{id}',

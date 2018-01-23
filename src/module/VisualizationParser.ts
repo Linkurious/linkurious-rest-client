@@ -38,6 +38,7 @@ export class VisualizationParser {
   public static parseEdge(
     edge:{
       id:string|number;
+      selected?:boolean;
       source:string|number;
       target:string|number;
       type:string;
@@ -51,6 +52,7 @@ export class VisualizationParser {
       target: edge.target,
       data: {
         type: edge.type,
+        selected: edge.selected,
         properties: edge.data,
         version: edge.version
       }

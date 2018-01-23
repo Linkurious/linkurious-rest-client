@@ -10,7 +10,6 @@
 'use strict';
 
 import { Fetcher } from '../http/fetcher';
-import { IFetchConfig } from '../../index';
 
 /**
  * @abstract
@@ -22,7 +21,14 @@ export class Module {
     this._fetcher = fetcher;
   }
 
-  protected fetch ( config:IFetchConfig ):Promise<any> {
+  protected fetch ( config:{
+    url:string;
+    method:'POST'|'GET'|'PUT'|'DELETE'|'PATCH';
+    ignoreContentType?:boolean;
+    dataSource?:string|number;
+    body?:any;
+    query?:any;
+  } ):Promise<any> {
     return this._fetcher.fetch(config);
   }
 }
