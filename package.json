@@ -1,11 +1,7 @@
 {
   "name": "linkurious-rest-client",
-  "version": "2.2.3",
-  "description": "Linkurious REST client",
-  "engines": {
-    "node": "4.6.0",
-    "npm": "4.1.1"
-  },
+  "version": "2.2.0",
+  "description": "A TypeScript lib to interact with Linkurious REST API",
   "contributors": [
     {
       "name": "Maxime Allex",
@@ -16,15 +12,23 @@
       "name": "David Rapin",
       "email": "david@linkurio.us",
       "url": "https://github.com/davidrapin"
+    },
+    {
+      "name": "André Barata",
+      "email": "andre@linkurio.us",
+      "url": "https://github.com/aabarata"
     }
   ],
-  "private": true,
-  "main": "index.ts",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Linkurious/linkurious-rest-client.git"
   },
-  "author": "linkurious",
+  "author": "Linkurious",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Linkurious/linkurious-rest-client/issues"
@@ -39,7 +43,9 @@
     "bundling": "browserify dist-es6/index.js -s Linkurious --outfile bundle.js",
     "compile": "babel bundle.js --out-file linkurious-rest-client-es5.js",
     "build": "tsc && npm run bundling && npm run compile && rm bundle.js",
-    "doc": "typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts"
+    "doc": "typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts",
+    "prepublishOnly": "tsc -p ./tsconfig.json",
+    "patch": "npm version patch && git push && npm publish"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.35",
