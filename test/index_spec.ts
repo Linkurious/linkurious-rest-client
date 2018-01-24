@@ -80,6 +80,8 @@ describe('Linkurious class', () => {
     });
   });
 
+  let alertId: number;
+
   describe('createAlert method', () => {
     it('must create an alert', (done) => {
       return linkurious.initSources().then(() => {
@@ -90,7 +92,7 @@ describe('Linkurious class', () => {
           enabled:true,
           cron:'* * * * *'
         }, sourceKey).then((res: any) => {
-          expect(res.id).toEqual(1);
+          alertId = res.id;
           expect(res.matchTTL).toEqual(0);
           setTimeout(() => {
             done();
@@ -112,11 +114,12 @@ describe('Linkurious class', () => {
     });
   });
 
+
   describe('getAlert for user method', () => {
     it('must return an alert', (done) => {
       return linkurious.initSources().then(() => {
         return linkurious.alerts.getAlert({
-          id : 1
+          id : alertId
         }, sourceKey).then((res: any) => {
           expect(res.title).toEqual('testAlert');
           done();
@@ -125,15 +128,18 @@ describe('Linkurious class', () => {
     });
   });
 
+  let matchId: number;
+
   describe('getMatches method', () => {
     it('must return an array of matches', (done) => {
       return linkurious.initSources().then(() => {
         return linkurious.alerts.getMatches({
-          id : 1,
+          id : alertId,
           offset:0,
           limit:20
         }, sourceKey).then((res: any) => {
-          expect(res.matches.length).toEqual(2);
+          matchId = res.matches[0].id;
+          expect(Array.isArray(res.matches)).toBeTruthy();
           done();
         })
       })
@@ -144,10 +150,10 @@ describe('Linkurious class', () => {
     it('must update an alert', (done) => {
       return linkurious.initSources().then(() => {
         return linkurious.admin.updateAlert({
-          id : 1,
+          id : alertId,
           title:'testAlertModified'
         }).then((res: any) => {
-          expect(res.id).toEqual(1);
+          expect(res.id).toEqual(alertId);
           expect(res.title).toEqual('testAlertModified');
           done();
         })
@@ -159,9 +165,9 @@ describe('Linkurious class', () => {
     it('must return true', (done) => {
       return linkurious.initSources().then(() => {
         return linkurious.alerts.addActionToMatch({
-          alertId : 1,
+          alertId : alertId,
           action : 'confirm',
-          matchId : 1
+          matchId : matchId
         }, sourceKey).then((res: any) => {
           expect(res).toEqual('');
           done();
@@ -174,8 +180,8 @@ describe('Linkurious class', () => {
     it('must return the match', (done) => {
       return linkurious.initSources().then(() => {
         return linkurious.alerts.getMatch({
-          alertId : 1,
-          matchId : 1
+          alertId : alertId,
+          matchId : matchId
         }, sourceKey).then((res: any) => {
           expect(res.nodes.length).toEqual(1);
           expect(res.status).toEqual('confirmed');
@@ -189,8 +195,8 @@ describe('Linkurious class', () => {
     it('must return all actions of specified match', (done) => {
       return linkurious.initSources().then(() => {
         return linkurious.alerts.getMatchActions({
-          alertId : 1,
-          matchId : 1
+          alertId : alertId,
+          matchId : matchId
         }, sourceKey).then((res: any) => {
           expect(res.length).toEqual(1);
           expect(res[0].action).toEqual('confirm');
@@ -216,7 +222,7 @@ describe('Linkurious class', () => {
     it('must return an alert', (done) => {
       return linkurious.initSources().then(() => {
         return linkurious.admin.getAlert({
-          id : 1
+          id : alertId
         }, sourceKey).then((res: any) => {
           expect(res.title).toEqual('testAlertModified');
           done();
@@ -229,7 +235,7 @@ describe('Linkurious class', () => {
     it('must return true', (done) => {
       return linkurious.initSources().then(() => {
         return linkurious.admin.deleteAlert({
-          id : 1
+          id : alertId
         }, sourceKey).then((res: any) => {
           expect(res).toEqual('');
           done();
@@ -405,7 +411,6 @@ describe('Linkurious class', () => {
   });
 
   describe('updateNode method', function(){
-
     it('must return true', function(done){
       return linkurious.initSources().then(function(){
         return linkurious.node.update({
@@ -519,30 +524,136 @@ describe('Linkurious class', () => {
     });
   });
 
-  describe('createWidget method', () => {
-    it('must create a widget', (done) => {
-      return linkurious.initSources().then(() => {
-        return linkurious.visualization.getTree();
-      }).then((res:any) => {
-        visu = res[2];
-        return linkurious.visualization.createWidget({
-          visualizationId : visu.id,
-        });
-      }).then((res:any) => {
-        widget = res;
-        expect(typeof res).toEqual('string');
+  let userId: number;
+
+  describe('createUser method', function(){
+    it('must create a new user', function(done){
+      return linkurious.admin.getGroups({withAccessRights: false}, sourceKey)
+        .then((groups: Array<any>) => {
+          return linkurious.admin.createUser({
+            username:'testName',
+            email:'testName@test.fr',
+            groups : groups.filter(g => g.name === 'admin').map(g => g.id),
+            password:'testPass'
+          });
+        })
+        .then(function(res:IFullUser){
+        userId = res.id;
+        expect(res.username).toEqual('testName');
         done();
       });
     });
   });
 
+  describe('updateConfig method', function(){
+    it('must change app config', function(done){
+      return linkurious.admin.updateConfig({
+        path : 'access.authRequired',
+        configuration : true
+      }).then(function(){
+        return linkurious.getAppConfig();
+      }).then(function(res:any){
+        expect(res.access.authRequired).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('login method', function(){
+    it('must log a user and hydrate app state', function(done){
+      return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(res){
+        expect(linkurious.state.user.id).toEqual(userId);
+        expect(res).toBeTruthy();
+        done();
+      })
+    });
+
+    it('must logout before login if another user is currently authenticated', function(done){
+      return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(res){
+          expect(linkurious.state.user.id).toEqual(userId);
+          expect(res).toBeTruthy();
+          done();
+        });
+      })
+    })
+  });
+
+  describe('logout method', function(){
+    it('must disconnect user and reset client state', function(done){
+      return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.logout();
+      }).then(function(res){
+        expect(res).toEqual('user disconnected');
+        expect(linkurious.state.user).toBeUndefined();
+        done();
+      })
+    })
+  });
+
+  describe('init method', function(){
+    it('must set current user and default source', function(done){
+      return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        expect(linkurious.state.user.id).toEqual(userId);
+        expect(linkurious.state.currentSource.configIndex).toEqual(0);
+        done();
+      });
+    });
+  });
+
+  describe('updateCurrentUser', function(){
+    it('must update current user and reflect it in state', function(done){
+      return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(){
+        return linkurious.updateCurrentUser({
+          id : userId,
+          username : 'nameChanged'
+        });
+      }).then(function(){
+        expect(linkurious.state.user.username).toEqual('nameChanged');
+        expect(linkurious.state.user.id).toEqual(userId);
+        expect(linkurious.state.user.email).toEqual('testName@test.fr');
+        done();
+      });
+    });
+  });
+
+  let vizId: number;
+
+  describe('createWidget method', () => {
+    it('must create a widget', (done) => {
+
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'})
+        .then(() => {
+          return linkurious.visualization.getSandbox()
+        })
+        .then((response: any) => {
+          response.title = 'test';
+          return linkurious.visualization.create(response)
+        })
+        .then((res) => {
+          vizId = res.id;
+        })
+        .then(() => {
+          return linkurious.visualization.createWidget({
+            visualizationId : vizId,
+          });
+        })
+        .then((res:any) => {
+          widget = res;
+          expect(typeof res).toEqual('string');
+          done();
+        });
+    });
+  });
+
   describe('get widget method', () => {
     it('must return a widget', (done) => {
-      return linkurious.initSources().then(() => {
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'})
+        .then(() => {
         return linkurious.visualization.getWidget({id:widget});
       }).then((res:any) => {
         expect(res.key).toEqual(widget);
-        expect(res.userId).toEqual(1);
+        expect(res.userId).toEqual(userId);
         done();
       })
     });
@@ -550,7 +661,7 @@ describe('Linkurious class', () => {
 
   describe('deleteWidget method', () => {
     it('must delete a widget', (done) => {
-      return linkurious.initSources().then(() => {
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'})  .then(() => {
         return linkurious.visualization.deleteWidget({id:widget});
       }).then((res:any) => {
         expect(res).toEqual('');
@@ -561,7 +672,7 @@ describe('Linkurious class', () => {
 
   describe('create visu method', () => {
     it('must return a visualization', (done) => {
-      return linkurious.initSources().then(() => {
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'})  .then(() => {
         return linkurious.visualization.create({
           title : 'newVizuTest',
           nodes:[{
@@ -600,7 +711,8 @@ describe('Linkurious class', () => {
 
   describe('get a visu method', () => {
     it('must return a visu', (done) => {
-      return linkurious.initSources().then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'})
+        .then(function(){
         return linkurious.visualization.getOne({id:visu.id, populated : true});
       }).then((res:any) => {
         expect(res.title).toEqual('newVizuTest');
@@ -611,102 +723,15 @@ describe('Linkurious class', () => {
 
   describe('shareVisualization method', function(){
     it('must share a visualization', function(done){
-      return linkurious.initSources().then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged',password:'testPass'}).then(function(){
         return linkurious.visualization.share({
-          userId:3,
+          userId:userId,
           right :'read',
-          vizId:4
+          vizId:vizId
         });
       }).then(function(res:IShare){
-        expect(res.visualizationId).toEqual(4);
-        expect(res.userId).toEqual(3);
-        done();
-      });
-    });
-  });
-
-  describe('createUser method', function(){
-    it('must create a new user', function(done){
-      return linkurious.admin.createUser({
-        username:'testName',
-        email:'testName@test.fr',
-        groups : [6],
-        password:'testPass'
-      }).then(function(res:IFullUser){
-        expect(res.id).toEqual(13);
-        expect(res.username).toEqual('testName');
-        done();
-      });
-    });
-  });
-
-  describe('updateConfig method', function(){
-    it('must change app config', function(done){
-      return linkurious.admin.updateConfig({
-        path : 'access.authRequired',
-        configuration : true
-      }).then(function(){
-        return linkurious.getAppConfig();
-      }).then(function(res:any){
-        expect(res.access.authRequired).toBeTruthy();
-        done();
-      });
-    });
-  });
-
-  describe('login method', function(){
-    it('must log a user and hydrate app state', function(done){
-      return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(res){
-        expect(linkurious.state.user.id).toEqual(13);
-        expect(res).toBeTruthy();
-        done();
-      })
-    });
-
-    it('must logout before login if another user is currently authenticated', function(done){
-      return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(){
-        return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(res){
-          expect(linkurious.state.user.id).toEqual(13);
-          expect(res).toBeTruthy();
-          done();
-        });
-      })
-    })
-  });
-
-  describe('logout method', function(){
-    it('must disconnect user and reset client state', function(done){
-      return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(){
-        return linkurious.logout();
-      }).then(function(res){
-        expect(res).toEqual('user disconnected');
-        expect(linkurious.state.user).toBeUndefined();
-        done();
-      })
-    })
-  });
-
-  describe('init method', function(){
-    it('must set current user and default source', function(done){
-      return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
-        expect(linkurious.state.user.id).toEqual(13);
-        expect(linkurious.state.currentSource.configIndex).toEqual(0);
-        done();
-      });
-    });
-  });
-
-  describe('updateCurrentUser', function(){
-    it('must update current user and reflect it in state', function(done){
-      return linkurious.login({usernameOrEmail:'testName',password:'testPass'}).then(function(){
-        return linkurious.updateCurrentUser({
-          id : 13,
-          username : 'nameChanged'
-        });
-      }).then(function(){
-        expect(linkurious.state.user.username).toEqual('nameChanged');
-        expect(linkurious.state.user.id).toEqual(13);
-        expect(linkurious.state.user.email).toEqual('testName@test.fr');
+        expect(res.visualizationId).toEqual(vizId);
+        expect(res.userId).toEqual(userId);
         done();
       });
     });
@@ -850,12 +875,16 @@ describe('Linkurious class', () => {
 
   describe('deleteUser method', () => {
     it('must delete a user', (done) => {
-      return linkurious.admin.createUser({
-        username:'testdelete',
-        email:'testDelete@test.fr',
-        groups : [6],
-        password:'testPass'
-      }).then((res:any) => {
+      return linkurious.admin.getGroups({withAccessRights: false}, sourceKey)
+        .then((groups) => {
+          return linkurious.admin.createUser({
+            username:'testdelete',
+            email:'testDelete@test.fr',
+            groups : groups.filter(g => g.name === 'admin').map(g => g.id),
+            password:'testPass'
+          })
+        })
+      .then((res:any) => {
         return linkurious.admin.deleteUser(res.id);
       }).then((res: any) => {
         expect(res).toBeTruthy();
@@ -864,12 +893,14 @@ describe('Linkurious class', () => {
     });
   });
 
+  let groupId: number;
+
   describe('createGroup method', () => {
     it('must return a group', (done) => {
       return linkurious.admin.createGroup({
         name:'testGroup'
       }, sourceKey).then((res:any) => {
-        expect(res.id).toEqual(15);
+        groupId = res.id;
         expect(res.name).toEqual('testGroup');
         done();
       });
@@ -878,7 +909,7 @@ describe('Linkurious class', () => {
 
   describe('deleteGroup method', () => {
     it('must return true', (done) => {
-      return linkurious.admin.deleteGroup({id: 15}, sourceKey).then((res:any) => {
+      return linkurious.admin.deleteGroup({id: groupId}, sourceKey).then((res:any) => {
         expect(res).toEqual('');
         done();
       });
@@ -887,18 +918,22 @@ describe('Linkurious class', () => {
 
   describe('getGroup method', () => {
     it('must return a group', (done) => {
-      return linkurious.admin.getGroup({id:6}, sourceKey).then((res:any) => {
-        expect(res.id).toEqual(6);
-        expect(res.name).toEqual('admin');
-        done();
-      });
+      return linkurious.admin.getGroups({withAccessRights: false}, sourceKey)
+        .then((groups) => {
+          let adminId = groups.filter(g => g.name === 'admin').map(g => g.id)[0];
+          return linkurious.admin.getGroup({id:adminId}, sourceKey)
+        })
+        .then((res:any) => {
+          expect(res.name).toEqual('admin');
+          done();
+        });
     });
   });
 
   describe('getGroups method', () => {
     it('must return a group list', (done) => {
       return linkurious.admin.getGroups(undefined, sourceKey).then((res:any) => {
-        expect(res.length).toEqual(9);
+        expect(Array.isArray(res)).toBeTruthy();
         done();
       });
     });
@@ -928,7 +963,7 @@ describe('Linkurious class', () => {
   describe('updateUser method', () => {
     it('must return user', (done) => {
       return linkurious.admin.updateUser({
-        id:13,
+        id:userId,
         username:'testName'
       }).then((res:any) => {
         expect(res.username).toEqual('testName');
@@ -1172,7 +1207,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.visualization.count();
       }).then((res:any) => {
-        expect(res).toEqual(8);
+        expect(res).toEqual(12);
         done();
       });
     });
@@ -1262,7 +1297,7 @@ describe('Linkurious class', () => {
         return linkurious.visualization.getShares({id:visu.id});
       }).then((res:any) => {
         expect(res.shares.length).toEqual(0);
-        expect(res.owner.id).toEqual(9);
+        expect(res.owner.id).toEqual(109);
         done();
       })
     });
