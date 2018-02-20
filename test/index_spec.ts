@@ -435,7 +435,7 @@ describe('Linkurious class', () => {
           omitNoindex : true
         });
       }).then(function(res){
-        expect(res).toEqual([{ key: 'roles', count: 4 }, { key: 'altEdgeID', count: 1 }]);
+        expect(res).toEqual([{ key: 'altEdgeID', count: 1 }, { key: 'roles', count: 4 }]);
         done();
       });
     });
@@ -1054,7 +1054,7 @@ describe('Linkurious class', () => {
   describe('getAllGraphQuery method', () => {
     it('must return an array of graphQuery', (done) => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
-        return linkurious.my.getAllGraphQueries();
+        return linkurious.my.getAllGraphQueries({type: 'static'});
       }).then((res:any) => {
         expect(res.length).toEqual(0);
         done();
@@ -1067,12 +1067,15 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.my.saveGraphQuery({
           name : 'mygraphQuery',
+          description : 'trololo',
+          sharing: 'source',
+          type: 'static',
           dialect : 'cypher',
           content : 'MATCH(Person {name: \'Keanu Reeves\'})\nRETURN(Person)'
         });
       }).then((res:any) => {
         graphQueryId = res.id;
-        expect(res.id).toEqual(1);
+        expect(res.id).toEqual(5);
         done();
       });
     });
@@ -1097,7 +1100,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.my.getGraphQuery({id:graphQueryId});
       }).then((res:any) => {
-        expect(res.id).toEqual(1);
+        expect(res.id).toEqual(5);
         done();
       });
     });

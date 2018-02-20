@@ -227,6 +227,11 @@ export interface ISimpleGraphQuery extends IIdentified {
 export interface IGraphQuery extends ISimpleGraphQuery {
   createdAt:string;
   updatedAt:string;
+  description:string;
+  sourceKey:string;
+  right:'owner'|'read';
+  type:'template'|'static';
+  templateFields?:any;
 }
 
 // SEARCH

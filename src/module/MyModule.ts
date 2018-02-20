@@ -100,9 +100,14 @@ export class MyModule extends Module {
   /**
    * Returns all saved GraphModule Queries owned by the current user
    *
+   * @param {{ type:'static'|'template'}} data
+   * @param {string} dataSourceKey
    * @returns {Promise<Array<IGraphQuery>>}
    */
-  public getAllGraphQueries (dataSourceKey?:string):Promise<Array<IGraphQuery>> {
+  public getAllGraphQueries (
+    data:{ type:'static'|'template'},
+    dataSourceKey?:string
+  ):Promise<Array<IGraphQuery>> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/my/rawQuery/all',
@@ -122,7 +127,10 @@ export class MyModule extends Module {
     data:{
       dialect:string;
       content:string;
-      name?:string;
+      name:string;
+      description:string;
+      sharing:'private'|'source';
+      type:'static'|'template';
     },
     dataSourceKey?:string
   ):Promise<IGraphQuery> {
@@ -148,6 +156,9 @@ export class MyModule extends Module {
       id:number;
       name?:string;
       content?:string;
+      description?:string;
+      sharing?:'private'|'source';
+      type?:'static'|'template';
     },
     dataSourceKey?:string
   ):Promise<boolean> {

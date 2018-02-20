@@ -79,7 +79,8 @@ export class GraphModule extends Module {
       withVersion?:boolean;
       withDegree?:boolean;
       withDigest?:boolean;
-      groupResults?:boolean;
+      templateData?:any;
+      type?:'grouped'|'subGraphs'|'dryRun';
     },
     dataSourceKey?:string
   ):Promise<{nodes:any[], edges:any[]}|Array<{graph:{nodes:any[], edges:any[]}}>> {
@@ -89,7 +90,8 @@ export class GraphModule extends Module {
       columns: data.columns,
       limit: data.limit,
       timeout: data.timeout,
-      groupResults: data.groupResults
+      type: data.type,
+      templateData: data.templateData
     };
     let query:any = {
       withVersion : data.withVersion,
@@ -104,7 +106,7 @@ export class GraphModule extends Module {
         query : query,
         dataSource : dataSourceKey
       }
-    ).then((response:Array<IFullNode>) => ( data.groupResults !== false )
+    ).then((response:Array<IFullNode>) => ( data.type !== 'subGraphs' )
       ? VisualizationParser.splitResponse(response)
       : response.map((r:any) => {
         r.graph = VisualizationParser.splitResponse(r.nodes);
