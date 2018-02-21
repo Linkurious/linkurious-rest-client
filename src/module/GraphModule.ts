@@ -69,7 +69,7 @@ export class GraphModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<Array<INode>>}
    */
-  public getNodeList (
+  public runQuery (
     data:{
       dialect:string;
       query:string;

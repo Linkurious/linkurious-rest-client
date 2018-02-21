@@ -344,7 +344,7 @@ describe('Linkurious class', () => {
   describe('getNodesByQuery method', function(){
     it('must return the right nodes for the query', function(done){
       return linkurious.initSources().then(function(){
-        return linkurious.graph.getNodeList({
+        return linkurious.graph.runQuery({
           dialect : 'cypher',
           query : 'MATCH (n)\n WHERE ID(n)=' + nodeId + ' return n LIMIT 1',
           withVersion : true
