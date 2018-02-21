@@ -112,7 +112,8 @@ export class MyModule extends Module {
       {
         url   : '/{dataSourceKey}/graph/my/rawQuery/all',
         method: 'GET',
-        dataSource: dataSourceKey
+        dataSource: dataSourceKey,
+        query: data
       }
     );
   }
