@@ -71,7 +71,7 @@ export class GraphModule extends Module {
    */
   public runQuery (
     data:{
-      dialect:string;
+      dialect?:string;
       query:string;
       limit?:number;
       timeout?:number,
