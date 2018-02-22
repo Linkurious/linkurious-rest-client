@@ -11,7 +11,8 @@
 'use strict';
 
 import {
-  ISearchFullItems, IEdge, IFullNode } from '../../index';
+  ISearchFullItems, IFullNode, IOgmaNode, IOgmaEdge
+} from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
@@ -42,7 +43,7 @@ export class SearchModule extends Module {
       withDegree?:boolean;
     },
     dataSourceKey?:string
-  ):Promise<Array<IFullNode>> {
+  ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/search/nodes/full',
@@ -74,7 +75,7 @@ export class SearchModule extends Module {
       withDigest?:true;
     },
     dataSourceKey?:string
-  ):Promise<Array<IEdge>> {
+  ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/search/edges/full',
@@ -160,7 +161,9 @@ export class SearchModule extends Module {
     contains?:string,
     groupId?:number,
     offset?:number,
-    limit?:number
+    limit?:number,
+    sortBy?:string,
+    sortDirection?:string,
   }):Promise<any> {
     return this.fetch({
       url : '/users',

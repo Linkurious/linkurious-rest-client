@@ -23,7 +23,6 @@ import { VisualizationModule } from './module/VisualizationModule';
 import { AlertModule } from './module/AlertModule';
 import {
   ILoggerDriver,
-  IFetchConfig,
   IFullUser,
   IDataSourceState,
   IAppStatus,
@@ -33,14 +32,10 @@ import {
   IClientState
 } from '../index';
 
-export const LONGITUDE_HEURISTIC:Array<string> = ['longitude', 'long', 'lon', 'lng'];
-export const LATITUDE_HEURISTIC:Array<string> = ['latitude', 'lat'];
-
 export class Linkurious {
   private _fetcher:Fetcher;
   private _clientState:IClientState;
   private _logger:Logger;
-
   private _admin:AdminModule;
   private _my:MyModule;
   private _edge:EdgeModule;
@@ -68,6 +63,7 @@ export class Linkurious {
     fetcherFactory?:FetcherFactory
   ) {
     this._clientState = <IClientState> {};
+    this._clientState.guestMode = false;
     this._logger = new Logger(logLevel, loggerDriver);
     if ( !fetcherFactory ) {
       fetcherFactory = new FetcherFactory();
@@ -147,23 +143,12 @@ export class Linkurious {
     return this._alert;
   }
 
-  /**
-   * set latitude property at index 0 of heuristic
-   *
-   * @param {string}lat
-   */
-  set latitudeProperty(lat:string) {
-    LATITUDE_HEURISTIC.splice(0, 0, lat);
-  }
-
-  /**
-   * set longitude property at index 0 of heuristic
-   *
-   * @param {string}long
-   */
-  set longitudeProperty(long:string) {
-    LONGITUDE_HEURISTIC.splice(0, 0, long);
-  }
+    /**
+     * set guest mode
+     */
+    public setGuestMode(value:boolean):void {
+        this._clientState.guestMode = value;
+    }
 
   /**
    * remove user form state
@@ -218,7 +203,7 @@ export class Linkurious {
     usernameOrEmail:string;
     password:string;
   } ):Promise<any> {
-    let config:IFetchConfig = {
+    let config:{url:string, method:'POST', body:any} = {
       url   : '/auth/login',
       method: 'POST',
       body  : data

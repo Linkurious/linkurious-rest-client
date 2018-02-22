@@ -19,19 +19,23 @@ export class MyModule extends Module {
     super(fetcher);
   }
 
-  /**
-   * get authenticated user infos
-   *
-   * @returns {Promise<IFullUser>}
-   */
-  public infos ():Promise<IFullUser> {
-    return this.fetch(
-      {
-        url   : '/auth/me',
-        method: 'GET'
-      }
-    );
-  }
+    /**
+     * get authenticated user infos
+     *
+     * @returns {Promise<IFullUser>}
+     */
+    public infos (status?:boolean):Promise<IFullUser> {
+        let data:any = {
+            'guest': status
+        };
+        return this.fetch(
+            {
+                url   : '/auth/me',
+                method: 'GET',
+                query : data
+            }
+        );
+    }
 
   /**
    * Check if the user is authenticated.

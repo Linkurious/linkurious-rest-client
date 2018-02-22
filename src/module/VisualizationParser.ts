@@ -14,7 +14,6 @@ import {
   IOgmaNode,
   IServerVisualization, IVisualization
 } from '../../index';
-import { LONGITUDE_HEURISTIC, LATITUDE_HEURISTIC } from '../index';
 
 /**
  * @class
@@ -38,6 +37,7 @@ export class VisualizationParser {
   public static parseEdge(
     edge:{
       id:string|number;
+      selected?:boolean;
       source:string|number;
       target:string|number;
       type:string;
@@ -51,6 +51,7 @@ export class VisualizationParser {
       target: edge.target,
       data: {
         type: edge.type,
+        selected: edge.selected,
         properties: edge.data,
         version: edge.version
       }
@@ -68,12 +69,6 @@ export class VisualizationParser {
     geo?:INodeCoordinates;
     selected?:boolean;
   }):IOgmaNode {
-    let latitude:number;
-    let longitude:number;
-    if ( node.data ) {
-      longitude = VisualizationParser.parseCoordinates('longitude', node);
-      latitude = VisualizationParser.parseCoordinates('latitude', node);
-    }
     return {
       id:node.id,
       x : (node.nodelink) ? node.nodelink.x : undefined,
@@ -86,9 +81,7 @@ export class VisualizationParser {
         selected : node.selected,
         nodelink : node.nodelink,
         geo : node.geo
-      },
-      latitude : latitude,
-      longitude : longitude
+      }
     };
   }
 
@@ -124,46 +117,5 @@ export class VisualizationParser {
       nodes : Array.from(mn.values()),
       edges : Array.from(me.values())
     };
-  }
-
-  private static computeCoordinate(property:string|number):number {
-    return (typeof property === 'number')
-      ? property
-      : parseFloat(property.replace(',', '.'));
-  }
-
-  private static parseCoordinates(
-    type:'latitude'|'longitude',
-    item:{
-      id:string|number;
-      categories:Array<string>;
-      data?:any;
-      statistics?:any;
-      version?:number;
-      nodelink?:any;
-      geo?:any;
-      selected?:boolean;
-    }
-  ):number {
-    let typeHeuristics:Array<string> = ( type === 'longitude' ) ? LONGITUDE_HEURISTIC : LATITUDE_HEURISTIC;
-    let typeDiff:string = ( type === 'longitude' ) ? 'longitudeDiff' : 'latitudeDiff';
-
-    if ( !item.geo || !item.geo[type] ) {
-      Object.keys(item.data).forEach((key:any) => {
-        if ( item.data[key] && typeHeuristics.indexOf(key) > -1 ) {
-          if ( !item.geo ) {
-            item.geo = {};
-            item.geo[type] = VisualizationParser.computeCoordinate(item.data[key]);
-          }
-        }
-      });
-    }
-    if ( item.geo && item.geo[type] ) {
-      return  (item.geo[typeDiff])
-        ? item.geo[type] - item.geo[typeDiff]
-        : item.geo[type];
-    }
-
-    return undefined;
   }
 }
