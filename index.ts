@@ -225,6 +225,7 @@ export interface ISimpleGraphQuery extends IIdentified {
 }
 
 export interface IGraphQuery extends ISimpleGraphQuery {
+  id:number;
   createdAt:string;
   updatedAt:string;
   description:string;

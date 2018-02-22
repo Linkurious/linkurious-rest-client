@@ -7,6 +7,7 @@
  * File:
  * Description :
  */
+
 'use strict';
 
 import { IGraphQuery, IFullUser } from '../../index';
@@ -129,7 +130,7 @@ export class MyModule extends Module {
       dialect:'cypher'|'gremlin'|'sparql';
       content:string;
       name:string;
-      description:string;
+      description?:string;
       sharing:'private'|'source';
       type:'static'|'template';
     },
