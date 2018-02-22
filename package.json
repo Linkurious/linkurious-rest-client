@@ -1,6 +1,6 @@
 {
   "name": "linkurious-rest-client",
-  "version": "2.2.1",
+  "version": "2.2.2-0",
   "description": "A TypeScript lib to interact with Linkurious REST API",
   "contributors": [
     {
@@ -45,7 +45,8 @@
     "build": "tsc && npm run bundling && npm run compile && rm bundle.js",
     "doc": "typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts",
     "prepublishOnly": "tsc -p ./tsconfig.json",
-    "patch": "npm version patch && git push && npm publish"
+    "patch": "npm version patch && git push && npm publish",
+    "prerelease": "npm version prerelease && git push && npm publish --tag next"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.35",

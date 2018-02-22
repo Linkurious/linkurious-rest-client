@@ -28,6 +28,7 @@ import { Module } from './Module';
 export class AdminModule extends Module {
   private _logger:Logger;
   private _clientState:IClientState;
+  private _timer:any;
 
   constructor (
     fetcher:Fetcher,
@@ -548,9 +549,10 @@ export class AdminModule extends Module {
    */
   public processIndexation (
     timeout:number,
-    callback?:( res:IIndexationStatus ) => void
+    callback?:( res:IIndexationStatus ) => void,
+    keepWhenSourceChange?:boolean
   ):Promise<boolean> {
-
+    clearTimeout(this._timer);
     let minTimeout:number = 200;
     const maxTimeout:number = 3000;
 
@@ -566,7 +568,7 @@ export class AdminModule extends Module {
       timeout = 3000;
     }
 
-    return this.listenIndexation(timeout, callback);
+    return this.listenIndexation(this._clientState.currentSource.key, timeout, callback, keepWhenSourceChange);
   }
 
   /**
@@ -737,32 +739,57 @@ export class AdminModule extends Module {
   /**
    * return true when indexation if finished, else launch callback.
    *
+   * @param {string} sourceKey
    * @param {number} timeout
    * @param {IIndexationCallback} [callback]
    * @returns {Promise<boolean>}
    */
   private listenIndexation (
+    sourceKey:string,
     timeout:number,
-    callback?:( res:IIndexationStatus ) => void
+    callback?:( res:IIndexationStatus ) => void,
+    keepWhenSourceChange?:boolean
   ):Promise<any> {
-    return this.getIndexationStatus().then(
-      ( res:IIndexationStatus ) => {
-        if ( res.indexing !== 'done' ) {
-          if ( callback ) {
-            callback(res);
-          }
+    if ( keepWhenSourceChange ) {
+      return this.getIndexationStatus().then(
+        ( res:IIndexationStatus ) => {
+          if ( res.indexing !== 'done' ) {
+            if ( callback ) {
+              callback(res);
+            }
 
-          return new Promise(
-            ( resolve:any ) => {
+            return new Promise(
+              ( resolve:any ) => {
+                this._timer = setTimeout(() => {
+                  return resolve();
+                }, timeout);
+              }
+            ).then(() => this.listenIndexation(sourceKey, timeout, callback, keepWhenSourceChange));
+          } else {
+            return res;
+          }
+        }
+      );
+    } else {
+      if ( this._clientState.currentSource.key === sourceKey ) {
+        return this.getIndexationStatus().then(( res:IIndexationStatus ) => {
+          if ( res.indexing !== 'done' ) {
+            if ( callback ) {
+              callback(res);
+            }
+
+            return new Promise(( resolve:any ) => {
               setTimeout(() => {
                 return resolve();
               }, timeout);
-            }
-          ).then(() => this.listenIndexation(timeout, callback));
-        } else {
-          return res;
-        }
+            }).then(() => this.listenIndexation(sourceKey, timeout, callback, keepWhenSourceChange));
+          } else {
+            return res;
+          }
+        });
+      } else {
+        return Promise.resolve('source change during indexation');
       }
-    );
+    }
   }
 }
