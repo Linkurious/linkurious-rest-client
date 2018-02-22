@@ -435,7 +435,7 @@ describe('Linkurious class', () => {
           omitNoindex : true
         });
       }).then(function(res){
-        expect(res).toEqual([{ key: 'roles', count: 4 }, { key: 'altEdgeID', count: 1 }]);
+        expect(res).toEqual([{ key: 'altEdgeID', count: 1 }, { key: 'roles', count: 4 }]);
         done();
       });
     });
