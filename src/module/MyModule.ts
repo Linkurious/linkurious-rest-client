@@ -126,7 +126,7 @@ export class MyModule extends Module {
    */
   public saveGraphQuery (
     data:{
-      dialect:string;
+      dialect:'cypher'|'gremlin'|'sparql';
       content:string;
       name:string;
       description:string;
