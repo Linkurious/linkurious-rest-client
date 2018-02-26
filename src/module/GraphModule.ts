@@ -106,14 +106,18 @@ export class GraphModule extends Module {
         query : query,
         dataSource : dataSourceKey
       }
-    ).then((response:any) => ( data.type !== 'subGraphs' )
-      ? ( data.type === 'grouped' )
-        ? VisualizationParser.splitResponse(response)
-        : response
-      : response.map((r:any) => {
-        r.graph = VisualizationParser.splitResponse(r.nodes);
-        return r;
-      })
+    ).then((response:any) => {
+        if ( data.type === 'subGraphs' ) {
+          return response.map((r:any) => {
+            r.graph = VisualizationParser.splitResponse(r.nodes);
+            return r;
+          });
+        } else if ( data.type === 'grouped' ) {
+          return VisualizationParser.splitResponse(response);
+        } else {
+          return response;
+        }
+      }
     );
   }
 }
