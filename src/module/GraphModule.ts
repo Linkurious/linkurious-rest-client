@@ -31,7 +31,6 @@ export class GraphModule extends Module {
       startNode:string|number;
       endNode:string|number;
       maxDepth ?:number;
-      withVersion ?:boolean;
       withDigest ?:boolean;
       withDegree?:boolean;
     },
@@ -76,7 +75,6 @@ export class GraphModule extends Module {
       limit?:number;
       timeout?:number,
       columns?:Array<{type:string, columnName:string}>,
-      withVersion?:boolean;
       withDegree?:boolean;
       withDigest?:boolean;
       templateData?:any;
@@ -94,7 +92,6 @@ export class GraphModule extends Module {
       templateData: data.templateData
     };
     let query:any = {
-      withVersion : data.withVersion,
       withDigest : data.withDigest,
       withDegree : data.withDegree
     };

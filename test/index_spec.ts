@@ -300,7 +300,6 @@ describe('Linkurious class', () => {
         return linkurious.edge.getAdjacentFromNode({
           orientation:'in',
           nodeId:nodeId,
-          withVersion:true,
           skip : 0,
           limit:10
         }).then(function(res:Array<IOgmaEdge>){
@@ -315,7 +314,6 @@ describe('Linkurious class', () => {
         return linkurious.edge.getAdjacentFromNode({
           orientation:'out',
           nodeId:nodeId,
-          withVersion:true,
           skip:0,
           limit:10
         }).then(function(res:Array<IOgmaEdge>){
@@ -330,7 +328,6 @@ describe('Linkurious class', () => {
         return linkurious.edge.getAdjacentFromNode({
           orientation:'both',
           nodeId:nodeId,
-          withVersion:true,
           skip:0,
           limit:10
         }).then(function(res:Array<IOgmaEdge>){
@@ -347,7 +344,6 @@ describe('Linkurious class', () => {
         return linkurious.graph.runQuery({
           dialect : 'cypher',
           query : 'MATCH (n)\n WHERE ID(n)=' + nodeId + ' return n LIMIT 1',
-          withVersion : true
         });
       }).then(function(res: any){
         expect(res.nodes[0].data.properties.name).toEqual('Keanu Reeves');
@@ -381,7 +377,6 @@ describe('Linkurious class', () => {
       return linkurious.initSources().then(function(){
         return linkurious.node.getOne({
           id:nodeId,
-          withVersion : true,
           withEdges : true
         });
       }).then(function(res: {nodes: Array<IOgmaNode>, edges: Array<IOgmaEdge>}){
@@ -400,8 +395,7 @@ describe('Linkurious class', () => {
         return linkurious.node.expand({
           ids:[nodeId],
           ignoredNodes:[],
-          visibleNodes:[nodeId],
-          withVersion:false
+          visibleNodes:[nodeId]
         });
       }).then(function(res: {nodes: Array<IOgmaNode>, edges: Array<IOgmaEdge>}){
         expect(res.nodes.length).toEqual(3);
@@ -419,7 +413,6 @@ describe('Linkurious class', () => {
           deletedCategories : [],
           deletedProperties : [],
           properties : {name : 'Keanu Reeves', born : 1964, test:'test update'},
-          version : 2
         });
       }).catch(function(res){
         expect(res).toBeTruthy();
@@ -1019,8 +1012,7 @@ describe('Linkurious class', () => {
         return linkurious.edge.update({
           id : edgeID,
           deletedProperties : [],
-          properties : {tralala:'test'},
-          version : 1
+          properties : {tralala:'test'}
         });
       }).then((res:any) => {
         expect(res.data.properties.tralala).toEqual('test');
@@ -1122,8 +1114,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.graph.getShortestPaths({
           startNode : sourceId,
-          endNode : targetId,
-          withVersion : true
+          endNode : targetId
         });
       }).then((res:any) => {
         expect(res.length).toEqual(3);
@@ -1155,7 +1146,6 @@ describe('Linkurious class', () => {
       }).then((res:any) => {
         nodeToDelete = res.id;
         expect(res.data.properties.name).toEqual('Robert Mitchum');
-        expect(res.data.version).toEqual(1);
         done();
       });
     });

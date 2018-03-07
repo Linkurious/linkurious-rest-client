@@ -28,7 +28,7 @@ export class VisualizationParser {
       target:string|number;
       type:string;
       data:any;
-      version:number;
+      statistics:{readAt:string};
     }]
   ):Array<IOgmaEdge> {
     return edges.map((e:IEdge) => VisualizationParser.parseEdge(e));
@@ -42,7 +42,7 @@ export class VisualizationParser {
       target:string|number;
       type:string;
       data:any;
-      version?:number;
+      statistics:{readAt:string};
     }
   ):IOgmaEdge {
     return {
@@ -53,7 +53,7 @@ export class VisualizationParser {
         type: edge.type,
         selected: edge.selected,
         properties: edge.data,
-        version: edge.version
+        statistics: edge.data.statistics
       }
     };
   }
@@ -64,7 +64,6 @@ export class VisualizationParser {
     data?:any;
     edges?:Array<any>;
     statistics?:any;
-    version?:number;
     nodelink?:any;
     geo?:INodeCoordinates;
     selected?:boolean;
@@ -77,7 +76,6 @@ export class VisualizationParser {
         categories : node.categories,
         properties : node.data,
         statistics : node.statistics,
-        version : node.version,
         selected : node.selected,
         nodelink : node.nodelink,
         geo : node.geo

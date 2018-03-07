@@ -102,7 +102,6 @@ export class NodeModule extends Module {
       withEdges?:boolean;
       withDigest?:boolean;
       withDegree?:boolean;
-      withVersion?:boolean;
     },
     dataSourceKey?:string
   ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}|IOgmaNode> {
@@ -139,7 +138,6 @@ export class NodeModule extends Module {
       edgeType?:string;
       limit?:number;
       limitType?:string;
-      withVersion:boolean;
       withDigest?:boolean;
       withDegree?:boolean;
     },
@@ -155,7 +153,6 @@ export class NodeModule extends Module {
       limitType:data.limitType
     };
     let query:any = {
-      withVersion:data.withVersion,
       withDigest:data.withDigest,
       withDegree:data.withDegree
     };
@@ -213,7 +210,7 @@ export class NodeModule extends Module {
       deletedProperties?:Array<string>;
       addedCategories?:Array<string>;
       deletedCategories?:Array<string>;
-      version:number;
+      readAt:string;
     },
     dataSourceKey?:string
   ):Promise<any> {

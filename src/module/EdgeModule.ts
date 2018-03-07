@@ -82,7 +82,7 @@ export class EdgeModule extends Module {
       type?:string;
       properties?:any;
       deletedProperties?:Array<string>;
-      version:number;
+      readAt:string;
     },
     dataSourceKey?:string
   ):Promise<IOgmaEdge> {
@@ -136,7 +136,6 @@ export class EdgeModule extends Module {
       type?:string;
       skip:number;
       limit:number;
-      withVersion?:boolean;
       nodeId:ItemId;
     },
     dataSourceKey?:string
@@ -144,8 +143,7 @@ export class EdgeModule extends Module {
     let query:any = {
       type: data.type,
       skip: data.skip,
-      limit: data.limit,
-      withVersion: data.withVersion
+      limit: data.limit
     };
 
     if ( data.orientation === 'in' ) {
@@ -178,8 +176,7 @@ export class EdgeModule extends Module {
    */
   public getOne (
     data:{
-      id:ItemId,
-      withVersion?:boolean
+      id:ItemId
     },
     dataSourceKey?:string
   ):Promise<IOgmaEdge> {

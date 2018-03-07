@@ -54,13 +54,13 @@ export interface IIdentifiedItemList {
 
 export interface IItem extends IIdentifiedItem {
   data:any;
-  version?:number;
 }
 
 export interface IEdge extends IItem {
   type:string;
   source:ItemId;
   target:ItemId;
+  statistics:{readAt:string};
 }
 
 export interface INode extends IItem {
@@ -403,7 +403,7 @@ export interface IOgmaEdge {
     type:string;
     selected?:boolean;
     properties:any;
-    version?:number;
+    statistics:{readAt:string};
   };
 }
 
@@ -415,7 +415,6 @@ export interface IOgmaNode {
     categories:Array<string>;
     properties:any;
     statistics:any;
-    version:number;
     geo?:INodeCoordinates;
     nodelink?:any;
     selected?:boolean;
@@ -677,7 +676,6 @@ export interface IGetAdjacentEdges extends IDataSourceRelative, IBaseRequest {
   type ?:string;
   skip?:number;
   limit?:number;
-  withVersion ?:boolean;
   nodeId?:ItemId;
   source?:ItemId;
   target?:ItemId;
@@ -698,7 +696,7 @@ export interface ICreateEdge extends IDataSourceRelative, IBaseRequest {
 export interface IUpdateEdge extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
   properties:any;
   deletedProperties:Array<string>;
-  version:number;
+  readAt:string;
 }
 
 export interface IGetUserList extends IBaseRequest {
@@ -771,7 +769,6 @@ export interface ISendQuery extends IDataSourceRelative, IBaseRequest {
   limit?:number;
   timeout?:number;
   columns?:Array<{type:string, columnName:string}>;
-  with_version?:boolean;
   with_digest?:boolean;
   with_degree?:boolean;
 }
@@ -780,7 +777,6 @@ export interface IGetShortestPaths extends IDataSourceRelative, IBaseRequest {
   startNode:ItemId;
   endNode:ItemId;
   maxDepth ?:number;
-  withVersion ?:boolean;
   withDigest ?:boolean;
 }
 
@@ -805,7 +801,6 @@ export interface IGetVisualization extends IIdentified {
 export interface IGetNode extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
   withEdges ?:boolean;
   withDigest ?:boolean;
-  withVersion ?:boolean;
 }
 
 export interface IGetAdjacentItems extends IIdentifiedItemList, IDataSourceRelative, IBaseRequest {
@@ -815,7 +810,6 @@ export interface IGetAdjacentItems extends IIdentifiedItemList, IDataSourceRelat
   edgeType?:string;
   limit?:number;
   limitType?:string;
-  withVersion:boolean;
   withDigest:boolean;
 }
 
@@ -834,7 +828,7 @@ export interface IUpdateNode extends IIdentifiedItem, IDataSourceRelative, IBase
   deletedProperties:Array<string>;
   addedCategories:Array<string>;
   deletedCategories:Array<string>;
-  version:number;
+  readAt:number;
 }
 
 export interface IUpdateAppConfig extends IDataSourceConfig, IBaseRequest {
