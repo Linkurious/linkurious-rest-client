@@ -53,7 +53,7 @@ export class VisualizationParser {
         type: edge.type,
         selected: edge.selected,
         properties: edge.data,
-        readAt: edge.data.readAt
+        readAt: edge.readAt
       }
     };
   }
