@@ -60,11 +60,12 @@ export interface IEdge extends IItem {
   type:string;
   source:ItemId;
   target:ItemId;
-  statistics:{readAt:string};
+  readAt:string;
 }
 
 export interface INode extends IItem {
   statistics?:Array<IDigest>;
+  readAt:string;
   categories:any;
 }
 
@@ -403,7 +404,7 @@ export interface IOgmaEdge {
     type:string;
     selected?:boolean;
     properties:any;
-    statistics:{readAt:string};
+    readAt:string;
   };
 }
 
@@ -418,6 +419,7 @@ export interface IOgmaNode {
     geo?:INodeCoordinates;
     nodelink?:any;
     selected?:boolean;
+    readAt:string;
   };
 }
 
