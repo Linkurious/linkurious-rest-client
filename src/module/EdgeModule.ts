@@ -18,7 +18,6 @@ import {
   IOgmaEdge
 } from '../../index';
 import { Fetcher } from '../http/fetcher';
-import { Utils } from '../http/utils';
 import { VisualizationParser } from './VisualizationParser';
 
 export class EdgeModule extends Module {
@@ -91,7 +90,7 @@ export class EdgeModule extends Module {
       {
         url   : '/{dataSourceKey}/graph/edges/{id}',
         method: 'PATCH',
-        body  : Utils.fixSnakeCase(data),
+        body  : data,
         dataSource: dataSourceKey
       }
     ).then((edge:IEdge) => VisualizationParser.parseEdge(edge));

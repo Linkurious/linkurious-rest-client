@@ -218,7 +218,7 @@ export class NodeModule extends Module {
       {
         url   : '/{dataSourceKey}/graph/nodes/{id}',
         method: 'PATCH',
-        body  : Utils.fixSnakeCase(data),
+        body  : data,
         dataSource: dataSourceKey
       }
     );
