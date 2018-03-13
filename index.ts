@@ -231,6 +231,7 @@ export interface IGraphQuery extends ISimpleGraphQuery {
   updatedAt:string;
   description:string;
   sourceKey:string;
+  sharing: 'private'|'source';
   right:'owner'|'read';
   type:'template'|'static';
   templateFields?:any;

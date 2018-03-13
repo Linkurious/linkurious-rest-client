@@ -64,7 +64,7 @@ export class MyModule extends Module {
       id:number
     },
     dataSourceKey?:string
-  ):Promise<boolean> {
+  ):Promise<void> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
@@ -163,7 +163,7 @@ export class MyModule extends Module {
       type?:'static'|'template';
     },
     dataSourceKey?:string
-  ):Promise<boolean> {
+  ):Promise<void> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/my/rawQuery/{id}',
