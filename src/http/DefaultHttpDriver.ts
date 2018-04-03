@@ -114,11 +114,6 @@ export class DefaultHttpDriver implements IHttpDriver {
           .get(uri)
           .withCredentials()
           .query(query);
-
-        if ( !ignoreContentType ) {
-          q = q.set('Accept', 'application/json');
-        }
-
         q.end(
             (
               err:any,
@@ -199,12 +194,18 @@ export class DefaultHttpDriver implements IHttpDriver {
       this.cookie = res.header['set-cookie'];
     }
 
-    resolve(
-      {
+    if ( res.type !== null && res.type !== undefined && res.type !== '' ) {
+      resolve({
         statusCode: res.status,
-        body      : res.body || res.text,
-        header    : res.header
-      }
-    );
+        body:res.body || res.text,
+        header: res.header
+      });
+    } else {
+      resolve({
+        statusCode: res.status,
+        body: (res.status !== 204) ? JSON.parse(res.text) : null,
+        header: res.header
+      });
+    }
   }
 }
