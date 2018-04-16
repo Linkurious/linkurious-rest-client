@@ -346,7 +346,7 @@ describe('Linkurious class', () => {
           query : 'MATCH (n)\n WHERE ID(n)=' + nodeId + ' return n LIMIT 1',
         });
       }).then(function(res: any){
-        expect(res.nodes[0].data.properties.name).toEqual('Keanu Reeves');
+        expect(res[0].data.name).toEqual('Keanu Reeves');
         done();
       });
     });
@@ -413,6 +413,7 @@ describe('Linkurious class', () => {
           deletedCategories : [],
           deletedProperties : [],
           properties : {name : 'Keanu Reeves', born : 1964, test:'test update'},
+          readAt: ''
         });
       }).catch(function(res){
         expect(res).toBeTruthy();
@@ -1014,7 +1015,8 @@ describe('Linkurious class', () => {
         return linkurious.edge.update({
           id : edgeID,
           deletedProperties : [],
-          properties : {tralala:'test'}
+          properties : {tralala:'test'},
+          readAt: ''
         });
       }).then((res:any) => {
         expect(res.data.properties.tralala).toEqual('test');

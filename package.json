@@ -45,7 +45,7 @@
     "build": "tsc && npm run bundling && npm run compile && rm bundle.js",
     "doc": "typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts",
     "prepublishOnly": "tsc -p ./tsconfig.json",
-    "patch": "npm version patch && git push && npm publish",
+    "release": "git push --tags && npm publish",
     "prerelease": "npm version prerelease && git push && npm publish --tag next"
   },
   "devDependencies": {
