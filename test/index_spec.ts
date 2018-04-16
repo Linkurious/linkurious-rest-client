@@ -428,7 +428,9 @@ describe('Linkurious class', () => {
           omitNoindex : true
         });
       }).then(function(res){
-        expect(res).toEqual([{ key: 'altEdgeID', count: 1 }, { key: 'roles', count: 4 }]);
+        expect(res.sort((a, b) => {
+          return (a.key < b.key) ? -1 : (a.key > b.key) ? 1 : 0;
+        })).toEqual([{ key: 'altEdgeID', count: 1 }, { key: 'roles', count: 4 }]);
         done();
       });
     });
