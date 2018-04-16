@@ -114,11 +114,6 @@ export class DefaultHttpDriver implements IHttpDriver {
           .get(uri)
           .withCredentials()
           .query(query);
-
-        if ( !ignoreContentType ) {
-          q = q.set('Accept', 'application/json');
-        }
-
         q.end(
             (
               err:any,
@@ -179,7 +174,9 @@ export class DefaultHttpDriver implements IHttpDriver {
       return reject(err);
     }
 
-    if (
+    // CloudFlare removes the content type from request. all request, not just GET.
+    // https://secure.helpscout.net/conversation/542800102/2939?folderId=1003309
+    /*if (
       !ignoreContentType &&
       (res.header['content-length'] && res.header['content-length'] > 0) &&
       res.status !== 204 &&
@@ -191,18 +188,24 @@ export class DefaultHttpDriver implements IHttpDriver {
           'Wrong content-type'
         )
       );
-    }
+    }*/
 
     if ( res.header && res.header['set-cookie'] ) {
       this.cookie = res.header['set-cookie'];
     }
 
-    resolve(
-      {
+    if ( res.type !== null && res.type !== undefined && res.type !== '' ) {
+      resolve({
         statusCode: res.status,
-        body      : res.body || res.text,
-        header    : res.header
-      }
-    );
+        body:res.body || res.text,
+        header: res.header
+      });
+    } else {
+      resolve({
+        statusCode: res.status,
+        body: (res.status !== 204) ? JSON.parse(res.text) : null,
+        header: res.header
+      });
+    }
   }
 }

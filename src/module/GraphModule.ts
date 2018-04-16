@@ -31,7 +31,6 @@ export class GraphModule extends Module {
       startNode:string|number;
       endNode:string|number;
       maxDepth ?:number;
-      withVersion ?:boolean;
       withDigest ?:boolean;
       withDegree?:boolean;
     },
@@ -69,17 +68,17 @@ export class GraphModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<Array<INode>>}
    */
-  public getNodeList (
+  public runQuery (
     data:{
-      dialect:string;
+      dialect?:string;
       query:string;
       limit?:number;
       timeout?:number,
       columns?:Array<{type:string, columnName:string}>,
-      withVersion?:boolean;
       withDegree?:boolean;
       withDigest?:boolean;
-      groupResults?:boolean;
+      templateData?:any;
+      type?:'grouped'|'subGraphs'|'dryRun';
     },
     dataSourceKey?:string
   ):Promise<{nodes:any[], edges:any[]}|Array<{graph:{nodes:any[], edges:any[]}}>> {
@@ -89,10 +88,10 @@ export class GraphModule extends Module {
       columns: data.columns,
       limit: data.limit,
       timeout: data.timeout,
-      groupResults: data.groupResults
+      type: data.type,
+      templateData: data.templateData
     };
     let query:any = {
-      withVersion : data.withVersion,
       withDigest : data.withDigest,
       withDegree : data.withDegree
     };
@@ -104,12 +103,18 @@ export class GraphModule extends Module {
         query : query,
         dataSource : dataSourceKey
       }
-    ).then((response:Array<IFullNode>) => ( data.groupResults !== false )
-      ? VisualizationParser.splitResponse(response)
-      : response.map((r:any) => {
-        r.graph = VisualizationParser.splitResponse(r.nodes);
-        return r;
-      })
+    ).then((response:any) => {
+        if ( data.type === 'subGraphs' ) {
+          return response.map((r:any) => {
+            r.graph = VisualizationParser.splitResponse(r.nodes);
+            return r;
+          });
+        } else if ( data.type === 'grouped' ) {
+          return VisualizationParser.splitResponse(response);
+        } else {
+          return response;
+        }
+      }
     );
   }
 }

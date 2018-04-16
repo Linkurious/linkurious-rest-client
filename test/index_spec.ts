@@ -300,7 +300,6 @@ describe('Linkurious class', () => {
         return linkurious.edge.getAdjacentFromNode({
           orientation:'in',
           nodeId:nodeId,
-          withVersion:true,
           skip : 0,
           limit:10
         }).then(function(res:Array<IOgmaEdge>){
@@ -315,7 +314,6 @@ describe('Linkurious class', () => {
         return linkurious.edge.getAdjacentFromNode({
           orientation:'out',
           nodeId:nodeId,
-          withVersion:true,
           skip:0,
           limit:10
         }).then(function(res:Array<IOgmaEdge>){
@@ -330,7 +328,6 @@ describe('Linkurious class', () => {
         return linkurious.edge.getAdjacentFromNode({
           orientation:'both',
           nodeId:nodeId,
-          withVersion:true,
           skip:0,
           limit:10
         }).then(function(res:Array<IOgmaEdge>){
@@ -344,13 +341,12 @@ describe('Linkurious class', () => {
   describe('getNodesByQuery method', function(){
     it('must return the right nodes for the query', function(done){
       return linkurious.initSources().then(function(){
-        return linkurious.graph.getNodeList({
+        return linkurious.graph.runQuery({
           dialect : 'cypher',
           query : 'MATCH (n)\n WHERE ID(n)=' + nodeId + ' return n LIMIT 1',
-          withVersion : true
         });
       }).then(function(res: any){
-        expect(res.nodes[0].data.properties.name).toEqual('Keanu Reeves');
+        expect(res[0].data.name).toEqual('Keanu Reeves');
         done();
       });
     });
@@ -381,7 +377,6 @@ describe('Linkurious class', () => {
       return linkurious.initSources().then(function(){
         return linkurious.node.getOne({
           id:nodeId,
-          withVersion : true,
           withEdges : true
         });
       }).then(function(res: {nodes: Array<IOgmaNode>, edges: Array<IOgmaEdge>}){
@@ -400,8 +395,7 @@ describe('Linkurious class', () => {
         return linkurious.node.expand({
           ids:[nodeId],
           ignoredNodes:[],
-          visibleNodes:[nodeId],
-          withVersion:false
+          visibleNodes:[nodeId]
         });
       }).then(function(res: {nodes: Array<IOgmaNode>, edges: Array<IOgmaEdge>}){
         expect(res.nodes.length).toEqual(3);
@@ -419,7 +413,7 @@ describe('Linkurious class', () => {
           deletedCategories : [],
           deletedProperties : [],
           properties : {name : 'Keanu Reeves', born : 1964, test:'test update'},
-          version : 2
+          readAt: ''
         });
       }).catch(function(res){
         expect(res).toBeTruthy();
@@ -483,7 +477,7 @@ describe('Linkurious class', () => {
       return linkurious.initSources().then(function(){
         return linkurious.node.getTypes();
       }).then(function(res:Array<IItemType>){
-        expect(res.length).toEqual(7);
+        expect(res.length).toEqual(9);
         expect(res[0].name).toEqual('Person');
         done();
       });
@@ -980,7 +974,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.edge.count();
       }).then((res:any) => {
-        expect(res).toEqual(18);
+        expect(res).toEqual(19);
         done();
       });
     });
@@ -1022,7 +1016,7 @@ describe('Linkurious class', () => {
           id : edgeID,
           deletedProperties : [],
           properties : {tralala:'test'},
-          version : 1
+          readAt: '2018-04-16T09:57:31.949Z'
         });
       }).then((res:any) => {
         expect(res.data.properties.tralala).toEqual('test');
@@ -1056,9 +1050,9 @@ describe('Linkurious class', () => {
   describe('getAllGraphQuery method', () => {
     it('must return an array of graphQuery', (done) => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
-        return linkurious.my.getAllGraphQueries();
+        return linkurious.my.getAllGraphQueries({type: 'static'});
       }).then((res:any) => {
-        expect(res.length).toEqual(0);
+        expect(res.length).toEqual(1);
         done();
       });
     });
@@ -1069,12 +1063,15 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.my.saveGraphQuery({
           name : 'mygraphQuery',
+          description : 'trololo',
+          sharing: 'source',
+          type: 'static',
           dialect : 'cypher',
           content : 'MATCH(Person {name: \'Keanu Reeves\'})\nRETURN(Person)'
         });
       }).then((res:any) => {
         graphQueryId = res.id;
-        expect(res.id).toEqual(1);
+        expect(res.id).toEqual(6);
         done();
       });
     });
@@ -1099,7 +1096,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.my.getGraphQuery({id:graphQueryId});
       }).then((res:any) => {
-        expect(res.id).toEqual(1);
+        expect(res.id).toEqual(6);
         done();
       });
     });
@@ -1121,8 +1118,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.graph.getShortestPaths({
           startNode : sourceId,
-          endNode : targetId,
-          withVersion : true
+          endNode : targetId
         });
       }).then((res:any) => {
         expect(res.length).toEqual(3);
@@ -1136,7 +1132,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.node.count();
       }).then((res:any) => {
-        expect(res).toEqual(12);
+        expect(res).toEqual(14);
         done();
       });
     });
@@ -1154,7 +1150,6 @@ describe('Linkurious class', () => {
       }).then((res:any) => {
         nodeToDelete = res.id;
         expect(res.data.properties.name).toEqual('Robert Mitchum');
-        expect(res.data.version).toEqual(1);
         done();
       });
     });
