@@ -477,7 +477,7 @@ describe('Linkurious class', () => {
       return linkurious.initSources().then(function(){
         return linkurious.node.getTypes();
       }).then(function(res:Array<IItemType>){
-        expect(res.length).toEqual(7);
+        expect(res.length).toEqual(9);
         expect(res[0].name).toEqual('Person');
         done();
       });
@@ -974,7 +974,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.edge.count();
       }).then((res:any) => {
-        expect(res).toEqual(18);
+        expect(res).toEqual(19);
         done();
       });
     });
@@ -1016,7 +1016,7 @@ describe('Linkurious class', () => {
           id : edgeID,
           deletedProperties : [],
           properties : {tralala:'test'},
-          readAt: ''
+          readAt: '2018-04-16T09:57:31.949Z'
         });
       }).then((res:any) => {
         expect(res.data.properties.tralala).toEqual('test');
@@ -1052,7 +1052,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.my.getAllGraphQueries({type: 'static'});
       }).then((res:any) => {
-        expect(res.length).toEqual(0);
+        expect(res.length).toEqual(1);
         done();
       });
     });
@@ -1071,7 +1071,7 @@ describe('Linkurious class', () => {
         });
       }).then((res:any) => {
         graphQueryId = res.id;
-        expect(res.id).toEqual(5);
+        expect(res.id).toEqual(6);
         done();
       });
     });
@@ -1096,7 +1096,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(() => {
         return linkurious.my.getGraphQuery({id:graphQueryId});
       }).then((res:any) => {
-        expect(res.id).toEqual(5);
+        expect(res.id).toEqual(6);
         done();
       });
     });
@@ -1132,7 +1132,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName',password:'testPass'}).then(function(){
         return linkurious.node.count();
       }).then((res:any) => {
-        expect(res).toEqual(12);
+        expect(res).toEqual(14);
         done();
       });
     });
