@@ -731,7 +731,7 @@ export class AdminModule extends Module {
    */
   public setDefaults (
     data:{
-      design?:{node:Array<any>, edge:Array<any>};
+      styles?:{node:Array<any>, edge:Array<any>};
       captions?:{
         node:{[key:string]:{active:boolean, displayName:boolean, properties:Array<string>}},
         edge:{[key:string]:{active:boolean, displayName:boolean, properties:Array<string>}}
