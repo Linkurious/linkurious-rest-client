@@ -1322,7 +1322,7 @@ describe('Linkurious class', () => {
         sourceKey = linkurious.state.currentSource.key;
         return linkurious.admin.startIndexation();
       }).catch((e) => {
-        expect(e.message).toEqual('You can\'t do action "admin.index" on data-source ' + sourceKey + '.');
+        expect(e.message).toEqual('You can\'t do action "admin.index" on any data-source.');
         done();
       })
     });
