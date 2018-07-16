@@ -292,9 +292,12 @@ export class Linkurious {
    *
    * @returns {Promise<any>}
    */
-  public initSources ():Promise<any> {
+  public initSources (data?:{
+    withStyles?:boolean,
+    withCaptions?:boolean
+  }):Promise<any> {
 
-    return this.getSourceList().then(
+    return this.getSourceList(data).then(
       ( sourceStates:Array<IDataSourceState> ) => {
         return this.storeDefaultCurrentSource(sourceStates);
       }
@@ -306,11 +309,15 @@ export class Linkurious {
    *
    * @returns {Promise<IDataSourceState>}
    */
-  public getSourceList ():Promise<Array<IDataSourceState>> {
+  public getSourceList (data?:{
+    withStyles?:boolean,
+    withCaptions?:boolean
+  }):Promise<Array<IDataSourceState>> {
     return this._fetcher.fetch(
       {
         url   : '/dataSources',
-        method: 'GET'
+        method: 'GET',
+        query: data
       }
     ).then(( res:any ) => res.sources);
   }

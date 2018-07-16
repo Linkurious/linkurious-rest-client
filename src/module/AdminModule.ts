@@ -723,6 +723,33 @@ export class AdminModule extends Module {
   }
 
   /**
+   * reset all default styles for a dataSource
+   *
+   * @param {Object} data
+   * @param {number}dataSourceKey
+   * @returns {Promise<boolean>}
+   */
+  public setDefaults (
+    data:{
+      styles?:{node:Array<any>, edge:Array<any>};
+      captions?:{
+        node:{[key:string]:{active:boolean, displayName:boolean, properties:Array<string>}},
+        edge:{[key:string]:{active:boolean, displayName:boolean, properties:Array<string>}}
+      };
+    },
+    dataSourceKey?:string
+  ):Promise<void> {
+    return this.fetch(
+      {
+        url       : '/admin/source/{dataSourceKey}/setDefaults',
+        method    : 'POST',
+        body      : data,
+        dataSource : dataSourceKey
+      }
+    );
+  }
+
+  /**
    * check if an indexation is currently running
    *
    * @returns {Promise<any>}
