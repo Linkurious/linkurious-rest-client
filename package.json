@@ -46,8 +46,7 @@
     "doc": "typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts",
     "prepublishOnly": "tsc -p ./tsconfig.json",
     "patch": "npm version patch && git push && npm publish",
-    "prerelease": "tsc -p ./tsconfig.json && npm version prerelease && git push && npm publish --tag next",
-    "publish": "tsc -p ./tsconfig.json && npm publish"
+    "prerelease": "tsc -p ./tsconfig.json && npm version prerelease && git push && npm publish --tag next"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.35",
