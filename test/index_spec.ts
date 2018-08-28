@@ -8,11 +8,12 @@
  * Description :
  */
 
+
 'use strict';
 
 import {
-  IFullUser, IItemType, IOgmaEdge, IOgmaNode, IProperty, IShare, IVisualization,
-  Linkurious
+    IFullUser, IItemType, IOgmaEdge, IOgmaNode, IProperty, IShare, IVisualization,
+    Linkurious, TypeAccessRight
 } from '../index';
 import {FetcherSpec} from './fetcher_spec';
 import {LinkuriousErrorSpec} from './LinkuriousError_spec';
@@ -458,12 +459,14 @@ describe('Linkurious class', () => {
         return linkurious.edge.getTypes({
           includeType : true
         });
-      }).then(function(res: Array<any>){
-        let sortedResponse = res.sort((a, b) => {
-          if (a.name < b.name)
+      }).then(function(res:{any:{access:TypeAccessRight}; results:Array<IItemType>}){
+        let sortedResponse:Array<IItemType> = res.results.sort((a, b) => {
+          if (a.name < b.name) {
             return -1;
-          if (a.name > b.name)
+          }
+          if (a.name > b.name) {
             return 1;
+          }
           return 0;
         });
         expect(sortedResponse[0].name).toEqual('ACTED_IN');
@@ -476,12 +479,12 @@ describe('Linkurious class', () => {
     it('must return node types', function(done){
       return linkurious.initSources().then(function(){
         return linkurious.node.getTypes();
-      }).then(function(res:Array<IItemType>){
-        expect(res.length).toEqual(9);
-        expect(res[0].name).toEqual('Person');
+      }).then(function(res:{any:{access:TypeAccessRight}; results:Array<IItemType>}){
+        expect(res.results.length).toEqual(9);
+        expect(res.results[0].name).toEqual('Person');
         done();
       });
-    })
+    });
   });
 
   describe('getSandbox method', function(){
@@ -934,7 +937,7 @@ describe('Linkurious class', () => {
       });
     });
   });
-  
+
   describe('getGroupsRights method', () => {
     it('must return groups rights', (done) => {
       return linkurious.admin.getGroupsRights().then((res:any) => {

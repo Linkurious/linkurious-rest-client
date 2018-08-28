@@ -47,7 +47,7 @@
     "prepublishOnly": "tsc -p ./tsconfig.json",
     "patch": "npm version patch && git push && npm publish",
     "prerelease": "npm version prerelease && git push && npm publish --tag next",
-    "publish" : "tsc -p ./tsconfig.json && npm publish"
+    "publish": "tsc -p ./tsconfig.json && npm publish"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.35",

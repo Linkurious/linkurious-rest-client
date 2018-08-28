@@ -7,15 +7,16 @@
  * File:
  * Description :
  */
+
 'use strict';
 
 import { Module } from './Module';
 import {
-  IEdge,
-  ItemId,
-  IProperty,
-  IItemType,
-  IOgmaEdge
+    IEdge,
+    ItemId,
+    IProperty,
+    IItemType,
+    IOgmaEdge, TypeAccessRight
 } from '../../index';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
@@ -223,7 +224,7 @@ export class EdgeModule extends Module {
       includeType ?:boolean;
     },
     dataSourceKey?:string
-    ):Promise<Array<IItemType>> {
+    ):Promise<{any:{access:TypeAccessRight}; results:Array<IItemType>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/schema/edgeTypes',
@@ -231,6 +232,6 @@ export class EdgeModule extends Module {
         query : data,
         dataSource : dataSourceKey
       }
-    ).then(( res:any ) => <Array<IItemType>> res.edgeTypes);
+    );
   }
 }

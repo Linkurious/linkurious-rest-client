@@ -27,6 +27,7 @@ export type ShareRightType = 'read'|'write'|'owner';
 export type ConstraintsOperatorType = 'contains'|'equals'|'more than'|'less than'|'starts with';
 export type MatchStatus = 'unconfirmed'|'confirmed'|'dismissed';
 export type MatchActionType = 'open'|'confirm'|'dismiss'|'unconfirm';
+export type TypeAccessRight = 'writable'|'readable'|'editable'|'none';
 
 export type IIndexationCallback = ( res:IIndexationStatus ) => void;
 
@@ -308,6 +309,7 @@ export interface IProperty extends ICountItemType {
 
 export interface IItemType extends ICountItemType {
   name:string;
+  access: TypeAccessRight;
   properties:Array<IProperty>;
 }
 

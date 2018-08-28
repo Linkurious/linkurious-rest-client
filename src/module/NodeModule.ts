@@ -11,11 +11,11 @@
 'use strict';
 
 import {
-  IFullNode,
-  ItemId,
-  IDigest,
-  IProperty,
-  IItemType, IOgmaNode, IOgmaEdge
+    IFullNode,
+    ItemId,
+    IDigest,
+    IProperty,
+    IItemType, IOgmaNode, IOgmaEdge, TypeAccessRight
 } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
@@ -258,10 +258,9 @@ export class NodeModule extends Module {
   public getTypes (
     params?:{
       includeType ?:boolean;
-      omitInferred:boolean;
     },
     dataSourceKey?:string
-  ):Promise<Array<IItemType>> {
+  ):Promise<{any:{access:TypeAccessRight}, results:Array<IItemType>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/schema/nodeTypes',
@@ -269,6 +268,6 @@ export class NodeModule extends Module {
         query : params,
         dataSource : dataSourceKey
       }
-    ).then(( res:any ) => res.nodeTypes);
+    );
   }
 }
