@@ -37,17 +37,19 @@ export class SearchModule extends Module {
       fuzziness?:number;
       size?:number;
       from?:number;
-      filter?:string;
-      full?:boolean;
-      withDigest?:boolean;
-      withDegree?:boolean;
+      itemType_0?:string;
+      filter_key_0?:string;
+      edges_to?:Array<string>;
+      with_digest?:boolean;
+      with_degree?:boolean;
+      with_access?:boolean;
     },
     dataSourceKey?:string
   ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/search/nodes/full',
-        method: 'GET',
+        method: 'POST',
         query : data,
         dataSource : dataSourceKey
       }
@@ -65,21 +67,24 @@ export class SearchModule extends Module {
    */
   public fullEdges (
     data:{
-      q:string;
-      strictEdges?:boolean;
-      fuzziness?:number;
-      size?:number;
-      from?:number;
-      filter?:string;
-      full?:boolean;
-      withDigest?:true;
+        q:string;
+        strictEdges?:boolean;
+        fuzziness?:number;
+        size?:number;
+        from?:number;
+        itemType_0?:string;
+        filter_key_0?:string;
+        edges_to?:Array<string>;
+        with_digest?:boolean;
+        with_degree?:boolean;
+        with_access?:boolean;
     },
     dataSourceKey?:string
   ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/search/edges/full',
-        method: 'GET',
+        method: 'POST',
         query : data,
         dataSource: dataSourceKey
       }
@@ -103,9 +108,8 @@ export class SearchModule extends Module {
       fuzziness?:number;
       size?:number;
       from?:number;
-      filter?:string;
-      full?:boolean;
-      withDigest?:true;
+      itemType_0?:string;
+      filter_key_0?:string;
     },
     dataSourceKey?:string
   ):Promise<ISearchFullItems> {
@@ -134,9 +138,8 @@ export class SearchModule extends Module {
       fuzziness?:number;
       size?:number;
       from?:number;
-      filter?:string;
-      full?:boolean;
-      withDigest?:true;
+      itemType_0?:string;
+      filter_key_0?:string;
     },
     dataSourceKey?:string
   ):Promise<ISearchFullItems> {
