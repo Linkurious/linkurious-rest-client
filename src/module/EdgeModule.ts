@@ -12,11 +12,11 @@
 
 import { Module } from './Module';
 import {
-    IEdge,
-    ItemId,
-    IProperty,
-    IItemType,
-    IOgmaEdge, TypeAccessRight
+  IEdge,
+  ItemId,
+  IProperty,
+  IItemType,
+  IOgmaEdge, TypeAccessRight, IOgmaNode, INode
 } from '../../index';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
@@ -176,16 +176,24 @@ export class EdgeModule extends Module {
    */
   public getOne (
     data:{
-      id:ItemId
+      id:ItemId,
+      edgesTo?:Array<string|number>,
+      withDigest?:boolean,
+      withDegree?:boolean
     },
     dataSourceKey?:string
-  ):Promise<IOgmaEdge> {
+  ):Promise<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>}> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/edges/{id}',
-      method: 'GET',
-      query  : data,
+      method: 'POST',
+      body  : data,
       dataSource : dataSourceKey
-    }).then((edge:any) => VisualizationParser.parseEdge(edge));
+    }).then((response:any) => {
+      return {
+        nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+        edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+      };
+    });
   }
 
   /**

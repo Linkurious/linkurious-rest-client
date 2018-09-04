@@ -11,11 +11,10 @@
 'use strict';
 
 import {
-    IFullNode,
     ItemId,
     IDigest,
     IProperty,
-    IItemType, IOgmaNode, IOgmaEdge, TypeAccessRight
+    IItemType, IOgmaNode, IOgmaEdge, TypeAccessRight, INode, IEdge
 } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
@@ -99,7 +98,7 @@ export class NodeModule extends Module {
   public getOne (
     params?:{
       id:string|number;
-      withEdges?:boolean;
+      edgesTo?:Array<string|number>;
       withDigest?:boolean;
       withDegree?:boolean;
     },
@@ -108,13 +107,14 @@ export class NodeModule extends Module {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/nodes/{id}',
-        method: 'GET',
-        query : params
+        method: 'POST',
+        body : params
       }
-    ).then((response:any) => {
-      return ( params.withEdges )
-        ? VisualizationParser.splitResponse([response])
-        : VisualizationParser.parseNode(response);
+    ).then((response:{nodes:Array<INode>; edges:Array<IEdge>}) => {
+      return {
+        nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+        edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+      };
     });
   }
 
@@ -162,7 +162,12 @@ export class NodeModule extends Module {
       body  : Utils.fixSnakeCase(body),
       query : query,
       dataSource : dataSourceKey
-    }).then((nodes:Array<IFullNode>) => VisualizationParser.splitResponse(nodes, data));
+    }).then((result:{nodes:Array<INode>; edges:Array<IEdge>}) => {
+      return {
+        nodes: result.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+        edges: result.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+      };
+    });
   }
 
   /**

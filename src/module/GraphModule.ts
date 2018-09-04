@@ -7,9 +7,10 @@
  * File:
  * Description :
  */
+
 'use strict';
 
-import { IEdge, IFullNode } from '../../index';
+import { IEdge, IFullNode, INode, IOgmaEdge, IOgmaNode } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
@@ -31,33 +32,24 @@ export class GraphModule extends Module {
       startNode:string|number;
       endNode:string|number;
       maxDepth ?:number;
+      edgesTo?:boolean;
       withDigest ?:boolean;
       withDegree?:boolean;
     },
     dataSourceKey?:string
-  ):Promise<Array<Array<any>>> {
+  ):Promise<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/shortestPaths',
-        method: 'GET',
+        method: 'POST',
         query : data,
         dataSource : dataSourceKey
       }
     ).then(( res:any ) => {
-      let results:Array<any> = [];
-      res.results.forEach((path:Array<IFullNode>) => {
-        let resultPath:Array<any> = [];
-        path.forEach((node:IFullNode, index:number) => {
-          let edges:Array<any> = [];
-          resultPath.push(VisualizationParser.parseNode(node));
-          node.edges.forEach((edge:IEdge) => {
-            edges.push(VisualizationParser.parseEdge(edge));
-          });
-          resultPath[index].edges = edges;
-        });
-        results.push(resultPath);
-      });
-      return results;
+      return {
+        nodes: res.results.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+        edges: res.results.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+      };
     });
   }
 
@@ -75,6 +67,7 @@ export class GraphModule extends Module {
       limit?:number;
       timeout?:number,
       columns?:Array<{type:string, columnName:string}>,
+      edgesTo?:Array<string|number>;
       withDegree?:boolean;
       withDigest?:boolean;
       templateData?:any;
@@ -105,12 +98,16 @@ export class GraphModule extends Module {
       }
     ).then((response:any) => {
         if ( data.type === 'subGraphs' ) {
-          return response.map((r:any) => {
-            r.graph = VisualizationParser.splitResponse(r.nodes);
-            return r;
-          });
+          return {
+            nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+            edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e)),
+            columns: response.column
+          };
         } else if ( data.type === 'grouped' ) {
-          return VisualizationParser.splitResponse(response);
+          return {
+            nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+            edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+          };
         } else {
           return response;
         }
