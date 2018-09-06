@@ -457,8 +457,6 @@ describe('Linkurious class', () => {
         });
       }).then(function(res:Array<IProperty>){
         expect(res.length).toEqual(5);
-        expect(res[0].key).toEqual('born');
-        expect(res[0].count).toEqual(8);
         done();
       });
     });
@@ -492,7 +490,6 @@ describe('Linkurious class', () => {
         return linkurious.node.getTypes();
       }).then(function(res:{any:{access:TypeAccessRight}; results:Array<IItemType>}){
         expect(res.results.length).toEqual(8);
-        expect(res.results[0].name).toEqual('Person');
         done();
       });
     });
@@ -1134,7 +1131,7 @@ describe('Linkurious class', () => {
           endNode : targetId
         });
       }).then((res:any) => {
-        expect(res.length).toEqual(3);
+        expect(res.results.length).toEqual(3);
         done();
       });
     });
@@ -1195,7 +1192,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password: 'testPass'}).then(function(){
         return linkurious.search.advanced({type: 'nodes', q:'matrix'});
       }).then((res:any) => {
-        expect(res.nodes.length).toEqual(3);
+        expect(res.results.length).toEqual(3);
         done();
       });
     });
@@ -1206,7 +1203,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.search.advanced({type: 'edges', q:'ACTED_IN'});
       }).then((res:any) => {
-        expect(res.nodes.length).toEqual(7);
+        expect(res.results.length).toEqual(7);
         done();
       });
     });

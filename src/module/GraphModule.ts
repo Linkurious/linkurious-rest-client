@@ -37,7 +37,7 @@ export class GraphModule extends Module {
       withDegree?:boolean;
     },
     dataSourceKey?:string
-  ):Promise<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>}> {
+  ):Promise<{results:Array<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>}>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/shortestPaths',
@@ -47,8 +47,12 @@ export class GraphModule extends Module {
       }
     ).then(( res:any ) => {
       return {
-        nodes: res.results.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
-        edges: res.results.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+        results: res.results.map((result:{nodes:Array<INode>; edges:Array<IEdge>}) => {
+          return {
+            nodes: result.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+            edges: result.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+          };
+        })
       };
     });
   }
