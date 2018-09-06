@@ -78,22 +78,22 @@ export class SearchModule extends Module {
     fuzziness?:number;
     size?:number;
     from?:number;
-    filters?:{[key:string]:string};
-    itemTypes?:Array<string>;
+    filter?:Array<[string, string]>;
+    categoriesOrTypes?:Array<string>;
   }, dataSourceKey?:string):Promise<{
     type:string;
     totalHits?:number;
     moreResults?:boolean;
     results:Array<IOgmaNode|IOgmaEdge>
   }> {
-    let dataToSend:{q:string; fuzziness?:number; size?:number; from?:number; filters?:{[key:string]:string};
-      itemTypes?:Array<string>} = {
+    let dataToSend:{q:string; fuzziness?:number; size?:number; from?:number; filter?:Array<[string, string]>;
+      categoriesOrTypes?:Array<string>} = {
       q: data.q,
       fuzziness: data.fuzziness,
       size: data.size,
       from: data.from,
-      filters: data.filters,
-      itemTypes: data.itemTypes
+      filter: data.filter,
+      categoriesOrTypes: data.categoriesOrTypes
     };
     return this.fetch({
       url   : '/{dataSourceKey}/search/' + data.type,
