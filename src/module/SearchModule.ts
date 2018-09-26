@@ -58,7 +58,11 @@ export class SearchModule extends Module {
         type: response.type,
         totalHits: response.totalHits,
         moreResults: response.moreResults,
-        results: ( response.results[0].target !== undefined && response.results[0].source !== undefined )
+        results: (
+          response.results.length > 0 &&
+          response.results[0].target !== undefined &&
+          response.results[0].source !== undefined
+        )
           ? response.results.map((e:IEdge) => VisualizationParser.parseEdge(e))
           : response.results.map((n:INode) => VisualizationParser.parseNode(n))
       };
@@ -105,7 +109,11 @@ export class SearchModule extends Module {
         type: response.type,
         totalHits: response.totalHits,
         moreResults: response.moreResults,
-        results: ( response.results[0].target !== undefined && response.results[0].source !== undefined )
+        results: (
+          response.results.length > 0 &&
+          response.results[0].target !== undefined &&
+          response.results[0].source !== undefined
+        )
           ? response.results.map((e:IEdge) => VisualizationParser.parseEdge(e))
           : response.results.map((n:INode) => VisualizationParser.parseNode(n))
       };
