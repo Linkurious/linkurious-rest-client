@@ -73,12 +73,12 @@ export class MyModule extends Module {
         dataSource : dataSourceKey
       }).then(( res:any ) => {
         return {
-          styles: res.design.styles,
+          styles: res.visualization.design.styles,
           captions: {
-            node: res.nodeFields.captions,
-            edge: res.nodeFields.captions
+            node: res.visualization.nodeFields.captions,
+            edge: res.visualization.nodeFields.captions
           },
-          palettes: res.design.palette
+          palettes: res.visualization.design.palette
         };
       });
     }
