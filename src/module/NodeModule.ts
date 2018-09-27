@@ -132,8 +132,7 @@ export class NodeModule extends Module {
   public expand (
     data:{
       ids:Array<ItemId>;
-      ignoredNodes?:Array<ItemId>;
-      visibleNodes?:Array<ItemId>;
+      edgesTo?:Array<ItemId>;
       nodeCategories?:Array<string>;
       edgeTypes?:Array<string>;
       limit?:number;
@@ -145,8 +144,7 @@ export class NodeModule extends Module {
   ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
     let body:any = {
       ids : data.ids,
-      ignoredNodes : data.ignoredNodes,
-      visibleNodes : data.visibleNodes,
+      edgesTo : data.edgesTo,
       nodeCategories: data.nodeCategories,
       edgeTypes:data.edgeTypes,
       limit:data.limit,
