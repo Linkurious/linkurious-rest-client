@@ -134,8 +134,8 @@ export class NodeModule extends Module {
       ids:Array<ItemId>;
       ignoredNodes?:Array<ItemId>;
       visibleNodes?:Array<ItemId>;
-      nodeCategory?:string;
-      edgeType?:string;
+      nodeCategories?:Array<string>;
+      edgeTypes?:Array<string>;
       limit?:number;
       limitType?:string;
       withDigest?:boolean;
@@ -147,8 +147,8 @@ export class NodeModule extends Module {
       ids : data.ids,
       ignoredNodes : data.ignoredNodes,
       visibleNodes : data.visibleNodes,
-      nodeCategory: data.nodeCategory,
-      edgeType:data.edgeType,
+      nodeCategories: data.nodeCategories,
+      edgeTypes:data.edgeTypes,
       limit:data.limit,
       limitType:data.limitType
     };
@@ -159,7 +159,7 @@ export class NodeModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/expand',
       method: 'POST',
-      body  : Utils.fixSnakeCase(body),
+      body  : body,
       query : query,
       dataSource : dataSourceKey
     }).then((result:{nodes:Array<INode>; edges:Array<IEdge>}) => {
