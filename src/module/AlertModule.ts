@@ -13,9 +13,10 @@ import {
   IMatch,
   IMatchAction,
   IAlert,
-  IMatchResults
+  IMatchResults, IOgmaNode, IOgmaEdge, INode, IEdge
 } from '../../index';
 import { Fetcher } from '../http/fetcher';
+import { VisualizationParser } from './VisualizationParser';
 
 export class AlertModule extends Module {
 
@@ -59,6 +60,50 @@ export class AlertModule extends Module {
         dataSource : dataSourceKey
       }
     );
+  }
+
+  /**
+   * Preview the result of an alert
+   *
+   * @param {any} data
+   * @param {string} dataSourceKey
+   * @returns {Promise<any>}
+   */
+  public preview(data:{
+    query:string;
+    dialect?:string;
+    limit?:number;
+    timeout?:number,
+    withAccess?:boolean;
+    withDegree?:boolean;
+    withDigest?:boolean;
+    columns?:any
+  }, dataSourceKey?:string):Promise<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>; columns:any}> {
+    let query:any = {
+      withAccess: data.withAccess,
+      withDegree: data.withDegree,
+      withDigest: data.withDigest
+    };
+    let body:any = {
+      query: data.query,
+      dialect: data.dialect,
+      limit: data.limit,
+      timeout: data.timeout,
+      columns: data.columns
+    };
+    return this.fetch({
+      url   : '/{dataSourceKey}/alerts/preview',
+      method: 'POST',
+      body  : body,
+      query : query,
+      dataSource : dataSourceKey
+    }).then((response) => {
+      return {
+        nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+        edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e)),
+        columns: response.columns
+      };
+    });
   }
 
   /**

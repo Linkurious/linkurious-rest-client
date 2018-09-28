@@ -58,63 +58,69 @@ export class GraphModule extends Module {
   }
 
   /**
-   * Returns an array of LkNode[] matching the sent query.
+   * Run a static or template query
    *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<Array<INode>>}
+   * @param {any} data
+   * @param {string} dataSourceKey
+   * @returns {Promise<any>}
    */
-  public runQuery (
-    data:{
-      dialect?:string;
-      query:string;
-      limit?:number;
-      timeout?:number,
-      columns?:Array<{type:string, columnName:string}>,
-      edgesTo?:Array<string|number>;
-      withDegree?:boolean;
-      withDigest?:boolean;
-      templateData?:any;
-      type?:'grouped'|'subGraphs'|'dryRun';
-    },
-    dataSourceKey?:string
-  ):Promise<{nodes:any[], edges:any[]}|Array<{graph:{nodes:any[], edges:any[]}}>> {
+  public runQuery(data:{
+    query:string;
+    dialect?:string;
+    limit?:number;
+    timeout?:number,
+    edgesTo?:Array<string|number>;
+    withAccess?:boolean;
+    withDegree?:boolean;
+    withDigest?:boolean;
+    templateData?:any;
+  }, dataSourceKey?:string):Promise<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>}> {
     let body:any = {
       dialect: data.dialect,
       query: data.query,
-      columns: data.columns,
       limit: data.limit,
       timeout: data.timeout,
-      type: data.type,
       templateData: data.templateData
     };
     let query:any = {
       withDigest : data.withDigest,
-      withDegree : data.withDegree
+      withDegree : data.withDegree,
+      withAccess : data.withAccess
     };
     return this.fetch(
       {
-        url   : '/{dataSourceKey}/graph/rawQuery',
+        url   : '/{dataSourceKey}/graph/runQuery',
         method: 'POST',
         body  : body,
         query : query,
         dataSource : dataSourceKey
       }
     ).then((response:any) => {
-        if ( data.type === 'subGraphs' ) {
-          return {
-            nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
-            edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e)),
-            columns: response.column
-          };
-        } else if ( data.type === 'grouped' ) {
-          return {
-            nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
-            edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
-          };
-        } else {
-          return response;
-        }
+        return {
+          nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+          edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+        };
+      }
+    );
+  }
+
+  /**
+   * Return resolve if the current query is valid
+   *
+   * @param {any} data
+   * @param {string} dataSourceKey
+   * @returns {Promise<void>}
+   */
+  public checkQuery(data:{
+    query:string;
+    dialect?:string;
+  }, dataSourceKey?:string):Promise<void> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/checkQuery',
+        method: 'POST',
+        body  : data,
+        dataSource : dataSourceKey
       }
     );
   }
