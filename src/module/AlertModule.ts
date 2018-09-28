@@ -92,7 +92,7 @@ export class AlertModule extends Module {
       columns: data.columns
     };
     return this.fetch({
-      url   : '/{dataSourceKey}/alerts/preview',
+      url   : '/{dataSourceKey}/alerts/alertPreview',
       method: 'POST',
       body  : body,
       query : query,
