@@ -121,53 +121,6 @@ export class EdgeModule extends Module {
   }
 
   /**
-   * Get the adjacent edges of a node from the graph.
-   * If source is provided, return outgoing edges only.
-   * Else if target is provided, return incoming edges only.
-   * Else if adjacent is provided, return all adjacent edges.
-   *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<Array<IOgmaEdge>>}
-   */
-  public getAdjacentFromNode (
-    data:{
-      orientation:'in'|'out'|'both';
-      type?:string;
-      skip:number;
-      limit:number;
-      nodeId:ItemId;
-    },
-    dataSourceKey?:string
-  ):Promise<Array<IOgmaEdge>> {
-    let query:any = {
-      type: data.type,
-      skip: data.skip,
-      limit: data.limit
-    };
-
-    if ( data.orientation === 'in' ) {
-      query.source = data.nodeId;
-    }
-
-    if ( data.orientation === 'out' ) {
-      query.target = data.nodeId;
-    }
-
-    if ( data.orientation === 'both' ) {
-      query.adjacent = data.nodeId;
-    }
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/edges',
-        method: 'GET',
-        query : query,
-        dataSource: dataSourceKey
-      }
-    ).then((edges:any) => VisualizationParser.parseEdgeList(edges));
-  }
-
-  /**
    * Get an edge of the graph.
    *
    * @param {Object} data

@@ -460,6 +460,23 @@ export class Linkurious {
   }
 
   /**
+   * Return a sorted list of files stored on server
+   *
+   * @param {any} data
+   * @returns {Promise<any>}
+   */
+  public getCustomFiles(data?:{
+    root?:string;
+    extensions?:string;
+  }):Promise<{results:Array<{path:string; name:'string'}>}> {
+    return this._fetcher.fetch({
+      method: 'GET',
+      query: data,
+      url: '/customFiles'
+    });
+  }
+
+  /**
    * Restart the server and send the new URL
    */
   public restartServer():Promise<string> {

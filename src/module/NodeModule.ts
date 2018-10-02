@@ -19,7 +19,6 @@ import {
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
-import { Utils } from '../http/utils';
 
 export class NodeModule extends Module {
 
@@ -56,6 +55,7 @@ export class NodeModule extends Module {
     },
     dataSourceKey?:string
   ):Promise<any> {
+    console.log(JSON.stringify(data));
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes',
       method: 'POST',
