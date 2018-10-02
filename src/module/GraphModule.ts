@@ -124,4 +124,50 @@ export class GraphModule extends Module {
       }
     );
   }
+
+  /**
+   * Preview the result of a query
+   *
+   * @param {any} data
+   * @param {string} dataSourceKey
+   * @returns {Promise<any>}
+   */
+  public preview(data:{
+    query:string;
+    dialect?:string;
+    limit?:number;
+    timeout?:number,
+    withAccess?:boolean;
+    withDegree?:boolean;
+    withDigest?:boolean;
+    columns?:any
+  }, dataSourceKey?:string):Promise<{results:Array<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>; columns:any}>}> {
+    let query:any = {
+      withAccess: data.withAccess,
+      withDegree: data.withDegree,
+      withDigest: data.withDigest
+    };
+    let body:any = {
+      query: data.query,
+      dialect: data.dialect,
+      limit: data.limit,
+      timeout: data.timeout,
+      columns: data.columns
+    };
+    return this.fetch({
+      url   : '/{dataSourceKey}/alerts/alertPreview',
+      method: 'POST',
+      body  : body,
+      query : query,
+      dataSource : dataSourceKey
+    }).then((response) => {
+      return response.results.map(result => {
+        return {
+          nodes: result.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+          edges: result.edges.map((e:IEdge) => VisualizationParser.parseEdge(e)),
+          columns: result.columns
+        };
+      });
+    });
+  }
 }
