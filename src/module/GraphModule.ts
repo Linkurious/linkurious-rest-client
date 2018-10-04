@@ -155,7 +155,7 @@ export class GraphModule extends Module {
       columns: data.columns
     };
     return this.fetch({
-      url   : '/{dataSourceKey}/alerts/alertPreview',
+      url   : '/{dataSourceKey}/graph/alertPreview',
       method: 'POST',
       body  : body,
       query : query,
