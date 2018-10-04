@@ -141,7 +141,7 @@ export class GraphModule extends Module {
     withDegree?:boolean;
     withDigest?:boolean;
     columns?:any
-  }, dataSourceKey?:string):Promise<{results:Array<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>; columns:any}>}> {
+  }, dataSourceKey?:string):Promise<Array<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>; columns:any}>> {
     let query:any = {
       withAccess: data.withAccess,
       withDegree: data.withDegree,
