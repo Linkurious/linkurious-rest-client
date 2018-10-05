@@ -55,7 +55,6 @@ export class NodeModule extends Module {
     },
     dataSourceKey?:string
   ):Promise<any> {
-    console.log(JSON.stringify(data));
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes',
       method: 'POST',
