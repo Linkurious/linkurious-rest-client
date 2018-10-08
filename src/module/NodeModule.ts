@@ -102,7 +102,7 @@ export class NodeModule extends Module {
       withDegree?:boolean;
     },
     dataSourceKey?:string
-  ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}|IOgmaNode> {
+  ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/nodes/{id}',
