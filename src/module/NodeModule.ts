@@ -215,7 +215,7 @@ export class NodeModule extends Module {
       readAt:string;
     },
     dataSourceKey?:string
-  ):Promise<any> {
+  ):Promise<IOgmaNode> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/nodes/{id}',
@@ -223,7 +223,7 @@ export class NodeModule extends Module {
         body  : data,
         dataSource: dataSourceKey
       }
-    );
+    ).then((response:INode) => VisualizationParser.parseNode(response))
   }
 
   /**
