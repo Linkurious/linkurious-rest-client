@@ -48,7 +48,7 @@ export class FetcherSpec {
           url : '/test',
           method : 'GET'
         }).catch((res) => {
-          expect(res.key).toEqual('api_not_found');
+          expect(res.key).toEqual('critical');
           done();
         })
       });
