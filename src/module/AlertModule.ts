@@ -13,8 +13,7 @@ import {
   IMatch,
   IMatchAction,
   IAlert,
-  IMatchResults
-} from '../../index';
+  IMatchResults } from '../../index';
 import { Fetcher } from '../http/fetcher';
 
 export class AlertModule extends Module {

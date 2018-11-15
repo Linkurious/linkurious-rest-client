@@ -27,6 +27,7 @@ export type ShareRightType = 'read'|'write'|'owner';
 export type ConstraintsOperatorType = 'contains'|'equals'|'more than'|'less than'|'starts with';
 export type MatchStatus = 'unconfirmed'|'confirmed'|'dismissed';
 export type MatchActionType = 'open'|'confirm'|'dismiss'|'unconfirm';
+export type TypeAccessRight = 'writable'|'readable'|'editable'|'none';
 
 export type IIndexationCallback = ( res:IIndexationStatus ) => void;
 
@@ -242,7 +243,8 @@ export interface IGraphQuery extends ISimpleGraphQuery {
 export interface ISearchResult {
   // todo:remove ambiguity node/nodes/edge/edges (i.e. fix on server too)
   type:ItemsType|ItemType;
-  totalHits:number;
+  totalHits?:number;
+  moreResults?:boolean;
 }
 
 export interface ISearchEdgesInDirectory extends ISearchResult {
@@ -258,7 +260,7 @@ export interface ISearchItemList extends ISearchResult {
 }
 
 export interface ISearchFullItems extends ISearchResult {
-  results:Array<ISearchNode>;
+  results:Array<INode>;
 }
 
 export interface ISearchMatchGroup {
@@ -308,6 +310,7 @@ export interface IProperty extends ICountItemType {
 
 export interface IItemType extends ICountItemType {
   name:string;
+  access: TypeAccessRight;
   properties:Array<IProperty>;
 }
 
@@ -482,8 +485,8 @@ export interface IQueryVisualization {
 }
 
 export interface IItemFields {
-  captions:any;
-  fields:Array<IFields>;
+  captions:{[key:string]:{displayName:boolean; properties:Array<string>;active:boolean}};
+  types:{[key:string]:string};
 }
 
 export interface IFields {

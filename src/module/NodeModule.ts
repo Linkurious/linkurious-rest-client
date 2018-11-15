@@ -11,16 +11,14 @@
 'use strict';
 
 import {
-  IFullNode,
-  ItemId,
-  IDigest,
-  IProperty,
-  IItemType, IOgmaNode, IOgmaEdge
+    ItemId,
+    IDigest,
+    IProperty,
+    IItemType, IOgmaNode, IOgmaEdge, TypeAccessRight, INode, IEdge
 } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
-import { Utils } from '../http/utils';
 
 export class NodeModule extends Module {
 
@@ -99,22 +97,23 @@ export class NodeModule extends Module {
   public getOne (
     params?:{
       id:string|number;
-      withEdges?:boolean;
+      edgesTo?:Array<string|number>;
       withDigest?:boolean;
       withDegree?:boolean;
     },
     dataSourceKey?:string
-  ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}|IOgmaNode> {
+  ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/nodes/{id}',
-        method: 'GET',
-        query : params
+        method: 'POST',
+        body : params
       }
-    ).then((response:any) => {
-      return ( params.withEdges )
-        ? VisualizationParser.splitResponse([response])
-        : VisualizationParser.parseNode(response);
+    ).then((response:{nodes:Array<INode>; edges:Array<IEdge>}) => {
+      return {
+        nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+        edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+      };
     });
   }
 
@@ -132,10 +131,9 @@ export class NodeModule extends Module {
   public expand (
     data:{
       ids:Array<ItemId>;
-      ignoredNodes?:Array<ItemId>;
-      visibleNodes?:Array<ItemId>;
-      nodeCategory?:string;
-      edgeType?:string;
+      edgesTo?:Array<ItemId>;
+      nodeCategories?:Array<string>;
+      edgeTypes?:Array<string>;
       limit?:number;
       limitType?:string;
       withDigest?:boolean;
@@ -145,10 +143,9 @@ export class NodeModule extends Module {
   ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
     let body:any = {
       ids : data.ids,
-      ignoredNodes : data.ignoredNodes,
-      visibleNodes : data.visibleNodes,
-      nodeCategory: data.nodeCategory,
-      edgeType:data.edgeType,
+      edgesTo : data.edgesTo,
+      nodeCategories: data.nodeCategories,
+      edgeTypes:data.edgeTypes,
       limit:data.limit,
       limitType:data.limitType
     };
@@ -159,10 +156,15 @@ export class NodeModule extends Module {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/nodes/expand',
       method: 'POST',
-      body  : Utils.fixSnakeCase(body),
+      body  : body,
       query : query,
       dataSource : dataSourceKey
-    }).then((nodes:Array<IFullNode>) => VisualizationParser.splitResponse(nodes, data));
+    }).then((result:{nodes:Array<INode>; edges:Array<IEdge>}) => {
+      return {
+        nodes: result.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+        edges: result.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+      };
+    });
   }
 
   /**
@@ -213,7 +215,7 @@ export class NodeModule extends Module {
       readAt:string;
     },
     dataSourceKey?:string
-  ):Promise<any> {
+  ):Promise<IOgmaNode> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/nodes/{id}',
@@ -221,7 +223,7 @@ export class NodeModule extends Module {
         body  : data,
         dataSource: dataSourceKey
       }
-    );
+    ).then((response:INode) => VisualizationParser.parseNode(response));
   }
 
   /**
@@ -258,10 +260,9 @@ export class NodeModule extends Module {
   public getTypes (
     params?:{
       includeType ?:boolean;
-      omitInferred:boolean;
     },
     dataSourceKey?:string
-  ):Promise<Array<IItemType>> {
+  ):Promise<{any:{access:TypeAccessRight}, results:Array<IItemType>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/schema/nodeTypes',
@@ -269,6 +270,6 @@ export class NodeModule extends Module {
         query : params,
         dataSource : dataSourceKey
       }
-    ).then(( res:any ) => res.nodeTypes);
+    );
   }
 }

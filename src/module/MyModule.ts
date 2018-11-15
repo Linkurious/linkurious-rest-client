@@ -39,6 +39,51 @@ export class MyModule extends Module {
     }
 
   /**
+   * get styles and captions fo the current user
+   *
+   * @param {string} dataSourceKey
+   * @returns {Promise<any>}
+   */
+    public stylesAndCaptions(dataSourceKey?:string):Promise<{
+      styles:{
+        node:Array<{
+          index:number;
+          itemType:string|null|undefined;
+          input:Array<string>;
+          value:any;
+          style:{color:string|any}
+        }>,
+        edge:Array<{
+          index:number;
+          itemType:string|null|undefined;
+          input:Array<string>;
+          value:any;
+          style:{color:string|any}
+        }>
+      },
+      captions:{
+        node:{[key:string]:{displayName:boolean; properties:Array<string>; active:boolean}},
+        edge:{[key:string]:{displayName:boolean; properties:Array<string>; active:boolean}}
+      },
+      palettes:{[key:string]:string}
+    }> {
+      return this.fetch({
+        url   : '/{dataSourceKey}/sandbox',
+        method: 'GET',
+        dataSource : dataSourceKey
+      }).then(( res:any ) => {
+        return {
+          styles: res.visualization.design.styles,
+          captions: {
+            node: res.visualization.nodeFields.captions,
+            edge: res.visualization.nodeFields.captions
+          },
+          palettes: res.visualization.design.palette
+        };
+      });
+    }
+
+  /**
    * Check if the user is authenticated.
    *
    * @returns {Promise<boolean>}
