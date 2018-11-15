@@ -1230,7 +1230,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.duplicate({id:visu.id});
       }).then((res:any) => {
-        expect(res.title).toEqual('newVizuTest');
+        expect(res.title).toEqual('Copy of newVizuTest');
         visuToDelete = res.id;
         done();
       });
