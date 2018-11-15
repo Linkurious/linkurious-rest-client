@@ -13,10 +13,8 @@ import {
   IMatch,
   IMatchAction,
   IAlert,
-  IMatchResults, IOgmaNode, IOgmaEdge, INode, IEdge
-} from '../../index';
+  IMatchResults } from '../../index';
 import { Fetcher } from '../http/fetcher';
-import { VisualizationParser } from './VisualizationParser';
 
 export class AlertModule extends Module {
 

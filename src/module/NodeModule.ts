@@ -223,7 +223,7 @@ export class NodeModule extends Module {
         body  : data,
         dataSource: dataSourceKey
       }
-    ).then((response:INode) => VisualizationParser.parseNode(response))
+    ).then((response:INode) => VisualizationParser.parseNode(response));
   }
 
   /**

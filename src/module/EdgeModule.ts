@@ -59,13 +59,12 @@ export class EdgeModule extends Module {
     },
     dataSourceKey?:string
   ):Promise<IOgmaEdge> {
-
     return this.fetch({
       url   : '/{dataSourceKey}/graph/edges',
       method: 'POST',
       body  : data,
       dataSource : dataSourceKey
-    }).then((edge:any) => VisualizationParser.parseEdge(edge));
+    }).then((edge:IEdge) => VisualizationParser.parseEdge(edge));
   }
 
   /**

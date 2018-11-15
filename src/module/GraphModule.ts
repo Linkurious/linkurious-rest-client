@@ -161,7 +161,7 @@ export class GraphModule extends Module {
       query : query,
       dataSource : dataSourceKey
     }).then((response) => {
-      return response.results.map(result => {
+      return response.results.map((result:any) => {
         return {
           nodes: result.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
           edges: result.edges.map((e:IEdge) => VisualizationParser.parseEdge(e)),
