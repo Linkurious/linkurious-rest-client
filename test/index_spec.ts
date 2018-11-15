@@ -1012,7 +1012,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password: 'testPass'}).then(() => {
         return linkurious.my.getAllGraphQueries({type: 'static'});
       }).then((res:any) => {
-        expect(res.length).toEqual(1);
+        expect(res.length).toEqual(0);
         done();
       });
     });
@@ -1031,7 +1031,7 @@ describe('Linkurious class', () => {
         });
       }).then((res:any) => {
         graphQueryId = res.id;
-        expect(res.id).toEqual(6);
+        expect(res.id).toEqual(1);
         done();
       });
     });
@@ -1056,7 +1056,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password: 'testPass'}).then(() => {
         return linkurious.my.getGraphQuery({id:graphQueryId});
       }).then((res:any) => {
-        expect(res.id).toEqual(6);
+        expect(res.id).toEqual(1);
         done();
       });
     });
@@ -1164,7 +1164,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.count();
       }).then((res:any) => {
-        expect(res).toEqual(13);
+        expect(res).toEqual(2);
         done();
       });
     });
@@ -1172,7 +1172,7 @@ describe('Linkurious class', () => {
 
   describe('getTree method', () => {
     it('must return visualizations', (done) => {
-      return linkurious.init({usernameOrEmail:'simpleUser', password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.getTree();
       }).then((res:any) => {
         expect(res[1].id).toEqual(5);
@@ -1187,7 +1187,7 @@ describe('Linkurious class', () => {
 
   describe('createFolder method', () => {
     it('must create a folder', (done) => {
-      return linkurious.init({usernameOrEmail:'simpleUser', password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.createFolder({parent : 0, title : 'testFolder'});
       }).then((res:any) => {
         expect(res.title).toEqual('testFolder');
@@ -1199,7 +1199,7 @@ describe('Linkurious class', () => {
 
   describe('updateFolder method', () => {
     it('must update te folder', (done) => {
-      return linkurious.init({usernameOrEmail:'simpleUser', password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.updateFolder({
           id : folderId,
           key : 'title',
@@ -1214,7 +1214,7 @@ describe('Linkurious class', () => {
 
   describe('delete folder method', () => {
     it('must delete a folder', (done) => {
-      return linkurious.init({usernameOrEmail:'simpleUser', password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.deleteFolder({id:folderId});
       }).then((res:any) => {
         expect(res).toEqual('');
@@ -1227,7 +1227,7 @@ describe('Linkurious class', () => {
 
   describe('duplicate visu method', () => {
     it('must return the created visu', (done) => {
-      return linkurious.init({usernameOrEmail:'simpleUser', password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.duplicate({id:visu.id});
       }).then((res:any) => {
         expect(res.title).toEqual('Copy of youpi vizu');
@@ -1239,7 +1239,7 @@ describe('Linkurious class', () => {
 
   describe('delete a visu method', () => {
     it('must delete a visu', (done) => {
-      return linkurious.init({usernameOrEmail:'simpleUser', password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.deleteOne({id:visuToDelete});
       }).then((res:any) => {
         expect(res).toBe('');
@@ -1250,7 +1250,7 @@ describe('Linkurious class', () => {
 
   describe('get share rights of a visu method', () => {
     it('must return sharers', (done) => {
-      return linkurious.init({usernameOrEmail:'simpleUser', password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.getShares({id:visu.id});
       }).then((res:any) => {
         expect(res.shares.length).toEqual(0);
@@ -1262,7 +1262,7 @@ describe('Linkurious class', () => {
 
   describe('updateVisu method', () => {
     it('must update the visu', (done) => {
-      return linkurious.init({usernameOrEmail:'simpleUser', password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.update({
           id : visu.id,
           forceLock : false,
@@ -1278,7 +1278,7 @@ describe('Linkurious class', () => {
   describe('processIndexation method', function(){
     it('cannot start indexation', function(done){
       let key:string;
-      return linkurious.init({usernameOrEmail:'simpleUser', password:'123'}).then(function(){
+      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         key = linkurious.state.currentSource.key;
         return linkurious.admin.startIndexation();
       }).catch((e) => {
