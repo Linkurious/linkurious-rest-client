@@ -1274,32 +1274,4 @@ describe('Linkurious class', () => {
       });
     });
   });
-
-  describe('processIndexation method', function(){
-    it('cannot start indexation', function(done){
-      let key:string;
-      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
-        key = linkurious.state.currentSource.key;
-        return linkurious.admin.startIndexation();
-      }).catch((e) => {
-        expect(e.message).toEqual('You can\'t do action "admin.index" on any data-source.');
-        done();
-      });
-    });
-  });
-
-  describe('processIndexation method', function(){
-    it('cannot start indexation', function(done){
-      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
-        return linkurious.admin.startIndexation();
-      }).then(function(){
-        return linkurious.admin.processIndexation(50, function(res){
-          expect(res.indexing).toEqual('ongoing');
-        });
-      }).then((res) => {
-        expect(res).toBeTruthy();
-        done();
-      });
-    });
-  });
 });
