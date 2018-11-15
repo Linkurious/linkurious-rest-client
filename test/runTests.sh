@@ -5,7 +5,7 @@ rm ../linkurious-server/data/server/dbTest.sqlite
 rm ../linkurious-server/data/server/dbTest.sqlite-shm
 rm ../linkurious-server/data/server/dbTest.sqlite-wal
 rm ../linkurious-server/data/config/test.json
-node ../linkurious-server/test/runMocha.js -sm &
+node ../linkurious-server/dist/test/runMocha.js -sm &
 SERVER_PID=`echo $!`
 
 npm run compileTests

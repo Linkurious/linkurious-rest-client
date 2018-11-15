@@ -11,7 +11,7 @@
 'use strict';
 
 import {
-  ISearchFullItems, IFullNode, IOgmaNode, IOgmaEdge
+  IFullNode, IOgmaNode, IOgmaEdge, IEdge, INode
 } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
@@ -24,35 +24,160 @@ export class SearchModule extends Module {
   }
 
   /**
+   * Search for items without any filters
+   *
+   * @param {any} data
+   * @param {string} dataSourceKey
+   * @returns Promise<{any}>}
+   */
+  public simple(data:{
+    type:'nodes'|'edges';
+    q:string;
+    fuzziness?:number;
+    size?:number;
+    from?:number;
+  }, dataSourceKey?:string):Promise<{
+    type:string;
+    totalHits?:number;
+    moreResults?:boolean;
+    results:Array<IOgmaNode|IOgmaEdge>
+  }> {
+    let dataToSend:{q:string; fuzziness?:number; size?:number; from?:number} = {
+      q: data.q,
+      fuzziness: data.fuzziness,
+      size: data.size,
+      from: data.from
+    };
+    return this.fetch({
+      url   : '/{dataSourceKey}/search/' + data.type,
+      method: 'GET',
+      query : dataToSend,
+      dataSource : dataSourceKey
+    }).then((response:any) => {
+      return {
+        type: response.type,
+        totalHits: response.totalHits,
+        moreResults: response.moreResults,
+        results: (
+          response.results.length > 0 &&
+          response.results[0].target !== undefined &&
+          response.results[0].source !== undefined
+        )
+          ? response.results.map((e:IEdge) => VisualizationParser.parseEdge(e))
+          : response.results.map((n:INode) => VisualizationParser.parseNode(n))
+      };
+    });
+  }
+
+  /**
+   * Search for items with filters
+   *
+   * @param {any} data
+   * @param {string} dataSourceKey
+   * @returns {Promise<any>}
+   */
+  public advanced(data:{
+    type:'nodes'|'edges';
+    q:string;
+    fuzziness?:number;
+    size?:number;
+    from?:number;
+    filter?:Array<[string, string]>;
+    categoriesOrTypes?:Array<string>;
+  }, dataSourceKey?:string):Promise<{
+    type:string;
+    totalHits?:number;
+    moreResults?:boolean;
+    results:Array<IOgmaNode|IOgmaEdge>
+  }> {
+    let dataToSend:{q:string; fuzziness?:number; size?:number; from?:number; filter?:Array<[string, string]>;
+      categoriesOrTypes?:Array<string>} = {
+      q: data.q,
+      fuzziness: data.fuzziness,
+      size: data.size,
+      from: data.from,
+      filter: data.filter,
+      categoriesOrTypes: data.categoriesOrTypes
+    };
+    return this.fetch({
+      url   : '/{dataSourceKey}/search/' + data.type,
+      method: 'POST',
+      body : dataToSend,
+      dataSource : dataSourceKey
+    }).then((response:any) => {
+      return {
+        type: response.type,
+        totalHits: response.totalHits,
+        moreResults: response.moreResults,
+        results: (
+          response.results.length > 0 &&
+          response.results[0].target !== undefined &&
+          response.results[0].source !== undefined
+        )
+          ? response.results.map((e:IEdge) => VisualizationParser.parseEdge(e))
+          : response.results.map((n:INode) => VisualizationParser.parseNode(n))
+      };
+    });
+  }
+
+  /**
    * Search for nodes based on a query string and optional parameters. Return a list of full Nodes.
    *
    * @param {Object} data
    * @param {string}dataSourceKey
    * @returns {Promise<Array<ISearchItemList>>}
    */
-  public fullNodes (
+  public full (
     data:{
+      type:'nodes'|'edges';
       q:string;
-      strictEdges?:boolean;
       fuzziness?:number;
       size?:number;
       from?:number;
-      filter?:string;
-      full?:boolean;
-      withDigest?:boolean;
-      withDegree?:boolean;
+      edges_to?:Array<string>;
+      with_digest?:boolean;
+      with_degree?:boolean;
+      with_access?:boolean;
+      filters?:{[key:string]:string};
+      itemTypes?:Array<string>;
     },
     dataSourceKey?:string
   ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
+    let dataToSend:{
+      q:string;
+      fuzziness?:number;
+      size?:number;
+      edges_to?:Array<string>;
+      with_digest?:boolean;
+      with_degree?:boolean;
+      with_access?:boolean;
+      from?:number;
+      filters?:{[key:string]:string};
+      itemTypes?:Array<string>
+    } = {
+      q: data.q,
+      fuzziness: data.fuzziness,
+      size: data.size,
+      from: data.from,
+      edges_to: data.edges_to,
+      with_access: data.with_access,
+      with_degree: data.with_degree,
+      with_digest: data.with_digest,
+      filters: data.filters,
+      itemTypes: data.itemTypes
+    };
     return this.fetch(
       {
-        url   : '/{dataSourceKey}/search/nodes/full',
-        method: 'GET',
-        query : data,
+        url   : '/{dataSourceKey}/search/' + data.type + '/full',
+        method: 'POST',
+        body : dataToSend,
         dataSource : dataSourceKey
       }
-    ).then((response:Array<IFullNode>) => {
-      return VisualizationParser.splitResponse(response);
+    ).then((response:{nodes:Array<INode>; edges:Array<IEdge>}) => {
+      return {
+        nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+        edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+      };
     });
   }
 
@@ -65,89 +190,27 @@ export class SearchModule extends Module {
    */
   public fullEdges (
     data:{
-      q:string;
-      strictEdges?:boolean;
-      fuzziness?:number;
-      size?:number;
-      from?:number;
-      filter?:string;
-      full?:boolean;
-      withDigest?:true;
+        q:string;
+        fuzziness?:number;
+        size?:number;
+        from?:number;
+        edges_to?:Array<string>;
+        with_digest?:boolean;
+        with_degree?:boolean;
+        with_access?:boolean;
     },
     dataSourceKey?:string
   ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/search/edges/full',
-        method: 'GET',
+        method: 'POST',
         query : data,
         dataSource: dataSourceKey
       }
     ).then((response:Array<IFullNode>) => {
       return VisualizationParser.splitResponse(response);
     });
-  }
-
-  /**
-   * Search for nodes based on a query string and optional parameters. Return formatted results for
-   * the Linkurious client.
-   *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<ISearchFullItems>}
-   */
-  public nodes (
-    data:{
-      q:string;
-      strictEdges?:boolean;
-      fuzziness?:number;
-      size?:number;
-      from?:number;
-      filter?:string;
-      full?:boolean;
-      withDigest?:true;
-    },
-    dataSourceKey?:string
-  ):Promise<ISearchFullItems> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/search/nodes',
-        method: 'GET',
-        query : data,
-        dataSource : dataSourceKey
-      }
-    );
-  }
-
-  /**
-   * Search for edges based on a query string and optional parameters. Return formatted results for
-   * the Linkurious client.
-   *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<ISearchFullItems>}
-   */
-  public edges (
-    data:{
-      q:string;
-      strictEdges?:boolean;
-      fuzziness?:number;
-      size?:number;
-      from?:number;
-      filter?:string;
-      full?:boolean;
-      withDigest?:true;
-    },
-    dataSourceKey?:string
-  ):Promise<ISearchFullItems> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/search/edges',
-        method: 'GET',
-        query : data,
-        dataSource : dataSourceKey
-      }
-    );
   }
 
   /**

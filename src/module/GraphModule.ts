@@ -7,9 +7,10 @@
  * File:
  * Description :
  */
+
 'use strict';
 
-import { IEdge, IFullNode } from '../../index';
+import { IEdge, IFullNode, INode, IOgmaEdge, IOgmaNode } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
@@ -31,90 +32,142 @@ export class GraphModule extends Module {
       startNode:string|number;
       endNode:string|number;
       maxDepth ?:number;
+      edgesTo?:boolean;
       withDigest ?:boolean;
       withDegree?:boolean;
     },
     dataSourceKey?:string
-  ):Promise<Array<Array<any>>> {
+  ):Promise<{results:Array<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>}>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/shortestPaths',
-        method: 'GET',
+        method: 'POST',
         query : data,
         dataSource : dataSourceKey
       }
     ).then(( res:any ) => {
-      let results:Array<any> = [];
-      res.results.forEach((path:Array<IFullNode>) => {
-        let resultPath:Array<any> = [];
-        path.forEach((node:IFullNode, index:number) => {
-          let edges:Array<any> = [];
-          resultPath.push(VisualizationParser.parseNode(node));
-          node.edges.forEach((edge:IEdge) => {
-            edges.push(VisualizationParser.parseEdge(edge));
-          });
-          resultPath[index].edges = edges;
-        });
-        results.push(resultPath);
-      });
-      return results;
+      return {
+        results: res.results.map((result:{nodes:Array<INode>; edges:Array<IEdge>}) => {
+          return {
+            nodes: result.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+            edges: result.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+          };
+        })
+      };
     });
   }
 
   /**
-   * Returns an array of LkNode[] matching the sent query.
+   * Run a static or template query
    *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<Array<INode>>}
+   * @param {any} data
+   * @param {string} dataSourceKey
+   * @returns {Promise<any>}
    */
-  public runQuery (
-    data:{
-      dialect?:string;
-      query:string;
-      limit?:number;
-      timeout?:number,
-      columns?:Array<{type:string, columnName:string}>,
-      withDegree?:boolean;
-      withDigest?:boolean;
-      templateData?:any;
-      type?:'grouped'|'subGraphs'|'dryRun';
-    },
-    dataSourceKey?:string
-  ):Promise<{nodes:any[], edges:any[]}|Array<{graph:{nodes:any[], edges:any[]}}>> {
+  public runQuery(data:{
+    query:string;
+    dialect?:string;
+    limit?:number;
+    timeout?:number,
+    edgesTo?:Array<string|number>;
+    withAccess?:boolean;
+    withDegree?:boolean;
+    withDigest?:boolean;
+    templateData?:any;
+  }, dataSourceKey?:string):Promise<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>}> {
     let body:any = {
       dialect: data.dialect,
       query: data.query,
-      columns: data.columns,
       limit: data.limit,
       timeout: data.timeout,
-      type: data.type,
       templateData: data.templateData
     };
     let query:any = {
       withDigest : data.withDigest,
-      withDegree : data.withDegree
+      withDegree : data.withDegree,
+      withAccess : data.withAccess
     };
     return this.fetch(
       {
-        url   : '/{dataSourceKey}/graph/rawQuery',
+        url   : '/{dataSourceKey}/graph/runQuery',
         method: 'POST',
         body  : body,
         query : query,
         dataSource : dataSourceKey
       }
     ).then((response:any) => {
-        if ( data.type === 'subGraphs' ) {
-          return response.map((r:any) => {
-            r.graph = VisualizationParser.splitResponse(r.nodes);
-            return r;
-          });
-        } else if ( data.type === 'grouped' ) {
-          return VisualizationParser.splitResponse(response);
-        } else {
-          return response;
-        }
+        return {
+          nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+          edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+        };
       }
     );
+  }
+
+  /**
+   * Return resolve if the current query is valid
+   *
+   * @param {any} data
+   * @param {string} dataSourceKey
+   * @returns {Promise<void>}
+   */
+  public checkQuery(data:{
+    query:string;
+    dialect?:string;
+  }, dataSourceKey?:string):Promise<void> {
+    return this.fetch(
+      {
+        url   : '/{dataSourceKey}/graph/checkQuery',
+        method: 'POST',
+        body  : data,
+        dataSource : dataSourceKey
+      }
+    );
+  }
+
+  /**
+   * Preview the result of a query
+   *
+   * @param {any} data
+   * @param {string} dataSourceKey
+   * @returns {Promise<any>}
+   */
+  public preview(data:{
+    query:string;
+    dialect?:string;
+    limit?:number;
+    timeout?:number,
+    withAccess?:boolean;
+    withDegree?:boolean;
+    withDigest?:boolean;
+    columns?:any
+  }, dataSourceKey?:string):Promise<Array<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>; columns:any}>> {
+    let query:any = {
+      withAccess: data.withAccess,
+      withDegree: data.withDegree,
+      withDigest: data.withDigest
+    };
+    let body:any = {
+      query: data.query,
+      dialect: data.dialect,
+      limit: data.limit,
+      timeout: data.timeout,
+      columns: data.columns
+    };
+    return this.fetch({
+      url   : '/{dataSourceKey}/graph/alertPreview',
+      method: 'POST',
+      body  : body,
+      query : query,
+      dataSource : dataSourceKey
+    }).then((response) => {
+      return response.results.map((result:any) => {
+        return {
+          nodes: result.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+          edges: result.edges.map((e:IEdge) => VisualizationParser.parseEdge(e)),
+          columns: result.columns
+        };
+      });
+    });
   }
 }

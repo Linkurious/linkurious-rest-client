@@ -13,11 +13,9 @@ module.exports = function(config) {
     frameworks: ['systemjs', 'jasmine'],
 
     plugins : [
-      'karma-coverage',
       'karma-systemjs',
       'karma-jasmine',
       'karma-chrome-launcher',
-      'karma-remap-istanbul',
       'karma-mocha-reporter',
       'karma-clear-screen-reporter'
     ],
@@ -68,28 +66,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha', 'coverage', 'karma-remap-istanbul'],
-
-    preprocessors: {
-      'tempTests/src/**/*.js': ['coverage'],
-      'tempTests/index.js' : ['coverage']
-    },
-
-    coverageReporter : {
-      type: 'json',
-      dir: 'cover_client',
-      subdir : 'tmp',
-      file: 'coverage.json'
-    },
-
-    remapIstanbulReporter: {
-      src: 'cover_client/tmp/coverage.json',
-      reports: {
-        html: 'cover_client'
-      },
-      timeoutNotCreated: 1000,
-      timeoutNoMoreFiles: 1000
-    },
+    reporters: ['mocha'],
 
     // web server port
     port: 9876,

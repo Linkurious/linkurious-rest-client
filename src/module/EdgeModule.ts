@@ -7,6 +7,7 @@
  * File:
  * Description :
  */
+
 'use strict';
 
 import { Module } from './Module';
@@ -15,7 +16,7 @@ import {
   ItemId,
   IProperty,
   IItemType,
-  IOgmaEdge
+  IOgmaEdge, TypeAccessRight, IOgmaNode, INode
 } from '../../index';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
@@ -58,13 +59,12 @@ export class EdgeModule extends Module {
     },
     dataSourceKey?:string
   ):Promise<IOgmaEdge> {
-
     return this.fetch({
       url   : '/{dataSourceKey}/graph/edges',
       method: 'POST',
       body  : data,
       dataSource : dataSourceKey
-    }).then((edge:any) => VisualizationParser.parseEdge(edge));
+    }).then((edge:IEdge) => VisualizationParser.parseEdge(edge));
   }
 
   /**
@@ -120,53 +120,6 @@ export class EdgeModule extends Module {
   }
 
   /**
-   * Get the adjacent edges of a node from the graph.
-   * If source is provided, return outgoing edges only.
-   * Else if target is provided, return incoming edges only.
-   * Else if adjacent is provided, return all adjacent edges.
-   *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<Array<IOgmaEdge>>}
-   */
-  public getAdjacentFromNode (
-    data:{
-      orientation:'in'|'out'|'both';
-      type?:string;
-      skip:number;
-      limit:number;
-      nodeId:ItemId;
-    },
-    dataSourceKey?:string
-  ):Promise<Array<IOgmaEdge>> {
-    let query:any = {
-      type: data.type,
-      skip: data.skip,
-      limit: data.limit
-    };
-
-    if ( data.orientation === 'in' ) {
-      query.source = data.nodeId;
-    }
-
-    if ( data.orientation === 'out' ) {
-      query.target = data.nodeId;
-    }
-
-    if ( data.orientation === 'both' ) {
-      query.adjacent = data.nodeId;
-    }
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/edges',
-        method: 'GET',
-        query : query,
-        dataSource: dataSourceKey
-      }
-    ).then((edges:any) => VisualizationParser.parseEdgeList(edges));
-  }
-
-  /**
    * Get an edge of the graph.
    *
    * @param {Object} data
@@ -175,16 +128,24 @@ export class EdgeModule extends Module {
    */
   public getOne (
     data:{
-      id:ItemId
+      id:ItemId,
+      edgesTo?:Array<string|number>,
+      withDigest?:boolean,
+      withDegree?:boolean
     },
     dataSourceKey?:string
-  ):Promise<IOgmaEdge> {
+  ):Promise<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>}> {
     return this.fetch({
       url   : '/{dataSourceKey}/graph/edges/{id}',
-      method: 'GET',
-      query  : data,
+      method: 'POST',
+      body  : data,
       dataSource : dataSourceKey
-    }).then((edge:any) => VisualizationParser.parseEdge(edge));
+    }).then((response:any) => {
+      return {
+        nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
+        edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+      };
+    });
   }
 
   /**
@@ -223,7 +184,7 @@ export class EdgeModule extends Module {
       includeType ?:boolean;
     },
     dataSourceKey?:string
-    ):Promise<Array<IItemType>> {
+    ):Promise<{any:{access:TypeAccessRight}; results:Array<IItemType>}> {
     return this.fetch(
       {
         url   : '/{dataSourceKey}/graph/schema/edgeTypes',
@@ -231,6 +192,6 @@ export class EdgeModule extends Module {
         query : data,
         dataSource : dataSourceKey
       }
-    ).then(( res:any ) => <Array<IItemType>> res.edgeTypes);
+    );
   }
 }
