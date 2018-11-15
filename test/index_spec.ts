@@ -1175,7 +1175,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.getTree();
       }).then((res:any) => {
-        expect(res[1].id).toEqual(5);
+        expect(res[1].id).toEqual(4);
         expect(res[1].type).toEqual('visu');
         visu = res[1];
         done();
@@ -1230,7 +1230,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.duplicate({id:visu.id});
       }).then((res:any) => {
-        expect(res.title).toEqual('Copy of youpi vizu');
+        expect(res.title).toEqual('newVizuTest');
         visuToDelete = res.id;
         done();
       });
@@ -1254,7 +1254,7 @@ describe('Linkurious class', () => {
         return linkurious.visualization.getShares({id:visu.id});
       }).then((res:any) => {
         expect(res.shares.length).toEqual(0);
-        expect(res.owner.id).toEqual(109);
+        expect(res.owner.id).toEqual(4);
         done();
       });
     });
