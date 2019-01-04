@@ -932,7 +932,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.edge.count();
       }).then((res:any) => {
-        expect(res).toEqual(19);
+        expect(res).toEqual(20);
         done();
       });
     });
@@ -1012,7 +1012,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password: 'testPass'}).then(() => {
         return linkurious.my.getAllGraphQueries({type: 'static'});
       }).then((res:any) => {
-        expect(res.length).toEqual(0);
+        expect(res.length).toEqual(1);
         done();
       });
     });
@@ -1031,7 +1031,7 @@ describe('Linkurious class', () => {
         });
       }).then((res:any) => {
         graphQueryId = res.id;
-        expect(res.id).toEqual(1);
+        expect(res.id).toEqual(6);
         done();
       });
     });
@@ -1056,7 +1056,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password: 'testPass'}).then(() => {
         return linkurious.my.getGraphQuery({id:graphQueryId});
       }).then((res:any) => {
-        expect(res.id).toEqual(1);
+        expect(res.id).toEqual(6);
         done();
       });
     });
@@ -1164,7 +1164,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.count();
       }).then((res:any) => {
-        expect(res).toEqual(2);
+        expect(res).toEqual(13);
         done();
       });
     });
@@ -1175,7 +1175,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.getTree();
       }).then((res:any) => {
-        expect(res[1].id).toEqual(4);
+        expect(res[1].id).toEqual(15);
         expect(res[1].type).toEqual('visu');
         visu = res[1];
         done();
@@ -1228,7 +1228,7 @@ describe('Linkurious class', () => {
   describe('duplicate visu method', () => {
     it('must return the created visu', (done) => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
-        return linkurious.visualization.duplicate({id:visu.id});
+        return linkurious.visualization.duplicate({id:visu.id, title: 'Copy of newVizuTest'});
       }).then((res:any) => {
         expect(res.title).toEqual('Copy of newVizuTest');
         visuToDelete = res.id;
@@ -1254,7 +1254,7 @@ describe('Linkurious class', () => {
         return linkurious.visualization.getShares({id:visu.id});
       }).then((res:any) => {
         expect(res.shares.length).toEqual(0);
-        expect(res.owner.id).toEqual(4);
+        expect(res.owner.id).toEqual(116);
         done();
       });
     });
