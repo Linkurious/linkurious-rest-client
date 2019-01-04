@@ -1,6 +1,6 @@
 {
   "name": "linkurious-rest-client",
-  "version": "2.6.1",
+  "version": "2.6.2-0",
   "description": "A TypeScript lib to interact with Linkurious REST API",
   "contributors": [
     {
