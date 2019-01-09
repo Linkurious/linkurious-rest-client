@@ -34,6 +34,11 @@
     "url": "https://github.com/Linkurious/linkurious-rest-client/issues"
   },
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "scripts": {
     "lint": "tslint \"src/**/*.ts\"",
     "compileTests": "tsc --project tsconfig_tests.json",
@@ -59,6 +64,7 @@
     "fs-extra": "^0.30.0",
     "istanbul": "^0.4.3",
     "jasmine-core": "2.4.1",
+    "husky": "^1.2.0",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^2.2.0",
     "karma-clear-screen-reporter": "^1.0.0",
@@ -74,7 +80,9 @@
     "systemjs": "^0.19.29",
     "tslint": "^3.10.2",
     "typedoc": "0.9.0",
-    "typescript": "2.6.2"
+    "typescript": "3.1.6",
+    "prettier": "^1.13.5",
+    "pretty-quick": "^1.8.0"
   },
   "dependencies": {
     "superagent": "^3.5.2"

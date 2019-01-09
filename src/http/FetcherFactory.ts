@@ -14,13 +14,7 @@ import { Logger } from '../log/Logger';
 import { IClientState } from '../../index';
 
 export class FetcherFactory {
-
-  public create (
-    _logger:Logger,
-    _clientState:IClientState,
-    host:string
-  ):Fetcher {
+  public create(_logger: Logger, _clientState: IClientState, host: string): Fetcher {
     return new Fetcher(_logger, _clientState, host);
   }
-
 }

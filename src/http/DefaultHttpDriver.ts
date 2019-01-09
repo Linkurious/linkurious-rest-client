@@ -13,164 +13,88 @@ import { IHttpResponse, IHttpDriver } from './../../index';
 import { LinkuriousError } from '../LinkuriousError';
 
 export class DefaultHttpDriver implements IHttpDriver {
-  private cookie:string;
+  private cookie: string;
 
-  constructor () {
+  constructor() {
     this.cookie = '';
   }
 
-  public POST (
-    uri:string,
-    data?:any,
-    query?:any
-  ):Promise<IHttpResponse> {
-    return new Promise(
-      (
-        resolve:( r:IHttpResponse ) => void,
-        reject:( e:any ) => void
-      ) => {
-        request
-          .post(uri)
-          .withCredentials()
-          .send(data)
-          .query(query)
-          .end(
-            (
-              err:any,
-              res:request.Response
-            ) => {
-              this.handleResponse(resolve, reject, err, res);
-            }
-          );
-      }
-    );
+  public POST(uri: string, data?: any, query?: any): Promise<IHttpResponse> {
+    return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
+      request
+        .post(uri)
+        .withCredentials()
+        .send(data)
+        .query(query)
+        .end((err: any, res: request.Response) => {
+          this.handleResponse(resolve, reject, err, res);
+        });
+    });
   }
 
-  public PUT (
-    uri:string,
-    data:any,
-    query?:any
-  ):Promise<IHttpResponse> {
-    return new Promise(
-      (
-        resolve:( r:IHttpResponse ) => void,
-        reject:( e:any ) => void
-      ) => {
-        request
-          .put(uri)
-          .withCredentials()
-          .send(data)
-          .query(query)
-          .end(
-            (
-              err:any,
-              res:request.Response
-            ) => {
-              this.handleResponse(resolve, reject, err, res);
-            }
-          );
-      }
-    );
+  public PUT(uri: string, data: any, query?: any): Promise<IHttpResponse> {
+    return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
+      request
+        .put(uri)
+        .withCredentials()
+        .send(data)
+        .query(query)
+        .end((err: any, res: request.Response) => {
+          this.handleResponse(resolve, reject, err, res);
+        });
+    });
   }
 
-  public PATCH (
-    uri:string,
-    data:any,
-    query?:any
-  ):Promise<IHttpResponse> {
-    return new Promise(
-      (
-        resolve:( r:IHttpResponse ) => void,
-        reject:( e:any ) => void
-      ) => {
-        request
-          .patch(uri)
-          .withCredentials()
-          .send(data)
-          .query(query)
-          .end(
-            (
-              err:any,
-              res:request.Response
-            ) => {
-              this.handleResponse(resolve, reject, err, res);
-            }
-          );
-      }
-    );
+  public PATCH(uri: string, data: any, query?: any): Promise<IHttpResponse> {
+    return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
+      request
+        .patch(uri)
+        .withCredentials()
+        .send(data)
+        .query(query)
+        .end((err: any, res: request.Response) => {
+          this.handleResponse(resolve, reject, err, res);
+        });
+    });
   }
 
-  public GET (
-    uri:string,
-    query?:any,
-    ignoreContentType?:boolean
-  ):Promise<IHttpResponse> {
-    return new Promise(
-      (
-        resolve:( r:IHttpResponse ) => void,
-        reject:( e:any ) => void
-      ) => {
-        let q:any = request
-          .get(uri)
-          .withCredentials()
-          .query(query);
-        q.end(
-            (
-              err:any,
-              res:request.Response
-            ) => {
-              this.handleResponse(resolve, reject, err, res, ignoreContentType);
-            }
-          );
-      }
-    );
+  public GET(uri: string, query?: any, ignoreContentType?: boolean): Promise<IHttpResponse> {
+    return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
+      let q: any = request
+        .get(uri)
+        .withCredentials()
+        .query(query);
+      q.end((err: any, res: request.Response) => {
+        this.handleResponse(resolve, reject, err, res, ignoreContentType);
+      });
+    });
   }
 
-  public DELETE (
-    uri:string,
-    data?:any,
-    query?:any
-  ):Promise<IHttpResponse> {
-    return new Promise(
-      (
-        resolve:( r:IHttpResponse ) => void,
-        reject:( e:any ) => void
-      ) => {
-        request
-          .del(uri)
-          .withCredentials()
-          .send(data)
-          .query(query)
-          .end(
-            (
-              err:any,
-              res:request.Response
-            ) => {
-              this.handleResponse(resolve, reject, err, res);
-            }
-          );
-      }
-    );
+  public DELETE(uri: string, data?: any, query?: any): Promise<IHttpResponse> {
+    return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
+      request
+        .del(uri)
+        .withCredentials()
+        .send(data)
+        .query(query)
+        .end((err: any, res: request.Response) => {
+          this.handleResponse(resolve, reject, err, res);
+        });
+    });
   }
 
-  private handleResponse (
-    resolve:( r:IHttpResponse ) => void,
-    reject:( error:any ) => void,
-    err:Error,
-    res:request.Response,
-    ignoreContentType?:boolean
-  ):void {
-
-    if ( !res ) {
-      return reject(
-        LinkuriousError.fromClientError(
-          'communication_error',
-          'offline'
-        )
-      );
+  private handleResponse(
+    resolve: (r: IHttpResponse) => void,
+    reject: (error: any) => void,
+    err: Error,
+    res: request.Response,
+    ignoreContentType?: boolean
+  ): void {
+    if (!res) {
+      return reject(LinkuriousError.fromClientError('communication_error', 'offline'));
     }
 
-    if ( (typeof res.status !== 'number' || res.status < 100) && err ) {
+    if ((typeof res.status !== 'number' || res.status < 100) && err) {
       return reject(err);
     }
 
@@ -190,21 +114,21 @@ export class DefaultHttpDriver implements IHttpDriver {
       );
     }*/
 
-    if ( res.header && res.header['set-cookie'] ) {
+    if (res.header && res.header['set-cookie']) {
       this.cookie = res.header['set-cookie'];
     }
 
-    if ( res.type !== null && res.type !== undefined && res.type !== '' ) {
+    if (res.type !== null && res.type !== undefined && res.type !== '') {
       resolve({
         statusCode: res.status,
-        body:res.body || res.text,
-        header: res.header
+        body: res.body || res.text,
+        header: res.header,
       });
     } else {
       resolve({
         statusCode: res.status,
-        body: (res.status !== 204) ? JSON.parse(res.text) : null,
-        header: res.header
+        body: res.status !== 204 ? JSON.parse(res.text) : null,
+        header: res.header,
       });
     }
   }

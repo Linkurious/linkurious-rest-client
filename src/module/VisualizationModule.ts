@@ -26,7 +26,7 @@ import {
   IVisualizationDesign,
   IItemFields,
   PopulateType,
-  VisualizationModeType
+  VisualizationModeType,
 } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
@@ -34,8 +34,7 @@ import { VisualizationParser } from './VisualizationParser';
 import { Utils } from '../http/utils';
 
 export class VisualizationModule extends Module {
-
-  constructor ( fetcher:Fetcher ) {
+  constructor(fetcher: Fetcher) {
     super(fetcher);
   }
 
@@ -45,14 +44,12 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<any>}
    */
-  public getShared (dataSourceKey?:string):Promise<Array<IVisualization>> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/visualizations/shared',
-        method: 'GET',
-        dataSource : dataSourceKey
-      }
-    );
+  public getShared(dataSourceKey?: string): Promise<Array<IVisualization>> {
+    return this.fetch({
+      url: '/{dataSourceKey}/visualizations/shared',
+      method: 'GET',
+      dataSource: dataSourceKey,
+    });
   }
 
   /**
@@ -61,14 +58,12 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<number>}
    */
-  public count (dataSourceKey?:string):Promise<number> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/visualizations/count',
-        method: 'GET',
-        dataSource : dataSourceKey
-      }
-    ).then(( r:any ) => r.count);
+  public count(dataSourceKey?: string): Promise<number> {
+    return this.fetch({
+      url: '/{dataSourceKey}/visualizations/count',
+      method: 'GET',
+      dataSource: dataSourceKey,
+    }).then((r: any) => r.count);
   }
 
   /**
@@ -77,28 +72,24 @@ export class VisualizationModule extends Module {
    * @param {Object} data
    * @returns {Promise<string>}
    */
-  public createWidget (
-    data:{
-      visualizationId:number;
-      content?:{
-        search?:boolean,
-        share?:boolean,
-        layout?:boolean,
-        fullscreen?:boolean,
-        zoom?:boolean,
-        legend?:boolean,
-        geo?:boolean,
-        password?:boolean
-      };
-    }
-  ):Promise<string> {
-    return this.fetch(
-      {
-        url   : '/widget',
-        method: 'POST',
-        body  : Utils.fixSnakeCase(data)
-      }
-    );
+  public createWidget(data: {
+    visualizationId: number;
+    content?: {
+      search?: boolean;
+      share?: boolean;
+      layout?: boolean;
+      fullscreen?: boolean;
+      zoom?: boolean;
+      legend?: boolean;
+      geo?: boolean;
+      password?: boolean;
+    };
+  }): Promise<string> {
+    return this.fetch({
+      url: '/widget',
+      method: 'POST',
+      body: Utils.fixSnakeCase(data),
+    });
   }
 
   /**
@@ -107,19 +98,12 @@ export class VisualizationModule extends Module {
    * @param {Object} data
    * @returns {Promise<string>}
    */
-  public updateWidget (
-    data:{
-      visualizationId:number;
-      content:IWidgetContent;
-    }
-  ):Promise<string> {
-    return this.fetch(
-      {
-        url   : '/widget',
-        method: 'PUT',
-        body  : Utils.fixSnakeCase(data)
-      }
-    );
+  public updateWidget(data: { visualizationId: number; content: IWidgetContent }): Promise<string> {
+    return this.fetch({
+      url: '/widget',
+      method: 'PUT',
+      body: Utils.fixSnakeCase(data),
+    });
   }
 
   /**
@@ -129,21 +113,19 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<IFolder>}
    */
-  public createFolder (
-    data:{
-      title:string;
-      parent:number;
+  public createFolder(
+    data: {
+      title: string;
+      parent: number;
     },
-    dataSourceKey?:string
-  ):Promise<IFolder> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/visualizations/folder',
-        method: 'POST',
-        body  : data,
-        dataSource : dataSourceKey
-      }
-    ).then(( res:IFolderFullResponse ) => res.folder);
+    dataSourceKey?: string
+  ): Promise<IFolder> {
+    return this.fetch({
+      url: '/{dataSourceKey}/visualizations/folder',
+      method: 'POST',
+      body: data,
+      dataSource: dataSourceKey,
+    }).then((res: IFolderFullResponse) => res.folder);
   }
 
   /**
@@ -153,31 +135,29 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<IVisualization>}
    */
-  public create (
-    data:{
-      title:string;
-      folder ?:number;
-      nodes:Array<IVisualizationNode>;
-      edges:Array<IVisualizationEdge>;
-      alternativeIds ?:IAlternativeIdConfig;
-      layout ?:IVisualizationLayout;
-      mode ?:string;
-      geo ?:IVisualizationGeo;
-      design ?:IVisualizationDesign;
-      filters ?:Array<any>;
-      nodeFields:IItemFields;
-      edgeFields:IItemFields;
+  public create(
+    data: {
+      title: string;
+      folder?: number;
+      nodes: Array<IVisualizationNode>;
+      edges: Array<IVisualizationEdge>;
+      alternativeIds?: IAlternativeIdConfig;
+      layout?: IVisualizationLayout;
+      mode?: string;
+      geo?: IVisualizationGeo;
+      design?: IVisualizationDesign;
+      filters?: Array<any>;
+      nodeFields: IItemFields;
+      edgeFields: IItemFields;
     },
-    dataSourceKey?:string
-  ):Promise<IVisualization> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/visualizations',
-        method: 'POST',
-        body  : data,
-        dataSource : dataSourceKey
-      }
-    ).then(( res:any ) => VisualizationParser.formatVisualization(res.visualization));
+    dataSourceKey?: string
+  ): Promise<IVisualization> {
+    return this.fetch({
+      url: '/{dataSourceKey}/visualizations',
+      method: 'POST',
+      body: data,
+      dataSource: dataSourceKey,
+    }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
   }
 
   /**
@@ -186,18 +166,12 @@ export class VisualizationModule extends Module {
    * @param {Object} data
    * @returns {Promise<boolean>}
    */
-  public deleteWidget (
-    data:{
-      id:string;
-    }
-  ):Promise<boolean> {
-    return this.fetch(
-      {
-        url   : '/widget/{id}',
-        method: 'DELETE',
-        query: data
-      }
-    );
+  public deleteWidget(data: { id: string }): Promise<boolean> {
+    return this.fetch({
+      url: '/widget/{id}',
+      method: 'DELETE',
+      query: data,
+    });
   }
 
   /**
@@ -207,20 +181,18 @@ export class VisualizationModule extends Module {
    * @param {string} dataSourceKey
    * @returns {Promise<boolean>}
    */
-  public deleteFolder (
-    data:{
-      id:number
+  public deleteFolder(
+    data: {
+      id: number;
     },
-    dataSourceKey?:string
-  ):Promise<boolean> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/visualizations/folder/{id}',
-        method: 'DELETE',
-        query : data,
-        dataSource : dataSourceKey
-      }
-    );
+    dataSourceKey?: string
+  ): Promise<boolean> {
+    return this.fetch({
+      url: '/{dataSourceKey}/visualizations/folder/{id}',
+      method: 'DELETE',
+      query: data,
+      dataSource: dataSourceKey,
+    });
   }
 
   /**
@@ -230,22 +202,20 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<IVisualization>}
    */
-  public duplicate (
-    data:{
-      id:number;
-      title?:string;
-      folder?:number;
+  public duplicate(
+    data: {
+      id: number;
+      title?: string;
+      folder?: number;
     },
-    dataSourceKey?:string
-  ):Promise<IVisualization> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/visualizations/{id}/duplicate',
-        method: 'POST',
-        body  : data,
-        dataSource : dataSourceKey
-      }
-    );
+    dataSourceKey?: string
+  ): Promise<IVisualization> {
+    return this.fetch({
+      url: '/{dataSourceKey}/visualizations/{id}/duplicate',
+      method: 'POST',
+      body: data,
+      dataSource: dataSourceKey,
+    });
   }
 
   /**
@@ -254,18 +224,12 @@ export class VisualizationModule extends Module {
    * @param {Object} data
    * @returns {Promise<IWidget>}
    */
-  public getWidget (
-    data:{
-      id:string;
-    }
-  ):Promise<IWidget> {
-    return this.fetch(
-      {
-        url   : '/widget/{id}',
-        method: 'GET',
-        query : data
-      }
-    );
+  public getWidget(data: { id: string }): Promise<IWidget> {
+    return this.fetch({
+      url: '/widget/{id}',
+      method: 'GET',
+      query: data,
+    });
   }
 
   /**
@@ -275,29 +239,27 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<IVisualization>}
    */
-  public getSandbox (
-    data?:{
-      populate?:PopulateType;
-      itemId?:number;
-      searchQuery?:string;
-      searchFuzziness?:number;
-      doLayout?:boolean;
-      patternDialect?:string;
-      patternQuery?:boolean;
-      withDigest?:boolean;
-      withDegree?:boolean;
-      matchId?:boolean;
+  public getSandbox(
+    data?: {
+      populate?: PopulateType;
+      itemId?: number;
+      searchQuery?: string;
+      searchFuzziness?: number;
+      doLayout?: boolean;
+      patternDialect?: string;
+      patternQuery?: boolean;
+      withDigest?: boolean;
+      withDegree?: boolean;
+      matchId?: boolean;
     },
-    dataSourceKey?:string
-  ):Promise<IVisualization> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/sandbox',
-        method: 'GET',
-        query : data,
-        dataSource : dataSourceKey
-      }
-    ).then(( res:any ) => VisualizationParser.formatVisualization(res.visualization));
+    dataSourceKey?: string
+  ): Promise<IVisualization> {
+    return this.fetch({
+      url: '/{dataSourceKey}/sandbox',
+      method: 'GET',
+      query: data,
+      dataSource: dataSourceKey,
+    }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
   }
 
   /**
@@ -307,23 +269,21 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<IVisualization>}
    */
-  public getOne (
-    data:{
-      id:number;
-      populated?:boolean;
-      withDigest?:boolean;
-      withDegree?:boolean;
+  public getOne(
+    data: {
+      id: number;
+      populated?: boolean;
+      withDigest?: boolean;
+      withDegree?: boolean;
     },
-    dataSourceKey?:string
-  ):Promise<IVisualization> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/visualizations/{id}',
-        method: 'GET',
-        query : data,
-        dataSource : dataSourceKey
-      }
-    ).then(( res:any ) => VisualizationParser.formatVisualization(res.visualization));
+    dataSourceKey?: string
+  ): Promise<IVisualization> {
+    return this.fetch({
+      url: '/{dataSourceKey}/visualizations/{id}',
+      method: 'GET',
+      query: data,
+      dataSource: dataSourceKey,
+    }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
   }
 
   /**
@@ -332,13 +292,11 @@ export class VisualizationModule extends Module {
    * @param {string} dataSourceKey
    * @returns {Promise<ITreeChildren>}
    */
-  public getTree (dataSourceKey?:string):Promise<Array<ITreeChildren>> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/visualizations/tree',
-        method: 'GET'
-      }
-    ).then(( res:any ) => res.tree);
+  public getTree(dataSourceKey?: string): Promise<Array<ITreeChildren>> {
+    return this.fetch({
+      url: '/{dataSourceKey}/visualizations/tree',
+      method: 'GET',
+    }).then((res: any) => res.tree);
   }
 
   /**
@@ -348,20 +306,18 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    */
-  public deleteOne (
-    data:{
-      id:number;
+  public deleteOne(
+    data: {
+      id: number;
     },
-    dataSourceKey?:string
-  ):Promise<any> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/visualizations/{id}',
-        method: 'DELETE',
-        query : data,
-        dataSource : dataSourceKey
-      }
-    );
+    dataSourceKey?: string
+  ): Promise<any> {
+    return this.fetch({
+      url: '/{dataSourceKey}/visualizations/{id}',
+      method: 'DELETE',
+      query: data,
+      dataSource: dataSourceKey,
+    });
   }
 
   /**
@@ -371,20 +327,18 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<ISharers>}
    */
-  public getShares (
-    data:{
-     id:number;
+  public getShares(
+    data: {
+      id: number;
     },
-    dataSourceKey?:string
-  ):Promise<ISharers> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/visualizations/{id}/shares',
-        method: 'GET',
-        query : data,
-        dataSource : dataSourceKey
-      }
-    );
+    dataSourceKey?: string
+  ): Promise<ISharers> {
+    return this.fetch({
+      url: '/{dataSourceKey}/visualizations/{id}/shares',
+      method: 'GET',
+      query: data,
+      dataSource: dataSourceKey,
+    });
   }
 
   /**
@@ -394,24 +348,22 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<IShare>}
    */
-  public share (
-    data:{
-      userId:number;
-      right ?:string;
-      vizId:number;
+  public share(
+    data: {
+      userId: number;
+      right?: string;
+      vizId: number;
     },
-    dataSourceKey?:string
-    ):Promise<IShare> {
-    return this.fetch(
-      {
-        url   : `/{dataSourceKey}/visualizations/${data.vizId}/share/${data.userId}`,
-        method: 'PUT',
-        body  : {
-          right: data.right
-        },
-        dataSource : dataSourceKey
-      }
-    );
+    dataSourceKey?: string
+  ): Promise<IShare> {
+    return this.fetch({
+      url: `/{dataSourceKey}/visualizations/${data.vizId}/share/${data.userId}`,
+      method: 'PUT',
+      body: {
+        right: data.right,
+      },
+      dataSource: dataSourceKey,
+    });
   }
 
   /**
@@ -421,21 +373,19 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    */
-  public unshare (
-    data:{
-      id:number;
-      userId:number;
+  public unshare(
+    data: {
+      id: number;
+      userId: number;
     },
-    dataSourceKey?:string
-  ):Promise<any> {
-    return this.fetch(
-      {
-        url   : `/{dataSourceKey}/visualizations/{id}/share/${data.userId}`,
-        method: 'DELETE',
-        query : {id : data.id},
-        dataSource : dataSourceKey
-      }
-    );
+    dataSourceKey?: string
+  ): Promise<any> {
+    return this.fetch({
+      url: `/{dataSourceKey}/visualizations/{id}/share/${data.userId}`,
+      method: 'DELETE',
+      query: { id: data.id },
+      dataSource: dataSourceKey,
+    });
   }
 
   /**
@@ -445,22 +395,20 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<any>}
    */
-  public updateFolder (
-    data:{
-      id:number;
-      key:string;
-      value:string;
+  public updateFolder(
+    data: {
+      id: number;
+      key: string;
+      value: string;
     },
-    dataSourceKey?:string
-  ):Promise<IFolder> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/visualizations/folder/{id}',
-        method: 'PATCH',
-        body  : data,
-        dataSource : dataSourceKey
-      }
-    ).then(( response:any ) => response.folder);
+    dataSourceKey?: string
+  ): Promise<IFolder> {
+    return this.fetch({
+      url: '/{dataSourceKey}/visualizations/folder/{id}',
+      method: 'PATCH',
+      body: data,
+      dataSource: dataSourceKey,
+    }).then((response: any) => response.folder);
   }
 
   /**
@@ -470,22 +418,20 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    */
-  public updateSandbox (
-    data:{
-      design?:IVisualizationDesign;
-      nodeFields?:IItemFields;
-      edgeFields?:IItemFields;
+  public updateSandbox(
+    data: {
+      design?: IVisualizationDesign;
+      nodeFields?: IItemFields;
+      edgeFields?: IItemFields;
     },
-    dataSourceKey?:string
-  ):Promise<any> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/sandbox',
-        method: 'PATCH',
-        body  : {visualization:data},
-        dataSource : dataSourceKey
-      }
-    );
+    dataSourceKey?: string
+  ): Promise<any> {
+    return this.fetch({
+      url: '/{dataSourceKey}/sandbox',
+      method: 'PATCH',
+      body: { visualization: data },
+      dataSource: dataSourceKey,
+    });
   }
 
   /**
@@ -495,36 +441,34 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    */
-  public update (
-    data:{
-      id:number;
-      design?:IVisualizationDesign;
-      nodeFields?:IItemFields;
-      edgeFields?:IItemFields;
-      title?:string;
-      folder?:number;
-      nodes?:Array<IVisualizationNode>;
-      edges?:Array<IVisualizationEdge>;
-      alternativeIds?:IAlternativeIdConfig;
-      layout?:IVisualizationLayout;
-      geo?:IVisualizationGeo;
-      mode?:VisualizationModeType;
-      filters?:Array<any>;
-      forceLock?:boolean;
+  public update(
+    data: {
+      id: number;
+      design?: IVisualizationDesign;
+      nodeFields?: IItemFields;
+      edgeFields?: IItemFields;
+      title?: string;
+      folder?: number;
+      nodes?: Array<IVisualizationNode>;
+      edges?: Array<IVisualizationEdge>;
+      alternativeIds?: IAlternativeIdConfig;
+      layout?: IVisualizationLayout;
+      geo?: IVisualizationGeo;
+      mode?: VisualizationModeType;
+      filters?: Array<any>;
+      forceLock?: boolean;
     },
-    dataSourceKey?:string
-  ):Promise<any> {
-    let vizBody:any = JSON.parse(JSON.stringify(data));
+    dataSourceKey?: string
+  ): Promise<any> {
+    let vizBody: any = JSON.parse(JSON.stringify(data));
     vizBody.id = undefined;
     vizBody.forceLock = undefined;
 
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/visualizations/{id}',
-        method: 'PATCH',
-        body  : { id: data.id, visualization: vizBody },
-        query : Utils.fixSnakeCase({ forceLock: data.forceLock })
-      }
-    );
+    return this.fetch({
+      url: '/{dataSourceKey}/visualizations/{id}',
+      method: 'PATCH',
+      body: { id: data.id, visualization: vizBody },
+      query: Utils.fixSnakeCase({ forceLock: data.forceLock }),
+    });
   }
 }
