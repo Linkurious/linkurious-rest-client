@@ -58,8 +58,6 @@
     "@types/jasmine": "^2.5.35",
     "@types/node": "^8.0.10",
     "@types/superagent": "^3.5.2",
-    "browserify": "^13.0.1",
-    "bunyan": "^1.8.1",
     "es6-module-loader": "^0.17.11",
     "fs-extra": "^0.30.0",
     "istanbul": "^0.4.3",
@@ -79,7 +77,6 @@
     "request": "~2.72",
     "systemjs": "^0.19.29",
     "tslint": "^3.10.2",
-    "typedoc": "0.9.0",
     "typescript": "3.1.6",
     "prettier": "^1.13.5",
     "pretty-quick": "^1.8.0"

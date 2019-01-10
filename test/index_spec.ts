@@ -595,6 +595,7 @@ describe('Linkurious class', () => {
               password: 'testPass',
             });
           }
+          return Promise.reject(success);
         })
         .then(function(res: IFullUser) {
           userId = res.id;
@@ -990,6 +991,7 @@ describe('Linkurious class', () => {
               password: 'testPass',
             });
           }
+          return Promise.reject(success);
         })
         .then((res: any) => {
           return linkurious.admin.deleteUser(res.id);
@@ -1042,6 +1044,7 @@ describe('Linkurious class', () => {
             let adminId: number = success.response.filter((g) => g.name === 'admin').map((g) => g.id)[0];
             return linkurious.admin.getGroup({ id: adminId }, sourceKey);
           }
+          return Promise.reject(success);
         })
         .then((success) => {
           if (success.isSuccess()) {
