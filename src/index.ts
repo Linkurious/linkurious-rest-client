@@ -51,19 +51,19 @@ export class Linkurious {
 
   /**
    *
-   * @param {string} host           - Host URL of the linkurious server
+   * @param {string} baseUrl        - Base URL of the linkurious server
    * @param {string} logLevel       - Level of log wanted
    * @param {object} [loggerDriver] - logger object
    * @param {FetcherFactory} [fetcherFactory] - fetcher factory
    */
-  constructor(host: string, logLevel: LogLevel, loggerDriver?: ILoggerDriver, fetcherFactory?: FetcherFactory) {
+  constructor(baseUrl: string, logLevel: LogLevel, loggerDriver?: ILoggerDriver, fetcherFactory?: FetcherFactory) {
     this._clientState = <IClientState>{};
     this._clientState.guestMode = false;
     this._logger = new Logger(logLevel, loggerDriver);
     if (!fetcherFactory) {
       fetcherFactory = new FetcherFactory();
     }
-    this._fetcher = fetcherFactory.create(this._logger, this._clientState, host);
+    this._fetcher = fetcherFactory.create(this._logger, this._clientState, baseUrl);
 
     this._admin = new AdminModule(this._fetcher, this._logger, this._clientState);
     this._my = new MyModule(this._fetcher);

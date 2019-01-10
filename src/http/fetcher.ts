@@ -9,10 +9,10 @@
  */
 'use strict';
 
-import { IHttpDriver, IHttpResponse, IFetchConfig, IDataToSend, IFetcherClientState } from './../../index';
-import { LinkuriousError } from './../LinkuriousError';
+import { IHttpDriver, IHttpResponse, IFetchConfig, IDataToSend, IFetcherClientState } from '../../index';
+import { LinkuriousError } from '../LinkuriousError';
 import { DefaultHttpDriver } from './DefaultHttpDriver';
-import { Logger } from './../log/Logger';
+import { Logger } from '../log/Logger';
 import { Utils } from './utils';
 
 export class Fetcher {
@@ -21,16 +21,16 @@ export class Fetcher {
   private static OBJECT_ID_TEMPLATE: string = '{id}';
   protected _httpDriver: IHttpDriver;
   private _logger: Logger;
-  private _host: string;
+  private readonly _baseUrl: string;
   private _clientState: IFetcherClientState;
-  private _baseUrl: string;
+  private readonly _baseApiURL: string;
 
-  constructor(logger: Logger, clientState: IFetcherClientState, host: string, httpDriver?: IHttpDriver) {
+  constructor(logger: Logger, clientState: IFetcherClientState, baseUrl: string, httpDriver?: IHttpDriver) {
     this._httpDriver = httpDriver ? httpDriver : new DefaultHttpDriver();
     this._logger = logger;
     this._clientState = clientState;
-    this._host = host;
-    this._baseUrl = this._host + '/api';
+    this._baseUrl = baseUrl.endsWith('/') ? baseUrl : (baseUrl + '/');
+    this._baseApiURL = this._baseUrl + 'api';
   }
 
   /**
@@ -128,9 +128,9 @@ export class Fetcher {
    */
   private addSourceKeyToUrl(url: string, explicitSource?: string | number): string {
     if (explicitSource && typeof explicitSource === 'string') {
-      return this._baseUrl + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource);
+      return this._baseApiURL + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource);
     } else if (this._clientState.currentSource) {
-      return this._baseUrl + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key);
+      return this._baseApiURL + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key);
     } else {
       if (explicitSource && typeof explicitSource !== 'string') {
         throw LinkuriousError.fromClientError('state_error', `Source key must be a string.`);
@@ -152,10 +152,10 @@ export class Fetcher {
    */
   private addSourceIndexToUrl(url: string, explicitSource?: string | number): string {
     if (explicitSource && typeof explicitSource === 'number') {
-      return this._baseUrl + url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource + '');
+      return this._baseApiURL + url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource + '');
     } else if (this._clientState.currentSource) {
       return (
-        this._baseUrl + url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.configIndex + '')
+        this._baseApiURL + url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.configIndex + '')
       );
     } else {
       if (explicitSource && typeof explicitSource !== 'number') {
@@ -210,7 +210,7 @@ export class Fetcher {
     } else if (config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0) {
       return this.addSourceIndexToUrl(config.url, config.dataSource);
     } else {
-      return this._baseUrl + config.url;
+      return this._baseApiURL + config.url;
     }
   }
 }
