@@ -367,8 +367,6 @@ describe('Linkurious class', () => {
           if (res.isSuccess()) {
             expect(res.response.nodes[0].data.properties.name).toEqual('Keanu Reeves');
             done();
-          } else {
-            return Promise.reject(res);
           }
         });
     });
