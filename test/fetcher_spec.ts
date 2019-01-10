@@ -9,50 +9,71 @@
  */
 'use strict';
 
-import {Fetcher} from '../src/http/fetcher';
-import {Logger} from '../src/log/Logger';
+import { Fetcher } from '../src/http/fetcher';
+import { Logger } from '../src/log/Logger';
 
 export class FetcherSpec {
-  constructor () {
-  }
+  constructor() {}
 
-  static test () {
-    describe('Fetcher class', () =>{
-      let logger:Logger, fetcher:Fetcher;
+  static test() {
+    describe('Fetcher class', () => {
+      let logger: Logger, fetcher: Fetcher;
 
       it('must return the right lkError object', (done) => {
-        fetcher = new Fetcher(logger, {user:undefined, currentSource:undefined, guestMode:false}, 'http://127.0.0.1:3001');
+        fetcher = new Fetcher(
+          logger,
+          {
+            user: undefined,
+            currentSource: undefined,
+            guestMode: false,
+          },
+          'http://127.0.0.1:3001'
+        );
 
-        fetcher.fetch({
-          url : '/test/{dataSourceKey}',
-          method : 'GET'
-        }).catch((res:any) => {
-          expect(res).toEqual(jasmine.objectContaining({
-            status:0
-          }));
-          expect(res).toEqual(jasmine.objectContaining({
-            type:'client'
-          }));
-          done();
-        })
+        fetcher
+          .fetch({
+            url: '/test/{dataSourceKey}',
+            method: 'GET',
+          })
+          .catch((res: any) => {
+            expect(res).toEqual(
+              jasmine.objectContaining({
+                status: 0,
+              })
+            );
+            expect(res).toEqual(
+              jasmine.objectContaining({
+                type: 'client',
+              })
+            );
+            done();
+          });
       });
 
       beforeEach(() => {
-        logger  = new Logger('quiet');
-        fetcher = new Fetcher(logger, {user:undefined, currentSource:{name: 'Database #0', key: '66a2bc71', configIndex: 0}, guestMode:false}, 'http://127.0.0.1:3001');
+        logger = new Logger('quiet');
+        fetcher = new Fetcher(
+          logger,
+          {
+            user: undefined,
+            currentSource: { name: 'Database #0', key: '66a2bc71', configIndex: 0 },
+            guestMode: false,
+          },
+          'http://127.0.0.1:3001'
+        );
       });
 
       it('must return an error', (done) => {
-
-        fetcher.fetch({
-          url : '/test',
-          method : 'GET'
-        }).catch((res) => {
-          expect(res.key).toEqual('api_not_found');
-          done();
-        })
+        fetcher
+          .fetch({
+            url: '/test',
+            method: 'GET',
+          })
+          .catch((res) => {
+            expect(res.key).toEqual('api_not_found');
+            done();
+          });
       });
     });
   }
 }
-

@@ -9,14 +9,13 @@
  */
 'use strict';
 
-import {DefaultLoggerDriver} from '../src/log/DefaultLoggerDriver';
+import { DefaultLoggerDriver } from '../src/log/DefaultLoggerDriver';
 
 export class DefaultLoggerDriverSpec {
-  constructor(){}
+  constructor() {}
 
-  static test(){
-
-    let defaultLogger:DefaultLoggerDriver;
+  static test() {
+    let defaultLogger: DefaultLoggerDriver;
 
     beforeEach(() => {
       defaultLogger = new DefaultLoggerDriver();
@@ -39,6 +38,5 @@ export class DefaultLoggerDriverSpec {
         expect(console.error).toHaveBeenCalled();
       });
     });
-
   }
 }

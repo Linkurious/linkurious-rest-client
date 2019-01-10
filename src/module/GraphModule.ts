@@ -14,9 +14,22 @@ import { IEdge, IFullNode, INode, IOgmaEdge, IOgmaNode } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
+import { Success } from '../response/success';
+import {
+  BadGraphRequest,
+  ConstraintViolation,
+  DataSourceUnavailable,
+  Forbidden,
+  GraphRequestTimeout,
+  GraphUnreachable,
+  GuestDisabled,
+  InvalidParameter,
+  ServerRejection,
+  Unauthorized,
+} from '../response/errors';
 
 export class GraphModule extends Module {
-  constructor ( fetcher:Fetcher ) {
+  constructor(fetcher: Fetcher) {
     super(fetcher);
   }
 
@@ -27,102 +40,118 @@ export class GraphModule extends Module {
    * @param {string} dataSourceKey
    * @returns {Promise<Array<Array<IFullNode|IEdge>>>}
    */
-  public getShortestPaths (
-    data:{
-      startNode:string|number;
-      endNode:string|number;
-      maxDepth ?:number;
-      edgesTo?:boolean;
-      withDigest ?:boolean;
-      withDegree?:boolean;
+  public getShortestPaths(
+    data: {
+      startNode: string | number;
+      endNode: string | number;
+      maxDepth?: number;
+      edgesTo?: boolean;
+      withDigest?: boolean;
+      withDegree?: boolean;
     },
-    dataSourceKey?:string
-  ):Promise<{results:Array<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>}>}> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/shortestPaths',
-        method: 'POST',
-        query : data,
-        dataSource : dataSourceKey
-      }
-    ).then(( res:any ) => {
+    dataSourceKey?: string
+  ): Promise<{ results: Array<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> }> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/shortestPaths',
+      method: 'POST',
+      query: data,
+      dataSource: dataSourceKey,
+    }).then((res: any) => {
       return {
-        results: res.results.map((result:{nodes:Array<INode>; edges:Array<IEdge>}) => {
+        results: res.results.map((result: { nodes: Array<INode>; edges: Array<IEdge> }) => {
           return {
-            nodes: result.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
-            edges: result.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+            nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+            edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
           };
-        })
+        }),
       };
     });
   }
 
   /**
    * Run a static or template query
-   *
-   * @param {any} data
-   * @param {string} dataSourceKey
-   * @returns {Promise<any>}
    */
-  public runQuery(data:{
-    query:string;
-    dialect?:string;
-    limit?:number;
-    timeout?:number,
-    edgesTo?:Array<string|number>;
-    withAccess?:boolean;
-    withDegree?:boolean;
-    withDigest?:boolean;
-    templateData?:any;
-  }, dataSourceKey?:string):Promise<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>}> {
-    let body:any = {
+  public runQuery(
+    data: {
+      query: string;
+      dialect?: string;
+      limit?: number;
+      timeout?: number;
+      edgesTo?: Array<string | number>;
+      withAccess?: boolean;
+      withDegree?: boolean;
+      withDigest?: boolean;
+      templateData?: any;
+    },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }>
+    | Unauthorized
+    | GuestDisabled
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    let body: any = {
       dialect: data.dialect,
       query: data.query,
       limit: data.limit,
       timeout: data.timeout,
-      templateData: data.templateData
+      templateData: data.templateData,
     };
-    let query:any = {
-      withDigest : data.withDigest,
-      withDegree : data.withDegree,
-      withAccess : data.withAccess
+    let query: any = {
+      withDigest: data.withDigest,
+      withDegree: data.withDegree,
+      withAccess: data.withAccess,
     };
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/runQuery',
-        method: 'POST',
-        body  : body,
-        query : query,
-        dataSource : dataSourceKey
-      }
-    ).then((response:any) => {
-        return {
-          nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
-          edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
-        };
-      }
-    );
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/runQuery',
+      method: 'POST',
+      body: body,
+      query: query,
+      dataSource: dataSourceKey,
+    })
+      .then((response: { nodes: Array<INode>; edges: Array<IEdge> }) => {
+        return new Success({
+          nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+          edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+        });
+      })
+      .catch((error) => new ServerRejection(error));
   }
 
   /**
    * Return resolve if the current query is valid
-   *
-   * @param {any} data
-   * @param {string} dataSourceKey
-   * @returns {Promise<void>}
    */
-  public checkQuery(data:{
-    query:string;
-    dialect?:string;
-  }, dataSourceKey?:string):Promise<void> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/checkQuery',
-        method: 'POST',
-        body  : data,
-        dataSource : dataSourceKey
-      }
-    );
+  public checkQuery(
+    data: {
+      query: string;
+      dialect?: string;
+    },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<void>
+    | Unauthorized
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/checkQuery',
+      method: 'POST',
+      body: data,
+      dataSource: dataSourceKey,
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new ServerRejection(error));
   }
 
   /**
@@ -132,40 +161,43 @@ export class GraphModule extends Module {
    * @param {string} dataSourceKey
    * @returns {Promise<any>}
    */
-  public preview(data:{
-    query:string;
-    dialect?:string;
-    limit?:number;
-    timeout?:number,
-    withAccess?:boolean;
-    withDegree?:boolean;
-    withDigest?:boolean;
-    columns?:any
-  }, dataSourceKey?:string):Promise<Array<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>; columns:any}>> {
-    let query:any = {
+  public preview(
+    data: {
+      query: string;
+      dialect?: string;
+      limit?: number;
+      timeout?: number;
+      withAccess?: boolean;
+      withDegree?: boolean;
+      withDigest?: boolean;
+      columns?: any;
+    },
+    dataSourceKey?: string
+  ): Promise<Array<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>; columns: any }>> {
+    let query: any = {
       withAccess: data.withAccess,
       withDegree: data.withDegree,
-      withDigest: data.withDigest
+      withDigest: data.withDigest,
     };
-    let body:any = {
+    let body: any = {
       query: data.query,
       dialect: data.dialect,
       limit: data.limit,
       timeout: data.timeout,
-      columns: data.columns
+      columns: data.columns,
     };
     return this.fetch({
-      url   : '/{dataSourceKey}/graph/alertPreview',
+      url: '/{dataSourceKey}/graph/alertPreview',
       method: 'POST',
-      body  : body,
-      query : query,
-      dataSource : dataSourceKey
+      body: body,
+      query: query,
+      dataSource: dataSourceKey,
     }).then((response) => {
-      return response.results.map((result:any) => {
+      return response.results.map((result: any) => {
         return {
-          nodes: result.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
-          edges: result.edges.map((e:IEdge) => VisualizationParser.parseEdge(e)),
-          columns: result.columns
+          nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+          edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+          columns: result.columns,
         };
       });
     });

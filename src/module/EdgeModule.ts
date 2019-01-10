@@ -11,19 +11,12 @@
 'use strict';
 
 import { Module } from './Module';
-import {
-  IEdge,
-  ItemId,
-  IProperty,
-  IItemType,
-  IOgmaEdge, TypeAccessRight, IOgmaNode, INode
-} from '../../index';
+import { IEdge, ItemId, IProperty, IItemType, IOgmaEdge, TypeAccessRight, IOgmaNode, INode } from '../../index';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
 
 export class EdgeModule extends Module {
-
-  constructor ( fetcher:Fetcher ) {
+  constructor(fetcher: Fetcher) {
     super(fetcher);
   }
 
@@ -33,14 +26,12 @@ export class EdgeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<number>}
    */
-  public count ( dataSourceKey?:string ):Promise<number> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/edges/count',
-        method: 'GET',
-        dataSource: dataSourceKey
-      }
-    ).then(( res:any ) => res.count);
+  public count(dataSourceKey?: string): Promise<number> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/edges/count',
+      method: 'GET',
+      dataSource: dataSourceKey,
+    }).then((res: any) => res.count);
   }
 
   /**
@@ -50,21 +41,21 @@ export class EdgeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<IEdge>}
    */
-  public create (
-    data:{
-      source:string | number;
-      target:string | number;
-      type:string;
-      properties:any;
+  public create(
+    data: {
+      source: string | number;
+      target: string | number;
+      type: string;
+      properties: any;
     },
-    dataSourceKey?:string
-  ):Promise<IOgmaEdge> {
+    dataSourceKey?: string
+  ): Promise<IOgmaEdge> {
     return this.fetch({
-      url   : '/{dataSourceKey}/graph/edges',
+      url: '/{dataSourceKey}/graph/edges',
       method: 'POST',
-      body  : data,
-      dataSource : dataSourceKey
-    }).then((edge:IEdge) => VisualizationParser.parseEdge(edge));
+      body: data,
+      dataSource: dataSourceKey,
+    }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
   }
 
   /**
@@ -75,25 +66,22 @@ export class EdgeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<IEdge>}
    */
-  public update (
-    data:{
-      id:string|number;
-      type?:string;
-      properties?:any;
-      deletedProperties?:Array<string>;
-      readAt:string;
+  public update(
+    data: {
+      id: string | number;
+      type?: string;
+      properties?: any;
+      deletedProperties?: Array<string>;
+      readAt: string;
     },
-    dataSourceKey?:string
-  ):Promise<IOgmaEdge> {
-
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/edges/{id}',
-        method: 'PATCH',
-        body  : data,
-        dataSource: dataSourceKey
-      }
-    ).then((edge:IEdge) => VisualizationParser.parseEdge(edge));
+    dataSourceKey?: string
+  ): Promise<IOgmaEdge> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/edges/{id}',
+      method: 'PATCH',
+      body: data,
+      dataSource: dataSourceKey,
+    }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
   }
 
   /**
@@ -103,20 +91,18 @@ export class EdgeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<boolean>}
    */
-  public deleteOne (
-    data:{
-      id:string|number
+  public deleteOne(
+    data: {
+      id: string | number;
     },
-    dataSourceKey?:string
-  ):Promise<any> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/edges/{id}',
-        method: 'DELETE',
-        body  : data,
-        dataSource: dataSourceKey
-      }
-    );
+    dataSourceKey?: string
+  ): Promise<any> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/edges/{id}',
+      method: 'DELETE',
+      body: data,
+      dataSource: dataSourceKey,
+    });
   }
 
   /**
@@ -126,24 +112,24 @@ export class EdgeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<IEdge>}
    */
-  public getOne (
-    data:{
-      id:ItemId,
-      edgesTo?:Array<string|number>,
-      withDigest?:boolean,
-      withDegree?:boolean
+  public getOne(
+    data: {
+      id: ItemId;
+      edgesTo?: Array<string | number>;
+      withDigest?: boolean;
+      withDegree?: boolean;
     },
-    dataSourceKey?:string
-  ):Promise<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>}> {
+    dataSourceKey?: string
+  ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
     return this.fetch({
-      url   : '/{dataSourceKey}/graph/edges/{id}',
+      url: '/{dataSourceKey}/graph/edges/{id}',
       method: 'POST',
-      body  : data,
-      dataSource : dataSourceKey
-    }).then((response:any) => {
+      body: data,
+      dataSource: dataSourceKey,
+    }).then((response: any) => {
       return {
-        nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
-        edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+        nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+        edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
       };
     });
   }
@@ -155,21 +141,19 @@ export class EdgeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<Array<IProperty>>}
    */
-  public getProperties (
-    data?:{
-      includeType ?:string;
-      omitNoindex ?:boolean;
+  public getProperties(
+    data?: {
+      includeType?: string;
+      omitNoindex?: boolean;
     },
-    dataSourceKey?:string
-  ):Promise<Array<IProperty>> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/schema/edgeTypes/properties',
-        method: 'GET',
-        query : data,
-        dataSource : dataSourceKey
-      }
-    ).then(( res:any ) => res.properties);
+    dataSourceKey?: string
+  ): Promise<Array<IProperty>> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/schema/edgeTypes/properties',
+      method: 'GET',
+      query: data,
+      dataSource: dataSourceKey,
+    }).then((res: any) => res.properties);
   }
 
   /**
@@ -179,19 +163,17 @@ export class EdgeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<Array<IItemType>>}
    */
-  public getTypes (
-    data?:{
-      includeType ?:boolean;
+  public getTypes(
+    data?: {
+      includeType?: boolean;
     },
-    dataSourceKey?:string
-    ):Promise<{any:{access:TypeAccessRight}; results:Array<IItemType>}> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/schema/edgeTypes',
-        method: 'GET',
-        query : data,
-        dataSource : dataSourceKey
-      }
-    );
+    dataSourceKey?: string
+  ): Promise<{ any: { access: TypeAccessRight }; results: Array<IItemType> }> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/schema/edgeTypes',
+      method: 'GET',
+      query: data,
+      dataSource: dataSourceKey,
+    });
   }
 }

@@ -11,18 +11,22 @@
 'use strict';
 
 import {
-    ItemId,
-    IDigest,
-    IProperty,
-    IItemType, IOgmaNode, IOgmaEdge, TypeAccessRight, INode, IEdge
+  ItemId,
+  IDigest,
+  IProperty,
+  IItemType,
+  IOgmaNode,
+  IOgmaEdge,
+  TypeAccessRight,
+  INode,
+  IEdge,
 } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
 
 export class NodeModule extends Module {
-
-  constructor ( fetcher:Fetcher ) {
+  constructor(fetcher: Fetcher) {
     super(fetcher);
   }
 
@@ -31,14 +35,12 @@ export class NodeModule extends Module {
    *
    * @returns {Promise<number>}
    */
-  public count (dataSourceKey?:string):Promise<number> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/nodes/count',
-        method: 'GET',
-        dataSource: dataSourceKey
-      }
-    ).then(( res:any ) => res.count);
+  public count(dataSourceKey?: string): Promise<number> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/nodes/count',
+      method: 'GET',
+      dataSource: dataSourceKey,
+    }).then((res: any) => res.count);
   }
 
   /**
@@ -48,19 +50,19 @@ export class NodeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<INode>}
    */
-  public create (
-    data:{
-      properties ?:any;
-      categories ?:Array<string>;
+  public create(
+    data: {
+      properties?: any;
+      categories?: Array<string>;
     },
-    dataSourceKey?:string
-  ):Promise<any> {
+    dataSourceKey?: string
+  ): Promise<any> {
     return this.fetch({
-      url   : '/{dataSourceKey}/graph/nodes',
+      url: '/{dataSourceKey}/graph/nodes',
       method: 'POST',
-      body  : data,
-      dataSource : dataSourceKey
-    }).then((node:any) => VisualizationParser.parseNode(node));
+      body: data,
+      dataSource: dataSourceKey,
+    }).then((node: any) => VisualizationParser.parseNode(node));
   }
 
   /**
@@ -71,20 +73,18 @@ export class NodeModule extends Module {
    * @returns {Promise<boolean>}
    *
    */
-  public deleteOne (
-    data:{
-      id:number|string
+  public deleteOne(
+    data: {
+      id: number | string;
     },
-    dataSourceKey?:string
-  ):Promise<any> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/nodes/{id}',
-        method: 'DELETE',
-        body  : data,
-        dataSource : dataSourceKey
-      }
-    );
+    dataSourceKey?: string
+  ): Promise<any> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/nodes/{id}',
+      method: 'DELETE',
+      body: data,
+      dataSource: dataSourceKey,
+    });
   }
 
   /**
@@ -94,25 +94,23 @@ export class NodeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<INode>}
    */
-  public getOne (
-    params?:{
-      id:string|number;
-      edgesTo?:Array<string|number>;
-      withDigest?:boolean;
-      withDegree?:boolean;
+  public getOne(
+    params?: {
+      id: string | number;
+      edgesTo?: Array<string | number>;
+      withDigest?: boolean;
+      withDegree?: boolean;
     },
-    dataSourceKey?:string
-  ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/nodes/{id}',
-        method: 'POST',
-        body : params
-      }
-    ).then((response:{nodes:Array<INode>; edges:Array<IEdge>}) => {
+    dataSourceKey?: string
+  ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/nodes/{id}',
+      method: 'POST',
+      body: params,
+    }).then((response: { nodes: Array<INode>; edges: Array<IEdge> }) => {
       return {
-        nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
-        edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+        nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+        edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
       };
     });
   }
@@ -128,41 +126,41 @@ export class NodeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<Array<INode>>}
    */
-  public expand (
-    data:{
-      ids:Array<ItemId>;
-      edgesTo?:Array<ItemId>;
-      nodeCategories?:Array<string>;
-      edgeTypes?:Array<string>;
-      limit?:number;
-      limitType?:string;
-      withDigest?:boolean;
-      withDegree?:boolean;
+  public expand(
+    data: {
+      ids: Array<ItemId>;
+      edgesTo?: Array<ItemId>;
+      nodeCategories?: Array<string>;
+      edgeTypes?: Array<string>;
+      limit?: number;
+      limitType?: string;
+      withDigest?: boolean;
+      withDegree?: boolean;
     },
-    dataSourceKey?:string
-  ):Promise<{nodes:Array<IOgmaNode>, edges:Array<IOgmaEdge>}> {
-    let body:any = {
-      ids : data.ids,
-      edgesTo : data.edgesTo,
+    dataSourceKey?: string
+  ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
+    let body: any = {
+      ids: data.ids,
+      edgesTo: data.edgesTo,
       nodeCategories: data.nodeCategories,
-      edgeTypes:data.edgeTypes,
-      limit:data.limit,
-      limitType:data.limitType
+      edgeTypes: data.edgeTypes,
+      limit: data.limit,
+      limitType: data.limitType,
     };
-    let query:any = {
-      withDigest:data.withDigest,
-      withDegree:data.withDegree
+    let query: any = {
+      withDigest: data.withDigest,
+      withDegree: data.withDegree,
     };
     return this.fetch({
-      url   : '/{dataSourceKey}/graph/nodes/expand',
+      url: '/{dataSourceKey}/graph/nodes/expand',
       method: 'POST',
-      body  : body,
-      query : query,
-      dataSource : dataSourceKey
-    }).then((result:{nodes:Array<INode>; edges:Array<IEdge>}) => {
+      body: body,
+      query: query,
+      dataSource: dataSourceKey,
+    }).then((result: { nodes: Array<INode>; edges: Array<IEdge> }) => {
       return {
-        nodes: result.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
-        edges: result.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+        nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+        edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
       };
     });
   }
@@ -174,28 +172,26 @@ export class NodeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<Array<IDigest>>}
    */
-  public getNeighborsCategories (
-    data:{
-      ids:Array<ItemId>;
-      withDigest?:boolean;
-      withDegree?:boolean;
+  public getNeighborsCategories(
+    data: {
+      ids: Array<ItemId>;
+      withDigest?: boolean;
+      withDegree?: boolean;
     },
-    dataSourceKey?:string
-  ):Promise<Array<IDigest>> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/neighborhood/statistics',
-        method: 'POST',
-        body  : {
-          ids: data.ids
-        },
-        query : {
-          withDigest: data.withDigest,
-          withDegree: data.withDegree
-        },
-        dataSource : dataSourceKey
-      }
-    );
+    dataSourceKey?: string
+  ): Promise<Array<IDigest>> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/neighborhood/statistics',
+      method: 'POST',
+      body: {
+        ids: data.ids,
+      },
+      query: {
+        withDigest: data.withDigest,
+        withDegree: data.withDegree,
+      },
+      dataSource: dataSourceKey,
+    });
   }
 
   /**
@@ -205,25 +201,23 @@ export class NodeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<INode>}
    */
-  public update (
-    data:{
-      id:string|number;
-      properties?:any;
-      deletedProperties?:Array<string>;
-      addedCategories?:Array<string>;
-      deletedCategories?:Array<string>;
-      readAt:string;
+  public update(
+    data: {
+      id: string | number;
+      properties?: any;
+      deletedProperties?: Array<string>;
+      addedCategories?: Array<string>;
+      deletedCategories?: Array<string>;
+      readAt: string;
     },
-    dataSourceKey?:string
-  ):Promise<IOgmaNode> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/nodes/{id}',
-        method: 'PATCH',
-        body  : data,
-        dataSource: dataSourceKey
-      }
-    ).then((response:INode) => VisualizationParser.parseNode(response));
+    dataSourceKey?: string
+  ): Promise<IOgmaNode> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/nodes/{id}',
+      method: 'PATCH',
+      body: data,
+      dataSource: dataSourceKey,
+    }).then((response: INode) => VisualizationParser.parseNode(response));
   }
 
   /**
@@ -233,21 +227,19 @@ export class NodeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<Array<IProperty>>}
    */
-  public getProperties (
-    params?:{
-      includeType ?:string;
-      omitNoindex ?:boolean;
+  public getProperties(
+    params?: {
+      includeType?: string;
+      omitNoindex?: boolean;
     },
-    dataSourceKey?:string
-  ):Promise<Array<IProperty>> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/schema/nodeTypes/properties',
-        method: 'GET',
-        query : params,
-        dataSource : dataSourceKey
-      }
-    ).then(( res:any ) => res.properties);
+    dataSourceKey?: string
+  ): Promise<Array<IProperty>> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/schema/nodeTypes/properties',
+      method: 'GET',
+      query: params,
+      dataSource: dataSourceKey,
+    }).then((res: any) => res.properties);
   }
 
   /**
@@ -257,19 +249,17 @@ export class NodeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<Array<IItemType>>}
    */
-  public getTypes (
-    params?:{
-      includeType ?:boolean;
+  public getTypes(
+    params?: {
+      includeType?: boolean;
     },
-    dataSourceKey?:string
-  ):Promise<{any:{access:TypeAccessRight}, results:Array<IItemType>}> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/schema/nodeTypes',
-        method: 'GET',
-        query : params,
-        dataSource : dataSourceKey
-      }
-    );
+    dataSourceKey?: string
+  ): Promise<{ any: { access: TypeAccessRight }; results: Array<IItemType> }> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/schema/nodeTypes',
+      method: 'GET',
+      query: params,
+      dataSource: dataSourceKey,
+    });
   }
 }
