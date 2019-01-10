@@ -51,13 +51,13 @@ export class Linkurious {
 
   /**
    *
-   * @param {string} host           - Host URL of the linkurious server
+   * @param {string} baseURL        - Base URL of the linkurious server
    * @param {string} logLevel       - Level of log wanted
    * @param {object} [loggerDriver] - logger object
    * @param {FetcherFactory} [fetcherFactory] - fetcher factory
    */
   constructor (
-    host:string,
+    baseURL:string,
     logLevel:LogLevel,
     loggerDriver?:ILoggerDriver,
     fetcherFactory?:FetcherFactory
@@ -68,7 +68,7 @@ export class Linkurious {
     if ( !fetcherFactory ) {
       fetcherFactory = new FetcherFactory();
     }
-    this._fetcher = fetcherFactory.create(this._logger, this._clientState, host);
+    this._fetcher = fetcherFactory.create(this._logger, this._clientState, baseURL);
 
     this._admin = new AdminModule(this._fetcher, this._logger, this._clientState);
     this._my = new MyModule(this._fetcher);

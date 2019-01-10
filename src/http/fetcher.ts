@@ -14,10 +14,10 @@ import {
   IHttpResponse,
   IFetchConfig,
   IDataToSend, IFetcherClientState
-} from './../../index';
-import { LinkuriousError } from './../LinkuriousError';
+} from '../../index';
+import { LinkuriousError } from '../LinkuriousError';
 import { DefaultHttpDriver } from './DefaultHttpDriver';
-import { Logger } from './../log/Logger';
+import { Logger } from '../log/Logger';
 import { Utils } from './utils';
 
 export class Fetcher {
@@ -27,21 +27,21 @@ export class Fetcher {
   private static OBJECT_ID_TEMPLATE:string = '{id}';
   protected _httpDriver:IHttpDriver;
   private _logger:Logger;
-  private _host:string;
+  private readonly _baseURL:string;
   private _clientState:IFetcherClientState;
-  private _baseUrl:string;
+  private readonly _apiBaseURL:string;
 
   constructor (
     logger:Logger,
     clientState:IFetcherClientState,
-    host:string,
+    baseURL:string,
     httpDriver?:IHttpDriver
   ) {
     this._httpDriver = httpDriver ? httpDriver : new DefaultHttpDriver();
     this._logger = logger;
     this._clientState = clientState;
-    this._host = host;
-    this._baseUrl = this._host + '/api';
+    this._baseURL = baseURL.endsWith('/') ? baseURL : (baseURL + '/');
+    this._apiBaseURL = this._baseURL + 'api';
   }
 
   /**
@@ -144,9 +144,9 @@ export class Fetcher {
     explicitSource?:string|number
   ):string {
     if ( explicitSource && typeof explicitSource === 'string') {
-      return this._baseUrl + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource);
+      return this._apiBaseURL + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource);
     } else if ( this._clientState.currentSource ) {
-      return this._baseUrl + url.replace(
+      return this._apiBaseURL + url.replace(
           Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key
         );
     } else {
@@ -176,11 +176,11 @@ export class Fetcher {
     explicitSource?:string|number
   ):string {
     if ( explicitSource && typeof explicitSource === 'number') {
-      return this._baseUrl + url.replace(
+      return this._apiBaseURL + url.replace(
           Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource + ''
         );
     } else if ( this._clientState.currentSource ) {
-      return this._baseUrl + url.replace(
+      return this._apiBaseURL + url.replace(
           Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.configIndex + ''
         );
     } else {
@@ -249,7 +249,7 @@ export class Fetcher {
     } else if ( config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0 ) {
       return this.addSourceIndexToUrl(config.url, config.dataSource);
     } else {
-      return this._baseUrl + config.url;
+      return this._apiBaseURL + config.url;
     }
   }
 }

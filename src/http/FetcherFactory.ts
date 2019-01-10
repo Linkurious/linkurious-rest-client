@@ -18,9 +18,9 @@ export class FetcherFactory {
   public create (
     _logger:Logger,
     _clientState:IClientState,
-    host:string
+    baseURL:string
   ):Fetcher {
-    return new Fetcher(_logger, _clientState, host);
+    return new Fetcher(_logger, _clientState, baseURL);
   }
 
 }

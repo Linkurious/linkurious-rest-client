@@ -55,7 +55,7 @@
     "@types/superagent": "^3.5.2",
     "browserify": "^13.0.1",
     "bunyan": "^1.8.1",
-    "es6-module-loader": "^0.17.11",
+    "es6-module-loader": "0.17.11",
     "fs-extra": "^0.30.0",
     "istanbul": "^0.4.3",
     "jasmine-core": "2.4.1",
