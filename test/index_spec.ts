@@ -363,11 +363,14 @@ describe('Linkurious class', () => {
             query: 'MATCH (n)\n WHERE ID(n)=' + nodeId + ' return n LIMIT 1',
           });
         })
-        .then(function(res: any) {
-          expect(res.nodes[0].data.properties.name).toEqual('Keanu Reeves');
-          done();
-        })
-        .catch((e) => console.log(e));
+        .then(function(res) {
+          if (res.isSuccess()) {
+            expect(res.response.nodes[0].data.properties.name).toEqual('Keanu Reeves');
+            done();
+          } else {
+            return Promise.reject(res);
+          }
+        });
     });
   });
 
@@ -1478,9 +1481,9 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.visualization.duplicate({ id: visu.id, title: 'Copy of newVizuTest' });
         })
-        .then((res: any) => {
-          expect(res.title).toEqual('Copy of newVizuTest');
-          visuToDelete = res.id;
+        .then((res) => {
+          expect(res.visualizationId).toBeDefined();
+          visuToDelete = res.visualizationId;
           done();
         });
     });
