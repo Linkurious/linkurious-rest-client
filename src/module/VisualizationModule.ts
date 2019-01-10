@@ -200,7 +200,7 @@ export class VisualizationModule extends Module {
    *
    * @param {Object} data
    * @param {string}dataSourceKey
-   * @returns {Promise<IVisualization>}
+   * @returns {Promise<{visualizationId:number}>}
    */
   public duplicate(
     data: {
@@ -209,7 +209,7 @@ export class VisualizationModule extends Module {
       folder?: number;
     },
     dataSourceKey?: string
-  ): Promise<IVisualization> {
+  ): Promise<{ visualizationId: number }> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/{id}/duplicate',
       method: 'POST',
