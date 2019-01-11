@@ -669,9 +669,8 @@ describe('Linkurious class', () => {
     it('must return the created visu', (done) => {
       return linkurious.init({usernameOrEmail:'nameChanged', password:'testPass'}).then(function(){
         return linkurious.visualization.duplicate({id:visu.id, title: 'Copy of newVizuTest'});
-      }).then((res:any) => {
-        expect(res.title).toEqual('Copy of newVizuTest');
-        visuToDelete = res.id;
+      }).then((res) => {
+        visuToDelete = res.visualizationId;
         done();
       });
     });
@@ -1201,7 +1200,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.count();
       }).then((res:any) => {
-        expect(res).toEqual(13);
+        expect(res).toEqual(14);
         done();
       });
     });
