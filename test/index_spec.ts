@@ -1200,7 +1200,7 @@ describe('Linkurious class', () => {
       return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
         return linkurious.visualization.count();
       }).then((res:any) => {
-        expect(res).toEqual(14);
+        expect(res).toEqual(13);
         done();
       });
     });
