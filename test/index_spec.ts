@@ -1283,23 +1283,6 @@ describe('Linkurious class', () => {
     });
   });
 
-  describe('getShortestsPaths method', () => {
-    it('must return an array of nodes', (done) => {
-      return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
-        .then(() => {
-          return linkurious.graph.getShortestPaths({
-            startNode: sourceId,
-            endNode: targetId,
-          });
-        })
-        .then((res: any) => {
-          expect(res.results.length).toEqual(3);
-          done();
-        });
-    });
-  });
-
   describe('countNode method', () => {
     it('must return thos number of nodes', (done) => {
       return linkurious
