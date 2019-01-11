@@ -667,7 +667,7 @@ describe('Linkurious class', () => {
 
   describe('duplicate visu method', () => {
     it('must return the created visu', (done) => {
-      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged', password:'testPass'}).then(function(){
         return linkurious.visualization.duplicate({id:visu.id, title: 'Copy of newVizuTest'});
       }).then((res:any) => {
         expect(res.title).toEqual('Copy of newVizuTest');
@@ -679,7 +679,7 @@ describe('Linkurious class', () => {
 
   describe('delete a visu method', () => {
     it('must delete a visu', (done) => {
-      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged', password:'testPass'}).then(function(){
         return linkurious.visualization.deleteOne({id:visuToDelete});
       }).then((res:any) => {
         expect(res).toBe('');
@@ -690,7 +690,7 @@ describe('Linkurious class', () => {
 
   describe('get share rights of a visu method', () => {
     it('must return sharers', (done) => {
-      return linkurious.init({usernameOrEmail:'testName', password:'testPass'}).then(function(){
+      return linkurious.init({usernameOrEmail:'nameChanged', password:'testPass'}).then(function(){
         return linkurious.visualization.getShares({id:visu.id});
       }).then((res:any) => {
         expect(res.shares.length).toEqual(0);
