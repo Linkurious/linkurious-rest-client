@@ -103,8 +103,11 @@ export interface IFullUser extends IUser {
 
 // GROUP
 
-export interface ISimpleGroup extends IIdentified {
+export interface IBaseGroup extends IIdentified {
   name: string;
+}
+
+export interface ISimpleGroup extends IBaseGroup {
   builtin: boolean;
   createdAt: string;
   updatedAt: string;

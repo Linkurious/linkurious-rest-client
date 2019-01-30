@@ -10,9 +10,11 @@
 
 'use strict';
 
-import { IGraphQuery, IFullUser } from '../../index';
+import { IGraphQuery, IFullUser, IBaseGroup } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
+import { Success } from '../response/success';
+import { Forbidden, ServerRejection, Unauthorized } from '../response/errors';
 
 export class MyModule extends Module {
   constructor(fetcher: Fetcher) {
@@ -92,6 +94,25 @@ export class MyModule extends Module {
       url: '/auth/authenticated',
       method: 'GET',
     });
+  }
+
+  /**
+   * List all the groups for the current source
+   */
+  public getGroups(
+    data: {
+      action: string;
+    },
+    dataSourceKey?: string
+  ): Promise<Success<Array<IBaseGroup>> | Unauthorized | Forbidden> {
+    return this.fetch({
+      url: '/{dataSourceKey}/groups',
+      method: 'GET',
+      query: data,
+      dataSource: dataSourceKey,
+    })
+      .then((response: Array<IBaseGroup>) => new Success(response))
+      .catch((error) => new ServerRejection(error));
   }
 
   /**
