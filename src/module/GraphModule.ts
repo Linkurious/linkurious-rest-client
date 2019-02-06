@@ -149,7 +149,7 @@ export class GraphModule extends Module {
       withAccess: data.withAccess,
     };
     return this.fetch({
-      url: '/{dataSourceKey}/graph/run',
+      url: '/{dataSourceKey}/graph/run/query',
       method: 'POST',
       body: body,
       query: query,
@@ -194,7 +194,7 @@ export class GraphModule extends Module {
     | InvalidParameter
   > {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/check',
+      url: '/{dataSourceKey}/graph/check/query',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
