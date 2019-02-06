@@ -1207,7 +1207,7 @@ describe('Linkurious class', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(() => {
-          return linkurious.my.getAllGraphQueries({ type: 'static' });
+          return linkurious.graph.getAllGraphQueries({ type: 'static' });
         })
         .then((res: any) => {
           expect(res.length).toEqual(1);
@@ -1221,11 +1221,10 @@ describe('Linkurious class', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(() => {
-          return linkurious.my.saveGraphQuery({
+          return linkurious.graph.saveGraphQuery({
             name: 'mygraphQuery',
             description: 'trololo',
             sharing: 'source',
-            type: 'static',
             dialect: 'cypher',
             content: "MATCH(Person {name: 'Keanu Reeves'})\nRETURN(Person)",
           });
@@ -1243,7 +1242,7 @@ describe('Linkurious class', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(() => {
-          return linkurious.my.updateGraphQuery({
+          return linkurious.graph.updateGraphQuery({
             content: "MATCH(Person {name: 'Carrie Anne Moss'})\nRETURN(Person)",
             id: graphQueryId,
           });
@@ -1260,7 +1259,7 @@ describe('Linkurious class', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(() => {
-          return linkurious.my.getGraphQuery({ id: graphQueryId });
+          return linkurious.graph.getGraphQuery({ id: graphQueryId });
         })
         .then((res: any) => {
           expect(res.id).toEqual(6);

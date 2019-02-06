@@ -7,6 +7,7 @@
  * File:
  * Description :
  */
+
 'use strict';
 
 import { Linkurious } from './src/index';
@@ -14,6 +15,16 @@ import { Fetcher } from './src/http/fetcher';
 import { FetcherFactory } from './src/http/FetcherFactory';
 import { Logger } from './src/log/Logger';
 import { LinkuriousError } from './src/LinkuriousError';
+import {
+  BooleanTemplate,
+  DateTemplate,
+  DatetimeTemplate,
+  EnumTemplate,
+  NodesetTemplate,
+  NodeTemplate,
+  NumberTemplate,
+  StringTemplate,
+} from 'linkurious-shared';
 
 export type indexingStatus = 'ongoing' | 'needed' | 'done' | 'unknown';
 export type EdgeOrientation = 'in' | 'out' | 'both';
@@ -238,10 +249,23 @@ export interface IGraphQuery extends ISimpleGraphQuery {
   updatedAt: string;
   description: string;
   sourceKey: string;
-  sharing: 'private' | 'source';
+  write: boolean;
+  graphInput: 'none' | '1-node' | '2-nodes' | 'nodeset' | undefined;
+  sharing: 'private' | 'source' | 'groups';
+  builtin: boolean;
+  sharedWithGroups: Array<number> | undefined;
   right: 'owner' | 'read';
   type: 'template' | 'static';
-  templateFields?: any;
+  templateFields?: Array<
+    | NumberTemplate
+    | StringTemplate
+    | EnumTemplate
+    | NodeTemplate
+    | NodesetTemplate
+    | DateTemplate
+    | DatetimeTemplate
+    | BooleanTemplate
+  >;
 }
 
 // SEARCH
