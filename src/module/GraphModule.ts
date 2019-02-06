@@ -62,7 +62,11 @@ export class GraphModule extends Module {
       method: 'GET',
       query: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: IGraphQuery) => {
+        return new Success(response);
+      })
+      .catch((error) => new ServerRejection(error));
   }
 
   /**
@@ -92,7 +96,11 @@ export class GraphModule extends Module {
       method: 'GET',
       dataSource: dataSourceKey,
       query: data,
-    });
+    })
+      .then((response: Array<IGraphQuery>) => {
+        return new Success(response);
+      })
+      .catch((error) => new ServerRejection(error));
   }
 
   /**
@@ -262,7 +270,11 @@ export class GraphModule extends Module {
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: IGraphQuery) => {
+        return new Success(response);
+      })
+      .catch((error) => new ServerRejection(error));
   }
 
   /**
@@ -298,6 +310,8 @@ export class GraphModule extends Module {
       method: 'PATCH',
       body: { id: data.id, properties: data },
       dataSource: dataSourceKey,
-    });
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new ServerRejection(error));
   }
 }
