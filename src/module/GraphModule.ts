@@ -88,7 +88,7 @@ export class GraphModule extends Module {
     | InvalidParameter
   > {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/query/all',
+      url: '/{dataSourceKey}/graph/query',
       method: 'GET',
       dataSource: dataSourceKey,
       query: data,
