@@ -10,7 +10,7 @@
 
 'use strict';
 
-import { IGraphQuery, IFullUser, IBaseGroup } from '../../index';
+import { IFullUser, IBaseGroup } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { Success } from '../response/success';
@@ -132,97 +132,6 @@ export class MyModule extends Module {
       url: '/{dataSourceKey}/graph/my/rawQuery/{id}',
       method: 'DELETE',
       body: data,
-      dataSource: dataSourceKey,
-    });
-  }
-
-  /**
-   * Returns a saved GraphModule Query owned by the current user
-   *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<IGraphQuery>}
-   */
-  public getGraphQuery(
-    data: {
-      id: number;
-    },
-    dataSourceKey?: string
-  ): Promise<IGraphQuery> {
-    return this.fetch({
-      url: '/{dataSourceKey}/graph/my/rawQuery/{id}',
-      method: 'GET',
-      query: data,
-      dataSource: dataSourceKey,
-    });
-  }
-
-  /**
-   * Returns all saved GraphModule Queries owned by the current user
-   *
-   * @param {{ type:'static'|'template'}} data
-   * @param {string} dataSourceKey
-   * @returns {Promise<Array<IGraphQuery>>}
-   */
-  public getAllGraphQueries(
-    data: { type: 'static' | 'template' },
-    dataSourceKey?: string
-  ): Promise<Array<IGraphQuery>> {
-    return this.fetch({
-      url: '/{dataSourceKey}/graph/my/rawQuery/all',
-      method: 'GET',
-      dataSource: dataSourceKey,
-      query: data,
-    });
-  }
-
-  /**
-   * Save and Returns the created GraphQuery
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<IGraphQuery>}
-   */
-  public saveGraphQuery(
-    data: {
-      dialect: 'cypher' | 'gremlin' | 'sparql';
-      content: string;
-      name: string;
-      description?: string;
-      sharing: 'private' | 'source';
-      type: 'static' | 'template';
-    },
-    dataSourceKey?: string
-  ): Promise<IGraphQuery> {
-    return this.fetch({
-      url: '/{dataSourceKey}/graph/my/rawQuery',
-      method: 'POST',
-      body: data,
-      dataSource: dataSourceKey,
-    });
-  }
-
-  /**
-   * Update a graph query owned but the current user
-   *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<IGraphQuery>}
-   */
-  public updateGraphQuery(
-    data: {
-      id: number;
-      name?: string;
-      content?: string;
-      description?: string;
-      sharing?: 'private' | 'source';
-      type?: 'static' | 'template';
-    },
-    dataSourceKey?: string
-  ): Promise<void> {
-    return this.fetch({
-      url: '/{dataSourceKey}/graph/my/rawQuery/{id}',
-      method: 'PATCH',
-      body: { id: data.id, properties: data },
       dataSource: dataSourceKey,
     });
   }

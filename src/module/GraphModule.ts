@@ -10,7 +10,7 @@
 
 'use strict';
 
-import { IEdge, IFullNode, INode, IOgmaEdge, IOgmaNode } from '../../index';
+import { IEdge, IGraphQuery, INode, IOgmaEdge, IOgmaNode } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
@@ -31,6 +31,68 @@ import {
 export class GraphModule extends Module {
   constructor(fetcher: Fetcher) {
     super(fetcher);
+  }
+
+  /**
+   * Returns a saved GraphModule Query owned by the current user
+   *
+   * @param {Object} data
+   * @param {string}dataSourceKey
+   * @returns {Promise<IGraphQuery>}
+   */
+  public getGraphQuery(
+    data: {
+      id: number;
+    },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<IGraphQuery>
+    | Unauthorized
+    | GuestDisabled
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/query/{id}',
+      method: 'GET',
+      query: data,
+      dataSource: dataSourceKey,
+    });
+  }
+
+  /**
+   * Returns all saved GraphModule Queries owned by the current user
+   *
+   * @param {{ type:'static'|'template'}} data
+   * @param {string} dataSourceKey
+   * @returns {Promise<Array<IGraphQuery>>}
+   */
+  public getAllGraphQueries(
+    data: { type: 'static' | 'template' },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<Array<IGraphQuery>>
+    | Unauthorized
+    | GuestDisabled
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/query/all',
+      method: 'GET',
+      dataSource: dataSourceKey,
+      query: data,
+    });
   }
 
   /**
@@ -165,6 +227,77 @@ export class GraphModule extends Module {
           columns: result.columns,
         };
       });
+    });
+  }
+
+  /**
+   * Save and Returns the created GraphQuery
+   * @param {Object} data
+   * @param {string}dataSourceKey
+   * @returns {Promise<IGraphQuery>}
+   */
+  public saveGraphQuery(
+    data: {
+      name: string;
+      content: string;
+      dialect?: 'cypher' | 'gremlin' | 'sparql';
+      description: string;
+      sharing: 'private' | 'source' | 'groups';
+      sharedWithGroups?: Array<number>;
+    },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<IGraphQuery>
+    | Unauthorized
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/query',
+      method: 'POST',
+      body: data,
+      dataSource: dataSourceKey,
+    });
+  }
+
+  /**
+   * Update a graph query owned but the current user
+   *
+   * @param {Object} data
+   * @param {string}dataSourceKey
+   * @returns {Promise<IGraphQuery>}
+   */
+  public updateGraphQuery(
+    data: {
+      id: number;
+      name?: string;
+      content?: string;
+      description?: string;
+      sharing?: 'private' | 'source' | 'groups';
+      sharedWithGroups?: Array<number>;
+    },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<void>
+    | Unauthorized
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/query/{id}',
+      method: 'PATCH',
+      body: { id: data.id, properties: data },
+      dataSource: dataSourceKey,
     });
   }
 }

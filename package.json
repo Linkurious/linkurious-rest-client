@@ -82,6 +82,7 @@
     "pretty-quick": "^1.8.0"
   },
   "dependencies": {
-    "superagent": "^3.5.2"
+    "superagent": "^3.5.2",
+    "linkurious-shared": "github:Linkurious/builds#shared-v2.7.0"
   }
 }
