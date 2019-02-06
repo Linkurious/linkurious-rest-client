@@ -83,6 +83,7 @@
   },
   "dependencies": {
     "superagent": "^3.5.2",
+    "rxjs": "^6.3.3",
     "linkurious-shared": "github:Linkurious/builds#shared-v2.7.0"
   }
 }
