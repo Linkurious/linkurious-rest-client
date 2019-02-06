@@ -106,7 +106,7 @@ export class GraphModule extends Module {
   /**
    * Run a static or template query
    */
-  public runQuery(
+  public run(
     data: {
       query: string;
       dialect?: string;
@@ -149,7 +149,7 @@ export class GraphModule extends Module {
       withAccess: data.withAccess,
     };
     return this.fetch({
-      url: '/{dataSourceKey}/graph/runQuery',
+      url: '/{dataSourceKey}/graph/run',
       method: 'POST',
       body: body,
       query: query,
@@ -176,7 +176,7 @@ export class GraphModule extends Module {
   /**
    * Return resolve if the current query is valid
    */
-  public checkQuery(
+  public check(
     data: {
       query: string;
       dialect?: string;
@@ -194,7 +194,7 @@ export class GraphModule extends Module {
     | InvalidParameter
   > {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/checkQuery',
+      url: '/{dataSourceKey}/graph/check',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
