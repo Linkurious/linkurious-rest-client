@@ -120,7 +120,12 @@ export class GraphModule extends Module {
     },
     dataSourceKey?: string
   ): Promise<
-    | Success<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }>
+    | Success<{
+        nodes: Array<IOgmaNode>;
+        edges: Array<IOgmaEdge>;
+        truncatedByLimit: boolean;
+        truncatedByAccess: boolean;
+      }>
     | Unauthorized
     | GuestDisabled
     | Forbidden
@@ -150,12 +155,21 @@ export class GraphModule extends Module {
       query: query,
       dataSource: dataSourceKey,
     })
-      .then((response: { nodes: Array<INode>; edges: Array<IEdge> }) => {
-        return new Success({
-          nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-          edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
-        });
-      })
+      .then(
+        (response: {
+          nodes: Array<INode>;
+          edges: Array<IEdge>;
+          truncatedByLimit: boolean;
+          truncatedByAccess: boolean;
+        }) => {
+          return new Success({
+            nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+            edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+            truncatedByLimit: response.truncatedByLimit,
+            truncatedByAccess: response.truncatedByAccess,
+          });
+        }
+      )
       .catch((error) => new ServerRejection(error));
   }
 
