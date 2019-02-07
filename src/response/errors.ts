@@ -11,6 +11,7 @@
 'use strict';
 
 import { ServerResponse } from './index';
+import { Tools } from 'linkurious-shared';
 
 export type RejectionKey =
   | 'bad_graph_request'
@@ -42,11 +43,29 @@ export interface WriteForbidden extends ServerRejection {}
 export class ServerRejection extends ServerResponse<RejectionKey> {
   public readonly message: string;
   public readonly status: number;
+  private readonly _data: any;
 
-  constructor(e: { key: RejectionKey; message: string; status: number }) {
+  constructor(e: { key: RejectionKey; message: string; status: number; data?: any }) {
     super(e.key);
     this.message = e.message;
     this.status = e.status;
+    this._data = e.data || {};
+  }
+
+  /**
+   * Return true if an offset exists in rejection
+   */
+  public get hasOffset(): boolean {
+    return Tools.isDefined(Tools.getIn(this._data, ['offset']));
+  }
+
+  /**
+   * Return the offset error
+   */
+  public get offset(): { offset: number; length?: number } {
+    if (Tools.isDefined(Tools.getIn(this._data, ['offset']))) {
+      return this._data;
+    }
   }
 
   public isBadGraphRequest(): this is BadGraphRequest {
