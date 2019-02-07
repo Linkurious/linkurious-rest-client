@@ -17,13 +17,15 @@ export class LinkuriousError {
   public key: string;
   public message: string;
   public cause: Error;
+  public data: any;
 
-  constructor(status: number, type: ErrorType, key: string, message: string, cause?: Error) {
+  constructor(status: number, type: ErrorType, key: string, message: string, cause?: Error, data?: any) {
     this.status = status;
     this.type = type;
     this.key = key;
     this.message = message;
     this.cause = cause;
+    this.data = data;
   }
 
   public static fromHttpResponse(r: { statusCode: number; body: any; header: any }): LinkuriousError {
@@ -31,6 +33,7 @@ export class LinkuriousError {
     let type: ErrorType = LinkuriousError.getErrorType(r.statusCode);
     let key: string;
     let message: string;
+    let data: any;
 
     if (type === 'communication') {
       key = 'communication_error';
@@ -38,9 +41,10 @@ export class LinkuriousError {
     } else {
       key = r.body.key;
       message = r.body.message;
+      data = r.body.data;
     }
 
-    return new LinkuriousError(status, type, key, message);
+    return new LinkuriousError(status, type, key, message, undefined, data);
   }
 
   public static fromError(
