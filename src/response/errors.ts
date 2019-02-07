@@ -63,7 +63,7 @@ export class ServerRejection extends ServerResponse<RejectionKey> {
    * Return the offset error
    */
   public get offset(): { offset: number; length?: number } {
-    return this.hasOffset ? this._data.offset : undefined;
+    return this.hasOffset ? this._data : undefined;
   }
 
   public isBadGraphRequest(): this is BadGraphRequest {
