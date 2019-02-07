@@ -56,16 +56,14 @@ export class ServerRejection extends ServerResponse<RejectionKey> {
    * Return true if an offset exists in rejection
    */
   public get hasOffset(): boolean {
-    return Tools.isDefined(Tools.getIn(this._data, ['offset']));
+    return Tools.isDefined(this._data.offset);
   }
 
   /**
    * Return the offset error
    */
   public get offset(): { offset: number; length?: number } {
-    if (Tools.isDefined(Tools.getIn(this._data, ['offset']))) {
-      return this._data;
-    }
+    return this.hasOffset ? this._data.offset : undefined;
   }
 
   public isBadGraphRequest(): this is BadGraphRequest {
