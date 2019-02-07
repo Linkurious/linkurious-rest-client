@@ -322,7 +322,7 @@ export class GraphModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/graph/query/{id}',
       method: 'PATCH',
-      body: { id: data.id, properties: data },
+      body: data,
       dataSource: dataSourceKey,
     })
       .then(() => new Success(undefined))
