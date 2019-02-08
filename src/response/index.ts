@@ -20,7 +20,7 @@ export abstract class ServerResponse<T extends 'success' | RejectionKey> {
     this.key = key;
   }
 
-  public isSuccess(): this is Success<unknown> {
+  public isSuccess(): this is Success<any> {
     return this.key === 'success';
   }
   public isError(): this is ServerRejection {

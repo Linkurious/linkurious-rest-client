@@ -27,19 +27,6 @@ export type RejectionKey =
   | 'unauthorized'
   | 'write_forbidden';
 
-export interface BadGraphRequest extends ServerRejection {}
-export interface ConstraintViolation extends ServerRejection {}
-export interface DataSourceUnavailable extends ServerRejection {}
-export interface Forbidden extends ServerRejection {}
-export interface GraphRequestTimeout extends ServerRejection {}
-export interface GraphUnreachable extends ServerRejection {}
-export interface GroupExists extends ServerRejection {}
-export interface GuestDisabled extends ServerRejection {}
-export interface InvalidParameter extends ServerRejection {}
-export interface NotFound extends ServerRejection {}
-export interface Unauthorized extends ServerRejection {}
-export interface WriteForbidden extends ServerRejection {}
-
 export class ServerRejection extends ServerResponse<RejectionKey> {
   public readonly message: string;
   public readonly status: number;
@@ -102,4 +89,41 @@ export class ServerRejection extends ServerResponse<RejectionKey> {
   public isWriteForbidden(): this is WriteForbidden {
     return this.key === 'write_forbidden';
   }
+}
+
+export class BadGraphRequest extends ServerRejection {
+  key: 'bad_graph_request';
+}
+export class ConstraintViolation extends ServerRejection {
+  key: 'constraint_violation';
+}
+export class DataSourceUnavailable extends ServerRejection {
+  key: 'dataSource_unavailable';
+}
+export class Forbidden extends ServerRejection {
+  key: 'forbidden';
+}
+export class GraphRequestTimeout extends ServerRejection {
+  key: 'graph_request_timeout';
+}
+export class GraphUnreachable extends ServerRejection {
+  key: 'graph_unreachable';
+}
+export class GroupExists extends ServerRejection {
+  key: 'group_exists';
+}
+export class GuestDisabled extends ServerRejection {
+  key: 'guest_disabled';
+}
+export class InvalidParameter extends ServerRejection {
+  key: 'invalid_parameter';
+}
+export class NotFound extends ServerRejection {
+  key: 'not_found';
+}
+export class Unauthorized extends ServerRejection {
+  key: 'unauthorized';
+}
+export class WriteForbidden extends ServerRejection {
+  key: 'write_forbidden';
 }
