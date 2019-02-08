@@ -66,7 +66,19 @@ export class GraphModule extends Module {
       .then((response: IGraphQuery) => {
         return new Success(response);
       })
-      .catch((error) => new ServerRejection(error));
+      .catch(
+        (error) =>
+          new ServerRejection(error) as
+            | Unauthorized
+            | GuestDisabled
+            | Forbidden
+            | BadGraphRequest
+            | ConstraintViolation
+            | GraphRequestTimeout
+            | DataSourceUnavailable
+            | GraphUnreachable
+            | InvalidParameter
+      );
   }
 
   /**
@@ -100,7 +112,19 @@ export class GraphModule extends Module {
       .then((response: Array<IGraphQuery>) => {
         return new Success(response);
       })
-      .catch((error) => new ServerRejection(error));
+      .catch(
+        (error) =>
+          new ServerRejection(error) as
+            | Unauthorized
+            | GuestDisabled
+            | Forbidden
+            | BadGraphRequest
+            | ConstraintViolation
+            | GraphRequestTimeout
+            | DataSourceUnavailable
+            | GraphUnreachable
+            | InvalidParameter
+      );
   }
 
   /**
@@ -170,7 +194,19 @@ export class GraphModule extends Module {
           });
         }
       )
-      .catch((error) => new ServerRejection(error));
+      .catch(
+        (error) =>
+          new ServerRejection(error) as
+            | Unauthorized
+            | GuestDisabled
+            | Forbidden
+            | BadGraphRequest
+            | ConstraintViolation
+            | GraphRequestTimeout
+            | DataSourceUnavailable
+            | GraphUnreachable
+            | InvalidParameter
+      );
   }
 
   /**
@@ -200,7 +236,18 @@ export class GraphModule extends Module {
       dataSource: dataSourceKey,
     })
       .then(() => new Success(undefined))
-      .catch((error) => new ServerRejection(error));
+      .catch(
+        (error) =>
+          new ServerRejection(error) as
+            | Unauthorized
+            | Forbidden
+            | BadGraphRequest
+            | ConstraintViolation
+            | GraphRequestTimeout
+            | DataSourceUnavailable
+            | GraphUnreachable
+            | InvalidParameter
+      );
   }
 
   /**
@@ -288,7 +335,18 @@ export class GraphModule extends Module {
       .then((response: IGraphQuery) => {
         return new Success(response);
       })
-      .catch((error) => new ServerRejection(error));
+      .catch(
+        (error) =>
+          new ServerRejection(error) as
+            | Unauthorized
+            | Forbidden
+            | BadGraphRequest
+            | ConstraintViolation
+            | GraphRequestTimeout
+            | DataSourceUnavailable
+            | GraphUnreachable
+            | InvalidParameter
+      );
   }
 
   /**
@@ -326,6 +384,17 @@ export class GraphModule extends Module {
       dataSource: dataSourceKey,
     })
       .then(() => new Success(undefined))
-      .catch((error) => new ServerRejection(error));
+      .catch(
+        (error) =>
+          new ServerRejection(error) as
+            | Unauthorized
+            | Forbidden
+            | BadGraphRequest
+            | ConstraintViolation
+            | GraphRequestTimeout
+            | DataSourceUnavailable
+            | GraphUnreachable
+            | InvalidParameter
+      );
   }
 }

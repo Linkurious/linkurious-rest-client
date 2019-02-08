@@ -293,7 +293,15 @@ export class AdminModule extends Module {
       dataSource: dataSourceKey,
     })
       .then((response: IGroup) => new Success(response))
-      .catch((error) => new ServerRejection(error));
+      .catch(
+        (error) =>
+          new ServerRejection(error) as
+            | Unauthorized
+            | DataSourceUnavailable
+            | InvalidParameter
+            | GroupExists
+            | Forbidden
+      );
   }
 
   /**
@@ -312,7 +320,7 @@ export class AdminModule extends Module {
       dataSource: dataSourceKey,
     })
       .then(() => new Success(undefined))
-      .catch((error) => new ServerRejection(error));
+      .catch((error) => new ServerRejection(error) as Unauthorized | InvalidParameter | NotFound | Forbidden);
   }
 
   /**
@@ -332,7 +340,7 @@ export class AdminModule extends Module {
       dataSource: dataSourceKey,
     })
       .then((response) => new Success(response))
-      .catch((error) => new ServerRejection(error));
+      .catch((error) => new ServerRejection(error) as Unauthorized | NotFound | Forbidden | InvalidParameter);
   }
 
   /**
@@ -351,7 +359,7 @@ export class AdminModule extends Module {
       dataSource: dataSourceKey,
     })
       .then((response: IGroup) => new Success(response))
-      .catch((error) => new ServerRejection(error));
+      .catch((error) => new ServerRejection(error) as Unauthorized | InvalidParameter | Forbidden | NotFound);
   }
 
   /**
@@ -370,7 +378,7 @@ export class AdminModule extends Module {
       dataSource: dataSourceKey,
     })
       .then((response: Array<IGroup>) => new Success(response))
-      .catch((error) => new ServerRejection(error));
+      .catch((error) => new ServerRejection(error) as Unauthorized | Forbidden);
   }
 
   /**
@@ -382,7 +390,7 @@ export class AdminModule extends Module {
       method: 'GET',
     })
       .then((response: IGroupRights) => new Success(response))
-      .catch((error) => new ServerRejection(error));
+      .catch((error) => new ServerRejection(error) as Unauthorized | Forbidden);
   }
 
   /**
@@ -402,7 +410,7 @@ export class AdminModule extends Module {
       dataSource: dataSourceKey,
     })
       .then(() => new Success(undefined))
-      .catch((error) => new ServerRejection(error));
+      .catch((error) => new ServerRejection(error) as Unauthorized | InvalidParameter | NotFound | Forbidden);
   }
 
   /**

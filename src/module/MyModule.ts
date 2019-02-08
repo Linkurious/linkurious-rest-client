@@ -112,7 +112,7 @@ export class MyModule extends Module {
       dataSource: dataSourceKey,
     })
       .then((response: Array<IBaseGroup>) => new Success(response))
-      .catch((error) => new ServerRejection(error));
+      .catch((error) => new ServerRejection(error) as Unauthorized | Forbidden);
   }
 
   /**

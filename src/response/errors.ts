@@ -127,3 +127,14 @@ export class Unauthorized extends ServerRejection {
 export class WriteForbidden extends ServerRejection {
   key: 'write_forbidden';
 }
+
+const test = new ServerRejection({ key: 'bad_graph_request', message: '', status: 400 });
+
+let i;
+if (test.isBadGraphRequest()) {
+  i = test.message;
+} else if (test.isUnauthorized()) {
+  i = test.message;
+} else {
+  i = test.message;
+}
