@@ -29,6 +29,20 @@ pipeline {
         }
       }
     }
+    stage('Build') {
+              when {
+                anyOf {
+                    branch 'master'
+                    branch 'develop*'
+                }
+              }
+              steps {
+                dir('linkurious-shared') {
+                  sh './node_modules/.bin/tsc'
+                  sh 'node ./scripts/pushBranch.js'
+                }
+              }
+            }
   }
   post {
     always {
