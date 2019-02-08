@@ -79,10 +79,12 @@
     "tslint": "^3.10.2",
     "typescript": "3.1.6",
     "prettier": "^1.13.5",
-    "pretty-quick": "^1.8.0"
+    "pretty-quick": "^1.8.0",
+    "rxjs-compat": "^6.0.0-rc.0",
+    "rxjs": "^6.3.3"
   },
   "dependencies": {
     "superagent": "^3.5.2",
-    "linkurious-shared": "github:Linkurious/builds#shared-v2.7.0"
+    "linkurious-shared": "github:Linkurious/builds#shared-develop-next"
   }
 }

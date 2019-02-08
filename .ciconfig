@@ -29,20 +29,30 @@ pipeline {
         }
       }
     }
-    stage('Build') {
+    stage('Pre-release') {
               when {
                 anyOf {
-                    branch 'master'
                     branch 'develop*'
                 }
               }
               steps {
-                dir('linkurious-shared') {
-                  sh './node_modules/.bin/tsc'
-                  sh 'node ./scripts/pushBranch.js'
+                dir('linkurious-rest-client') {
+                  sh 'npm run prerelease'
                 }
               }
             }
+    stage('Release') {
+                  when {
+                    anyOf {
+                        branch 'master'
+                    }
+                  }
+                  steps {
+                    dir('linkurious-rest-client') {
+                      sh 'npm run prerelease'
+                    }
+                  }
+                }
   }
   post {
     always {

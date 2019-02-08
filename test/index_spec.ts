@@ -358,7 +358,7 @@ describe('Linkurious class', () => {
       return linkurious
         .initSources()
         .then(function() {
-          return linkurious.graph.runQuery({
+          return linkurious.graph.run({
             dialect: 'cypher',
             query: 'MATCH (n)\n WHERE ID(n)=' + nodeId + ' return n LIMIT 1',
           });
