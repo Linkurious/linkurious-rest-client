@@ -35,8 +35,8 @@ pipeline {
       }
     }
     stage('Pre-release') {
-      when {
-         branch 'develop*'
+      anyOf {
+        branch 'develop*'
       }
       steps {
         dir('linkurious-rest-client') {
