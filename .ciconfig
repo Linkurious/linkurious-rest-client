@@ -27,9 +27,6 @@ pipeline {
       steps {
         throttle(['FrontendTestEnv']) {
           dir('linkurious-rest-client') {
-            sh 'rm ../linkurious-server/data/server/dbTest.sqlite'
-            sh 'rm ../linkurious-server/data/server/dbTest.sqlite-shm'
-            sh 'rm ../linkurious-server/data/server/dbTest.sqlite-wal'
             sh 'rm ../linkurious-server/data/config/test.json'
             sh 'node ../linkurious-server/dist/test/runMocha.js -sm & echo $! > SERVER_PID'
             sh 'xvfb-run node_modules/.bin/karma start'
