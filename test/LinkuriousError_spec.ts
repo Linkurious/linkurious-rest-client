@@ -9,6 +9,8 @@
  */
 'use strict';
 
+import { expect } from 'chai';
+import 'mocha';
 import { LinkuriousError } from '../src/LinkuriousError';
 
 export class LinkuriousErrorSpec {
@@ -23,11 +25,11 @@ export class LinkuriousErrorSpec {
           header: undefined,
         });
 
-        expect(linkuriousError.type).toEqual('communication');
+        expect(linkuriousError.type).to.eql('communication');
 
-        expect(linkuriousError.key).toEqual('communication_error');
+        expect(linkuriousError.key).to.eql('communication_error');
 
-        expect(linkuriousError.message).toEqual('Could not get response from server');
+        expect(linkuriousError.message).to.eql('Could not get response from server');
       });
     });
 
@@ -36,61 +38,17 @@ export class LinkuriousErrorSpec {
         let error = new Error('test error');
         let linkuriousError = LinkuriousError.fromError(error);
 
-        expect(linkuriousError.key).toEqual('critical');
+        expect(linkuriousError.key).to.eql('critical');
 
-        expect(linkuriousError.message).toEqual('Error: test error');
+        expect(linkuriousError.message).to.eql('Error: test error');
       });
 
       it('must return a error object to string', () => {
         let error = new Error();
         let linkuriousError = LinkuriousError.fromError(error);
 
-        expect(linkuriousError.message).toEqual('{}');
-        expect(typeof linkuriousError.cause).toEqual('object');
-      });
-    });
-
-    describe('get error stack', () => {
-      it('must return the error stack', () => {
-        try {
-          jasmine.arrayContaining;
-        } catch (e) {
-          let linkuriousError = LinkuriousError.fromError(e);
-
-          expect(linkuriousError.stack).toMatch("TypeError: Cannot read property 'install' of" + ' undefined');
-        }
-      });
-
-      it('must return an undefined stack', () => {
-        let linkuriousError = LinkuriousError.fromHttpResponse({
-          statusCode: undefined,
-          body: 'test',
-          header: undefined,
-        });
-
-        expect(linkuriousError.stack).toBeUndefined();
-      });
-    });
-
-    describe('get error stack in array', () => {
-      it('must return the error stack in an array', () => {
-        try {
-          jasmine.arrayContaining;
-        } catch (e) {
-          let linkuriousError = LinkuriousError.fromError(e);
-
-          expect(linkuriousError.stackArray.length).toEqual(11);
-        }
-      });
-
-      it('must return an empty array stack', () => {
-        let linkuriousError = LinkuriousError.fromHttpResponse({
-          statusCode: undefined,
-          body: 'test',
-          header: undefined,
-        });
-
-        expect(linkuriousError.stackArray.length).toBe(0);
+        expect(linkuriousError.message).to.eql('{}');
+        expect(typeof linkuriousError.cause).to.eql('object');
       });
     });
 
@@ -102,7 +60,7 @@ export class LinkuriousErrorSpec {
           header: undefined,
         });
 
-        expect(linkuriousError.type).toEqual('communication');
+        expect(linkuriousError.type).to.eql('communication');
       });
 
       it('must return a "access" type', () => {
@@ -112,7 +70,7 @@ export class LinkuriousErrorSpec {
           header: undefined,
         });
 
-        expect(linkuriousError.type).toEqual('access');
+        expect(linkuriousError.type).to.eql('access');
 
         linkuriousError = LinkuriousError.fromHttpResponse({
           statusCode: 403,
@@ -120,7 +78,7 @@ export class LinkuriousErrorSpec {
           header: undefined,
         });
 
-        expect(linkuriousError.type).toEqual('access');
+        expect(linkuriousError.type).to.eql('access');
       });
 
       it('must return a "technical" type', () => {
@@ -130,7 +88,7 @@ export class LinkuriousErrorSpec {
           header: undefined,
         });
 
-        expect(linkuriousError.type).toEqual('technical');
+        expect(linkuriousError.type).to.eql('technical');
       });
     });
   }

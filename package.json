@@ -41,7 +41,7 @@
   },
   "scripts": {
     "lint": "tslint \"src/**/*.ts\"",
-    "compileTests": "tsc --project tsconfig_tests.json",
+    "compileTests": "tsc --project fetcher_spec.json",
     "test": "./test/runTests.sh",
     "posttest": "rm -rf tempTests",
     "clean": "rm -rf ./dist-es6 && rm -rf ./typings && rm -rf ./node_modules && rm -rf ./coverage",
@@ -55,36 +55,31 @@
     "prerelease": "tsc -p ./tsconfig.json && npm version prerelease && git push && npm publish --tag next"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.5.35",
-    "@types/node": "^8.0.10",
+    "@types/mocha": "^5.2.5",
     "@types/superagent": "^3.5.2",
-    "es6-module-loader": "^0.17.11",
+    "babel-preset-es2015": "^6.24.1",
+    "chai": "^4.1.2",
     "fs-extra": "^0.30.0",
-    "istanbul": "^0.4.3",
-    "jasmine-core": "2.4.1",
     "husky": "^1.2.0",
-    "karma": "^0.13.22",
+    "karma": "^4.0.0",
     "karma-chrome-launcher": "^2.2.0",
-    "karma-clear-screen-reporter": "^1.0.0",
-    "karma-coverage": "^1.0.0",
-    "karma-html-reporter": "^0.2.7",
-    "karma-jasmine": "^0.3.0",
-    "karma-mocha-reporter": "^2.2.3",
-    "karma-phantomjs-launcher": "^1.0.2",
-    "karma-remap-istanbul": "^0.1.0",
-    "karma-systemjs": "^0.13.0",
+    "karma-mocha": "^1.3.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-typescript": "^4.0.0",
+    "karma-typescript-es6-transform": "^4.0.0",
+    "mocha": "^5.2.0",
     "path": "^0.12.7",
-    "request": "~2.72",
-    "systemjs": "^0.19.29",
-    "tslint": "^3.10.2",
-    "typescript": "3.1.6",
     "prettier": "^1.13.5",
     "pretty-quick": "^1.8.0",
+    "request": "^2.87.0",
+    "rxjs": "^6.3.3",
     "rxjs-compat": "^6.0.0-rc.0",
-    "rxjs": "^6.3.3"
+    "tslint": "^3.10.2",
+    "typescript": "3.1.6"
   },
   "dependencies": {
+    "linkurious-shared": "github:Linkurious/builds#shared-develop-next",
     "superagent": "^3.5.2",
-    "linkurious-shared": "github:Linkurious/builds#shared-develop-next"
+    "valcheck": "^1.1.0"
   }
 }

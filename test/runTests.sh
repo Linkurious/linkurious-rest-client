@@ -8,8 +8,6 @@ rm ../linkurious-server/data/config/test.json
 node ../linkurious-server/dist/test/runMocha.js -sm &
 SERVER_PID=`echo $!`
 
-npm run compileTests
-npm run lint
-istanbul cover --root ../linkurious-server/server/services/webServer/routes --report html --dir cover_API node_modules/.bin/karma start karma.conf.js
+./node_modules/.bin/karma start
 
 kill -9 "$SERVER_PID"

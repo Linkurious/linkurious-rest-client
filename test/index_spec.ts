@@ -10,6 +10,8 @@
 
 'use strict';
 
+import { expect } from 'chai';
+import 'mocha';
 import {
   IFullUser,
   IItemType,
@@ -21,15 +23,6 @@ import {
   Linkurious,
   TypeAccessRight,
 } from '../index';
-import { FetcherSpec } from './fetcher_spec';
-import { LinkuriousErrorSpec } from './LinkuriousError_spec';
-import { DefaultLoggerDriverSpec } from './DefaultLoggerDriver_spec';
-
-FetcherSpec.test();
-LinkuriousErrorSpec.test();
-DefaultLoggerDriverSpec.test();
-
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
 describe('Linkurious class', () => {
   let visu: any;
@@ -57,7 +50,7 @@ describe('Linkurious class', () => {
   });
 
   describe('searchNodes method', function() {
-    it('must return a node', function(done) {
+    it('must return a node', function() {
       return linkurious
         .initSources()
         .then(function() {
@@ -67,16 +60,15 @@ describe('Linkurious class', () => {
           });
         })
         .then(function(res: any) {
-          expect(res.type).toEqual('node');
-          expect(res.totalHits).toEqual(1);
-          expect(res.results[0].data.categories).toEqual(['Person']);
+          expect(res.type).to.equal('node');
+          expect(res.totalHits).to.eql(1);
+          expect(res.results[0].data.categories).to.eql(['Person']);
 
           nodeId = res.results[0].id;
-          done();
         });
     });
 
-    it('must return an edge', function(done) {
+    it('must return an edge', function() {
       return linkurious
         .initSources()
         .then(function() {
@@ -86,24 +78,18 @@ describe('Linkurious class', () => {
           });
         })
         .then(function(res: any) {
-          expect(res.type).toEqual('edge');
-          expect(res.totalHits).toEqual(7);
+          expect(res.type).to.eql('edge');
+          expect(res.totalHits).to.eql(7);
           edgeID = res.results[0].id;
-          done();
         });
     });
   });
 
   describe('initSources method', function() {
-    it('must set the right dataSource', function(done) {
+    it('must set the right dataSource', function() {
       return linkurious.initSources().then(function(res: any) {
-        expect(res).toEqual(
-          jasmine.objectContaining({
-            configIndex: 0,
-          })
-        );
+        expect(res.configIndex).to.eql(0);
         sourceKey = res.key;
-        done();
       });
     });
   });
@@ -111,7 +97,7 @@ describe('Linkurious class', () => {
   let alertId: number;
 
   describe('createAlert method', () => {
-    it('must create an alert', (done) => {
+    it('must create an alert', () => {
       return linkurious.initSources().then(() => {
         return linkurious.admin
           .createAlert(
@@ -126,29 +112,25 @@ describe('Linkurious class', () => {
           )
           .then((res: any) => {
             alertId = res.id;
-            expect(res.matchTTL).toEqual(0);
-            setTimeout(() => {
-              done();
-            }, 5000);
+            expect(res.matchTTL).to.eql(0);
           });
       });
     });
   });
 
   describe('getAlerts for user method', () => {
-    it('must return an array of alerts', (done) => {
+    it('must return an array of alerts', () => {
       return linkurious.initSources().then(() => {
         return linkurious.alerts.getAlerts(sourceKey).then((res: any) => {
-          expect(res.length).toEqual(1);
-          expect(res[0].title).toEqual('testAlert');
-          done();
+          expect(res.length).to.eql(1);
+          expect(res[0].title).to.eql('testAlert');
         });
       });
     });
   });
 
   describe('getAlert for user method', () => {
-    it('must return an alert', (done) => {
+    it('must return an alert', () => {
       return linkurious.initSources().then(() => {
         return linkurious.alerts
           .getAlert(
@@ -158,8 +140,7 @@ describe('Linkurious class', () => {
             sourceKey
           )
           .then((res: any) => {
-            expect(res.title).toEqual('testAlert');
-            done();
+            expect(res.title).to.eql('testAlert');
           });
       });
     });
@@ -168,7 +149,7 @@ describe('Linkurious class', () => {
   let matchId: number;
 
   describe('getMatches method', () => {
-    it('must return an array of matches', (done) => {
+    it('must return an array of matches', () => {
       return linkurious.initSources().then(() => {
         return linkurious.alerts
           .getMatches(
@@ -181,15 +162,14 @@ describe('Linkurious class', () => {
           )
           .then((res: any) => {
             matchId = res.matches[0].id;
-            expect(Array.isArray(res.matches)).toBeTruthy();
-            done();
+            expect(res.counts.unconfirmed).to.equal(2);
           });
       });
     });
   });
 
   describe('updateAlert method', () => {
-    it('must update an alert', (done) => {
+    it('must update an alert', () => {
       return linkurious.initSources().then(() => {
         return linkurious.admin
           .updateAlert({
@@ -197,16 +177,15 @@ describe('Linkurious class', () => {
             title: 'testAlertModified',
           })
           .then((res: any) => {
-            expect(res.id).toEqual(alertId);
-            expect(res.title).toEqual('testAlertModified');
-            done();
+            expect(res.id).to.eql(alertId);
+            expect(res.title).to.eql('testAlertModified');
           });
       });
     });
   });
 
   describe('addActionToMatch method', () => {
-    it('must return true', (done) => {
+    it('must return true', () => {
       return linkurious.initSources().then(() => {
         return linkurious.alerts
           .addActionToMatch(
@@ -218,15 +197,14 @@ describe('Linkurious class', () => {
             sourceKey
           )
           .then((res: any) => {
-            expect(res).toEqual('');
-            done();
+            expect(res).to.eql('');
           });
       });
     });
   });
 
   describe('getMatch method', () => {
-    it('must return the match', (done) => {
+    it('must return the match', () => {
       return linkurious.initSources().then(() => {
         return linkurious.alerts
           .getMatch(
@@ -237,16 +215,15 @@ describe('Linkurious class', () => {
             sourceKey
           )
           .then((res: any) => {
-            expect(res.nodes.length).toEqual(1);
-            expect(res.status).toEqual('confirmed');
-            done();
+            expect(res.nodes.length).to.eql(1);
+            expect(res.status).to.eql('confirmed');
           });
       });
     });
   });
 
   describe('getMatchActions method', () => {
-    it('must return all actions of specified match', (done) => {
+    it('must return all actions of specified match', () => {
       return linkurious.initSources().then(() => {
         return linkurious.alerts
           .getMatchActions(
@@ -257,28 +234,26 @@ describe('Linkurious class', () => {
             sourceKey
           )
           .then((res: any) => {
-            expect(res.length).toEqual(1);
-            expect(res[0].action).toEqual('confirm');
-            done();
+            expect(res.length).to.eql(1);
+            expect(res[0].action).to.eql('confirm');
           });
       });
     });
   });
 
   describe('getAlerts method', () => {
-    it('must return an array of alerts', (done) => {
+    it('must return an array of alerts', () => {
       return linkurious.initSources().then(() => {
         return linkurious.admin.getAlerts(sourceKey).then((res: any) => {
-          expect(res.length).toEqual(1);
-          expect(res[0].title).toEqual('testAlertModified');
-          done();
+          expect(res.length).to.eql(1);
+          expect(res[0].title).to.eql('testAlertModified');
         });
       });
     });
   });
 
   describe('getAlert method', () => {
-    it('must return an alert', (done) => {
+    it('must return an alert', () => {
       return linkurious.initSources().then(() => {
         return linkurious.admin
           .getAlert(
@@ -288,15 +263,14 @@ describe('Linkurious class', () => {
             sourceKey
           )
           .then((res: any) => {
-            expect(res.title).toEqual('testAlertModified');
-            done();
+            expect(res.title).to.eql('testAlertModified');
           });
       });
     });
   });
 
   describe('deleteAlert method', () => {
-    it('must return true', (done) => {
+    it('must return true', () => {
       return linkurious.initSources().then(() => {
         return linkurious.admin
           .deleteAlert(
@@ -306,55 +280,43 @@ describe('Linkurious class', () => {
             sourceKey
           )
           .then((res: any) => {
-            expect(res).toEqual('');
-            done();
+            expect(res).to.eql('');
           });
       });
     });
   });
 
   describe('resetDefaults method', () => {
-    it('must return true', (done) => {
+    it('must return true', () => {
       return linkurious.initSources().then(() => {
         return linkurious.admin.resetDefaults({ design: true }, sourceKey).then((res: any) => {
-          expect(res).toEqual('');
-          done();
+          expect(res).to.eql('');
         });
       });
     });
   });
 
   describe('setCurrentSource method', function() {
-    it('must set the dataSource by ConfigIndex', function(done) {
+    it('must set the dataSource by ConfigIndex', function() {
       return linkurious.getSourceList().then((sources) => {
         linkurious.setCurrentSource(sources[0]);
-        expect(linkurious.state.currentSource.configIndex).toEqual(0);
-        done();
+        expect(linkurious.state.currentSource.configIndex).to.eql(0);
       });
     });
   });
 
   describe('getAppStatus', () => {
-    it('must return linkurious status', (done) => {
+    it('must return linkurious status', () => {
       return linkurious.getAppStatus().then((res: any) => {
-        expect(res).toEqual(
-          jasmine.objectContaining({
-            message: 'Linkurious ready to go :)',
-          })
-        );
+        expect(res.message).to.eql('Linkurious ready to go :)');
 
-        expect(res).toEqual(
-          jasmine.objectContaining({
-            name: 'initialized',
-          })
-        );
-        done();
+        expect(res.name).to.eql('initialized');
       });
     });
   });
 
   describe('getNodesByQuery method', function() {
-    it('must return the right nodes for the query', function(done) {
+    it('must return the right nodes for the query', function() {
       return linkurious
         .initSources()
         .then(function() {
@@ -365,47 +327,43 @@ describe('Linkurious class', () => {
         })
         .then(function(res) {
           if (res.isSuccess()) {
-            expect(res.response.nodes[0].data.properties.name).toEqual('Keanu Reeves');
-            done();
+            expect(res.response.nodes[0].data.properties.name).to.eql('Keanu Reeves');
           }
         });
     });
   });
 
   describe('searchUsers method', function() {
-    it('must return a list of users', function(done) {
+    it('must return a list of users', function() {
       return linkurious.search.getUsers({ groupId: 4, limit: 4, offset: 0, startsWith: '' }).then(function(res: any) {
-        expect(res.found).toEqual(0);
-        done();
+        expect(res.found).to.eql(0);
       });
     });
   });
 
   describe('getCustomFiles method', function() {
-    it('must return an array of files', function(done) {
+    it('must return an array of files', function() {
       return linkurious.getCustomFiles().then(function(res) {
-        expect(res.results.length).toBeGreaterThan(0);
-        done();
+        expect(res.results.length).to.be.greaterThan(0);
       });
     });
   });
 
   describe('getEdge method', () => {
-    it('must return a edge', (done) => {
+    it('must return a edge', () => {
       return linkurious
         .initSources()
         .then(() => {
           return linkurious.edge.getOne({ id: edgeID });
         })
         .then((res: any) => {
-          expect(res.edges[0].data.type).toEqual('ACTED_IN');
-          done();
+          expect(res.edges[0].data.type).to.eql('ACTED_IN');
         });
     });
   });
 
   describe('getNode method', function() {
-    it('must return the right node', function(done) {
+    it('must return the right node', function() {
       return linkurious
         .initSources()
         .then(function() {
@@ -415,16 +373,15 @@ describe('Linkurious class', () => {
         })
         .then(function(res: { nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }) {
           node = res.nodes[0];
-          expect(res.nodes[0].id).toEqual(nodeId);
-          expect(res.nodes[0].data.properties).toEqual({ name: 'Keanu Reeves', born: 1964 });
-          expect(res.edges.length).toEqual(0);
-          done();
+          expect(res.nodes[0].id).to.eql(nodeId);
+          expect(res.nodes[0].data.properties).to.eql({ name: 'Keanu Reeves', born: 1964 });
+          expect(res.edges.length).to.eql(0);
         });
     });
   });
 
   describe('expandNode method', function() {
-    it('must return the right array of nodes and edges', function(done) {
+    it('must return the right array of nodes and edges', function() {
       return linkurious
         .initSources()
         .then(function() {
@@ -434,14 +391,13 @@ describe('Linkurious class', () => {
           });
         })
         .then(function(res: { nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }) {
-          expect(res.nodes.length).toBeGreaterThan(0);
-          done();
+          expect(res.nodes.length).to.be.greaterThan(0);
         });
     });
   });
 
   describe('updateNode method', function() {
-    it('must return true', function(done) {
+    it('must return true', function() {
       return linkurious
         .initSources()
         .then(function() {
@@ -451,18 +407,17 @@ describe('Linkurious class', () => {
             deletedCategories: [],
             deletedProperties: [],
             properties: { name: 'Keanu Reeves', born: 1964, test: 'test update' },
-            readAt: '',
+            readAt: node.data.readAt,
           });
         })
         .catch(function(res) {
-          expect(res).toBeTruthy();
-          done();
+          expect(res).to.be.true;
         });
     });
   });
 
   describe('getEdgeProperties', function() {
-    it('must return a list of edges properties', function(done) {
+    it('must return a list of edges properties', function() {
       return linkurious
         .initSources()
         .then(function() {
@@ -475,14 +430,13 @@ describe('Linkurious class', () => {
             res.sort((a, b) => {
               return a.key < b.key ? -1 : a.key > b.key ? 1 : 0;
             })
-          ).toEqual([{ key: 'altEdgeID', count: 1 }, { key: 'roles', count: 4 }]);
-          done();
+          ).to.eql([{ key: 'altEdgeID', count: 1 }, { key: 'roles', count: 4 }]);
         });
     });
   });
 
   describe('getNodeProperties', function() {
-    it('must return a list of node properties', function(done) {
+    it('must return a list of node properties', function() {
       return linkurious
         .initSources()
         .then(function() {
@@ -491,14 +445,13 @@ describe('Linkurious class', () => {
           });
         })
         .then(function(res: Array<IProperty>) {
-          expect(res.length).toBeGreaterThan(0);
-          done();
+          expect(res.length).to.be.greaterThan(0);
         });
     });
   });
 
   describe('getEdgeTypes method', function() {
-    it('must return edges types', function(done) {
+    it('must return edges types', function() {
       return linkurious
         .initSources()
         .then(function() {
@@ -516,28 +469,26 @@ describe('Linkurious class', () => {
             }
             return 0;
           });
-          expect(sortedResponse[0].name).toEqual('ACTED_IN');
-          done();
+          expect(sortedResponse[0].name).to.eql('ACTED_IN');
         });
     });
   });
 
   describe('getNodeTypes method', function() {
-    it('must return node types', function(done) {
+    it('must return node types', function() {
       return linkurious
         .initSources()
         .then(function() {
           return linkurious.node.getTypes();
         })
         .then(function(res: { any: { access: TypeAccessRight }; results: Array<IItemType> }) {
-          expect(res.results.length).toEqual(8);
-          done();
+          expect(res.results.length).to.eql(8);
         });
     });
   });
 
   describe('getSandbox method', function() {
-    it('must return a visualization object', function(done) {
+    it('must return a visualization object', function() {
       return linkurious
         .initSources()
         .then(function() {
@@ -546,18 +497,17 @@ describe('Linkurious class', () => {
           });
         })
         .then(function(res: IVisualization) {
-          expect(res.id).toBeTruthy();
-          expect(res.title).toBeTruthy();
-          expect(res.nodes.length).toEqual(0);
-          expect(res.edges.length).toEqual(0);
-          expect(res.layout).toBeTruthy();
-          done();
+          expect(res.id).to.not.be.undefined;
+          expect(res.title).to.not.be.undefined;
+          expect(res.nodes.length).to.eql(0);
+          expect(res.edges.length).to.eql(0);
+          expect(res.layout).to.not.be.undefined;
         });
     });
   });
 
   describe('updateSandBox method', () => {
-    it('must update the sandbox', (done) => {
+    it('must update the sandbox', () => {
       return linkurious
         .initSources()
         .then(function() {
@@ -575,8 +525,7 @@ describe('Linkurious class', () => {
           });
         })
         .then((res: any) => {
-          expect(res).toEqual('');
-          done();
+          expect(res).to.eql('');
         });
     });
   });
@@ -584,7 +533,7 @@ describe('Linkurious class', () => {
   let userId: number;
 
   describe('createUser method', function() {
-    it('must create a new user', function(done) {
+    it('must create a new user', function() {
       return linkurious.admin
         .getGroups({ withAccessRights: false }, sourceKey)
         .then((success) => {
@@ -600,14 +549,13 @@ describe('Linkurious class', () => {
         })
         .then(function(res: IFullUser) {
           userId = res.id;
-          expect(res.username).toEqual('testName');
-          done();
+          expect(res.username).to.eql('testName');
         });
     });
   });
 
   describe('updateConfig method', function() {
-    it('must change app config', function(done) {
+    it('must change app config', function() {
       return linkurious.admin
         .updateConfig({
           path: 'access.authRequired',
@@ -617,59 +565,54 @@ describe('Linkurious class', () => {
           return linkurious.getAppConfig();
         })
         .then(function(res: any) {
-          expect(res.access.authRequired).toBeTruthy();
-          done();
+          expect(res.access.authRequired).to.be.true;
         });
     });
   });
 
   describe('login method', function() {
-    it('must log a user and hydrate app state', function(done) {
+    it('must log a user and hydrate app state', function() {
       return linkurious.login({ usernameOrEmail: 'testName', password: 'testPass' }).then(function(res) {
-        expect(linkurious.state.user.id).toEqual(userId);
-        expect(res).toBeTruthy();
-        done();
+        expect(linkurious.state.user.id).to.eql(userId);
+        expect(res.username).to.equal('testName');
       });
     });
 
-    it('must logout before login if another user is currently authenticated', function(done) {
+    it('must logout before login if another user is currently authenticated', function() {
       return linkurious.login({ usernameOrEmail: 'testName', password: 'testPass' }).then(function() {
         return linkurious.login({ usernameOrEmail: 'testName', password: 'testPass' }).then(function(res) {
-          expect(linkurious.state.user.id).toEqual(userId);
-          expect(res).toBeTruthy();
-          done();
+          expect(linkurious.state.user.id).to.eql(userId);
+          expect(res.username).to.equal('testName');
         });
       });
     });
   });
 
   describe('logout method', function() {
-    it('must disconnect user and reset client state', function(done) {
+    it('must disconnect user and reset client state', function() {
       return linkurious
         .login({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.logout();
         })
         .then(function(res) {
-          expect(res).toEqual('user disconnected');
-          expect(linkurious.state.user).toBeUndefined();
-          done();
+          expect(res).to.eql('user disconnected');
+          expect(linkurious.state.user).to.be.undefined;
         });
     });
   });
 
   describe('init method', function() {
-    it('must set current user and default source', function(done) {
+    it('must set current user and default source', function() {
       return linkurious.init({ usernameOrEmail: 'testName', password: 'testPass' }).then(function() {
-        expect(linkurious.state.user.id).toEqual(userId);
-        expect(linkurious.state.currentSource.configIndex).toEqual(0);
-        done();
+        expect(linkurious.state.user.id).to.eql(userId);
+        expect(linkurious.state.currentSource.configIndex).to.eql(0);
       });
     });
   });
 
   describe('updateCurrentUser', function() {
-    it('must update current user and reflect it in state', function(done) {
+    it('must update current user and reflect it in state', function() {
       return linkurious
         .login({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
@@ -679,10 +622,9 @@ describe('Linkurious class', () => {
           });
         })
         .then(function() {
-          expect(linkurious.state.user.username).toEqual('nameChanged');
-          expect(linkurious.state.user.id).toEqual(userId);
-          expect(linkurious.state.user.email).toEqual('testName@test.fr');
-          done();
+          expect(linkurious.state.user.username).to.eql('nameChanged');
+          expect(linkurious.state.user.id).to.eql(userId);
+          expect(linkurious.state.user.email).to.eql('testName@test.fr');
         });
     });
   });
@@ -690,7 +632,7 @@ describe('Linkurious class', () => {
   let vizId: number;
 
   describe('createWidget method', () => {
-    it('must create a widget', (done) => {
+    it('must create a widget', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(() => {
@@ -710,43 +652,40 @@ describe('Linkurious class', () => {
         })
         .then((res: any) => {
           widget = res;
-          expect(typeof res).toEqual('string');
-          done();
+          expect(typeof res).to.eql('string');
         });
     });
   });
 
   describe('get widget method', () => {
-    it('must return a widget', (done) => {
+    it('must return a widget', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(() => {
           return linkurious.visualization.getWidget({ id: widget });
         })
         .then((res: any) => {
-          expect(res.key).toEqual(widget);
-          expect(res.userId).toEqual(userId);
-          done();
+          expect(res.key).to.eql(widget);
+          expect(res.userId).to.eql(userId);
         });
     });
   });
 
   describe('deleteWidget method', () => {
-    it('must delete a widget', (done) => {
+    it('must delete a widget', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(() => {
           return linkurious.visualization.deleteWidget({ id: widget });
         })
         .then((res: any) => {
-          expect(res).toEqual('');
-          done();
+          expect(res).to.eql('');
         });
     });
   });
 
   describe('create visu method', () => {
-    it('must return a visualization', (done) => {
+    it('must return a visualization', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(() => {
@@ -778,29 +717,26 @@ describe('Linkurious class', () => {
         })
         .then((res: any) => {
           visu = res;
-          expect(res.title).toEqual('newVizuTest');
-          expect(res.createdAt).toBeTruthy();
-          done();
+          expect(res.title).to.eql('newVizuTest');
         });
     });
   });
 
   describe('get a visu method', () => {
-    it('must return a visu', (done) => {
+    it('must return a visu', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(function() {
           return linkurious.visualization.getOne({ id: visu.id, populated: true });
         })
         .then((res: any) => {
-          expect(res.title).toEqual('newVizuTest');
-          done();
+          expect(res.title).to.eql('newVizuTest');
         });
     });
   });
 
   describe('shareVisualization method', function() {
-    it('must share a visualization', function(done) {
+    it('must share a visualization', function() {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(function() {
@@ -811,131 +747,122 @@ describe('Linkurious class', () => {
           });
         })
         .then(function(res: IShare) {
-          expect(res.visualizationId).toEqual(vizId);
-          expect(res.userId).toEqual(userId);
-          done();
+          expect(res.visualizationId).to.eql(vizId);
+          expect(res.userId).to.eql(userId);
         });
     });
   });
 
   describe('getHiddenEdgeProperties method', () => {
-    it('must return an array of edge Properties', (done) => {
+    it('must return an array of edge Properties', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(function() {
           return linkurious.admin.getHiddenEdgeProperties();
         })
         .then(function(res: any) {
-          expect(res.length).toEqual(1);
-          expect(res[0]).toBe('edgeHiddenProp');
-          done();
+          expect(res.length).to.eql(1);
+          expect(res[0]).to.equal('edgeHiddenProp');
         });
     });
   });
 
   describe('getHiddenNodeProperties method', () => {
-    it('must return an array of node Properties', (done) => {
+    it('must return an array of node Properties', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(function() {
           return linkurious.admin.getHiddenNodeProperties();
         })
         .then(function(res: any) {
-          expect(res.length).toEqual(1);
-          expect(res[0]).toBe('nodeHiddenProp');
-          done();
+          expect(res.length).to.eql(1);
+          expect(res[0]).to.equal('nodeHiddenProp');
         });
     });
   });
 
   describe('getNonIndexedEdgeProperties method', () => {
-    it('must return an array of edge Properties', (done) => {
+    it('must return an array of edge Properties', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(function() {
           return linkurious.admin.getNonIndexedEdgeProperties();
         })
         .then(function(res: any) {
-          expect(res.length).toEqual(2);
-          expect(res[1]).toBe('edgeNoIndexProp');
-          done();
+          expect(res.length).to.eql(2);
+          expect(res[1]).to.equal('edgeNoIndexProp');
         });
     });
   });
 
   describe('getNonIndexedNodeProperties method', () => {
-    it('must return an array of node Properties', (done) => {
+    it('must return an array of node Properties', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(function() {
           return linkurious.admin.getNonIndexedNodeProperties();
         })
         .then(function(res: any) {
-          expect(res.length).toEqual(2);
-          expect(res[1]).toBe('nodeNoIndexProp');
-          done();
+          expect(res.length).to.eql(2);
+          expect(res[1]).to.equal('nodeNoIndexProp');
         });
     });
   });
 
   describe('setHiddenEdgeProperties method', () => {
-    it('must return true', (done) => {
+    it('must return true', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(function() {
           return linkurious.admin.setHiddenEdgeProperties({ properties: ['testHiddenEdgeProp'] });
         })
         .then(function(res) {
-          expect(res).toBeTruthy();
-          done();
+          expect(res).to.not.be.undefined;
         });
     });
   });
 
   describe('setHiddenNodeProperties method', () => {
-    it('must return true', (done) => {
+    it('must return true', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(function() {
           return linkurious.admin.setHiddenNodeProperties({ properties: ['testHiddenNodeProp'] });
         })
         .then(function(res) {
-          expect(res).toBeTruthy();
-          done();
+          expect(res).to.not.be.undefined;
         });
     });
   });
 
   describe('setNonIndexedEdgeProperties method', () => {
-    it('must return true', (done) => {
+    it('must return true', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(() => {
           return linkurious.admin.setNotIndexedEdgeProperties({ properties: ['testNonIndexedEdgeProp'] });
         })
         .then(function(res) {
-          expect(res).toBeTruthy();
-          done();
+          expect(res).to.not.be.undefined;
         });
     });
   });
 
   describe('setNonIndexedNodeProperties method', () => {
-    it('must return true', (done) => {
+    it('must return true', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(() => {
           return linkurious.admin.setNotIndexedNodeProperties({ properties: ['testNonIndexedNodeProp'] }, sourceKey);
         })
         .then(function(res) {
-          expect(res).toBeTruthy();
-          done();
+          expect(res).to.not.be.undefined;
         });
     });
   });
 
   describe('createDataSourceConfig method', () => {
-    it('must return true', (done) => {
+    it('must return true', () => {
       return linkurious
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(function() {
@@ -957,30 +884,27 @@ describe('Linkurious class', () => {
           });
         })
         .then(function(res) {
-          expect(res).toBeTruthy();
-          setTimeout(() => {
-            done();
-          }, 5000);
+          expect(res).to.not.be.undefined;
+          setTimeout(() => {}, 5000);
         });
     });
   });
 
   describe('connectDataSource method', () => {
-    it('must return true', (done) => {
+    it('must return true', () => {
       return linkurious
         .initSources()
         .then(() => {
           return linkurious.admin.connectDataSource(0);
         })
         .then(function(res) {
-          expect(res).toBe('');
-          done();
+          expect(res).to.equal('');
         });
     });
   });
 
   describe('deleteUser method', () => {
-    it('must delete a user', (done) => {
+    it('must delete a user', () => {
       return linkurious.admin
         .getGroups({ withAccessRights: false }, sourceKey)
         .then((success) => {
@@ -998,8 +922,7 @@ describe('Linkurious class', () => {
           return linkurious.admin.deleteUser(res.id);
         })
         .then((res: any) => {
-          expect(res).toBeTruthy();
-          done();
+          expect(res).to.not.be.undefined;
         });
     });
   });
@@ -1007,7 +930,7 @@ describe('Linkurious class', () => {
   let groupId: number;
 
   describe('createGroup method', () => {
-    it('must return a group', (done) => {
+    it('must return a group', () => {
       return linkurious.admin
         .createGroup(
           {
@@ -1018,26 +941,24 @@ describe('Linkurious class', () => {
         .then((success) => {
           if (success.isSuccess()) {
             groupId = success.response.id;
-            expect(success.response.name).toEqual('testGroup');
-            done();
+            expect(success.response.name).to.eql('testGroup');
           }
         });
     });
   });
 
   describe('deleteGroup method', () => {
-    it('must return true', (done) => {
+    it('must return true', () => {
       return linkurious.admin.deleteGroup({ id: groupId }, sourceKey).then((success) => {
         if (success.isSuccess()) {
-          expect(success.response).toBeUndefined();
-          done();
+          expect(success.response).to.be.undefined;
         }
       });
     });
   });
 
   describe('getGroup method', () => {
-    it('must return a group', (done) => {
+    it('must return a group', () => {
       return linkurious.admin
         .getGroups({ withAccessRights: false }, sourceKey)
         .then((success) => {
@@ -1049,72 +970,66 @@ describe('Linkurious class', () => {
         })
         .then((success) => {
           if (success.isSuccess()) {
-            expect(success.response.name).toEqual('admin');
-            done();
+            expect(success.response.name).to.eql('admin');
           }
         });
     });
   });
 
   describe('getGroups method', () => {
-    it('must return a group list', (done) => {
+    it('must return a group list', () => {
       return linkurious.admin.getGroups(undefined, sourceKey).then((success) => {
         if (success.isSuccess()) {
-          expect(Array.isArray(success.response)).toBeTruthy();
-          done();
+          expect(Array.isArray(success.response)).to.be.true;
         }
       });
     });
   });
 
   describe('getGroupsRights method', () => {
-    it('must return groups rights', (done) => {
+    it('must return groups rights', () => {
       return linkurious.admin.getGroupsRights().then((success) => {
         if (success.isSuccess()) {
-          expect(success.response.types.length).toEqual(5);
-          expect(success.response.targetTypes.length).toEqual(4);
-          done();
+          expect(success.response.types.length).to.eql(5);
+          expect(success.response.targetTypes.length).to.eql(4);
         }
       });
     });
   });
 
   describe('getDataSourcesList method', () => {
-    it('must resturn a list of all dataSource', (done) => {
+    it('must resturn a list of all dataSource', () => {
       return linkurious.admin.getDataSourcesList().then((res: any) => {
-        expect(res.length).toEqual(2);
-        expect(res[0].state).toEqual('needReindex');
-        expect(res[1].state).toEqual('connecting');
-        done();
+        expect(res.length).to.eql(2);
+        expect(res[0].state).to.eql('needReindex');
+        expect(res[1].state).to.eql('connecting');
       });
     });
   });
 
   describe('updateUser method', () => {
-    it('must return user', (done) => {
+    it('must return user', () => {
       return linkurious.admin
         .updateUser({
           id: userId,
           username: 'testName',
         })
         .then((res: any) => {
-          expect(res.username).toEqual('testName');
-          expect(res.email).toEqual('testName@test.fr');
-          done();
+          expect(res.username).to.eql('testName');
+          expect(res.email).to.eql('testName@test.fr');
         });
     });
   });
 
   describe('countEdge method', () => {
-    it('must return the number of edges', (done) => {
+    it('must return the number of edges', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.edge.count();
         })
         .then((res: any) => {
-          expect(res).toEqual(20);
-          done();
+          expect(res).to.eql(20);
         });
     });
   });
@@ -1122,7 +1037,7 @@ describe('Linkurious class', () => {
   let edgeToDelete: number | string;
 
   describe('create Edge method', () => {
-    it('must create an edge', (done) => {
+    it('must create an edge', () => {
       return linkurious
         .initSources()
         .then(function() {
@@ -1149,14 +1064,13 @@ describe('Linkurious class', () => {
         })
         .then((res: any) => {
           edgeToDelete = res.id;
-          expect(res.data.type).toEqual('PLAYS_WITH');
-          done();
+          expect(res.data.type).to.eql('PLAYS_WITH');
         });
     });
   });
 
   describe('update edge method', () => {
-    it('must return an edge updated', (done) => {
+    it('must return an edge updated', () => {
       return linkurious
         .initSources()
         .then(function() {
@@ -1168,56 +1082,54 @@ describe('Linkurious class', () => {
           });
         })
         .then((res: any) => {
-          expect(res.data.properties.tralala).toEqual('test');
-          done();
+          expect(res.data.properties.tralala).to.eql('test');
         });
     });
   });
 
   describe('delete edge method', () => {
-    it('must return true', (done) => {
+    it('must return true', () => {
       return linkurious
         .initSources()
         .then(function() {
           return linkurious.edge.deleteOne({ id: edgeToDelete });
         })
         .then((res: any) => {
-          expect(res).toEqual('');
-          done();
+          expect(res).to.eql('');
         });
     });
   });
 
   describe('isAuth method', () => {
-    it('must return true if user is auth', (done) => {
+    it('must return true if user is auth', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(() => {
           return linkurious.my.IsAuth();
         })
         .then((res: any) => {
-          expect(res).toEqual('');
-          done();
+          expect(res).to.eql('');
         });
     });
   });
 
   describe('getAllGraphQuery method', () => {
-    it('must return an array of graphQuery', (done) => {
+    it('must return an array of graphQuery', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(() => {
           return linkurious.graph.getAllGraphQueries({ type: 'static' });
         })
-        .then((res: any) => {
-          expect(res.length).toEqual(1);
-          done();
+        .then((res) => {
+          if (res.isSuccess()) {
+            expect(res.response.length).to.eql(1);
+          }
         });
     });
   });
 
   describe('saveGraphQuery method', () => {
-    it('must save a graphQuery', (done) => {
+    it('must save a graphQuery', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(() => {
@@ -1229,16 +1141,17 @@ describe('Linkurious class', () => {
             content: "MATCH(Person {name: 'Keanu Reeves'})\nRETURN(Person)",
           });
         })
-        .then((res: any) => {
-          graphQueryId = res.id;
-          expect(res.id).toEqual(6);
-          done();
+        .then((res) => {
+          if (res.isSuccess()) {
+            graphQueryId = res.response.id;
+            expect(res.response.id).to.eql(6);
+          }
         });
     });
   });
 
   describe('update GraphQuery', () => {
-    it('must update the graphQuery', (done) => {
+    it('must update the graphQuery', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(() => {
@@ -1247,57 +1160,47 @@ describe('Linkurious class', () => {
             id: graphQueryId,
           });
         })
-        .then((res: any) => {
-          expect(res.content).toEqual("MATCH(Person {name: 'Carrie Anne Moss'})\nRETURN(Person)");
-          done();
+        .then(() => {
+          return linkurious.graph.getGraphQuery({ id: graphQueryId });
+        })
+        .then((res) => {
+          if (res.isSuccess()) {
+            expect(res.response.content).to.eql("MATCH(Person {name: 'Carrie Anne Moss'})\nRETURN(Person)");
+          }
         });
     });
   });
 
   describe('get a graphQuery method', () => {
-    it('must return the right graphQuery', (done) => {
+    it('must return the right graphQuery', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(() => {
           return linkurious.graph.getGraphQuery({ id: graphQueryId });
         })
-        .then((res: any) => {
-          expect(res.id).toEqual(6);
-          done();
-        });
-    });
-  });
-
-  describe('delete a graphQuery method', () => {
-    it('must delete the right graphQuery', (done) => {
-      return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
-        .then(() => {
-          return linkurious.my.deleteGraphQuery({ id: graphQueryId });
-        })
-        .then((res: any) => {
-          expect(res).toEqual('');
-          done();
+        .then((res) => {
+          if (res.isSuccess()) {
+            expect(res.response.id).to.eql(6);
+          }
         });
     });
   });
 
   describe('countNode method', () => {
-    it('must return thos number of nodes', (done) => {
+    it('must return thos number of nodes', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.node.count();
         })
         .then((res: any) => {
-          expect(res).toEqual(14);
-          done();
+          expect(res).to.eql(14);
         });
     });
   });
 
   describe('createNode method', () => {
-    it('must create a node', (done) => {
+    it('must create a node', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
@@ -1310,95 +1213,88 @@ describe('Linkurious class', () => {
         })
         .then((res: any) => {
           nodeToDelete = res.id;
-          expect(res.data.properties.name).toEqual('Robert Mitchum');
-          done();
+          expect(res.data.properties.name).to.eql('Robert Mitchum');
         });
     });
   });
 
   describe('deleteNode method', () => {
-    it('must delete a node', (done) => {
+    it('must delete a node', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.node.deleteOne({ id: nodeToDelete });
         })
         .then((res: any) => {
-          expect(res).toEqual('');
-          done();
+          expect(res).to.eql('');
         })
         .catch((e) => console.log(e));
     });
   });
 
   describe('getNeighborsCategories method', () => {
-    it('must return an array of digest', (done) => {
+    it('must return an array of digest', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.node.getNeighborsCategories({ ids: [nodeId] });
         })
         .then((res: any) => {
-          expect(res).toEqual({});
-          done();
+          expect(res).to.eql({});
         });
     });
   });
 
   describe('searchFullNodes method', () => {
-    it('must return an array of nodes', (done) => {
+    it('must return an array of nodes', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.search.advanced({ type: 'nodes', q: 'matrix' });
         })
         .then((res: any) => {
-          expect(res.results.length).toEqual(3);
-          done();
+          expect(res.results.length).to.eql(3);
         });
     });
   });
 
   describe('searchFullEdges method', () => {
-    it('must return a array of edges', (done) => {
+    it('must return a array of edges', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.search.advanced({ type: 'edges', q: 'ACTED_IN' });
         })
         .then((res: any) => {
-          expect(res.results.length).toEqual(7);
-          done();
+          expect(res.results.length).to.eql(7);
         });
     });
   });
 
   describe('count visualization method', () => {
-    it('must return the number of visualization', (done) => {
+    it('must return the number of visualization', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.visualization.count();
         })
         .then((res: any) => {
-          expect(res).toEqual(13);
-          done();
+          expect(res).to.eql(13);
         });
     });
   });
 
   describe('getTree method', () => {
-    it('must return visualizations', (done) => {
+    it('must return visualizations', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.visualization.getTree();
         })
         .then((res: any) => {
-          expect(res[1].id).toEqual(15);
-          expect(res[1].type).toEqual('visu');
+          expect(res[1].id).to.eql(15);
+          expect(res[1].type).to.eql('visu');
           visu = res[1];
-          done();
         });
     });
   });
@@ -1406,22 +1302,21 @@ describe('Linkurious class', () => {
   let folderId: number;
 
   describe('createFolder method', () => {
-    it('must create a folder', (done) => {
+    it('must create a folder', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.visualization.createFolder({ parent: 0, title: 'testFolder' });
         })
         .then((res: any) => {
-          expect(res.title).toEqual('testFolder');
+          expect(res.title).to.eql('testFolder');
           folderId = res.id;
-          done();
         });
     });
   });
 
   describe('updateFolder method', () => {
-    it('must update te folder', (done) => {
+    it('must update te folder', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
@@ -1432,22 +1327,20 @@ describe('Linkurious class', () => {
           });
         })
         .then((res: any) => {
-          expect(res).toBeTruthy();
-          done();
+          expect(res).to.not.be.undefined;
         });
     });
   });
 
   describe('delete folder method', () => {
-    it('must delete a folder', (done) => {
+    it('must delete a folder', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.visualization.deleteFolder({ id: folderId });
         })
         .then((res: any) => {
-          expect(res).toEqual('');
-          done();
+          expect(res).to.eql('');
         });
     });
   });
@@ -1455,51 +1348,48 @@ describe('Linkurious class', () => {
   let visuToDelete: number;
 
   describe('duplicate visu method', () => {
-    it('must return the created visu', (done) => {
+    it('must return the created visu', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.visualization.duplicate({ id: visu.id, title: 'Copy of newVizuTest' });
         })
         .then((res) => {
-          expect(res.visualizationId).toBeDefined();
+          expect(res.visualizationId).to.not.be.undefined;
           visuToDelete = res.visualizationId;
-          done();
         });
     });
   });
 
   describe('delete a visu method', () => {
-    it('must delete a visu', (done) => {
+    it('must delete a visu', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.visualization.deleteOne({ id: visuToDelete });
         })
         .then((res: any) => {
-          expect(res).toBe('');
-          done();
+          expect(res).to.equal('');
         });
     });
   });
 
   describe('get share rights of a visu method', () => {
-    it('must return sharers', (done) => {
+    it('must return sharers', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
           return linkurious.visualization.getShares({ id: visu.id });
         })
         .then((res: any) => {
-          expect(res.shares.length).toEqual(0);
-          expect(res.owner.id).toEqual(116);
-          done();
+          expect(res.shares.length).to.eql(0);
+          expect(res.owner.id).to.eql(116);
         });
     });
   });
 
   describe('updateVisu method', () => {
-    it('must update the visu', (done) => {
+    it('must update the visu', () => {
       return linkurious
         .init({ usernameOrEmail: 'testName', password: 'testPass' })
         .then(function() {
@@ -1510,8 +1400,7 @@ describe('Linkurious class', () => {
           });
         })
         .then((res: any) => {
-          expect(res).toBe('');
-          done();
+          expect(res).to.equal('');
         });
     });
   });
