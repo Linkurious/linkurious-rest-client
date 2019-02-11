@@ -11,7 +11,7 @@ pipeline {
           sh 'npm install'
         }
         dir('linkurious-server') {
-          git branch: BRANCH_NAME, credentialsId: 'dd38fcea-d471-4856-a009-4029127c6450', url: 'git@github.com:Linkurious/linkurious-server.git'
+          git branch: 'runQueryAPIrefactoring', credentialsId: 'dd38fcea-d471-4856-a009-4029127c6450', url: 'git@github.com:Linkurious/linkurious-server.git'
           sh 'npm install'
           sh 'npm run tsc'
         }
