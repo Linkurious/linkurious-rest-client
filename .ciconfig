@@ -31,7 +31,7 @@ pipeline {
             sh 'rm ../linkurious-server/data/server/dbTest.sqlite-shm'
             sh 'rm ../linkurious-server/data/server/dbTest.sqlite-wal'
             sh 'rm ../linkurious-server/data/config/test.json'
-            sh 'node ../linkurious-server/dist/test/runMocha.js -sm > SERVER_PID'
+            sh 'node ../linkurious-server/dist/test/runMocha.js -sm & echo $! > SERVER_PID'
             sh 'xvfb-run node_modules/.bin/karma start'
             sh 'kill -9 `cat SERVER_PID`'
           }
