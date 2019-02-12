@@ -235,7 +235,7 @@ export class GraphModule extends Module {
       body: data,
       dataSource: dataSourceKey,
     })
-      .then(() => new Success(undefined))
+      .then((response) => new Success(response))
       .catch(
         (error) =>
           new ServerRejection(error) as
