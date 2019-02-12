@@ -34,7 +34,7 @@ export class ClientRejection extends ServerResponse<FrontRejectionKey> {
   public readonly cause: string;
   public readonly stack: string;
 
-  constructor(e: { key: FrontRejectionKey; message: string; cause?: Error }) {
+  constructor(e: { key: FrontRejectionKey; message?: string; cause?: Error }) {
     super(e.key);
     this.message = e.message;
     this.cause = e.cause ? e.cause.message : undefined;
