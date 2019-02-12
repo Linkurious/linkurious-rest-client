@@ -13,7 +13,7 @@
 import { ServerResponse } from './index';
 import { Tools } from 'linkurious-shared';
 
-export type RejectionKey =
+export type ServerRejectioKey =
   | 'bad_graph_request'
   | 'constraint_violation'
   | 'dataSource_unavailable'
@@ -27,12 +27,37 @@ export type RejectionKey =
   | 'unauthorized'
   | 'write_forbidden';
 
-export class ServerRejection extends ServerResponse<RejectionKey> {
+export type FrontRejectionKey = 'promise_cancelled' | 'client_error' | 'action_forbidden';
+
+export class ClientRejection extends ServerResponse<FrontRejectionKey> {
+  public readonly message: string;
+  public readonly cause: string;
+  public readonly stack: string;
+
+  constructor(e: { key: FrontRejectionKey; message: string; cause?: Error }) {
+    super(e.key);
+    this.message = e.message;
+    this.cause = e.cause ? e.cause.message : undefined;
+    this.stack = e.cause ? e.cause.stack : undefined;
+  }
+
+  public isPromiseCancelled(): this is PromiseCancelled {
+    return this.key === 'promise_cancelled';
+  }
+  public isForbidden(): this is ActionForbidden {
+    return this.key === 'action_forbidden';
+  }
+  public isClientError(): this is ClientError {
+    return this.key === 'client_error';
+  }
+}
+
+export class ServerRejection extends ServerResponse<ServerRejectioKey> {
   public readonly message: string;
   public readonly status: number;
   private readonly _data: any;
 
-  constructor(e: { key: RejectionKey; message: string; status: number; data?: any }) {
+  constructor(e: { key: ServerRejectioKey; message: string; status: number; data?: any }) {
     super(e.key);
     this.message = e.message;
     this.status = e.status;
@@ -126,6 +151,15 @@ export class Unauthorized extends ServerRejection {
 }
 export class WriteForbidden extends ServerRejection {
   key: 'write_forbidden';
+}
+export class PromiseCancelled extends ClientRejection {
+  key: 'promise_cancelled';
+}
+export class ClientError extends ClientRejection {
+  key: 'client_error';
+}
+export class ActionForbidden extends ClientRejection {
+  key: 'action_forbidden';
 }
 
 const test = new ServerRejection({ key: 'bad_graph_request', message: '', status: 400 });
