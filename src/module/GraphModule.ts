@@ -219,7 +219,7 @@ export class GraphModule extends Module {
     },
     dataSourceKey?: string
   ): Promise<
-    | Success<void>
+    | Success<{ write: boolean; type: 'static' | 'template' }>
     | Unauthorized
     | Forbidden
     | BadGraphRequest
