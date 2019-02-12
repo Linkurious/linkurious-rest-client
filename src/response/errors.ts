@@ -13,7 +13,7 @@
 import { ServerResponse } from './index';
 import { Tools } from 'linkurious-shared';
 
-export type ServerRejectioKey =
+export type ServerRejectionKey =
   | 'bad_graph_request'
   | 'constraint_violation'
   | 'dataSource_unavailable'
@@ -52,12 +52,12 @@ export class ClientRejection extends ServerResponse<FrontRejectionKey> {
   }
 }
 
-export class ServerRejection extends ServerResponse<ServerRejectioKey> {
+export class ServerRejection extends ServerResponse<ServerRejectionKey> {
   public readonly message: string;
   public readonly status: number;
   private readonly _data: any;
 
-  constructor(e: { key: ServerRejectioKey; message: string; status: number; data?: any }) {
+  constructor(e: { key: ServerRejectionKey; message: string; status: number; data?: any }) {
     super(e.key);
     this.message = e.message;
     this.status = e.status;

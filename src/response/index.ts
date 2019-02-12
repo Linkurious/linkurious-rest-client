@@ -10,10 +10,10 @@
 
 'use strict';
 
-import { ServerRejection, ServerRejectioKey, FrontRejectionKey } from './errors';
+import { ServerRejection, ServerRejectionKey, FrontRejectionKey } from './errors';
 import { Success } from './success';
 
-export abstract class ServerResponse<T extends 'success' | ServerRejectioKey | FrontRejectionKey> {
+export abstract class ServerResponse<T extends 'success' | ServerRejectionKey | FrontRejectionKey> {
   public readonly key: T;
 
   protected constructor(key: T) {
