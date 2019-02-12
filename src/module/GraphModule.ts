@@ -24,7 +24,7 @@ import {
   GraphUnreachable,
   GuestDisabled,
   InvalidParameter,
-  ServerRejection,
+  Rejection,
   Unauthorized,
 } from '../response/errors';
 
@@ -68,7 +68,7 @@ export class GraphModule extends Module {
       })
       .catch(
         (error) =>
-          new ServerRejection(error) as
+          new Rejection(error) as
             | Unauthorized
             | GuestDisabled
             | Forbidden
@@ -114,7 +114,7 @@ export class GraphModule extends Module {
       })
       .catch(
         (error) =>
-          new ServerRejection(error) as
+          new Rejection(error) as
             | Unauthorized
             | GuestDisabled
             | Forbidden
@@ -196,7 +196,7 @@ export class GraphModule extends Module {
       )
       .catch(
         (error) =>
-          new ServerRejection(error) as
+          new Rejection(error) as
             | Unauthorized
             | GuestDisabled
             | Forbidden
@@ -238,7 +238,7 @@ export class GraphModule extends Module {
       .then((response) => new Success(response))
       .catch(
         (error) =>
-          new ServerRejection(error) as
+          new Rejection(error) as
             | Unauthorized
             | Forbidden
             | BadGraphRequest
@@ -337,7 +337,7 @@ export class GraphModule extends Module {
       })
       .catch(
         (error) =>
-          new ServerRejection(error) as
+          new Rejection(error) as
             | Unauthorized
             | Forbidden
             | BadGraphRequest
@@ -386,7 +386,7 @@ export class GraphModule extends Module {
       .then(() => new Success(undefined))
       .catch(
         (error) =>
-          new ServerRejection(error) as
+          new Rejection(error) as
             | Unauthorized
             | Forbidden
             | BadGraphRequest

@@ -13,7 +13,7 @@
 import { ServerResponse } from './index';
 import { Tools } from 'linkurious-shared';
 
-export type ServerRejectionKey =
+export type RejectionKey =
   | 'bad_graph_request'
   | 'constraint_violation'
   | 'dataSource_unavailable'
@@ -25,43 +25,22 @@ export type ServerRejectionKey =
   | 'invalid_parameter'
   | 'not_found'
   | 'unauthorized'
-  | 'write_forbidden';
+  | 'write_forbidden'
+  | 'cancelled'
+  | 'client_error';
 
-export type FrontRejectionKey = 'promise_cancelled' | 'client_error' | 'action_forbidden';
-
-export class ClientRejection extends ServerResponse<FrontRejectionKey> {
-  public readonly message: string;
-  public readonly cause: string;
-  public readonly stack: string;
-
-  constructor(e: { key: FrontRejectionKey; message?: string; cause?: Error }) {
-    super(e.key);
-    this.message = e.message;
-    this.cause = e.cause ? e.cause.message : undefined;
-    this.stack = e.cause ? e.cause.stack : undefined;
-  }
-
-  public isPromiseCancelled(): this is PromiseCancelled {
-    return this.key === 'promise_cancelled';
-  }
-  public isForbidden(): this is ActionForbidden {
-    return this.key === 'action_forbidden';
-  }
-  public isClientError(): this is ClientError {
-    return this.key === 'client_error';
-  }
-}
-
-export class ServerRejection extends ServerResponse<ServerRejectionKey> {
+export class Rejection extends ServerResponse<RejectionKey> {
   public readonly message: string;
   public readonly status: number;
+  public readonly stack: Array<string>;
   private readonly _data: any;
 
-  constructor(e: { key: ServerRejectionKey; message: string; status: number; data?: any }) {
+  constructor(e: { key: RejectionKey; message?: string; status?: number; data?: any; cause?: Error }) {
     super(e.key);
     this.message = e.message;
     this.status = e.status;
     this._data = e.data || {};
+    this.stack = e.cause ? e.cause.stack.split(/\n/g) : undefined;
   }
 
   /**
@@ -114,61 +93,53 @@ export class ServerRejection extends ServerResponse<ServerRejectionKey> {
   public isWriteForbidden(): this is WriteForbidden {
     return this.key === 'write_forbidden';
   }
+  public isPromiseCancelled(): this is Cancelled {
+    return this.key === 'cancelled';
+  }
+  public isClientError(): this is ClientError {
+    return this.key === 'client_error';
+  }
 }
 
-export class BadGraphRequest extends ServerRejection {
+export class BadGraphRequest extends Rejection {
   key: 'bad_graph_request';
 }
-export class ConstraintViolation extends ServerRejection {
+export class ConstraintViolation extends Rejection {
   key: 'constraint_violation';
 }
-export class DataSourceUnavailable extends ServerRejection {
+export class DataSourceUnavailable extends Rejection {
   key: 'dataSource_unavailable';
 }
-export class Forbidden extends ServerRejection {
+export class Forbidden extends Rejection {
   key: 'forbidden';
 }
-export class GraphRequestTimeout extends ServerRejection {
+export class GraphRequestTimeout extends Rejection {
   key: 'graph_request_timeout';
 }
-export class GraphUnreachable extends ServerRejection {
+export class GraphUnreachable extends Rejection {
   key: 'graph_unreachable';
 }
-export class GroupExists extends ServerRejection {
+export class GroupExists extends Rejection {
   key: 'group_exists';
 }
-export class GuestDisabled extends ServerRejection {
+export class GuestDisabled extends Rejection {
   key: 'guest_disabled';
 }
-export class InvalidParameter extends ServerRejection {
+export class InvalidParameter extends Rejection {
   key: 'invalid_parameter';
 }
-export class NotFound extends ServerRejection {
+export class NotFound extends Rejection {
   key: 'not_found';
 }
-export class Unauthorized extends ServerRejection {
+export class Unauthorized extends Rejection {
   key: 'unauthorized';
 }
-export class WriteForbidden extends ServerRejection {
+export class WriteForbidden extends Rejection {
   key: 'write_forbidden';
 }
-export class PromiseCancelled extends ClientRejection {
-  key: 'promise_cancelled';
+export class Cancelled extends Rejection {
+  key: 'cancelled';
 }
-export class ClientError extends ClientRejection {
+export class ClientError extends Rejection {
   key: 'client_error';
-}
-export class ActionForbidden extends ClientRejection {
-  key: 'action_forbidden';
-}
-
-const test = new ServerRejection({ key: 'bad_graph_request', message: '', status: 400 });
-
-let i;
-if (test.isBadGraphRequest()) {
-  i = test.message;
-} else if (test.isUnauthorized()) {
-  i = test.message;
-} else {
-  i = test.message;
 }

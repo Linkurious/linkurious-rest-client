@@ -14,7 +14,7 @@ import { IFullUser, IBaseGroup } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { Success } from '../response/success';
-import { Forbidden, ServerRejection, Unauthorized } from '../response/errors';
+import { Forbidden, Rejection, Unauthorized } from '../response/errors';
 
 export class MyModule extends Module {
   constructor(fetcher: Fetcher) {
@@ -112,7 +112,7 @@ export class MyModule extends Module {
       dataSource: dataSourceKey,
     })
       .then((response: Array<IBaseGroup>) => new Success(response))
-      .catch((error) => new ServerRejection(error) as Unauthorized | Forbidden);
+      .catch((error) => new Rejection(error) as Unauthorized | Forbidden);
   }
 
   /**
