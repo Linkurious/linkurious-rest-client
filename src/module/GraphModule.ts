@@ -363,7 +363,7 @@ export class GraphModule extends Module {
       body: body,
       dataSource: dataSourceKey,
     })
-      .then((response: { nodes: Array<INode>; edges: Array<IEdge>; columns: number }) => {
+      .then((response: { nodes: Array<INode>; edges: Array<IEdge>; columns: any }) => {
         return new Success({
           nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
           edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
