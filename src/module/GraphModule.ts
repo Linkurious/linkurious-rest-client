@@ -335,18 +335,21 @@ export class GraphModule extends Module {
       dialect?: string;
       limit?: number;
       timeout?: number;
-      withAccess?: boolean;
-      withDegree?: boolean;
-      withDigest?: boolean;
       columns?: any;
     },
     dataSourceKey?: string
-  ): Promise<Array<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>; columns: any }>> {
-    let query: any = {
-      withAccess: data.withAccess,
-      withDegree: data.withDegree,
-      withDigest: data.withDigest,
-    };
+  ): Promise<
+    | Success<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>; columns: any }>
+    | Unauthorized
+    | GuestDisabled
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
     let body: any = {
       query: data.query,
       dialect: data.dialect,
@@ -358,17 +361,28 @@ export class GraphModule extends Module {
       url: '/{dataSourceKey}/graph/alertPreview',
       method: 'POST',
       body: body,
-      query: query,
       dataSource: dataSourceKey,
-    }).then((response) => {
-      return response.results.map((result: any) => {
-        return {
-          nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-          edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
-          columns: result.columns,
-        };
-      });
-    });
+    })
+      .then((response: { nodes: Array<INode>; edges: Array<IEdge>; columns: number }) => {
+        return new Success({
+          nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+          edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+          columns: response.columns,
+        });
+      })
+      .catch(
+        (error) =>
+          new Rejection(error) as
+            | Unauthorized
+            | GuestDisabled
+            | Forbidden
+            | BadGraphRequest
+            | ConstraintViolation
+            | GraphRequestTimeout
+            | DataSourceUnavailable
+            | GraphUnreachable
+            | InvalidParameter
+      );
   }
 
   /**
