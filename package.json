@@ -75,7 +75,7 @@
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.0.0-rc.0",
     "tslint": "^3.10.2",
-    "typescript": "3.1.6"
+    "typescript": "3.2.2"
   },
   "peerDependencies": {
     "linkurious-shared": "github:Linkurious/builds#shared-develop-next"
