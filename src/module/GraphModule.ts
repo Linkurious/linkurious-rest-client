@@ -210,6 +210,78 @@ export class GraphModule extends Module {
   }
 
   /**
+   * Run a static or template query
+   */
+  public runById(
+    data: {
+      id: number;
+      limit?: number;
+      timeout?: number;
+      edgesTo?: Array<string | number>;
+      templateData?: any;
+    },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<{
+        nodes: Array<IOgmaNode>;
+        edges: Array<IOgmaEdge>;
+        truncatedByLimit: boolean;
+        truncatedByAccess: boolean;
+      }>
+    | Unauthorized
+    | GuestDisabled
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    let body: any = {
+      id: data.id,
+      limit: data.limit,
+      timeout: data.timeout,
+      edgesTo: data.edgesTo,
+      templateData: data.templateData,
+    };
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/run/query/{id}',
+      method: 'POST',
+      body: body,
+      dataSource: dataSourceKey,
+    })
+      .then(
+        (response: {
+          nodes: Array<INode>;
+          edges: Array<IEdge>;
+          truncatedByLimit: boolean;
+          truncatedByAccess: boolean;
+        }) => {
+          return new Success({
+            nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+            edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+            truncatedByLimit: response.truncatedByLimit,
+            truncatedByAccess: response.truncatedByAccess,
+          });
+        }
+      )
+      .catch(
+        (error) =>
+          new Rejection(error) as
+            | Unauthorized
+            | GuestDisabled
+            | Forbidden
+            | BadGraphRequest
+            | ConstraintViolation
+            | GraphRequestTimeout
+            | DataSourceUnavailable
+            | GraphUnreachable
+            | InvalidParameter
+      );
+  }
+
+  /**
    * Return resolve if the current query is valid
    */
   public check(
