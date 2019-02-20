@@ -339,7 +339,7 @@ export class GraphModule extends Module {
     },
     dataSourceKey?: string
   ): Promise<
-    | Success<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>; columns: any }>
+    | Success<Array<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>; columns: any }>>
     | Unauthorized
     | GuestDisabled
     | Forbidden
@@ -363,12 +363,16 @@ export class GraphModule extends Module {
       body: body,
       dataSource: dataSourceKey,
     })
-      .then((response: { nodes: Array<INode>; edges: Array<IEdge>; columns: any }) => {
-        return new Success({
-          nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-          edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
-          columns: response.columns,
-        });
+      .then((response) => {
+        return new Success(
+          response.results.map((result: any) => {
+            return {
+              nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+              edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+              columns: result.columns,
+            };
+          })
+        );
       })
       .catch(
         (error) =>
