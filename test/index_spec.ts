@@ -1383,7 +1383,7 @@ describe('Linkurious class', () => {
         })
         .then((res: any) => {
           expect(res.shares.length).to.eql(0);
-          expect(res.owner.id).to.eql(116);
+          expect(res.owner.id).to.eql(118);
         });
     });
   });
