@@ -14,6 +14,8 @@ import { Module } from './Module';
 import { IEdge, ItemId, IProperty, IItemType, IOgmaEdge, TypeAccessRight, IOgmaNode, INode } from '../../index';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
+import { Success } from '../response/success';
+import { Rejection } from '../response/errors';
 
 export class EdgeModule extends Module {
   constructor(fetcher: Fetcher) {
@@ -26,12 +28,14 @@ export class EdgeModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<number>}
    */
-  public count(dataSourceKey?: string): Promise<number> {
+  public count(dataSourceKey?: string): Promise<Success<number> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/edges/count',
       method: 'GET',
       dataSource: dataSourceKey,
-    }).then((res: any) => res.count);
+    })
+      .then((response: { count: number }) => new Success(response.count))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -49,13 +53,15 @@ export class EdgeModule extends Module {
       properties: any;
     },
     dataSourceKey?: string
-  ): Promise<IOgmaEdge> {
+  ): Promise<Success<IOgmaEdge> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/edges',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
-    }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
+    })
+      .then((response: IEdge) => new Success(VisualizationParser.parseEdge(response)))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -75,13 +81,15 @@ export class EdgeModule extends Module {
       readAt: string;
     },
     dataSourceKey?: string
-  ): Promise<IOgmaEdge> {
+  ): Promise<Success<IOgmaEdge> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/edges/{id}',
       method: 'PATCH',
       body: data,
       dataSource: dataSourceKey,
-    }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
+    })
+      .then((response: IEdge) => new Success(VisualizationParser.parseEdge(response)))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -96,13 +104,15 @@ export class EdgeModule extends Module {
       id: string | number;
     },
     dataSourceKey?: string
-  ): Promise<any> {
+  ): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/edges/{id}',
       method: 'DELETE',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -120,18 +130,21 @@ export class EdgeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
+  ): Promise<Success<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/edges/{id}',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
-    }).then((response: any) => {
-      return {
-        nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-        edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
-      };
-    });
+    })
+      .then(
+        (response: { nodes: Array<INode>; edges: Array<IEdge> }) =>
+          new Success({
+            nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+            edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+          })
+      )
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -147,13 +160,15 @@ export class EdgeModule extends Module {
       omitNoindex?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<Array<IProperty>> {
+  ): Promise<Success<Array<IProperty>> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/schema/edgeTypes/properties',
       method: 'GET',
       query: data,
       dataSource: dataSourceKey,
-    }).then((res: any) => res.properties);
+    })
+      .then((response: { properties: Array<IProperty> }) => new Success(response.properties))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -168,12 +183,14 @@ export class EdgeModule extends Module {
       includeType?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{ any: { access: TypeAccessRight }; results: Array<IItemType> }> {
+  ): Promise<Success<{ any: { access: TypeAccessRight }; results: Array<IItemType> }> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/schema/edgeTypes',
       method: 'GET',
       query: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: { any: { access: TypeAccessRight }; results: Array<IItemType> }) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 }
