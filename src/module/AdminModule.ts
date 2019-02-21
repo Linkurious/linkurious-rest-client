@@ -54,12 +54,14 @@ export class AdminModule extends Module {
    * @param {number} dataSourceIndex
    * @returns {Promise<boolean>}
    */
-  public connectDataSource(dataSourceIndex?: number): Promise<any> {
+  public connectDataSource(dataSourceIndex?: number): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/admin/source/{dataSourceIndex}/connect',
       method: 'POST',
       dataSource: dataSourceIndex,
-    });
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -68,12 +70,14 @@ export class AdminModule extends Module {
    * @param {ICreateDataSource} data
    * @returns {Promise<boolean>}
    */
-  public createDataSourceConfig(data: ICreateDataSource): Promise<any> {
+  public createDataSourceConfig(data: ICreateDataSource): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/admin/sources/config',
       method: 'POST',
       body: data,
-    });
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -82,12 +86,14 @@ export class AdminModule extends Module {
    * @param {number} [dataSourceIndex]
    * @returns {Promise<boolean>}
    */
-  public deleteDataSourceConfig(dataSourceIndex?: number): Promise<boolean> {
+  public deleteDataSourceConfig(dataSourceIndex?: number): Promise<Success<boolean> | Rejection> {
     return this.fetch({
       url: '/admin/sources/config/{dataSourceIndex}',
       method: 'DELETE',
       dataSource: dataSourceIndex,
-    }).then(() => true);
+    })
+      .then((response) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -99,15 +105,19 @@ export class AdminModule extends Module {
    * @param {Object} data
    * @returns {Promise<IDeletedDataSource>}
    */
-  public deleteFullDataSource(data: { dataSourceKey: string; mergeInto?: string }): Promise<IDeletedDataSource> {
+  public deleteFullDataSource(data: {
+    dataSourceKey: string;
+    mergeInto?: string;
+  }): Promise<Success<IDeletedDataSource> | Rejection> {
     let mergeOptions: any = data.mergeInto ? { mergeInto: data.mergeInto } : undefined;
-
     return this.fetch({
       url: '/admin/sources/data/{dataSourceKey}',
       method: 'DELETE',
       query: Utils.fixSnakeCase(mergeOptions),
       dataSource: data.dataSourceKey,
-    });
+    })
+      .then((response: IDeletedDataSource) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -115,11 +125,13 @@ export class AdminModule extends Module {
    *
    * @returns {Promise<Array<IFullDataSource>>}
    */
-  public getDataSourcesList(): Promise<Array<IFullDataSource>> {
+  public getDataSourcesList(): Promise<Success<IFullDataSource> | Rejection> {
     return this.fetch({
       url: '/admin/sources',
       method: 'GET',
-    });
+    })
+      .then((response: IFullDataSource) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -128,12 +140,14 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<Array<string>>}
    */
-  public getHiddenEdgeProperties(dataSourceKey?: string): Promise<Array<string>> {
+  public getHiddenEdgeProperties(dataSourceKey?: string): Promise<Success<Array<string>> | Rejection> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/hidden/edgeProperties',
       method: 'GET',
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: Array<string>) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -142,12 +156,14 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<Array<string>>}
    */
-  public getHiddenNodeProperties(dataSourceKey?: string): Promise<Array<string>> {
+  public getHiddenNodeProperties(dataSourceKey?: string): Promise<Success<Array<string>> | Rejection> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/hidden/nodeProperties',
       method: 'GET',
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: Array<string>) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -156,12 +172,14 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<Array<string>>}
    */
-  public getNonIndexedEdgeProperties(dataSourceKey?: string): Promise<Array<string>> {
+  public getNonIndexedEdgeProperties(dataSourceKey?: string): Promise<Success<Array<string>> | Rejection> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/noIndex/edgeProperties',
       method: 'GET',
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: Array<string>) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -170,12 +188,14 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<Array<string>>}
    */
-  public getNonIndexedNodeProperties(dataSourceKey?: string): Promise<Array<string>> {
+  public getNonIndexedNodeProperties(dataSourceKey?: string): Promise<Success<Array<string>> | Rejection> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/noIndex/nodeProperties',
       method: 'GET',
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: Array<string>) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -185,13 +205,18 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<boolean>}
    */
-  public setHiddenEdgeProperties(data: { properties: Array<string> }, dataSourceKey?: string): Promise<boolean> {
+  public setHiddenEdgeProperties(
+    data: { properties: Array<string> },
+    dataSourceKey?: string
+  ): Promise<Success<boolean> | Rejection> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/hidden/edgeProperties',
       method: 'PUT',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: boolean) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -201,13 +226,18 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<boolean>}
    */
-  public setHiddenNodeProperties(data: { properties: Array<string> }, dataSourceKey?: string): Promise<boolean> {
+  public setHiddenNodeProperties(
+    data: { properties: Array<string> },
+    dataSourceKey?: string
+  ): Promise<Success<boolean> | Rejection> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/hidden/nodeProperties',
       method: 'PUT',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: boolean) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -217,13 +247,18 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<boolean>}
    */
-  public setNotIndexedEdgeProperties(data: { properties: Array<string> }, dataSourceKey?: string): Promise<boolean> {
+  public setNotIndexedEdgeProperties(
+    data: { properties: Array<string> },
+    dataSourceKey?: string
+  ): Promise<Success<boolean> | Rejection> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/noIndex/edgeProperties',
       method: 'PUT',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: boolean) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -233,13 +268,18 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<boolean>}
    */
-  public setNotIndexedNodeProperties(data: { properties: Array<string> }, dataSourceKey?: string): Promise<boolean> {
+  public setNotIndexedNodeProperties(
+    data: { properties: Array<string> },
+    dataSourceKey?: string
+  ): Promise<Success<boolean> | Rejection> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/noIndex/nodeProperties',
       method: 'PUT',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: boolean) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -253,12 +293,14 @@ export class AdminModule extends Module {
     email: string;
     password: string;
     groups?: Array<string | number>;
-  }): Promise<IFullUser> {
+  }): Promise<Success<IFullUser> | Rejection> {
     return this.fetch({
       url: '/admin/users',
       method: 'POST',
       body: data,
-    });
+    })
+      .then((response: IFullUser) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -267,12 +309,14 @@ export class AdminModule extends Module {
    * @param {number} userId
    * @returns {Promise<boolean>}
    */
-  public deleteUser(userId: number): Promise<boolean> {
+  public deleteUser(userId: number): Promise<Success<boolean> | Rejection> {
     return this.fetch({
       url: '/admin/users/{id}',
       method: 'DELETE',
       body: { id: userId },
-    }).then(() => true);
+    })
+      .then((response: boolean) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -422,12 +466,14 @@ export class AdminModule extends Module {
     preferences?: any;
     addedGroups?: Array<number>;
     removedGroups?: Array<number>;
-  }): Promise<IFullUser> {
+  }): Promise<Success<IFullUser> | Rejection> {
     return this.fetch({
       url: '/admin/users/{id}',
       method: 'PATCH',
       body: data,
-    });
+    })
+      .then((response: IFullUser) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -441,7 +487,7 @@ export class AdminModule extends Module {
     configuration?: any;
     dataSourceIndex?: number;
     reset?: boolean;
-  }): Promise<string> {
+  }): Promise<Success<string> | Rejection> {
     let query: any = {
       reset: data.reset,
       sourceIndex: data.dataSourceIndex,
@@ -457,7 +503,9 @@ export class AdminModule extends Module {
       method: 'POST',
       body: body,
       query: query,
-    });
+    })
+      .then((response: string) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -465,11 +513,13 @@ export class AdminModule extends Module {
    *
    * @returns {Promise<boolean>}
    */
-  public startIndexation(): Promise<boolean> {
+  public startIndexation(): Promise<Success<boolean> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/search/reindex',
       method: 'GET',
-    });
+    })
+      .then((response: boolean) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -478,49 +528,14 @@ export class AdminModule extends Module {
    * @param {string} dataSourceKey
    * @returns {Promise<IIndexationStatus>}
    */
-  public getIndexationStatus(dataSourceKey?: string): Promise<IIndexationStatus> {
+  public getIndexationStatus(dataSourceKey?: string): Promise<Success<IIndexationStatus> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/search/status',
       method: 'GET',
       dataSource: dataSourceKey,
-    });
-  }
-
-  /**
-   * @callback IIndexationCallback
-   * @param {IIndexationStatus} responseStatus
-   */
-
-  /**
-   * Launch the indexation and return true when finish. Possibility to had callback called each
-   * 300ms during indexation.
-   *
-   * @param {number} timeout
-   * @param {IIndexationCallback} [callback]
-   * @returns {Promise<boolean>}
-   */
-  public processIndexation(
-    timeout: number,
-    callback?: (res: IIndexationStatus) => void,
-    keepWhenSourceChange?: boolean
-  ): Promise<boolean> {
-    clearTimeout(this._timer);
-    let minTimeout: number = 200;
-    const maxTimeout: number = 3000;
-
-    if (this._logger.level === 'debug') {
-      minTimeout = 50;
-    }
-
-    if (timeout < minTimeout) {
-      timeout = 200;
-    }
-
-    if (timeout > maxTimeout) {
-      timeout = 3000;
-    }
-
-    return this.listenIndexation(this._clientState.currentSource.key, timeout, callback, keepWhenSourceChange);
+    })
+      .then((response: IIndexationStatus) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -544,13 +559,15 @@ export class AdminModule extends Module {
       maxRuntime?: number;
     },
     dataSourceKey?: string
-  ): Promise<IFullAdminAlert> {
+  ): Promise<Success<IFullAdminAlert> | Rejection> {
     return this.fetch({
       url: '/admin/{dataSourceKey}/alerts',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: IFullAdminAlert) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -575,13 +592,15 @@ export class AdminModule extends Module {
       maxRuntime?: number;
     },
     dataSourceKey?: string
-  ): Promise<IFullAdminAlert> {
+  ): Promise<Success<IFullAdminAlert> | Rejection> {
     return this.fetch({
       url: '/admin/{dataSourceKey}/alerts/{id}',
       method: 'PATCH',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: IFullAdminAlert) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -596,13 +615,15 @@ export class AdminModule extends Module {
       id: number;
     },
     dataSourceKey?: string
-  ): Promise<boolean> {
+  ): Promise<Success<boolean> | Rejection> {
     return this.fetch({
       url: '/admin/{dataSourceKey}/alerts/{id}',
       method: 'DELETE',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: boolean) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -611,12 +632,14 @@ export class AdminModule extends Module {
    * @param {string} dataSourceKey
    * @returns {Promise<IFullAdminAlert>}
    */
-  public getAlerts(dataSourceKey?: string): Promise<Array<IFullAdminAlert>> {
+  public getAlerts(dataSourceKey?: string): Promise<Success<Array<IFullAdminAlert>> | Rejection> {
     return this.fetch({
       url: '/admin/{dataSourceKey}/alerts',
       method: 'GET',
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: Array<IFullAdminAlert>) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -631,13 +654,15 @@ export class AdminModule extends Module {
       id: number;
     },
     dataSourceKey?: string
-  ): Promise<IFullAdminAlert> {
+  ): Promise<Success<IFullAdminAlert> | Rejection> {
     return this.fetch({
       url: '/admin/{dataSourceKey}/alerts/{id}',
       method: 'GET',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: IFullAdminAlert) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -653,13 +678,15 @@ export class AdminModule extends Module {
       captions?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<void> {
+  ): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/resetDefaults',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -678,79 +705,14 @@ export class AdminModule extends Module {
       };
     },
     dataSourceKey?: string
-  ): Promise<void> {
+  ): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/setDefaults',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
-    });
-  }
-
-  /**
-   * check if an indexation is currently running
-   *
-   * @returns {Promise<any>}
-   */
-  public checkIndexation(): Promise<any> {
-    return this.getIndexationStatus();
-  }
-
-  /**
-   * @callback IIndexationCallback
-   * @param {IIndexationStatus} responseStatus
-   */
-
-  /**
-   * return true when indexation if finished, else launch callback.
-   *
-   * @param {string} sourceKey
-   * @param {number} timeout
-   * @param {IIndexationCallback} [callback]
-   * @returns {Promise<boolean>}
-   */
-  private listenIndexation(
-    sourceKey: string,
-    timeout: number,
-    callback?: (res: IIndexationStatus) => void,
-    keepWhenSourceChange?: boolean
-  ): Promise<any> {
-    if (keepWhenSourceChange) {
-      return this.getIndexationStatus().then((res: IIndexationStatus) => {
-        if (res.indexing !== 'done') {
-          if (callback) {
-            callback(res);
-          }
-
-          return new Promise((resolve: any) => {
-            this._timer = setTimeout(() => {
-              return resolve();
-            }, timeout);
-          }).then(() => this.listenIndexation(sourceKey, timeout, callback, keepWhenSourceChange));
-        } else {
-          return res;
-        }
-      });
-    } else {
-      if (this._clientState.currentSource.key === sourceKey) {
-        return this.getIndexationStatus().then((res: IIndexationStatus) => {
-          if (res.indexing !== 'done') {
-            if (callback) {
-              callback(res);
-            }
-
-            return new Promise((resolve: any) => {
-              setTimeout(() => {
-                return resolve();
-              }, timeout);
-            }).then(() => this.listenIndexation(sourceKey, timeout, callback, keepWhenSourceChange));
-          } else {
-            return res;
-          }
-        });
-      } else {
-        return Promise.resolve('source change during indexation');
-      }
-    }
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error));
   }
 }
