@@ -11,6 +11,8 @@
 import { Module } from './Module';
 import { IMatch, IMatchAction, IAlert, IMatchResults } from '../../index';
 import { Fetcher } from '../http/fetcher';
+import { Success } from '../response/success';
+import { Rejection } from '../response/errors';
 
 export class AlertModule extends Module {
   /**
@@ -27,12 +29,14 @@ export class AlertModule extends Module {
    * @param {string} dataSourceKey
    * @returns {Promise<IAlert>}
    */
-  public getAlerts(dataSourceKey?: string): Promise<Array<IAlert>> {
+  public getAlerts(dataSourceKey?: string): Promise<Success<Array<IAlert>> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/alerts',
       method: 'GET',
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: Array<IAlert>) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -42,13 +46,15 @@ export class AlertModule extends Module {
    * @param {number}dataSourceKey
    * @returns {Promise<IMatch>}
    */
-  public getAlert(data: { id: number }, dataSourceKey?: string): Promise<IMatch> {
+  public getAlert(data: { id: number }, dataSourceKey?: string): Promise<Success<IMatch> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/alerts/{id}',
       method: 'GET',
       query: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: IMatch) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -68,13 +74,15 @@ export class AlertModule extends Module {
       status?: 'unconfirmed' | 'confirmed' | 'dismissed';
     },
     dataSourceKey?: string
-  ): Promise<IMatchResults> {
+  ): Promise<Success<IMatchResults> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/alerts/{id}/matches',
       method: 'GET',
       query: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: IMatchResults) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -91,13 +99,15 @@ export class AlertModule extends Module {
       matchId: number;
     },
     dataSourceKey?: string
-  ): Promise<boolean> {
+  ): Promise<Success<boolean> | Rejection> {
     return this.fetch({
       url: `/{dataSourceKey}/alerts/${data.alertId}/matches/${data.matchId}/action`,
       method: 'POST',
       body: { action: data.action },
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: boolean) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -113,12 +123,14 @@ export class AlertModule extends Module {
       matchId: number;
     },
     dataSourceKey?: string
-  ): Promise<IMatch> {
+  ): Promise<Success<IMatch> | Rejection> {
     return this.fetch({
       url: `/{dataSourceKey}/alerts/${data.alertId}/matches/${data.matchId}`,
       method: 'GET',
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: IMatch) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -134,11 +146,13 @@ export class AlertModule extends Module {
       matchId: number;
     },
     dataSourceKey?: string
-  ): Promise<Array<IMatchAction>> {
+  ): Promise<Success<Array<IMatchAction>> | Rejection> {
     return this.fetch({
       url: `/{dataSourceKey}/alerts/${data.alertId}/matches/${data.matchId}/actions`,
       method: 'GET',
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: Array<IMatchAction>) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 }
