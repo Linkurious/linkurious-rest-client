@@ -26,7 +26,7 @@ export class MyModule extends Module {
    *
    * @returns {Promise<IFullUser>}
    */
-  public infos(status?: boolean): Promise<IFullUser> {
+  public infos(status?: boolean): Promise<Success<IFullUser> | Rejection> {
     let data: any = {
       guest: status,
     };
@@ -34,7 +34,9 @@ export class MyModule extends Module {
       url: '/auth/me',
       method: 'GET',
       query: data,
-    });
+    })
+      .then((response: IFullUser) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -45,43 +47,49 @@ export class MyModule extends Module {
    */
   public stylesAndCaptions(
     dataSourceKey?: string
-  ): Promise<{
-    styles: {
-      node: Array<{
-        index: number;
-        itemType: string | null | undefined;
-        input: Array<string>;
-        value: any;
-        style: { color: string | any };
-      }>;
-      edge: Array<{
-        index: number;
-        itemType: string | null | undefined;
-        input: Array<string>;
-        value: any;
-        style: { color: string | any };
-      }>;
-    };
-    captions: {
-      node: { [key: string]: { displayName: boolean; properties: Array<string>; active: boolean } };
-      edge: { [key: string]: { displayName: boolean; properties: Array<string>; active: boolean } };
-    };
-    palettes: { [key: string]: string };
-  }> {
+  ): Promise<
+    | Success<{
+        styles: {
+          node: Array<{
+            index: number;
+            itemType: string | null | undefined;
+            input: Array<string>;
+            value: any;
+            style: { color: string | any };
+          }>;
+          edge: Array<{
+            index: number;
+            itemType: string | null | undefined;
+            input: Array<string>;
+            value: any;
+            style: { color: string | any };
+          }>;
+        };
+        captions: {
+          node: { [key: string]: { displayName: boolean; properties: Array<string>; active: boolean } };
+          edge: { [key: string]: { displayName: boolean; properties: Array<string>; active: boolean } };
+        };
+        palettes: { [key: string]: string };
+      }>
+    | Rejection
+  > {
     return this.fetch({
       url: '/{dataSourceKey}/sandbox',
       method: 'GET',
       dataSource: dataSourceKey,
-    }).then((res: any) => {
-      return {
-        styles: res.visualization.design.styles,
-        captions: {
-          node: res.visualization.nodeFields.captions,
-          edge: res.visualization.nodeFields.captions,
-        },
-        palettes: res.visualization.design.palette,
-      };
-    });
+    })
+      .then(
+        (response: any) =>
+          new Success({
+            styles: response.visualization.design.styles,
+            captions: {
+              node: response.visualization.nodeFields.captions,
+              edge: response.visualization.nodeFields.captions,
+            },
+            palettes: response.visualization.design.palette,
+          })
+      )
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -89,11 +97,13 @@ export class MyModule extends Module {
    *
    * @returns {Promise<boolean>}
    */
-  public IsAuth(): Promise<boolean> {
+  public IsAuth(): Promise<Success<boolean> | Rejection> {
     return this.fetch({
       url: '/auth/authenticated',
       method: 'GET',
-    });
+    })
+      .then((response: boolean) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -127,12 +137,14 @@ export class MyModule extends Module {
       id: number;
     },
     dataSourceKey?: string
-  ): Promise<void> {
+  ): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/my/rawQuery/{id}',
       method: 'DELETE',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error));
   }
 }
