@@ -141,12 +141,12 @@ export class SearchModule extends Module {
       fuzziness?: number;
       size?: number;
       from?: number;
+      filter?: Array<[string, string]>;
+      categoriesOrTypes?: Array<string>;
       edges_to?: Array<string>;
       with_digest?: boolean;
       with_degree?: boolean;
       with_access?: boolean;
-      filters?: { [key: string]: string };
-      itemTypes?: Array<string>;
     },
     dataSourceKey?: string
   ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
@@ -154,24 +154,24 @@ export class SearchModule extends Module {
       q: string;
       fuzziness?: number;
       size?: number;
+      from?: number;
+      filter?: Array<[string, string]>;
+      categoriesOrTypes?: Array<string>;
       edges_to?: Array<string>;
       with_digest?: boolean;
       with_degree?: boolean;
       with_access?: boolean;
-      from?: number;
-      filters?: { [key: string]: string };
-      itemTypes?: Array<string>;
     } = {
       q: data.q,
       fuzziness: data.fuzziness,
       size: data.size,
       from: data.from,
+      filter: data.filter,
+      categoriesOrTypes: data.categoriesOrTypes,
       edges_to: data.edges_to,
       with_access: data.with_access,
       with_degree: data.with_degree,
       with_digest: data.with_digest,
-      filters: data.filters,
-      itemTypes: data.itemTypes,
     };
     return this.fetch({
       url: '/{dataSourceKey}/search/' + data.type + '/full',
