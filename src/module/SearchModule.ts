@@ -10,10 +10,12 @@
 
 'use strict';
 
-import { IFullNode, IOgmaNode, IOgmaEdge, IEdge, INode } from '../../index';
+import { IOgmaNode, IOgmaEdge, IEdge, INode, IFullUser } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
+import { Success } from '../response/success';
+import { Rejection } from '../response/errors';
 
 export class SearchModule extends Module {
   constructor(fetcher: Fetcher) {
@@ -36,12 +38,15 @@ export class SearchModule extends Module {
       from?: number;
     },
     dataSourceKey?: string
-  ): Promise<{
-    type: string;
-    totalHits?: number;
-    moreResults?: boolean;
-    results: Array<IOgmaNode | IOgmaEdge>;
-  }> {
+  ): Promise<
+    | Success<{
+        type: string;
+        totalHits?: number;
+        moreResults?: boolean;
+        results: Array<IOgmaNode | IOgmaEdge>;
+      }>
+    | Rejection
+  > {
     let dataToSend: { q: string; fuzziness?: number; size?: number; from?: number } = {
       q: data.q,
       fuzziness: data.fuzziness,
@@ -53,19 +58,22 @@ export class SearchModule extends Module {
       method: 'GET',
       query: dataToSend,
       dataSource: dataSourceKey,
-    }).then((response: any) => {
-      return {
-        type: response.type,
-        totalHits: response.totalHits,
-        moreResults: response.moreResults,
-        results:
-          response.results.length > 0 &&
-          response.results[0].target !== undefined &&
-          response.results[0].source !== undefined
-            ? response.results.map((e: IEdge) => VisualizationParser.parseEdge(e))
-            : response.results.map((n: INode) => VisualizationParser.parseNode(n)),
-      };
-    });
+    })
+      .then(
+        (response: { type: string; totalHits?: number; moreResults?: boolean; results: Array<INode | IEdge> }) =>
+          new Success({
+            type: response.type,
+            totalHits: response.totalHits,
+            moreResults: response.moreResults,
+            results:
+              response.results.length > 0 &&
+              response.results[0]['target'] !== undefined &&
+              response.results[0]['source'] !== undefined
+                ? response.results.map((e: IEdge) => VisualizationParser.parseEdge(e))
+                : response.results.map((n: INode) => VisualizationParser.parseNode(n)),
+          })
+      )
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -86,12 +94,15 @@ export class SearchModule extends Module {
       categoriesOrTypes?: Array<string>;
     },
     dataSourceKey?: string
-  ): Promise<{
-    type: string;
-    totalHits?: number;
-    moreResults?: boolean;
-    results: Array<IOgmaNode | IOgmaEdge>;
-  }> {
+  ): Promise<
+    | Success<{
+        type: string;
+        totalHits?: number;
+        moreResults?: boolean;
+        results: Array<IOgmaNode | IOgmaEdge>;
+      }>
+    | Rejection
+  > {
     let dataToSend: {
       q: string;
       fuzziness?: number;
@@ -112,19 +123,22 @@ export class SearchModule extends Module {
       method: 'POST',
       body: dataToSend,
       dataSource: dataSourceKey,
-    }).then((response: any) => {
-      return {
-        type: response.type,
-        totalHits: response.totalHits,
-        moreResults: response.moreResults,
-        results:
-          response.results.length > 0 &&
-          response.results[0].target !== undefined &&
-          response.results[0].source !== undefined
-            ? response.results.map((e: IEdge) => VisualizationParser.parseEdge(e))
-            : response.results.map((n: INode) => VisualizationParser.parseNode(n)),
-      };
-    });
+    })
+      .then(
+        (response: { type: string; totalHits?: number; moreResults?: boolean; results: Array<INode | IEdge> }) =>
+          new Success({
+            type: response.type,
+            totalHits: response.totalHits,
+            moreResults: response.moreResults,
+            results:
+              response.results.length > 0 &&
+              response.results[0]['target'] !== undefined &&
+              response.results[0]['source'] !== undefined
+                ? response.results.map((e: IEdge) => VisualizationParser.parseEdge(e))
+                : response.results.map((n: INode) => VisualizationParser.parseNode(n)),
+          })
+      )
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -149,7 +163,7 @@ export class SearchModule extends Module {
       withAccess?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
+  ): Promise<Success<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> | Rejection> {
     let dataToSend: {
       q: string;
       fuzziness?: number;
@@ -178,42 +192,15 @@ export class SearchModule extends Module {
       method: 'POST',
       body: dataToSend,
       dataSource: dataSourceKey,
-    }).then((response: { nodes: Array<INode>; edges: Array<IEdge> }) => {
-      return {
-        nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-        edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
-      };
-    });
-  }
-
-  /**
-   * Search for edges based on a query string and optional parameters. Return a list of full Nodes.
-   *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<Array<ISearchItemList>>}
-   */
-  public fullEdges(
-    data: {
-      q: string;
-      fuzziness?: number;
-      size?: number;
-      from?: number;
-      edges_to?: Array<string>;
-      with_digest?: boolean;
-      with_degree?: boolean;
-      with_access?: boolean;
-    },
-    dataSourceKey?: string
-  ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
-    return this.fetch({
-      url: '/{dataSourceKey}/search/edges/full',
-      method: 'POST',
-      query: data,
-      dataSource: dataSourceKey,
-    }).then((response: Array<IFullNode>) => {
-      return VisualizationParser.splitResponse(response);
-    });
+    })
+      .then(
+        (response: { nodes: Array<INode>; edges: Array<IEdge> }) =>
+          new Success({
+            nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+            edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+          })
+      )
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -230,11 +217,13 @@ export class SearchModule extends Module {
     limit?: number;
     sortBy?: string;
     sortDirection?: string;
-  }): Promise<any> {
+  }): Promise<Success<{ found: number; results: Array<IFullUser> }> | Rejection> {
     return this.fetch({
       url: '/users',
       method: 'GET',
       query: data,
-    });
+    })
+      .then((response: { found: number; results: Array<IFullUser> }) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 }
