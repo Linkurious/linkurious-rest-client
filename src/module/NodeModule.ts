@@ -24,6 +24,8 @@ import {
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
+import { Success } from '../response/success';
+import { Rejection } from '../response/errors';
 
 export class NodeModule extends Module {
   constructor(fetcher: Fetcher) {
@@ -35,12 +37,14 @@ export class NodeModule extends Module {
    *
    * @returns {Promise<number>}
    */
-  public count(dataSourceKey?: string): Promise<number> {
+  public count(dataSourceKey?: string): Promise<Success<number> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes/count',
       method: 'GET',
       dataSource: dataSourceKey,
-    }).then((res: any) => res.count);
+    })
+      .then((response: { count: number }) => new Success(response.count))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -56,13 +60,15 @@ export class NodeModule extends Module {
       categories?: Array<string>;
     },
     dataSourceKey?: string
-  ): Promise<any> {
+  ): Promise<Success<IOgmaNode> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
-    }).then((node: any) => VisualizationParser.parseNode(node));
+    })
+      .then((response: INode) => new Success(VisualizationParser.parseNode(response)))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -78,13 +84,15 @@ export class NodeModule extends Module {
       id: number | string;
     },
     dataSourceKey?: string
-  ): Promise<any> {
+  ): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes/{id}',
       method: 'DELETE',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -102,17 +110,20 @@ export class NodeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
+  ): Promise<Success<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes/{id}',
       method: 'POST',
       body: params,
-    }).then((response: { nodes: Array<INode>; edges: Array<IEdge> }) => {
-      return {
-        nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-        edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
-      };
-    });
+    })
+      .then(
+        (response: { nodes: Array<INode>; edges: Array<IEdge> }) =>
+          new Success({
+            nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+            edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+          })
+      )
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -138,7 +149,7 @@ export class NodeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
+  ): Promise<Success<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> | Rejection> {
     let body: any = {
       ids: data.ids,
       edgesTo: data.edgesTo,
@@ -157,12 +168,15 @@ export class NodeModule extends Module {
       body: body,
       query: query,
       dataSource: dataSourceKey,
-    }).then((result: { nodes: Array<INode>; edges: Array<IEdge> }) => {
-      return {
-        nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-        edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
-      };
-    });
+    })
+      .then(
+        (response: { nodes: Array<INode>; edges: Array<IEdge> }) =>
+          new Success({
+            nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+            edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+          })
+      )
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -179,7 +193,7 @@ export class NodeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<Array<IDigest>> {
+  ): Promise<Success<{ digest: Array<IDigest>; degree: number }> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/neighborhood/statistics',
       method: 'POST',
@@ -191,7 +205,9 @@ export class NodeModule extends Module {
         withDegree: data.withDegree,
       },
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: { digest: Array<IDigest>; degree: number }) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -211,13 +227,15 @@ export class NodeModule extends Module {
       readAt: string;
     },
     dataSourceKey?: string
-  ): Promise<IOgmaNode> {
+  ): Promise<Success<IOgmaNode> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes/{id}',
       method: 'PATCH',
       body: data,
       dataSource: dataSourceKey,
-    }).then((response: INode) => VisualizationParser.parseNode(response));
+    })
+      .then((response: INode) => new Success(VisualizationParser.parseNode(response)))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -233,13 +251,15 @@ export class NodeModule extends Module {
       omitNoindex?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<Array<IProperty>> {
+  ): Promise<Success<Array<IProperty>> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/schema/nodeTypes/properties',
       method: 'GET',
       query: params,
       dataSource: dataSourceKey,
-    }).then((res: any) => res.properties);
+    })
+      .then((response: { properties: Array<IProperty> }) => new Success(response.properties))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -254,12 +274,14 @@ export class NodeModule extends Module {
       includeType?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{ any: { access: TypeAccessRight }; results: Array<IItemType> }> {
+  ): Promise<Success<{ any: { access: TypeAccessRight }; results: Array<IItemType> }> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/schema/nodeTypes',
       method: 'GET',
       query: params,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: { any: { access: TypeAccessRight }; results: Array<IItemType> }) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 }
