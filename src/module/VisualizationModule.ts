@@ -7,6 +7,7 @@
  * File:
  * Description :
  */
+
 'use strict';
 
 import {
@@ -27,11 +28,14 @@ import {
   IItemFields,
   PopulateType,
   VisualizationModeType,
+  ISharedVisualization,
 } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
 import { Utils } from '../http/utils';
+import { Success } from '../response/success';
+import { Rejection } from '../response/errors';
 
 export class VisualizationModule extends Module {
   constructor(fetcher: Fetcher) {
@@ -44,12 +48,14 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<any>}
    */
-  public getShared(dataSourceKey?: string): Promise<Array<IVisualization>> {
+  public getShared(dataSourceKey?: string): Promise<Success<Array<ISharedVisualization>> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/shared',
       method: 'GET',
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: Array<ISharedVisualization>) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -58,12 +64,14 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<number>}
    */
-  public count(dataSourceKey?: string): Promise<number> {
+  public count(dataSourceKey?: string): Promise<Success<number> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/count',
       method: 'GET',
       dataSource: dataSourceKey,
-    }).then((r: any) => r.count);
+    })
+      .then((response: { count: number }) => new Success(response.count))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -84,12 +92,14 @@ export class VisualizationModule extends Module {
       geo?: boolean;
       password?: boolean;
     };
-  }): Promise<string> {
+  }): Promise<Success<string> | Rejection> {
     return this.fetch({
       url: '/widget',
       method: 'POST',
       body: Utils.fixSnakeCase(data),
-    });
+    })
+      .then((response: string) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -98,12 +108,17 @@ export class VisualizationModule extends Module {
    * @param {Object} data
    * @returns {Promise<string>}
    */
-  public updateWidget(data: { visualizationId: number; content: IWidgetContent }): Promise<string> {
+  public updateWidget(data: {
+    visualizationId: number;
+    content: IWidgetContent;
+  }): Promise<Success<string> | Rejection> {
     return this.fetch({
       url: '/widget',
       method: 'PUT',
       body: Utils.fixSnakeCase(data),
-    });
+    })
+      .then((response: string) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -119,13 +134,15 @@ export class VisualizationModule extends Module {
       parent: number;
     },
     dataSourceKey?: string
-  ): Promise<IFolder> {
+  ): Promise<Success<IFolder> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/folder',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
-    }).then((res: IFolderFullResponse) => res.folder);
+    })
+      .then((response: IFolderFullResponse) => new Success(response.folder))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -151,13 +168,15 @@ export class VisualizationModule extends Module {
       edgeFields: IItemFields;
     },
     dataSourceKey?: string
-  ): Promise<IVisualization> {
+  ): Promise<Success<IVisualization> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
-    }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
+    })
+      .then((response: any) => new Success(VisualizationParser.formatVisualization(response.visualization)))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -166,12 +185,14 @@ export class VisualizationModule extends Module {
    * @param {Object} data
    * @returns {Promise<boolean>}
    */
-  public deleteWidget(data: { id: string }): Promise<boolean> {
+  public deleteWidget(data: { id: string }): Promise<Success<boolean> | Rejection> {
     return this.fetch({
       url: '/widget/{id}',
       method: 'DELETE',
       query: data,
-    });
+    })
+      .then((response: boolean) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -186,13 +207,15 @@ export class VisualizationModule extends Module {
       id: number;
     },
     dataSourceKey?: string
-  ): Promise<boolean> {
+  ): Promise<Success<boolean> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/folder/{id}',
       method: 'DELETE',
       query: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: boolean) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -209,13 +232,15 @@ export class VisualizationModule extends Module {
       folder?: number;
     },
     dataSourceKey?: string
-  ): Promise<{ visualizationId: number }> {
+  ): Promise<Success<{ visualizationId: number }> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/{id}/duplicate',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: { visualizationId: number }) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -224,12 +249,14 @@ export class VisualizationModule extends Module {
    * @param {Object} data
    * @returns {Promise<IWidget>}
    */
-  public getWidget(data: { id: string }): Promise<IWidget> {
+  public getWidget(data: { id: string }): Promise<Success<IWidget> | Rejection> {
     return this.fetch({
       url: '/widget/{id}',
       method: 'GET',
       query: data,
-    });
+    })
+      .then((response: IWidget) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -253,13 +280,15 @@ export class VisualizationModule extends Module {
       matchId?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<IVisualization> {
+  ): Promise<Success<IVisualization> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/sandbox',
       method: 'GET',
       query: data,
       dataSource: dataSourceKey,
-    }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
+    })
+      .then((response: any) => new Success(VisualizationParser.formatVisualization(response.visualization)))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -277,13 +306,15 @@ export class VisualizationModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<IVisualization> {
+  ): Promise<Success<IVisualization> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/{id}',
       method: 'GET',
       query: data,
       dataSource: dataSourceKey,
-    }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
+    })
+      .then((response: any) => new Success(VisualizationParser.formatVisualization(response.visualization)))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -292,11 +323,13 @@ export class VisualizationModule extends Module {
    * @param {string} dataSourceKey
    * @returns {Promise<ITreeChildren>}
    */
-  public getTree(dataSourceKey?: string): Promise<Array<ITreeChildren>> {
+  public getTree(dataSourceKey?: string): Promise<Success<Array<ITreeChildren>> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/tree',
       method: 'GET',
-    }).then((res: any) => res.tree);
+    })
+      .then((response: { tree: Array<ITreeChildren> }) => new Success(response.tree))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -311,13 +344,15 @@ export class VisualizationModule extends Module {
       id: number;
     },
     dataSourceKey?: string
-  ): Promise<any> {
+  ): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/{id}',
       method: 'DELETE',
       query: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -332,13 +367,15 @@ export class VisualizationModule extends Module {
       id: number;
     },
     dataSourceKey?: string
-  ): Promise<ISharers> {
+  ): Promise<Success<ISharers> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/{id}/shares',
       method: 'GET',
       query: data,
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: ISharers) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -355,7 +392,7 @@ export class VisualizationModule extends Module {
       vizId: number;
     },
     dataSourceKey?: string
-  ): Promise<IShare> {
+  ): Promise<Success<IShare> | Rejection> {
     return this.fetch({
       url: `/{dataSourceKey}/visualizations/${data.vizId}/share/${data.userId}`,
       method: 'PUT',
@@ -363,7 +400,9 @@ export class VisualizationModule extends Module {
         right: data.right,
       },
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: IShare) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -379,13 +418,15 @@ export class VisualizationModule extends Module {
       userId: number;
     },
     dataSourceKey?: string
-  ): Promise<any> {
+  ): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: `/{dataSourceKey}/visualizations/{id}/share/${data.userId}`,
       method: 'DELETE',
       query: { id: data.id },
       dataSource: dataSourceKey,
-    });
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -402,13 +443,15 @@ export class VisualizationModule extends Module {
       value: string;
     },
     dataSourceKey?: string
-  ): Promise<IFolder> {
+  ): Promise<Success<IFolder> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/folder/{id}',
       method: 'PATCH',
       body: data,
       dataSource: dataSourceKey,
-    }).then((response: any) => response.folder);
+    })
+      .then((response: { folder: IFolder }) => new Success(response.folder))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -425,13 +468,15 @@ export class VisualizationModule extends Module {
       edgeFields?: IItemFields;
     },
     dataSourceKey?: string
-  ): Promise<any> {
+  ): Promise<Success<string> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/sandbox',
       method: 'PATCH',
       body: { visualization: data },
       dataSource: dataSourceKey,
-    });
+    })
+      .then((response: string) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -459,7 +504,7 @@ export class VisualizationModule extends Module {
       forceLock?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<any> {
+  ): Promise<Success<void> | Rejection> {
     let vizBody: any = JSON.parse(JSON.stringify(data));
     vizBody.id = undefined;
     vizBody.forceLock = undefined;
@@ -469,6 +514,8 @@ export class VisualizationModule extends Module {
       method: 'PATCH',
       body: { id: data.id, visualization: vizBody },
       query: Utils.fixSnakeCase({ forceLock: data.forceLock }),
-    });
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error));
   }
 }

@@ -470,6 +470,16 @@ export interface ISandBox {
   edgeFields?: IItemFields;
 }
 
+export interface ISharedVisualization {
+  right: 'read' | 'write' | 'owner';
+  visualizationId: number;
+  ownerId: number;
+  ownerUsername: string;
+  sourceKey: string;
+  title: string;
+  updatedAt: string; // ISO8601
+}
+
 export interface IServerVisualization extends ISandBox, IIdentified {
   title: string;
   folder: number;
