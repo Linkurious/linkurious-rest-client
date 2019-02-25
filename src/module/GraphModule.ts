@@ -500,6 +500,7 @@ export class GraphModule extends Module {
       url: '/{dataSourceKey}/graph/query/{id}',
       method: 'DELETE',
       dataSource: dataSourceKey,
+      body: data,
     })
       .then(() => new Success(undefined))
       .catch((error) => new Rejection(error) as Unauthorized | Forbidden | InvalidParameter | NotFound);
