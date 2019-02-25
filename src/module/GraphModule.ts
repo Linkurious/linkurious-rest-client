@@ -24,6 +24,7 @@ import {
   GraphUnreachable,
   GuestDisabled,
   InvalidParameter,
+  NotFound,
   Rejection,
   Unauthorized,
 } from '../response/errors';
@@ -486,5 +487,21 @@ export class GraphModule extends Module {
             | GraphUnreachable
             | InvalidParameter
       );
+  }
+
+  /**
+   * Delete a query
+   */
+  public delete(
+    data: { id: number },
+    dataSourceKey?: string
+  ): Promise<Success<void> | Unauthorized | Forbidden | InvalidParameter | NotFound> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/query/{id}',
+      method: 'DELETE',
+      dataSource: dataSourceKey,
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error) as Unauthorized | Forbidden | InvalidParameter | NotFound);
   }
 }
