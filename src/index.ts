@@ -31,6 +31,8 @@ import {
   ISchema,
   IClientState,
 } from '../index';
+import { Success } from './response/success';
+import { Rejection } from './response/errors';
 
 export class Linkurious {
   private _fetcher: Fetcher;
@@ -178,12 +180,15 @@ export class Linkurious {
     traits?: any;
     timestamp?: string;
     context?: any;
-  }): Promise<void> {
-    return this._fetcher.fetch({
-      url: '/analytics',
-      method: 'POST',
-      body: data,
-    });
+  }): Promise<Success<void> | Rejection> {
+    return this._fetcher
+      .fetch({
+        url: '/analytics',
+        method: 'POST',
+        body: data,
+      })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -192,7 +197,7 @@ export class Linkurious {
    * @param {Object} data
    * @returns {Promise<boolean>}
    */
-  public login(data: { usernameOrEmail: string; password: string }): Promise<any> {
+  public login(data: { usernameOrEmail: string; password: string }): Promise<Success<IFullUser> | Rejection> {
     let config: { url: string; method: 'POST'; body: any } = {
       url: '/auth/login',
       method: 'POST',
@@ -206,22 +211,29 @@ export class Linkurious {
         })
         .then((res: any) => {
           this._clientState.user = res;
-          return this._clientState.user;
-        });
+          return new Success(this._clientState.user);
+        })
+        .catch((error) => new Rejection(error));
     } else {
-      return this._fetcher.fetch(config).then((res: any) => {
-        this._clientState.user = res;
-        return this._clientState.user;
-      });
+      return this._fetcher
+        .fetch(config)
+        .then((res: any) => {
+          this._clientState.user = res;
+          return new Success(this._clientState.user);
+        })
+        .catch((error) => new Rejection(error));
     }
   }
 
-  public OAuthAuthentication(data: { code: string; state: string }): Promise<boolean> {
-    return this._fetcher.fetch({
-      url: '/auth/sso/return',
-      method: 'GET',
-      query: data,
-    });
+  public OAuthAuthentication(data: { code: string; state: string }): Promise<Success<void> | Rejection> {
+    return this._fetcher
+      .fetch({
+        url: '/auth/sso/return',
+        method: 'GET',
+        query: data,
+      })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -229,7 +241,7 @@ export class Linkurious {
    *
    * @returns {Promise<string>}
    */
-  public logout(): Promise<string> {
+  public logout(): Promise<Success<string> | Rejection> {
     return this._fetcher
       .fetch({
         url: '/auth/logout',
@@ -237,8 +249,9 @@ export class Linkurious {
       })
       .then(() => {
         this._clientState.user = undefined;
-        return 'user disconnected';
-      });
+        return new Success('user disconnected');
+      })
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -253,7 +266,7 @@ export class Linkurious {
     email?: string;
     password?: string;
     preferences?: any;
-  }): Promise<IFullUser> {
+  }): Promise<Success<IFullUser> | Rejection> {
     return this._fetcher
       .fetch({
         url: '/auth/me',
@@ -262,8 +275,9 @@ export class Linkurious {
       })
       .then((res: IFullUser) => {
         this._clientState.user = res;
-        return this._clientState.user;
-      });
+        return new Success(this._clientState.user);
+      })
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -271,10 +285,15 @@ export class Linkurious {
    *
    * @returns {Promise<any>}
    */
-  public initSources(data?: { withStyles?: boolean; withCaptions?: boolean }): Promise<any> {
-    return this.getSourceList(data).then((sourceStates: Array<IDataSourceState>) => {
-      return this.storeDefaultCurrentSource(sourceStates);
-    });
+  public initSources(data?: {
+    withStyles?: boolean;
+    withCaptions?: boolean;
+  }): Promise<Success<IDataSourceState> | Rejection> {
+    return this.getSourceList(data)
+      .then((sourceStates: Success<Array<IDataSourceState>>) => {
+        return new Success(this.storeDefaultCurrentSource(sourceStates.response));
+      })
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -282,14 +301,18 @@ export class Linkurious {
    *
    * @returns {Promise<IDataSourceState>}
    */
-  public getSourceList(data?: { withStyles?: boolean; withCaptions?: boolean }): Promise<Array<IDataSourceState>> {
+  public getSourceList(data?: {
+    withStyles?: boolean;
+    withCaptions?: boolean;
+  }): Promise<Success<Array<IDataSourceState>> | Rejection> {
     return this._fetcher
       .fetch({
         url: '/dataSources',
         method: 'GET',
         query: data,
       })
-      .then((res: any) => res.sources);
+      .then((response: { sources: Array<IDataSourceState> }) => new Success(response.sources))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -367,14 +390,15 @@ export class Linkurious {
    * @param {Object} data
    * @returns {Promise<IClientState>}
    */
-  public init(data: { usernameOrEmail: string; password: string }): Promise<IClientState> {
+  public init(data: { usernameOrEmail: string; password: string }): Promise<Success<IClientState> | Rejection> {
     return this.login(data)
       .then(() => {
         return this.initSources();
       })
       .then(() => {
-        return this._clientState;
-      });
+        return new Success(this._clientState);
+      })
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -382,15 +406,14 @@ export class Linkurious {
    *
    * @returns {Promise<IAppStatus>}
    */
-  public getAppStatus(): Promise<IAppStatus> {
+  public getAppStatus(): Promise<Success<IAppStatus> | Rejection> {
     return this._fetcher
       .fetch({
         url: '/status',
         method: 'GET',
       })
-      .then((res: any) => {
-        return res.status;
-      });
+      .then((response: { status: IAppStatus }) => new Success(response.status))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -398,11 +421,14 @@ export class Linkurious {
    *
    * @returns {Promise<IAppVersion>}
    */
-  public getAppVersion(): Promise<IAppVersion> {
-    return this._fetcher.fetch({
-      method: 'GET',
-      url: '/version',
-    });
+  public getAppVersion(): Promise<Success<IAppVersion> | Rejection> {
+    return this._fetcher
+      .fetch({
+        method: 'GET',
+        url: '/version',
+      })
+      .then((response: IAppVersion) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -411,12 +437,15 @@ export class Linkurious {
    * @param {number} [sourceIndex]
    * @returns {Promise<IAppConfig>}
    */
-  public getAppConfig(sourceIndex?: number): Promise<IAppConfig> {
-    return this._fetcher.fetch({
-      method: 'GET',
-      query: { sourceIndex: sourceIndex },
-      url: '/config',
-    });
+  public getAppConfig(sourceIndex?: number): Promise<Success<IAppConfig> | Rejection> {
+    return this._fetcher
+      .fetch({
+        method: 'GET',
+        query: { sourceIndex: sourceIndex },
+        url: '/config',
+      })
+      .then((response: IAppConfig) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -428,24 +457,28 @@ export class Linkurious {
   public getCustomFiles(data?: {
     root?: string;
     extensions?: string;
-  }): Promise<{ results: Array<{ path: string; name: 'string' }> }> {
-    return this._fetcher.fetch({
-      method: 'GET',
-      query: data,
-      url: '/customFiles',
-    });
+  }): Promise<Success<{ results: Array<{ path: string; name: 'string' }> }> | Rejection> {
+    return this._fetcher
+      .fetch({
+        method: 'GET',
+        query: data,
+        url: '/customFiles',
+      })
+      .then((response: { results: Array<{ path: string; name: 'string' }> }) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
    * Restart the server and send the new URL
    */
-  public restartServer(): Promise<string> {
+  public restartServer(): Promise<Success<string> | Rejection> {
     return this._fetcher
       .fetch({
         method: 'POST',
         url: '/admin/restart',
       })
-      .then((response: any) => response.url);
+      .then((response: { url: string }) => new Success(response.url))
+      .catch((error) => new Rejection(error));
   }
 
   /**
@@ -453,19 +486,14 @@ export class Linkurious {
    *
    * @returns {Promise<ISchema>}
    */
-  public getSchema(): Promise<ISchema> {
-    return this._fetcher.fetch({
-      method: 'GET',
-      url: '/{dataSourceKey}/graph/schema/simple',
-    });
-  }
-
-  public track(data: any): Promise<any> {
-    return this._fetcher.fetch({
-      method: 'POST',
-      url: '/track',
-      body: data,
-    });
+  public getSchema(): Promise<Success<ISchema> | Rejection> {
+    return this._fetcher
+      .fetch({
+        method: 'GET',
+        url: '/{dataSourceKey}/graph/schema/simple',
+      })
+      .then((response: ISchema) => new Success(response))
+      .catch((error) => new Rejection(error));
   }
 
   /**
