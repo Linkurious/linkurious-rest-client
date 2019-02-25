@@ -13,16 +13,27 @@
 import { expect } from 'chai';
 import 'mocha';
 import {
+  IAppConfig,
+  IAppStatus,
+  IDataSourceState,
+  IDigest,
+  IFolder,
+  IFullDataSource,
   IFullUser,
   IItemType,
+  IMatchResults,
   IOgmaEdge,
   IOgmaNode,
   IProperty,
   IShare,
+  ISharers,
+  ITreeChildren,
   IVisualization,
+  IWidget,
   Linkurious,
   TypeAccessRight,
 } from '../index';
+import { Success } from '../src/response/success';
 
 describe('Linkurious class', () => {
   let visu: any;
@@ -59,12 +70,12 @@ describe('Linkurious class', () => {
             q: 'Keanu Reeves',
           });
         })
-        .then(function(res: any) {
-          expect(res.type).to.equal('node');
-          expect(res.totalHits).to.eql(1);
-          expect(res.results[0].data.categories).to.eql(['Person']);
+        .then(function(res: Success<any>) {
+          expect(res.response.type).to.equal('node');
+          expect(res.response.totalHits).to.eql(1);
+          expect(res.response.results[0].data.categories).to.eql(['Person']);
 
-          nodeId = res.results[0].id;
+          nodeId = res.response.results[0].id;
         });
     });
 
@@ -77,19 +88,19 @@ describe('Linkurious class', () => {
             q: 'ACTED_IN',
           });
         })
-        .then(function(res: any) {
-          expect(res.type).to.eql('edge');
-          expect(res.totalHits).to.eql(7);
-          edgeID = res.results[0].id;
+        .then(function(res: Success<any>) {
+          expect(res.response.type).to.eql('edge');
+          expect(res.response.totalHits).to.eql(7);
+          edgeID = res.response.results[0].id;
         });
     });
   });
 
   describe('initSources method', function() {
     it('must set the right dataSource', function() {
-      return linkurious.initSources().then(function(res: any) {
-        expect(res.configIndex).to.eql(0);
-        sourceKey = res.key;
+      return linkurious.initSources().then(function(res: Success<any>) {
+        expect(res.response.configIndex).to.eql(0);
+        sourceKey = res.response.key;
       });
     });
   });
@@ -110,9 +121,9 @@ describe('Linkurious class', () => {
             },
             sourceKey
           )
-          .then((res: any) => {
-            alertId = res.id;
-            expect(res.matchTTL).to.eql(0);
+          .then((res: Success<any>) => {
+            alertId = res.response.id;
+            expect(res.response.matchTTL).to.eql(0);
           });
       });
     });
@@ -121,9 +132,9 @@ describe('Linkurious class', () => {
   describe('getAlerts for user method', () => {
     it('must return an array of alerts', () => {
       return linkurious.initSources().then(() => {
-        return linkurious.alerts.getAlerts(sourceKey).then((res: any) => {
-          expect(res.length).to.eql(1);
-          expect(res[0].title).to.eql('testAlert');
+        return linkurious.alerts.getAlerts(sourceKey).then((res: Success<any>) => {
+          expect(res.response.length).to.eql(1);
+          expect(res.response[0].title).to.eql('testAlert');
         });
       });
     });
@@ -139,8 +150,8 @@ describe('Linkurious class', () => {
             },
             sourceKey
           )
-          .then((res: any) => {
-            expect(res.title).to.eql('testAlert');
+          .then((res: Success<any>) => {
+            expect(res.response.title).to.eql('testAlert');
           });
       });
     });
@@ -160,9 +171,9 @@ describe('Linkurious class', () => {
             },
             sourceKey
           )
-          .then((res: any) => {
-            matchId = res.matches[0].id;
-            expect(res.counts.unconfirmed).to.equal(2);
+          .then((res: Success<IMatchResults>) => {
+            matchId = res.response.matches[0].id;
+            expect(res.response.counts.unconfirmed).to.equal(2);
           });
       });
     });
@@ -176,9 +187,9 @@ describe('Linkurious class', () => {
             id: alertId,
             title: 'testAlertModified',
           })
-          .then((res: any) => {
-            expect(res.id).to.eql(alertId);
-            expect(res.title).to.eql('testAlertModified');
+          .then((res: Success<any>) => {
+            expect(res.response.id).to.eql(alertId);
+            expect(res.response.title).to.eql('testAlertModified');
           });
       });
     });
@@ -196,8 +207,8 @@ describe('Linkurious class', () => {
             },
             sourceKey
           )
-          .then((res: any) => {
-            expect(res).to.eql('');
+          .then((res: Success<any>) => {
+            expect(res.response).to.eql('');
           });
       });
     });
@@ -214,9 +225,9 @@ describe('Linkurious class', () => {
             },
             sourceKey
           )
-          .then((res: any) => {
-            expect(res.nodes.length).to.eql(1);
-            expect(res.status).to.eql('confirmed');
+          .then((res: Success<any>) => {
+            expect(res.response.nodes.length).to.eql(1);
+            expect(res.response.status).to.eql('confirmed');
           });
       });
     });
@@ -233,9 +244,9 @@ describe('Linkurious class', () => {
             },
             sourceKey
           )
-          .then((res: any) => {
-            expect(res.length).to.eql(1);
-            expect(res[0].action).to.eql('confirm');
+          .then((res: Success<any>) => {
+            expect(res.response.length).to.eql(1);
+            expect(res.response[0].action).to.eql('confirm');
           });
       });
     });
@@ -244,9 +255,9 @@ describe('Linkurious class', () => {
   describe('getAlerts method', () => {
     it('must return an array of alerts', () => {
       return linkurious.initSources().then(() => {
-        return linkurious.admin.getAlerts(sourceKey).then((res: any) => {
-          expect(res.length).to.eql(1);
-          expect(res[0].title).to.eql('testAlertModified');
+        return linkurious.admin.getAlerts(sourceKey).then((res: Success<any>) => {
+          expect(res.response.length).to.eql(1);
+          expect(res.response[0].title).to.eql('testAlertModified');
         });
       });
     });
@@ -262,8 +273,8 @@ describe('Linkurious class', () => {
             },
             sourceKey
           )
-          .then((res: any) => {
-            expect(res.title).to.eql('testAlertModified');
+          .then((res: Success<any>) => {
+            expect(res.response.title).to.eql('testAlertModified');
           });
       });
     });
@@ -279,8 +290,8 @@ describe('Linkurious class', () => {
             },
             sourceKey
           )
-          .then((res: any) => {
-            expect(res).to.eql('');
+          .then((res: Success<any>) => {
+            expect(res.response).to.eql('');
           });
       });
     });
@@ -289,8 +300,8 @@ describe('Linkurious class', () => {
   describe('resetDefaults method', () => {
     it('must return true', () => {
       return linkurious.initSources().then(() => {
-        return linkurious.admin.resetDefaults({ design: true }, sourceKey).then((res: any) => {
-          expect(res).to.eql('');
+        return linkurious.admin.resetDefaults({ design: true }, sourceKey).then((res: Success<void>) => {
+          expect(res.response).to.be.undefined;
         });
       });
     });
@@ -298,8 +309,8 @@ describe('Linkurious class', () => {
 
   describe('setCurrentSource method', function() {
     it('must set the dataSource by ConfigIndex', function() {
-      return linkurious.getSourceList().then((sources) => {
-        linkurious.setCurrentSource(sources[0]);
+      return linkurious.getSourceList().then((sources: Success<Array<IDataSourceState>>) => {
+        linkurious.setCurrentSource(sources.response[0]);
         expect(linkurious.state.currentSource.configIndex).to.eql(0);
       });
     });
@@ -307,10 +318,9 @@ describe('Linkurious class', () => {
 
   describe('getAppStatus', () => {
     it('must return linkurious status', () => {
-      return linkurious.getAppStatus().then((res: any) => {
-        expect(res.message).to.eql('Linkurious ready to go :)');
-
-        expect(res.name).to.eql('initialized');
+      return linkurious.getAppStatus().then((res: Success<IAppStatus>) => {
+        expect(res.response.message).to.eql('Linkurious ready to go :)');
+        expect(res.response.name).to.eql('initialized');
       });
     });
   });
@@ -335,17 +345,21 @@ describe('Linkurious class', () => {
 
   describe('searchUsers method', function() {
     it('must return a list of users', function() {
-      return linkurious.search.getUsers({ groupId: 4, limit: 4, offset: 0, startsWith: '' }).then(function(res: any) {
-        expect(res.found).to.eql(0);
-      });
+      return linkurious.search
+        .getUsers({ groupId: 4, limit: 4, offset: 0, startsWith: '' })
+        .then(function(res: Success<{ found: number; results: Array<IFullUser> }>) {
+          expect(res.response.found).to.eql(0);
+        });
     });
   });
 
   describe('getCustomFiles method', function() {
     it('must return an array of files', function() {
-      return linkurious.getCustomFiles().then(function(res) {
-        expect(res.results.length).to.be.greaterThan(0);
-      });
+      return linkurious
+        .getCustomFiles()
+        .then(function(res: Success<{ results: Array<{ path: string; name: 'string' }> }>) {
+          expect(res.response.results.length).to.be.greaterThan(0);
+        });
     });
   });
 
@@ -356,8 +370,8 @@ describe('Linkurious class', () => {
         .then(() => {
           return linkurious.edge.getOne({ id: edgeID });
         })
-        .then((res: any) => {
-          expect(res.edges[0].data.type).to.eql('ACTED_IN');
+        .then((res: Success<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }>) => {
+          expect(res.response.edges[0].data.type).to.eql('ACTED_IN');
         });
     });
   });
@@ -371,11 +385,11 @@ describe('Linkurious class', () => {
             id: nodeId,
           });
         })
-        .then(function(res: { nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }) {
-          node = res.nodes[0];
-          expect(res.nodes[0].id).to.eql(nodeId);
-          expect(res.nodes[0].data.properties).to.eql({ name: 'Keanu Reeves', born: 1964 });
-          expect(res.edges.length).to.eql(0);
+        .then((res: Success<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }>) => {
+          node = res.response.nodes[0];
+          expect(res.response.nodes[0].id).to.eql(nodeId);
+          expect(res.response.nodes[0].data.properties).to.eql({ name: 'Keanu Reeves', born: 1964 });
+          expect(res.response.edges.length).to.eql(0);
         });
     });
   });
@@ -390,8 +404,8 @@ describe('Linkurious class', () => {
             edgesTo: [nodeId],
           });
         })
-        .then(function(res: { nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }) {
-          expect(res.nodes.length).to.be.greaterThan(0);
+        .then((res: Success<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }>) => {
+          expect(res.response.nodes.length).to.be.greaterThan(0);
         });
     });
   });
@@ -410,8 +424,8 @@ describe('Linkurious class', () => {
             readAt: node.data.readAt,
           });
         })
-        .catch(function(res) {
-          expect(res).to.be.true;
+        .catch((res: Success<IOgmaNode>) => {
+          expect(res.response).to.be.true;
         });
     });
   });
@@ -425,9 +439,9 @@ describe('Linkurious class', () => {
             omitNoindex: true,
           });
         })
-        .then(function(res) {
+        .then(function(res: Success<Array<IProperty>>) {
           expect(
-            res.sort((a, b) => {
+            res.response.sort((a, b) => {
               return a.key < b.key ? -1 : a.key > b.key ? 1 : 0;
             })
           ).to.eql([{ key: 'altEdgeID', count: 1 }, { key: 'roles', count: 4 }]);
@@ -444,8 +458,8 @@ describe('Linkurious class', () => {
             omitNoindex: true,
           });
         })
-        .then(function(res: Array<IProperty>) {
-          expect(res.length).to.be.greaterThan(0);
+        .then((res: Success<Array<IProperty>>) => {
+          expect(res.response.length).to.be.greaterThan(0);
         });
     });
   });
@@ -459,8 +473,8 @@ describe('Linkurious class', () => {
             includeType: true,
           });
         })
-        .then(function(res: { any: { access: TypeAccessRight }; results: Array<IItemType> }) {
-          let sortedResponse: Array<IItemType> = res.results.sort((a, b) => {
+        .then((res: Success<{ any: { access: TypeAccessRight }; results: Array<IItemType> }>) => {
+          let sortedResponse: Array<IItemType> = res.response.results.sort((a, b) => {
             if (a.name < b.name) {
               return -1;
             }
@@ -481,8 +495,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.node.getTypes();
         })
-        .then(function(res: { any: { access: TypeAccessRight }; results: Array<IItemType> }) {
-          expect(res.results.length).to.eql(8);
+        .then((res: Success<{ any: { access: TypeAccessRight }; results: Array<IItemType> }>) => {
+          expect(res.response.results.length).to.eql(8);
         });
     });
   });
@@ -496,12 +510,12 @@ describe('Linkurious class', () => {
             doLayout: false,
           });
         })
-        .then(function(res: IVisualization) {
-          expect(res.id).to.not.be.undefined;
-          expect(res.title).to.not.be.undefined;
-          expect(res.nodes.length).to.eql(0);
-          expect(res.edges.length).to.eql(0);
-          expect(res.layout).to.not.be.undefined;
+        .then((res: Success<IVisualization>) => {
+          expect(res.response.id).to.not.be.undefined;
+          expect(res.response.title).to.not.be.undefined;
+          expect(res.response.nodes.length).to.eql(0);
+          expect(res.response.edges.length).to.eql(0);
+          expect(res.response.layout).to.not.be.undefined;
         });
     });
   });
@@ -524,8 +538,8 @@ describe('Linkurious class', () => {
             },
           });
         })
-        .then((res: any) => {
-          expect(res).to.eql('');
+        .then((res: Success<string>) => {
+          expect(res.response).to.eql('');
         });
     });
   });
@@ -547,9 +561,9 @@ describe('Linkurious class', () => {
           }
           return Promise.reject(success);
         })
-        .then(function(res: IFullUser) {
-          userId = res.id;
-          expect(res.username).to.eql('testName');
+        .then((res: Success<IFullUser>) => {
+          userId = res.response.id;
+          expect(res.response.username).to.eql('testName');
         });
     });
   });
@@ -564,26 +578,30 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.getAppConfig();
         })
-        .then(function(res: any) {
-          expect(res.access.authRequired).to.be.true;
+        .then((res: Success<IAppConfig>) => {
+          expect(res.response.access.authRequired).to.be.true;
         });
     });
   });
 
   describe('login method', function() {
     it('must log a user and hydrate app state', function() {
-      return linkurious.login({ usernameOrEmail: 'testName', password: 'testPass' }).then(function(res) {
-        expect(linkurious.state.user.id).to.eql(userId);
-        expect(res.username).to.equal('testName');
-      });
+      return linkurious
+        .login({ usernameOrEmail: 'testName', password: 'testPass' })
+        .then(function(res: Success<IFullUser>) {
+          expect(linkurious.state.user.id).to.eql(userId);
+          expect(res.response.username).to.equal('testName');
+        });
     });
 
     it('must logout before login if another user is currently authenticated', function() {
       return linkurious.login({ usernameOrEmail: 'testName', password: 'testPass' }).then(function() {
-        return linkurious.login({ usernameOrEmail: 'testName', password: 'testPass' }).then(function(res) {
-          expect(linkurious.state.user.id).to.eql(userId);
-          expect(res.username).to.equal('testName');
-        });
+        return linkurious
+          .login({ usernameOrEmail: 'testName', password: 'testPass' })
+          .then(function(res: Success<IFullUser>) {
+            expect(linkurious.state.user.id).to.eql(userId);
+            expect(res.response.username).to.equal('testName');
+          });
       });
     });
   });
@@ -595,8 +613,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.logout();
         })
-        .then(function(res) {
-          expect(res).to.eql('user disconnected');
+        .then(function(res: Success<string>) {
+          expect(res.response).to.eql('user disconnected');
           expect(linkurious.state.user).to.be.undefined;
         });
     });
@@ -642,17 +660,17 @@ describe('Linkurious class', () => {
           response.title = 'test';
           return linkurious.visualization.create(response);
         })
-        .then((res) => {
-          vizId = res.id;
+        .then((res: Success<IVisualization>) => {
+          vizId = res.response.id;
         })
         .then(() => {
           return linkurious.visualization.createWidget({
             visualizationId: vizId,
           });
         })
-        .then((res: any) => {
-          widget = res;
-          expect(typeof res).to.eql('string');
+        .then((res: Success<string>) => {
+          widget = res.response;
+          expect(typeof res.response).to.eql('string');
         });
     });
   });
@@ -664,9 +682,9 @@ describe('Linkurious class', () => {
         .then(() => {
           return linkurious.visualization.getWidget({ id: widget });
         })
-        .then((res: any) => {
-          expect(res.key).to.eql(widget);
-          expect(res.userId).to.eql(userId);
+        .then((res: Success<IWidget>) => {
+          expect(res.response.key).to.eql(widget);
+          expect(res.response.userId).to.eql(userId);
         });
     });
   });
@@ -678,8 +696,8 @@ describe('Linkurious class', () => {
         .then(() => {
           return linkurious.visualization.deleteWidget({ id: widget });
         })
-        .then((res: any) => {
-          expect(res).to.eql('');
+        .then((res: Success<boolean>) => {
+          expect(res.response).to.eql('');
         });
     });
   });
@@ -715,9 +733,9 @@ describe('Linkurious class', () => {
             },
           });
         })
-        .then((res: any) => {
-          visu = res;
-          expect(res.title).to.eql('newVizuTest');
+        .then((res: Success<IVisualization>) => {
+          visu = res.response;
+          expect(res.response.title).to.eql('newVizuTest');
         });
     });
   });
@@ -729,8 +747,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.visualization.getOne({ id: visu.id, populated: true });
         })
-        .then((res: any) => {
-          expect(res.title).to.eql('newVizuTest');
+        .then((res: Success<IVisualization>) => {
+          expect(res.response.title).to.eql('newVizuTest');
         });
     });
   });
@@ -746,9 +764,9 @@ describe('Linkurious class', () => {
             vizId: vizId,
           });
         })
-        .then(function(res: IShare) {
-          expect(res.visualizationId).to.eql(vizId);
-          expect(res.userId).to.eql(userId);
+        .then((res: Success<IShare>) => {
+          expect(res.response.visualizationId).to.eql(vizId);
+          expect(res.response.userId).to.eql(userId);
         });
     });
   });
@@ -760,9 +778,9 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.admin.getHiddenEdgeProperties();
         })
-        .then(function(res: any) {
-          expect(res.length).to.eql(1);
-          expect(res[0]).to.equal('edgeHiddenProp');
+        .then((res: Success<Array<string>>) => {
+          expect(res.response.length).to.eql(1);
+          expect(res.response[0]).to.equal('edgeHiddenProp');
         });
     });
   });
@@ -774,9 +792,9 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.admin.getHiddenNodeProperties();
         })
-        .then(function(res: any) {
-          expect(res.length).to.eql(1);
-          expect(res[0]).to.equal('nodeHiddenProp');
+        .then((res: Success<Array<string>>) => {
+          expect(res.response.length).to.eql(1);
+          expect(res.response[0]).to.equal('nodeHiddenProp');
         });
     });
   });
@@ -788,9 +806,9 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.admin.getNonIndexedEdgeProperties();
         })
-        .then(function(res: any) {
-          expect(res.length).to.eql(2);
-          expect(res[1]).to.equal('edgeNoIndexProp');
+        .then((res: Success<Array<string>>) => {
+          expect(res.response.length).to.eql(2);
+          expect(res.response[1]).to.equal('edgeNoIndexProp');
         });
     });
   });
@@ -802,9 +820,9 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.admin.getNonIndexedNodeProperties();
         })
-        .then(function(res: any) {
-          expect(res.length).to.eql(2);
-          expect(res[1]).to.equal('nodeNoIndexProp');
+        .then((res: Success<Array<string>>) => {
+          expect(res.response.length).to.eql(2);
+          expect(res.response[1]).to.equal('nodeNoIndexProp');
         });
     });
   });
@@ -816,8 +834,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.admin.setHiddenEdgeProperties({ properties: ['testHiddenEdgeProp'] });
         })
-        .then(function(res) {
-          expect(res).to.not.be.undefined;
+        .then((res: Success<boolean>) => {
+          expect(res.response).to.not.be.undefined;
         });
     });
   });
@@ -829,8 +847,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.admin.setHiddenNodeProperties({ properties: ['testHiddenNodeProp'] });
         })
-        .then(function(res) {
-          expect(res).to.not.be.undefined;
+        .then((res: Success<boolean>) => {
+          expect(res.response).to.not.be.undefined;
         });
     });
   });
@@ -842,8 +860,8 @@ describe('Linkurious class', () => {
         .then(() => {
           return linkurious.admin.setNotIndexedEdgeProperties({ properties: ['testNonIndexedEdgeProp'] });
         })
-        .then(function(res) {
-          expect(res).to.not.be.undefined;
+        .then(function(res: Success<boolean>) {
+          expect(res.response).to.not.be.undefined;
         });
     });
   });
@@ -855,8 +873,8 @@ describe('Linkurious class', () => {
         .then(() => {
           return linkurious.admin.setNotIndexedNodeProperties({ properties: ['testNonIndexedNodeProp'] }, sourceKey);
         })
-        .then(function(res) {
-          expect(res).to.not.be.undefined;
+        .then(function(res: Success<boolean>) {
+          expect(res.response).to.not.be.undefined;
         });
     });
   });
@@ -883,8 +901,8 @@ describe('Linkurious class', () => {
             name: 'test config',
           });
         })
-        .then(function(res) {
-          expect(res).to.not.be.undefined;
+        .then(function(res: Success<void>) {
+          expect(res.response).to.be.undefined;
           setTimeout(() => {}, 5000);
         });
     });
@@ -897,8 +915,8 @@ describe('Linkurious class', () => {
         .then(() => {
           return linkurious.admin.connectDataSource(0);
         })
-        .then(function(res) {
-          expect(res).to.equal('');
+        .then(function(res: Success<void>) {
+          expect(res.response).to.be.undefined;
         });
     });
   });
@@ -918,11 +936,11 @@ describe('Linkurious class', () => {
           }
           return Promise.reject(success);
         })
-        .then((res: any) => {
-          return linkurious.admin.deleteUser(res.id);
+        .then((res: Success<IFullUser>) => {
+          return linkurious.admin.deleteUser(res.response.id);
         })
-        .then((res: any) => {
-          expect(res).to.not.be.undefined;
+        .then((res: Success<boolean>) => {
+          expect(res.response).to.not.be.undefined;
         });
     });
   });
@@ -999,10 +1017,10 @@ describe('Linkurious class', () => {
 
   describe('getDataSourcesList method', () => {
     it('must resturn a list of all dataSource', () => {
-      return linkurious.admin.getDataSourcesList().then((res: any) => {
-        expect(res.length).to.eql(2);
-        expect(res[0].state).to.eql('needReindex');
-        expect(res[1].state).to.eql('connecting');
+      return linkurious.admin.getDataSourcesList().then((res: Success<Array<IFullDataSource>>) => {
+        expect(res.response.length).to.eql(2);
+        expect(res.response[0].state).to.eql('needReindex');
+        expect(res.response[1].state).to.eql('connecting');
       });
     });
   });
@@ -1014,9 +1032,9 @@ describe('Linkurious class', () => {
           id: userId,
           username: 'testName',
         })
-        .then((res: any) => {
-          expect(res.username).to.eql('testName');
-          expect(res.email).to.eql('testName@test.fr');
+        .then((res: Success<IFullUser>) => {
+          expect(res.response.username).to.eql('testName');
+          expect(res.response.email).to.eql('testName@test.fr');
         });
     });
   });
@@ -1028,8 +1046,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.edge.count();
         })
-        .then((res: any) => {
-          expect(res).to.eql(20);
+        .then((res: Success<number>) => {
+          expect(res.response).to.eql(20);
         });
     });
   });
@@ -1046,25 +1064,43 @@ describe('Linkurious class', () => {
             q: 'Carrie-Anne Moss',
           });
         })
-        .then((res: any) => {
-          sourceId = res.results[0].id;
-          return linkurious.search.simple({
-            type: 'nodes',
-            q: 'Keanu Reeves',
-          });
-        })
-        .then((res: any) => {
-          targetId = res.results[0].id;
-          return linkurious.edge.create({
-            source: sourceId,
-            target: targetId,
-            type: 'PLAYS_WITH',
-            properties: {},
-          });
-        })
-        .then((res: any) => {
-          edgeToDelete = res.id;
-          expect(res.data.type).to.eql('PLAYS_WITH');
+        .then(
+          (
+            res: Success<{
+              type: string;
+              totalHits?: number;
+              moreResults?: boolean;
+              results: Array<IOgmaNode | IOgmaEdge>;
+            }>
+          ) => {
+            sourceId = res.response.results[0].id;
+            return linkurious.search.simple({
+              type: 'nodes',
+              q: 'Keanu Reeves',
+            });
+          }
+        )
+        .then(
+          (
+            res: Success<{
+              type: string;
+              totalHits?: number;
+              moreResults?: boolean;
+              results: Array<IOgmaNode | IOgmaEdge>;
+            }>
+          ) => {
+            targetId = res.response.results[0].id;
+            return linkurious.edge.create({
+              source: sourceId,
+              target: targetId,
+              type: 'PLAYS_WITH',
+              properties: {},
+            });
+          }
+        )
+        .then((res: Success<IOgmaEdge>) => {
+          edgeToDelete = res.response.id;
+          expect(res.response.data.type).to.eql('PLAYS_WITH');
         });
     });
   });
@@ -1081,8 +1117,8 @@ describe('Linkurious class', () => {
             readAt: '2018-04-16T09:57:31.949Z',
           });
         })
-        .then((res: any) => {
-          expect(res.data.properties.tralala).to.eql('test');
+        .then((res: Success<IOgmaEdge>) => {
+          expect(res.response.data.properties.tralala).to.eql('test');
         });
     });
   });
@@ -1094,8 +1130,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.edge.deleteOne({ id: edgeToDelete });
         })
-        .then((res: any) => {
-          expect(res).to.eql('');
+        .then((res: Success<void>) => {
+          expect(res.response).to.be.undefined;
         });
     });
   });
@@ -1107,8 +1143,8 @@ describe('Linkurious class', () => {
         .then(() => {
           return linkurious.my.IsAuth();
         })
-        .then((res: any) => {
-          expect(res).to.eql('');
+        .then((res: Success<boolean>) => {
+          expect(res.response).to.not.be.undefined;
         });
     });
   });
@@ -1193,8 +1229,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.node.count();
         })
-        .then((res: any) => {
-          expect(res).to.eql(14);
+        .then((res: Success<number>) => {
+          expect(res.response).to.eql(14);
         });
     });
   });
@@ -1211,9 +1247,9 @@ describe('Linkurious class', () => {
             categories: ['actor'],
           });
         })
-        .then((res: any) => {
-          nodeToDelete = res.id;
-          expect(res.data.properties.name).to.eql('Robert Mitchum');
+        .then((res: Success<IOgmaNode>) => {
+          nodeToDelete = res.response.id;
+          expect(res.response.data.properties.name).to.eql('Robert Mitchum');
         });
     });
   });
@@ -1225,8 +1261,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.node.deleteOne({ id: nodeToDelete });
         })
-        .then((res: any) => {
-          expect(res).to.eql('');
+        .then((res: Success<void>) => {
+          expect(res.response).to.eql('');
         })
         .catch((e) => console.log(e));
     });
@@ -1239,8 +1275,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.node.getNeighborsCategories({ ids: [nodeId] });
         })
-        .then((res: any) => {
-          expect(res).to.eql({});
+        .then((res: Success<{ digest: Array<IDigest>; degree: number }>) => {
+          expect(res.response).to.eql({});
         });
     });
   });
@@ -1252,9 +1288,18 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.search.advanced({ type: 'nodes', q: 'matrix' });
         })
-        .then((res: any) => {
-          expect(res.results.length).to.eql(3);
-        });
+        .then(
+          (
+            res: Success<{
+              type: string;
+              totalHits?: number;
+              moreResults?: boolean;
+              results: Array<IOgmaNode | IOgmaEdge>;
+            }>
+          ) => {
+            expect(res.response.results.length).to.eql(3);
+          }
+        );
     });
   });
 
@@ -1265,9 +1310,18 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.search.advanced({ type: 'edges', q: 'ACTED_IN' });
         })
-        .then((res: any) => {
-          expect(res.results.length).to.eql(7);
-        });
+        .then(
+          (
+            res: Success<{
+              type: string;
+              totalHits?: number;
+              moreResults?: boolean;
+              results: Array<IOgmaNode | IOgmaEdge>;
+            }>
+          ) => {
+            expect(res.response.results.length).to.eql(7);
+          }
+        );
     });
   });
 
@@ -1278,8 +1332,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.visualization.count();
         })
-        .then((res: any) => {
-          expect(res).to.eql(13);
+        .then((res: Success<number>) => {
+          expect(res.response).to.eql(13);
         });
     });
   });
@@ -1291,10 +1345,10 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.visualization.getTree();
         })
-        .then((res: any) => {
-          expect(res[1].id).to.eql(15);
-          expect(res[1].type).to.eql('visu');
-          visu = res[1];
+        .then((res: Success<Array<ITreeChildren>>) => {
+          expect(res.response[1].id).to.eql(15);
+          expect(res.response[1].type).to.eql('visu');
+          visu = res.response[1];
         });
     });
   });
@@ -1308,9 +1362,9 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.visualization.createFolder({ parent: 0, title: 'testFolder' });
         })
-        .then((res: any) => {
-          expect(res.title).to.eql('testFolder');
-          folderId = res.id;
+        .then((res: Success<IFolder>) => {
+          expect(res.response.title).to.eql('testFolder');
+          folderId = res.response.id;
         });
     });
   });
@@ -1326,8 +1380,8 @@ describe('Linkurious class', () => {
             value: 'newFolderName',
           });
         })
-        .then((res: any) => {
-          expect(res).to.not.be.undefined;
+        .then((res: Success<IFolder>) => {
+          expect(res.response).to.not.be.undefined;
         });
     });
   });
@@ -1339,8 +1393,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.visualization.deleteFolder({ id: folderId });
         })
-        .then((res: any) => {
-          expect(res).to.eql('');
+        .then((res: Success<boolean>) => {
+          expect(res.response).to.eql('');
         });
     });
   });
@@ -1354,9 +1408,9 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.visualization.duplicate({ id: visu.id, title: 'Copy of newVizuTest' });
         })
-        .then((res) => {
-          expect(res.visualizationId).to.not.be.undefined;
-          visuToDelete = res.visualizationId;
+        .then((res: Success<{ visualizationId: number }>) => {
+          expect(res.response.visualizationId).to.not.be.undefined;
+          visuToDelete = res.response.visualizationId;
         });
     });
   });
@@ -1368,8 +1422,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.visualization.deleteOne({ id: visuToDelete });
         })
-        .then((res: any) => {
-          expect(res).to.equal('');
+        .then((res: Success<void>) => {
+          expect(res.response).to.be.undefined;
         });
     });
   });
@@ -1381,9 +1435,9 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.visualization.getShares({ id: visu.id });
         })
-        .then((res: any) => {
-          expect(res.shares.length).to.eql(0);
-          expect(res.owner.id).to.eql(118);
+        .then((res: Success<ISharers>) => {
+          expect(res.response.shares.length).to.eql(0);
+          expect(res.response.owner.id).to.eql(118);
         });
     });
   });
@@ -1399,8 +1453,8 @@ describe('Linkurious class', () => {
             title: 'youpla visu',
           });
         })
-        .then((res: any) => {
-          expect(res).to.equal('');
+        .then((res: Success<void>) => {
+          expect(res.response).to.be.undefined;
         });
     });
   });

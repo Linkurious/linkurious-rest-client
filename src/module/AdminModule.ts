@@ -125,12 +125,12 @@ export class AdminModule extends Module {
    *
    * @returns {Promise<Array<IFullDataSource>>}
    */
-  public getDataSourcesList(): Promise<Success<IFullDataSource> | Rejection> {
+  public getDataSourcesList(): Promise<Success<Array<IFullDataSource>> | Rejection> {
     return this.fetch({
       url: '/admin/sources',
       method: 'GET',
     })
-      .then((response: IFullDataSource) => new Success(response))
+      .then((response: Array<IFullDataSource>) => new Success(response))
       .catch((error) => new Rejection(error));
   }
 
