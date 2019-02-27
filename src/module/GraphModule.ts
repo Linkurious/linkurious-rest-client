@@ -220,6 +220,9 @@ export class GraphModule extends Module {
       timeout?: number;
       edgesTo?: Array<string | number>;
       templateData?: any;
+      withDegree?: boolean;
+      withAccess?: boolean;
+      withDigest?: boolean;
     },
     dataSourceKey?: string
   ): Promise<
@@ -239,17 +242,23 @@ export class GraphModule extends Module {
     | GraphUnreachable
     | InvalidParameter
   > {
-    let body: any = {
+    const body: any = {
       id: data.id,
       limit: data.limit,
       timeout: data.timeout,
       edgesTo: data.edgesTo,
       templateData: data.templateData,
     };
+    const query: any = {
+      withDegree: data.withDegree,
+      withAccess: data.withAccess,
+      withDigest: data.withDigest,
+    };
     return this.fetch({
       url: '/{dataSourceKey}/graph/run/query/{id}',
       method: 'POST',
       body: body,
+      query: query,
       dataSource: dataSourceKey,
     })
       .then(
