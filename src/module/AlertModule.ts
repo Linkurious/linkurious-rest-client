@@ -99,14 +99,14 @@ export class AlertModule extends Module {
       matchId: number;
     },
     dataSourceKey?: string
-  ): Promise<Success<boolean> | Rejection> {
+  ): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: `/{dataSourceKey}/alerts/${data.alertId}/matches/${data.matchId}/action`,
       method: 'POST',
       body: { action: data.action },
       dataSource: dataSourceKey,
     })
-      .then((response: boolean) => new Success(response))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 

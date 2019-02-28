@@ -208,7 +208,7 @@ describe('Linkurious class', () => {
             sourceKey
           )
           .then((res: Success<any>) => {
-            expect(res.response).to.eql('');
+            expect(res.response).to.be.undefined;
           });
       });
     });
@@ -290,8 +290,8 @@ describe('Linkurious class', () => {
             },
             sourceKey
           )
-          .then((res: Success<any>) => {
-            expect(res.response).to.eql('');
+          .then((res: Success<void>) => {
+            expect(res.response).to.be.undefined;
           });
       });
     });
@@ -538,8 +538,8 @@ describe('Linkurious class', () => {
             },
           });
         })
-        .then((res: Success<string>) => {
-          expect(res.response).to.eql('');
+        .then((res: Success<void>) => {
+          expect(res.response).to.be.undefined;
         });
     });
   });
@@ -613,8 +613,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.logout();
         })
-        .then(function(res: Success<string>) {
-          expect(res.response).to.eql('user disconnected');
+        .then(function(res: Success<void>) {
+          expect(res.response).to.be.undefined;
           expect(linkurious.state.user).to.be.undefined;
         });
     });
@@ -696,8 +696,8 @@ describe('Linkurious class', () => {
         .then(() => {
           return linkurious.visualization.deleteWidget({ id: widget });
         })
-        .then((res: Success<boolean>) => {
-          expect(res.response).to.eql('');
+        .then((res: Success<void>) => {
+          expect(res.response).to.be.undefined;
         });
     });
   });
@@ -939,8 +939,8 @@ describe('Linkurious class', () => {
         .then((res: Success<IFullUser>) => {
           return linkurious.admin.deleteUser(res.response.id);
         })
-        .then((res: Success<boolean>) => {
-          expect(res.response).to.not.be.undefined;
+        .then((res: Success<void>) => {
+          expect(res.response).to.be.undefined;
         });
     });
   });
@@ -1393,8 +1393,8 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.visualization.deleteFolder({ id: folderId });
         })
-        .then((res: Success<boolean>) => {
-          expect(res.response).to.eql('');
+        .then((res: Success<void>) => {
+          expect(res.response).to.be.undefined;
         });
     });
   });
