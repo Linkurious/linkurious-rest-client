@@ -185,13 +185,13 @@ export class VisualizationModule extends Module {
    * @param {Object} data
    * @returns {Promise<boolean>}
    */
-  public deleteWidget(data: { id: string }): Promise<Success<boolean> | Rejection> {
+  public deleteWidget(data: { id: string }): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/widget/{id}',
       method: 'DELETE',
       query: data,
     })
-      .then((response: boolean) => new Success(response))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 
@@ -207,14 +207,14 @@ export class VisualizationModule extends Module {
       id: number;
     },
     dataSourceKey?: string
-  ): Promise<Success<boolean> | Rejection> {
+  ): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/folder/{id}',
       method: 'DELETE',
       query: data,
       dataSource: dataSourceKey,
     })
-      .then((response: boolean) => new Success(response))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 
@@ -351,7 +351,7 @@ export class VisualizationModule extends Module {
       query: data,
       dataSource: dataSourceKey,
     })
-      .then(() => new Success(undefined))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 
@@ -425,7 +425,7 @@ export class VisualizationModule extends Module {
       query: { id: data.id },
       dataSource: dataSourceKey,
     })
-      .then(() => new Success(undefined))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 
@@ -468,14 +468,14 @@ export class VisualizationModule extends Module {
       edgeFields?: IItemFields;
     },
     dataSourceKey?: string
-  ): Promise<Success<string> | Rejection> {
+  ): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/{dataSourceKey}/sandbox',
       method: 'PATCH',
       body: { visualization: data },
       dataSource: dataSourceKey,
     })
-      .then((response: string) => new Success(response))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 
@@ -515,7 +515,7 @@ export class VisualizationModule extends Module {
       body: { id: data.id, visualization: vizBody },
       query: Utils.fixSnakeCase({ forceLock: data.forceLock }),
     })
-      .then(() => new Success(undefined))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 }

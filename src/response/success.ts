@@ -15,7 +15,7 @@ import { ServerResponse } from './index';
 export class Success<T> extends ServerResponse<'success'> {
   public response: T;
 
-  constructor(response: T) {
+  constructor(response?: T) {
     super('success');
     this.response = response;
   }

@@ -187,7 +187,7 @@ export class Linkurious {
         method: 'POST',
         body: data,
       })
-      .then(() => new Success(undefined))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 
@@ -232,7 +232,7 @@ export class Linkurious {
         method: 'GET',
         query: data,
       })
-      .then(() => new Success(undefined))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 
@@ -241,7 +241,7 @@ export class Linkurious {
    *
    * @returns {Promise<string>}
    */
-  public logout(): Promise<Success<string> | Rejection> {
+  public logout(): Promise<Success<void> | Rejection> {
     return this._fetcher
       .fetch({
         url: '/auth/logout',
@@ -249,7 +249,7 @@ export class Linkurious {
       })
       .then(() => {
         this._clientState.user = undefined;
-        return new Success('user disconnected');
+        return new Success<void>();
       })
       .catch((error) => new Rejection(error));
   }

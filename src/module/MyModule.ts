@@ -144,7 +144,7 @@ export class MyModule extends Module {
       body: data,
       dataSource: dataSourceKey,
     })
-      .then(() => new Success(undefined))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 }

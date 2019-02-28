@@ -60,7 +60,7 @@ export class AdminModule extends Module {
       method: 'POST',
       dataSource: dataSourceIndex,
     })
-      .then(() => new Success(undefined))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 
@@ -76,7 +76,7 @@ export class AdminModule extends Module {
       method: 'POST',
       body: data,
     })
-      .then(() => new Success(undefined))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 
@@ -86,13 +86,13 @@ export class AdminModule extends Module {
    * @param {number} [dataSourceIndex]
    * @returns {Promise<boolean>}
    */
-  public deleteDataSourceConfig(dataSourceIndex?: number): Promise<Success<boolean> | Rejection> {
+  public deleteDataSourceConfig(dataSourceIndex?: number): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/admin/sources/config/{dataSourceIndex}',
       method: 'DELETE',
       dataSource: dataSourceIndex,
     })
-      .then((response) => new Success(response))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 
@@ -309,13 +309,13 @@ export class AdminModule extends Module {
    * @param {number} userId
    * @returns {Promise<boolean>}
    */
-  public deleteUser(userId: number): Promise<Success<boolean> | Rejection> {
+  public deleteUser(userId: number): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/admin/users/{id}',
       method: 'DELETE',
       body: { id: userId },
     })
-      .then((response: boolean) => new Success(response))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 
@@ -358,7 +358,7 @@ export class AdminModule extends Module {
       body: data,
       dataSource: dataSourceKey,
     })
-      .then(() => new Success(undefined))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error) as Unauthorized | InvalidParameter | NotFound | Forbidden);
   }
 
@@ -448,7 +448,7 @@ export class AdminModule extends Module {
       body: data,
       dataSource: dataSourceKey,
     })
-      .then(() => new Success(undefined))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error) as Unauthorized | InvalidParameter | NotFound | Forbidden);
   }
 
@@ -615,14 +615,14 @@ export class AdminModule extends Module {
       id: number;
     },
     dataSourceKey?: string
-  ): Promise<Success<boolean> | Rejection> {
+  ): Promise<Success<void> | Rejection> {
     return this.fetch({
       url: '/admin/{dataSourceKey}/alerts/{id}',
       method: 'DELETE',
       body: data,
       dataSource: dataSourceKey,
     })
-      .then((response: boolean) => new Success(response))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 
@@ -685,7 +685,7 @@ export class AdminModule extends Module {
       body: data,
       dataSource: dataSourceKey,
     })
-      .then(() => new Success(undefined))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 
@@ -712,7 +712,7 @@ export class AdminModule extends Module {
       body: data,
       dataSource: dataSourceKey,
     })
-      .then(() => new Success(undefined))
+      .then(() => new Success<void>())
       .catch((error) => new Rejection(error));
   }
 }
