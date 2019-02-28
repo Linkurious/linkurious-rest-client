@@ -29,7 +29,7 @@ export class Fetcher {
     this._httpDriver = httpDriver ? httpDriver : new DefaultHttpDriver();
     this._logger = logger;
     this._clientState = clientState;
-    this._baseUrl = baseUrl.endsWith('/') ? baseUrl : (baseUrl + '/');
+    this._baseUrl = baseUrl && baseUrl[baseUrl.length - 1] === '/' ? baseUrl : baseUrl + '/';
     this._baseApiURL = this._baseUrl + 'api';
   }
 

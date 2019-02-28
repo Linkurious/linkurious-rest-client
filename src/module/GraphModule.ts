@@ -24,6 +24,7 @@ import {
   GraphUnreachable,
   GuestDisabled,
   InvalidParameter,
+  NotFound,
   Rejection,
   Unauthorized,
 } from '../response/errors';
@@ -219,6 +220,9 @@ export class GraphModule extends Module {
       timeout?: number;
       edgesTo?: Array<string | number>;
       templateData?: any;
+      withDegree?: boolean;
+      withAccess?: boolean;
+      withDigest?: boolean;
     },
     dataSourceKey?: string
   ): Promise<
@@ -238,17 +242,23 @@ export class GraphModule extends Module {
     | GraphUnreachable
     | InvalidParameter
   > {
-    let body: any = {
+    const body: any = {
       id: data.id,
       limit: data.limit,
       timeout: data.timeout,
       edgesTo: data.edgesTo,
       templateData: data.templateData,
     };
+    const query: any = {
+      withDegree: data.withDegree,
+      withAccess: data.withAccess,
+      withDigest: data.withDigest,
+    };
     return this.fetch({
       url: '/{dataSourceKey}/graph/run/query/{id}',
       method: 'POST',
       body: body,
+      query: query,
       dataSource: dataSourceKey,
     })
       .then(
@@ -486,5 +496,22 @@ export class GraphModule extends Module {
             | GraphUnreachable
             | InvalidParameter
       );
+  }
+
+  /**
+   * Delete a query
+   */
+  public delete(
+    data: { id: number },
+    dataSourceKey?: string
+  ): Promise<Success<void> | Unauthorized | Forbidden | InvalidParameter | NotFound> {
+    return this.fetch({
+      url: '/{dataSourceKey}/graph/query/{id}',
+      method: 'DELETE',
+      dataSource: dataSourceKey,
+      body: data,
+    })
+      .then(() => new Success(undefined))
+      .catch((error) => new Rejection(error) as Unauthorized | Forbidden | InvalidParameter | NotFound);
   }
 }
