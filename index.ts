@@ -110,6 +110,7 @@ export interface IUser extends ISimpleUser {
 export interface IFullUser extends IUser {
   preferences: any;
   actions: any;
+  locale: string;
 }
 
 // GROUP

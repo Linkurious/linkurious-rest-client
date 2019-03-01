@@ -114,25 +114,4 @@ export class MyModule extends Module {
       .then((response: Array<IBaseGroup>) => new Success(response))
       .catch((error) => new Rejection(error) as Unauthorized | Forbidden);
   }
-
-  /**
-   * Delete a saved Graph Query owned by the current user
-   *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<boolean>}
-   */
-  public deleteGraphQuery(
-    data: {
-      id: number;
-    },
-    dataSourceKey?: string
-  ): Promise<void> {
-    return this.fetch({
-      url: '/{dataSourceKey}/graph/my/rawQuery/{id}',
-      method: 'DELETE',
-      body: data,
-      dataSource: dataSourceKey,
-    });
-  }
 }
