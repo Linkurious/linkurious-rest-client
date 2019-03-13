@@ -14,10 +14,12 @@ import { Module } from './Module';
 import { IEdge, ItemId, IProperty, IItemType, IOgmaEdge, TypeAccessRight, IOgmaNode, INode } from '../../index';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
+import { Transformer } from '../transformer';
+import { ErrorListener } from '../errorListener';
 
 export class EdgeModule extends Module {
-  constructor(fetcher: Fetcher) {
-    super(fetcher);
+  constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
+    super(fetcher, transformer, errorListener);
   }
 
   /**

@@ -4,6 +4,7 @@
  *
  * Created by maximeallex on 2017-02-06.
  */
+
 'use strict';
 import {
   IFullNode,
@@ -14,12 +15,9 @@ import {
   IOgmaNode,
   IServerVisualization,
   IVisualization,
+  IItem,
 } from '../../index';
 
-/**
- * @class
- * @classdesc VisualizationParser : format server response for Ogma
- */
 export class VisualizationParser {
   public static parseEdgeList(
     edges: [
@@ -87,8 +85,6 @@ export class VisualizationParser {
 
   /**
    * format visualization for Ogma
-   * @param {IServerVisualization}viz
-   * @returns {any}
    */
   public static formatVisualization(viz: IServerVisualization): any {
     let visualization: IVisualization = JSON.parse(JSON.stringify(viz));
@@ -117,5 +113,12 @@ export class VisualizationParser {
       nodes: Array.from(mn.values()),
       edges: Array.from(me.values()),
     };
+  }
+
+  /**
+   * Return true if an item is a node
+   */
+  public static isNode(item: IItem): item is INode {
+    return item.target === undefined && item.source === undefined;
   }
 }

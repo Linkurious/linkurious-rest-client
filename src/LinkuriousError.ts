@@ -16,7 +16,7 @@ export class LinkuriousError {
   public type: ErrorType;
   public key: string;
   public message: string;
-  public cause: Error;
+  public cause: Error | undefined;
   public data: any;
 
   constructor(status: number, type: ErrorType, key: string, message: string, cause?: Error, data?: any) {
@@ -60,7 +60,7 @@ export class LinkuriousError {
     );
   }
 
-  get stack(): string {
+  get stack(): string | undefined {
     return this.cause ? this.cause.stack : undefined;
   }
 

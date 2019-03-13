@@ -28,10 +28,12 @@ import {
   Rejection,
   Unauthorized,
 } from '../response/errors';
+import { Transformer } from '../transformer';
+import { ErrorListener } from '../errorListener';
 
 export class GraphModule extends Module {
-  constructor(fetcher: Fetcher) {
-    super(fetcher);
+  constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
+    super(fetcher, transformer, errorListener);
   }
 
   /**
@@ -58,28 +60,23 @@ export class GraphModule extends Module {
     | GraphUnreachable
     | InvalidParameter
   > {
-    return this.fetch({
+    return this.request({
       url: '/{dataSourceKey}/graph/query/{id}',
       method: 'GET',
       query: data,
       dataSource: dataSourceKey,
-    })
-      .then((response: IGraphQuery) => {
-        return new Success(response);
-      })
-      .catch(
-        (error) =>
-          new Rejection(error) as
-            | Unauthorized
-            | GuestDisabled
-            | Forbidden
-            | BadGraphRequest
-            | ConstraintViolation
-            | GraphRequestTimeout
-            | DataSourceUnavailable
-            | GraphUnreachable
-            | InvalidParameter
-      );
+    }) as Promise<
+      | Success<IGraphQuery>
+      | Unauthorized
+      | GuestDisabled
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
   }
 
   /**
@@ -104,28 +101,23 @@ export class GraphModule extends Module {
     | GraphUnreachable
     | InvalidParameter
   > {
-    return this.fetch({
+    return this.request({
       url: '/{dataSourceKey}/graph/query',
       method: 'GET',
       dataSource: dataSourceKey,
       query: data,
-    })
-      .then((response: Array<IGraphQuery>) => {
-        return new Success(response);
-      })
-      .catch(
-        (error) =>
-          new Rejection(error) as
-            | Unauthorized
-            | GuestDisabled
-            | Forbidden
-            | BadGraphRequest
-            | ConstraintViolation
-            | GraphRequestTimeout
-            | DataSourceUnavailable
-            | GraphUnreachable
-            | InvalidParameter
-      );
+    }) as Promise<
+      | Success<Array<IGraphQuery>>
+      | Unauthorized
+      | GuestDisabled
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
   }
 
   /**
@@ -173,41 +165,50 @@ export class GraphModule extends Module {
       withDegree: data.withDegree,
       withAccess: data.withAccess,
     };
-    return this.fetch({
+    return this.request<
+      {
+        nodes: Array<INode>;
+        edges: Array<IEdge>;
+        truncatedByLimit: boolean;
+        truncatedByAccess: boolean;
+      },
+      {
+        nodes: Array<IOgmaNode>;
+        edges: Array<IOgmaEdge>;
+        truncatedByLimit: boolean;
+        truncatedByAccess: boolean;
+      }
+    >({
       url: '/{dataSourceKey}/graph/run/query',
       method: 'POST',
       body: body,
       query: query,
       dataSource: dataSourceKey,
-    })
-      .then(
-        (response: {
-          nodes: Array<INode>;
-          edges: Array<IEdge>;
+      transform: (res) => {
+        return {
+          nodes: res.nodes.map((n) => VisualizationParser.parseNode(n)),
+          edges: res.edges.map((e) => VisualizationParser.parseEdge(e)),
+          truncatedByLimit: res.truncatedByLimit,
+          truncatedByAccess: res.truncatedByAccess,
+        };
+      },
+    }) as Promise<
+      | Success<{
+          nodes: Array<IOgmaNode>;
+          edges: Array<IOgmaEdge>;
           truncatedByLimit: boolean;
           truncatedByAccess: boolean;
-        }) => {
-          return new Success({
-            nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-            edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
-            truncatedByLimit: response.truncatedByLimit,
-            truncatedByAccess: response.truncatedByAccess,
-          });
-        }
-      )
-      .catch(
-        (error) =>
-          new Rejection(error) as
-            | Unauthorized
-            | GuestDisabled
-            | Forbidden
-            | BadGraphRequest
-            | ConstraintViolation
-            | GraphRequestTimeout
-            | DataSourceUnavailable
-            | GraphUnreachable
-            | InvalidParameter
-      );
+        }>
+      | Unauthorized
+      | GuestDisabled
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
   }
 
   /**
@@ -254,41 +255,50 @@ export class GraphModule extends Module {
       withAccess: data.withAccess,
       withDigest: data.withDigest,
     };
-    return this.fetch({
+    return this.request<
+      {
+        nodes: Array<INode>;
+        edges: Array<IEdge>;
+        truncatedByLimit: boolean;
+        truncatedByAccess: boolean;
+      },
+      {
+        nodes: Array<IOgmaNode>;
+        edges: Array<IOgmaEdge>;
+        truncatedByLimit: boolean;
+        truncatedByAccess: boolean;
+      }
+    >({
       url: '/{dataSourceKey}/graph/run/query/{id}',
       method: 'POST',
       query: query,
       body: body,
       dataSource: dataSourceKey,
-    })
-      .then(
-        (response: {
-          nodes: Array<INode>;
-          edges: Array<IEdge>;
+      transform: (res) => {
+        return {
+          nodes: res.nodes.map((n) => VisualizationParser.parseNode(n)),
+          edges: res.edges.map((e) => VisualizationParser.parseEdge(e)),
+          truncatedByLimit: res.truncatedByLimit,
+          truncatedByAccess: res.truncatedByAccess,
+        };
+      },
+    }) as Promise<
+      | Success<{
+          nodes: Array<IOgmaNode>;
+          edges: Array<IOgmaEdge>;
           truncatedByLimit: boolean;
           truncatedByAccess: boolean;
-        }) => {
-          return new Success({
-            nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-            edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
-            truncatedByLimit: response.truncatedByLimit,
-            truncatedByAccess: response.truncatedByAccess,
-          });
-        }
-      )
-      .catch(
-        (error) =>
-          new Rejection(error) as
-            | Unauthorized
-            | GuestDisabled
-            | Forbidden
-            | BadGraphRequest
-            | ConstraintViolation
-            | GraphRequestTimeout
-            | DataSourceUnavailable
-            | GraphUnreachable
-            | InvalidParameter
-      );
+        }>
+      | Unauthorized
+      | GuestDisabled
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
   }
 
   /**
@@ -311,25 +321,22 @@ export class GraphModule extends Module {
     | GraphUnreachable
     | InvalidParameter
   > {
-    return this.fetch({
+    return this.request({
       url: '/{dataSourceKey}/graph/check/query',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
-    })
-      .then((response) => new Success(response))
-      .catch(
-        (error) =>
-          new Rejection(error) as
-            | Unauthorized
-            | Forbidden
-            | BadGraphRequest
-            | ConstraintViolation
-            | GraphRequestTimeout
-            | DataSourceUnavailable
-            | GraphUnreachable
-            | InvalidParameter
-      );
+    }) as Promise<
+      | Success<{ write: boolean; type: 'static' | 'template' }>
+      | Unauthorized
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
   }
 
   /**
@@ -367,36 +374,35 @@ export class GraphModule extends Module {
       timeout: data.timeout,
       columns: data.columns,
     };
-    return this.fetch({
+    return this.request<
+      { results: Array<{ nodes: Array<INode>; edges: Array<IEdge>; columns: any }> },
+      Array<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>; columns: any }>
+    >({
       url: '/{dataSourceKey}/graph/alertPreview',
       method: 'POST',
       body: body,
       dataSource: dataSourceKey,
-    })
-      .then((response) => {
-        return new Success(
-          response.results.map((result: any) => {
-            return {
-              nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-              edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
-              columns: result.columns,
-            };
-          })
-        );
-      })
-      .catch(
-        (error) =>
-          new Rejection(error) as
-            | Unauthorized
-            | GuestDisabled
-            | Forbidden
-            | BadGraphRequest
-            | ConstraintViolation
-            | GraphRequestTimeout
-            | DataSourceUnavailable
-            | GraphUnreachable
-            | InvalidParameter
-      );
+      transform: (res) => {
+        return res.results.map((result) => {
+          return {
+            nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+            edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+            columns: result.columns,
+          };
+        });
+      },
+    }) as Promise<
+      | Success<Array<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>; columns: any }>>
+      | Unauthorized
+      | GuestDisabled
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
   }
 
   /**
@@ -426,27 +432,22 @@ export class GraphModule extends Module {
     | GraphUnreachable
     | InvalidParameter
   > {
-    return this.fetch({
+    return this.request({
       url: '/{dataSourceKey}/graph/query',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
-    })
-      .then((response: IGraphQuery) => {
-        return new Success(response);
-      })
-      .catch(
-        (error) =>
-          new Rejection(error) as
-            | Unauthorized
-            | Forbidden
-            | BadGraphRequest
-            | ConstraintViolation
-            | GraphRequestTimeout
-            | DataSourceUnavailable
-            | GraphUnreachable
-            | InvalidParameter
-      );
+    }) as Promise<
+      | Success<IGraphQuery>
+      | Unauthorized
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
   }
 
   /**
@@ -477,25 +478,22 @@ export class GraphModule extends Module {
     | GraphUnreachable
     | InvalidParameter
   > {
-    return this.fetch({
+    return this.request({
       url: '/{dataSourceKey}/graph/query/{id}',
       method: 'PATCH',
       body: data,
       dataSource: dataSourceKey,
-    })
-      .then(() => new Success(undefined))
-      .catch(
-        (error) =>
-          new Rejection(error) as
-            | Unauthorized
-            | Forbidden
-            | BadGraphRequest
-            | ConstraintViolation
-            | GraphRequestTimeout
-            | DataSourceUnavailable
-            | GraphUnreachable
-            | InvalidParameter
-      );
+    }) as Promise<
+      | Success<void>
+      | Unauthorized
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
   }
 
   /**
@@ -505,13 +503,11 @@ export class GraphModule extends Module {
     data: { id: number },
     dataSourceKey?: string
   ): Promise<Success<void> | Unauthorized | Forbidden | InvalidParameter | NotFound> {
-    return this.fetch({
+    return this.request({
       url: '/{dataSourceKey}/graph/query/{id}',
       method: 'DELETE',
       dataSource: dataSourceKey,
       body: data,
-    })
-      .then(() => new Success(undefined))
-      .catch((error) => new Rejection(error) as Unauthorized | Forbidden | InvalidParameter | NotFound);
+    }) as Promise<Success<void> | Unauthorized | Forbidden | InvalidParameter | NotFound>;
   }
 }

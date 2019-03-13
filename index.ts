@@ -10,7 +10,7 @@
 
 'use strict';
 
-import { Linkurious } from './src/index';
+import { Linkurious } from './src';
 import { Fetcher } from './src/http/fetcher';
 import { FetcherFactory } from './src/http/FetcherFactory';
 import { Logger } from './src/log/Logger';
@@ -42,8 +42,21 @@ export type TypeAccessRight = 'writable' | 'readable' | 'editable' | 'none';
 
 export type IIndexationCallback = (res: IIndexationStatus) => void;
 
+export interface FetcherConfig {
+  url: string;
+  method: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH';
+  ignoreContentType?: boolean;
+  dataSource?: string | number;
+  body?: { [key: string]: unknown };
+  query?: { [key: string]: unknown };
+}
+
+export interface RequestConfig<R, T> extends FetcherConfig {
+  transform?: (r: R) => T;
+}
+
 export interface IClientState {
-  user: IFullUser;
+  user: IFullUser | undefined;
   currentSource: IDataSourceState;
   guestMode: boolean;
 }
@@ -66,6 +79,8 @@ export interface IIdentifiedItemList {
 
 export interface IItem extends IIdentifiedItem {
   data: any;
+  source?: ItemId;
+  target?: ItemId;
 }
 
 export interface IEdge extends IItem {
@@ -466,9 +481,9 @@ export interface INodeCoordinates {
 }
 
 export interface ISandBox {
-  design?: IVisualizationDesign;
-  nodeFields?: IItemFields;
-  edgeFields?: IItemFields;
+  design: IVisualizationDesign;
+  nodeFields: IItemFields;
+  edgeFields: IItemFields;
 }
 
 export interface IServerVisualization extends ISandBox, IIdentified {
