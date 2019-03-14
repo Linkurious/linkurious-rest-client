@@ -597,7 +597,7 @@ describe('Linkurious class', () => {
         })
         .then(function(res) {
           expect(res).to.eql('user disconnected');
-          expect(linkurious.state.user).to.eql('');
+          expect(linkurious.state.user).to.be.undefined;
         });
     });
   });
