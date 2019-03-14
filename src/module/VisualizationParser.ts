@@ -114,11 +114,4 @@ export class VisualizationParser {
       edges: Array.from(me.values()),
     };
   }
-
-  /**
-   * Return true if an item is a node
-   */
-  public static isNode(item: IItem): item is INode {
-    return item.target === undefined && item.source === undefined;
-  }
 }
