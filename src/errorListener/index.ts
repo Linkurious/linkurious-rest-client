@@ -11,21 +11,20 @@
 'use strict';
 
 import { Rejection } from '../response/errors';
+import { LinkuriousError } from '../LinkuriousError';
 
 type EventCallback = (e: Rejection) => unknown;
 
 export class ErrorListener {
-  private _triggerListen: EventCallback | undefined;
+  private _triggerListen: EventCallback | undefined = undefined;
 
-  constructor() {
-    this._triggerListen = undefined;
-  }
+  constructor() {}
 
   /**
    * Trigger the listener when a new error is catch
    */
-  public catch(e: Rejection): void {
-    if (this._triggerListen !== undefined) {
+  public dispatch(e: Rejection): void {
+    if (this._triggerListen !== undefined && typeof this._triggerListen === 'function') {
       this._triggerListen(e);
     }
   }
@@ -33,7 +32,11 @@ export class ErrorListener {
   /**
    * Store the method defined
    */
-  public listen(fn: EventCallback): void {
-    this._triggerListen = fn;
+  public setErrorListener(fn: EventCallback): void {
+    if (this._triggerListen !== undefined) {
+      throw LinkuriousError.fromClientError('bug', 'You cannot set more than on error listener');
+    } else {
+      this._triggerListen = fn;
+    }
   }
 }

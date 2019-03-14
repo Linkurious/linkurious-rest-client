@@ -33,6 +33,7 @@ import {
 } from '../index';
 import { Transformer } from './transformer';
 import { ErrorListener } from './errorListener';
+import { Rejection } from './response/errors';
 
 export class Linkurious {
   private readonly _fetcher: Fetcher;
@@ -82,8 +83,8 @@ export class Linkurious {
   /**
    * @returns {Function}
    */
-  get listenErrors(): Function {
-    return this._errorListener.listen;
+  setErrorListener(fn: (e: Rejection) => unknown): void {
+    this._errorListener.setErrorListener(fn);
   }
 
   /**
