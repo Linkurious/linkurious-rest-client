@@ -35,14 +35,22 @@ import {
   Rejection,
   Unauthorized,
 } from '../response/errors';
+import { Transformer } from '../transformer';
+import { ErrorListener } from '../errorListener';
 
 export class AdminModule extends Module {
   private _logger: Logger;
   private _clientState: IClientState;
   private _timer: any;
 
-  constructor(fetcher: Fetcher, logger: Logger, clientState: IClientState) {
-    super(fetcher);
+  constructor(
+    fetcher: Fetcher,
+    transformer: Transformer,
+    errorListener: ErrorListener,
+    logger: Logger,
+    clientState: IClientState
+  ) {
+    super(fetcher, transformer, errorListener);
 
     this._logger = <Logger>logger;
     this._clientState = <IClientState>clientState;
@@ -286,17 +294,12 @@ export class AdminModule extends Module {
     data: { name: string },
     dataSourceKey?: string
   ): Promise<Success<IGroup> | Unauthorized | DataSourceUnavailable | InvalidParameter | GroupExists | Forbidden> {
-    return this.fetch({
+    return this.request({
       url: '/admin/{dataSourceKey}/groups',
       method: 'POST',
       body: data,
       dataSource: dataSourceKey,
-    })
-      .then((response: IGroup) => new Success(response))
-      .catch(
-        (error) =>
-          new Rejection(error) as Unauthorized | DataSourceUnavailable | InvalidParameter | GroupExists | Forbidden
-      );
+    }) as Promise<Success<IGroup> | Unauthorized | DataSourceUnavailable | InvalidParameter | GroupExists | Forbidden>;
   }
 
   /**
@@ -308,14 +311,12 @@ export class AdminModule extends Module {
     },
     dataSourceKey?: string
   ): Promise<Success<void> | Unauthorized | InvalidParameter | NotFound | Forbidden> {
-    return this.fetch({
+    return this.request({
       url: '/admin/{dataSourceKey}/groups/{id}',
       method: 'DELETE',
       body: data,
       dataSource: dataSourceKey,
-    })
-      .then(() => new Success(undefined))
-      .catch((error) => new Rejection(error) as Unauthorized | InvalidParameter | NotFound | Forbidden);
+    }) as Promise<Success<void> | Unauthorized | InvalidParameter | NotFound | Forbidden>;
   }
 
   /**
@@ -328,14 +329,12 @@ export class AdminModule extends Module {
     },
     dataSourceKey?: string
   ): Promise<Success<void> | Unauthorized | NotFound | Forbidden | InvalidParameter> {
-    return this.fetch({
+    return this.request({
       url: '/admin/{dataSourceKey}/groups/{id}',
       method: 'PATCH',
       body: data,
       dataSource: dataSourceKey,
-    })
-      .then((response) => new Success(response))
-      .catch((error) => new Rejection(error) as Unauthorized | NotFound | Forbidden | InvalidParameter);
+    }) as Promise<Success<void> | Unauthorized | NotFound | Forbidden | InvalidParameter>;
   }
 
   /**
@@ -347,14 +346,12 @@ export class AdminModule extends Module {
     },
     dataSourceKey?: string
   ): Promise<Success<IGroup> | Unauthorized | InvalidParameter | Forbidden | NotFound> {
-    return this.fetch({
+    return this.request({
       url: '/admin/{dataSourceKey}/groups/{id}',
       method: 'GET',
       query: data,
       dataSource: dataSourceKey,
-    })
-      .then((response: IGroup) => new Success(response))
-      .catch((error) => new Rejection(error) as Unauthorized | InvalidParameter | Forbidden | NotFound);
+    }) as Promise<Success<IGroup> | Unauthorized | InvalidParameter | Forbidden | NotFound>;
   }
 
   /**
@@ -366,26 +363,22 @@ export class AdminModule extends Module {
     },
     dataSourceKey?: string
   ): Promise<Success<Array<IGroup>> | Unauthorized | Forbidden> {
-    return this.fetch({
+    return this.request({
       url: '/admin/{dataSourceKey}/groups',
       method: 'GET',
       query: data,
       dataSource: dataSourceKey,
-    })
-      .then((response: Array<IGroup>) => new Success(response))
-      .catch((error) => new Rejection(error) as Unauthorized | Forbidden);
+    }) as Promise<Success<Array<IGroup>> | Unauthorized | Forbidden>;
   }
 
   /**
    * Get possible targetType, type and action names.
    */
   public getGroupsRights(): Promise<Success<IGroupRights> | Unauthorized | Forbidden> {
-    return this.fetch({
+    return this.request({
       url: '/admin/groups/rights_info',
       method: 'GET',
-    })
-      .then((response: IGroupRights) => new Success(response))
-      .catch((error) => new Rejection(error) as Unauthorized | Forbidden);
+    }) as Promise<Success<IGroupRights> | Unauthorized | Forbidden>;
   }
 
   /**
@@ -398,14 +391,12 @@ export class AdminModule extends Module {
     },
     dataSourceKey?: string
   ): Promise<Success<void> | Unauthorized | InvalidParameter | NotFound | Forbidden> {
-    return this.fetch({
+    return this.request({
       url: '/admin/{dataSourceKey}/groups/{id}/access_rights',
       method: 'PUT',
       body: data,
       dataSource: dataSourceKey,
-    })
-      .then(() => new Success(undefined))
-      .catch((error) => new Rejection(error) as Unauthorized | InvalidParameter | NotFound | Forbidden);
+    }) as Promise<Success<void> | Unauthorized | InvalidParameter | NotFound | Forbidden>;
   }
 
   /**

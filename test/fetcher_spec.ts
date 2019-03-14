@@ -46,7 +46,16 @@ describe('Fetcher class', () => {
       logger,
       {
         user: undefined,
-        currentSource: { name: 'Database #0', key: '66a2bc71', configIndex: 0 },
+        currentSource: {
+          name: 'Database #0',
+          key: '66a2bc71',
+          configIndex: 0,
+          connected: true,
+          state: '',
+          reason: '',
+          features: {},
+          settings: {},
+        },
         guestMode: false,
       },
       'http://127.0.0.1:3001'

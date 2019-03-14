@@ -7,13 +7,23 @@
  * File:
  * Description :
  */
+
 'use strict';
 
-import { IHttpDriver, IHttpResponse, IFetchConfig, IDataToSend, IFetcherClientState } from '../../index';
+import {
+  IHttpDriver,
+  IHttpResponse,
+  IFetchConfig,
+  IDataToSend,
+  IFetcherClientState,
+  FetcherConfig,
+  IClientState,
+} from '../../index';
 import { LinkuriousError } from '../LinkuriousError';
 import { DefaultHttpDriver } from './DefaultHttpDriver';
 import { Logger } from '../log/Logger';
 import { Utils } from './utils';
+import { Tools } from 'linkurious-shared';
 
 export class Fetcher {
   private static SOURCE_KEY_TEMPLATE: string = '{dataSourceKey}';
@@ -22,51 +32,27 @@ export class Fetcher {
   protected _httpDriver: IHttpDriver;
   private _logger: Logger;
   private readonly _baseUrl: string;
-  private _clientState: IFetcherClientState;
+  private _clientState: IClientState;
   private readonly _baseApiURL: string;
 
-  constructor(logger: Logger, clientState: IFetcherClientState, baseUrl: string, httpDriver?: IHttpDriver) {
+  constructor(logger: Logger, clientState: IClientState, baseUrl: string, httpDriver?: IHttpDriver) {
     this._httpDriver = httpDriver ? httpDriver : new DefaultHttpDriver();
     this._logger = logger;
     this._clientState = clientState;
-    this._baseUrl = baseUrl.endsWith('/') ? baseUrl : (baseUrl + '/');
+    this._baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
     this._baseApiURL = this._baseUrl + 'api';
   }
 
   /**
    * HTTPDriver wrapper method
-   *
-   * @param {IFetchConfig} configData
-   * @returns {Promise.<*>} the response body
    */
-  public fetch(configData: {
-    url: string;
-    method: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH';
-    ignoreContentType?: boolean;
-    dataSource?: string | number;
-    body?: any;
-    query?: any;
-  }): Promise<any> {
+  public fetch(configData: FetcherConfig): Promise<any> {
     let config: IFetchConfig = JSON.parse(JSON.stringify(configData));
+    let cachedQuery: { [key: string]: unknown } = configData.query ? Tools.clone(configData.query) : {};
+    cachedQuery._ = Date.now();
 
     if (this._clientState.guestMode) {
-      if (!configData.query) {
-        configData.query = {
-          guest: true,
-        };
-      } else {
-        configData.query.guest = true;
-      }
-    }
-
-    let cachedQuery: any;
-    if (!configData.query) {
-      cachedQuery = {
-        _: Date.now(),
-      };
-    } else {
-      cachedQuery = JSON.parse(JSON.stringify(configData.query));
-      cachedQuery._ = Date.now();
+      cachedQuery.guest = true;
     }
 
     let data: IDataToSend = {
@@ -121,10 +107,6 @@ export class Fetcher {
 
   /**
    * transform url to add current source key or a specific source key if exists in config
-   *
-   * @param url
-   * @param explicitSource
-   * @return {string}
    */
   private addSourceKeyToUrl(url: string, explicitSource?: string | number): string {
     if (explicitSource && typeof explicitSource === 'string') {
@@ -145,10 +127,6 @@ export class Fetcher {
 
   /**
    * transform url to add current source index or a specific source index if exists in config
-   *
-   * @param url
-   * @param explicitSource
-   * @return {string}
    */
   private addSourceIndexToUrl(url: string, explicitSource?: string | number): string {
     if (explicitSource && typeof explicitSource === 'number') {
@@ -171,11 +149,6 @@ export class Fetcher {
 
   /**
    * transform url to add id
-   *
-   * @param url
-   * @param body
-   * @param query
-   * @return {string}
    */
   private handleIdInUrl(url: string, body: any, query: any): string {
     if (body) {
@@ -195,10 +168,6 @@ export class Fetcher {
 
   /**
    * parse url and return transformed url
-   *
-   * @param config
-   * @param data
-   * @return {string}
    */
   private transformUrl(config: IFetchConfig, data: IDataToSend): string {
     if (config.url.indexOf(Fetcher.OBJECT_ID_TEMPLATE) >= 0) {

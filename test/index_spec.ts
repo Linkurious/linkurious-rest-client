@@ -597,7 +597,7 @@ describe('Linkurious class', () => {
         })
         .then(function(res) {
           expect(res).to.eql('user disconnected');
-          expect(linkurious.state.user).to.be.undefined;
+          expect(linkurious.state.user).to.eql('');
         });
     });
   });
@@ -951,7 +951,7 @@ describe('Linkurious class', () => {
     it('must return true', () => {
       return linkurious.admin.deleteGroup({ id: groupId }, sourceKey).then((success) => {
         if (success.isSuccess()) {
-          expect(success.response).to.be.undefined;
+          expect(success.response).to.eql('');
         }
       });
     });

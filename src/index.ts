@@ -31,31 +31,28 @@ import {
   ISchema,
   IClientState,
 } from '../index';
+import { Transformer } from './transformer';
+import { ErrorListener } from './errorListener';
 
 export class Linkurious {
-  private _fetcher: Fetcher;
-  private _clientState: IClientState;
-  private _logger: Logger;
-  private _admin: AdminModule;
-  private _my: MyModule;
-  private _edge: EdgeModule;
-  private _graph: GraphModule;
-  private _node: NodeModule;
-  private _search: SearchModule;
-  private _visualization: VisualizationModule;
-  private _alert: AlertModule;
+  private readonly _fetcher: Fetcher;
+  private readonly _transformer: Transformer;
+  private readonly _errorListener: ErrorListener;
+  private readonly _clientState: IClientState;
+  private readonly _logger: Logger;
+  private readonly _admin: AdminModule;
+  private readonly _my: MyModule;
+  private readonly _edge: EdgeModule;
+  private readonly _graph: GraphModule;
+  private readonly _node: NodeModule;
+  private readonly _search: SearchModule;
+  private readonly _visualization: VisualizationModule;
+  private readonly _alert: AlertModule;
 
   get state(): IClientState {
     return this._clientState;
   }
 
-  /**
-   *
-   * @param {string} baseUrl        - Base URL of the linkurious server
-   * @param {string} logLevel       - Level of log wanted
-   * @param {object} [loggerDriver] - logger object
-   * @param {FetcherFactory} [fetcherFactory] - fetcher factory
-   */
   constructor(baseUrl: string, logLevel: LogLevel, loggerDriver?: ILoggerDriver, fetcherFactory?: FetcherFactory) {
     this._clientState = <IClientState>{};
     this._clientState.guestMode = false;
@@ -64,15 +61,29 @@ export class Linkurious {
       fetcherFactory = new FetcherFactory();
     }
     this._fetcher = fetcherFactory.create(this._logger, this._clientState, baseUrl);
+    this._transformer = new Transformer();
+    this._errorListener = new ErrorListener();
+    this._admin = new AdminModule(
+      this._fetcher,
+      this._transformer,
+      this._errorListener,
+      this._logger,
+      this._clientState
+    );
+    this._my = new MyModule(this._fetcher, this._transformer, this._errorListener);
+    this._graph = new GraphModule(this._fetcher, this._transformer, this._errorListener);
+    this._edge = new EdgeModule(this._fetcher, this._transformer, this._errorListener);
+    this._node = new NodeModule(this._fetcher, this._transformer, this._errorListener);
+    this._search = new SearchModule(this._fetcher, this._transformer, this._errorListener);
+    this._visualization = new VisualizationModule(this._fetcher, this._transformer, this._errorListener);
+    this._alert = new AlertModule(this._fetcher, this._transformer, this._errorListener);
+  }
 
-    this._admin = new AdminModule(this._fetcher, this._logger, this._clientState);
-    this._my = new MyModule(this._fetcher);
-    this._graph = new GraphModule(this._fetcher);
-    this._edge = new EdgeModule(this._fetcher);
-    this._node = new NodeModule(this._fetcher);
-    this._search = new SearchModule(this._fetcher);
-    this._visualization = new VisualizationModule(this._fetcher);
-    this._alert = new AlertModule(this._fetcher);
+  /**
+   * @returns {Function}
+   */
+  get listenErrors(): Function {
+    return this._errorListener.listen;
   }
 
   /**
@@ -300,13 +311,13 @@ export class Linkurious {
    */
   public storeDefaultCurrentSource(
     sourceList: Array<{
+      name: string;
+      key: string;
+      configIndex: number;
       connected: boolean;
       state: string;
       reason: string;
       error?: string;
-      name: string;
-      key: string;
-      configIndex: number;
       features: any;
       settings: any;
     }>
@@ -480,7 +491,7 @@ export class Linkurious {
     source: IDataSourceState,
     property: string,
     matchValue: string | number | boolean
-  ): IDataSourceState {
+  ): IDataSourceState | undefined {
     if ((<any>source)[property] === matchValue) {
       this._clientState.currentSource = {
         name: source.name,

@@ -7,18 +7,17 @@
  * File:
  * Description :
  */
+
 'use strict';
 import { Module } from './Module';
 import { IMatch, IMatchAction, IAlert, IMatchResults } from '../../index';
 import { Fetcher } from '../http/fetcher';
+import { Transformer } from '../transformer';
+import { ErrorListener } from '../errorListener';
 
 export class AlertModule extends Module {
-  /**
-   *
-   * @param {Fetcher} fetcher
-   */
-  constructor(fetcher: Fetcher) {
-    super(fetcher);
+  constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
+    super(fetcher, transformer, errorListener);
   }
 
   /**

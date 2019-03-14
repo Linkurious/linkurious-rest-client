@@ -13,7 +13,7 @@
 import { ServerResponse } from './index';
 
 export class Success<T> extends ServerResponse<'success'> {
-  public response: T;
+  public response: T | undefined;
 
   constructor(response: T) {
     super('success');

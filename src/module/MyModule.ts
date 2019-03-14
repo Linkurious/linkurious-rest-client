@@ -15,10 +15,12 @@ import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { Success } from '../response/success';
 import { Forbidden, Rejection, Unauthorized } from '../response/errors';
+import { Transformer } from '../transformer';
+import { ErrorListener } from '../errorListener';
 
 export class MyModule extends Module {
-  constructor(fetcher: Fetcher) {
-    super(fetcher);
+  constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
+    super(fetcher, transformer, errorListener);
   }
 
   /**
@@ -105,13 +107,11 @@ export class MyModule extends Module {
     },
     dataSourceKey?: string
   ): Promise<Success<Array<IBaseGroup>> | Unauthorized | Forbidden> {
-    return this.fetch({
+    return this.request({
       url: '/{dataSourceKey}/groups',
       method: 'GET',
       query: data,
       dataSource: dataSourceKey,
-    })
-      .then((response: Array<IBaseGroup>) => new Success(response))
-      .catch((error) => new Rejection(error) as Unauthorized | Forbidden);
+    }) as Promise<Success<Array<IBaseGroup>> | Unauthorized | Forbidden>;
   }
 }
