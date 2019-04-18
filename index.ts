@@ -24,7 +24,7 @@ import {
   NodeTemplate,
   NumberTemplate,
   StringTemplate,
-} from 'linkurious-shared';
+} from 'linkurious-shared/fesm5';
 
 export type indexingStatus = 'ongoing' | 'needed' | 'done' | 'unknown';
 export type EdgeOrientation = 'in' | 'out' | 'both';

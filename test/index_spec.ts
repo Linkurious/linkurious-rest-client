@@ -722,6 +722,48 @@ describe('Linkurious class', () => {
     });
   });
 
+  let visuToDelete: number;
+
+  describe('duplicate visu method', () => {
+    it('must return the created visu', () => {
+      linkurious
+        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .then(function() {
+          return linkurious.visualization.duplicate({ id: visu.id, title: 'Copy of newVizuTest' });
+        })
+        .then((res) => {
+          visuToDelete = res.visualizationId;
+        });
+    });
+  });
+
+  describe('delete a visu method', () => {
+    it('must delete a visu', () => {
+      linkurious
+        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .then(function() {
+          return linkurious.visualization.deleteOne({ id: visuToDelete });
+        })
+        .then((res: any) => {
+          expect(res).toBe('');
+        });
+    }).timeout(5000);
+  });
+
+  describe('get share rights of a visu method', () => {
+    it('must return sharers', () => {
+      linkurious
+        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .then(function() {
+          return linkurious.visualization.getShares({ id: visu.id });
+        })
+        .then((res: any) => {
+          expect(res.shares.length).toEqual(0);
+          expect(res.owner.id).toEqual(116);
+        });
+    }).timeout(5000);
+  });
+
   describe('get a visu method', () => {
     it('must return a visu', () => {
       return linkurious
@@ -1344,8 +1386,6 @@ describe('Linkurious class', () => {
         });
     });
   });
-
-  let visuToDelete: number;
 
   describe('duplicate visu method', () => {
     it('must return the created visu', () => {
