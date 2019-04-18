@@ -10,119 +10,333 @@
 
 'use strict';
 
-import { IEdge, IFullNode, INode, IOgmaEdge, IOgmaNode } from '../../index';
+import { IEdge, IGraphQuery, INode, IOgmaEdge, IOgmaNode } from '../../index';
 import { Module } from './Module';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
+import { Success } from '../response/success';
+import {
+  BadGraphRequest,
+  ConstraintViolation,
+  DataSourceUnavailable,
+  Forbidden,
+  GraphRequestTimeout,
+  GraphUnreachable,
+  GuestDisabled,
+  InvalidParameter,
+  NotFound,
+  Rejection,
+  Unauthorized,
+} from '../response/errors';
+import { Transformer } from '../transformer';
+import { ErrorListener } from '../errorListener';
 
 export class GraphModule extends Module {
-  constructor ( fetcher:Fetcher ) {
-    super(fetcher);
+  constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
+    super(fetcher, transformer, errorListener);
   }
 
   /**
-   * Returns an array of <LkNode[]> corresponding to all the shortest paths between two nodes that the user can read.
+   * Returns a saved GraphModule Query owned by the current user
    *
    * @param {Object} data
-   * @param {string} dataSourceKey
-   * @returns {Promise<Array<Array<IFullNode|IEdge>>>}
+   * @param {string}dataSourceKey
+   * @returns {Promise<IGraphQuery>}
    */
-  public getShortestPaths (
-    data:{
-      startNode:string|number;
-      endNode:string|number;
-      maxDepth ?:number;
-      edgesTo?:boolean;
-      withDigest ?:boolean;
-      withDegree?:boolean;
+  public getGraphQuery(
+    data: {
+      id: number;
     },
-    dataSourceKey?:string
-  ):Promise<{results:Array<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>}>}> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/shortestPaths',
-        method: 'POST',
-        query : data,
-        dataSource : dataSourceKey
-      }
-    ).then(( res:any ) => {
-      return {
-        results: res.results.map((result:{nodes:Array<INode>; edges:Array<IEdge>}) => {
-          return {
-            nodes: result.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
-            edges: result.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
-          };
-        })
-      };
-    });
+    dataSourceKey?: string
+  ): Promise<
+    | Success<IGraphQuery>
+    | Unauthorized
+    | GuestDisabled
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    return this.request({
+      url: '/{dataSourceKey}/graph/query/{id}',
+      method: 'GET',
+      query: data,
+      dataSource: dataSourceKey,
+    }) as Promise<
+      | Success<IGraphQuery>
+      | Unauthorized
+      | GuestDisabled
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
+  }
+
+  /**
+   * Returns all saved GraphModule Queries owned by the current user
+   *
+   * @param {{ type:'static'|'template'}} data
+   * @param {string} dataSourceKey
+   * @returns {Promise<Array<IGraphQuery>>}
+   */
+  public getAllGraphQueries(
+    data: { type: 'static' | 'template' },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<Array<IGraphQuery>>
+    | Unauthorized
+    | GuestDisabled
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    return this.request({
+      url: '/{dataSourceKey}/graph/query',
+      method: 'GET',
+      dataSource: dataSourceKey,
+      query: data,
+    }) as Promise<
+      | Success<Array<IGraphQuery>>
+      | Unauthorized
+      | GuestDisabled
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
   }
 
   /**
    * Run a static or template query
-   *
-   * @param {any} data
-   * @param {string} dataSourceKey
-   * @returns {Promise<any>}
    */
-  public runQuery(data:{
-    query:string;
-    dialect?:string;
-    limit?:number;
-    timeout?:number,
-    edgesTo?:Array<string|number>;
-    withAccess?:boolean;
-    withDegree?:boolean;
-    withDigest?:boolean;
-    templateData?:any;
-  }, dataSourceKey?:string):Promise<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>}> {
-    let body:any = {
+  public run(
+    data: {
+      query: string;
+      dialect?: string;
+      limit?: number;
+      timeout?: number;
+      edgesTo?: Array<string | number>;
+      withAccess?: boolean;
+      withDegree?: boolean;
+      withDigest?: boolean;
+      templateData?: any;
+    },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<{
+        nodes: Array<IOgmaNode>;
+        edges: Array<IOgmaEdge>;
+        truncatedByLimit: boolean;
+        truncatedByAccess: boolean;
+      }>
+    | Unauthorized
+    | GuestDisabled
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    let body: any = {
       dialect: data.dialect,
       query: data.query,
       limit: data.limit,
       timeout: data.timeout,
-      templateData: data.templateData
+      templateData: data.templateData,
     };
-    let query:any = {
-      withDigest : data.withDigest,
-      withDegree : data.withDegree,
-      withAccess : data.withAccess
+    let query: any = {
+      withDigest: data.withDigest,
+      withDegree: data.withDegree,
+      withAccess: data.withAccess,
     };
-    return this.fetch(
+    return this.request<
       {
-        url   : '/{dataSourceKey}/graph/runQuery',
-        method: 'POST',
-        body  : body,
-        query : query,
-        dataSource : dataSourceKey
+        nodes: Array<INode>;
+        edges: Array<IEdge>;
+        truncatedByLimit: boolean;
+        truncatedByAccess: boolean;
+      },
+      {
+        nodes: Array<IOgmaNode>;
+        edges: Array<IOgmaEdge>;
+        truncatedByLimit: boolean;
+        truncatedByAccess: boolean;
       }
-    ).then((response:any) => {
+    >({
+      url: '/{dataSourceKey}/graph/run/query',
+      method: 'POST',
+      body: body,
+      query: query,
+      dataSource: dataSourceKey,
+      transform: (res) => {
         return {
-          nodes: response.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
-          edges: response.edges.map((e:IEdge) => VisualizationParser.parseEdge(e))
+          nodes: res.nodes.map((n) => VisualizationParser.parseNode(n)),
+          edges: res.edges.map((e) => VisualizationParser.parseEdge(e)),
+          truncatedByLimit: res.truncatedByLimit,
+          truncatedByAccess: res.truncatedByAccess,
         };
+      },
+    }) as Promise<
+      | Success<{
+          nodes: Array<IOgmaNode>;
+          edges: Array<IOgmaEdge>;
+          truncatedByLimit: boolean;
+          truncatedByAccess: boolean;
+        }>
+      | Unauthorized
+      | GuestDisabled
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
+  }
+
+  /**
+   * Run a static or template query
+   */
+  public runById(
+    data: {
+      id: number;
+      limit?: number;
+      timeout?: number;
+      edgesTo?: Array<string | number>;
+      templateData?: any;
+      withDegree?: boolean;
+      withAccess?: boolean;
+      withDigest?: boolean;
+    },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<{
+        nodes: Array<IOgmaNode>;
+        edges: Array<IOgmaEdge>;
+        truncatedByLimit: boolean;
+        truncatedByAccess: boolean;
+      }>
+    | Unauthorized
+    | GuestDisabled
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    const body: any = {
+      id: data.id,
+      limit: data.limit,
+      timeout: data.timeout,
+      edgesTo: data.edgesTo,
+      templateData: data.templateData,
+    };
+    const query: any = {
+      withDegree: data.withDegree,
+      withAccess: data.withAccess,
+      withDigest: data.withDigest,
+    };
+    return this.request<
+      {
+        nodes: Array<INode>;
+        edges: Array<IEdge>;
+        truncatedByLimit: boolean;
+        truncatedByAccess: boolean;
+      },
+      {
+        nodes: Array<IOgmaNode>;
+        edges: Array<IOgmaEdge>;
+        truncatedByLimit: boolean;
+        truncatedByAccess: boolean;
       }
-    );
+    >({
+      url: '/{dataSourceKey}/graph/run/query/{id}',
+      method: 'POST',
+      query: query,
+      body: body,
+      dataSource: dataSourceKey,
+      transform: (res) => {
+        return {
+          nodes: res.nodes.map((n) => VisualizationParser.parseNode(n)),
+          edges: res.edges.map((e) => VisualizationParser.parseEdge(e)),
+          truncatedByLimit: res.truncatedByLimit,
+          truncatedByAccess: res.truncatedByAccess,
+        };
+      },
+    }) as Promise<
+      | Success<{
+          nodes: Array<IOgmaNode>;
+          edges: Array<IOgmaEdge>;
+          truncatedByLimit: boolean;
+          truncatedByAccess: boolean;
+        }>
+      | Unauthorized
+      | GuestDisabled
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
   }
 
   /**
    * Return resolve if the current query is valid
-   *
-   * @param {any} data
-   * @param {string} dataSourceKey
-   * @returns {Promise<void>}
    */
-  public checkQuery(data:{
-    query:string;
-    dialect?:string;
-  }, dataSourceKey?:string):Promise<void> {
-    return this.fetch(
-      {
-        url   : '/{dataSourceKey}/graph/checkQuery',
-        method: 'POST',
-        body  : data,
-        dataSource : dataSourceKey
-      }
-    );
+  public check(
+    data: {
+      query: string;
+      dialect?: string;
+    },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<{ write: boolean; type: 'static' | 'template' }>
+    | Unauthorized
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    return this.request({
+      url: '/{dataSourceKey}/graph/check/query',
+      method: 'POST',
+      body: data,
+      dataSource: dataSourceKey,
+    }) as Promise<
+      | Success<{ write: boolean; type: 'static' | 'template' }>
+      | Unauthorized
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
   }
 
   /**
@@ -132,42 +346,168 @@ export class GraphModule extends Module {
    * @param {string} dataSourceKey
    * @returns {Promise<any>}
    */
-  public preview(data:{
-    query:string;
-    dialect?:string;
-    limit?:number;
-    timeout?:number,
-    withAccess?:boolean;
-    withDegree?:boolean;
-    withDigest?:boolean;
-    columns?:any
-  }, dataSourceKey?:string):Promise<Array<{nodes:Array<IOgmaNode>; edges:Array<IOgmaEdge>; columns:any}>> {
-    let query:any = {
-      withAccess: data.withAccess,
-      withDegree: data.withDegree,
-      withDigest: data.withDigest
-    };
-    let body:any = {
+  public preview(
+    data: {
+      query: string;
+      dialect?: string;
+      limit?: number;
+      timeout?: number;
+      columns?: any;
+    },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<Array<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>; columns: any }>>
+    | Unauthorized
+    | GuestDisabled
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    let body: any = {
       query: data.query,
       dialect: data.dialect,
       limit: data.limit,
       timeout: data.timeout,
-      columns: data.columns
+      columns: data.columns,
     };
-    return this.fetch({
-      url   : '/{dataSourceKey}/graph/alertPreview',
+    return this.request<
+      { results: Array<{ nodes: Array<INode>; edges: Array<IEdge>; columns: any }> },
+      Array<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>; columns: any }>
+    >({
+      url: '/{dataSourceKey}/graph/alertPreview',
       method: 'POST',
-      body  : body,
-      query : query,
-      dataSource : dataSourceKey
-    }).then((response) => {
-      return response.results.map((result:any) => {
-        return {
-          nodes: result.nodes.map((n:INode) => VisualizationParser.parseNode(n)),
-          edges: result.edges.map((e:IEdge) => VisualizationParser.parseEdge(e)),
-          columns: result.columns
-        };
-      });
-    });
+      body: body,
+      dataSource: dataSourceKey,
+      transform: (res) => {
+        return res.results.map((result) => {
+          return {
+            nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
+            edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+            columns: result.columns,
+          };
+        });
+      },
+    }) as Promise<
+      | Success<Array<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>; columns: any }>>
+      | Unauthorized
+      | GuestDisabled
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
+  }
+
+  /**
+   * Save and Returns the created GraphQuery
+   * @param {Object} data
+   * @param {string}dataSourceKey
+   * @returns {Promise<IGraphQuery>}
+   */
+  public saveGraphQuery(
+    data: {
+      name: string;
+      content: string;
+      dialect?: 'cypher' | 'gremlin' | 'sparql';
+      description: string;
+      sharing: 'private' | 'source' | 'groups';
+      sharedWithGroups?: Array<number>;
+    },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<IGraphQuery>
+    | Unauthorized
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    return this.request({
+      url: '/{dataSourceKey}/graph/query',
+      method: 'POST',
+      body: data,
+      dataSource: dataSourceKey,
+    }) as Promise<
+      | Success<IGraphQuery>
+      | Unauthorized
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
+  }
+
+  /**
+   * Update a graph query owned but the current user
+   *
+   * @param {Object} data
+   * @param {string}dataSourceKey
+   * @returns {Promise<IGraphQuery>}
+   */
+  public updateGraphQuery(
+    data: {
+      id: number;
+      name?: string;
+      content?: string;
+      description?: string;
+      sharing?: 'private' | 'source' | 'groups';
+      sharedWithGroups?: Array<number>;
+    },
+    dataSourceKey?: string
+  ): Promise<
+    | Success<void>
+    | Unauthorized
+    | Forbidden
+    | BadGraphRequest
+    | ConstraintViolation
+    | GraphRequestTimeout
+    | DataSourceUnavailable
+    | GraphUnreachable
+    | InvalidParameter
+  > {
+    return this.request({
+      url: '/{dataSourceKey}/graph/query/{id}',
+      method: 'PATCH',
+      body: data,
+      dataSource: dataSourceKey,
+    }) as Promise<
+      | Success<void>
+      | Unauthorized
+      | Forbidden
+      | BadGraphRequest
+      | ConstraintViolation
+      | GraphRequestTimeout
+      | DataSourceUnavailable
+      | GraphUnreachable
+      | InvalidParameter
+    >;
+  }
+
+  /**
+   * Delete a query
+   */
+  public delete(
+    data: { id: number },
+    dataSourceKey?: string
+  ): Promise<Success<void> | Unauthorized | Forbidden | InvalidParameter | NotFound> {
+    return this.request({
+      url: '/{dataSourceKey}/graph/query/{id}',
+      method: 'DELETE',
+      dataSource: dataSourceKey,
+      body: data,
+    }) as Promise<Success<void> | Unauthorized | Forbidden | InvalidParameter | NotFound>;
   }
 }

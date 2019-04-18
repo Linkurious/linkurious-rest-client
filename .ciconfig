@@ -4,28 +4,50 @@ pipeline {
     skipDefaultCheckout true
   }
   stages {
-    stage('install') {
+    stage('Install') {
       steps {
         dir('linkurious-rest-client') {
           checkout scm
           sh 'npm install'
         }
         dir('linkurious-server') {
-          git branch: 'develop', credentialsId: 'dd38fcea-d471-4856-a009-4029127c6450', url: 'git@github.com:Linkurious/linkurious-server.git'
+          git branch: 'develop-next', credentialsId: 'dd38fcea-d471-4856-a009-4029127c6450', url: 'git@github.com:Linkurious/linkurious-server.git'
           sh 'npm install'
           sh 'npm run tsc'
         }
       }
     }
-    stage('unit tests') {
+    stage('Tests') {
+      when {
+        anyOf {
+          branch 'develop*'
+          branch 'master'
+        }
+      }
       steps {
         throttle(['FrontendTestEnv']) {
           dir('linkurious-rest-client') {
+            sh 'rm ../linkurious-server/data/config/test.json || true'
             sh 'node ../linkurious-server/dist/test/runMocha.js -sm & echo $! > SERVER_PID'
-            sh 'npm run compileTests && npm run lint'
-            sh 'xvfb-run node_modules/.bin/karma start karma.conf.js'
+            sh 'xvfb-run node_modules/.bin/karma start'
             sh 'kill -9 `cat SERVER_PID`'
           }
+        }
+      }
+    }
+    stage('Pre-release') {
+      when {
+        anyOf {
+          branch 'develop*'
+        }
+      }
+      steps {
+        dir('linkurious-rest-client') {
+          withCredentials([file(credentialsId: 'apikey', variable: 'API_KEY')]) {
+            sh 'echo \'{"apiKey":"\'`cat $API_KEY`\'","owner":"Linkurious"}\' > scripts/github/static_info.json'
+          }
+          sh './node_modules/.bin/tsc'
+          sh 'node ./scripts/pushBranch.js'
         }
       }
     }
