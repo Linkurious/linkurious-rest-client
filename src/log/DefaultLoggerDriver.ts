@@ -13,11 +13,11 @@
 import { ILoggerDriver } from './../../index';
 
 export class DefaultLoggerDriver implements ILoggerDriver {
-  public debug ( message:string ):void {
+  public debug(message: string): void {
     console.debug(message);
   }
 
-  public error ( message:string ):void {
+  public error(message: string): void {
     console.error(message);
   }
 }

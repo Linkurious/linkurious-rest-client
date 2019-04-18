@@ -41,6 +41,7 @@ linkurious-rest-client-es5.js
 built/*
 dist-es6
 docs
+dist
 
 # TypeScript
 typings/*
