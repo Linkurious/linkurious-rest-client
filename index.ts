@@ -16,6 +16,26 @@ import { FetcherFactory } from './src/http/FetcherFactory';
 import { Logger } from './src/log/Logger';
 import { LinkuriousError } from './src/LinkuriousError';
 import {
+  Rejection,
+  RejectionKey,
+  BadGraphRequest,
+  ConstraintViolation,
+  DataSourceUnavailable,
+  Forbidden,
+  GraphRequestTimeout,
+  GraphUnreachable,
+  GroupExists,
+  GuestDisabled,
+  InvalidParameter,
+  NotFound,
+  Unauthorized,
+  WriteForbidden,
+  Cancelled,
+  ClientError,
+} from './src/response/errors';
+import { ServerResponse } from './src/response';
+import { Success } from './src/response/success';
+import {
   BooleanTemplate,
   DateTemplate,
   DatetimeTemplate,
@@ -1025,4 +1045,28 @@ export interface IDataToSend {
   bodyData?: any;
 }
 
-export { Linkurious, Fetcher, FetcherFactory, Logger, LinkuriousError };
+export {
+  Linkurious,
+  Fetcher,
+  FetcherFactory,
+  Logger,
+  LinkuriousError,
+  Rejection,
+  RejectionKey,
+  BadGraphRequest,
+  ConstraintViolation,
+  DataSourceUnavailable,
+  Forbidden,
+  GraphRequestTimeout,
+  GraphUnreachable,
+  GroupExists,
+  GuestDisabled,
+  InvalidParameter,
+  NotFound,
+  Unauthorized,
+  WriteForbidden,
+  Cancelled,
+  ClientError,
+  ServerResponse,
+  Success,
+};
