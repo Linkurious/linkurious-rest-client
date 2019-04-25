@@ -143,7 +143,11 @@ export interface IUser extends ISimpleUser {
 }
 
 export interface IFullUser extends IUser {
-  preferences: any;
+  preferences: {
+    pinOnDrag: boolean;
+    incrementalLayout: boolean;
+    locale: string;
+  };
   actions: any;
   locale: string;
 }
