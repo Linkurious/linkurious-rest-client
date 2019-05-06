@@ -10,10 +10,12 @@
 
 'use strict';
 import { Module } from './Module';
-import { IMatch, IMatchAction, IAlert, IMatchResults } from '../../index';
+import { IMatch, IMatchAction, IAlert, IMatchResults, IGroup } from '../../index';
 import { Fetcher } from '../http/fetcher';
 import { Transformer } from '../transformer';
 import { ErrorListener } from '../errorListener';
+import { Success } from '../response/success';
+import { DataSourceUnavailable, Forbidden, GroupExists, InvalidParameter, Unauthorized } from '../response/errors';
 
 export class AlertModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -57,7 +59,7 @@ export class AlertModule extends Module {
     },
     dataSourceKey: string
   ): Promise<any> {
-    return this.fetch({
+    return this.request({
       url: '/{dataSourceKey}/alerts/folder',
       method: 'POST',
       body: data,
@@ -73,7 +75,7 @@ export class AlertModule extends Module {
     },
     dataSourceKey: string
   ): Promise<any> {
-    return this.fetch({
+    return this.request({
       url: '/{dataSourceKey}/alerts/folder/{id}',
       method: 'PATCH',
       body: data,
@@ -87,7 +89,7 @@ export class AlertModule extends Module {
     },
     dataSourceKey: string
   ): Promise<any> {
-    return this.fetch({
+    return this.request({
       url: '/{dataSourceKey}/alerts/folder/{id}',
       method: 'DELETE',
       body: data,
@@ -96,7 +98,7 @@ export class AlertModule extends Module {
   }
 
   public getAlertFolder(dataSourceKey: string): Promise<any> {
-    return this.fetch({
+    return this.request({
       url: '/{dataSourceKey}/alerts/tree',
       method: 'GET',
       dataSource: dataSourceKey,
