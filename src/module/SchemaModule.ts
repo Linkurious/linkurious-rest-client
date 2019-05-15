@@ -18,9 +18,6 @@ import {
 
 import {
   DataVisibility,
-  DateOptions,
-  DatetimeOptions,
-  EnumOptions,
   GraphSchemaProperty,
   GraphSchemaType,
   GraphSchemaTypeWithAccess,
@@ -33,7 +30,6 @@ import {
   IUpdateEdgeTypeParams,
   IUpdateNodeCategoryParams,
   IUpdateNodePropertyParams,
-  LkPropertyType,
 } from '../models/graphSchema';
 
 export class SchemaModule extends Module {
@@ -82,7 +78,7 @@ export class SchemaModule extends Module {
   /**
    * Get the dataSource schema with user access rights
    */
-  getNodeCategories(
+  getNodeTypes(
     params?: {
       includeType?: boolean;
     },

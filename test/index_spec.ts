@@ -449,7 +449,7 @@ describe('Linkurious class', () => {
       return linkurious
         .initSources()
         .then(function() {
-          return linkurious.schema.getNodeCategories();
+          return linkurious.schema.getNodeTypes();
         })
         .then((success: unknown) => {
           const schema = (success as Success<GraphSchemaWithAccess>).response as GraphSchemaWithAccess;
