@@ -39,7 +39,7 @@ export abstract class Module {
     return this._fetcher.fetch(config);
   }
 
-  protected async request<R, T>(config: RequestConfig<R, T>): Promise<Success<T> | Rejection> {
+  protected async request<R, T = R>(config: RequestConfig<R, T>): Promise<Success<T> | Rejection> {
     const response = await this._transformer.transform(this._fetcher.fetch(config), config);
     if (response.isError()) {
       this._errorListener.dispatch(response as Rejection);

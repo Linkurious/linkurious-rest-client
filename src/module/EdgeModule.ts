@@ -135,47 +135,4 @@ export class EdgeModule extends Module {
       };
     });
   }
-
-  /**
-   * List all edgeType properties (aggregated from all edgeTypes)
-   *
-   * @param {Object} [data]
-   * @param {string}dataSourceKey
-   * @returns {Promise<Array<IProperty>>}
-   */
-  public getProperties(
-    data?: {
-      includeType?: string;
-      omitNoindex?: boolean;
-    },
-    dataSourceKey?: string
-  ): Promise<Array<IProperty>> {
-    return this.fetch({
-      url: '/{dataSourceKey}/graph/schema/edgeTypes/properties',
-      method: 'GET',
-      query: data,
-      dataSource: dataSourceKey,
-    }).then((res: any) => res.properties);
-  }
-
-  /**
-   * List edge-types indexed by linkurious
-   *
-   * @param {Object} [data]
-   * @param {string}dataSourceKey
-   * @returns {Promise<Array<IItemType>>}
-   */
-  public getTypes(
-    data?: {
-      includeType?: boolean;
-    },
-    dataSourceKey?: string
-  ): Promise<{ any: { access: TypeAccessRight }; results: Array<IItemType> }> {
-    return this.fetch({
-      url: '/{dataSourceKey}/graph/schema/edgeTypes',
-      method: 'GET',
-      query: data,
-      dataSource: dataSourceKey,
-    });
-  }
 }

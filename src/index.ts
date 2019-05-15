@@ -34,6 +34,7 @@ import {
 import { Transformer } from './transformer';
 import { ErrorListener } from './errorListener';
 import { Rejection } from './response/errors';
+import { SchemaModule } from './module/SchemaModule';
 
 export class Linkurious {
   private readonly _fetcher: Fetcher;
@@ -49,6 +50,7 @@ export class Linkurious {
   private readonly _search: SearchModule;
   private readonly _visualization: VisualizationModule;
   private readonly _alert: AlertModule;
+  private readonly _schema: SchemaModule;
 
   get state(): IClientState {
     return this._clientState;
@@ -78,6 +80,7 @@ export class Linkurious {
     this._search = new SearchModule(this._fetcher, this._transformer, this._errorListener);
     this._visualization = new VisualizationModule(this._fetcher, this._transformer, this._errorListener);
     this._alert = new AlertModule(this._fetcher, this._transformer, this._errorListener);
+    this._schema = new SchemaModule(this._fetcher, this._transformer, this._errorListener);
   }
 
   /**
@@ -127,6 +130,13 @@ export class Linkurious {
    */
   get node(): NodeModule {
     return this._node;
+  }
+
+  /**
+   * @returns {SchemaModule}
+   */
+  get schema(): SchemaModule {
+    return this._schema;
   }
 
   /**

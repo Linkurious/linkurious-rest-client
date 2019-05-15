@@ -21,8 +21,10 @@ import {
   IShare,
   IVisualization,
   Linkurious,
+  Success,
   TypeAccessRight,
 } from '../index';
+import { GraphSchemaWithAccess } from '../src/models/graphSchema';
 
 describe('Linkurious class', () => {
   let visu: any;
@@ -416,51 +418,19 @@ describe('Linkurious class', () => {
     });
   });
 
-  describe('getEdgeProperties', function() {
-    it('must return a list of edges properties', function() {
-      return linkurious
-        .initSources()
-        .then(function() {
-          return linkurious.edge.getProperties({
-            omitNoindex: true,
-          });
-        })
-        .then(function(res) {
-          expect(
-            res.sort((a, b) => {
-              return a.key < b.key ? -1 : a.key > b.key ? 1 : 0;
-            })
-          ).to.eql([{ key: 'altEdgeID', count: 1 }, { key: 'roles', count: 4 }]);
-        });
-    });
-  });
-
-  describe('getNodeProperties', function() {
-    it('must return a list of node properties', function() {
-      return linkurious
-        .initSources()
-        .then(function() {
-          return linkurious.node.getProperties({
-            omitNoindex: true,
-          });
-        })
-        .then(function(res: Array<IProperty>) {
-          expect(res.length).to.be.greaterThan(0);
-        });
-    });
-  });
-
   describe('getEdgeTypes method', function() {
     it('must return edges types', function() {
       return linkurious
         .initSources()
         .then(function() {
-          return linkurious.edge.getTypes({
+          return linkurious.schema.getEdgeTypes({
             includeType: true,
           });
         })
-        .then(function(res: { any: { access: TypeAccessRight }; results: Array<IItemType> }) {
-          let sortedResponse: Array<IItemType> = res.results.sort((a, b) => {
+        .then((success: unknown) => {
+          const schema = (success as Success<GraphSchemaWithAccess>).response as GraphSchemaWithAccess;
+          expect(schema).to.not.equal(undefined);
+          let sortedResponse = schema.results.sort((a, b) => {
             if (a.name < b.name) {
               return -1;
             }
@@ -479,10 +449,12 @@ describe('Linkurious class', () => {
       return linkurious
         .initSources()
         .then(function() {
-          return linkurious.node.getTypes();
+          return linkurious.schema.getNodeCategories();
         })
-        .then(function(res: { any: { access: TypeAccessRight }; results: Array<IItemType> }) {
-          expect(res.results.length).to.eql(8);
+        .then((success: unknown) => {
+          const schema = (success as Success<GraphSchemaWithAccess>).response as GraphSchemaWithAccess;
+          expect(schema).to.not.equal(undefined);
+          expect(schema.results.length).to.eql(8);
         });
     });
   });
