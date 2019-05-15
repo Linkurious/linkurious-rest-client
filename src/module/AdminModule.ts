@@ -145,20 +145,6 @@ export class AdminModule extends Module {
   }
 
   /**
-   * Get the list of node-properties hidden for the given data-source.
-   *
-   * @param {string} [dataSourceKey]
-   * @returns {Promise<Array<string>>}
-   */
-  public getHiddenNodeProperties(dataSourceKey?: string): Promise<Array<string>> {
-    return this.fetch({
-      url: '/admin/source/{dataSourceKey}/hidden/nodeProperties',
-      method: 'GET',
-      dataSource: dataSourceKey,
-    });
-  }
-
-  /**
    * Get the list of edge-properties that re not indexed for the given data-source.
    *
    * @param {string} [dataSourceKey]
@@ -196,22 +182,6 @@ export class AdminModule extends Module {
   public setHiddenEdgeProperties(data: { properties: Array<string> }, dataSourceKey?: string): Promise<boolean> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/hidden/edgeProperties',
-      method: 'PUT',
-      body: data,
-      dataSource: dataSourceKey,
-    });
-  }
-
-  /**
-   * Set the list of node-properties that are hidden for the given data-source.
-   *
-   * @param {Object} data
-   * @param {string} [dataSourceKey]
-   * @returns {Promise<boolean>}
-   */
-  public setHiddenNodeProperties(data: { properties: Array<string> }, dataSourceKey?: string): Promise<boolean> {
-    return this.fetch({
-      url: '/admin/source/{dataSourceKey}/hidden/nodeProperties',
       method: 'PUT',
       body: data,
       dataSource: dataSourceKey,
