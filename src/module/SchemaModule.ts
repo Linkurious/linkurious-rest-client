@@ -12,12 +12,18 @@ import {
   DataSourceUnavailable,
   Forbidden,
   InvalidParameter,
+  Rejection,
   Unauthorized,
 } from '../response/errors';
 
 import {
+  DataVisibility,
+  DateOptions,
+  DatetimeOptions,
+  EnumOptions,
   GraphSchemaProperty,
   GraphSchemaType,
+  GraphSchemaTypeWithAccess,
   GraphSchemaWithAccess,
   ICreateEdgePropertyParams,
   ICreateEdgeTypeParams,
@@ -27,9 +33,52 @@ import {
   IUpdateEdgeTypeParams,
   IUpdateNodeCategoryParams,
   IUpdateNodePropertyParams,
+  LkPropertyType,
 } from '../models/graphSchema';
 
 export class SchemaModule extends Module {
+  has(name: string, items: Array<{ name: string }>) {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].name === name) {
+        return i;
+      }
+    }
+    return undefined;
+  }
+
+  mockProperty(
+    name: string,
+    p: ICreateNodePropertyParams | IUpdateNodePropertyParams | ICreateEdgePropertyParams | IUpdateEdgePropertyParams
+  ) {
+    return {
+      name: p.name,
+
+      typeName: p.typeName,
+
+      typeOptions: p.typeOptions,
+
+      required: p.required || false,
+
+      visibility: p.visibility,
+    };
+  }
+
+  mockType(name: string, visibility?: DataVisibility) {
+    return {
+      access: 'writable',
+
+      name: name,
+
+      visibility: visibility || DataVisibility.SEARCHABLE,
+
+      properties: [],
+    };
+  }
+
+  private nodeSchema: Map<string, GraphSchemaTypeWithAccess> = new Map();
+
+  private edgeSchema: Map<string, GraphSchemaTypeWithAccess> = new Map();
+
   /**
    * Get the dataSource schema with user access rights
    */
@@ -44,6 +93,11 @@ export class SchemaModule extends Module {
       method: 'GET',
       query: params,
       dataSource: dataSourceKey,
+      mock: true,
+      mockValue: {
+        any: { access: 'writable' },
+        results: Array.from(this.edgeSchema.values()),
+      },
     });
   }
 
@@ -61,6 +115,11 @@ export class SchemaModule extends Module {
       method: 'GET',
       query: data,
       dataSource: dataSourceKey,
+      mock: true,
+      mockValue: {
+        any: { access: 'writable' },
+        results: Array.from(this.edgeSchema.values()),
+      },
     });
   }
 
@@ -72,11 +131,14 @@ export class SchemaModule extends Module {
   ): Promise<
     Success<GraphSchemaType> | Unauthorized | Forbidden | ConstraintViolation | DataSourceUnavailable | InvalidParameter
   > {
+    this.nodeSchema.set(params.name, this.mockType(params.name, params.visibility));
     return this.request<GraphSchemaType>({
       url: '/{dataSourceKey}/graph/schema/nodeTypes',
       method: 'POST',
       query: params,
       dataSource: params.sourceKey,
+      mock: true,
+      mockValue: this.nodeSchema.get(params.name),
     });
   }
 
@@ -88,11 +150,13 @@ export class SchemaModule extends Module {
   ): Promise<
     Success<void> | Unauthorized | Forbidden | ConstraintViolation | DataSourceUnavailable | InvalidParameter
   > {
+    this.nodeSchema.set(params.name, this.mockType(params.name, params.visibility));
     return this.request<void>({
       url: '/{dataSourceKey}/graph/schema/nodeTypes',
       method: 'PATCH',
       query: params,
       dataSource: params.sourceKey,
+      mock: true,
     });
   }
 
@@ -109,11 +173,21 @@ export class SchemaModule extends Module {
     | DataSourceUnavailable
     | InvalidParameter
   > {
+    let mockValue = this.mockProperty(params.categoryName, params);
+    const category = this.nodeSchema.get(params.categoryName);
+    if (category && !this.has(params.name, category.properties)) {
+      category.properties.push(mockValue);
+    } else {
+      return Promise.resolve(new Rejection({ key: 'constraint_violation' }));
+    }
+
     return this.request<GraphSchemaProperty>({
       url: '/{dataSourceKey}/graph/schema/nodeTypes/properties',
       method: 'POST',
       query: params,
       dataSource: params.sourceKey,
+      mock: true,
+      mockValue: mockValue,
     });
   }
 
@@ -125,11 +199,24 @@ export class SchemaModule extends Module {
   ): Promise<
     Success<void> | Unauthorized | Forbidden | ConstraintViolation | DataSourceUnavailable | InvalidParameter
   > {
+    let mockValue = this.mockProperty(params.categoryName, params);
+    const category = this.nodeSchema.get(params.categoryName);
+    if (category) {
+      const property = this.has(params.name, category.properties);
+      if (property) {
+        category.properties[property] = mockValue;
+      } else {
+        return Promise.resolve(new Rejection({ key: 'constraint_violation' }));
+      }
+    } else {
+      return Promise.resolve(new Rejection({ key: 'constraint_violation' }));
+    }
     return this.request<void>({
       url: '/{dataSourceKey}/graph/schema/nodeTypes/properties',
       method: 'PATCH',
       query: params,
       dataSource: params.sourceKey,
+      mock: true,
     });
   }
 
@@ -141,11 +228,14 @@ export class SchemaModule extends Module {
   ): Promise<
     Success<GraphSchemaType> | Unauthorized | Forbidden | ConstraintViolation | DataSourceUnavailable | InvalidParameter
   > {
+    this.edgeSchema.set(params.name, this.mockType(params.name, params.visibility));
     return this.request<GraphSchemaType>({
       url: '/{dataSourceKey}/graph/schema/edgeTypes',
       method: 'POST',
       query: params,
       dataSource: params.sourceKey,
+      mock: true,
+      mockValue: this.edgeSchema.get(params.name),
     });
   }
 
@@ -157,11 +247,13 @@ export class SchemaModule extends Module {
   ): Promise<
     Success<void> | Unauthorized | Forbidden | ConstraintViolation | DataSourceUnavailable | InvalidParameter
   > {
+    this.edgeSchema.set(params.name, this.mockType(params.name, params.visibility));
     return this.request<void>({
       url: '/{dataSourceKey}/graph/schema/edgeTypes',
       method: 'PATCH',
       query: params,
       dataSource: params.sourceKey,
+      mock: true,
     });
   }
 
@@ -178,11 +270,20 @@ export class SchemaModule extends Module {
     | DataSourceUnavailable
     | InvalidParameter
   > {
+    let mockValue = this.mockProperty(params.edgeType, params);
+    const type = this.edgeSchema.get(params.edgeType);
+    if (type && !this.has(params.name, type.properties)) {
+      type.properties.push(mockValue);
+    } else {
+      return Promise.resolve(new Rejection({ key: 'constraint_violation' }));
+    }
     return this.request<GraphSchemaProperty>({
       url: '/{dataSourceKey}/graph/schema/edgeTypes/properties',
       method: 'POST',
       query: params,
       dataSource: params.sourceKey,
+      mock: true,
+      mockValue: mockValue,
     });
   }
 
@@ -194,11 +295,24 @@ export class SchemaModule extends Module {
   ): Promise<
     Success<void> | Unauthorized | Forbidden | ConstraintViolation | DataSourceUnavailable | InvalidParameter
   > {
+    let mockValue = this.mockProperty(params.edgeType, params);
+    const type = this.edgeSchema.get(params.edgeType);
+    if (type) {
+      const property = this.has(params.name, type.properties);
+      if (property) {
+        type.properties[property] = mockValue;
+      } else {
+        return Promise.resolve(new Rejection({ key: 'constraint_violation' }));
+      }
+    } else {
+      return Promise.resolve(new Rejection({ key: 'constraint_violation' }));
+    }
     return this.request<void>({
       url: '/{dataSourceKey}/graph/schema/edgeTypes/properties',
       method: 'PATCH',
       query: params,
       dataSource: params.sourceKey,
+      mock: true,
     });
   }
 }

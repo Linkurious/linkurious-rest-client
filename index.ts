@@ -73,6 +73,8 @@ export interface FetcherConfig {
 
 export interface RequestConfig<R, T> extends FetcherConfig {
   transform?: (r: R) => T;
+  mock?: boolean;
+  mockValue?: T;
 }
 
 export interface IClientState {

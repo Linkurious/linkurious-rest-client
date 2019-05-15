@@ -105,6 +105,8 @@ export interface IUpdateNodePropertyParams {
 
   categoryName: string;
 
+  name: string;
+
   visibility: DataVisibility;
 
   typeName: LkPropertyType;
@@ -150,6 +152,8 @@ export interface IUpdateEdgePropertyParams {
   sourceKey: string;
 
   edgeType: string;
+
+  name: string;
 
   visibility: DataVisibility;
 
