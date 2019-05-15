@@ -12,18 +12,7 @@
 
 import { expect } from 'chai';
 import 'mocha';
-import {
-  IFullUser,
-  IItemType,
-  IOgmaEdge,
-  IOgmaNode,
-  IProperty,
-  IShare,
-  IVisualization,
-  Linkurious,
-  Success,
-  TypeAccessRight,
-} from '../index';
+import { IFullUser, IOgmaEdge, IOgmaNode, IShare, IVisualization, Linkurious, Success } from '../index';
 import { GraphSchemaWithAccess } from '../src/models/graphSchema';
 
 describe('Linkurious class', () => {
