@@ -1,12 +1,11 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-05-30.
- *
- * File:
- * Description :
+ * Created on 2016-05-30.
  */
+
+// TODO TS2019
 
 import {
   IAlternativeIdConfig,
@@ -27,17 +26,15 @@ import {
   PopulateType,
   VisualizationModeType
 } from '../../index';
-import {ErrorListener} from '../errorListener';
-import {Fetcher} from '../http/fetcher';
 import {Utils} from '../http/utils';
-import {Transformer} from '../transformer';
 import {Module} from './Module';
 import {VisualizationParser} from './VisualizationParser';
 
 export class VisualizationModule extends Module {
-  constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
-    super(fetcher, transformer, errorListener);
-  }
+
+
+
+  // TODO TS2019 refactor under here
 
   /**
    * get shared visualizations
