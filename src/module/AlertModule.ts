@@ -10,10 +10,12 @@
 
 'use strict';
 import { Module } from './Module';
-import { IMatch, IMatchAction, IAlert, IMatchResults } from '../../index';
+import { IMatch, IMatchAction, IAlert, IMatchResults, IGroup } from '../../index';
 import { Fetcher } from '../http/fetcher';
 import { Transformer } from '../transformer';
 import { ErrorListener } from '../errorListener';
+import { Success } from '../response/success';
+import { DataSourceUnavailable, Forbidden, GroupExists, InvalidParameter, Unauthorized } from '../response/errors';
 
 export class AlertModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -46,6 +48,59 @@ export class AlertModule extends Module {
       url: '/{dataSourceKey}/alerts/{id}',
       method: 'GET',
       query: data,
+      dataSource: dataSourceKey,
+    });
+  }
+
+  public createAlertFolder(
+    data: {
+      title: string;
+      parent?: string;
+    },
+    dataSourceKey: string
+  ): Promise<any> {
+    return this.request({
+      url: '/{dataSourceKey}/alerts/folder',
+      method: 'POST',
+      body: data,
+      dataSource: dataSourceKey,
+    });
+  }
+
+  public updateAlertFolder(
+    data: {
+      id: number;
+      title?: string;
+      parent?: string;
+    },
+    dataSourceKey: string
+  ): Promise<any> {
+    return this.request({
+      url: '/{dataSourceKey}/alerts/folder/{id}',
+      method: 'PATCH',
+      body: data,
+      dataSource: dataSourceKey,
+    });
+  }
+
+  public deleteAlertFolder(
+    data: {
+      id: number;
+    },
+    dataSourceKey: string
+  ): Promise<any> {
+    return this.request({
+      url: '/{dataSourceKey}/alerts/folder/{id}',
+      method: 'DELETE',
+      body: data,
+      dataSource: dataSourceKey,
+    });
+  }
+
+  public getAlertFolder(dataSourceKey: string): Promise<any> {
+    return this.request({
+      url: '/{dataSourceKey}/alerts/tree',
+      method: 'GET',
       dataSource: dataSourceKey,
     });
   }
