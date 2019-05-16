@@ -7,33 +7,32 @@
  * File:
  * Description :
  */
-'use strict';
 
 import {
-  IVisualization,
-  IWidget,
-  ITreeChildren,
-  ISharers,
-  IShare,
+  IAlternativeIdConfig,
   IFolder,
   IFolderFullResponse,
-  IWidgetContent,
-  IVisualizationNode,
-  IVisualizationEdge,
-  IAlternativeIdConfig,
-  IVisualizationLayout,
-  IVisualizationGeo,
-  IVisualizationDesign,
   IItemFields,
+  IShare,
+  ISharers,
+  ITreeChildren,
+  IVisualization,
+  IVisualizationDesign,
+  IVisualizationEdge,
+  IVisualizationGeo,
+  IVisualizationLayout,
+  IVisualizationNode,
+  IWidget,
+  IWidgetContent,
   PopulateType,
-  VisualizationModeType,
+  VisualizationModeType
 } from '../../index';
-import { Module } from './Module';
-import { Fetcher } from '../http/fetcher';
-import { VisualizationParser } from './VisualizationParser';
-import { Utils } from '../http/utils';
-import { Transformer } from '../transformer';
-import { ErrorListener } from '../errorListener';
+import {ErrorListener} from '../errorListener';
+import {Fetcher} from '../http/fetcher';
+import {Utils} from '../http/utils';
+import {Transformer} from '../transformer';
+import {Module} from './Module';
+import {VisualizationParser} from './VisualizationParser';
 
 export class VisualizationModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -46,11 +45,11 @@ export class VisualizationModule extends Module {
    * @param {string}dataSourceKey
    * @returns {Promise<any>}
    */
-  public getShared(dataSourceKey?: string): Promise<Array<IVisualization>> {
+  public getShared(dataSourceKey?: string): Promise<IVisualization[]> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/shared',
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -64,7 +63,7 @@ export class VisualizationModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/count',
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((r: any) => r.count);
   }
 
@@ -90,7 +89,7 @@ export class VisualizationModule extends Module {
     return this.fetch({
       url: '/widget',
       method: 'POST',
-      body: Utils.fixSnakeCase(data),
+      body: Utils.fixSnakeCase(data)
     });
   }
 
@@ -100,11 +99,11 @@ export class VisualizationModule extends Module {
    * @param {Object} data
    * @returns {Promise<string>}
    */
-  public updateWidget(data: { visualizationId: number; content: IWidgetContent }): Promise<string> {
+  public updateWidget(data: {visualizationId: number; content: IWidgetContent}): Promise<string> {
     return this.fetch({
       url: '/widget',
       method: 'PUT',
-      body: Utils.fixSnakeCase(data),
+      body: Utils.fixSnakeCase(data)
     });
   }
 
@@ -126,7 +125,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations/folder',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((res: IFolderFullResponse) => res.folder);
   }
 
@@ -141,14 +140,14 @@ export class VisualizationModule extends Module {
     data: {
       title: string;
       folder?: number;
-      nodes: Array<IVisualizationNode>;
-      edges: Array<IVisualizationEdge>;
+      nodes: IVisualizationNode[];
+      edges: IVisualizationEdge[];
       alternativeIds?: IAlternativeIdConfig;
       layout?: IVisualizationLayout;
       mode?: string;
       geo?: IVisualizationGeo;
       design?: IVisualizationDesign;
-      filters?: Array<any>;
+      filters?: any[];
       nodeFields: IItemFields;
       edgeFields: IItemFields;
     },
@@ -158,7 +157,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
   }
 
@@ -168,11 +167,11 @@ export class VisualizationModule extends Module {
    * @param {Object} data
    * @returns {Promise<boolean>}
    */
-  public deleteWidget(data: { id: string }): Promise<boolean> {
+  public deleteWidget(data: {id: string}): Promise<boolean> {
     return this.fetch({
       url: '/widget/{id}',
       method: 'DELETE',
-      query: data,
+      query: data
     });
   }
 
@@ -193,7 +192,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations/folder/{id}',
       method: 'DELETE',
       query: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -211,12 +210,12 @@ export class VisualizationModule extends Module {
       folder?: number;
     },
     dataSourceKey?: string
-  ): Promise<{ visualizationId: number }> {
+  ): Promise<{visualizationId: number}> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/{id}/duplicate',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -226,11 +225,11 @@ export class VisualizationModule extends Module {
    * @param {Object} data
    * @returns {Promise<IWidget>}
    */
-  public getWidget(data: { id: string }): Promise<IWidget> {
+  public getWidget(data: {id: string}): Promise<IWidget> {
     return this.fetch({
       url: '/widget/{id}',
       method: 'GET',
-      query: data,
+      query: data
     });
   }
 
@@ -260,7 +259,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/sandbox',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
   }
 
@@ -284,7 +283,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations/{id}',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
   }
 
@@ -294,10 +293,10 @@ export class VisualizationModule extends Module {
    * @param {string} dataSourceKey
    * @returns {Promise<ITreeChildren>}
    */
-  public getTree(dataSourceKey?: string): Promise<Array<ITreeChildren>> {
+  public getTree(dataSourceKey?: string): Promise<ITreeChildren[]> {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/tree',
-      method: 'GET',
+      method: 'GET'
     }).then((res: any) => res.tree);
   }
 
@@ -318,7 +317,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations/{id}',
       method: 'DELETE',
       query: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -339,7 +338,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations/{id}/shares',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -362,9 +361,9 @@ export class VisualizationModule extends Module {
       url: `/{dataSourceKey}/visualizations/${data.vizId}/share/${data.userId}`,
       method: 'PUT',
       body: {
-        right: data.right,
+        right: data.right
       },
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -385,8 +384,8 @@ export class VisualizationModule extends Module {
     return this.fetch({
       url: `/{dataSourceKey}/visualizations/{id}/share/${data.userId}`,
       method: 'DELETE',
-      query: { id: data.id },
-      dataSource: dataSourceKey,
+      query: {id: data.id},
+      dataSource: dataSourceKey
     });
   }
 
@@ -409,7 +408,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations/folder/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((response: any) => response.folder);
   }
 
@@ -431,8 +430,8 @@ export class VisualizationModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/sandbox',
       method: 'PATCH',
-      body: { visualization: data },
-      dataSource: dataSourceKey,
+      body: {visualization: data},
+      dataSource: dataSourceKey
     });
   }
 
@@ -451,26 +450,26 @@ export class VisualizationModule extends Module {
       edgeFields?: IItemFields;
       title?: string;
       folder?: number;
-      nodes?: Array<IVisualizationNode>;
-      edges?: Array<IVisualizationEdge>;
+      nodes?: IVisualizationNode[];
+      edges?: IVisualizationEdge[];
       alternativeIds?: IAlternativeIdConfig;
       layout?: IVisualizationLayout;
       geo?: IVisualizationGeo;
       mode?: VisualizationModeType;
-      filters?: Array<any>;
+      filters?: any[];
       forceLock?: boolean;
     },
     dataSourceKey?: string
   ): Promise<any> {
-    let vizBody: any = JSON.parse(JSON.stringify(data));
+    const vizBody: any = JSON.parse(JSON.stringify(data));
     vizBody.id = undefined;
     vizBody.forceLock = undefined;
 
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/{id}',
       method: 'PATCH',
-      body: { id: data.id, visualization: vizBody },
-      query: Utils.fixSnakeCase({ forceLock: data.forceLock }),
+      body: {id: data.id, visualization: vizBody},
+      query: Utils.fixSnakeCase({forceLock: data.forceLock})
     });
   }
 }

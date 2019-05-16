@@ -8,13 +8,9 @@
  * Description :
  */
 
-'use strict';
-
-import { IEdge, IGraphQuery, INode, IOgmaEdge, IOgmaNode } from '../../index';
-import { Module } from './Module';
-import { Fetcher } from '../http/fetcher';
-import { VisualizationParser } from './VisualizationParser';
-import { Success } from '../response/success';
+import {IEdge, IGraphQuery, INode, IOgmaEdge, IOgmaNode} from '../../index';
+import {ErrorListener} from '../errorListener';
+import {Fetcher} from '../http/fetcher';
 import {
   BadGraphRequest,
   ConstraintViolation,
@@ -25,11 +21,12 @@ import {
   GuestDisabled,
   InvalidParameter,
   NotFound,
-  Rejection,
-  Unauthorized,
+  Unauthorized
 } from '../response/errors';
-import { Transformer } from '../transformer';
-import { ErrorListener } from '../errorListener';
+import {Success} from '../response/success';
+import {Transformer} from '../transformer';
+import {Module} from './Module';
+import {VisualizationParser} from './VisualizationParser';
 
 export class GraphModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -64,7 +61,7 @@ export class GraphModule extends Module {
       url: '/{dataSourceKey}/graph/query/{id}',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }) as Promise<
       | Success<IGraphQuery>
       | Unauthorized
@@ -87,10 +84,10 @@ export class GraphModule extends Module {
    * @returns {Promise<Array<IGraphQuery>>}
    */
   public getAllGraphQueries(
-    data: { type: 'static' | 'template' },
+    data: {type: 'static' | 'template'},
     dataSourceKey?: string
   ): Promise<
-    | Success<Array<IGraphQuery>>
+    | Success<IGraphQuery[]>
     | Unauthorized
     | GuestDisabled
     | Forbidden
@@ -105,9 +102,9 @@ export class GraphModule extends Module {
       url: '/{dataSourceKey}/graph/query',
       method: 'GET',
       dataSource: dataSourceKey,
-      query: data,
+      query: data
     }) as Promise<
-      | Success<Array<IGraphQuery>>
+      | Success<IGraphQuery[]>
       | Unauthorized
       | GuestDisabled
       | Forbidden
@@ -138,8 +135,8 @@ export class GraphModule extends Module {
     dataSourceKey?: string
   ): Promise<
     | Success<{
-        nodes: Array<IOgmaNode>;
-        edges: Array<IOgmaEdge>;
+        nodes: IOgmaNode[];
+        edges: IOgmaEdge[];
         truncatedByLimit: boolean;
         truncatedByAccess: boolean;
       }>
@@ -153,28 +150,28 @@ export class GraphModule extends Module {
     | GraphUnreachable
     | InvalidParameter
   > {
-    let body: any = {
+    const body: any = {
       dialect: data.dialect,
       query: data.query,
       limit: data.limit,
       timeout: data.timeout,
-      templateData: data.templateData,
+      templateData: data.templateData
     };
-    let query: any = {
+    const query: any = {
       withDigest: data.withDigest,
       withDegree: data.withDegree,
-      withAccess: data.withAccess,
+      withAccess: data.withAccess
     };
     return this.request<
       {
-        nodes: Array<INode>;
-        edges: Array<IEdge>;
+        nodes: INode[];
+        edges: IEdge[];
         truncatedByLimit: boolean;
         truncatedByAccess: boolean;
       },
       {
-        nodes: Array<IOgmaNode>;
-        edges: Array<IOgmaEdge>;
+        nodes: IOgmaNode[];
+        edges: IOgmaEdge[];
         truncatedByLimit: boolean;
         truncatedByAccess: boolean;
       }
@@ -184,18 +181,18 @@ export class GraphModule extends Module {
       body: body,
       query: query,
       dataSource: dataSourceKey,
-      transform: (res) => {
+      transform: res => {
         return {
-          nodes: res.nodes.map((n) => VisualizationParser.parseNode(n)),
-          edges: res.edges.map((e) => VisualizationParser.parseEdge(e)),
+          nodes: res.nodes.map(n => VisualizationParser.parseNode(n)),
+          edges: res.edges.map(e => VisualizationParser.parseEdge(e)),
           truncatedByLimit: res.truncatedByLimit,
-          truncatedByAccess: res.truncatedByAccess,
+          truncatedByAccess: res.truncatedByAccess
         };
-      },
+      }
     }) as Promise<
       | Success<{
-          nodes: Array<IOgmaNode>;
-          edges: Array<IOgmaEdge>;
+          nodes: IOgmaNode[];
+          edges: IOgmaEdge[];
           truncatedByLimit: boolean;
           truncatedByAccess: boolean;
         }>
@@ -228,8 +225,8 @@ export class GraphModule extends Module {
     dataSourceKey?: string
   ): Promise<
     | Success<{
-        nodes: Array<IOgmaNode>;
-        edges: Array<IOgmaEdge>;
+        nodes: IOgmaNode[];
+        edges: IOgmaEdge[];
         truncatedByLimit: boolean;
         truncatedByAccess: boolean;
       }>
@@ -248,23 +245,23 @@ export class GraphModule extends Module {
       limit: data.limit,
       timeout: data.timeout,
       edgesTo: data.edgesTo,
-      templateData: data.templateData,
+      templateData: data.templateData
     };
     const query: any = {
       withDegree: data.withDegree,
       withAccess: data.withAccess,
-      withDigest: data.withDigest,
+      withDigest: data.withDigest
     };
     return this.request<
       {
-        nodes: Array<INode>;
-        edges: Array<IEdge>;
+        nodes: INode[];
+        edges: IEdge[];
         truncatedByLimit: boolean;
         truncatedByAccess: boolean;
       },
       {
-        nodes: Array<IOgmaNode>;
-        edges: Array<IOgmaEdge>;
+        nodes: IOgmaNode[];
+        edges: IOgmaEdge[];
         truncatedByLimit: boolean;
         truncatedByAccess: boolean;
       }
@@ -274,18 +271,18 @@ export class GraphModule extends Module {
       query: query,
       body: body,
       dataSource: dataSourceKey,
-      transform: (res) => {
+      transform: res => {
         return {
-          nodes: res.nodes.map((n) => VisualizationParser.parseNode(n)),
-          edges: res.edges.map((e) => VisualizationParser.parseEdge(e)),
+          nodes: res.nodes.map(n => VisualizationParser.parseNode(n)),
+          edges: res.edges.map(e => VisualizationParser.parseEdge(e)),
           truncatedByLimit: res.truncatedByLimit,
-          truncatedByAccess: res.truncatedByAccess,
+          truncatedByAccess: res.truncatedByAccess
         };
-      },
+      }
     }) as Promise<
       | Success<{
-          nodes: Array<IOgmaNode>;
-          edges: Array<IOgmaEdge>;
+          nodes: IOgmaNode[];
+          edges: IOgmaEdge[];
           truncatedByLimit: boolean;
           truncatedByAccess: boolean;
         }>
@@ -311,7 +308,7 @@ export class GraphModule extends Module {
     },
     dataSourceKey?: string
   ): Promise<
-    | Success<{ write: boolean; type: 'static' | 'template' }>
+    | Success<{write: boolean; type: 'static' | 'template'}>
     | Unauthorized
     | Forbidden
     | BadGraphRequest
@@ -325,9 +322,9 @@ export class GraphModule extends Module {
       url: '/{dataSourceKey}/graph/check/query',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }) as Promise<
-      | Success<{ write: boolean; type: 'static' | 'template' }>
+      | Success<{write: boolean; type: 'static' | 'template'}>
       | Unauthorized
       | Forbidden
       | BadGraphRequest
@@ -356,7 +353,7 @@ export class GraphModule extends Module {
     },
     dataSourceKey?: string
   ): Promise<
-    | Success<Array<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>; columns: any }>>
+    | Success<Array<{nodes: IOgmaNode[]; edges: IOgmaEdge[]; columns: any}>>
     | Unauthorized
     | GuestDisabled
     | Forbidden
@@ -367,32 +364,32 @@ export class GraphModule extends Module {
     | GraphUnreachable
     | InvalidParameter
   > {
-    let body: any = {
+    const body: any = {
       query: data.query,
       dialect: data.dialect,
       limit: data.limit,
       timeout: data.timeout,
-      columns: data.columns,
+      columns: data.columns
     };
     return this.request<
-      { results: Array<{ nodes: Array<INode>; edges: Array<IEdge>; columns: any }> },
-      Array<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>; columns: any }>
+      {results: Array<{nodes: INode[]; edges: IEdge[]; columns: any}>},
+      Array<{nodes: IOgmaNode[]; edges: IOgmaEdge[]; columns: any}>
     >({
       url: '/{dataSourceKey}/graph/alertPreview',
       method: 'POST',
       body: body,
       dataSource: dataSourceKey,
-      transform: (res) => {
-        return res.results.map((result) => {
+      transform: res => {
+        return res.results.map(result => {
           return {
             nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
             edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
-            columns: result.columns,
+            columns: result.columns
           };
         });
-      },
+      }
     }) as Promise<
-      | Success<Array<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>; columns: any }>>
+      | Success<Array<{nodes: IOgmaNode[]; edges: IOgmaEdge[]; columns: any}>>
       | Unauthorized
       | GuestDisabled
       | Forbidden
@@ -418,7 +415,7 @@ export class GraphModule extends Module {
       dialect?: 'cypher' | 'gremlin' | 'sparql';
       description: string;
       sharing: 'private' | 'source' | 'groups';
-      sharedWithGroups?: Array<number>;
+      sharedWithGroups?: number[];
     },
     dataSourceKey?: string
   ): Promise<
@@ -436,7 +433,7 @@ export class GraphModule extends Module {
       url: '/{dataSourceKey}/graph/query',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }) as Promise<
       | Success<IGraphQuery>
       | Unauthorized
@@ -464,7 +461,7 @@ export class GraphModule extends Module {
       content?: string;
       description?: string;
       sharing?: 'private' | 'source' | 'groups';
-      sharedWithGroups?: Array<number>;
+      sharedWithGroups?: number[];
     },
     dataSourceKey?: string
   ): Promise<
@@ -482,7 +479,7 @@ export class GraphModule extends Module {
       url: '/{dataSourceKey}/graph/query/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }) as Promise<
       | Success<void>
       | Unauthorized
@@ -500,14 +497,14 @@ export class GraphModule extends Module {
    * Delete a query
    */
   public delete(
-    data: { id: number },
+    data: {id: number},
     dataSourceKey?: string
   ): Promise<Success<void> | Unauthorized | Forbidden | InvalidParameter | NotFound> {
     return this.request({
       url: '/{dataSourceKey}/graph/query/{id}',
       method: 'DELETE',
       dataSource: dataSourceKey,
-      body: data,
+      body: data
     }) as Promise<Success<void> | Unauthorized | Forbidden | InvalidParameter | NotFound>;
   }
 }

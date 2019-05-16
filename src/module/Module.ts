@@ -8,14 +8,12 @@
  * Description :
  */
 
-'use strict';
-
-import { Fetcher } from '../http/fetcher';
-import { ErrorListener } from '../errorListener';
-import { RequestConfig } from '../../index';
-import { Success } from '../response/success';
-import { Rejection } from '../response/errors';
-import { Transformer } from '../transformer';
+import {RequestConfig} from '../../index';
+import {ErrorListener} from '../errorListener';
+import {Fetcher} from '../http/fetcher';
+import {Rejection} from '../response/errors';
+import {Success} from '../response/success';
+import {Transformer} from '../transformer';
 
 export abstract class Module {
   private _fetcher: Fetcher;

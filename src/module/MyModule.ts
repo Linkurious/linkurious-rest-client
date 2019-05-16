@@ -8,15 +8,13 @@
  * Description :
  */
 
-'use strict';
-
-import { IFullUser, IBaseGroup } from '../../index';
-import { Module } from './Module';
-import { Fetcher } from '../http/fetcher';
-import { Success } from '../response/success';
-import { Forbidden, Rejection, Unauthorized } from '../response/errors';
-import { Transformer } from '../transformer';
-import { ErrorListener } from '../errorListener';
+import {IBaseGroup, IFullUser} from '../../index';
+import {ErrorListener} from '../errorListener';
+import {Fetcher} from '../http/fetcher';
+import {Forbidden, Unauthorized} from '../response/errors';
+import {Success} from '../response/success';
+import {Transformer} from '../transformer';
+import {Module} from './Module';
 
 export class MyModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -29,13 +27,13 @@ export class MyModule extends Module {
    * @returns {Promise<IFullUser>}
    */
   public infos(status?: boolean): Promise<IFullUser> {
-    let data: any = {
-      guest: status,
+    const data: any = {
+      guest: status
     };
     return this.fetch({
       url: '/auth/me',
       method: 'GET',
-      query: data,
+      query: data
     });
   }
 
@@ -52,36 +50,36 @@ export class MyModule extends Module {
       node: Array<{
         index: number;
         itemType: string | null | undefined;
-        input: Array<string>;
+        input: string[];
         value: any;
-        style: { color: string | any };
+        style: {color: string | any};
       }>;
       edge: Array<{
         index: number;
         itemType: string | null | undefined;
-        input: Array<string>;
+        input: string[];
         value: any;
-        style: { color: string | any };
+        style: {color: string | any};
       }>;
     };
     captions: {
-      node: { [key: string]: { displayName: boolean; properties: Array<string>; active: boolean } };
-      edge: { [key: string]: { displayName: boolean; properties: Array<string>; active: boolean } };
+      node: {[key: string]: {displayName: boolean; properties: string[]; active: boolean}};
+      edge: {[key: string]: {displayName: boolean; properties: string[]; active: boolean}};
     };
-    palettes: { [key: string]: string };
+    palettes: {[key: string]: string};
   }> {
     return this.fetch({
       url: '/{dataSourceKey}/sandbox',
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((res: any) => {
       return {
         styles: res.visualization.design.styles,
         captions: {
           node: res.visualization.nodeFields.captions,
-          edge: res.visualization.nodeFields.captions,
+          edge: res.visualization.nodeFields.captions
         },
-        palettes: res.visualization.design.palette,
+        palettes: res.visualization.design.palette
       };
     });
   }
@@ -94,7 +92,7 @@ export class MyModule extends Module {
   public IsAuth(): Promise<boolean> {
     return this.fetch({
       url: '/auth/authenticated',
-      method: 'GET',
+      method: 'GET'
     });
   }
 
@@ -106,12 +104,12 @@ export class MyModule extends Module {
       action: string;
     },
     dataSourceKey?: string
-  ): Promise<Success<Array<IBaseGroup>> | Unauthorized | Forbidden> {
+  ): Promise<Success<IBaseGroup[]> | Unauthorized | Forbidden> {
     return this.request({
       url: '/{dataSourceKey}/groups',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey,
-    }) as Promise<Success<Array<IBaseGroup>> | Unauthorized | Forbidden>;
+      dataSource: dataSourceKey
+    }) as Promise<Success<IBaseGroup[]> | Unauthorized | Forbidden>;
   }
 }

@@ -8,10 +8,8 @@
  * Description :
  */
 
-'use strict';
-
-import { Rejection, RejectionKey } from './errors';
-import { Success } from './success';
+import {Rejection, RejectionKey} from './errors';
+import {Success} from './success';
 
 export abstract class ServerResponse<T extends 'success' | RejectionKey> {
   public readonly key: T;

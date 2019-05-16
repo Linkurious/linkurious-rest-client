@@ -8,9 +8,7 @@
  * Description :
  */
 
-'use strict';
-
-import { expect } from 'chai';
+import {expect} from 'chai';
 import 'mocha';
 import {
   IFullUser,
@@ -21,7 +19,7 @@ import {
   IShare,
   IVisualization,
   Linkurious,
-  TypeAccessRight,
+  TypeAccessRight
 } from '../index';
 
 describe('Linkurious class', () => {
@@ -44,7 +42,7 @@ describe('Linkurious class', () => {
       debug: () => {},
       error: () => {
         testLog = true;
-      },
+      }
     };
     linkurious = new Linkurious('http://localhost:3001', 'error', logDriver);
   });
@@ -56,7 +54,7 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.search.simple({
             type: 'nodes',
-            q: 'Keanu Reeves',
+            q: 'Keanu Reeves'
           });
         })
         .then(function(res: any) {
@@ -74,7 +72,7 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.search.simple({
             type: 'edges',
-            q: 'ACTED_IN',
+            q: 'ACTED_IN'
           });
         })
         .then(function(res: any) {
@@ -106,7 +104,7 @@ describe('Linkurious class', () => {
               query: 'MATCH (n1:Movie) WHERE n1.released < 2000 RETURN n1, n1.released',
               dialect: 'cypher',
               enabled: true,
-              cron: '* * * * *',
+              cron: '* * * * *'
             },
             sourceKey
           )
@@ -135,7 +133,7 @@ describe('Linkurious class', () => {
         return linkurious.alerts
           .getAlert(
             {
-              id: alertId,
+              id: alertId
             },
             sourceKey
           )
@@ -156,7 +154,7 @@ describe('Linkurious class', () => {
             {
               id: alertId,
               offset: 0,
-              limit: 20,
+              limit: 20
             },
             sourceKey
           )
@@ -174,7 +172,7 @@ describe('Linkurious class', () => {
         return linkurious.admin
           .updateAlert({
             id: alertId,
-            title: 'testAlertModified',
+            title: 'testAlertModified'
           })
           .then((res: any) => {
             expect(res.id).to.eql(alertId);
@@ -192,7 +190,7 @@ describe('Linkurious class', () => {
             {
               alertId: alertId,
               action: 'confirm',
-              matchId: matchId,
+              matchId: matchId
             },
             sourceKey
           )
@@ -210,7 +208,7 @@ describe('Linkurious class', () => {
           .getMatch(
             {
               alertId: alertId,
-              matchId: matchId,
+              matchId: matchId
             },
             sourceKey
           )
@@ -229,7 +227,7 @@ describe('Linkurious class', () => {
           .getMatchActions(
             {
               alertId: alertId,
-              matchId: matchId,
+              matchId: matchId
             },
             sourceKey
           )
@@ -258,7 +256,7 @@ describe('Linkurious class', () => {
         return linkurious.admin
           .getAlert(
             {
-              id: alertId,
+              id: alertId
             },
             sourceKey
           )
@@ -275,7 +273,7 @@ describe('Linkurious class', () => {
         return linkurious.admin
           .deleteAlert(
             {
-              id: alertId,
+              id: alertId
             },
             sourceKey
           )
@@ -289,7 +287,7 @@ describe('Linkurious class', () => {
   describe('resetDefaults method', () => {
     it('must return true', () => {
       return linkurious.initSources().then(() => {
-        return linkurious.admin.resetDefaults({ design: true }, sourceKey).then((res: any) => {
+        return linkurious.admin.resetDefaults({design: true}, sourceKey).then((res: any) => {
           expect(res).to.eql('');
         });
       });
@@ -298,7 +296,7 @@ describe('Linkurious class', () => {
 
   describe('setCurrentSource method', function() {
     it('must set the dataSource by ConfigIndex', function() {
-      return linkurious.getSourceList().then((sources) => {
+      return linkurious.getSourceList().then(sources => {
         linkurious.setCurrentSource(sources[0]);
         expect(linkurious.state.currentSource.configIndex).to.eql(0);
       });
@@ -322,7 +320,7 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.graph.run({
             dialect: 'cypher',
-            query: 'MATCH (n)\n WHERE ID(n)=' + nodeId + ' return n LIMIT 1',
+            query: 'MATCH (n)\n WHERE ID(n)=' + nodeId + ' return n LIMIT 1'
           });
         })
         .then(function(res) {
@@ -335,9 +333,11 @@ describe('Linkurious class', () => {
 
   describe('searchUsers method', function() {
     it('must return a list of users', function() {
-      return linkurious.search.getUsers({ groupId: 4, limit: 4, offset: 0, startsWith: '' }).then(function(res: any) {
-        expect(res.found).to.eql(0);
-      });
+      return linkurious.search
+        .getUsers({groupId: 4, limit: 4, offset: 0, startsWith: ''})
+        .then(function(res: any) {
+          expect(res.found).to.eql(0);
+        });
     });
   });
 
@@ -354,7 +354,7 @@ describe('Linkurious class', () => {
       return linkurious
         .initSources()
         .then(() => {
-          return linkurious.edge.getOne({ id: edgeID });
+          return linkurious.edge.getOne({id: edgeID});
         })
         .then((res: any) => {
           expect(res.edges[0].data.type).to.eql('ACTED_IN');
@@ -368,13 +368,13 @@ describe('Linkurious class', () => {
         .initSources()
         .then(function() {
           return linkurious.node.getOne({
-            id: nodeId,
+            id: nodeId
           });
         })
-        .then(function(res: { nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }) {
+        .then(function(res: {nodes: IOgmaNode[]; edges: IOgmaEdge[]}) {
           node = res.nodes[0];
           expect(res.nodes[0].id).to.eql(nodeId);
-          expect(res.nodes[0].data.properties).to.eql({ name: 'Keanu Reeves', born: 1964 });
+          expect(res.nodes[0].data.properties).to.eql({name: 'Keanu Reeves', born: 1964});
           expect(res.edges.length).to.eql(0);
         });
     });
@@ -387,10 +387,10 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.node.expand({
             ids: [nodeId],
-            edgesTo: [nodeId],
+            edgesTo: [nodeId]
           });
         })
-        .then(function(res: { nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }) {
+        .then(function(res: {nodes: IOgmaNode[]; edges: IOgmaEdge[]}) {
           expect(res.nodes.length).to.be.greaterThan(0);
         });
     });
@@ -406,8 +406,8 @@ describe('Linkurious class', () => {
             addedCategories: [],
             deletedCategories: [],
             deletedProperties: [],
-            properties: { name: 'Keanu Reeves', born: 1964, test: 'test update' },
-            readAt: node.data.readAt,
+            properties: {name: 'Keanu Reeves', born: 1964, test: 'test update'},
+            readAt: node.data.readAt
           });
         })
         .catch(function(res) {
@@ -422,7 +422,7 @@ describe('Linkurious class', () => {
         .initSources()
         .then(function() {
           return linkurious.edge.getProperties({
-            omitNoindex: true,
+            omitNoindex: true
           });
         })
         .then(function(res) {
@@ -430,7 +430,7 @@ describe('Linkurious class', () => {
             res.sort((a, b) => {
               return a.key < b.key ? -1 : a.key > b.key ? 1 : 0;
             })
-          ).to.eql([{ key: 'altEdgeID', count: 1 }, { key: 'roles', count: 4 }]);
+          ).to.eql([{key: 'altEdgeID', count: 1}, {key: 'roles', count: 4}]);
         });
     });
   });
@@ -441,10 +441,10 @@ describe('Linkurious class', () => {
         .initSources()
         .then(function() {
           return linkurious.node.getProperties({
-            omitNoindex: true,
+            omitNoindex: true
           });
         })
-        .then(function(res: Array<IProperty>) {
+        .then(function(res: IProperty[]) {
           expect(res.length).to.be.greaterThan(0);
         });
     });
@@ -456,11 +456,11 @@ describe('Linkurious class', () => {
         .initSources()
         .then(function() {
           return linkurious.edge.getTypes({
-            includeType: true,
+            includeType: true
           });
         })
-        .then(function(res: { any: { access: TypeAccessRight }; results: Array<IItemType> }) {
-          let sortedResponse: Array<IItemType> = res.results.sort((a, b) => {
+        .then(function(res: {any: {access: TypeAccessRight}; results: IItemType[]}) {
+          const sortedResponse: IItemType[] = res.results.sort((a, b) => {
             if (a.name < b.name) {
               return -1;
             }
@@ -481,7 +481,7 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.node.getTypes();
         })
-        .then(function(res: { any: { access: TypeAccessRight }; results: Array<IItemType> }) {
+        .then(function(res: {any: {access: TypeAccessRight}; results: IItemType[]}) {
           expect(res.results.length).to.eql(8);
         });
     });
@@ -493,7 +493,7 @@ describe('Linkurious class', () => {
         .initSources()
         .then(function() {
           return linkurious.visualization.getSandbox({
-            doLayout: false,
+            doLayout: false
           });
         })
         .then(function(res: IVisualization) {
@@ -517,11 +517,11 @@ describe('Linkurious class', () => {
                 COMPANY: {
                   displayName: false,
                   active: true,
-                  properties: ['name'],
-                },
+                  properties: ['name']
+                }
               },
-              types: {},
-            },
+              types: {}
+            }
           });
         })
         .then((res: any) => {
@@ -535,14 +535,14 @@ describe('Linkurious class', () => {
   describe('createUser method', function() {
     it('must create a new user', function() {
       return linkurious.admin
-        .getGroups({ withAccessRights: false }, sourceKey)
-        .then((success) => {
+        .getGroups({withAccessRights: false}, sourceKey)
+        .then(success => {
           if (success.isSuccess()) {
             return linkurious.admin.createUser({
               username: 'testName',
               email: 'testName@test.fr',
-              groups: success.response.filter((g) => g.name === 'admin').map((g) => g.id),
-              password: 'testPass',
+              groups: success.response.filter(g => g.name === 'admin').map(g => g.id),
+              password: 'testPass'
             });
           }
           return Promise.reject(success);
@@ -559,7 +559,7 @@ describe('Linkurious class', () => {
       return linkurious.admin
         .updateConfig({
           path: 'access.authRequired',
-          configuration: true,
+          configuration: true
         })
         .then(function() {
           return linkurious.getAppConfig();
@@ -572,18 +572,22 @@ describe('Linkurious class', () => {
 
   describe('login method', function() {
     it('must log a user and hydrate app state', function() {
-      return linkurious.login({ usernameOrEmail: 'testName', password: 'testPass' }).then(function(res) {
-        expect(linkurious.state.user.id).to.eql(userId);
-        expect(res.username).to.equal('testName');
-      });
-    });
-
-    it('must logout before login if another user is currently authenticated', function() {
-      return linkurious.login({ usernameOrEmail: 'testName', password: 'testPass' }).then(function() {
-        return linkurious.login({ usernameOrEmail: 'testName', password: 'testPass' }).then(function(res) {
+      return linkurious
+        .login({usernameOrEmail: 'testName', password: 'testPass'})
+        .then(function(res) {
           expect(linkurious.state.user.id).to.eql(userId);
           expect(res.username).to.equal('testName');
         });
+    });
+
+    it('must logout before login if another user is currently authenticated', function() {
+      return linkurious.login({usernameOrEmail: 'testName', password: 'testPass'}).then(function() {
+        return linkurious
+          .login({usernameOrEmail: 'testName', password: 'testPass'})
+          .then(function(res) {
+            expect(linkurious.state.user.id).to.eql(userId);
+            expect(res.username).to.equal('testName');
+          });
       });
     });
   });
@@ -591,7 +595,7 @@ describe('Linkurious class', () => {
   describe('logout method', function() {
     it('must disconnect user and reset client state', function() {
       return linkurious
-        .login({ usernameOrEmail: 'testName', password: 'testPass' })
+        .login({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
           return linkurious.logout();
         })
@@ -604,7 +608,7 @@ describe('Linkurious class', () => {
 
   describe('init method', function() {
     it('must set current user and default source', function() {
-      return linkurious.init({ usernameOrEmail: 'testName', password: 'testPass' }).then(function() {
+      return linkurious.init({usernameOrEmail: 'testName', password: 'testPass'}).then(function() {
         expect(linkurious.state.user.id).to.eql(userId);
         expect(linkurious.state.currentSource.configIndex).to.eql(0);
       });
@@ -614,11 +618,11 @@ describe('Linkurious class', () => {
   describe('updateCurrentUser', function() {
     it('must update current user and reflect it in state', function() {
       return linkurious
-        .login({ usernameOrEmail: 'testName', password: 'testPass' })
+        .login({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
           return linkurious.updateCurrentUser({
             id: userId,
-            username: 'nameChanged',
+            username: 'nameChanged'
           });
         })
         .then(function() {
@@ -634,7 +638,7 @@ describe('Linkurious class', () => {
   describe('createWidget method', () => {
     it('must create a widget', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(() => {
           return linkurious.visualization.getSandbox();
         })
@@ -642,12 +646,12 @@ describe('Linkurious class', () => {
           response.title = 'test';
           return linkurious.visualization.create(response);
         })
-        .then((res) => {
+        .then(res => {
           vizId = res.id;
         })
         .then(() => {
           return linkurious.visualization.createWidget({
-            visualizationId: vizId,
+            visualizationId: vizId
           });
         })
         .then((res: any) => {
@@ -660,9 +664,9 @@ describe('Linkurious class', () => {
   describe('get widget method', () => {
     it('must return a widget', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(() => {
-          return linkurious.visualization.getWidget({ id: widget });
+          return linkurious.visualization.getWidget({id: widget});
         })
         .then((res: any) => {
           expect(res.key).to.eql(widget);
@@ -674,9 +678,9 @@ describe('Linkurious class', () => {
   describe('deleteWidget method', () => {
     it('must delete a widget', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(() => {
-          return linkurious.visualization.deleteWidget({ id: widget });
+          return linkurious.visualization.deleteWidget({id: widget});
         })
         .then((res: any) => {
           expect(res).to.eql('');
@@ -687,7 +691,7 @@ describe('Linkurious class', () => {
   describe('create visu method', () => {
     it('must return a visualization', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(() => {
           return linkurious.visualization.create({
             title: 'newVizuTest',
@@ -696,23 +700,23 @@ describe('Linkurious class', () => {
                 id: nodeId,
                 nodelink: {
                   x: 50,
-                  y: 50,
-                },
-              },
+                  y: 50
+                }
+              }
             ],
             edges: [
               {
-                id: edgeID,
-              },
+                id: edgeID
+              }
             ],
             nodeFields: {
               captions: {},
-              types: {},
+              types: {}
             },
             edgeFields: {
               captions: {},
-              types: {},
-            },
+              types: {}
+            }
           });
         })
         .then((res: any) => {
@@ -727,11 +731,11 @@ describe('Linkurious class', () => {
   describe('duplicate visu method', () => {
     it('must return the created visu', () => {
       linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(function() {
-          return linkurious.visualization.duplicate({ id: visu.id, title: 'Copy of newVizuTest' });
+          return linkurious.visualization.duplicate({id: visu.id, title: 'Copy of newVizuTest'});
         })
-        .then((res) => {
+        .then(res => {
           visuToDelete = res.visualizationId;
         });
     });
@@ -740,9 +744,9 @@ describe('Linkurious class', () => {
   describe('delete a visu method', () => {
     it('must delete a visu', () => {
       linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(function() {
-          return linkurious.visualization.deleteOne({ id: visuToDelete });
+          return linkurious.visualization.deleteOne({id: visuToDelete});
         })
         .then((res: any) => {
           expect(res).toBe('');
@@ -753,9 +757,9 @@ describe('Linkurious class', () => {
   describe('get share rights of a visu method', () => {
     it('must return sharers', () => {
       linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(function() {
-          return linkurious.visualization.getShares({ id: visu.id });
+          return linkurious.visualization.getShares({id: visu.id});
         })
         .then((res: any) => {
           expect(res.shares.length).toEqual(0);
@@ -767,9 +771,9 @@ describe('Linkurious class', () => {
   describe('get a visu method', () => {
     it('must return a visu', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(function() {
-          return linkurious.visualization.getOne({ id: visu.id, populated: true });
+          return linkurious.visualization.getOne({id: visu.id, populated: true});
         })
         .then((res: any) => {
           expect(res.title).to.eql('newVizuTest');
@@ -780,12 +784,12 @@ describe('Linkurious class', () => {
   describe('shareVisualization method', function() {
     it('must share a visualization', function() {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(function() {
           return linkurious.visualization.share({
             userId: userId,
             right: 'read',
-            vizId: vizId,
+            vizId: vizId
           });
         })
         .then(function(res: IShare) {
@@ -798,7 +802,7 @@ describe('Linkurious class', () => {
   describe('getHiddenEdgeProperties method', () => {
     it('must return an array of edge Properties', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(function() {
           return linkurious.admin.getHiddenEdgeProperties();
         })
@@ -812,7 +816,7 @@ describe('Linkurious class', () => {
   describe('getHiddenNodeProperties method', () => {
     it('must return an array of node Properties', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(function() {
           return linkurious.admin.getHiddenNodeProperties();
         })
@@ -826,7 +830,7 @@ describe('Linkurious class', () => {
   describe('getNonIndexedEdgeProperties method', () => {
     it('must return an array of edge Properties', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(function() {
           return linkurious.admin.getNonIndexedEdgeProperties();
         })
@@ -840,7 +844,7 @@ describe('Linkurious class', () => {
   describe('getNonIndexedNodeProperties method', () => {
     it('must return an array of node Properties', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(function() {
           return linkurious.admin.getNonIndexedNodeProperties();
         })
@@ -854,9 +858,9 @@ describe('Linkurious class', () => {
   describe('setHiddenEdgeProperties method', () => {
     it('must return true', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(function() {
-          return linkurious.admin.setHiddenEdgeProperties({ properties: ['testHiddenEdgeProp'] });
+          return linkurious.admin.setHiddenEdgeProperties({properties: ['testHiddenEdgeProp']});
         })
         .then(function(res) {
           expect(res).to.not.be.undefined;
@@ -867,9 +871,9 @@ describe('Linkurious class', () => {
   describe('setHiddenNodeProperties method', () => {
     it('must return true', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(function() {
-          return linkurious.admin.setHiddenNodeProperties({ properties: ['testHiddenNodeProp'] });
+          return linkurious.admin.setHiddenNodeProperties({properties: ['testHiddenNodeProp']});
         })
         .then(function(res) {
           expect(res).to.not.be.undefined;
@@ -880,9 +884,11 @@ describe('Linkurious class', () => {
   describe('setNonIndexedEdgeProperties method', () => {
     it('must return true', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(() => {
-          return linkurious.admin.setNotIndexedEdgeProperties({ properties: ['testNonIndexedEdgeProp'] });
+          return linkurious.admin.setNotIndexedEdgeProperties({
+            properties: ['testNonIndexedEdgeProp']
+          });
         })
         .then(function(res) {
           expect(res).to.not.be.undefined;
@@ -893,9 +899,12 @@ describe('Linkurious class', () => {
   describe('setNonIndexedNodeProperties method', () => {
     it('must return true', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(() => {
-          return linkurious.admin.setNotIndexedNodeProperties({ properties: ['testNonIndexedNodeProp'] }, sourceKey);
+          return linkurious.admin.setNotIndexedNodeProperties(
+            {properties: ['testNonIndexedNodeProp']},
+            sourceKey
+          );
         })
         .then(function(res) {
           expect(res).to.not.be.undefined;
@@ -906,23 +915,23 @@ describe('Linkurious class', () => {
   describe('createDataSourceConfig method', () => {
     it('must return true', () => {
       return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(function() {
           return linkurious.admin.createDataSourceConfig({
             graphDb: {
               vendor: 'neo4j',
               url: 'http://127.0.0.2',
               user: 'test',
-              password: 'test',
+              password: 'test'
             },
             index: {
               vendor: 'elasticSearch',
               host: '127.0.0.3',
               port: 7878,
               forceReindex: false,
-              dynamicMapping: false,
+              dynamicMapping: false
             },
-            name: 'test config',
+            name: 'test config'
           });
         })
         .then(function(res) {
@@ -948,14 +957,14 @@ describe('Linkurious class', () => {
   describe('deleteUser method', () => {
     it('must delete a user', () => {
       return linkurious.admin
-        .getGroups({ withAccessRights: false }, sourceKey)
-        .then((success) => {
+        .getGroups({withAccessRights: false}, sourceKey)
+        .then(success => {
           if (success.isSuccess()) {
             return linkurious.admin.createUser({
               username: 'testdelete',
               email: 'testDelete@test.fr',
-              groups: success.response.filter((g) => g.name === 'admin').map((g) => g.id),
-              password: 'testPass',
+              groups: success.response.filter(g => g.name === 'admin').map(g => g.id),
+              password: 'testPass'
             });
           }
           return Promise.reject(success);
@@ -976,11 +985,11 @@ describe('Linkurious class', () => {
       return linkurious.admin
         .createGroup(
           {
-            name: 'testGroup',
+            name: 'testGroup'
           },
           sourceKey
         )
-        .then((success) => {
+        .then(success => {
           if (success.isSuccess()) {
             groupId = success.response.id;
             expect(success.response.name).to.eql('testGroup');
@@ -991,7 +1000,7 @@ describe('Linkurious class', () => {
 
   describe('deleteGroup method', () => {
     it('must return true', () => {
-      return linkurious.admin.deleteGroup({ id: groupId }, sourceKey).then((success) => {
+      return linkurious.admin.deleteGroup({id: groupId}, sourceKey).then(success => {
         if (success.isSuccess()) {
           expect(success.response).to.eql('');
         }
@@ -1002,15 +1011,17 @@ describe('Linkurious class', () => {
   describe('getGroup method', () => {
     it('must return a group', () => {
       return linkurious.admin
-        .getGroups({ withAccessRights: false }, sourceKey)
-        .then((success) => {
+        .getGroups({withAccessRights: false}, sourceKey)
+        .then(success => {
           if (success.isSuccess()) {
-            let adminId: number = success.response.filter((g) => g.name === 'admin').map((g) => g.id)[0];
-            return linkurious.admin.getGroup({ id: adminId }, sourceKey);
+            const adminId: number = success.response
+              .filter(g => g.name === 'admin')
+              .map(g => g.id)[0];
+            return linkurious.admin.getGroup({id: adminId}, sourceKey);
           }
           return Promise.reject(success);
         })
-        .then((success) => {
+        .then(success => {
           if (success.isSuccess()) {
             expect(success.response.name).to.eql('admin');
           }
@@ -1020,7 +1031,7 @@ describe('Linkurious class', () => {
 
   describe('getGroups method', () => {
     it('must return a group list', () => {
-      return linkurious.admin.getGroups(undefined, sourceKey).then((success) => {
+      return linkurious.admin.getGroups(undefined, sourceKey).then(success => {
         if (success.isSuccess()) {
           expect(Array.isArray(success.response)).to.be.true;
         }
@@ -1030,7 +1041,7 @@ describe('Linkurious class', () => {
 
   describe('getGroupsRights method', () => {
     it('must return groups rights', () => {
-      return linkurious.admin.getGroupsRights().then((success) => {
+      return linkurious.admin.getGroupsRights().then(success => {
         if (success.isSuccess()) {
           expect(success.response.types.length).to.eql(5);
           expect(success.response.targetTypes.length).to.eql(4);
@@ -1054,7 +1065,7 @@ describe('Linkurious class', () => {
       return linkurious.admin
         .updateUser({
           id: userId,
-          username: 'testName',
+          username: 'testName'
         })
         .then((res: any) => {
           expect(res.username).to.eql('testName');
@@ -1066,7 +1077,7 @@ describe('Linkurious class', () => {
   describe('countEdge method', () => {
     it('must return the number of edges', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
           return linkurious.edge.count();
         })
@@ -1085,14 +1096,14 @@ describe('Linkurious class', () => {
         .then(function() {
           return linkurious.search.simple({
             type: 'nodes',
-            q: 'Carrie-Anne Moss',
+            q: 'Carrie-Anne Moss'
           });
         })
         .then((res: any) => {
           sourceId = res.results[0].id;
           return linkurious.search.simple({
             type: 'nodes',
-            q: 'Keanu Reeves',
+            q: 'Keanu Reeves'
           });
         })
         .then((res: any) => {
@@ -1101,7 +1112,7 @@ describe('Linkurious class', () => {
             source: sourceId,
             target: targetId,
             type: 'PLAYS_WITH',
-            properties: {},
+            properties: {}
           });
         })
         .then((res: any) => {
@@ -1119,8 +1130,8 @@ describe('Linkurious class', () => {
           return linkurious.edge.update({
             id: edgeID,
             deletedProperties: [],
-            properties: { tralala: 'test' },
-            readAt: '2018-04-16T09:57:31.949Z',
+            properties: {tralala: 'test'},
+            readAt: '2018-04-16T09:57:31.949Z'
           });
         })
         .then((res: any) => {
@@ -1134,7 +1145,7 @@ describe('Linkurious class', () => {
       return linkurious
         .initSources()
         .then(function() {
-          return linkurious.edge.deleteOne({ id: edgeToDelete });
+          return linkurious.edge.deleteOne({id: edgeToDelete});
         })
         .then((res: any) => {
           expect(res).to.eql('');
@@ -1145,7 +1156,7 @@ describe('Linkurious class', () => {
   describe('isAuth method', () => {
     it('must return true if user is auth', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(() => {
           return linkurious.my.IsAuth();
         })
@@ -1158,11 +1169,11 @@ describe('Linkurious class', () => {
   describe('getAllGraphQuery method', () => {
     it('must return an array of graphQuery', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(() => {
-          return linkurious.graph.getAllGraphQueries({ type: 'static' });
+          return linkurious.graph.getAllGraphQueries({type: 'static'});
         })
-        .then((res) => {
+        .then(res => {
           if (res.isSuccess()) {
             expect(res.response.length).to.eql(1);
           }
@@ -1173,17 +1184,17 @@ describe('Linkurious class', () => {
   describe('saveGraphQuery method', () => {
     it('must save a graphQuery', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(() => {
           return linkurious.graph.saveGraphQuery({
             name: 'mygraphQuery',
             description: 'trololo',
             sharing: 'source',
             dialect: 'cypher',
-            content: "MATCH(Person {name: 'Keanu Reeves'})\nRETURN(Person)",
+            content: 'MATCH(Person {name: \'Keanu Reeves\'})\nRETURN(Person)'
           });
         })
-        .then((res) => {
+        .then(res => {
           if (res.isSuccess()) {
             graphQueryId = res.response.id;
             expect(res.response.id).to.eql(6);
@@ -1195,19 +1206,21 @@ describe('Linkurious class', () => {
   describe('update GraphQuery', () => {
     it('must update the graphQuery', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(() => {
           return linkurious.graph.updateGraphQuery({
-            content: "MATCH(Person {name: 'Carrie Anne Moss'})\nRETURN(Person)",
-            id: graphQueryId,
+            content: 'MATCH(Person {name: \'Carrie Anne Moss\'})\nRETURN(Person)',
+            id: graphQueryId
           });
         })
         .then(() => {
-          return linkurious.graph.getGraphQuery({ id: graphQueryId });
+          return linkurious.graph.getGraphQuery({id: graphQueryId});
         })
-        .then((res) => {
+        .then(res => {
           if (res.isSuccess()) {
-            expect(res.response.content).to.eql("MATCH(Person {name: 'Carrie Anne Moss'})\nRETURN(Person)");
+            expect(res.response.content).to.eql(
+              'MATCH(Person {name: \'Carrie Anne Moss\'})\nRETURN(Person)'
+            );
           }
         });
     });
@@ -1216,11 +1229,11 @@ describe('Linkurious class', () => {
   describe('get a graphQuery method', () => {
     it('must return the right graphQuery', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(() => {
-          return linkurious.graph.getGraphQuery({ id: graphQueryId });
+          return linkurious.graph.getGraphQuery({id: graphQueryId});
         })
-        .then((res) => {
+        .then(res => {
           if (res.isSuccess()) {
             expect(res.response.id).to.eql(6);
           }
@@ -1231,7 +1244,7 @@ describe('Linkurious class', () => {
   describe('countNode method', () => {
     it('must return thos number of nodes', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
           return linkurious.node.count();
         })
@@ -1244,13 +1257,13 @@ describe('Linkurious class', () => {
   describe('createNode method', () => {
     it('must create a node', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
           return linkurious.node.create({
             properties: {
-              name: 'Robert Mitchum',
+              name: 'Robert Mitchum'
             },
-            categories: ['actor'],
+            categories: ['actor']
           });
         })
         .then((res: any) => {
@@ -1263,23 +1276,23 @@ describe('Linkurious class', () => {
   describe('deleteNode method', () => {
     it('must delete a node', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
-          return linkurious.node.deleteOne({ id: nodeToDelete });
+          return linkurious.node.deleteOne({id: nodeToDelete});
         })
         .then((res: any) => {
           expect(res).to.eql('');
         })
-        .catch((e) => console.log(e));
+        .catch(e => console.log(e));
     });
   });
 
   describe('getNeighborsCategories method', () => {
     it('must return an array of digest', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
-          return linkurious.node.getNeighborsCategories({ ids: [nodeId] });
+          return linkurious.node.getNeighborsCategories({ids: [nodeId]});
         })
         .then((res: any) => {
           expect(res).to.eql({});
@@ -1290,9 +1303,9 @@ describe('Linkurious class', () => {
   describe('searchFullNodes method', () => {
     it('must return an array of nodes', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
-          return linkurious.search.advanced({ type: 'nodes', q: 'matrix' });
+          return linkurious.search.advanced({type: 'nodes', q: 'matrix'});
         })
         .then((res: any) => {
           expect(res.results.length).to.eql(3);
@@ -1303,9 +1316,9 @@ describe('Linkurious class', () => {
   describe('searchFullEdges method', () => {
     it('must return a array of edges', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
-          return linkurious.search.advanced({ type: 'edges', q: 'ACTED_IN' });
+          return linkurious.search.advanced({type: 'edges', q: 'ACTED_IN'});
         })
         .then((res: any) => {
           expect(res.results.length).to.eql(7);
@@ -1316,7 +1329,7 @@ describe('Linkurious class', () => {
   describe('count visualization method', () => {
     it('must return the number of visualization', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
           return linkurious.visualization.count();
         })
@@ -1329,7 +1342,7 @@ describe('Linkurious class', () => {
   describe('getTree method', () => {
     it('must return visualizations', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
           return linkurious.visualization.getTree();
         })
@@ -1346,9 +1359,9 @@ describe('Linkurious class', () => {
   describe('createFolder method', () => {
     it('must create a folder', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
-          return linkurious.visualization.createFolder({ parent: 0, title: 'testFolder' });
+          return linkurious.visualization.createFolder({parent: 0, title: 'testFolder'});
         })
         .then((res: any) => {
           expect(res.title).to.eql('testFolder');
@@ -1360,12 +1373,12 @@ describe('Linkurious class', () => {
   describe('updateFolder method', () => {
     it('must update te folder', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
           return linkurious.visualization.updateFolder({
             id: folderId,
             key: 'title',
-            value: 'newFolderName',
+            value: 'newFolderName'
           });
         })
         .then((res: any) => {
@@ -1377,9 +1390,9 @@ describe('Linkurious class', () => {
   describe('delete folder method', () => {
     it('must delete a folder', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
-          return linkurious.visualization.deleteFolder({ id: folderId });
+          return linkurious.visualization.deleteFolder({id: folderId});
         })
         .then((res: any) => {
           expect(res).to.eql('');
@@ -1390,11 +1403,11 @@ describe('Linkurious class', () => {
   describe('duplicate visu method', () => {
     it('must return the created visu', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
-          return linkurious.visualization.duplicate({ id: visu.id, title: 'Copy of newVizuTest' });
+          return linkurious.visualization.duplicate({id: visu.id, title: 'Copy of newVizuTest'});
         })
-        .then((res) => {
+        .then(res => {
           expect(res.visualizationId).to.not.be.undefined;
           visuToDelete = res.visualizationId;
         });
@@ -1404,9 +1417,9 @@ describe('Linkurious class', () => {
   describe('delete a visu method', () => {
     it('must delete a visu', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
-          return linkurious.visualization.deleteOne({ id: visuToDelete });
+          return linkurious.visualization.deleteOne({id: visuToDelete});
         })
         .then((res: any) => {
           expect(res).to.equal('');
@@ -1417,9 +1430,9 @@ describe('Linkurious class', () => {
   describe('get share rights of a visu method', () => {
     it('must return sharers', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
-          return linkurious.visualization.getShares({ id: visu.id });
+          return linkurious.visualization.getShares({id: visu.id});
         })
         .then((res: any) => {
           expect(res.shares.length).to.eql(0);
@@ -1431,12 +1444,12 @@ describe('Linkurious class', () => {
   describe('updateVisu method', () => {
     it('must update the visu', () => {
       return linkurious
-        .init({ usernameOrEmail: 'testName', password: 'testPass' })
+        .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
           return linkurious.visualization.update({
             id: visu.id,
             forceLock: false,
-            title: 'youpla visu',
+            title: 'youpla visu'
           });
         })
         .then((res: any) => {

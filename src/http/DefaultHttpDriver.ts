@@ -9,15 +9,10 @@
  */
 
 import * as request from 'superagent';
-import { IHttpResponse, IHttpDriver } from './../../index';
-import { LinkuriousError } from '../LinkuriousError';
+import {LinkuriousError} from '../LinkuriousError';
+import {IHttpDriver, IHttpResponse} from './../../index';
 
 export class DefaultHttpDriver implements IHttpDriver {
-  private cookie: string;
-
-  constructor() {
-    this.cookie = '';
-  }
 
   public POST(uri: string, data?: any, query?: any): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
@@ -60,7 +55,7 @@ export class DefaultHttpDriver implements IHttpDriver {
 
   public GET(uri: string, query?: any, ignoreContentType?: boolean): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
-      let q: any = request
+      const q: any = request
         .get(uri)
         .withCredentials()
         .query(query);
@@ -114,21 +109,17 @@ export class DefaultHttpDriver implements IHttpDriver {
       );
     }*/
 
-    if (res.header && res.header['set-cookie']) {
-      this.cookie = res.header['set-cookie'];
-    }
-
     if (res.type !== null && res.type !== undefined && res.type !== '') {
       resolve({
         statusCode: res.status,
         body: res.body || res.text,
-        header: res.header,
+        header: res.header
       });
     } else {
       resolve({
         statusCode: res.status,
         body: res.status !== 204 ? JSON.parse(res.text) : null,
-        header: res.header,
+        header: res.header
       });
     }
   }

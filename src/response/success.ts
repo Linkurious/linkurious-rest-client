@@ -8,9 +8,7 @@
  * Description :
  */
 
-'use strict';
-
-import { ServerResponse } from './index';
+import {ServerResponse} from './index';
 
 export class Success<T> extends ServerResponse<'success'> {
   public response: T | undefined;

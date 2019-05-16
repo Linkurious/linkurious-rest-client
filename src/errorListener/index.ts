@@ -8,10 +8,8 @@
  * Description :
  */
 
-'use strict';
-
-import { Rejection } from '../response/errors';
-import { LinkuriousError } from '../LinkuriousError';
+import {LinkuriousError} from '../LinkuriousError';
+import {Rejection} from '../response/errors';
 
 type EventCallback = (e: Rejection) => unknown;
 

@@ -5,17 +5,15 @@
  * Created by maximeallex on 2017-02-06.
  */
 
-'use strict';
 import {
-  IFullNode,
   IEdge,
+  IFullNode,
   INode,
-  IOgmaEdge,
   INodeCoordinates,
+  IOgmaEdge,
   IOgmaNode,
   IServerVisualization,
-  IVisualization,
-  IItem,
+  IVisualization
 } from '../../index';
 
 export class VisualizationParser {
@@ -30,7 +28,7 @@ export class VisualizationParser {
         readAt: string;
       }
     ]
-  ): Array<IOgmaEdge> {
+  ): IOgmaEdge[] {
     return edges.map((e: IEdge) => VisualizationParser.parseEdge(e));
   }
 
@@ -51,16 +49,16 @@ export class VisualizationParser {
         type: edge.type,
         selected: edge.selected,
         properties: edge.data,
-        readAt: edge.readAt,
-      },
+        readAt: edge.readAt
+      }
     };
   }
 
   public static parseNode(node: {
     id: string | number;
-    categories: Array<string>;
+    categories: string[];
     data?: any;
-    edges?: Array<any>;
+    edges?: any[];
     statistics?: any;
     nodelink?: any;
     geo?: INodeCoordinates;
@@ -78,8 +76,8 @@ export class VisualizationParser {
         readAt: node.readAt,
         selected: node.selected,
         nodelink: node.nodelink,
-        geo: node.geo,
-      },
+        geo: node.geo
+      }
     };
   }
 
@@ -87,15 +85,15 @@ export class VisualizationParser {
    * format visualization for Ogma
    */
   public static formatVisualization(viz: IServerVisualization): any {
-    let visualization: IVisualization = JSON.parse(JSON.stringify(viz));
+    const visualization: IVisualization = JSON.parse(JSON.stringify(viz));
     visualization.nodes = viz.nodes.map((n: INode) => VisualizationParser.parseNode(n));
     visualization.edges = viz.edges.map((e: IEdge) => VisualizationParser.parseEdge(e));
     return visualization;
   }
 
-  public static splitResponse(response: Array<IFullNode>, data?: any): { nodes: any[]; edges: any[] } {
-    let mn: Map<any, any> = new Map();
-    let me: Map<any, any> = new Map();
+  public static splitResponse(response: IFullNode[], data?: any): {nodes: any[]; edges: any[]} {
+    const mn: Map<any, any> = new Map();
+    const me: Map<any, any> = new Map();
     response.forEach((node: IFullNode) => {
       if (data) {
         if (data.visibleNodes.indexOf(node.id) < 0 || data.ids.indexOf(node.id) < 0) {
@@ -111,7 +109,7 @@ export class VisualizationParser {
 
     return {
       nodes: Array.from(mn.values()),
-      edges: Array.from(me.values()),
+      edges: Array.from(me.values())
     };
   }
 }

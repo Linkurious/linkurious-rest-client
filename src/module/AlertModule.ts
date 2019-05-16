@@ -8,12 +8,11 @@
  * Description :
  */
 
-'use strict';
-import { Module } from './Module';
-import { IMatch, IMatchAction, IAlert, IMatchResults } from '../../index';
-import { Fetcher } from '../http/fetcher';
-import { Transformer } from '../transformer';
-import { ErrorListener } from '../errorListener';
+import {IAlert, IMatch, IMatchAction, IMatchResults} from '../../index';
+import {ErrorListener} from '../errorListener';
+import {Fetcher} from '../http/fetcher';
+import {Transformer} from '../transformer';
+import {Module} from './Module';
 
 export class AlertModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -26,11 +25,11 @@ export class AlertModule extends Module {
    * @param {string} dataSourceKey
    * @returns {Promise<IAlert>}
    */
-  public getAlerts(dataSourceKey?: string): Promise<Array<IAlert>> {
+  public getAlerts(dataSourceKey?: string): Promise<IAlert[]> {
     return this.fetch({
       url: '/{dataSourceKey}/alerts',
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -41,12 +40,12 @@ export class AlertModule extends Module {
    * @param {number}dataSourceKey
    * @returns {Promise<IMatch>}
    */
-  public getAlert(data: { id: number }, dataSourceKey?: string): Promise<IMatch> {
+  public getAlert(data: {id: number}, dataSourceKey?: string): Promise<IMatch> {
     return this.fetch({
       url: '/{dataSourceKey}/alerts/{id}',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -72,7 +71,7 @@ export class AlertModule extends Module {
       url: '/{dataSourceKey}/alerts/{id}/matches',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -94,8 +93,8 @@ export class AlertModule extends Module {
     return this.fetch({
       url: `/{dataSourceKey}/alerts/${data.alertId}/matches/${data.matchId}/action`,
       method: 'POST',
-      body: { action: data.action },
-      dataSource: dataSourceKey,
+      body: {action: data.action},
+      dataSource: dataSourceKey
     });
   }
 
@@ -116,7 +115,7 @@ export class AlertModule extends Module {
     return this.fetch({
       url: `/{dataSourceKey}/alerts/${data.alertId}/matches/${data.matchId}`,
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -133,11 +132,11 @@ export class AlertModule extends Module {
       matchId: number;
     },
     dataSourceKey?: string
-  ): Promise<Array<IMatchAction>> {
+  ): Promise<IMatchAction[]> {
     return this.fetch({
       url: `/{dataSourceKey}/alerts/${data.alertId}/matches/${data.matchId}/actions`,
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 }

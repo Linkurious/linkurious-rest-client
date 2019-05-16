@@ -7,11 +7,10 @@
  * File:
  * Description :
  */
-'use strict';
 
-import { Fetcher } from './fetcher';
-import { Logger } from '../log/Logger';
-import { IClientState } from '../../index';
+import {IClientState} from '../../index';
+import {Logger} from '../log/Logger';
+import {Fetcher} from './fetcher';
 
 export class FetcherFactory {
   public create(_logger: Logger, _clientState: IClientState, baseURL: string): Fetcher {

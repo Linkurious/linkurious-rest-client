@@ -6,15 +6,17 @@
     "experimentalDecorators": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "noEmitOnError": false,
-    "outDir": "./dist",
+    "outDir": "dist",
     "rootDir": ".",
-    "sourceMap": true,
-    "inlineSources": true,
+    "inlineSourceMap": true,
     "lib": ["es2015", "dom", "es6"],
     "target": "es5",
-    "skipLibCheck": true,
-    "strict": true
+    "noUnusedLocals": true,
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnreachableCode": false,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true
   },
   "files": [
     "index.ts"
