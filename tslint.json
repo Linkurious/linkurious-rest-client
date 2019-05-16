@@ -56,7 +56,7 @@
       false
     ],
 
-    // Requires lines to be maximum 100 characters (except block comments)
+    // require lines to be maximum 100 characters (except block comments)
     "max-line-length": [
       true,
       {
