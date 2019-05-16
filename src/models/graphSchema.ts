@@ -117,10 +117,10 @@ export interface GraphSchemaWithAccess extends GraphSchema {
   any: {
     access: string;
   };
-  results: Array<GraphSchemaTypeWithAccess>;
+  results: GraphSchemaTypeWithAccess[];
 }
 
-export interface ICreateNodeCategoryParams {
+export interface ICreateTypeParams {
   sourceKey?: string;
 
   name: string;
@@ -128,7 +128,7 @@ export interface ICreateNodeCategoryParams {
   visibility?: DataVisibility; // default is searchable
 }
 
-export interface IUpdateNodeCategoryParams {
+export interface IUpdateTypeParams {
   sourceKey?: string;
 
   name: string; // name of the category to update
@@ -136,10 +136,10 @@ export interface IUpdateNodeCategoryParams {
   visibility?: DataVisibility;
 }
 
-export interface ICreateNodePropertyParams {
+export interface ICreatePropertyParams {
   sourceKey?: string;
 
-  categoryName: string;
+  propertyOf: string;
 
   name: string;
 
@@ -152,58 +152,10 @@ export interface ICreateNodePropertyParams {
   required?: boolean;
 }
 
-export interface IUpdateNodePropertyParams {
+export interface IUpdatePropertyParams {
   sourceKey?: string;
 
-  categoryName: string;
-
-  name: string;
-
-  visibility: DataVisibility;
-
-  typeName: LkPropertyType;
-
-  typeOptions?: EnumOptions | DateOptions | DatetimeOptions;
-
-  required?: boolean;
-}
-
-export interface IUpdateEdgeTypeParams {
-  sourceKey?: string;
-
-  name: string;
-
-  visibility: DataVisibility;
-}
-
-export interface ICreateEdgeTypeParams {
-  sourceKey?: string;
-
-  name: string;
-
-  visibility?: DataVisibility;
-}
-
-export interface ICreateEdgePropertyParams {
-  sourceKey?: string;
-
-  edgeType: string;
-
-  name: string;
-
-  visibility?: DataVisibility;
-
-  typeName: LkPropertyType;
-
-  typeOptions?: EnumOptions | DateOptions | DatetimeOptions;
-
-  required?: boolean;
-}
-
-export interface IUpdateEdgePropertyParams {
-  sourceKey?: string;
-
-  edgeType: string;
+  propertyOf: string;
 
   name: string;
 
