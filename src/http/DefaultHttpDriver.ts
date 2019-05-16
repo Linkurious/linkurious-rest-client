@@ -13,7 +13,6 @@ import {LinkuriousError} from '../LinkuriousError';
 import {IHttpDriver, IHttpResponse} from './../../index';
 
 export class DefaultHttpDriver implements IHttpDriver {
-
   public POST(uri: string, data?: any, query?: any): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
       request
