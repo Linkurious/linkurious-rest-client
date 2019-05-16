@@ -17,50 +17,6 @@ import { VisualizationParser } from './VisualizationParser';
 import { Transformer } from '../transformer';
 import { ErrorListener } from '../errorListener';
 
-class Mock {
-  static wrap(type: string, value?: unknown, status?: string) {
-    return {
-      type: type,
-      status: status,
-      value: value,
-    };
-  }
-
-  static date(value: unknown) {
-    if (typeof value === 'number') {
-      return Mock.wrap('date', value);
-    }
-
-    return Mock.wrap('auto', value, 'conflict');
-  }
-
-  static datetime(value: unknown) {
-    if (typeof value === 'number') {
-      return Mock.wrap('datetime', value);
-    }
-
-    return Mock.wrap('auto', value, 'conflict');
-  }
-
-  static missing(type: string) {
-    return Mock.wrap(type, undefined, 'missing');
-  }
-
-  static mockProperties<T extends { data: T }>(item: T): T {
-    if (typeof item.data === 'object') {
-      const data = item.data || {};
-      for (let key of Object.keys(data)) {
-        switch (key) {
-          case 'date':
-            // @ts-ignore
-            data[key] = Mock.date(data[key]);
-        }
-      }
-    }
-    return item;
-  }
-}
-
 export class EdgeModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
     super(fetcher, transformer, errorListener);
