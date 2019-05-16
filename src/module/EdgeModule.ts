@@ -11,12 +11,11 @@
 'use strict';
 
 import { Module } from './Module';
-import { IEdge, ItemId, IProperty, IItemType, IOgmaEdge, TypeAccessRight, IOgmaNode, INode } from '../../index';
+import { IEdge, ItemId, IOgmaEdge, IOgmaNode, INode } from '../../index';
 import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
 import { Transformer } from '../transformer';
 import { ErrorListener } from '../errorListener';
-import { GraphSchemaType } from '../models/graphSchema';
 
 export class EdgeModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -107,8 +106,6 @@ export class EdgeModule extends Module {
       dataSource: dataSourceKey,
     });
   }
-
-  mockReadType(item: { data: unknown }, schema: GraphSchemaType) {}
 
   /**
    * Get an edge of the graph.
