@@ -15,7 +15,7 @@ import {
   IServerVisualization,
   IVisualization
 } from '../../index';
-import { Mock } from './MockedTypeRead';
+import {Mock} from './MockedTypeRead';
 
 export class VisualizationParser {
   public static parseEdgeList(

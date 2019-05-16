@@ -19,13 +19,13 @@ import {
   IOgmaEdge,
   TypeAccessRight,
   INode,
-  IEdge,
+  IEdge
 } from '../../index';
-import { Module } from './Module';
-import { Fetcher } from '../http/fetcher';
-import { VisualizationParser } from './VisualizationParser';
-import { Transformer } from '../transformer';
-import { ErrorListener } from '../errorListener';
+import {Module} from './Module';
+import {Fetcher} from '../http/fetcher';
+import {VisualizationParser} from './VisualizationParser';
+import {Transformer} from '../transformer';
+import {ErrorListener} from '../errorListener';
 
 export class NodeModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -41,7 +41,7 @@ export class NodeModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes/count',
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((res: any) => res.count);
   }
 
@@ -63,7 +63,7 @@ export class NodeModule extends Module {
       url: '/{dataSourceKey}/graph/nodes',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((node: any) => VisualizationParser.parseNode(node));
   }
 
@@ -85,7 +85,7 @@ export class NodeModule extends Module {
       url: '/{dataSourceKey}/graph/nodes/{id}',
       method: 'DELETE',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -104,15 +104,15 @@ export class NodeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
+  ): Promise<{nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>}> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes/{id}',
       method: 'POST',
-      body: params,
-    }).then((response: { nodes: Array<INode>; edges: Array<IEdge> }) => {
+      body: params
+    }).then((response: {nodes: Array<INode>; edges: Array<IEdge>}) => {
       return {
         nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-        edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+        edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e))
       };
     });
   }
@@ -140,29 +140,29 @@ export class NodeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
+  ): Promise<{nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>}> {
     let body: any = {
       ids: data.ids,
       edgesTo: data.edgesTo,
       nodeCategories: data.nodeCategories,
       edgeTypes: data.edgeTypes,
       limit: data.limit,
-      limitType: data.limitType,
+      limitType: data.limitType
     };
     let query: any = {
       withDigest: data.withDigest,
-      withDegree: data.withDegree,
+      withDegree: data.withDegree
     };
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes/expand',
       method: 'POST',
       body: body,
       query: query,
-      dataSource: dataSourceKey,
-    }).then((result: { nodes: Array<INode>; edges: Array<IEdge> }) => {
+      dataSource: dataSourceKey
+    }).then((result: {nodes: Array<INode>; edges: Array<IEdge>}) => {
       return {
         nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-        edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+        edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e))
       };
     });
   }
@@ -186,13 +186,13 @@ export class NodeModule extends Module {
       url: '/{dataSourceKey}/graph/neighborhood/statistics',
       method: 'POST',
       body: {
-        ids: data.ids,
+        ids: data.ids
       },
       query: {
         withDigest: data.withDigest,
-        withDegree: data.withDegree,
+        withDegree: data.withDegree
       },
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -218,7 +218,7 @@ export class NodeModule extends Module {
       url: '/{dataSourceKey}/graph/nodes/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((response: INode) => VisualizationParser.parseNode(response));
   }
 }

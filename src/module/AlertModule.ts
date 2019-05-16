@@ -60,7 +60,7 @@ export class AlertModule extends Module {
       url: '/{dataSourceKey}/alerts/folder',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -76,7 +76,7 @@ export class AlertModule extends Module {
       url: '/{dataSourceKey}/alerts/folder/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -90,7 +90,7 @@ export class AlertModule extends Module {
       url: '/{dataSourceKey}/alerts/folder/{id}',
       method: 'DELETE',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -98,7 +98,7 @@ export class AlertModule extends Module {
     return this.request({
       url: '/{dataSourceKey}/alerts/tree',
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 

@@ -10,12 +10,12 @@
 
 'use strict';
 
-import { Module } from './Module';
-import { IEdge, ItemId, IOgmaEdge, IOgmaNode, INode } from '../../index';
-import { Fetcher } from '../http/fetcher';
-import { VisualizationParser } from './VisualizationParser';
-import { Transformer } from '../transformer';
-import { ErrorListener } from '../errorListener';
+import {Module} from './Module';
+import {IEdge, ItemId, IOgmaEdge, IOgmaNode, INode} from '../../index';
+import {Fetcher} from '../http/fetcher';
+import {VisualizationParser} from './VisualizationParser';
+import {Transformer} from '../transformer';
+import {ErrorListener} from '../errorListener';
 
 export class EdgeModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -32,7 +32,7 @@ export class EdgeModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/graph/edges/count',
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((res: any) => res.count);
   }
 
@@ -56,7 +56,7 @@ export class EdgeModule extends Module {
       url: '/{dataSourceKey}/graph/edges',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
   }
 
@@ -82,7 +82,7 @@ export class EdgeModule extends Module {
       url: '/{dataSourceKey}/graph/edges/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
   }
 
@@ -103,7 +103,7 @@ export class EdgeModule extends Module {
       url: '/{dataSourceKey}/graph/edges/{id}',
       method: 'DELETE',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -118,16 +118,16 @@ export class EdgeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
+  ): Promise<{nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>}> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/edges/{id}',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((response: any) => {
       return {
         nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-        edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+        edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e))
       };
     });
   }

@@ -10,7 +10,7 @@ export class Mock {
     return {
       type: type,
       status: status,
-      value: value,
+      value: value
     };
   }
 
@@ -34,7 +34,7 @@ export class Mock {
     return Mock.wrap(type, undefined, 'missing');
   }
 
-  static properties<T extends { data?: T }>(item: T): T {
+  static properties<T extends {data?: T}>(item: T): T {
     if (typeof item.data === 'object') {
       const data = item.data || {};
       for (let key of Object.keys(data)) {
