@@ -1,23 +1,154 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-10-03.
- *
- * File:
- * Description :
+ * Created on 2016-10-03.
  */
 
-import {IAlert, IMatch, IMatchAction, IMatchResults} from '../../index';
-import {ErrorListener} from '../errorListener';
-import {Fetcher} from '../http/fetcher';
-import {Transformer} from '../transformer';
+// TODO TS2019
+
+import {
+  Forbidden,
+  IAlert,
+  IMatch,
+  IMatchAction,
+  IMatchResults,
+  Success,
+  Unauthorized
+} from '../../index';
+import {
+  ICreateAlertFolderParams,
+  ICreateAlertFolderResponse,
+  IDeleteAlertFolderParams,
+  IGetAlertTreeParams,
+  IGetAlertTreeResponse,
+  IUpdateAlertFolderParams
+} from '../models/Alert';
 import {Module} from './Module';
 
 export class AlertModule extends Module {
-  constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
-    super(fetcher, transformer, errorListener);
+  public async createAlertFolder(
+    options: ICreateAlertFolderParams
+  ): Promise<Success<ICreateAlertFolderResponse> | Unauthorized | Forbidden> {
+    return this.request({
+      url: '/admin/{sourceKey}/alerts/folder',
+      method: 'POST',
+      body: options,
+      path: {
+        sourceKey: options.sourceKey
+      },
+      mock: true,
+      mockValue: {
+        id: 1,
+        sourceKey: '1234',
+        title: options.title,
+        parent: -1,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }
+    });
   }
+
+  public async updateAlertFolder(
+    options: IUpdateAlertFolderParams
+  ): Promise<Success<void> | Unauthorized | Forbidden> {
+    return this.request({
+      url: '/admin/{sourceKey}/alerts/folder/{id}',
+      method: 'PATCH',
+      body: options,
+      path: {
+        sourceKey: options.sourceKey,
+        id: options.id
+      },
+      mock: true
+    });
+  }
+
+  public async deleteAlertFolder(
+    options: IDeleteAlertFolderParams
+  ): Promise<Success<void> | Unauthorized | Forbidden> {
+    return this.request({
+      url: '/admin/{sourceKey}/alerts/folder/{id}',
+      method: 'DELETE',
+      path: {
+        sourceKey: options.sourceKey,
+        id: options.id
+      },
+      mock: true
+    });
+  }
+
+  public async getAlertTree(
+    options: IGetAlertTreeParams
+  ): Promise<Success<IGetAlertTreeResponse> | Unauthorized | Forbidden> {
+    return this.request<IGetAlertTreeResponse>({
+      url: '/admin/{sourceKey}/alerts/tree',
+      method: 'GET',
+      path: {
+        sourceKey: options.sourceKey
+      },
+      mock: true,
+      mockValue: {
+        id: -1,
+        title: 'root',
+        type: 'folder',
+        children: [
+          {
+            id: 1,
+            title: 'folder 1',
+            type: 'folder',
+            children: [
+              {
+                id: 1,
+                title: 'alert in folder 1',
+                type: 'alert',
+                columns: [],
+                lastRun: new Date().toISOString(),
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+              },
+              {
+                id: 2,
+                title: 'alert in folder 1 bis',
+                type: 'alert',
+                columns: [],
+                lastRun: new Date().toISOString(),
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+              }
+            ]
+          },
+          {
+            id: 2,
+            title: 'folder 2',
+            type: 'folder',
+            children: [
+              {
+                id: 3,
+                title: 'alert in folder 2',
+                type: 'alert',
+                columns: [],
+                lastRun: new Date().toISOString(),
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+              }
+            ]
+          },
+          {
+            id: 4,
+            title: 'alert in root',
+            type: 'alert',
+            columns: [],
+            lastRun: new Date().toISOString(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          }
+        ]
+      }
+    });
+  }
+
+  // TODO TS2019 refactor under here
 
   /**
    * get list of alerts
@@ -46,59 +177,6 @@ export class AlertModule extends Module {
       method: 'GET',
       query: data,
       dataSource: dataSourceKey
-    });
-  }
-
-  public createAlertFolder(
-    data: {
-      title: string;
-      parent?: string;
-    },
-    dataSourceKey: string
-  ): Promise<any> {
-    return this.request({
-      url: '/{dataSourceKey}/alerts/folder',
-      method: 'POST',
-      body: data,
-      dataSource: dataSourceKey,
-    });
-  }
-
-  public updateAlertFolder(
-    data: {
-      id: number;
-      title?: string;
-      parent?: string;
-    },
-    dataSourceKey: string
-  ): Promise<any> {
-    return this.request({
-      url: '/{dataSourceKey}/alerts/folder/{id}',
-      method: 'PATCH',
-      body: data,
-      dataSource: dataSourceKey,
-    });
-  }
-
-  public deleteAlertFolder(
-    data: {
-      id: number;
-    },
-    dataSourceKey: string
-  ): Promise<any> {
-    return this.request({
-      url: '/{dataSourceKey}/alerts/folder/{id}',
-      method: 'DELETE',
-      body: data,
-      dataSource: dataSourceKey,
-    });
-  }
-
-  public getAlertFolder(dataSourceKey: string): Promise<any> {
-    return this.request({
-      url: '/{dataSourceKey}/alerts/tree',
-      method: 'GET',
-      dataSource: dataSourceKey,
     });
   }
 
