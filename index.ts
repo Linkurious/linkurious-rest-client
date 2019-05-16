@@ -69,6 +69,7 @@ export interface FetcherConfig {
   dataSource?: string | number;
   body?: { [key: string]: unknown };
   query?: { [key: string]: unknown };
+  path?: { [key: string]: unknown };
 }
 
 export interface RequestConfig<R, T> extends FetcherConfig {

@@ -16,6 +16,7 @@ import { Fetcher } from '../http/fetcher';
 import { VisualizationParser } from './VisualizationParser';
 import { Transformer } from '../transformer';
 import { ErrorListener } from '../errorListener';
+import { GraphSchemaType } from '../models/graphSchema';
 
 export class EdgeModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -107,14 +108,12 @@ export class EdgeModule extends Module {
     });
   }
 
+  mockReadType(item: { data: unknown }, schema: GraphSchemaType) {}
+
   /**
    * Get an edge of the graph.
-   *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<IEdge>}
    */
-  public getOne(
+  public getEdge(
     data: {
       id: ItemId;
       edgesTo?: Array<string | number>;

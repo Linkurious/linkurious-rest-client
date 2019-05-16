@@ -131,7 +131,7 @@ export class SchemaModule extends Module {
     return this.request<GraphSchemaType>({
       url: '/{dataSourceKey}/graph/schema/nodeTypes',
       method: 'POST',
-      query: params,
+      body: params,
       dataSource: params.sourceKey,
       mock: true,
       mockValue: this.nodeSchema.get(params.name),
@@ -150,7 +150,7 @@ export class SchemaModule extends Module {
     return this.request<void>({
       url: '/{dataSourceKey}/graph/schema/nodeTypes',
       method: 'PATCH',
-      query: params,
+      body: params,
       dataSource: params.sourceKey,
       mock: true,
     });
@@ -180,7 +180,7 @@ export class SchemaModule extends Module {
     return this.request<GraphSchemaProperty>({
       url: '/{dataSourceKey}/graph/schema/nodeTypes/properties',
       method: 'POST',
-      query: params,
+      body: params,
       dataSource: params.sourceKey,
       mock: true,
       mockValue: mockValue,
@@ -210,7 +210,7 @@ export class SchemaModule extends Module {
     return this.request<void>({
       url: '/{dataSourceKey}/graph/schema/nodeTypes/properties',
       method: 'PATCH',
-      query: params,
+      body: params,
       dataSource: params.sourceKey,
       mock: true,
     });
@@ -228,7 +228,7 @@ export class SchemaModule extends Module {
     return this.request<GraphSchemaType>({
       url: '/{dataSourceKey}/graph/schema/edgeTypes',
       method: 'POST',
-      query: params,
+      body: params,
       dataSource: params.sourceKey,
       mock: true,
       mockValue: this.edgeSchema.get(params.name),
@@ -247,7 +247,7 @@ export class SchemaModule extends Module {
     return this.request<void>({
       url: '/{dataSourceKey}/graph/schema/edgeTypes',
       method: 'PATCH',
-      query: params,
+      body: params,
       dataSource: params.sourceKey,
       mock: true,
     });
@@ -276,7 +276,7 @@ export class SchemaModule extends Module {
     return this.request<GraphSchemaProperty>({
       url: '/{dataSourceKey}/graph/schema/edgeTypes/properties',
       method: 'POST',
-      query: params,
+      body: params,
       dataSource: params.sourceKey,
       mock: true,
       mockValue: mockValue,
@@ -306,7 +306,7 @@ export class SchemaModule extends Module {
     return this.request<void>({
       url: '/{dataSourceKey}/graph/schema/edgeTypes/properties',
       method: 'PATCH',
-      query: params,
+      body: params,
       dataSource: params.sourceKey,
       mock: true,
     });

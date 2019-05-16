@@ -39,11 +39,29 @@ export abstract class Module {
     return this._fetcher.fetch(config);
   }
 
+  /**
+   * Remove path parameters from body and query string params.
+   */
+  private static sanitizeConfig<R, T>(config: RequestConfig<R, T>): void {
+    for (let key of Object.keys(config.path || {})) {
+      if (config.body !== undefined) {
+        delete config.body[key];
+      }
+
+      if (config.query !== undefined) {
+        delete config.query[key];
+      }
+    }
+  }
+
   protected async request<R, T = R>(config: RequestConfig<R, T>): Promise<Success<T> | Rejection> {
     if (config.mock) {
       return new Success(config.mockValue as T);
     }
+
+    Module.sanitizeConfig(config);
     const response = await this._transformer.transform(this._fetcher.fetch(config), config);
+
     if (response.isError()) {
       this._errorListener.dispatch(response as Rejection);
     }
