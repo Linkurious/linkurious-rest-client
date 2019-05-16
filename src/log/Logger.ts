@@ -7,18 +7,17 @@
  * File:
  * Description :
  */
-'use strict';
 
-import { LinkuriousError } from '../LinkuriousError';
-import { ILoggerDriver } from './../../index';
-import { DefaultLoggerDriver } from './DefaultLoggerDriver';
+import {LinkuriousError} from '../LinkuriousError';
+import {ILoggerDriver} from './../../index';
+import {DefaultLoggerDriver} from './DefaultLoggerDriver';
 
 export type LogLevel = 'debug' | 'error' | 'quiet';
 
 const LOG_LEVELS: any = {
   debug: 0,
   error: 1,
-  quiet: 99,
+  quiet: 99
 };
 
 export class Logger {
@@ -42,7 +41,7 @@ export class Logger {
 
   private log(level: LogLevel, error: LinkuriousError): void {
     if (LOG_LEVELS[level] >= this.numericalLevel) {
-      (<any>this.driver)[level](`[${error.type}] ${error.key}: ${error.message}`);
+      (this.driver as any)[level](`[${error.type}] ${error.key}: ${error.message}`);
     }
   }
 }

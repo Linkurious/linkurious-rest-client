@@ -7,23 +7,22 @@
  * File:
  * Description :
  */
-'use strict';
 
-import { expect } from 'chai';
+import {expect} from 'chai';
 import 'mocha';
-import { Fetcher } from '../src/http/fetcher';
-import { Logger } from '../src/log/Logger';
+import {Fetcher} from '../src/http/fetcher';
+import {Logger} from '../src/log/Logger';
 
 describe('Fetcher class', () => {
   let logger: Logger, fetcher: Fetcher;
 
-  it('must return the right lkError object', (done) => {
+  it('must return the right lkError object', done => {
     fetcher = new Fetcher(
       logger,
       {
         user: undefined,
         currentSource: undefined,
-        guestMode: false,
+        guestMode: false
       },
       'http://127.0.0.1:3001'
     );
@@ -31,7 +30,7 @@ describe('Fetcher class', () => {
     fetcher
       .fetch({
         url: '/test/{dataSourceKey}',
-        method: 'GET',
+        method: 'GET'
       })
       .catch((res: any) => {
         expect(res.status).to.equal(0);
@@ -54,9 +53,9 @@ describe('Fetcher class', () => {
           state: '',
           reason: '',
           features: {},
-          settings: {},
+          settings: {}
         },
-        guestMode: false,
+        guestMode: false
       },
       'http://127.0.0.1:3001'
     );
@@ -66,9 +65,9 @@ describe('Fetcher class', () => {
     return fetcher
       .fetch({
         url: '/test',
-        method: 'GET',
+        method: 'GET'
       })
-      .catch((res) => {
+      .catch(res => {
         expect(res.key).to.equal('api_not_found');
       });
   });

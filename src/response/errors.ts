@@ -8,10 +8,8 @@
  * Description :
  */
 
-'use strict';
-
-import { ServerResponse } from './index';
-import { Tools } from 'linkurious-shared';
+import {Tools} from 'linkurious-shared';
+import {ServerResponse} from './index';
 
 export type RejectionKey =
   | 'bad_graph_request'
@@ -32,10 +30,16 @@ export type RejectionKey =
 export class Rejection extends ServerResponse<RejectionKey> {
   public readonly message: string | undefined;
   public readonly status: number | undefined;
-  public readonly stack: Array<string> | undefined;
+  public readonly stack: string[] | undefined;
   private readonly _data: any;
 
-  constructor(e: { key: RejectionKey; message?: string; status?: number; data?: any; cause?: Error }) {
+  constructor(e: {
+    key: RejectionKey;
+    message?: string;
+    status?: number;
+    data?: any;
+    cause?: Error;
+  }) {
     super(e.key);
     this.message = e.message;
     this.status = e.status;
@@ -53,7 +57,7 @@ export class Rejection extends ServerResponse<RejectionKey> {
   /**
    * Return the offset error
    */
-  public get offset(): { offset: number; length?: number } {
+  public get offset(): {offset: number; length?: number} {
     return this.hasOffset ? this._data : undefined;
   }
 
@@ -103,71 +107,71 @@ export class Rejection extends ServerResponse<RejectionKey> {
 
 export class BadGraphRequest extends Rejection {
   constructor() {
-    super({ key: 'bad_graph_request' });
+    super({key: 'bad_graph_request'});
   }
 }
 export class ConstraintViolation extends Rejection {
   constructor() {
-    super({ key: 'constraint_violation' });
+    super({key: 'constraint_violation'});
   }
 }
 export class DataSourceUnavailable extends Rejection {
   constructor() {
-    super({ key: 'dataSource_unavailable' });
+    super({key: 'dataSource_unavailable'});
   }
 }
 export class Forbidden extends Rejection {
   constructor() {
-    super({ key: 'forbidden' });
+    super({key: 'forbidden'});
   }
 }
 export class GraphRequestTimeout extends Rejection {
   constructor() {
-    super({ key: 'graph_request_timeout' });
+    super({key: 'graph_request_timeout'});
   }
 }
 export class GraphUnreachable extends Rejection {
   constructor() {
-    super({ key: 'graph_unreachable' });
+    super({key: 'graph_unreachable'});
   }
 }
 export class GroupExists extends Rejection {
   constructor() {
-    super({ key: 'group_exists' });
+    super({key: 'group_exists'});
   }
 }
 export class GuestDisabled extends Rejection {
   constructor() {
-    super({ key: 'guest_disabled' });
+    super({key: 'guest_disabled'});
   }
 }
 export class InvalidParameter extends Rejection {
   constructor() {
-    super({ key: 'invalid_parameter' });
+    super({key: 'invalid_parameter'});
   }
 }
 export class NotFound extends Rejection {
   constructor() {
-    super({ key: 'not_found' });
+    super({key: 'not_found'});
   }
 }
 export class Unauthorized extends Rejection {
   constructor() {
-    super({ key: 'unauthorized' });
+    super({key: 'unauthorized'});
   }
 }
 export class WriteForbidden extends Rejection {
   constructor() {
-    super({ key: 'write_forbidden' });
+    super({key: 'write_forbidden'});
   }
 }
 export class Cancelled extends Rejection {
   constructor() {
-    super({ key: 'cancelled' });
+    super({key: 'cancelled'});
   }
 }
 export class ClientError extends Rejection {
   constructor() {
-    super({ key: 'client_error' });
+    super({key: 'client_error'});
   }
 }

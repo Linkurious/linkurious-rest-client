@@ -1,106 +1,114 @@
 {
-  "callable-types": true,
-  "import-blacklist": [true, "rxjs", "ogma.min"],
-  "import-spacing": true,
-  "interface-over-type-literal": true,
-  "no-empty-interface": true,
-  "no-string-throw": true,
-  "prefer-const": true,
-  "typeof-compare": true,
-  "unified-signatures": true,
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "linterOptions": {
+    "exclude": ["**/*.js"]
+  },
+  "jsRules": {},
   "rules": {
-    "class-name": true,
-    "comment-format": [
-      true,
-      "check-space"
+    // don't require interface names to begin with a capital 'I'
+    "interface-name": [
+      false
     ],
-    "curly": true,
-    "eofline": true,
-    "forin": true,
-    "indent": [
-      true,
-      "spaces"
-    ],
-    "label-position": true,
-    "max-line-length": [
-      true,
-      120
-    ],
-    "member-access": false,
-    "member-ordering": [
-      true,
-      "public-static-field",
-      "protected-static-field",
-      "private-static-field",
 
-      "public-instance-field",
-      "protected-instance-field",
-      "private-instance-field",
-
-      "constructor",
-
-      "public-static-method",
-      "protected-static-method",
-      "private-static-method",
-
-      "public-instance-method",
-      "protected-instance-method",
-      "private-instance-method"
-    ],
-    "no-arg": true,
-    "no-bitwise": false,
-    "no-console": [
+    // require single quotes for string literals
+    "quotemark": [
       true,
-      "debug",
-      "trace"
+      "single"
     ],
-    "no-construct": true,
-    "no-debugger": true,
-    "no-duplicate-variable": true,
-    "no-empty": false,
-    "no-eval": true,
-    "no-inferrable-types": [false, "ignore-params"],
-    "no-shadowed-variable": true,
-    "no-string-literal": false,
-    "no-switch-case-fall-through": true,
-    "no-trailing-whitespace": false,
-    "no-unused-expression": true,
-    "no-unused-variable": false,
-    "no-use-before-declare": true,
-    "no-var-keyword": true,
-    "object-literal-sort-keys": false,
-    "one-line": [
+
+    // any shorthand object literal syntax will cause a failure
+    "object-literal-shorthand": [
       true,
-      "check-open-brace",
-      "check-catch",
-      "check-else",
-      "check-whitespace"
+      "never"
     ],
-    "radix": true,
-    "semicolon": [
-      "always"
-    ],
-    "triple-equals": [
-      true,
-      "allow-null-check"
-    ],
-    "typedef-whitespace": [
+
+    // always disallow trailing commas
+    "trailing-comma": [
       true,
       {
-        "call-signature": "nospace",
-        "index-signature": "nospace",
-        "parameter": "nospace",
-        "property-declaration": "nospace",
-        "variable-declaration": "nospace"
+        "multiline": "never",
+        "singleline": "never"
       }
     ],
-    "variable-name": false,
-    "whitespace": [
+
+    // require type for function (non-arrow) parameters and return values
+    "typedef": [
       true,
-      "check-decl",
-      "check-operator",
-      "check-separator",
-      "check-type"
+      "call-signature",
+      "parameter"
+    ],
+
+    // allow empty interfaces
+    "no-empty-interface": [
+      false
+    ],
+
+    // allow the use of require statements outside import statements
+    "no-var-requires": [
+      false
+    ],
+
+    // allow the use of `console` methods
+    "no-console": [
+      false
+    ],
+
+    // Requires lines to be maximum 100 characters (except block comments)
+    "max-line-length": [
+      true,
+      {
+        "limit": 100,
+        "ignore-pattern": "(\\*|//)"
+      }
+    ],
+
+    // don't check ordering of keys in object literals
+    "object-literal-sort-keys": [
+      false
+    ],
+
+    // arrow functions with one parameter must not have parentheses
+    "arrow-parens": [
+      true,
+      "ban-single-arg-parens"
+    ],
+
+    // allow empty blocks
+    "no-empty": [
+      true
+    ],
+
+    // disallow usage of any as a type declaration
+    "no-any": [
+      true
+    ],
+
+    // ignore member ordering
+    "member-ordering": [
+      false
+    ],
+
+    // ignore import ordering
+    "ordered-imports": [
+      true
+    ],
+
+    // standard 'for' loop are accepted
+    "prefer-for-of": [
+      false
+    ],
+
+    // require === and !== in place of == and !=
+    "triple-equals": [
+      true
+    ],
+
+    // any number of classes per file
+    "max-classes-per-file": [
+      false
     ]
   }
 }

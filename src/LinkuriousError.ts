@@ -7,7 +7,6 @@
  * File:
  * Description :
  */
-'use strict';
 
 export type ErrorType = 'client' | 'communication' | 'access' | 'technical' | 'business';
 
@@ -19,7 +18,14 @@ export class LinkuriousError {
   public cause: Error | undefined;
   public data: any;
 
-  constructor(status: number, type: ErrorType, key: string, message: string, cause?: Error, data?: any) {
+  constructor(
+    status: number,
+    type: ErrorType,
+    key: string,
+    message: string,
+    cause?: Error,
+    data?: any
+  ) {
     this.status = status;
     this.type = type;
     this.key = key;
@@ -28,9 +34,9 @@ export class LinkuriousError {
     this.data = data;
   }
 
-  public static fromHttpResponse(r: { statusCode: number; body: any; header: any }): LinkuriousError {
-    let status: number = r.statusCode;
-    let type: ErrorType = LinkuriousError.getErrorType(r.statusCode);
+  public static fromHttpResponse(r: {statusCode: number; body: any; header: any}): LinkuriousError {
+    const status: number = r.statusCode;
+    const type: ErrorType = LinkuriousError.getErrorType(r.statusCode);
     let key: string;
     let message: string;
     let data: any;
@@ -64,7 +70,7 @@ export class LinkuriousError {
     return this.cause ? this.cause.stack : undefined;
   }
 
-  get stackArray(): Array<string> {
+  get stackArray(): string[] {
     return this.stack === undefined ? [] : this.stack.split(/\n/g);
   }
 
@@ -72,7 +78,7 @@ export class LinkuriousError {
     return new LinkuriousError(0, 'client', key, message);
   }
 
-  public static isError(r: { statusCode: number; body: any; header: any }): boolean {
+  public static isError(r: {statusCode: number; body: any; header: any}): boolean {
     return r.statusCode === undefined || r.statusCode < 100 || r.statusCode >= 400;
   }
 

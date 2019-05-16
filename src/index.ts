@@ -8,33 +8,32 @@
  * Description :
  */
 
-import { Logger, LogLevel } from './log/Logger';
+import {Logger, LogLevel} from './log/Logger';
 
-import { Fetcher } from './http/fetcher';
-import { FetcherFactory } from './http/FetcherFactory';
+import {Fetcher} from './http/fetcher';
+import {FetcherFactory} from './http/FetcherFactory';
 
-import { AdminModule } from './module/AdminModule';
-import { MyModule } from './module/MyModule';
-import { GraphModule } from './module/GraphModule';
-import { EdgeModule } from './module/EdgeModule';
-import { NodeModule } from './module/NodeModule';
-import { SearchModule } from './module/SearchModule';
-import { VisualizationModule } from './module/VisualizationModule';
-import { AlertModule } from './module/AlertModule';
 import {
-  ILoggerDriver,
-  IFullUser,
-  IDataSourceState,
+  IAppConfig,
   IAppStatus,
   IAppVersion,
-  IAppConfig,
-  ISchema,
   IClientState,
+  IDataSourceState,
+  IFullUser,
+  ILoggerDriver,
+  ISchema
 } from '../index';
-import { Transformer } from './transformer';
-import { ErrorListener } from './errorListener';
-import { Rejection } from './response/errors';
-import { SchemaModule } from './module/SchemaModule';
+import {ErrorListener} from './errorListener';
+import {AdminModule} from './module/AdminModule';
+import {AlertModule} from './module/AlertModule';
+import {EdgeModule} from './module/EdgeModule';
+import {GraphModule} from './module/GraphModule';
+import {MyModule} from './module/MyModule';
+import {NodeModule} from './module/NodeModule';
+import {SearchModule} from './module/SearchModule';
+import {VisualizationModule} from './module/VisualizationModule';
+import {Rejection} from './response/errors';
+import {Transformer} from './transformer';
 
 export class Linkurious {
   private readonly _fetcher: Fetcher;
@@ -56,8 +55,13 @@ export class Linkurious {
     return this._clientState;
   }
 
-  constructor(baseUrl: string, logLevel: LogLevel, loggerDriver?: ILoggerDriver, fetcherFactory?: FetcherFactory) {
-    this._clientState = <IClientState>{};
+  constructor(
+    baseUrl: string,
+    logLevel: LogLevel,
+    loggerDriver?: ILoggerDriver,
+    fetcherFactory?: FetcherFactory
+  ) {
+    this._clientState = {} as IClientState;
     this._clientState.guestMode = false;
     this._logger = new Logger(logLevel, loggerDriver);
     if (!fetcherFactory) {
@@ -78,7 +82,11 @@ export class Linkurious {
     this._edge = new EdgeModule(this._fetcher, this._transformer, this._errorListener);
     this._node = new NodeModule(this._fetcher, this._transformer, this._errorListener);
     this._search = new SearchModule(this._fetcher, this._transformer, this._errorListener);
-    this._visualization = new VisualizationModule(this._fetcher, this._transformer, this._errorListener);
+    this._visualization = new VisualizationModule(
+      this._fetcher,
+      this._transformer,
+      this._errorListener
+    );
     this._alert = new AlertModule(this._fetcher, this._transformer, this._errorListener);
     this._schema = new SchemaModule(this._fetcher, this._transformer, this._errorListener);
   }
@@ -86,7 +94,7 @@ export class Linkurious {
   /**
    * @returns {Function}
    */
-  setErrorListener(fn: (e: Rejection) => unknown): void {
+  public setErrorListener(fn: (e: Rejection) => unknown): void {
     this._errorListener.setErrorListener(fn);
   }
 
@@ -181,7 +189,7 @@ export class Linkurious {
     this._fetcher.fetch({
       url: '/admin/report',
       ignoreContentType: true,
-      method: 'GET',
+      method: 'GET'
     });
   }
 
@@ -204,7 +212,7 @@ export class Linkurious {
     return this._fetcher.fetch({
       url: '/analytics',
       method: 'POST',
-      body: data,
+      body: data
     });
   }
 
@@ -214,11 +222,11 @@ export class Linkurious {
    * @param {Object} data
    * @returns {Promise<boolean>}
    */
-  public login(data: { usernameOrEmail: string; password: string }): Promise<any> {
-    let config: { url: string; method: 'POST'; body: any } = {
+  public login(data: {usernameOrEmail: string; password: string}): Promise<any> {
+    const config: {url: string; method: 'POST'; body: any} = {
       url: '/auth/login',
       method: 'POST',
-      body: data,
+      body: data
     };
 
     if (this._clientState.user) {
@@ -238,11 +246,11 @@ export class Linkurious {
     }
   }
 
-  public OAuthAuthentication(data: { code: string; state: string }): Promise<boolean> {
+  public OAuthAuthentication(data: {code: string; state: string}): Promise<boolean> {
     return this._fetcher.fetch({
       url: '/auth/sso/return',
       method: 'GET',
-      query: data,
+      query: data
     });
   }
 
@@ -255,7 +263,7 @@ export class Linkurious {
     return this._fetcher
       .fetch({
         url: '/auth/logout',
-        method: 'GET',
+        method: 'GET'
       })
       .then(() => {
         this._clientState.user = undefined;
@@ -280,7 +288,7 @@ export class Linkurious {
       .fetch({
         url: '/auth/me',
         method: 'PATCH',
-        body: data,
+        body: data
       })
       .then((res: IFullUser) => {
         this._clientState.user = res;
@@ -293,8 +301,8 @@ export class Linkurious {
    *
    * @returns {Promise<any>}
    */
-  public initSources(data?: { withStyles?: boolean; withCaptions?: boolean }): Promise<any> {
-    return this.getSourceList(data).then((sourceStates: Array<IDataSourceState>) => {
+  public initSources(data?: {withStyles?: boolean; withCaptions?: boolean}): Promise<any> {
+    return this.getSourceList(data).then((sourceStates: IDataSourceState[]) => {
       return this.storeDefaultCurrentSource(sourceStates);
     });
   }
@@ -304,12 +312,15 @@ export class Linkurious {
    *
    * @returns {Promise<IDataSourceState>}
    */
-  public getSourceList(data?: { withStyles?: boolean; withCaptions?: boolean }): Promise<Array<IDataSourceState>> {
+  public getSourceList(data?: {
+    withStyles?: boolean;
+    withCaptions?: boolean;
+  }): Promise<IDataSourceState[]> {
     return this._fetcher
       .fetch({
         url: '/dataSources',
         method: 'GET',
-        query: data,
+        query: data
       })
       .then((res: any) => res.sources);
   }
@@ -333,7 +344,7 @@ export class Linkurious {
       settings: any;
     }>
   ): IDataSourceState {
-    for (let sourceState of sourceList) {
+    for (const sourceState of sourceList) {
       if (this.storeSource(sourceState, 'connected', true)) {
         return this._clientState.currentSource;
       } else {
@@ -346,7 +357,7 @@ export class Linkurious {
           reason: sourceList[0].reason,
           error: sourceList[0].error,
           features: sourceList[0].features,
-          settings: sourceList[0].settings,
+          settings: sourceList[0].settings
         };
       }
     }
@@ -379,7 +390,7 @@ export class Linkurious {
       reason: source.reason,
       error: source.error,
       features: source.features,
-      settings: source.settings,
+      settings: source.settings
     };
   }
 
@@ -389,7 +400,7 @@ export class Linkurious {
    * @param {Object} data
    * @returns {Promise<IClientState>}
    */
-  public init(data: { usernameOrEmail: string; password: string }): Promise<IClientState> {
+  public init(data: {usernameOrEmail: string; password: string}): Promise<IClientState> {
     return this.login(data)
       .then(() => {
         return this.initSources();
@@ -408,7 +419,7 @@ export class Linkurious {
     return this._fetcher
       .fetch({
         url: '/status',
-        method: 'GET',
+        method: 'GET'
       })
       .then((res: any) => {
         return res.status;
@@ -423,7 +434,7 @@ export class Linkurious {
   public getAppVersion(): Promise<IAppVersion> {
     return this._fetcher.fetch({
       method: 'GET',
-      url: '/version',
+      url: '/version'
     });
   }
 
@@ -436,8 +447,8 @@ export class Linkurious {
   public getAppConfig(sourceIndex?: number): Promise<IAppConfig> {
     return this._fetcher.fetch({
       method: 'GET',
-      query: { sourceIndex: sourceIndex },
-      url: '/config',
+      query: {sourceIndex: sourceIndex},
+      url: '/config'
     });
   }
 
@@ -450,11 +461,11 @@ export class Linkurious {
   public getCustomFiles(data?: {
     root?: string;
     extensions?: string;
-  }): Promise<{ results: Array<{ path: string; name: 'string' }> }> {
+  }): Promise<{results: Array<{path: string; name: 'string'}>}> {
     return this._fetcher.fetch({
       method: 'GET',
       query: data,
-      url: '/customFiles',
+      url: '/customFiles'
     });
   }
 
@@ -465,7 +476,7 @@ export class Linkurious {
     return this._fetcher
       .fetch({
         method: 'POST',
-        url: '/admin/restart',
+        url: '/admin/restart'
       })
       .then((response: any) => response.url);
   }
@@ -478,7 +489,7 @@ export class Linkurious {
   public getSchema(): Promise<ISchema> {
     return this._fetcher.fetch({
       method: 'GET',
-      url: '/{dataSourceKey}/graph/schema/simple',
+      url: '/{dataSourceKey}/graph/schema/simple'
     });
   }
 
@@ -486,7 +497,7 @@ export class Linkurious {
     return this._fetcher.fetch({
       method: 'POST',
       url: '/track',
-      body: data,
+      body: data
     });
   }
 
@@ -503,7 +514,7 @@ export class Linkurious {
     property: string,
     matchValue: string | number | boolean
   ): IDataSourceState | undefined {
-    if ((<any>source)[property] === matchValue) {
+    if ((source as any)[property] === matchValue) {
       this._clientState.currentSource = {
         name: source.name,
         key: source.key,
@@ -513,7 +524,7 @@ export class Linkurious {
         reason: source.reason,
         error: source.error,
         features: source.features,
-        settings: source.settings,
+        settings: source.settings
       };
       return this._clientState.currentSource;
     } else {

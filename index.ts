@@ -8,17 +8,26 @@
  * Description :
  */
 
-'use strict';
-
-import { Linkurious } from './src';
-import { Fetcher } from './src/http/fetcher';
-import { FetcherFactory } from './src/http/FetcherFactory';
-import { Logger } from './src/log/Logger';
-import { LinkuriousError } from './src/LinkuriousError';
 import {
-  Rejection,
-  RejectionKey,
+  BooleanTemplate,
+  DateTemplate,
+  DatetimeTemplate,
+  EnumTemplate,
+  NodesetTemplate,
+  NodeTemplate,
+  NumberTemplate,
+  StringTemplate
+} from 'linkurious-shared/fesm5';
+import {Linkurious} from './src';
+import {Fetcher} from './src/http/fetcher';
+import {FetcherFactory} from './src/http/FetcherFactory';
+import {LinkuriousError} from './src/LinkuriousError';
+import {Logger} from './src/log/Logger';
+import {ServerResponse} from './src/response';
+import {
   BadGraphRequest,
+  Cancelled,
+  ClientError,
   ConstraintViolation,
   DataSourceUnavailable,
   Forbidden,
@@ -28,34 +37,34 @@ import {
   GuestDisabled,
   InvalidParameter,
   NotFound,
+  Rejection,
+  RejectionKey,
   Unauthorized,
-  WriteForbidden,
-  Cancelled,
-  ClientError,
+  WriteForbidden
 } from './src/response/errors';
-import { ServerResponse } from './src/response';
-import { Success } from './src/response/success';
-import {
-  BooleanTemplate,
-  DateTemplate,
-  DatetimeTemplate,
-  EnumTemplate,
-  NodesetTemplate,
-  NodeTemplate,
-  NumberTemplate,
-  StringTemplate,
-} from 'linkurious-shared/fesm5';
+import {Success} from './src/response/success';
 
 export type indexingStatus = 'ongoing' | 'needed' | 'done' | 'unknown';
 export type EdgeOrientation = 'in' | 'out' | 'both';
 export type ItemType = 'node' | 'edge';
 export type ItemsType = 'nodes' | 'edges';
 export type RightType = 'read' | 'write' | 'none' | 'do';
-export type PopulateType = 'expandNodeId' | 'nodeId' | 'edgeId' | 'searchNodes' | 'searchEdges' | 'pattern';
+export type PopulateType =
+  | 'expandNodeId'
+  | 'nodeId'
+  | 'edgeId'
+  | 'searchNodes'
+  | 'searchEdges'
+  | 'pattern';
 export type ItemId = string | number;
 export type VisualizationModeType = 'nodelink' | 'geo';
 export type ShareRightType = 'read' | 'write' | 'owner';
-export type ConstraintsOperatorType = 'contains' | 'equals' | 'more than' | 'less than' | 'starts with';
+export type ConstraintsOperatorType =
+  | 'contains'
+  | 'equals'
+  | 'more than'
+  | 'less than'
+  | 'starts with';
 export type MatchStatus = 'unconfirmed' | 'confirmed' | 'dismissed';
 export type MatchActionType = 'open' | 'confirm' | 'dismiss' | 'unconfirm';
 export type TypeAccessRight = 'writable' | 'readable' | 'editable' | 'none';
@@ -97,7 +106,7 @@ export interface IIdentifiedItem {
 }
 
 export interface IIdentifiedItemList {
-  ids: Array<ItemId>;
+  ids: ItemId[];
 }
 
 export interface IItem extends IIdentifiedItem {
@@ -114,17 +123,17 @@ export interface IEdge extends IItem {
 }
 
 export interface INode extends IItem {
-  statistics?: Array<IDigest>;
+  statistics?: IDigest[];
   readAt: string;
   categories: any;
 }
 
 export interface IFullNode extends INode {
-  edges: Array<IEdge>;
+  edges: IEdge[];
 }
 
 export interface ISearchNode extends INode {
-  children: Array<INode>;
+  children: INode[];
   title: string;
 }
 
@@ -140,7 +149,7 @@ export interface ISimpleUser extends IIdentified {
 }
 
 export interface IUser extends ISimpleUser {
-  groups: Array<ISimpleGroup>;
+  groups: ISimpleGroup[];
   source: 'string';
   admin?: boolean;
 }
@@ -169,7 +178,7 @@ export interface ISimpleGroup extends IBaseGroup {
 
 export interface IGroup extends ISimpleGroup {
   userCount?: number;
-  accessRights?: Array<IAccessRight>;
+  accessRights?: IAccessRight[];
   sourceKey: string;
 }
 
@@ -180,9 +189,9 @@ export interface IAccessRight extends IDataSourceRelative {
 }
 
 export interface IGroupRights {
-  types: Array<string>;
-  targetTypes: Array<string>;
-  actions: Array<string>;
+  types: string[];
+  targetTypes: string[];
+  actions: string[];
 }
 
 // DATA-SOURCE
@@ -296,7 +305,7 @@ export interface IGraphQuery extends ISimpleGraphQuery {
   graphInput: 'none' | '1-node' | '2-nodes' | 'nodeset' | undefined;
   sharing: 'private' | 'source' | 'groups';
   builtin: boolean;
-  sharedWithGroups: Array<number> | undefined;
+  sharedWithGroups: number[] | undefined;
   right: 'owner' | 'read';
   type: 'template' | 'static';
   templateFields?: Array<
@@ -321,25 +330,25 @@ export interface ISearchResult {
 }
 
 export interface ISearchEdgesInDirectory extends ISearchResult {
-  results: Array<IEdge>;
+  results: IEdge[];
 }
 
 export interface ISearchNodesInDirectory extends ISearchResult {
-  results: Array<INode>;
+  results: INode[];
 }
 
 export interface ISearchItemList extends ISearchResult {
-  results: Array<ISearchMatchGroup>;
+  results: ISearchMatchGroup[];
 }
 
 export interface ISearchFullItems extends ISearchResult {
-  results: Array<INode>;
+  results: INode[];
 }
 
 export interface ISearchMatchGroup {
   title: string;
-  categories: Array<string>;
-  children: Array<ISearchMatch>;
+  categories: string[];
+  children: ISearchMatch[];
 }
 
 export interface ISearchMatch {
@@ -352,13 +361,13 @@ export interface ISearchMatch {
 // SCHEMA
 
 export interface IBaseSchema {
-  nodeCategories: Array<string>;
+  nodeCategories: string[];
 }
 
 export interface ISchema extends IBaseSchema {
-  edgeTypes: Array<string>;
-  nodeProperties: Array<string>;
-  edgeProperties: Array<string>;
+  edgeTypes: string[];
+  nodeProperties: string[];
+  edgeProperties: string[];
 }
 
 export interface IDigest extends IBaseSchema {
@@ -384,7 +393,7 @@ export interface IProperty extends ICountItemType {
 export interface IItemType extends ICountItemType {
   name: string;
   access: TypeAccessRight;
-  properties: Array<IProperty>;
+  properties: IProperty[];
 }
 
 // APP
@@ -433,7 +442,7 @@ export interface IDataSourcesConfig {
 }
 
 export interface IRightsConfig {
-  authStrategies: Array<string>;
+  authStrategies: string[];
   authRequired: boolean;
   dataEdition: boolean;
   loginTimeout: number;
@@ -490,7 +499,7 @@ export interface IOgmaNode {
   x: number;
   y: number;
   data: {
-    categories: Array<string>;
+    categories: string[];
     properties: any;
     statistics: any;
     geo?: INodeCoordinates;
@@ -516,13 +525,13 @@ export interface ISandBox {
 export interface IServerVisualization extends ISandBox, IIdentified {
   title: string;
   folder: number;
-  nodes: Array<INode>;
-  edges: Array<IEdge>;
+  nodes: INode[];
+  edges: IEdge[];
   alternativeIds: IAlternativeIdConfig;
   layout: IVisualizationLayout;
   geo: IVisualizationGeo;
   mode: VisualizationModeType;
-  filters: Array<any>;
+  filters: any[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -530,13 +539,13 @@ export interface IServerVisualization extends ISandBox, IIdentified {
 export interface IVisualization extends ISandBox, IIdentified {
   title: string;
   folder: number;
-  nodes: Array<IOgmaNode>;
-  edges: Array<IOgmaEdge>;
+  nodes: IOgmaNode[];
+  edges: IOgmaEdge[];
   alternativeIds: IAlternativeIdConfig;
   layout: IVisualizationLayout;
   geo: IVisualizationGeo;
   mode: VisualizationModeType;
-  filters: Array<any>;
+  filters: any[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -547,18 +556,18 @@ export interface IQueryVisualization {
   edgeFields?: IItemFields;
   title?: string;
   folder?: number;
-  nodes?: Array<IVisualizationNode>;
-  edges?: Array<IVisualizationEdge>;
+  nodes?: IVisualizationNode[];
+  edges?: IVisualizationEdge[];
   alternativeIds?: IAlternativeIdConfig;
   layout?: IVisualizationLayout;
   geo?: IVisualizationGeo;
   mode?: VisualizationModeType;
-  filters?: Array<any>;
+  filters?: any[];
 }
 
 export interface IItemFields {
-  captions: { [key: string]: { displayName: boolean; properties: Array<string>; active: boolean } };
-  types: { [key: string]: string };
+  captions: {[key: string]: {displayName: boolean; properties: string[]; active: boolean}};
+  types: {[key: string]: string};
 }
 
 export interface IFields {
@@ -596,7 +605,7 @@ export interface IVisualizationLayout {
 export interface IVisualizationGeo {
   latitudeProperty?: string;
   longitudeProperty?: string;
-  layers?: Array<string>;
+  layers?: string[];
 }
 
 export interface IVisualizationDesign {
@@ -617,7 +626,7 @@ export interface IWidgetContent extends IVisualizationDesign {
   description?: string;
   url?: string;
   mode?: string;
-  mapLayers?: Array<any>;
+  mapLayers?: any[];
   ui?: IWidgetUI;
 }
 
@@ -660,14 +669,14 @@ export interface ISharer extends IBaseShare {
 
 export interface ISharers {
   owner: ISimpleUser;
-  shares: Array<ISharer>;
+  shares: ISharer[];
 }
 
 export interface ITreeChildren {
   type: 'visu' | 'folder';
   id: number;
   title: string;
-  children?: Array<ITreeChildren>;
+  children?: ITreeChildren[];
   shareCount?: number;
   widgetKey?: string;
 }
@@ -724,8 +733,8 @@ export interface IMatch extends IIdentified, IBaseAlert {
   hash: string;
   status: MatchStatus;
   user: ISimpleUser;
-  nodes: Array<number>;
-  edges: Array<number>;
+  nodes: number[];
+  edges: number[];
   expirationDate: string;
 }
 
@@ -745,7 +754,7 @@ export interface IMatchStats {
 
 export interface IMatchResults {
   counts: IMatchStats;
-  matches: Array<IMatch>;
+  matches: IMatch[];
 }
 
 export interface IGetAdjacentEdges extends IDataSourceRelative, IBaseRequest {
@@ -772,14 +781,14 @@ export interface ICreateEdge extends IDataSourceRelative, IBaseRequest {
 
 export interface IUpdateEdge extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
   properties: any;
-  deletedProperties: Array<string>;
+  deletedProperties: string[];
   readAt: string;
 }
 
 export interface IGetUserList extends IBaseRequest {
   filter?: string;
-  groupId?: Array<number>;
-  unwantedIds?: Array<number>;
+  groupId?: number[];
+  unwantedIds?: number[];
   size?: number;
   start?: number;
 }
@@ -798,9 +807,9 @@ export interface ICreateGraphQuery extends IDataSourceRelative, IBaseRequest {
 }
 
 export interface IUpdateBatchUser extends IBaseRequest {
-  users: Array<number>;
-  addGroups: Array<number>;
-  rmGroups: Array<number>;
+  users: number[];
+  addGroups: number[];
+  rmGroups: number[];
 }
 
 export interface ICreateGroup extends IBaseRequest, IDataSourceRelative {
@@ -814,7 +823,7 @@ export interface IUpdateGroupRights extends IDataSourceRelative, IIdentified, IB
 }
 
 export interface IUpdateBatchGroupRights extends IDataSourceRelative, IBaseRequest {
-  groupIds: Array<number>;
+  groupIds: number[];
   rightType: RightType;
   targetType: string;
 }
@@ -831,7 +840,7 @@ export interface IDeleteDataSource extends IDataSourceRelative, IBaseRequest {
 }
 
 export interface ISetDataSourceProperties extends IDataSourceRelative, IBaseRequest {
-  properties: Array<string>;
+  properties: string[];
 }
 
 export interface IUpdateGraphQuery extends IDataSourceRelative, IIdentified, IBaseRequest {
@@ -845,7 +854,7 @@ export interface ISendQuery extends IDataSourceRelative, IBaseRequest {
   groupResults?: boolean;
   limit?: number;
   timeout?: number;
-  columns?: Array<{ type: string; columnName: string }>;
+  columns?: Array<{type: string; columnName: string}>;
   with_digest?: boolean;
   with_degree?: boolean;
 }
@@ -858,8 +867,8 @@ export interface IGetShortestPaths extends IDataSourceRelative, IBaseRequest {
 }
 
 export interface IGetDirectory extends IDataSourceRelative, IBaseRequest {
-  categoriesOrTypes?: Array<string>;
-  properties: Array<string>;
+  categoriesOrTypes?: string[];
+  properties: string[];
   constraints?: IConstraint;
   pageSize?: number;
   pageStart?: number;
@@ -881,8 +890,8 @@ export interface IGetNode extends IIdentifiedItem, IDataSourceRelative, IBaseReq
 }
 
 export interface IGetAdjacentItems extends IIdentifiedItemList, IDataSourceRelative, IBaseRequest {
-  ignoredNodes: Array<ItemId>;
-  visibleNodes: Array<ItemId>;
+  ignoredNodes: ItemId[];
+  visibleNodes: ItemId[];
   nodeCategory?: string;
   edgeType?: string;
   limit?: number;
@@ -897,14 +906,14 @@ export interface IGetItemTypes extends IDataSourceRelative, IBaseRequest {
 
 export interface ICreateNode extends IDataSourceRelative, IBaseRequest {
   data?: any;
-  categories?: Array<string>;
+  categories?: string[];
 }
 
 export interface IUpdateNode extends IIdentifiedItem, IDataSourceRelative, IBaseRequest {
   properties: any;
-  deletedProperties: Array<string>;
-  addedCategories: Array<string>;
-  deletedCategories: Array<string>;
+  deletedProperties: string[];
+  addedCategories: string[];
+  deletedCategories: string[];
   readAt: number;
 }
 
@@ -942,14 +951,14 @@ export interface IDuplicateVisualization extends IDataSourceRelative, IIdentifie
 export interface ICreateVisualization extends IDataSourceRelative, IBaseRequest {
   title: string;
   folder?: number;
-  nodes: Array<IVisualizationNode>;
-  edges: Array<IVisualizationEdge>;
+  nodes: IVisualizationNode[];
+  edges: IVisualizationEdge[];
   alternativeIds?: IAlternativeIdConfig;
   layout?: IVisualizationLayout;
   mode?: string;
   geo?: IVisualizationGeo;
   design?: IVisualizationDesign;
-  filters?: Array<any>;
+  filters?: any[];
   nodeFields: IItemFields;
   edgeFields: IItemFields;
 }
@@ -1076,5 +1085,5 @@ export {
   Cancelled,
   ClientError,
   ServerResponse,
-  Success,
+  Success
 };

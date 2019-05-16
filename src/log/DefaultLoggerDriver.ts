@@ -8,9 +8,8 @@
  * File:
  * Description :
  */
-'use strict';
 
-import { ILoggerDriver } from './../../index';
+import {ILoggerDriver} from './../../index';
 
 export class DefaultLoggerDriver implements ILoggerDriver {
   public debug(message: string): void {

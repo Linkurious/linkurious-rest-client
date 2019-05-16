@@ -8,22 +8,19 @@
  * Description :
  */
 
-'use strict';
-
+import {Tools} from 'linkurious-shared';
 import {
-  IHttpDriver,
-  IHttpResponse,
-  IFetchConfig,
-  IDataToSend,
-  IFetcherClientState,
   FetcherConfig,
   IClientState,
+  IDataToSend,
+  IFetchConfig,
+  IHttpDriver,
+  IHttpResponse
 } from '../../index';
-import { LinkuriousError } from '../LinkuriousError';
-import { DefaultHttpDriver } from './DefaultHttpDriver';
-import { Logger } from '../log/Logger';
-import { Utils } from './utils';
-import { Tools } from 'linkurious-shared';
+import {LinkuriousError} from '../LinkuriousError';
+import {Logger} from '../log/Logger';
+import {DefaultHttpDriver} from './DefaultHttpDriver';
+import {Utils} from './utils';
 
 export class Fetcher {
   private static SOURCE_KEY_TEMPLATE: string = '{dataSourceKey}';
@@ -35,7 +32,12 @@ export class Fetcher {
   private _clientState: IClientState;
   private readonly _apiBaseURL: string;
 
-  constructor(logger: Logger, clientState: IClientState, baseUrl: string, httpDriver?: IHttpDriver) {
+  constructor(
+    logger: Logger,
+    clientState: IClientState,
+    baseUrl: string,
+    httpDriver?: IHttpDriver
+  ) {
     this._httpDriver = httpDriver ? httpDriver : new DefaultHttpDriver();
     this._logger = logger;
     this._clientState = clientState;
@@ -47,17 +49,19 @@ export class Fetcher {
    * HTTPDriver wrapper method
    */
   public fetch(configData: FetcherConfig): Promise<any> {
-    let config: IFetchConfig = JSON.parse(JSON.stringify(configData));
-    let cachedQuery: { [key: string]: unknown } = configData.query ? Tools.clone(configData.query) : {};
+    const config: IFetchConfig = JSON.parse(JSON.stringify(configData));
+    const cachedQuery: {[key: string]: unknown} = configData.query
+      ? Tools.clone(configData.query)
+      : {};
     cachedQuery._ = Date.now();
 
     if (this._clientState.guestMode) {
       cachedQuery.guest = true;
     }
 
-    let data: IDataToSend = {
+    const data: IDataToSend = {
       queryData: cachedQuery,
-      bodyData: config.body,
+      bodyData: config.body
     };
 
     if (config.url.indexOf('http://') < 0) {
@@ -71,13 +75,13 @@ export class Fetcher {
     let responsePromise: Promise<IHttpResponse>;
 
     if (config.method === 'GET') {
-      responsePromise = (<any>this._httpDriver)[config.method](
+      responsePromise = (this._httpDriver as any)[config.method](
         config.url,
         Utils.fixSnakeCase(data.queryData),
         config.ignoreContentType
       );
     } else {
-      responsePromise = (<any>this._httpDriver)[config.method](
+      responsePromise = (this._httpDriver as any)[config.method](
         config.url,
         data.bodyData,
         Utils.fixSnakeCase(data.queryData)
@@ -92,7 +96,7 @@ export class Fetcher {
       .then((response: IHttpResponse) => {
         // create a linkurious error from "soft" error
         if (LinkuriousError.isError(response)) {
-          let linkuriousError: any = LinkuriousError.fromHttpResponse(response);
+          const linkuriousError: any = LinkuriousError.fromHttpResponse(response);
           return Promise.reject(linkuriousError);
         }
         // resolve with response body in case of success
@@ -112,7 +116,10 @@ export class Fetcher {
     if (explicitSource && typeof explicitSource === 'string') {
       return this._apiBaseURL + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource);
     } else if (this._clientState.currentSource) {
-      return this._apiBaseURL + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key);
+      return (
+        this._apiBaseURL +
+        url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key)
+      );
     } else {
       if (explicitSource && typeof explicitSource !== 'string') {
         throw LinkuriousError.fromClientError('state_error', `Source key must be a string.`);
@@ -133,7 +140,8 @@ export class Fetcher {
       return this._apiBaseURL + url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource + '');
     } else if (this._clientState.currentSource) {
       return (
-        this._apiBaseURL + url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.configIndex + '')
+        this._apiBaseURL +
+        url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.configIndex + '')
       );
     } else {
       if (explicitSource && typeof explicitSource !== 'number') {
@@ -152,18 +160,21 @@ export class Fetcher {
    */
   private handleIdInUrl(url: string, body: any, query: any): string {
     if (body) {
-      let id: number | string = body.id;
+      const id: number | string = body.id;
       delete body.id;
       return url.replace(Fetcher.OBJECT_ID_TEMPLATE, encodeURIComponent(id + ''));
     }
 
     if (query) {
-      let id: number = query.id;
+      const id: number = query.id;
       delete query.id;
       return url.replace(Fetcher.OBJECT_ID_TEMPLATE, encodeURIComponent(id + ''));
     }
 
-    throw LinkuriousError.fromClientError('state_error', `You need an ID to fetch this API (${url}).`);
+    throw LinkuriousError.fromClientError(
+      'state_error',
+      `You need an ID to fetch this API (${url}).`
+    );
   }
 
   private injectPathParams(url: string, pathParams: { [key: string]: string } = {}): string {

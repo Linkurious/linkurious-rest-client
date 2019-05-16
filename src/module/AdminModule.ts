@@ -8,35 +8,32 @@
  * Description :
  */
 
-'use strict';
-
-import { Fetcher } from '../http/fetcher';
 import {
+  IClientState,
+  ICreateDataSource,
   IDeletedDataSource,
+  IFullAdminAlert,
   IFullDataSource,
   IFullUser,
   IGroup,
   IGroupRights,
-  IIndexationStatus,
-  IClientState,
-  IFullAdminAlert,
-  ICreateDataSource,
+  IIndexationStatus
 } from '../../index';
-import { Utils } from '../http/utils';
-import { Logger } from './../log/Logger';
-import { Module } from './Module';
-import { Success } from '../response/success';
+import {ErrorListener} from '../errorListener';
+import {Fetcher} from '../http/fetcher';
+import {Utils} from '../http/utils';
 import {
   DataSourceUnavailable,
   Forbidden,
   GroupExists,
   InvalidParameter,
   NotFound,
-  Rejection,
-  Unauthorized,
+  Unauthorized
 } from '../response/errors';
-import { Transformer } from '../transformer';
-import { ErrorListener } from '../errorListener';
+import {Success} from '../response/success';
+import {Transformer} from '../transformer';
+import {Logger} from './../log/Logger';
+import {Module} from './Module';
 
 export class AdminModule extends Module {
   private _logger: Logger;
@@ -52,8 +49,8 @@ export class AdminModule extends Module {
   ) {
     super(fetcher, transformer, errorListener);
 
-    this._logger = <Logger>logger;
-    this._clientState = <IClientState>clientState;
+    this._logger = logger as Logger;
+    this._clientState = clientState as IClientState;
   }
 
   /**
@@ -66,7 +63,7 @@ export class AdminModule extends Module {
     return this.fetch({
       url: '/admin/source/{dataSourceIndex}/connect',
       method: 'POST',
-      dataSource: dataSourceIndex,
+      dataSource: dataSourceIndex
     });
   }
 
@@ -80,7 +77,7 @@ export class AdminModule extends Module {
     return this.fetch({
       url: '/admin/sources/config',
       method: 'POST',
-      body: data,
+      body: data
     });
   }
 
@@ -94,7 +91,7 @@ export class AdminModule extends Module {
     return this.fetch({
       url: '/admin/sources/config/{dataSourceIndex}',
       method: 'DELETE',
-      dataSource: dataSourceIndex,
+      dataSource: dataSourceIndex
     }).then(() => true);
   }
 
@@ -107,14 +104,17 @@ export class AdminModule extends Module {
    * @param {Object} data
    * @returns {Promise<IDeletedDataSource>}
    */
-  public deleteFullDataSource(data: { dataSourceKey: string; mergeInto?: string }): Promise<IDeletedDataSource> {
-    let mergeOptions: any = data.mergeInto ? { mergeInto: data.mergeInto } : undefined;
+  public deleteFullDataSource(data: {
+    dataSourceKey: string;
+    mergeInto?: string;
+  }): Promise<IDeletedDataSource> {
+    const mergeOptions: any = data.mergeInto ? {mergeInto: data.mergeInto} : undefined;
 
     return this.fetch({
       url: '/admin/sources/data/{dataSourceKey}',
       method: 'DELETE',
       query: Utils.fixSnakeCase(mergeOptions),
-      dataSource: data.dataSourceKey,
+      dataSource: data.dataSourceKey
     });
   }
 
@@ -123,10 +123,10 @@ export class AdminModule extends Module {
    *
    * @returns {Promise<Array<IFullDataSource>>}
    */
-  public getDataSourcesList(): Promise<Array<IFullDataSource>> {
+  public getDataSourcesList(): Promise<IFullDataSource[]> {
     return this.fetch({
       url: '/admin/sources',
-      method: 'GET',
+      method: 'GET'
     });
   }
 
@@ -136,11 +136,25 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<Array<string>>}
    */
-  public getHiddenEdgeProperties(dataSourceKey?: string): Promise<Array<string>> {
+  public getHiddenEdgeProperties(dataSourceKey?: string): Promise<string[]> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/hidden/edgeProperties',
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
+    });
+  }
+
+  /**
+   * Get the list of node-properties hidden for the given data-source.
+   *
+   * @param {string} [dataSourceKey]
+   * @returns {Promise<Array<string>>}
+   */
+  public getHiddenNodeProperties(dataSourceKey?: string): Promise<string[]> {
+    return this.fetch({
+      url: '/admin/source/{dataSourceKey}/hidden/nodeProperties',
+      method: 'GET',
+      dataSource: dataSourceKey
     });
   }
 
@@ -150,11 +164,11 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<Array<string>>}
    */
-  public getNonIndexedEdgeProperties(dataSourceKey?: string): Promise<Array<string>> {
+  public getNonIndexedEdgeProperties(dataSourceKey?: string): Promise<string[]> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/noIndex/edgeProperties',
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -164,11 +178,11 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<Array<string>>}
    */
-  public getNonIndexedNodeProperties(dataSourceKey?: string): Promise<Array<string>> {
+  public getNonIndexedNodeProperties(dataSourceKey?: string): Promise<string[]> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/noIndex/nodeProperties',
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -179,12 +193,34 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<boolean>}
    */
-  public setHiddenEdgeProperties(data: { properties: Array<string> }, dataSourceKey?: string): Promise<boolean> {
+  public setHiddenEdgeProperties(
+    data: {properties: string[]},
+    dataSourceKey?: string
+  ): Promise<boolean> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/hidden/edgeProperties',
       method: 'PUT',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
+    });
+  }
+
+  /**
+   * Set the list of node-properties that are hidden for the given data-source.
+   *
+   * @param {Object} data
+   * @param {string} [dataSourceKey]
+   * @returns {Promise<boolean>}
+   */
+  public setHiddenNodeProperties(
+    data: {properties: string[]},
+    dataSourceKey?: string
+  ): Promise<boolean> {
+    return this.fetch({
+      url: '/admin/source/{dataSourceKey}/hidden/nodeProperties',
+      method: 'PUT',
+      body: data,
+      dataSource: dataSourceKey
     });
   }
 
@@ -195,12 +231,15 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<boolean>}
    */
-  public setNotIndexedEdgeProperties(data: { properties: Array<string> }, dataSourceKey?: string): Promise<boolean> {
+  public setNotIndexedEdgeProperties(
+    data: {properties: string[]},
+    dataSourceKey?: string
+  ): Promise<boolean> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/noIndex/edgeProperties',
       method: 'PUT',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -211,12 +250,15 @@ export class AdminModule extends Module {
    * @param {string} [dataSourceKey]
    * @returns {Promise<boolean>}
    */
-  public setNotIndexedNodeProperties(data: { properties: Array<string> }, dataSourceKey?: string): Promise<boolean> {
+  public setNotIndexedNodeProperties(
+    data: {properties: string[]},
+    dataSourceKey?: string
+  ): Promise<boolean> {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/noIndex/nodeProperties',
       method: 'PUT',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -235,7 +277,7 @@ export class AdminModule extends Module {
     return this.fetch({
       url: '/admin/users',
       method: 'POST',
-      body: data,
+      body: data
     });
   }
 
@@ -249,7 +291,7 @@ export class AdminModule extends Module {
     return this.fetch({
       url: '/admin/users/{id}',
       method: 'DELETE',
-      body: { id: userId },
+      body: {id: userId}
     }).then(() => true);
   }
 
@@ -261,15 +303,29 @@ export class AdminModule extends Module {
    * @returns {Promise<IGroup>}
    */
   public createGroup(
-    data: { name: string },
+    data: {name: string},
     dataSourceKey?: string
-  ): Promise<Success<IGroup> | Unauthorized | DataSourceUnavailable | InvalidParameter | GroupExists | Forbidden> {
+  ): Promise<
+    | Success<IGroup>
+    | Unauthorized
+    | DataSourceUnavailable
+    | InvalidParameter
+    | GroupExists
+    | Forbidden
+  > {
     return this.request({
       url: '/admin/{dataSourceKey}/groups',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
-    }) as Promise<Success<IGroup> | Unauthorized | DataSourceUnavailable | InvalidParameter | GroupExists | Forbidden>;
+      dataSource: dataSourceKey
+    }) as Promise<
+      | Success<IGroup>
+      | Unauthorized
+      | DataSourceUnavailable
+      | InvalidParameter
+      | GroupExists
+      | Forbidden
+    >;
   }
 
   /**
@@ -285,7 +341,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/groups/{id}',
       method: 'DELETE',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }) as Promise<Success<void> | Unauthorized | InvalidParameter | NotFound | Forbidden>;
   }
 
@@ -303,7 +359,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/groups/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }) as Promise<Success<void> | Unauthorized | NotFound | Forbidden | InvalidParameter>;
   }
 
@@ -320,7 +376,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/groups/{id}',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }) as Promise<Success<IGroup> | Unauthorized | InvalidParameter | Forbidden | NotFound>;
   }
 
@@ -332,13 +388,13 @@ export class AdminModule extends Module {
       withAccessRights: boolean;
     },
     dataSourceKey?: string
-  ): Promise<Success<Array<IGroup>> | Unauthorized | Forbidden> {
+  ): Promise<Success<IGroup[]> | Unauthorized | Forbidden> {
     return this.request({
       url: '/admin/{dataSourceKey}/groups',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey,
-    }) as Promise<Success<Array<IGroup>> | Unauthorized | Forbidden>;
+      dataSource: dataSourceKey
+    }) as Promise<Success<IGroup[]> | Unauthorized | Forbidden>;
   }
 
   /**
@@ -347,7 +403,7 @@ export class AdminModule extends Module {
   public getGroupsRights(): Promise<Success<IGroupRights> | Unauthorized | Forbidden> {
     return this.request({
       url: '/admin/groups/rights_info',
-      method: 'GET',
+      method: 'GET'
     }) as Promise<Success<IGroupRights> | Unauthorized | Forbidden>;
   }
 
@@ -357,7 +413,7 @@ export class AdminModule extends Module {
   public setGroupAccessRights(
     data: {
       id: number;
-      accessRights: Array<{ type: string; targetType: string; targetName: string }>;
+      accessRights: Array<{type: string; targetType: string; targetName: string}>;
     },
     dataSourceKey?: string
   ): Promise<Success<void> | Unauthorized | InvalidParameter | NotFound | Forbidden> {
@@ -365,7 +421,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/groups/{id}/access_rights',
       method: 'PUT',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }) as Promise<Success<void> | Unauthorized | InvalidParameter | NotFound | Forbidden>;
   }
 
@@ -381,13 +437,13 @@ export class AdminModule extends Module {
     email?: string;
     password?: string;
     preferences?: any;
-    addedGroups?: Array<number>;
-    removedGroups?: Array<number>;
+    addedGroups?: number[];
+    removedGroups?: number[];
   }): Promise<IFullUser> {
     return this.fetch({
       url: '/admin/users/{id}',
       method: 'PATCH',
-      body: data,
+      body: data
     });
   }
 
@@ -403,21 +459,21 @@ export class AdminModule extends Module {
     dataSourceIndex?: number;
     reset?: boolean;
   }): Promise<string> {
-    let query: any = {
+    const query: any = {
       reset: data.reset,
-      sourceIndex: data.dataSourceIndex,
+      sourceIndex: data.dataSourceIndex
     };
 
-    let body: any = {
+    const body: any = {
       path: data.path,
-      configuration: data.configuration,
+      configuration: data.configuration
     };
 
     return this.fetch({
       url: '/config',
       method: 'POST',
       body: body,
-      query: query,
+      query: query
     });
   }
 
@@ -429,7 +485,7 @@ export class AdminModule extends Module {
   public startIndexation(): Promise<boolean> {
     return this.fetch({
       url: '/{dataSourceKey}/search/reindex',
-      method: 'GET',
+      method: 'GET'
     });
   }
 
@@ -443,7 +499,7 @@ export class AdminModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/search/status',
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -481,7 +537,12 @@ export class AdminModule extends Module {
       timeout = 3000;
     }
 
-    return this.listenIndexation(this._clientState.currentSource.key, timeout, callback, keepWhenSourceChange);
+    return this.listenIndexation(
+      this._clientState.currentSource.key,
+      timeout,
+      callback,
+      keepWhenSourceChange
+    );
   }
 
   /**
@@ -511,7 +572,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/alerts',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -543,7 +604,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/alerts/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -564,7 +625,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/alerts/{id}',
       method: 'DELETE',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -574,11 +635,11 @@ export class AdminModule extends Module {
    * @param {string} dataSourceKey
    * @returns {Promise<IFullAdminAlert>}
    */
-  public getAlerts(dataSourceKey?: string): Promise<Array<IFullAdminAlert>> {
+  public getAlerts(dataSourceKey?: string): Promise<IFullAdminAlert[]> {
     return this.fetch({
       url: '/admin/{dataSourceKey}/alerts',
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -599,7 +660,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/alerts/{id}',
       method: 'GET',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -621,7 +682,7 @@ export class AdminModule extends Module {
       url: '/admin/source/{dataSourceKey}/resetDefaults',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -634,10 +695,10 @@ export class AdminModule extends Module {
    */
   public setDefaults(
     data: {
-      styles?: { node: Array<any>; edge: Array<any> };
+      styles?: {node: any[]; edge: any[]};
       captions?: {
-        node: { [key: string]: { active: boolean; displayName: boolean; properties: Array<string> } };
-        edge: { [key: string]: { active: boolean; displayName: boolean; properties: Array<string> } };
+        node: {[key: string]: {active: boolean; displayName: boolean; properties: string[]}};
+        edge: {[key: string]: {active: boolean; displayName: boolean; properties: string[]}};
       };
     },
     dataSourceKey?: string
@@ -646,7 +707,7 @@ export class AdminModule extends Module {
       url: '/admin/source/{dataSourceKey}/setDefaults',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -706,7 +767,9 @@ export class AdminModule extends Module {
               setTimeout(() => {
                 return resolve();
               }, timeout);
-            }).then(() => this.listenIndexation(sourceKey, timeout, callback, keepWhenSourceChange));
+            }).then(() =>
+              this.listenIndexation(sourceKey, timeout, callback, keepWhenSourceChange)
+            );
           } else {
             return res;
           }

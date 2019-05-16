@@ -34,13 +34,7 @@
     "url": "https://github.com/Linkurious/linkurious-rest-client/issues"
   },
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "scripts": {
-    "lint": "tslint \"src/**/*.ts\"",
     "compileTests": "tsc --project fetcher_spec.json",
     "test": "./test/runTests.sh",
     "posttest": "rm -rf tempTests",
@@ -52,7 +46,11 @@
     "prepublishOnly": "tsc -p ./tsconfig.json",
     "minor": "tsc -p ./tsconfig.json && npm version minor && git push --tags && npm publish",
     "patch": "tsc -p ./tsconfig.json && npm version patch && git push --tags && npm publish",
-    "prerelease": "tsc -p ./tsconfig.json && npm version prerelease && git push && npm publish --tag next"
+    "prerelease": "tsc -p ./tsconfig.json && npm version prerelease && git push && npm publish --tag next",
+    "pretty": "./node_modules/.bin/prettier --single-quote --print-width 100 --no-bracket-spacing --write \"**/*.ts\"",
+    "tslint": "./node_modules/.bin/tslint --fix 'src/**/*.ts' 'test/**/*.ts'",
+    "tsc": "tsc",
+    "watch": "tsc -w | tee"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
@@ -60,7 +58,6 @@
     "babel-preset-es2015": "^6.24.1",
     "chai": "^4.1.2",
     "fs-extra": "^0.30.0",
-    "husky": "^1.2.0",
     "karma": "^4.0.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-mocha": "^1.3.0",
@@ -69,13 +66,12 @@
     "karma-typescript-es6-transform": "^4.0.0",
     "mocha": "^5.2.0",
     "path": "^0.12.7",
-    "prettier": "^1.13.5",
-    "pretty-quick": "^1.8.0",
+    "prettier": "1.17.1",
     "request": "^2.87.0",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.0.0-rc.0",
-    "tslint": "^3.10.2",
-    "typescript": "3.2.2"
+    "tslint": "5.16.0",
+    "typescript": "3.4.5"
   },
   "peerDependencies": {
     "linkurious-shared": "github:Linkurious/builds#shared-develop-next"

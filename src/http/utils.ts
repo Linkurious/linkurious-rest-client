@@ -7,7 +7,6 @@
  * File:
  * Description :
  */
-'use strict';
 
 const CAMEL_CASE_RE: RegExp = /([a-zA-Z0-9])([A-Z])/g;
 
@@ -23,13 +22,16 @@ export class Utils {
       return undefined;
     }
 
-    let result: any = {};
+    const result: any = {};
 
-    for (let key in data) {
+    for (const key in data) {
       if (data.hasOwnProperty(key)) {
         let sanitizedKey: string;
 
-        sanitizedKey = key.replace(CAMEL_CASE_RE, (s: string, p1: string, p2: string) => p1 + '_' + p2.toLowerCase());
+        sanitizedKey = key.replace(
+          CAMEL_CASE_RE,
+          (s: string, p1: string, p2: string) => p1 + '_' + p2.toLowerCase()
+        );
 
         result[sanitizedKey] = data[key];
       }
