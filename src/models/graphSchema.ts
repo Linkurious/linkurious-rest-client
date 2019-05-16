@@ -46,44 +46,44 @@ export interface DatetimeOptions {
   timezone?: string; // timezone information e.g: +05:30
 }
 
-type SchemaCompliantValue =
-  | string
-  | number
-  | boolean
-  | LkDate
-  | LkDatetime
-  | MissingValue
-  | InvalidValue
-  | ConflictValue;
+// type SchemaCompliantValue =
+//   | string
+//   | number
+//   | boolean
+//   | LkDate
+//   | LkDatetime
+//   | MissingValue
+//   | InvalidValue
+//   | ConflictValue;
+//
+// type LkPropertyValue = string | number | boolean | string[] | null;
 
-type LkPropertyValue = string | number | boolean | string[] | null;
-
-interface LkDate {
-  type: LkPropertyType.DATE;
-  value: number;
-}
-
-interface LkDatetime {
-  type: LkPropertyType.DATETIME;
-  value: number;
-}
-
-interface MissingValue {
-  type: LkPropertyType;
-  status: 'missing';
-}
-
-interface InvalidValue {
-  type: LkPropertyType;
-  status: 'invalid';
-  original: string; // when not of the good type we return a string representation (string[] feel in this category)
-}
-
-interface ConflictValue {
-  type: 'auto';
-  status: 'conflict';
-  original: string; // when schema is in conflict we return a string representation
-}
+// interface LkDate {
+//   type: LkPropertyType.DATE;
+//   value: number;
+// }
+//
+// interface LkDatetime {
+//   type: LkPropertyType.DATETIME;
+//   value: number;
+// }
+//
+// interface MissingValue {
+//   type: LkPropertyType;
+//   status: 'missing';
+// }
+//
+// interface InvalidValue {
+//   type: LkPropertyType;
+//   status: 'invalid';
+//   original: string; // when not of the good type we return a string representation (string[] feel in this category)
+// }
+//
+// interface ConflictValue {
+//   type: 'auto';
+//   status: 'conflict';
+//   original: string; // when schema is in conflict we return a string representation
+// }
 
 export interface GraphSchemaProperty {
   name: string;
