@@ -16,6 +16,26 @@ import { FetcherFactory } from './src/http/FetcherFactory';
 import { Logger } from './src/log/Logger';
 import { LinkuriousError } from './src/LinkuriousError';
 import {
+  Rejection,
+  RejectionKey,
+  BadGraphRequest,
+  ConstraintViolation,
+  DataSourceUnavailable,
+  Forbidden,
+  GraphRequestTimeout,
+  GraphUnreachable,
+  GroupExists,
+  GuestDisabled,
+  InvalidParameter,
+  NotFound,
+  Unauthorized,
+  WriteForbidden,
+  Cancelled,
+  ClientError,
+} from './src/response/errors';
+import { ServerResponse } from './src/response';
+import { Success } from './src/response/success';
+import {
   BooleanTemplate,
   DateTemplate,
   DatetimeTemplate,
@@ -24,7 +44,7 @@ import {
   NodeTemplate,
   NumberTemplate,
   StringTemplate,
-} from 'linkurious-shared';
+} from 'linkurious-shared/fesm5';
 
 export type indexingStatus = 'ongoing' | 'needed' | 'done' | 'unknown';
 export type EdgeOrientation = 'in' | 'out' | 'both';
@@ -49,10 +69,13 @@ export interface FetcherConfig {
   dataSource?: string | number;
   body?: { [key: string]: unknown };
   query?: { [key: string]: unknown };
+  path?: { [key: string]: unknown };
 }
 
 export interface RequestConfig<R, T> extends FetcherConfig {
   transform?: (r: R) => T;
+  mock?: boolean;
+  mockValue?: T;
 }
 
 export interface IClientState {
@@ -123,7 +146,11 @@ export interface IUser extends ISimpleUser {
 }
 
 export interface IFullUser extends IUser {
-  preferences: any;
+  preferences: {
+    pinOnDrag: boolean;
+    incrementalLayout: boolean;
+    locale: string;
+  };
   actions: any;
   locale: string;
 }
@@ -1013,6 +1040,7 @@ export interface IFetchConfig {
   id?: number;
   body?: any;
   query?: any;
+  path?: any;
 }
 
 export interface IDataSourceRelative {
@@ -1025,4 +1053,28 @@ export interface IDataToSend {
   bodyData?: any;
 }
 
-export { Linkurious, Fetcher, FetcherFactory, Logger, LinkuriousError };
+export {
+  Linkurious,
+  Fetcher,
+  FetcherFactory,
+  Logger,
+  LinkuriousError,
+  Rejection,
+  RejectionKey,
+  BadGraphRequest,
+  ConstraintViolation,
+  DataSourceUnavailable,
+  Forbidden,
+  GraphRequestTimeout,
+  GraphUnreachable,
+  GroupExists,
+  GuestDisabled,
+  InvalidParameter,
+  NotFound,
+  Unauthorized,
+  WriteForbidden,
+  Cancelled,
+  ClientError,
+  ServerResponse,
+  Success,
+};

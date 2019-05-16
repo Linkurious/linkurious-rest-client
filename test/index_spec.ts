@@ -12,17 +12,8 @@
 
 import { expect } from 'chai';
 import 'mocha';
-import {
-  IFullUser,
-  IItemType,
-  IOgmaEdge,
-  IOgmaNode,
-  IProperty,
-  IShare,
-  IVisualization,
-  Linkurious,
-  TypeAccessRight,
-} from '../index';
+import { IFullUser, IOgmaEdge, IOgmaNode, IShare, IVisualization, Linkurious, Success } from '../index';
+import { GraphSchemaWithAccess } from '../src/models/graphSchema';
 
 describe('Linkurious class', () => {
   let visu: any;
@@ -416,51 +407,19 @@ describe('Linkurious class', () => {
     });
   });
 
-  describe('getEdgeProperties', function() {
-    it('must return a list of edges properties', function() {
-      return linkurious
-        .initSources()
-        .then(function() {
-          return linkurious.edge.getProperties({
-            omitNoindex: true,
-          });
-        })
-        .then(function(res) {
-          expect(
-            res.sort((a, b) => {
-              return a.key < b.key ? -1 : a.key > b.key ? 1 : 0;
-            })
-          ).to.eql([{ key: 'altEdgeID', count: 1 }, { key: 'roles', count: 4 }]);
-        });
-    });
-  });
-
-  describe('getNodeProperties', function() {
-    it('must return a list of node properties', function() {
-      return linkurious
-        .initSources()
-        .then(function() {
-          return linkurious.node.getProperties({
-            omitNoindex: true,
-          });
-        })
-        .then(function(res: Array<IProperty>) {
-          expect(res.length).to.be.greaterThan(0);
-        });
-    });
-  });
-
   describe('getEdgeTypes method', function() {
     it('must return edges types', function() {
       return linkurious
         .initSources()
         .then(function() {
-          return linkurious.edge.getTypes({
+          return linkurious.schema.getEdgeTypes({
             includeType: true,
           });
         })
-        .then(function(res: { any: { access: TypeAccessRight }; results: Array<IItemType> }) {
-          let sortedResponse: Array<IItemType> = res.results.sort((a, b) => {
+        .then((success: unknown) => {
+          const schema = (success as Success<GraphSchemaWithAccess>).response as GraphSchemaWithAccess;
+          expect(schema).to.not.equal(undefined);
+          let sortedResponse = schema.results.sort((a, b) => {
             if (a.name < b.name) {
               return -1;
             }
@@ -479,10 +438,12 @@ describe('Linkurious class', () => {
       return linkurious
         .initSources()
         .then(function() {
-          return linkurious.node.getTypes();
+          return linkurious.schema.getNodeTypes();
         })
-        .then(function(res: { any: { access: TypeAccessRight }; results: Array<IItemType> }) {
-          expect(res.results.length).to.eql(8);
+        .then((success: unknown) => {
+          const schema = (success as Success<GraphSchemaWithAccess>).response as GraphSchemaWithAccess;
+          expect(schema).to.not.equal(undefined);
+          expect(schema.results.length).to.eql(8);
         });
     });
   });
@@ -722,6 +683,48 @@ describe('Linkurious class', () => {
     });
   });
 
+  let visuToDelete: number;
+
+  describe('duplicate visu method', () => {
+    it('must return the created visu', () => {
+      linkurious
+        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .then(function() {
+          return linkurious.visualization.duplicate({ id: visu.id, title: 'Copy of newVizuTest' });
+        })
+        .then((res) => {
+          visuToDelete = res.visualizationId;
+        });
+    });
+  });
+
+  describe('delete a visu method', () => {
+    it('must delete a visu', () => {
+      linkurious
+        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .then(function() {
+          return linkurious.visualization.deleteOne({ id: visuToDelete });
+        })
+        .then((res: any) => {
+          expect(res).toBe('');
+        });
+    }).timeout(5000);
+  });
+
+  describe('get share rights of a visu method', () => {
+    it('must return sharers', () => {
+      linkurious
+        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
+        .then(function() {
+          return linkurious.visualization.getShares({ id: visu.id });
+        })
+        .then((res: any) => {
+          expect(res.shares.length).toEqual(0);
+          expect(res.owner.id).toEqual(116);
+        });
+    }).timeout(5000);
+  });
+
   describe('get a visu method', () => {
     it('must return a visu', () => {
       return linkurious
@@ -767,20 +770,6 @@ describe('Linkurious class', () => {
     });
   });
 
-  describe('getHiddenNodeProperties method', () => {
-    it('must return an array of node Properties', () => {
-      return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
-        .then(function() {
-          return linkurious.admin.getHiddenNodeProperties();
-        })
-        .then(function(res: any) {
-          expect(res.length).to.eql(1);
-          expect(res[0]).to.equal('nodeHiddenProp');
-        });
-    });
-  });
-
   describe('getNonIndexedEdgeProperties method', () => {
     it('must return an array of edge Properties', () => {
       return linkurious
@@ -815,19 +804,6 @@ describe('Linkurious class', () => {
         .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
         .then(function() {
           return linkurious.admin.setHiddenEdgeProperties({ properties: ['testHiddenEdgeProp'] });
-        })
-        .then(function(res) {
-          expect(res).to.not.be.undefined;
-        });
-    });
-  });
-
-  describe('setHiddenNodeProperties method', () => {
-    it('must return true', () => {
-      return linkurious
-        .init({ usernameOrEmail: 'nameChanged', password: 'testPass' })
-        .then(function() {
-          return linkurious.admin.setHiddenNodeProperties({ properties: ['testHiddenNodeProp'] });
         })
         .then(function(res) {
           expect(res).to.not.be.undefined;
@@ -1344,8 +1320,6 @@ describe('Linkurious class', () => {
         });
     });
   });
-
-  let visuToDelete: number;
 
   describe('duplicate visu method', () => {
     it('must return the created visu', () => {
