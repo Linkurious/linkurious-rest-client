@@ -8,6 +8,7 @@
 // TODO TS2019
 
 import {
+  Forbidden,
   IAlternativeIdConfig,
   IFolder,
   IFolderFullResponse,
@@ -24,15 +25,26 @@ import {
   IWidget,
   IWidgetContent,
   PopulateType,
+  Success,
+  Unauthorized,
   VisualizationModeType
 } from '../../index';
 import {Utils} from '../http/utils';
+import {IMergeVisualizationsParams} from '../models/Visualization';
 import {Module} from './Module';
 import {VisualizationParser} from './VisualizationParser';
 
 export class VisualizationModule extends Module {
-
-
+  public async mergeVisualizations(
+    options: IMergeVisualizationsParams
+  ): Promise<Success<void> | Unauthorized | Forbidden> {
+    return this.request({
+      url: '/api/admin/users/mergeVisualizations',
+      method: 'POST',
+      body: options,
+      mock: true
+    });
+  }
 
   // TODO TS2019 refactor under here
 
