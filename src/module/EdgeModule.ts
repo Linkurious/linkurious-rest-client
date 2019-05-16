@@ -113,7 +113,7 @@ export class EdgeModule extends Module {
   /**
    * Get an edge of the graph.
    */
-  public getEdge(
+  public getOne(
     data: {
       id: ItemId;
       edgesTo?: Array<string | number>;
