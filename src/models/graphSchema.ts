@@ -107,7 +107,7 @@ export interface GraphSchemaWithAccess extends GraphSchema {
 }
 
 export interface ICreateNodeCategoryParams {
-  sourceKey: string;
+  sourceKey?: string;
 
   name: string;
 
@@ -115,7 +115,7 @@ export interface ICreateNodeCategoryParams {
 }
 
 export interface IUpdateNodeCategoryParams {
-  sourceKey: string;
+  sourceKey?: string;
 
   name: string; // name of the category to update
 
@@ -123,7 +123,7 @@ export interface IUpdateNodeCategoryParams {
 }
 
 export interface ICreateNodePropertyParams {
-  sourceKey: string;
+  sourceKey?: string;
 
   categoryName: string;
 
@@ -139,7 +139,7 @@ export interface ICreateNodePropertyParams {
 }
 
 export interface IUpdateNodePropertyParams {
-  sourceKey: string;
+  sourceKey?: string;
 
   categoryName: string;
 
@@ -155,7 +155,7 @@ export interface IUpdateNodePropertyParams {
 }
 
 export interface IUpdateEdgeTypeParams {
-  sourceKey: string;
+  sourceKey?: string;
 
   name: string;
 
@@ -163,7 +163,7 @@ export interface IUpdateEdgeTypeParams {
 }
 
 export interface ICreateEdgeTypeParams {
-  sourceKey: string;
+  sourceKey?: string;
 
   name: string;
 
@@ -171,7 +171,7 @@ export interface ICreateEdgeTypeParams {
 }
 
 export interface ICreateEdgePropertyParams {
-  sourceKey: string;
+  sourceKey?: string;
 
   edgeType: string;
 
@@ -187,7 +187,7 @@ export interface ICreateEdgePropertyParams {
 }
 
 export interface IUpdateEdgePropertyParams {
-  sourceKey: string;
+  sourceKey?: string;
 
   edgeType: string;
 
