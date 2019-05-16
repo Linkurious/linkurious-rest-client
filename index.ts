@@ -1040,6 +1040,7 @@ export interface IFetchConfig {
   id?: number;
   body?: any;
   query?: any;
+  path?: any;
 }
 
 export interface IDataSourceRelative {

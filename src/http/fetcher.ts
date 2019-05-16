@@ -166,10 +166,18 @@ export class Fetcher {
     throw LinkuriousError.fromClientError('state_error', `You need an ID to fetch this API (${url}).`);
   }
 
+  private injectPathParams(url: string, pathParams: { [key: string]: string } = {}): string {
+    for (let key of Object.keys(pathParams)) {
+      url = url.replace(`{${key}}`, encodeURIComponent(pathParams[key]));
+    }
+    return url;
+  }
+
   /**
    * parse url and return transformed url
    */
   private transformUrl(config: IFetchConfig, data: IDataToSend): string {
+    config.url = this.injectPathParams(config.url, config.path);
     if (config.url.indexOf(Fetcher.OBJECT_ID_TEMPLATE) >= 0) {
       config.url = this.handleIdInUrl(config.url, data.bodyData, data.queryData);
     }
