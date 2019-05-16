@@ -8,13 +8,12 @@
  * Description :
  */
 
-'use strict';
-
 import {
-  ItemId,
   IDigest,
-  IProperty,
+  IEdge,
   IItemType,
+  INode,
+  IOgmaEdge,
   IOgmaNode,
   IOgmaEdge,
   TypeAccessRight,
@@ -55,7 +54,7 @@ export class NodeModule extends Module {
   public create(
     data: {
       properties?: any;
-      categories?: Array<string>;
+      categories?: string[];
     },
     dataSourceKey?: string
   ): Promise<any> {
@@ -130,10 +129,10 @@ export class NodeModule extends Module {
    */
   public expand(
     data: {
-      ids: Array<ItemId>;
-      edgesTo?: Array<ItemId>;
-      nodeCategories?: Array<string>;
-      edgeTypes?: Array<string>;
+      ids: ItemId[];
+      edgesTo?: ItemId[];
+      nodeCategories?: string[];
+      edgeTypes?: string[];
       limit?: number;
       limitType?: string;
       withDigest?: boolean;
@@ -149,7 +148,7 @@ export class NodeModule extends Module {
       limit: data.limit,
       limitType: data.limitType
     };
-    let query: any = {
+    const query: any = {
       withDigest: data.withDigest,
       withDegree: data.withDegree
     };
@@ -176,12 +175,12 @@ export class NodeModule extends Module {
    */
   public getNeighborsCategories(
     data: {
-      ids: Array<ItemId>;
+      ids: ItemId[];
       withDigest?: boolean;
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<Array<IDigest>> {
+  ): Promise<IDigest[]> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/neighborhood/statistics',
       method: 'POST',
@@ -207,9 +206,9 @@ export class NodeModule extends Module {
     data: {
       id: string | number;
       properties?: any;
-      deletedProperties?: Array<string>;
-      addedCategories?: Array<string>;
-      deletedCategories?: Array<string>;
+      deletedProperties?: string[];
+      addedCategories?: string[];
+      deletedCategories?: string[];
       readAt: string;
     },
     dataSourceKey?: string

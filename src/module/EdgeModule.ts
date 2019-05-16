@@ -73,7 +73,7 @@ export class EdgeModule extends Module {
       id: string | number;
       type?: string;
       properties?: any;
-      deletedProperties?: Array<string>;
+      deletedProperties?: string[];
       readAt: string;
     },
     dataSourceKey?: string
