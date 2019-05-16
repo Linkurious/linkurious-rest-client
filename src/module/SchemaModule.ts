@@ -5,16 +5,16 @@
  * - Created on 2019-05-15.
  */
 
-import { Module } from './Module';
-import { Success } from '../response/success';
 import {
   ConstraintViolation,
   DataSourceUnavailable,
   Forbidden,
   InvalidParameter,
   Rejection,
-  Unauthorized,
+  Unauthorized
 } from '../response/errors';
+import {Success} from '../response/success';
+import {Module} from './Module';
 
 import {
   DataVisibility,
@@ -29,11 +29,11 @@ import {
   IUpdateEdgePropertyParams,
   IUpdateEdgeTypeParams,
   IUpdateNodeCategoryParams,
-  IUpdateNodePropertyParams,
+  IUpdateNodePropertyParams
 } from '../models/graphSchema';
 
 class Mock {
-  static indexOf(name: string, items: Array<{ name: string }>) {
+  public static indexOf(name: string, items: Array<{name: string}>) {
     for (let i = 0; i < items.length; i++) {
       if (items[i].name === name) {
         return i;
@@ -42,9 +42,13 @@ class Mock {
     return undefined;
   }
 
-  static property(
+  public static property(
     name: string,
-    p: ICreateNodePropertyParams | IUpdateNodePropertyParams | ICreateEdgePropertyParams | IUpdateEdgePropertyParams
+    p:
+      | ICreateNodePropertyParams
+      | IUpdateNodePropertyParams
+      | ICreateEdgePropertyParams
+      | IUpdateEdgePropertyParams
   ) {
     return {
       name: p.name,
@@ -55,11 +59,11 @@ class Mock {
 
       required: p.required || false,
 
-      visibility: p.visibility,
+      visibility: p.visibility
     };
   }
 
-  static type(name: string, visibility?: DataVisibility) {
+  public static type(name: string, visibility?: DataVisibility) {
     return {
       access: 'writable',
 
@@ -67,7 +71,7 @@ class Mock {
 
       visibility: visibility || DataVisibility.SEARCHABLE,
 
-      properties: [],
+      properties: []
     };
   }
 }
@@ -80,12 +84,18 @@ export class SchemaModule extends Module {
   /**
    * Get the dataSource schema with user access rights
    */
-  getNodeTypes(
+  public getNodeTypes(
     params?: {
       includeType?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<Success<GraphSchemaWithAccess> | Unauthorized | Forbidden | DataSourceUnavailable | InvalidParameter> {
+  ): Promise<
+    | Success<GraphSchemaWithAccess>
+    | Unauthorized
+    | Forbidden
+    | DataSourceUnavailable
+    | InvalidParameter
+  > {
     return this.request<GraphSchemaWithAccess>({
       url: '/{dataSourceKey}/graph/schema/nodeTypes',
       method: 'GET',
@@ -93,9 +103,9 @@ export class SchemaModule extends Module {
       dataSource: dataSourceKey,
       mock: true,
       mockValue: {
-        any: { access: 'writable' },
-        results: Array.from(this.edgeSchema.values()),
-      },
+        any: {access: 'writable'},
+        results: Array.from(this.edgeSchema.values())
+      }
     });
   }
 
@@ -107,7 +117,13 @@ export class SchemaModule extends Module {
       includeType?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<Success<GraphSchemaWithAccess> | Unauthorized | Forbidden | DataSourceUnavailable | InvalidParameter> {
+  ): Promise<
+    | Success<GraphSchemaWithAccess>
+    | Unauthorized
+    | Forbidden
+    | DataSourceUnavailable
+    | InvalidParameter
+  > {
     return this.request<GraphSchemaWithAccess>({
       url: '/{dataSourceKey}/graph/schema/edgeTypes',
       method: 'GET',
@@ -115,19 +131,24 @@ export class SchemaModule extends Module {
       dataSource: dataSourceKey,
       mock: true,
       mockValue: {
-        any: { access: 'writable' },
-        results: Array.from(this.edgeSchema.values()),
-      },
+        any: {access: 'writable'},
+        results: Array.from(this.edgeSchema.values())
+      }
     });
   }
 
   /**
    * Add a new node category to the schema.
    */
-  createNodeCategory(
+  public createNodeCategory(
     params: ICreateNodeCategoryParams
   ): Promise<
-    Success<GraphSchemaType> | Unauthorized | Forbidden | ConstraintViolation | DataSourceUnavailable | InvalidParameter
+    | Success<GraphSchemaType>
+    | Unauthorized
+    | Forbidden
+    | ConstraintViolation
+    | DataSourceUnavailable
+    | InvalidParameter
   > {
     this.nodeSchema.set(params.name, Mock.type(params.name, params.visibility));
     return this.request<GraphSchemaType>({
@@ -136,17 +157,22 @@ export class SchemaModule extends Module {
       body: params,
       dataSource: params.sourceKey,
       mock: true,
-      mockValue: this.nodeSchema.get(params.name),
+      mockValue: this.nodeSchema.get(params.name)
     });
   }
 
   /**
    * Update a node category on the schema.
    */
-  updateNodeCategory(
+  public updateNodeCategory(
     params: IUpdateNodeCategoryParams
   ): Promise<
-    Success<void> | Unauthorized | Forbidden | ConstraintViolation | DataSourceUnavailable | InvalidParameter
+    | Success<void>
+    | Unauthorized
+    | Forbidden
+    | ConstraintViolation
+    | DataSourceUnavailable
+    | InvalidParameter
   > {
     this.nodeSchema.set(params.name, Mock.type(params.name, params.visibility));
     return this.request<void>({
@@ -154,14 +180,14 @@ export class SchemaModule extends Module {
       method: 'PATCH',
       body: params,
       dataSource: params.sourceKey,
-      mock: true,
+      mock: true
     });
   }
 
   /**
    * Create a property for a node category on the schema.
    */
-  createNodeProperty(
+  public createNodeProperty(
     params: ICreateNodePropertyParams
   ): Promise<
     | Success<GraphSchemaProperty>
@@ -171,12 +197,12 @@ export class SchemaModule extends Module {
     | DataSourceUnavailable
     | InvalidParameter
   > {
-    let mockValue = Mock.property(params.categoryName, params);
+    const mockValue = Mock.property(params.categoryName, params);
     const category = this.nodeSchema.get(params.categoryName);
     if (category && !Mock.indexOf(params.name, category.properties)) {
       category.properties.push(mockValue);
     } else {
-      return Promise.resolve(new Rejection({ key: 'constraint_violation' }));
+      return Promise.resolve(new Rejection({key: 'constraint_violation'}));
     }
 
     return this.request<GraphSchemaProperty>({
@@ -185,46 +211,56 @@ export class SchemaModule extends Module {
       body: params,
       dataSource: params.sourceKey,
       mock: true,
-      mockValue: mockValue,
+      mockValue: mockValue
     });
   }
 
   /**
    * Update a property of a node category on the schema.
    */
-  updateNodeProperty(
+  public updateNodeProperty(
     params: IUpdateNodePropertyParams
   ): Promise<
-    Success<void> | Unauthorized | Forbidden | ConstraintViolation | DataSourceUnavailable | InvalidParameter
+    | Success<void>
+    | Unauthorized
+    | Forbidden
+    | ConstraintViolation
+    | DataSourceUnavailable
+    | InvalidParameter
   > {
-    let mockValue = Mock.property(params.categoryName, params);
+    const mockValue = Mock.property(params.categoryName, params);
     const category = this.nodeSchema.get(params.categoryName);
     if (category) {
       const property = Mock.indexOf(params.name, category.properties);
       if (property) {
         category.properties[property] = mockValue;
       } else {
-        return Promise.resolve(new Rejection({ key: 'constraint_violation' }));
+        return Promise.resolve(new Rejection({key: 'constraint_violation'}));
       }
     } else {
-      return Promise.resolve(new Rejection({ key: 'constraint_violation' }));
+      return Promise.resolve(new Rejection({key: 'constraint_violation'}));
     }
     return this.request<void>({
       url: '/{dataSourceKey}/graph/schema/nodeTypes/properties',
       method: 'PATCH',
       body: params,
       dataSource: params.sourceKey,
-      mock: true,
+      mock: true
     });
   }
 
   /**
    * Add a new edge type to the schema.
    */
-  createEdgeType(
+  public createEdgeType(
     params: ICreateEdgeTypeParams
   ): Promise<
-    Success<GraphSchemaType> | Unauthorized | Forbidden | ConstraintViolation | DataSourceUnavailable | InvalidParameter
+    | Success<GraphSchemaType>
+    | Unauthorized
+    | Forbidden
+    | ConstraintViolation
+    | DataSourceUnavailable
+    | InvalidParameter
   > {
     this.edgeSchema.set(params.name, Mock.type(params.name, params.visibility));
     return this.request<GraphSchemaType>({
@@ -233,17 +269,22 @@ export class SchemaModule extends Module {
       body: params,
       dataSource: params.sourceKey,
       mock: true,
-      mockValue: this.edgeSchema.get(params.name),
+      mockValue: this.edgeSchema.get(params.name)
     });
   }
 
   /**
    * Update an edge type on the schema.
    */
-  updateEdgeType(
+  public updateEdgeType(
     params: IUpdateEdgeTypeParams
   ): Promise<
-    Success<void> | Unauthorized | Forbidden | ConstraintViolation | DataSourceUnavailable | InvalidParameter
+    | Success<void>
+    | Unauthorized
+    | Forbidden
+    | ConstraintViolation
+    | DataSourceUnavailable
+    | InvalidParameter
   > {
     this.edgeSchema.set(params.name, Mock.type(params.name, params.visibility));
     return this.request<void>({
@@ -251,14 +292,14 @@ export class SchemaModule extends Module {
       method: 'PATCH',
       body: params,
       dataSource: params.sourceKey,
-      mock: true,
+      mock: true
     });
   }
 
   /**
    * Create a property for a edge type on the schema.
    */
-  createEdgeProperty(
+  public createEdgeProperty(
     params: ICreateEdgePropertyParams
   ): Promise<
     | Success<GraphSchemaProperty>
@@ -268,12 +309,12 @@ export class SchemaModule extends Module {
     | DataSourceUnavailable
     | InvalidParameter
   > {
-    let mockValue = Mock.property(params.edgeType, params);
+    const mockValue = Mock.property(params.edgeType, params);
     const type = this.edgeSchema.get(params.edgeType);
     if (type && !Mock.indexOf(params.name, type.properties)) {
       type.properties.push(mockValue);
     } else {
-      return Promise.resolve(new Rejection({ key: 'constraint_violation' }));
+      return Promise.resolve(new Rejection({key: 'constraint_violation'}));
     }
     return this.request<GraphSchemaProperty>({
       url: '/{dataSourceKey}/graph/schema/edgeTypes/properties',
@@ -281,36 +322,41 @@ export class SchemaModule extends Module {
       body: params,
       dataSource: params.sourceKey,
       mock: true,
-      mockValue: mockValue,
+      mockValue: mockValue
     });
   }
 
   /**
    * Update a property of a edge type on the schema.
    */
-  updateEdgeProperty(
+  public updateEdgeProperty(
     params: IUpdateEdgePropertyParams
   ): Promise<
-    Success<void> | Unauthorized | Forbidden | ConstraintViolation | DataSourceUnavailable | InvalidParameter
+    | Success<void>
+    | Unauthorized
+    | Forbidden
+    | ConstraintViolation
+    | DataSourceUnavailable
+    | InvalidParameter
   > {
-    let mockValue = Mock.property(params.edgeType, params);
+    const mockValue = Mock.property(params.edgeType, params);
     const type = this.edgeSchema.get(params.edgeType);
     if (type) {
       const property = Mock.indexOf(params.name, type.properties);
       if (property) {
         type.properties[property] = mockValue;
       } else {
-        return Promise.resolve(new Rejection({ key: 'constraint_violation' }));
+        return Promise.resolve(new Rejection({key: 'constraint_violation'}));
       }
     } else {
-      return Promise.resolve(new Rejection({ key: 'constraint_violation' }));
+      return Promise.resolve(new Rejection({key: 'constraint_violation'}));
     }
     return this.request<void>({
       url: '/{dataSourceKey}/graph/schema/edgeTypes/properties',
       method: 'PATCH',
       body: params,
       dataSource: params.sourceKey,
-      mock: true,
+      mock: true
     });
   }
 }

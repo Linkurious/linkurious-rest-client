@@ -177,8 +177,8 @@ export class Fetcher {
     );
   }
 
-  private injectPathParams(url: string, pathParams: { [key: string]: string } = {}): string {
-    for (let key of Object.keys(pathParams)) {
+  private injectPathParams(url: string, pathParams: {[key: string]: string} = {}): string {
+    for (const key of Object.keys(pathParams)) {
       url = url.replace(`{${key}}`, encodeURIComponent(pathParams[key]));
     }
     return url;

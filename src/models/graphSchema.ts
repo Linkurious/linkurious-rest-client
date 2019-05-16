@@ -7,7 +7,7 @@
 export enum DataVisibility {
   NONE = 'none',
   AVAILABLE = 'available',
-  SEARCHABLE = 'searchable',
+  SEARCHABLE = 'searchable'
 }
 
 export enum LkPropertyType {
@@ -16,7 +16,7 @@ export enum LkPropertyType {
   DATE = 'date',
   DATETIME = 'datetime',
   NUMBER = 'number',
-  STRING = 'string',
+  STRING = 'string'
 }
 
 export interface EnumOptions {
@@ -24,11 +24,25 @@ export interface EnumOptions {
 }
 
 export interface DateOptions {
-  format: 'native' | 'timestamp' | 'timestamp-ms' | 'iso' | 'yyyy-mm-dd' | 'dd/mm/yyyy' | 'mm/dd/yyyy';
+  format:
+    | 'native'
+    | 'timestamp'
+    | 'timestamp-ms'
+    | 'iso'
+    | 'yyyy-mm-dd'
+    | 'dd/mm/yyyy'
+    | 'mm/dd/yyyy';
 }
 
 export interface DatetimeOptions {
-  format: 'native' | 'timestamp' | 'timestamp-ms' | 'iso' | 'yyyy-mm-dd' | 'dd/mm/yyyy' | 'mm/dd/yyyy';
+  format:
+    | 'native'
+    | 'timestamp'
+    | 'timestamp-ms'
+    | 'iso'
+    | 'yyyy-mm-dd'
+    | 'dd/mm/yyyy'
+    | 'mm/dd/yyyy';
   timezone?: string; // timezone information e.g: +05:30
 }
 
@@ -103,7 +117,7 @@ export interface GraphSchemaWithAccess extends GraphSchema {
   any: {
     access: string;
   };
-  results: Array<GraphSchemaTypeWithAccess>;
+  results: GraphSchemaTypeWithAccess[];
 }
 
 export interface ICreateNodeCategoryParams {

@@ -6,15 +6,15 @@
  */
 
 export class Mock {
-  static wrap(type: string, value?: unknown, status?: string) {
+  public static wrap(type: string, value?: unknown, status?: string) {
     return {
       type: type,
       status: status,
-      value: value,
+      value: value
     };
   }
 
-  static date(value: unknown) {
+  public static date(value: unknown) {
     if (typeof value === 'number') {
       return Mock.wrap('date', value);
     }
@@ -22,7 +22,7 @@ export class Mock {
     return Mock.wrap('auto', value, 'conflict');
   }
 
-  static datetime(value: unknown) {
+  public static datetime(value: unknown) {
     if (typeof value === 'number') {
       return Mock.wrap('datetime', value);
     }
@@ -30,14 +30,14 @@ export class Mock {
     return Mock.wrap('auto', value, 'conflict');
   }
 
-  static missing(type: string) {
+  public static missing(type: string) {
     return Mock.wrap(type, undefined, 'missing');
   }
 
-  static properties<T extends { data?: T }>(item: T): T {
+  public static properties<T extends {data?: T}>(item: T): T {
     if (typeof item.data === 'object') {
       const data = item.data || {};
-      for (let key of Object.keys(data)) {
+      for (const key of Object.keys(data)) {
         switch (key) {
           case 'date':
             // @ts-ignore

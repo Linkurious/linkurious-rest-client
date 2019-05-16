@@ -8,24 +8,23 @@
  * Description :
  */
 
-'use strict';
-
 import {
-  ItemId,
   IDigest,
-  IProperty,
-  IItemType,
-  IOgmaNode,
-  IOgmaEdge,
-  TypeAccessRight,
-  INode,
   IEdge,
+  IEdge,
+  IItemType,
+  INode,
+  INode,
+  IOgmaEdge,
+  IOgmaEdge,
+  IOgmaNode,
+  TypeAccessRight
 } from '../../index';
-import { Module } from './Module';
-import { Fetcher } from '../http/fetcher';
-import { VisualizationParser } from './VisualizationParser';
-import { Transformer } from '../transformer';
-import { ErrorListener } from '../errorListener';
+import {ErrorListener} from '../errorListener';
+import {Fetcher} from '../http/fetcher';
+import {Transformer} from '../transformer';
+import {Module} from './Module';
+import {VisualizationParser} from './VisualizationParser';
 
 export class NodeModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -41,7 +40,7 @@ export class NodeModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes/count',
       method: 'GET',
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((res: any) => res.count);
   }
 
@@ -55,7 +54,7 @@ export class NodeModule extends Module {
   public create(
     data: {
       properties?: any;
-      categories?: Array<string>;
+      categories?: string[];
     },
     dataSourceKey?: string
   ): Promise<any> {
@@ -63,7 +62,7 @@ export class NodeModule extends Module {
       url: '/{dataSourceKey}/graph/nodes',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((node: any) => VisualizationParser.parseNode(node));
   }
 
@@ -85,7 +84,7 @@ export class NodeModule extends Module {
       url: '/{dataSourceKey}/graph/nodes/{id}',
       method: 'DELETE',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -104,15 +103,15 @@ export class NodeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
+  ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes/{id}',
       method: 'POST',
-      body: params,
-    }).then((response: { nodes: Array<INode>; edges: Array<IEdge> }) => {
+      body: params
+    }).then((response: {nodes: INode[]; edges: IEdge[]}) => {
       return {
         nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-        edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+        edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e))
       };
     });
   }
@@ -130,39 +129,39 @@ export class NodeModule extends Module {
    */
   public expand(
     data: {
-      ids: Array<ItemId>;
-      edgesTo?: Array<ItemId>;
-      nodeCategories?: Array<string>;
-      edgeTypes?: Array<string>;
+      ids: ItemId[];
+      edgesTo?: ItemId[];
+      nodeCategories?: string[];
+      edgeTypes?: string[];
       limit?: number;
       limitType?: string;
       withDigest?: boolean;
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{ nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge> }> {
-    let body: any = {
+  ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
+    const body: any = {
       ids: data.ids,
       edgesTo: data.edgesTo,
       nodeCategories: data.nodeCategories,
       edgeTypes: data.edgeTypes,
       limit: data.limit,
-      limitType: data.limitType,
+      limitType: data.limitType
     };
-    let query: any = {
+    const query: any = {
       withDigest: data.withDigest,
-      withDegree: data.withDegree,
+      withDegree: data.withDegree
     };
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes/expand',
       method: 'POST',
       body: body,
       query: query,
-      dataSource: dataSourceKey,
-    }).then((result: { nodes: Array<INode>; edges: Array<IEdge> }) => {
+      dataSource: dataSourceKey
+    }).then((result: {nodes: INode[]; edges: IEdge[]}) => {
       return {
         nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
-        edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e)),
+        edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e))
       };
     });
   }
@@ -176,23 +175,23 @@ export class NodeModule extends Module {
    */
   public getNeighborsCategories(
     data: {
-      ids: Array<ItemId>;
+      ids: ItemId[];
       withDigest?: boolean;
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<Array<IDigest>> {
+  ): Promise<IDigest[]> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/neighborhood/statistics',
       method: 'POST',
       body: {
-        ids: data.ids,
+        ids: data.ids
       },
       query: {
         withDigest: data.withDigest,
-        withDegree: data.withDegree,
+        withDegree: data.withDegree
       },
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     });
   }
 
@@ -207,9 +206,9 @@ export class NodeModule extends Module {
     data: {
       id: string | number;
       properties?: any;
-      deletedProperties?: Array<string>;
-      addedCategories?: Array<string>;
-      deletedCategories?: Array<string>;
+      deletedProperties?: string[];
+      addedCategories?: string[];
+      deletedCategories?: string[];
       readAt: string;
     },
     dataSourceKey?: string
@@ -218,7 +217,7 @@ export class NodeModule extends Module {
       url: '/{dataSourceKey}/graph/nodes/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey,
+      dataSource: dataSourceKey
     }).then((response: INode) => VisualizationParser.parseNode(response));
   }
 }

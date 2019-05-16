@@ -422,16 +422,17 @@ describe('Linkurious class', () => {
         linkurious
           .initSources()
           // TODO #75 remove this line
-          .then(() => linkurious.schema.createEdgeType({ name: 'ACTED_IN' }))
+          .then(() => linkurious.schema.createEdgeType({name: 'ACTED_IN'}))
           .then(function() {
             return linkurious.schema.getEdgeTypes({
-              includeType: true,
+              includeType: true
             });
           })
           .then((success: unknown) => {
-            const schema = (success as Success<GraphSchemaWithAccess>).response as GraphSchemaWithAccess;
+            const schema = (success as Success<GraphSchemaWithAccess>)
+              .response as GraphSchemaWithAccess;
             expect(schema).to.not.equal(undefined);
-            let sortedResponse = schema.results.sort((a, b) => {
+            const sortedResponse = schema.results.sort((a, b) => {
               if (a.name < b.name) {
                 return -1;
               }
@@ -452,19 +453,20 @@ describe('Linkurious class', () => {
         linkurious
           .initSources()
           // TODO #75 remove next 8 lines
-          .then(() => linkurious.schema.createEdgeType({ name: `Person1` }))
-          .then(() => linkurious.schema.createEdgeType({ name: `Person2` }))
-          .then(() => linkurious.schema.createEdgeType({ name: `Person3` }))
-          .then(() => linkurious.schema.createEdgeType({ name: `Person4` }))
-          .then(() => linkurious.schema.createEdgeType({ name: `Person5` }))
-          .then(() => linkurious.schema.createEdgeType({ name: `Person6` }))
-          .then(() => linkurious.schema.createEdgeType({ name: `Person7` }))
-          .then(() => linkurious.schema.createEdgeType({ name: `Person8` }))
+          .then(() => linkurious.schema.createEdgeType({name: `Person1`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person2`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person3`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person4`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person5`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person6`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person7`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person8`}))
           .then(function() {
             return linkurious.schema.getNodeTypes();
           })
           .then((success: unknown) => {
-            const schema = (success as Success<GraphSchemaWithAccess>).response as GraphSchemaWithAccess;
+            const schema = (success as Success<GraphSchemaWithAccess>)
+              .response as GraphSchemaWithAccess;
             expect(schema).to.not.equal(undefined);
             expect(schema.results.length).to.eql(8);
           })
