@@ -5,8 +5,6 @@
  * - Created on 2019-05-15.
  */
 
-import {Module} from './Module';
-import {Success} from '../response/success';
 import {
   ConstraintViolation,
   DataSourceUnavailable,
@@ -15,6 +13,8 @@ import {
   Rejection,
   Unauthorized
 } from '../response/errors';
+import {Success} from '../response/success';
+import {Module} from './Module';
 
 import {
   DataVisibility,
@@ -33,7 +33,7 @@ import {
 } from '../models/graphSchema';
 
 class Mock {
-  static indexOf(name: string, items: Array<{name: string}>) {
+  public static indexOf(name: string, items: Array<{name: string}>) {
     for (let i = 0; i < items.length; i++) {
       if (items[i].name === name) {
         return i;
@@ -42,7 +42,7 @@ class Mock {
     return undefined;
   }
 
-  static property(
+  public static property(
     name: string,
     p:
       | ICreateNodePropertyParams
@@ -63,7 +63,7 @@ class Mock {
     };
   }
 
-  static type(name: string, visibility?: DataVisibility) {
+  public static type(name: string, visibility?: DataVisibility) {
     return {
       access: 'writable',
 
@@ -84,7 +84,7 @@ export class SchemaModule extends Module {
   /**
    * Get the dataSource schema with user access rights
    */
-  getNodeTypes(
+  public getNodeTypes(
     params?: {
       includeType?: boolean;
     },
@@ -140,7 +140,7 @@ export class SchemaModule extends Module {
   /**
    * Add a new node category to the schema.
    */
-  createNodeCategory(
+  public createNodeCategory(
     params: ICreateNodeCategoryParams
   ): Promise<
     | Success<GraphSchemaType>
@@ -164,7 +164,7 @@ export class SchemaModule extends Module {
   /**
    * Update a node category on the schema.
    */
-  updateNodeCategory(
+  public updateNodeCategory(
     params: IUpdateNodeCategoryParams
   ): Promise<
     | Success<void>
@@ -187,7 +187,7 @@ export class SchemaModule extends Module {
   /**
    * Create a property for a node category on the schema.
    */
-  createNodeProperty(
+  public createNodeProperty(
     params: ICreateNodePropertyParams
   ): Promise<
     | Success<GraphSchemaProperty>
@@ -197,7 +197,7 @@ export class SchemaModule extends Module {
     | DataSourceUnavailable
     | InvalidParameter
   > {
-    let mockValue = Mock.property(params.categoryName, params);
+    const mockValue = Mock.property(params.categoryName, params);
     const category = this.nodeSchema.get(params.categoryName);
     if (category && !Mock.indexOf(params.name, category.properties)) {
       category.properties.push(mockValue);
@@ -218,7 +218,7 @@ export class SchemaModule extends Module {
   /**
    * Update a property of a node category on the schema.
    */
-  updateNodeProperty(
+  public updateNodeProperty(
     params: IUpdateNodePropertyParams
   ): Promise<
     | Success<void>
@@ -228,7 +228,7 @@ export class SchemaModule extends Module {
     | DataSourceUnavailable
     | InvalidParameter
   > {
-    let mockValue = Mock.property(params.categoryName, params);
+    const mockValue = Mock.property(params.categoryName, params);
     const category = this.nodeSchema.get(params.categoryName);
     if (category) {
       const property = Mock.indexOf(params.name, category.properties);
@@ -252,7 +252,7 @@ export class SchemaModule extends Module {
   /**
    * Add a new edge type to the schema.
    */
-  createEdgeType(
+  public createEdgeType(
     params: ICreateEdgeTypeParams
   ): Promise<
     | Success<GraphSchemaType>
@@ -276,7 +276,7 @@ export class SchemaModule extends Module {
   /**
    * Update an edge type on the schema.
    */
-  updateEdgeType(
+  public updateEdgeType(
     params: IUpdateEdgeTypeParams
   ): Promise<
     | Success<void>
@@ -299,7 +299,7 @@ export class SchemaModule extends Module {
   /**
    * Create a property for a edge type on the schema.
    */
-  createEdgeProperty(
+  public createEdgeProperty(
     params: ICreateEdgePropertyParams
   ): Promise<
     | Success<GraphSchemaProperty>
@@ -309,7 +309,7 @@ export class SchemaModule extends Module {
     | DataSourceUnavailable
     | InvalidParameter
   > {
-    let mockValue = Mock.property(params.edgeType, params);
+    const mockValue = Mock.property(params.edgeType, params);
     const type = this.edgeSchema.get(params.edgeType);
     if (type && !Mock.indexOf(params.name, type.properties)) {
       type.properties.push(mockValue);
@@ -329,7 +329,7 @@ export class SchemaModule extends Module {
   /**
    * Update a property of a edge type on the schema.
    */
-  updateEdgeProperty(
+  public updateEdgeProperty(
     params: IUpdateEdgePropertyParams
   ): Promise<
     | Success<void>
@@ -339,7 +339,7 @@ export class SchemaModule extends Module {
     | DataSourceUnavailable
     | InvalidParameter
   > {
-    let mockValue = Mock.property(params.edgeType, params);
+    const mockValue = Mock.property(params.edgeType, params);
     const type = this.edgeSchema.get(params.edgeType);
     if (type) {
       const property = Mock.indexOf(params.name, type.properties);

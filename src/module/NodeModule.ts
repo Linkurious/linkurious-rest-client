@@ -11,20 +11,20 @@
 import {
   IDigest,
   IEdge,
+  IEdge,
   IItemType,
   INode,
+  INode,
+  IOgmaEdge,
   IOgmaEdge,
   IOgmaNode,
-  IOgmaEdge,
-  TypeAccessRight,
-  INode,
-  IEdge
+  TypeAccessRight
 } from '../../index';
-import {Module} from './Module';
-import {Fetcher} from '../http/fetcher';
-import {VisualizationParser} from './VisualizationParser';
-import {Transformer} from '../transformer';
 import {ErrorListener} from '../errorListener';
+import {Fetcher} from '../http/fetcher';
+import {Transformer} from '../transformer';
+import {Module} from './Module';
+import {VisualizationParser} from './VisualizationParser';
 
 export class NodeModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -103,12 +103,12 @@ export class NodeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>}> {
+  ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes/{id}',
       method: 'POST',
       body: params
-    }).then((response: {nodes: Array<INode>; edges: Array<IEdge>}) => {
+    }).then((response: {nodes: INode[]; edges: IEdge[]}) => {
       return {
         nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
         edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e))
@@ -139,8 +139,8 @@ export class NodeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>}> {
-    let body: any = {
+  ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
+    const body: any = {
       ids: data.ids,
       edgesTo: data.edgesTo,
       nodeCategories: data.nodeCategories,
@@ -158,7 +158,7 @@ export class NodeModule extends Module {
       body: body,
       query: query,
       dataSource: dataSourceKey
-    }).then((result: {nodes: Array<INode>; edges: Array<IEdge>}) => {
+    }).then((result: {nodes: INode[]; edges: IEdge[]}) => {
       return {
         nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
         edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e))

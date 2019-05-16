@@ -117,7 +117,7 @@ export interface GraphSchemaWithAccess extends GraphSchema {
   any: {
     access: string;
   };
-  results: Array<GraphSchemaTypeWithAccess>;
+  results: GraphSchemaTypeWithAccess[];
 }
 
 export interface ICreateNodeCategoryParams {
