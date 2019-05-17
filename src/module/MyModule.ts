@@ -110,6 +110,6 @@ export class MyModule extends Module {
       method: 'GET',
       query: data,
       dataSource: dataSourceKey
-    }) as Promise<Success<IBaseGroup[]> | Unauthorized | Forbidden>;
+    });
   }
 }

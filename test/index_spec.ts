@@ -350,7 +350,7 @@ describe('Linkurious class', () => {
   });
 
   describe('getEdge method', () => {
-    it('must return a edge', () => {
+    it('must return an edge', () => {
       return linkurious
         .initSources()
         .then(() => {

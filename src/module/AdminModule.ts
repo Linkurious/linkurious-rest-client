@@ -252,14 +252,7 @@ export class AdminModule extends Module {
       method: 'POST',
       body: data,
       dataSource: dataSourceKey
-    }) as Promise<
-      | Success<IGroup>
-      | Unauthorized
-      | DataSourceUnavailable
-      | InvalidParameter
-      | GroupExists
-      | Forbidden
-    >;
+    });
   }
 
   /**
@@ -276,7 +269,7 @@ export class AdminModule extends Module {
       method: 'DELETE',
       body: data,
       dataSource: dataSourceKey
-    }) as Promise<Success<void> | Unauthorized | InvalidParameter | NotFound | Forbidden>;
+    });
   }
 
   /**
@@ -294,7 +287,7 @@ export class AdminModule extends Module {
       method: 'PATCH',
       body: data,
       dataSource: dataSourceKey
-    }) as Promise<Success<void> | Unauthorized | NotFound | Forbidden | InvalidParameter>;
+    });
   }
 
   /**
@@ -311,7 +304,7 @@ export class AdminModule extends Module {
       method: 'GET',
       query: data,
       dataSource: dataSourceKey
-    }) as Promise<Success<IGroup> | Unauthorized | InvalidParameter | Forbidden | NotFound>;
+    });
   }
 
   /**
@@ -328,7 +321,7 @@ export class AdminModule extends Module {
       method: 'GET',
       query: data,
       dataSource: dataSourceKey
-    }) as Promise<Success<IGroup[]> | Unauthorized | Forbidden>;
+    });
   }
 
   /**
@@ -338,7 +331,7 @@ export class AdminModule extends Module {
     return this.request({
       url: '/admin/groups/rights_info',
       method: 'GET'
-    }) as Promise<Success<IGroupRights> | Unauthorized | Forbidden>;
+    });
   }
 
   /**
@@ -356,7 +349,7 @@ export class AdminModule extends Module {
       method: 'PUT',
       body: data,
       dataSource: dataSourceKey
-    }) as Promise<Success<void> | Unauthorized | InvalidParameter | NotFound | Forbidden>;
+    });
   }
 
   /**

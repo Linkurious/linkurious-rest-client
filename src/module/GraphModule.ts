@@ -62,18 +62,7 @@ export class GraphModule extends Module {
       method: 'GET',
       query: data,
       dataSource: dataSourceKey
-    }) as Promise<
-      | Success<IGraphQuery>
-      | Unauthorized
-      | GuestDisabled
-      | Forbidden
-      | BadGraphRequest
-      | ConstraintViolation
-      | GraphRequestTimeout
-      | DataSourceUnavailable
-      | GraphUnreachable
-      | InvalidParameter
-    >;
+    });
   }
 
   /**
@@ -103,18 +92,7 @@ export class GraphModule extends Module {
       method: 'GET',
       dataSource: dataSourceKey,
       query: data
-    }) as Promise<
-      | Success<IGraphQuery[]>
-      | Unauthorized
-      | GuestDisabled
-      | Forbidden
-      | BadGraphRequest
-      | ConstraintViolation
-      | GraphRequestTimeout
-      | DataSourceUnavailable
-      | GraphUnreachable
-      | InvalidParameter
-    >;
+    });
   }
 
   /**
@@ -189,23 +167,7 @@ export class GraphModule extends Module {
           truncatedByAccess: res.truncatedByAccess
         };
       }
-    }) as Promise<
-      | Success<{
-          nodes: IOgmaNode[];
-          edges: IOgmaEdge[];
-          truncatedByLimit: boolean;
-          truncatedByAccess: boolean;
-        }>
-      | Unauthorized
-      | GuestDisabled
-      | Forbidden
-      | BadGraphRequest
-      | ConstraintViolation
-      | GraphRequestTimeout
-      | DataSourceUnavailable
-      | GraphUnreachable
-      | InvalidParameter
-    >;
+    });
   }
 
   /**
@@ -279,23 +241,7 @@ export class GraphModule extends Module {
           truncatedByAccess: res.truncatedByAccess
         };
       }
-    }) as Promise<
-      | Success<{
-          nodes: IOgmaNode[];
-          edges: IOgmaEdge[];
-          truncatedByLimit: boolean;
-          truncatedByAccess: boolean;
-        }>
-      | Unauthorized
-      | GuestDisabled
-      | Forbidden
-      | BadGraphRequest
-      | ConstraintViolation
-      | GraphRequestTimeout
-      | DataSourceUnavailable
-      | GraphUnreachable
-      | InvalidParameter
-    >;
+    });
   }
 
   /**
@@ -323,17 +269,7 @@ export class GraphModule extends Module {
       method: 'POST',
       body: data,
       dataSource: dataSourceKey
-    }) as Promise<
-      | Success<{write: boolean; type: 'static' | 'template'}>
-      | Unauthorized
-      | Forbidden
-      | BadGraphRequest
-      | ConstraintViolation
-      | GraphRequestTimeout
-      | DataSourceUnavailable
-      | GraphUnreachable
-      | InvalidParameter
-    >;
+    });
   }
 
   /**
@@ -388,18 +324,7 @@ export class GraphModule extends Module {
           };
         });
       }
-    }) as Promise<
-      | Success<Array<{nodes: IOgmaNode[]; edges: IOgmaEdge[]; columns: any}>>
-      | Unauthorized
-      | GuestDisabled
-      | Forbidden
-      | BadGraphRequest
-      | ConstraintViolation
-      | GraphRequestTimeout
-      | DataSourceUnavailable
-      | GraphUnreachable
-      | InvalidParameter
-    >;
+    });
   }
 
   /**
@@ -434,17 +359,7 @@ export class GraphModule extends Module {
       method: 'POST',
       body: data,
       dataSource: dataSourceKey
-    }) as Promise<
-      | Success<IGraphQuery>
-      | Unauthorized
-      | Forbidden
-      | BadGraphRequest
-      | ConstraintViolation
-      | GraphRequestTimeout
-      | DataSourceUnavailable
-      | GraphUnreachable
-      | InvalidParameter
-    >;
+    });
   }
 
   /**
@@ -480,17 +395,7 @@ export class GraphModule extends Module {
       method: 'PATCH',
       body: data,
       dataSource: dataSourceKey
-    }) as Promise<
-      | Success<void>
-      | Unauthorized
-      | Forbidden
-      | BadGraphRequest
-      | ConstraintViolation
-      | GraphRequestTimeout
-      | DataSourceUnavailable
-      | GraphUnreachable
-      | InvalidParameter
-    >;
+    });
   }
 
   /**
@@ -505,6 +410,6 @@ export class GraphModule extends Module {
       method: 'DELETE',
       dataSource: dataSourceKey,
       body: data
-    }) as Promise<Success<void> | Unauthorized | Forbidden | InvalidParameter | NotFound>;
+    });
   }
 }

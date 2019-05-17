@@ -309,7 +309,7 @@ export class SchemaModule extends Module {
   }
 
   /**
-   * Update a node category on the schema.
+   * Update a node category in the schema.
    */
   public async updateNodeCategory(
     params: IUpdateTypeParams
@@ -325,7 +325,7 @@ export class SchemaModule extends Module {
   }
 
   /**
-   * Create a property for a node category on the schema.
+   * Create a property for a node category in the schema.
    */
   public async createNodeProperty(
     params: ICreatePropertyParams
@@ -341,7 +341,7 @@ export class SchemaModule extends Module {
   }
 
   /**
-   * Update a property of a node category on the schema.
+   * Update a property of a node category in the schema.
    */
   public async updateNodeProperty(
     params: IUpdatePropertyParams
@@ -373,7 +373,7 @@ export class SchemaModule extends Module {
   }
 
   /**
-   * Update an edge type on the schema.
+   * Update an edge type in the schema.
    */
   public async updateEdgeType(
     params: IUpdateTypeParams
@@ -389,7 +389,7 @@ export class SchemaModule extends Module {
   }
 
   /**
-   * Create a property for a edge type on the schema.
+   * Create a property for an edge type in the schema.
    */
   public async createEdgeProperty(
     params: ICreatePropertyParams
@@ -405,7 +405,7 @@ export class SchemaModule extends Module {
   }
 
   /**
-   * Update a property of a edge type on the schema.
+   * Update a property of an edge type in the schema.
    */
   public async updateEdgeProperty(
     params: IUpdatePropertyParams

@@ -87,7 +87,7 @@ export class EdgeModule extends Module {
   }
 
   /**
-   * Delete a edge from the graph.
+   * Delete an edge from the graph.
    *
    * @param {Object} data,
    * @param {string}dataSourceKey

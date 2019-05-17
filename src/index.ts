@@ -30,6 +30,7 @@ import {EdgeModule} from './module/EdgeModule';
 import {GraphModule} from './module/GraphModule';
 import {MyModule} from './module/MyModule';
 import {NodeModule} from './module/NodeModule';
+import {SchemaModule} from './module/SchemaModule';
 import {SearchModule} from './module/SearchModule';
 import {VisualizationModule} from './module/VisualizationModule';
 import {Rejection} from './response/errors';
