@@ -73,9 +73,9 @@ class Mock {
 }
 
 export class SchemaModule extends Module {
-  private nodeSchema: Map<string, GraphSchemaTypeWithAccess> = new Map();
+  private mockNodeSchema: Map<string, GraphSchemaTypeWithAccess> = new Map();
 
-  private edgeSchema: Map<string, GraphSchemaTypeWithAccess> = new Map();
+  private mockEdgeSchema: Map<string, GraphSchemaTypeWithAccess> = new Map();
 
   public async getTypes(
     type: 'node' | 'edge',
@@ -99,7 +99,7 @@ export class SchemaModule extends Module {
       mock: true,
       mockValue: {
         any: {access: 'writable'},
-        results: Array.from(this.edgeSchema.values())
+        results: Array.from(this.mockEdgeSchema.values())
       }
     });
   }
@@ -116,7 +116,7 @@ export class SchemaModule extends Module {
     | InvalidParameter
     > {
     const mockValue = Mock.property(params.propertyOf, params);
-    const category = this.nodeSchema.get(params.propertyOf);
+    const category = this.mockNodeSchema.get(params.propertyOf);
     if (category && !Mock.indexOf(params.name, category.properties)) {
       category.properties.push(mockValue);
     } else {
@@ -146,7 +146,7 @@ export class SchemaModule extends Module {
     | InvalidParameter
     > {
     const mockValue = Mock.property(params.propertyOf, params);
-    const category = this.nodeSchema.get(params.propertyOf);
+    const category = this.mockNodeSchema.get(params.propertyOf);
     if (category) {
       const property = Mock.indexOf(params.name, category.properties);
       if (property) {
@@ -178,7 +178,7 @@ export class SchemaModule extends Module {
     | DataSourceUnavailable
     | InvalidParameter
     > {
-    this.edgeSchema.set(params.name, Mock.type(params.name, params.visibility));
+    this.mockEdgeSchema.set(params.name, Mock.type(params.name, params.visibility));
     return this.request<GraphSchemaType>({
       url: '/{dataSourceKey}/graph/schema/{type}/types',
       method: 'POST',
@@ -186,7 +186,7 @@ export class SchemaModule extends Module {
       dataSource: params.sourceKey,
       path: {type: type},
       mock: true,
-      mockValue: this.edgeSchema.get(params.name)
+      mockValue: this.mockEdgeSchema.get(params.name)
     });
   }
 
@@ -201,7 +201,7 @@ export class SchemaModule extends Module {
     | DataSourceUnavailable
     | InvalidParameter
     > {
-    this.edgeSchema.set(params.name, Mock.type(params.name, params.visibility));
+    this.mockEdgeSchema.set(params.name, Mock.type(params.name, params.visibility));
     return this.request<void>({
       url: '/{dataSourceKey}/graph/schema/{type}/types',
       method: 'PATCH',
