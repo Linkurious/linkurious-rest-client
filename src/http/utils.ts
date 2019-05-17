@@ -2,10 +2,7 @@
  * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-04-28.
- *
- * File:
- * Description :
+ * - Created on 2016-04-28.
  */
 
 const CAMEL_CASE_RE: RegExp = /([a-zA-Z0-9])([A-Z])/g;

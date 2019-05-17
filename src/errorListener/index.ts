@@ -2,10 +2,7 @@
  * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maxime on 2019-03-13.
- *
- * File: index
- * Description :
+ * - Created on 2019-03-13.
  */
 
 import {LinkuriousError} from '../LinkuriousError';

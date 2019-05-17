@@ -2,10 +2,7 @@
  * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-04-25.
- *
- * File:
- * Description :
+ * - Created on 2016-04-25.
  */
 
 import {Logger, LogLevel} from './log/Logger';

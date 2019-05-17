@@ -2,10 +2,7 @@
  * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-04-26.
- *
- * File: HTTPDriver.ts
- * Description : Wrapper for HTTP requests + promises
+ * - Created on 2016-04-26.
  */
 
 import * as request from 'superagent';

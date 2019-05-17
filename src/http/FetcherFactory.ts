@@ -2,10 +2,7 @@
  * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-11-22.
- *
- * File:
- * Description :
+ * - Created on 2016-11-22.
  */
 
 import {IClientState} from '../../index';

@@ -2,13 +2,8 @@
  * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-05-30.
- *
- * File:
- * Description :
+ * - Created on 2016-05-30.
  */
-
-'use strict';
 
 import {IEdge, INode, IOgmaEdge, IOgmaNode, ItemId} from '../../index';
 import {ErrorListener} from '../errorListener';

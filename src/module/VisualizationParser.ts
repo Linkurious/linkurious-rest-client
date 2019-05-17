@@ -2,7 +2,7 @@
  * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2017
  *
- * Created by maximeallex on 2017-02-06.
+ * - Created on 2017-02-06.
  */
 
 import {
