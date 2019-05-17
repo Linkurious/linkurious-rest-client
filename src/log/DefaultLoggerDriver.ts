@@ -1,7 +1,7 @@
 /* tslint:disable:no-console */
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
  * Created by david on 2016-05-27.
  *
