@@ -75,7 +75,7 @@ class Mock {
 }
 
 export class SchemaModule extends Module {
-  public async startSampleSchema(
+  public async startSchemaSample(
     options: IStartSchemaSampleParams
   ): Promise<Success<void> | Unauthorized | Forbidden> {
     return this.request({
@@ -102,7 +102,7 @@ export class SchemaModule extends Module {
     });
   }
 
-  public async stopSampleSchema(
+  public async stopSchemaSample(
     options: IStopSchemaSampleParams
   ): Promise<Success<void> | Unauthorized | Forbidden> {
     return this.request({
