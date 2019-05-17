@@ -2,7 +2,7 @@
  * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
- * Created on 2016-05-30.
+ * - Created on 2016-05-30.
  */
 
 // TODO TS2019

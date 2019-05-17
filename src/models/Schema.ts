@@ -4,6 +4,29 @@
  *
  * - Created on 2019-05-15.
  */
+
+// TODO TS2019
+
+import {IDataSourceParams} from './Model';
+
+export interface IStartSchemaSampleParams extends IDataSourceParams {
+  reset?: boolean;
+}
+
+export interface IGetSchemaSampleStatusParams extends IDataSourceParams {}
+
+export type ISamplingStatus = 'ongoing' | 'done';
+
+export interface IGetSchemaSampleStatusResponse {
+  sampling: ISamplingStatus;
+  samplingProgress?: number;
+  samplingStatus?: string;
+}
+
+export interface IStopSchemaSampleParams extends IDataSourceParams {}
+
+// TODO TS2019 refactor under here
+
 export enum DataVisibility {
   NONE = 'none',
   AVAILABLE = 'available',
@@ -109,11 +132,11 @@ export interface GraphSchemaTypeWithAccess extends GraphSchemaType {
   access: string;
 }
 
-export interface GraphSchema {
+export interface Schema {
   results: GraphSchemaType[];
 }
 
-export interface GraphSchemaWithAccess extends GraphSchema {
+export interface GraphSchemaWithAccess extends Schema {
   any: {
     access: string;
   };

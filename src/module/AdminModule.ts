@@ -131,34 +131,6 @@ export class AdminModule extends Module {
   }
 
   /**
-   * Get the list of edge-properties hidden for the given data-source.
-   *
-   * @param {string} [dataSourceKey]
-   * @returns {Promise<Array<string>>}
-   */
-  public getHiddenEdgeProperties(dataSourceKey?: string): Promise<string[]> {
-    return this.fetch({
-      url: '/admin/source/{dataSourceKey}/hidden/edgeProperties',
-      method: 'GET',
-      dataSource: dataSourceKey
-    });
-  }
-
-  /**
-   * Get the list of node-properties hidden for the given data-source.
-   *
-   * @param {string} [dataSourceKey]
-   * @returns {Promise<Array<string>>}
-   */
-  public getHiddenNodeProperties(dataSourceKey?: string): Promise<string[]> {
-    return this.fetch({
-      url: '/admin/source/{dataSourceKey}/hidden/nodeProperties',
-      method: 'GET',
-      dataSource: dataSourceKey
-    });
-  }
-
-  /**
    * Get the list of edge-properties that re not indexed for the given data-source.
    *
    * @param {string} [dataSourceKey]
@@ -182,44 +154,6 @@ export class AdminModule extends Module {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/noIndex/nodeProperties',
       method: 'GET',
-      dataSource: dataSourceKey
-    });
-  }
-
-  /**
-   * Set the list of edge-properties that are hidden for the given data-source.
-   *
-   * @param {Object} data
-   * @param {string} [dataSourceKey]
-   * @returns {Promise<boolean>}
-   */
-  public setHiddenEdgeProperties(
-    data: {properties: string[]},
-    dataSourceKey?: string
-  ): Promise<boolean> {
-    return this.fetch({
-      url: '/admin/source/{dataSourceKey}/hidden/edgeProperties',
-      method: 'PUT',
-      body: data,
-      dataSource: dataSourceKey
-    });
-  }
-
-  /**
-   * Set the list of node-properties that are hidden for the given data-source.
-   *
-   * @param {Object} data
-   * @param {string} [dataSourceKey]
-   * @returns {Promise<boolean>}
-   */
-  public setHiddenNodeProperties(
-    data: {properties: string[]},
-    dataSourceKey?: string
-  ): Promise<boolean> {
-    return this.fetch({
-      url: '/admin/source/{dataSourceKey}/hidden/nodeProperties',
-      method: 'PUT',
-      body: data,
       dataSource: dataSourceKey
     });
   }

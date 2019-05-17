@@ -5,6 +5,8 @@
  * - Created on 2019-05-15.
  */
 
+// TODO TS2019
+
 import {
   ConstraintViolation,
   DataSourceUnavailable,
@@ -24,9 +26,13 @@ import {
   GraphSchemaWithAccess,
   ICreatePropertyParams,
   ICreateTypeParams,
+  IGetSchemaSampleStatusParams,
+  IGetSchemaSampleStatusResponse,
+  IStartSchemaSampleParams,
+  IStopSchemaSampleParams,
   IUpdatePropertyParams,
   IUpdateTypeParams
-} from '../models/graphSchema';
+} from '../models/Schema';
 
 class Mock {
   public static indexOf(name: string, items: Array<{name: string}>): number | undefined {
@@ -40,11 +46,7 @@ class Mock {
 
   public static property(
     name: string,
-    p:
-      | ICreatePropertyParams
-      | IUpdatePropertyParams
-      | ICreatePropertyParams
-      | IUpdatePropertyParams
+    p: ICreatePropertyParams | IUpdatePropertyParams | ICreatePropertyParams | IUpdatePropertyParams
   ): GraphSchemaProperty {
     return {
       name: p.name,
@@ -73,6 +75,48 @@ class Mock {
 }
 
 export class SchemaModule extends Module {
+  public async startSampleSchema(
+    options: IStartSchemaSampleParams
+  ): Promise<Success<void> | Unauthorized | Forbidden> {
+    return this.request({
+      url: '/api/{sourceKey}/schema/sample/start',
+      method: 'POST',
+      query: options,
+      path: {
+        sourceKey: options.sourceKey
+      },
+      mock: true
+    });
+  }
+
+  public async getSchemaSampleStatus(
+    options: IGetSchemaSampleStatusParams
+  ): Promise<Success<IGetSchemaSampleStatusResponse> | Unauthorized | Forbidden> {
+    return this.request({
+      url: '/api/{sourceKey}/schema/sample/status',
+      method: 'GET',
+      path: {
+        sourceKey: options.sourceKey
+      },
+      mock: true
+    });
+  }
+
+  public async stopSampleSchema(
+    options: IStopSchemaSampleParams
+  ): Promise<Success<void> | Unauthorized | Forbidden> {
+    return this.request({
+      url: '/api/{sourceKey}/schema/sample/stop',
+      method: 'POST',
+      path: {
+        sourceKey: options.sourceKey
+      },
+      mock: true
+    });
+  }
+
+  // TODO TS2019 refactor under here
+
   private mockNodeSchema: Map<string, GraphSchemaTypeWithAccess> = new Map();
 
   private mockEdgeSchema: Map<string, GraphSchemaTypeWithAccess> = new Map();
@@ -89,7 +133,7 @@ export class SchemaModule extends Module {
     | Forbidden
     | DataSourceUnavailable
     | InvalidParameter
-    > {
+  > {
     return this.request<GraphSchemaWithAccess>({
       url: '/{dataSourceKey}/graph/schema/{type}/types',
       method: 'GET',
@@ -114,7 +158,7 @@ export class SchemaModule extends Module {
     | ConstraintViolation
     | DataSourceUnavailable
     | InvalidParameter
-    > {
+  > {
     const mockValue = Mock.property(params.propertyOf, params);
     const category = this.mockNodeSchema.get(params.propertyOf);
     if (category && !Mock.indexOf(params.name, category.properties)) {
@@ -144,7 +188,7 @@ export class SchemaModule extends Module {
     | ConstraintViolation
     | DataSourceUnavailable
     | InvalidParameter
-    > {
+  > {
     const mockValue = Mock.property(params.propertyOf, params);
     const category = this.mockNodeSchema.get(params.propertyOf);
     if (category) {
@@ -177,7 +221,7 @@ export class SchemaModule extends Module {
     | ConstraintViolation
     | DataSourceUnavailable
     | InvalidParameter
-    > {
+  > {
     this.mockEdgeSchema.set(params.name, Mock.type(params.name, params.visibility));
     return this.request<GraphSchemaType>({
       url: '/{dataSourceKey}/graph/schema/{type}/types',
@@ -200,7 +244,7 @@ export class SchemaModule extends Module {
     | ConstraintViolation
     | DataSourceUnavailable
     | InvalidParameter
-    > {
+  > {
     this.mockEdgeSchema.set(params.name, Mock.type(params.name, params.visibility));
     return this.request<void>({
       url: '/{dataSourceKey}/graph/schema/{type}/types',
@@ -251,7 +295,7 @@ export class SchemaModule extends Module {
   /**
    * Add a new node category to the schema.
    */
- public async createNodeCategory(
+  public async createNodeCategory(
     params: ICreateTypeParams
   ): Promise<
     | Success<GraphSchemaType>
@@ -267,7 +311,7 @@ export class SchemaModule extends Module {
   /**
    * Update a node category on the schema.
    */
- public async updateNodeCategory(
+  public async updateNodeCategory(
     params: IUpdateTypeParams
   ): Promise<
     | Success<void>
@@ -283,7 +327,7 @@ export class SchemaModule extends Module {
   /**
    * Create a property for a node category on the schema.
    */
- public async createNodeProperty(
+  public async createNodeProperty(
     params: ICreatePropertyParams
   ): Promise<
     | Success<GraphSchemaProperty>
@@ -299,7 +343,7 @@ export class SchemaModule extends Module {
   /**
    * Update a property of a node category on the schema.
    */
- public async updateNodeProperty(
+  public async updateNodeProperty(
     params: IUpdatePropertyParams
   ): Promise<
     | Success<void>
@@ -315,7 +359,7 @@ export class SchemaModule extends Module {
   /**
    * Add a new edge type to the schema.
    */
- public async createEdgeType(
+  public async createEdgeType(
     params: ICreateTypeParams
   ): Promise<
     | Success<GraphSchemaType>
@@ -331,7 +375,7 @@ export class SchemaModule extends Module {
   /**
    * Update an edge type on the schema.
    */
- public async updateEdgeType(
+  public async updateEdgeType(
     params: IUpdateTypeParams
   ): Promise<
     | Success<void>
@@ -347,7 +391,7 @@ export class SchemaModule extends Module {
   /**
    * Create a property for a edge type on the schema.
    */
- public async createEdgeProperty(
+  public async createEdgeProperty(
     params: ICreatePropertyParams
   ): Promise<
     | Success<GraphSchemaProperty>
@@ -363,7 +407,7 @@ export class SchemaModule extends Module {
   /**
    * Update a property of a edge type on the schema.
    */
- public async updateEdgeProperty(
+  public async updateEdgeProperty(
     params: IUpdatePropertyParams
   ): Promise<
     | Success<void>

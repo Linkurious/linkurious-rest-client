@@ -786,20 +786,6 @@ describe('Linkurious class', () => {
     });
   });
 
-  describe('getHiddenEdgeProperties method', () => {
-    it('must return an array of edge Properties', () => {
-      return linkurious
-        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
-        .then(function() {
-          return linkurious.admin.getHiddenEdgeProperties();
-        })
-        .then(function(res: any) {
-          expect(res.length).to.eql(1);
-          expect(res[0]).to.equal('edgeHiddenProp');
-        });
-    });
-  });
-
   describe('getNonIndexedEdgeProperties method', () => {
     it('must return an array of edge Properties', () => {
       return linkurious
@@ -824,19 +810,6 @@ describe('Linkurious class', () => {
         .then(function(res: any) {
           expect(res.length).to.eql(2);
           expect(res[1]).to.equal('nodeNoIndexProp');
-        });
-    });
-  });
-
-  describe('setHiddenEdgeProperties method', () => {
-    it('must return true', () => {
-      return linkurious
-        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
-        .then(function() {
-          return linkurious.admin.setHiddenEdgeProperties({properties: ['testHiddenEdgeProp']});
-        })
-        .then(function(res) {
-          expect(res).to.not.be.undefined;
         });
     });
   });
