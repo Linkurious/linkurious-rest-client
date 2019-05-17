@@ -46,44 +46,44 @@ export interface DatetimeOptions {
   timezone?: string; // timezone information e.g: +05:30
 }
 
-type SchemaCompliantValue =
-  | string
-  | number
-  | boolean
-  | LkDate
-  | LkDatetime
-  | MissingValue
-  | InvalidValue
-  | ConflictValue;
+// type SchemaCompliantValue =
+//   | string
+//   | number
+//   | boolean
+//   | LkDate
+//   | LkDatetime
+//   | MissingValue
+//   | InvalidValue
+//   | ConflictValue;
+//
+// type LkPropertyValue = string | number | boolean | string[] | null;
 
-type LkPropertyValue = string | number | boolean | string[] | null;
-
-interface LkDate {
-  type: LkPropertyType.DATE;
-  value: number;
-}
-
-interface LkDatetime {
-  type: LkPropertyType.DATETIME;
-  value: number;
-}
-
-interface MissingValue {
-  type: LkPropertyType;
-  status: 'missing';
-}
-
-interface InvalidValue {
-  type: LkPropertyType;
-  status: 'invalid';
-  original: string; // when not of the good type we return a string representation (string[] feel in this category)
-}
-
-interface ConflictValue {
-  type: 'auto';
-  status: 'conflict';
-  original: string; // when schema is in conflict we return a string representation
-}
+// interface LkDate {
+//   type: LkPropertyType.DATE;
+//   value: number;
+// }
+//
+// interface LkDatetime {
+//   type: LkPropertyType.DATETIME;
+//   value: number;
+// }
+//
+// interface MissingValue {
+//   type: LkPropertyType;
+//   status: 'missing';
+// }
+//
+// interface InvalidValue {
+//   type: LkPropertyType;
+//   status: 'invalid';
+//   original: string; // when not of the good type we return a string representation (string[] feel in this category)
+// }
+//
+// interface ConflictValue {
+//   type: 'auto';
+//   status: 'conflict';
+//   original: string; // when schema is in conflict we return a string representation
+// }
 
 export interface GraphSchemaProperty {
   name: string;
@@ -120,7 +120,7 @@ export interface GraphSchemaWithAccess extends GraphSchema {
   results: GraphSchemaTypeWithAccess[];
 }
 
-export interface ICreateNodeCategoryParams {
+export interface ICreateTypeParams {
   sourceKey?: string;
 
   name: string;
@@ -128,7 +128,7 @@ export interface ICreateNodeCategoryParams {
   visibility?: DataVisibility; // default is searchable
 }
 
-export interface IUpdateNodeCategoryParams {
+export interface IUpdateTypeParams {
   sourceKey?: string;
 
   name: string; // name of the category to update
@@ -136,10 +136,10 @@ export interface IUpdateNodeCategoryParams {
   visibility?: DataVisibility;
 }
 
-export interface ICreateNodePropertyParams {
+export interface ICreatePropertyParams {
   sourceKey?: string;
 
-  categoryName: string;
+  propertyOf: string;
 
   name: string;
 
@@ -152,58 +152,10 @@ export interface ICreateNodePropertyParams {
   required?: boolean;
 }
 
-export interface IUpdateNodePropertyParams {
+export interface IUpdatePropertyParams {
   sourceKey?: string;
 
-  categoryName: string;
-
-  name: string;
-
-  visibility: DataVisibility;
-
-  typeName: LkPropertyType;
-
-  typeOptions?: EnumOptions | DateOptions | DatetimeOptions;
-
-  required?: boolean;
-}
-
-export interface IUpdateEdgeTypeParams {
-  sourceKey?: string;
-
-  name: string;
-
-  visibility: DataVisibility;
-}
-
-export interface ICreateEdgeTypeParams {
-  sourceKey?: string;
-
-  name: string;
-
-  visibility?: DataVisibility;
-}
-
-export interface ICreateEdgePropertyParams {
-  sourceKey?: string;
-
-  edgeType: string;
-
-  name: string;
-
-  visibility?: DataVisibility;
-
-  typeName: LkPropertyType;
-
-  typeOptions?: EnumOptions | DateOptions | DatetimeOptions;
-
-  required?: boolean;
-}
-
-export interface IUpdateEdgePropertyParams {
-  sourceKey?: string;
-
-  edgeType: string;
+  propertyOf: string;
 
   name: string;
 
