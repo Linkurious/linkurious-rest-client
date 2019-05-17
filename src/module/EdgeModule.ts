@@ -10,12 +10,12 @@
 
 'use strict';
 
-import {Module} from './Module';
-import {IEdge, ItemId, IOgmaEdge, IOgmaNode, INode} from '../../index';
-import {Fetcher} from '../http/fetcher';
-import {VisualizationParser} from './VisualizationParser';
-import {Transformer} from '../transformer';
+import {IEdge, INode, IOgmaEdge, IOgmaNode, ItemId} from '../../index';
 import {ErrorListener} from '../errorListener';
+import {Fetcher} from '../http/fetcher';
+import {Transformer} from '../transformer';
+import {Module} from './Module';
+import {VisualizationParser} from './VisualizationParser';
 
 export class EdgeModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -73,7 +73,7 @@ export class EdgeModule extends Module {
       id: string | number;
       type?: string;
       properties?: any;
-      deletedProperties?: Array<string>;
+      deletedProperties?: string[];
       readAt: string;
     },
     dataSourceKey?: string
@@ -118,7 +118,7 @@ export class EdgeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>}> {
+  ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/edges/{id}',
       method: 'POST',

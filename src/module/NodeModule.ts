@@ -8,24 +8,23 @@
  * Description :
  */
 
-'use strict';
-
 import {
-  ItemId,
   IDigest,
-  IProperty,
+  IEdge,
+  IEdge,
   IItemType,
-  IOgmaNode,
-  IOgmaEdge,
-  TypeAccessRight,
   INode,
-  IEdge
+  INode,
+  IOgmaEdge,
+  IOgmaEdge,
+  IOgmaNode,
+  TypeAccessRight
 } from '../../index';
-import {Module} from './Module';
-import {Fetcher} from '../http/fetcher';
-import {VisualizationParser} from './VisualizationParser';
-import {Transformer} from '../transformer';
 import {ErrorListener} from '../errorListener';
+import {Fetcher} from '../http/fetcher';
+import {Transformer} from '../transformer';
+import {Module} from './Module';
+import {VisualizationParser} from './VisualizationParser';
 
 export class NodeModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
@@ -55,7 +54,7 @@ export class NodeModule extends Module {
   public create(
     data: {
       properties?: any;
-      categories?: Array<string>;
+      categories?: string[];
     },
     dataSourceKey?: string
   ): Promise<any> {
@@ -104,12 +103,12 @@ export class NodeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>}> {
+  ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes/{id}',
       method: 'POST',
       body: params
-    }).then((response: {nodes: Array<INode>; edges: Array<IEdge>}) => {
+    }).then((response: {nodes: INode[]; edges: IEdge[]}) => {
       return {
         nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
         edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e))
@@ -130,18 +129,18 @@ export class NodeModule extends Module {
    */
   public expand(
     data: {
-      ids: Array<ItemId>;
-      edgesTo?: Array<ItemId>;
-      nodeCategories?: Array<string>;
-      edgeTypes?: Array<string>;
+      ids: ItemId[];
+      edgesTo?: ItemId[];
+      nodeCategories?: string[];
+      edgeTypes?: string[];
       limit?: number;
       limitType?: string;
       withDigest?: boolean;
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<{nodes: Array<IOgmaNode>; edges: Array<IOgmaEdge>}> {
-    let body: any = {
+  ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
+    const body: any = {
       ids: data.ids,
       edgesTo: data.edgesTo,
       nodeCategories: data.nodeCategories,
@@ -149,7 +148,7 @@ export class NodeModule extends Module {
       limit: data.limit,
       limitType: data.limitType
     };
-    let query: any = {
+    const query: any = {
       withDigest: data.withDigest,
       withDegree: data.withDegree
     };
@@ -159,7 +158,7 @@ export class NodeModule extends Module {
       body: body,
       query: query,
       dataSource: dataSourceKey
-    }).then((result: {nodes: Array<INode>; edges: Array<IEdge>}) => {
+    }).then((result: {nodes: INode[]; edges: IEdge[]}) => {
       return {
         nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
         edges: result.edges.map((e: IEdge) => VisualizationParser.parseEdge(e))
@@ -176,12 +175,12 @@ export class NodeModule extends Module {
    */
   public getNeighborsCategories(
     data: {
-      ids: Array<ItemId>;
+      ids: ItemId[];
       withDigest?: boolean;
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<Array<IDigest>> {
+  ): Promise<IDigest[]> {
     return this.fetch({
       url: '/{dataSourceKey}/graph/neighborhood/statistics',
       method: 'POST',
@@ -207,9 +206,9 @@ export class NodeModule extends Module {
     data: {
       id: string | number;
       properties?: any;
-      deletedProperties?: Array<string>;
-      addedCategories?: Array<string>;
-      deletedCategories?: Array<string>;
+      deletedProperties?: string[];
+      addedCategories?: string[];
+      deletedCategories?: string[];
       readAt: string;
     },
     dataSourceKey?: string

@@ -41,7 +41,7 @@ export abstract class Module {
    * Remove path parameters from body and query string params.
    */
   private static sanitizeConfig<R, T>(config: RequestConfig<R, T>): void {
-    for (let key of Object.keys(config.path || {})) {
+    for (const key of Object.keys(config.path || {})) {
       if (config.body !== undefined) {
         delete config.body[key];
       }

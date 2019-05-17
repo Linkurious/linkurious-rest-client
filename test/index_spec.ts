@@ -432,7 +432,7 @@ describe('Linkurious class', () => {
             const schema = (success as Success<GraphSchemaWithAccess>)
               .response as GraphSchemaWithAccess;
             expect(schema).to.not.equal(undefined);
-            let sortedResponse = schema.results.sort((a, b) => {
+            const sortedResponse = schema.results.sort((a, b) => {
               if (a.name < b.name) {
                 return -1;
               }
@@ -1151,7 +1151,7 @@ describe('Linkurious class', () => {
             description: 'trololo',
             sharing: 'source',
             dialect: 'cypher',
-            content: "MATCH(Person {name: 'Keanu Reeves'})\nRETURN(Person)"
+            content: 'MATCH(Person {name: \'Keanu Reeves\'})\nRETURN(Person)'
           });
         })
         .then(res => {
@@ -1169,7 +1169,7 @@ describe('Linkurious class', () => {
         .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(() => {
           return linkurious.graph.updateGraphQuery({
-            content: "MATCH(Person {name: 'Carrie Anne Moss'})\nRETURN(Person)",
+            content: 'MATCH(Person {name: \'Carrie Anne Moss\'})\nRETURN(Person)',
             id: graphQueryId
           });
         })
@@ -1179,7 +1179,7 @@ describe('Linkurious class', () => {
         .then(res => {
           if (res.isSuccess()) {
             expect(res.response.content).to.eql(
-              "MATCH(Person {name: 'Carrie Anne Moss'})\nRETURN(Person)"
+              'MATCH(Person {name: \'Carrie Anne Moss\'})\nRETURN(Person)'
             );
           }
         });
