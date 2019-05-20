@@ -15,7 +15,6 @@ export interface ICreateAlertFolderParams extends IDataSourceParams {
 }
 
 export interface ICreateAlertFolderResponse extends IPersistedItem {
-  sourceKey: string;
   title: string;
   parent: number;
 }
