@@ -57,7 +57,7 @@ export class VisualizationModule extends Module {
    */
   public getShared(dataSourceKey?: string): Promise<IVisualization[]> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/shared',
+      url: '/{sourceKey}/visualizations/shared',
       method: 'GET',
       path: {sourceKey: dataSourceKey}
     });
@@ -71,7 +71,7 @@ export class VisualizationModule extends Module {
    */
   public count(dataSourceKey?: string): Promise<number> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/count',
+      url: '/{sourceKey}/visualizations/count',
       method: 'GET',
       path: {sourceKey: dataSourceKey}
     }).then((r: any) => r.count);
@@ -132,7 +132,7 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<IFolder> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/folder',
+      url: '/{sourceKey}/visualizations/folder',
       method: 'POST',
       body: data,
       path: {sourceKey: dataSourceKey}
@@ -164,7 +164,7 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<IVisualization> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations',
+      url: '/{sourceKey}/visualizations',
       method: 'POST',
       body: data,
       path: {sourceKey: dataSourceKey}
@@ -199,7 +199,7 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<boolean> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/folder/{id}',
+      url: '/{sourceKey}/visualizations/folder/{id}',
       method: 'DELETE',
       query: data,
       path: {sourceKey: dataSourceKey}
@@ -222,7 +222,7 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<{visualizationId: number}> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/{id}/duplicate',
+      url: '/{sourceKey}/visualizations/{id}/duplicate',
       method: 'POST',
       body: data,
       path: {sourceKey: dataSourceKey}
@@ -266,7 +266,7 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<IVisualization> {
     return this.fetch({
-      url: '/{dataSourceKey}/sandbox',
+      url: '/{sourceKey}/sandbox',
       method: 'GET',
       query: data,
       path: {sourceKey: dataSourceKey}
@@ -290,7 +290,7 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<IVisualization> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/{id}',
+      url: '/{sourceKey}/visualizations/{id}',
       method: 'GET',
       query: data,
       path: {sourceKey: dataSourceKey}
@@ -305,7 +305,7 @@ export class VisualizationModule extends Module {
    */
   public getTree(dataSourceKey?: string): Promise<ITreeChildren[]> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/tree',
+      url: '/{sourceKey}/visualizations/tree',
       method: 'GET'
     }).then((res: any) => res.tree);
   }
@@ -324,7 +324,7 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<any> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/{id}',
+      url: '/{sourceKey}/visualizations/{id}',
       method: 'DELETE',
       query: data,
       path: {sourceKey: dataSourceKey}
@@ -345,7 +345,7 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<ISharers> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/{id}/shares',
+      url: '/{sourceKey}/visualizations/{id}/shares',
       method: 'GET',
       query: data,
       path: {sourceKey: dataSourceKey}
@@ -368,7 +368,7 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<IShare> {
     return this.fetch({
-      url: `/{dataSourceKey}/visualizations/${data.vizId}/share/${data.userId}`,
+      url: `/{sourceKey}/visualizations/${data.vizId}/share/${data.userId}`,
       method: 'PUT',
       body: {
         right: data.right
@@ -392,7 +392,7 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<any> {
     return this.fetch({
-      url: `/{dataSourceKey}/visualizations/{id}/share/${data.userId}`,
+      url: `/{sourceKey}/visualizations/{id}/share/${data.userId}`,
       method: 'DELETE',
       query: {id: data.id},
       path: {sourceKey: dataSourceKey}
@@ -415,7 +415,7 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<IFolder> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/folder/{id}',
+      url: '/{sourceKey}/visualizations/folder/{id}',
       method: 'PATCH',
       body: data,
       path: {sourceKey: dataSourceKey}
@@ -438,7 +438,7 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<any> {
     return this.fetch({
-      url: '/{dataSourceKey}/sandbox',
+      url: '/{sourceKey}/sandbox',
       method: 'PATCH',
       body: {visualization: data},
       path: {sourceKey: dataSourceKey}
@@ -476,7 +476,7 @@ export class VisualizationModule extends Module {
     vizBody.forceLock = undefined;
 
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/{id}',
+      url: '/{sourceKey}/visualizations/{id}',
       method: 'PATCH',
       body: {id: data.id, visualization: vizBody},
       query: Utils.fixSnakeCase({forceLock: data.forceLock})

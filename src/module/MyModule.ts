@@ -66,7 +66,7 @@ export class MyModule extends Module {
     palettes: {[key: string]: string};
   }> {
     return this.fetch({
-      url: '/{dataSourceKey}/sandbox',
+      url: '/{sourceKey}/sandbox',
       method: 'GET',
       path: {sourceKey: dataSourceKey}
     }).then((res: any) => {
@@ -103,7 +103,7 @@ export class MyModule extends Module {
     dataSourceKey?: string
   ): Promise<Success<IBaseGroup[]> | Unauthorized | Forbidden> {
     return this.request({
-      url: '/{dataSourceKey}/groups',
+      url: '/{sourceKey}/groups',
       method: 'GET',
       query: data,
       path: {sourceKey: dataSourceKey}

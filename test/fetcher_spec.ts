@@ -26,7 +26,7 @@ describe('Fetcher class', () => {
 
     fetcher
       .fetch({
-        url: '/test/{dataSourceKey}',
+        url: '/test/{sourceKey}',
         method: 'GET'
       })
       .catch((res: any) => {

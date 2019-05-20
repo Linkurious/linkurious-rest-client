@@ -55,7 +55,7 @@ export class GraphModule extends Module {
     | InvalidParameter
   > {
     return this.request({
-      url: '/{dataSourceKey}/graph/query/{id}',
+      url: '/{sourceKey}/graph/query/{id}',
       method: 'GET',
       query: data,
       path: {sourceKey: dataSourceKey}
@@ -96,7 +96,7 @@ export class GraphModule extends Module {
     | InvalidParameter
   > {
     return this.request({
-      url: '/{dataSourceKey}/graph/query',
+      url: '/{sourceKey}/graph/query',
       method: 'GET',
       path: {sourceKey: dataSourceKey},
       query: data
@@ -173,7 +173,7 @@ export class GraphModule extends Module {
         truncatedByAccess: boolean;
       }
     >({
-      url: '/{dataSourceKey}/graph/run/query',
+      url: '/{sourceKey}/graph/run/query',
       method: 'POST',
       body: body,
       query: query,
@@ -263,7 +263,7 @@ export class GraphModule extends Module {
         truncatedByAccess: boolean;
       }
     >({
-      url: '/{dataSourceKey}/graph/run/query/{id}',
+      url: '/{sourceKey}/graph/run/query/{id}',
       method: 'POST',
       query: query,
       body: body,
@@ -316,7 +316,7 @@ export class GraphModule extends Module {
     | InvalidParameter
   > {
     return this.request({
-      url: '/{dataSourceKey}/graph/check/query',
+      url: '/{sourceKey}/graph/check/query',
       method: 'POST',
       body: data,
       path: {sourceKey: dataSourceKey}
@@ -372,7 +372,7 @@ export class GraphModule extends Module {
       {results: Array<{nodes: INode[]; edges: IEdge[]; columns: any}>},
       Array<{nodes: IOgmaNode[]; edges: IOgmaEdge[]; columns: any}>
     >({
-      url: '/{dataSourceKey}/graph/alertPreview',
+      url: '/{sourceKey}/graph/alertPreview',
       method: 'POST',
       body: body,
       path: {sourceKey: dataSourceKey},
@@ -427,7 +427,7 @@ export class GraphModule extends Module {
     | InvalidParameter
   > {
     return this.request({
-      url: '/{dataSourceKey}/graph/query',
+      url: '/{sourceKey}/graph/query',
       method: 'POST',
       body: data,
       path: {sourceKey: dataSourceKey}
@@ -473,7 +473,7 @@ export class GraphModule extends Module {
     | InvalidParameter
   > {
     return this.request({
-      url: '/{dataSourceKey}/graph/query/{id}',
+      url: '/{sourceKey}/graph/query/{id}',
       method: 'PATCH',
       body: data,
       path: {sourceKey: dataSourceKey}
@@ -498,7 +498,7 @@ export class GraphModule extends Module {
     dataSourceKey?: string
   ): Promise<Success<void> | Unauthorized | Forbidden | InvalidParameter | NotFound> {
     return this.request({
-      url: '/{dataSourceKey}/graph/query/{id}',
+      url: '/{sourceKey}/graph/query/{id}',
       method: 'DELETE',
       path: {sourceKey: dataSourceKey},
       body: data

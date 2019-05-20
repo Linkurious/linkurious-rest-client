@@ -25,7 +25,7 @@ export class EdgeModule extends Module {
    */
   public count(dataSourceKey?: string): Promise<number> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/edges/count',
+      url: '/{sourceKey}/graph/edges/count',
       method: 'GET',
       path: {sourceKey: dataSourceKey}
     }).then((res: any) => res.count);
@@ -48,7 +48,7 @@ export class EdgeModule extends Module {
     dataSourceKey?: string
   ): Promise<IOgmaEdge> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/edges',
+      url: '/{sourceKey}/graph/edges',
       method: 'POST',
       body: data,
       path: {sourceKey: dataSourceKey}
@@ -74,7 +74,7 @@ export class EdgeModule extends Module {
     dataSourceKey?: string
   ): Promise<IOgmaEdge> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/edges/{id}',
+      url: '/{sourceKey}/graph/edges/{id}',
       method: 'PATCH',
       body: data,
       path: {sourceKey: dataSourceKey}
@@ -95,7 +95,7 @@ export class EdgeModule extends Module {
     dataSourceKey?: string
   ): Promise<any> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/edges/{id}',
+      url: '/{sourceKey}/graph/edges/{id}',
       method: 'DELETE',
       body: data,
       path: {sourceKey: dataSourceKey}
@@ -115,7 +115,7 @@ export class EdgeModule extends Module {
     dataSourceKey?: string
   ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/edges/{id}',
+      url: '/{sourceKey}/graph/edges/{id}',
       method: 'POST',
       body: data,
       path: {sourceKey: dataSourceKey}

@@ -487,7 +487,7 @@ export class Linkurious {
   public getSchema(): Promise<ISchema> {
     return this._fetcher.fetch({
       method: 'GET',
-      url: '/{dataSourceKey}/graph/schema/simple'
+      url: '/{sourceKey}/graph/schema/simple'
     });
   }
 

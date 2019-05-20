@@ -46,7 +46,7 @@ export class SearchModule extends Module {
       from: data.from
     };
     return this.fetch({
-      url: '/{dataSourceKey}/search/' + data.type,
+      url: '/{sourceKey}/search/' + data.type,
       method: 'GET',
       query: dataToSend,
       path: {sourceKey: dataSourceKey}
@@ -105,7 +105,7 @@ export class SearchModule extends Module {
       categoriesOrTypes: data.categoriesOrTypes
     };
     return this.fetch({
-      url: '/{dataSourceKey}/search/' + data.type,
+      url: '/{sourceKey}/search/' + data.type,
       method: 'POST',
       body: dataToSend,
       path: {sourceKey: dataSourceKey}
@@ -171,7 +171,7 @@ export class SearchModule extends Module {
       withDigest: data.withDigest
     };
     return this.fetch({
-      url: '/{dataSourceKey}/search/' + data.type + '/full',
+      url: '/{sourceKey}/search/' + data.type + '/full',
       method: 'POST',
       body: dataToSend,
       path: {sourceKey: dataSourceKey}
@@ -204,7 +204,7 @@ export class SearchModule extends Module {
     dataSourceKey?: string
   ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
     return this.fetch({
-      url: '/{dataSourceKey}/search/edges/full',
+      url: '/{sourceKey}/search/edges/full',
       method: 'POST',
       query: data,
       path: {sourceKey: dataSourceKey}

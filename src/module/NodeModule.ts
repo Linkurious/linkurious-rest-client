@@ -24,7 +24,7 @@ export class NodeModule extends Module {
    */
   public count(dataSourceKey?: string): Promise<number> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/nodes/count',
+      url: '/{sourceKey}/graph/nodes/count',
       method: 'GET',
       path: {sourceKey: dataSourceKey}
     }).then((res: any) => res.count);
@@ -45,7 +45,7 @@ export class NodeModule extends Module {
     dataSourceKey?: string
   ): Promise<any> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/nodes',
+      url: '/{sourceKey}/graph/nodes',
       method: 'POST',
       body: data,
       path: {sourceKey: dataSourceKey}
@@ -67,7 +67,7 @@ export class NodeModule extends Module {
     dataSourceKey?: string
   ): Promise<any> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/nodes/{id}',
+      url: '/{sourceKey}/graph/nodes/{id}',
       method: 'DELETE',
       body: data,
       path: {sourceKey: dataSourceKey}
@@ -91,7 +91,7 @@ export class NodeModule extends Module {
     dataSourceKey?: string
   ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/nodes/{id}',
+      url: '/{sourceKey}/graph/nodes/{id}',
       method: 'POST',
       body: params
     }).then((response: {nodes: INode[]; edges: IEdge[]}) => {
@@ -139,7 +139,7 @@ export class NodeModule extends Module {
       withDegree: data.withDegree
     };
     return this.fetch({
-      url: '/{dataSourceKey}/graph/nodes/expand',
+      url: '/{sourceKey}/graph/nodes/expand',
       method: 'POST',
       body: body,
       query: query,
@@ -168,7 +168,7 @@ export class NodeModule extends Module {
     dataSourceKey?: string
   ): Promise<IDigest[]> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/neighborhood/statistics',
+      url: '/{sourceKey}/graph/neighborhood/statistics',
       method: 'POST',
       body: {
         ids: data.ids
@@ -200,7 +200,7 @@ export class NodeModule extends Module {
     dataSourceKey?: string
   ): Promise<IOgmaNode> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/nodes/{id}',
+      url: '/{sourceKey}/graph/nodes/{id}',
       method: 'PATCH',
       body: data,
       path: {sourceKey: dataSourceKey}

@@ -162,7 +162,7 @@ export class AlertModule extends Module {
    */
   public getAlerts(dataSourceKey?: string): Promise<IAlert[]> {
     return this.fetch({
-      url: '/{dataSourceKey}/alerts',
+      url: '/{sourceKey}/alerts',
       method: 'GET',
       path: {sourceKey: dataSourceKey}
     });
@@ -177,7 +177,7 @@ export class AlertModule extends Module {
    */
   public getAlert(data: {id: number}, dataSourceKey?: string): Promise<IMatch> {
     return this.fetch({
-      url: '/{dataSourceKey}/alerts/{id}',
+      url: '/{sourceKey}/alerts/{id}',
       method: 'GET',
       query: data,
       path: {sourceKey: dataSourceKey}
@@ -203,7 +203,7 @@ export class AlertModule extends Module {
     dataSourceKey?: string
   ): Promise<IMatchResults> {
     return this.fetch({
-      url: '/{dataSourceKey}/alerts/{id}/matches',
+      url: '/{sourceKey}/alerts/{id}/matches',
       method: 'GET',
       query: data,
       path: {sourceKey: dataSourceKey}
@@ -226,7 +226,7 @@ export class AlertModule extends Module {
     dataSourceKey?: string
   ): Promise<boolean> {
     return this.fetch({
-      url: `/{dataSourceKey}/alerts/${data.alertId}/matches/${data.matchId}/action`,
+      url: `/{sourceKey}/alerts/${data.alertId}/matches/${data.matchId}/action`,
       method: 'POST',
       body: {action: data.action},
       path: {sourceKey: dataSourceKey}
@@ -248,7 +248,7 @@ export class AlertModule extends Module {
     dataSourceKey?: string
   ): Promise<IMatch> {
     return this.fetch({
-      url: `/{dataSourceKey}/alerts/${data.alertId}/matches/${data.matchId}`,
+      url: `/{sourceKey}/alerts/${data.alertId}/matches/${data.matchId}`,
       method: 'GET',
       path: {sourceKey: dataSourceKey}
     });
@@ -269,7 +269,7 @@ export class AlertModule extends Module {
     dataSourceKey?: string
   ): Promise<IMatchAction[]> {
     return this.fetch({
-      url: `/{dataSourceKey}/alerts/${data.alertId}/matches/${data.matchId}/actions`,
+      url: `/{sourceKey}/alerts/${data.alertId}/matches/${data.matchId}/actions`,
       method: 'GET',
       path: {sourceKey: dataSourceKey}
     });

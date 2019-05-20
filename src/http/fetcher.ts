@@ -20,7 +20,7 @@ import {DefaultHttpDriver} from './DefaultHttpDriver';
 import {Utils} from './utils';
 
 export class Fetcher {
-  private static SOURCE_KEY_TEMPLATE: string = '{dataSourceKey}';
+  private static SOURCE_KEY_TEMPLATE: string = '{sourceKey}';
   private static SOURCE_INDEX_TEMPLATE: string = '{dataSourceIndex}';
   private static OBJECT_ID_TEMPLATE: string = '{id}';
   protected _httpDriver: IHttpDriver;
@@ -108,10 +108,7 @@ export class Fetcher {
 
   private addSourceKeyToUrl(url: string): string {
     if (this._clientState.currentSource) {
-      return (
-        this._apiBaseURL +
-        url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key)
-      );
+      return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key);
     } else {
       throw LinkuriousError.fromClientError(
         'state_error',
@@ -125,12 +122,9 @@ export class Fetcher {
    */
   private addSourceIndexToUrl(url: string, explicitSource?: string | number): string {
     if (explicitSource && typeof explicitSource === 'number') {
-      return this._apiBaseURL + url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource + '');
+      return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource + '');
     } else if (this._clientState.currentSource) {
-      return (
-        this._apiBaseURL +
-        url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.configIndex + '')
-      );
+      return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.configIndex + '');
     } else {
       if (explicitSource && typeof explicitSource !== 'number') {
         throw LinkuriousError.fromClientError('state_error', `Source index must be a number.`);
@@ -188,9 +182,9 @@ export class Fetcher {
     }
 
     if (config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0) {
-      return this.addSourceIndexToUrl(config.url, config.dataSource);
-    } else {
-      return this._apiBaseURL + config.url;
+      config.url = this.addSourceIndexToUrl(config.url, config.dataSource);
     }
+
+    return this._apiBaseURL + config.url;
   }
 }
