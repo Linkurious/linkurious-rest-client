@@ -413,58 +413,6 @@ describe('Linkurious class', () => {
     });
   });
 
-  describe('getEdgeTypes method', function() {
-    it('must return edges types', function() {
-      return linkurious
-        .initSources()
-        .then(() => linkurious.schema.createEdgeType({name: 'ACTED_IN'}))
-        .then(function() {
-          return linkurious.schema.getEdgeTypes({
-            includeType: true
-          });
-        })
-        .then((success: unknown) => {
-          const schema = (success as Success<GraphSchemaWithAccess>)
-            .response as GraphSchemaWithAccess;
-          expect(schema).to.not.equal(undefined);
-          const sortedResponse = schema.results.sort((a, b) => {
-            if (a.name < b.name) {
-              return -1;
-            }
-            if (a.name > b.name) {
-              return 1;
-            }
-            return 0;
-          });
-          expect(sortedResponse[0].name).to.eql('ACTED_IN');
-        });
-    });
-  });
-
-  describe('getNodeTypes method', function() {
-    it('must return node types', function() {
-      return linkurious
-        .initSources()
-        .then(() => linkurious.schema.createEdgeType({name: `Person1`}))
-        .then(() => linkurious.schema.createEdgeType({name: `Person2`}))
-        .then(() => linkurious.schema.createEdgeType({name: `Person3`}))
-        .then(() => linkurious.schema.createEdgeType({name: `Person4`}))
-        .then(() => linkurious.schema.createEdgeType({name: `Person5`}))
-        .then(() => linkurious.schema.createEdgeType({name: `Person6`}))
-        .then(() => linkurious.schema.createEdgeType({name: `Person7`}))
-        .then(() => linkurious.schema.createEdgeType({name: `Person8`}))
-        .then(function() {
-          return linkurious.schema.getNodeTypes();
-        })
-        .then((success: unknown) => {
-          const schema = (success as Success<GraphSchemaWithAccess>)
-            .response as GraphSchemaWithAccess;
-          expect(schema).to.not.equal(undefined);
-          expect(schema.results.length).to.eql(8);
-        });
-    });
-  });
-
   describe('getSandbox method', function() {
     it('must return a visualization object', function() {
       return linkurious
