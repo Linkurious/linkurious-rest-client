@@ -1,11 +1,8 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-05-30.
- *
- * File:
- * Description :
+ * - Created on 2016-05-30.
  */
 
 import {RequestConfig} from '../../index';
@@ -33,6 +30,7 @@ export abstract class Module {
     dataSource?: string | number;
     body?: any;
     query?: any;
+    path?: any;
   }): Promise<any> {
     return this._fetcher.fetch(config);
   }

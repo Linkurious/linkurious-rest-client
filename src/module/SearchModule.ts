@@ -1,11 +1,8 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-05-30.
- *
- * File:
- * Description :
+ * - Created on 2016-05-30.
  */
 
 import {IEdge, IFullNode, INode, IOgmaEdge, IOgmaNode} from '../../index';
@@ -49,10 +46,10 @@ export class SearchModule extends Module {
       from: data.from
     };
     return this.fetch({
-      url: '/{dataSourceKey}/search/' + data.type,
+      url: '/{sourceKey}/search/' + data.type,
       method: 'GET',
       query: dataToSend,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: any) => {
       return {
         type: response.type,
@@ -108,10 +105,10 @@ export class SearchModule extends Module {
       categoriesOrTypes: data.categoriesOrTypes
     };
     return this.fetch({
-      url: '/{dataSourceKey}/search/' + data.type,
+      url: '/{sourceKey}/search/' + data.type,
       method: 'POST',
       body: dataToSend,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: any) => {
       return {
         type: response.type,
@@ -174,10 +171,10 @@ export class SearchModule extends Module {
       withDigest: data.withDigest
     };
     return this.fetch({
-      url: '/{dataSourceKey}/search/' + data.type + '/full',
+      url: '/{sourceKey}/search/' + data.type + '/full',
       method: 'POST',
       body: dataToSend,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: {nodes: INode[]; edges: IEdge[]}) => {
       return {
         nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
@@ -207,10 +204,10 @@ export class SearchModule extends Module {
     dataSourceKey?: string
   ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
     return this.fetch({
-      url: '/{dataSourceKey}/search/edges/full',
+      url: '/{sourceKey}/search/edges/full',
       method: 'POST',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: IFullNode[]) => {
       return VisualizationParser.splitResponse(response);
     });

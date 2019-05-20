@@ -1,11 +1,8 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-05-27.
- *
- * File:
- * Description :
+ * - Created on 2016-05-27.
  */
 
 import {Tools} from 'linkurious-shared';
@@ -23,7 +20,7 @@ import {DefaultHttpDriver} from './DefaultHttpDriver';
 import {Utils} from './utils';
 
 export class Fetcher {
-  private static SOURCE_KEY_TEMPLATE: string = '{dataSourceKey}';
+  private static SOURCE_KEY_TEMPLATE: string = '{sourceKey}';
   private static SOURCE_INDEX_TEMPLATE: string = '{dataSourceIndex}';
   private static OBJECT_ID_TEMPLATE: string = '{id}';
   protected _httpDriver: IHttpDriver;
@@ -109,26 +106,14 @@ export class Fetcher {
       });
   }
 
-  /**
-   * transform url to add current source key or a specific source key if exists in config
-   */
-  private addSourceKeyToUrl(url: string, explicitSource?: string | number): string {
-    if (explicitSource && typeof explicitSource === 'string') {
-      return this._apiBaseURL + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource);
-    } else if (this._clientState.currentSource) {
-      return (
-        this._apiBaseURL +
-        url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key)
-      );
+  private addSourceKeyToUrl(url: string): string {
+    if (this._clientState.currentSource) {
+      return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key);
     } else {
-      if (explicitSource && typeof explicitSource !== 'string') {
-        throw LinkuriousError.fromClientError('state_error', `Source key must be a string.`);
-      } else {
-        throw LinkuriousError.fromClientError(
-          'state_error',
-          `You need to set a current source to fetch this API (${url}).`
-        );
-      }
+      throw LinkuriousError.fromClientError(
+        'state_error',
+        `You need to set a current source to fetch this API (${url}).`
+      );
     }
   }
 
@@ -137,12 +122,9 @@ export class Fetcher {
    */
   private addSourceIndexToUrl(url: string, explicitSource?: string | number): string {
     if (explicitSource && typeof explicitSource === 'number') {
-      return this._apiBaseURL + url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource + '');
+      return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource + '');
     } else if (this._clientState.currentSource) {
-      return (
-        this._apiBaseURL +
-        url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.configIndex + '')
-      );
+      return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.configIndex + '');
     } else {
       if (explicitSource && typeof explicitSource !== 'number') {
         throw LinkuriousError.fromClientError('state_error', `Source index must be a number.`);
@@ -179,8 +161,15 @@ export class Fetcher {
 
   private injectPathParams(url: string, pathParams: {[key: string]: string} = {}): string {
     for (const key of Object.keys(pathParams)) {
-      url = url.replace(`{${key}}`, encodeURIComponent(pathParams[key]));
+      if (pathParams[key] !== undefined) {
+        url = url.replace(`{${key}}`, encodeURIComponent(pathParams[key]));
+      }
     }
+
+    if (url.includes(Fetcher.SOURCE_KEY_TEMPLATE)) {
+      return this.addSourceKeyToUrl(url);
+    }
+
     return url;
   }
 
@@ -189,16 +178,15 @@ export class Fetcher {
    */
   private transformUrl(config: IFetchConfig, data: IDataToSend): string {
     config.url = this.injectPathParams(config.url, config.path);
+
     if (config.url.indexOf(Fetcher.OBJECT_ID_TEMPLATE) >= 0) {
       config.url = this.handleIdInUrl(config.url, data.bodyData, data.queryData);
     }
 
-    if (config.url.indexOf(Fetcher.SOURCE_KEY_TEMPLATE) >= 0) {
-      return this.addSourceKeyToUrl(config.url, config.dataSource);
-    } else if (config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0) {
-      return this.addSourceIndexToUrl(config.url, config.dataSource);
-    } else {
-      return this._apiBaseURL + config.url;
+    if (config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0) {
+      config.url = this.addSourceIndexToUrl(config.url, config.dataSource);
     }
+
+    return this._apiBaseURL + config.url;
   }
 }

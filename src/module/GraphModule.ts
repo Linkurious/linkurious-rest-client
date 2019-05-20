@@ -1,11 +1,8 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-05-30.
- *
- * File:
- * Description :
+ * - Created on 2016-05-30.
  */
 
 import {IEdge, IGraphQuery, INode, IOgmaEdge, IOgmaNode} from '../../index';
@@ -58,10 +55,10 @@ export class GraphModule extends Module {
     | InvalidParameter
   > {
     return this.request({
-      url: '/{dataSourceKey}/graph/query/{id}',
+      url: '/{sourceKey}/graph/query/{id}',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }) as Promise<
       | Success<IGraphQuery>
       | Unauthorized
@@ -99,9 +96,9 @@ export class GraphModule extends Module {
     | InvalidParameter
   > {
     return this.request({
-      url: '/{dataSourceKey}/graph/query',
+      url: '/{sourceKey}/graph/query',
       method: 'GET',
-      dataSource: dataSourceKey,
+      path: {sourceKey: dataSourceKey},
       query: data
     }) as Promise<
       | Success<IGraphQuery[]>
@@ -176,11 +173,11 @@ export class GraphModule extends Module {
         truncatedByAccess: boolean;
       }
     >({
-      url: '/{dataSourceKey}/graph/run/query',
+      url: '/{sourceKey}/graph/run/query',
       method: 'POST',
       body: body,
       query: query,
-      dataSource: dataSourceKey,
+      path: {sourceKey: dataSourceKey},
       transform: res => {
         return {
           nodes: res.nodes.map(n => VisualizationParser.parseNode(n)),
@@ -266,11 +263,11 @@ export class GraphModule extends Module {
         truncatedByAccess: boolean;
       }
     >({
-      url: '/{dataSourceKey}/graph/run/query/{id}',
+      url: '/{sourceKey}/graph/run/query/{id}',
       method: 'POST',
       query: query,
       body: body,
-      dataSource: dataSourceKey,
+      path: {sourceKey: dataSourceKey},
       transform: res => {
         return {
           nodes: res.nodes.map(n => VisualizationParser.parseNode(n)),
@@ -319,10 +316,10 @@ export class GraphModule extends Module {
     | InvalidParameter
   > {
     return this.request({
-      url: '/{dataSourceKey}/graph/check/query',
+      url: '/{sourceKey}/graph/check/query',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }) as Promise<
       | Success<{write: boolean; type: 'static' | 'template'}>
       | Unauthorized
@@ -375,10 +372,10 @@ export class GraphModule extends Module {
       {results: Array<{nodes: INode[]; edges: IEdge[]; columns: any}>},
       Array<{nodes: IOgmaNode[]; edges: IOgmaEdge[]; columns: any}>
     >({
-      url: '/{dataSourceKey}/graph/alertPreview',
+      url: '/{sourceKey}/graph/alertPreview',
       method: 'POST',
       body: body,
-      dataSource: dataSourceKey,
+      path: {sourceKey: dataSourceKey},
       transform: res => {
         return res.results.map(result => {
           return {
@@ -430,10 +427,10 @@ export class GraphModule extends Module {
     | InvalidParameter
   > {
     return this.request({
-      url: '/{dataSourceKey}/graph/query',
+      url: '/{sourceKey}/graph/query',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }) as Promise<
       | Success<IGraphQuery>
       | Unauthorized
@@ -476,10 +473,10 @@ export class GraphModule extends Module {
     | InvalidParameter
   > {
     return this.request({
-      url: '/{dataSourceKey}/graph/query/{id}',
+      url: '/{sourceKey}/graph/query/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }) as Promise<
       | Success<void>
       | Unauthorized
@@ -501,9 +498,9 @@ export class GraphModule extends Module {
     dataSourceKey?: string
   ): Promise<Success<void> | Unauthorized | Forbidden | InvalidParameter | NotFound> {
     return this.request({
-      url: '/{dataSourceKey}/graph/query/{id}',
+      url: '/{sourceKey}/graph/query/{id}',
       method: 'DELETE',
-      dataSource: dataSourceKey,
+      path: {sourceKey: dataSourceKey},
       body: data
     }) as Promise<Success<void> | Unauthorized | Forbidden | InvalidParameter | NotFound>;
   }

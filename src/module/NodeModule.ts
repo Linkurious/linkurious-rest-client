@@ -1,25 +1,11 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-05-30.
- *
- * File:
- * Description :
+ * - Created on 2016-05-30.
  */
 
-import {
-  IDigest,
-  IEdge,
-  IEdge,
-  IItemType,
-  INode,
-  INode,
-  IOgmaEdge,
-  IOgmaEdge,
-  IOgmaNode,
-  TypeAccessRight
-} from '../../index';
+import {IDigest, IEdge, INode, IOgmaEdge, IOgmaNode, ItemId} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
 import {Transformer} from '../transformer';
@@ -38,9 +24,9 @@ export class NodeModule extends Module {
    */
   public count(dataSourceKey?: string): Promise<number> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/nodes/count',
+      url: '/{sourceKey}/graph/nodes/count',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: any) => res.count);
   }
 
@@ -59,10 +45,10 @@ export class NodeModule extends Module {
     dataSourceKey?: string
   ): Promise<any> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/nodes',
+      url: '/{sourceKey}/graph/nodes',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((node: any) => VisualizationParser.parseNode(node));
   }
 
@@ -81,10 +67,10 @@ export class NodeModule extends Module {
     dataSourceKey?: string
   ): Promise<any> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/nodes/{id}',
+      url: '/{sourceKey}/graph/nodes/{id}',
       method: 'DELETE',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -105,7 +91,7 @@ export class NodeModule extends Module {
     dataSourceKey?: string
   ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/nodes/{id}',
+      url: '/{sourceKey}/graph/nodes/{id}',
       method: 'POST',
       body: params
     }).then((response: {nodes: INode[]; edges: IEdge[]}) => {
@@ -153,11 +139,11 @@ export class NodeModule extends Module {
       withDegree: data.withDegree
     };
     return this.fetch({
-      url: '/{dataSourceKey}/graph/nodes/expand',
+      url: '/{sourceKey}/graph/nodes/expand',
       method: 'POST',
       body: body,
       query: query,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((result: {nodes: INode[]; edges: IEdge[]}) => {
       return {
         nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
@@ -182,7 +168,7 @@ export class NodeModule extends Module {
     dataSourceKey?: string
   ): Promise<IDigest[]> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/neighborhood/statistics',
+      url: '/{sourceKey}/graph/neighborhood/statistics',
       method: 'POST',
       body: {
         ids: data.ids
@@ -191,7 +177,7 @@ export class NodeModule extends Module {
         withDigest: data.withDigest,
         withDegree: data.withDegree
       },
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -214,10 +200,10 @@ export class NodeModule extends Module {
     dataSourceKey?: string
   ): Promise<IOgmaNode> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/nodes/{id}',
+      url: '/{sourceKey}/graph/nodes/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: INode) => VisualizationParser.parseNode(response));
   }
 }

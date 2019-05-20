@@ -1,11 +1,8 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-11-28.
- *
- * File:
- * Description :
+ * - Created on 2016-11-28.
  */
 
 import {
@@ -323,7 +320,7 @@ export interface IGraphQuery extends ISimpleGraphQuery {
 // SEARCH
 
 export interface ISearchResult {
-  // todo:remove ambiguity node/nodes/edge/edges (i.e. fix on server too)
+  // TODO Server#1598 remove ambiguity node/nodes and edge/edges
   type: ItemsType | ItemType;
   totalHits?: number;
   moreResults?: boolean;

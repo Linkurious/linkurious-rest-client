@@ -1,11 +1,8 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-06-09.
- *
- * File:
- * Description :
+ * - Created on 2016-06-09.
  */
 
 import {expect} from 'chai';
@@ -29,7 +26,7 @@ describe('Fetcher class', () => {
 
     fetcher
       .fetch({
-        url: '/test/{dataSourceKey}',
+        url: '/test/{sourceKey}',
         method: 'GET'
       })
       .catch((res: any) => {

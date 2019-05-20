@@ -1,14 +1,14 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-05-30.
- *
- * File:
- * Description :
+ * - Created on 2016-05-30.
  */
 
+// TODO TS2019
+
 import {
+  Forbidden,
   IAlternativeIdConfig,
   IFolder,
   IFolderFullResponse,
@@ -24,20 +24,30 @@ import {
   IVisualizationNode,
   IWidget,
   IWidgetContent,
+  NotFound,
   PopulateType,
+  Success,
+  Unauthorized,
   VisualizationModeType
 } from '../../index';
-import {ErrorListener} from '../errorListener';
-import {Fetcher} from '../http/fetcher';
 import {Utils} from '../http/utils';
-import {Transformer} from '../transformer';
+import {IMergeVisualizationsParams} from '../models/Visualization';
 import {Module} from './Module';
 import {VisualizationParser} from './VisualizationParser';
 
 export class VisualizationModule extends Module {
-  constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
-    super(fetcher, transformer, errorListener);
+  public async mergeVisualizations(
+    options: IMergeVisualizationsParams
+  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound> {
+    return this.request({
+      url: '/api/admin/users/mergeVisualizations',
+      method: 'POST',
+      body: options,
+      mock: true
+    });
   }
+
+  // TODO TS2019 refactor under here
 
   /**
    * get shared visualizations
@@ -47,9 +57,9 @@ export class VisualizationModule extends Module {
    */
   public getShared(dataSourceKey?: string): Promise<IVisualization[]> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/shared',
+      url: '/{sourceKey}/visualizations/shared',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -61,9 +71,9 @@ export class VisualizationModule extends Module {
    */
   public count(dataSourceKey?: string): Promise<number> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/count',
+      url: '/{sourceKey}/visualizations/count',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((r: any) => r.count);
   }
 
@@ -122,10 +132,10 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<IFolder> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/folder',
+      url: '/{sourceKey}/visualizations/folder',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: IFolderFullResponse) => res.folder);
   }
 
@@ -154,10 +164,10 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<IVisualization> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations',
+      url: '/{sourceKey}/visualizations',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
   }
 
@@ -189,10 +199,10 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<boolean> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/folder/{id}',
+      url: '/{sourceKey}/visualizations/folder/{id}',
       method: 'DELETE',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -212,10 +222,10 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<{visualizationId: number}> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/{id}/duplicate',
+      url: '/{sourceKey}/visualizations/{id}/duplicate',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -256,10 +266,10 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<IVisualization> {
     return this.fetch({
-      url: '/{dataSourceKey}/sandbox',
+      url: '/{sourceKey}/sandbox',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
   }
 
@@ -280,10 +290,10 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<IVisualization> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/{id}',
+      url: '/{sourceKey}/visualizations/{id}',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
   }
 
@@ -295,7 +305,7 @@ export class VisualizationModule extends Module {
    */
   public getTree(dataSourceKey?: string): Promise<ITreeChildren[]> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/tree',
+      url: '/{sourceKey}/visualizations/tree',
       method: 'GET'
     }).then((res: any) => res.tree);
   }
@@ -314,10 +324,10 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<any> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/{id}',
+      url: '/{sourceKey}/visualizations/{id}',
       method: 'DELETE',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -335,10 +345,10 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<ISharers> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/{id}/shares',
+      url: '/{sourceKey}/visualizations/{id}/shares',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -358,12 +368,12 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<IShare> {
     return this.fetch({
-      url: `/{dataSourceKey}/visualizations/${data.vizId}/share/${data.userId}`,
+      url: `/{sourceKey}/visualizations/${data.vizId}/share/${data.userId}`,
       method: 'PUT',
       body: {
         right: data.right
       },
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -382,10 +392,10 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<any> {
     return this.fetch({
-      url: `/{dataSourceKey}/visualizations/{id}/share/${data.userId}`,
+      url: `/{sourceKey}/visualizations/{id}/share/${data.userId}`,
       method: 'DELETE',
       query: {id: data.id},
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -405,10 +415,10 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<IFolder> {
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/folder/{id}',
+      url: '/{sourceKey}/visualizations/folder/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: any) => response.folder);
   }
 
@@ -428,10 +438,10 @@ export class VisualizationModule extends Module {
     dataSourceKey?: string
   ): Promise<any> {
     return this.fetch({
-      url: '/{dataSourceKey}/sandbox',
+      url: '/{sourceKey}/sandbox',
       method: 'PATCH',
       body: {visualization: data},
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -466,7 +476,7 @@ export class VisualizationModule extends Module {
     vizBody.forceLock = undefined;
 
     return this.fetch({
-      url: '/{dataSourceKey}/visualizations/{id}',
+      url: '/{sourceKey}/visualizations/{id}',
       method: 'PATCH',
       body: {id: data.id, visualization: vizBody},
       query: Utils.fixSnakeCase({forceLock: data.forceLock})

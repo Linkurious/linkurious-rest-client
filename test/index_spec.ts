@@ -1,11 +1,8 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-06-08.
- *
- * File:
- * Description :
+ * - Created on 2016-06-08.
  */
 
 import {expect} from 'chai';
@@ -350,7 +347,7 @@ describe('Linkurious class', () => {
   });
 
   describe('getEdge method', () => {
-    it('must return a edge', () => {
+    it('must return an edge', () => {
       return linkurious
         .initSources()
         .then(() => {
@@ -413,64 +410,6 @@ describe('Linkurious class', () => {
         .catch(function(res) {
           expect(res).to.be.true;
         });
-    });
-  });
-
-  describe('getEdgeTypes method', function() {
-    it('must return edges types', function() {
-      return (
-        linkurious
-          .initSources()
-          // TODO #75 remove this line
-          .then(() => linkurious.schema.createEdgeType({name: 'ACTED_IN'}))
-          .then(function() {
-            return linkurious.schema.getEdgeTypes({
-              includeType: true
-            });
-          })
-          .then((success: unknown) => {
-            const schema = (success as Success<GraphSchemaWithAccess>)
-              .response as GraphSchemaWithAccess;
-            expect(schema).to.not.equal(undefined);
-            const sortedResponse = schema.results.sort((a, b) => {
-              if (a.name < b.name) {
-                return -1;
-              }
-              if (a.name > b.name) {
-                return 1;
-              }
-              return 0;
-            });
-            expect(sortedResponse[0].name).to.eql('ACTED_IN');
-          })
-      );
-    });
-  });
-
-  describe('getNodeTypes method', function() {
-    it('must return node types', function() {
-      return (
-        linkurious
-          .initSources()
-          // TODO #75 remove next 8 lines
-          .then(() => linkurious.schema.createEdgeType({name: `Person1`}))
-          .then(() => linkurious.schema.createEdgeType({name: `Person2`}))
-          .then(() => linkurious.schema.createEdgeType({name: `Person3`}))
-          .then(() => linkurious.schema.createEdgeType({name: `Person4`}))
-          .then(() => linkurious.schema.createEdgeType({name: `Person5`}))
-          .then(() => linkurious.schema.createEdgeType({name: `Person6`}))
-          .then(() => linkurious.schema.createEdgeType({name: `Person7`}))
-          .then(() => linkurious.schema.createEdgeType({name: `Person8`}))
-          .then(function() {
-            return linkurious.schema.getNodeTypes();
-          })
-          .then((success: unknown) => {
-            const schema = (success as Success<GraphSchemaWithAccess>)
-              .response as GraphSchemaWithAccess;
-            expect(schema).to.not.equal(undefined);
-            expect(schema.results.length).to.eql(8);
-          })
-      );
     });
   });
 
@@ -786,20 +725,6 @@ describe('Linkurious class', () => {
     });
   });
 
-  describe('getHiddenEdgeProperties method', () => {
-    it('must return an array of edge Properties', () => {
-      return linkurious
-        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
-        .then(function() {
-          return linkurious.admin.getHiddenEdgeProperties();
-        })
-        .then(function(res: any) {
-          expect(res.length).to.eql(1);
-          expect(res[0]).to.equal('edgeHiddenProp');
-        });
-    });
-  });
-
   describe('getNonIndexedEdgeProperties method', () => {
     it('must return an array of edge Properties', () => {
       return linkurious
@@ -824,19 +749,6 @@ describe('Linkurious class', () => {
         .then(function(res: any) {
           expect(res.length).to.eql(2);
           expect(res[1]).to.equal('nodeNoIndexProp');
-        });
-    });
-  });
-
-  describe('setHiddenEdgeProperties method', () => {
-    it('must return true', () => {
-      return linkurious
-        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
-        .then(function() {
-          return linkurious.admin.setHiddenEdgeProperties({properties: ['testHiddenEdgeProp']});
-        })
-        .then(function(res) {
-          expect(res).to.not.be.undefined;
         });
     });
   });

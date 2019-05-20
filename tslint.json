@@ -8,11 +8,6 @@
   },
   "jsRules": {},
   "rules": {
-    // don't require interface names to begin with a capital 'I'
-    "interface-name": [
-      false
-    ],
-
     // require single quotes for string literals
     "quotemark": [
       true,
@@ -56,7 +51,7 @@
       false
     ],
 
-    // Requires lines to be maximum 100 characters (except block comments)
+    // require lines to be maximum 100 characters (except block comments)
     "max-line-length": [
       true,
       {

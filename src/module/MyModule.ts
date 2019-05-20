@@ -1,11 +1,8 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-05-30.
- *
- * File:
- * Description :
+ * - Created on 2016-05-30.
  */
 
 import {IBaseGroup, IFullUser} from '../../index';
@@ -69,9 +66,9 @@ export class MyModule extends Module {
     palettes: {[key: string]: string};
   }> {
     return this.fetch({
-      url: '/{dataSourceKey}/sandbox',
+      url: '/{sourceKey}/sandbox',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: any) => {
       return {
         styles: res.visualization.design.styles,
@@ -106,10 +103,10 @@ export class MyModule extends Module {
     dataSourceKey?: string
   ): Promise<Success<IBaseGroup[]> | Unauthorized | Forbidden> {
     return this.request({
-      url: '/{dataSourceKey}/groups',
+      url: '/{sourceKey}/groups',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
-    }) as Promise<Success<IBaseGroup[]> | Unauthorized | Forbidden>;
+      path: {sourceKey: dataSourceKey}
+    });
   }
 }

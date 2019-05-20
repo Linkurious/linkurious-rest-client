@@ -1,14 +1,9 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-05-30.
- *
- * File:
- * Description :
+ * - Created on 2016-05-30.
  */
-
-'use strict';
 
 import {IEdge, INode, IOgmaEdge, IOgmaNode, ItemId} from '../../index';
 import {ErrorListener} from '../errorListener';
@@ -30,9 +25,9 @@ export class EdgeModule extends Module {
    */
   public count(dataSourceKey?: string): Promise<number> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/edges/count',
+      url: '/{sourceKey}/graph/edges/count',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: any) => res.count);
   }
 
@@ -53,10 +48,10 @@ export class EdgeModule extends Module {
     dataSourceKey?: string
   ): Promise<IOgmaEdge> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/edges',
+      url: '/{sourceKey}/graph/edges',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
   }
 
@@ -79,15 +74,15 @@ export class EdgeModule extends Module {
     dataSourceKey?: string
   ): Promise<IOgmaEdge> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/edges/{id}',
+      url: '/{sourceKey}/graph/edges/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
   }
 
   /**
-   * Delete a edge from the graph.
+   * Delete an edge from the graph.
    *
    * @param {Object} data,
    * @param {string}dataSourceKey
@@ -100,10 +95,10 @@ export class EdgeModule extends Module {
     dataSourceKey?: string
   ): Promise<any> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/edges/{id}',
+      url: '/{sourceKey}/graph/edges/{id}',
       method: 'DELETE',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -120,10 +115,10 @@ export class EdgeModule extends Module {
     dataSourceKey?: string
   ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
     return this.fetch({
-      url: '/{dataSourceKey}/graph/edges/{id}',
+      url: '/{sourceKey}/graph/edges/{id}',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: any) => {
       return {
         nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),

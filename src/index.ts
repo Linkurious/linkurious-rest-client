@@ -1,11 +1,8 @@
 /**
  * LINKURIOUS CONFIDENTIAL
- * Copyright Linkurious SAS 2012 - 2016
+ * Copyright Linkurious SAS 2012 - 2019
  *
- * Created by maximeallex on 2016-04-25.
- *
- * File:
- * Description :
+ * - Created on 2016-04-25.
  */
 
 import {Logger, LogLevel} from './log/Logger';
@@ -30,6 +27,7 @@ import {EdgeModule} from './module/EdgeModule';
 import {GraphModule} from './module/GraphModule';
 import {MyModule} from './module/MyModule';
 import {NodeModule} from './module/NodeModule';
+import {SchemaModule} from './module/SchemaModule';
 import {SearchModule} from './module/SearchModule';
 import {VisualizationModule} from './module/VisualizationModule';
 import {Rejection} from './response/errors';
@@ -489,7 +487,7 @@ export class Linkurious {
   public getSchema(): Promise<ISchema> {
     return this._fetcher.fetch({
       method: 'GET',
-      url: '/{dataSourceKey}/graph/schema/simple'
+      url: '/{sourceKey}/graph/schema/simple'
     });
   }
 
