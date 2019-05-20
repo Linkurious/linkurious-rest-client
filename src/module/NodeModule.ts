@@ -5,18 +5,7 @@
  * - Created on 2016-05-30.
  */
 
-import {
-  IDigest,
-  IEdge,
-  IEdge,
-  IItemType,
-  INode,
-  INode,
-  IOgmaEdge,
-  IOgmaEdge,
-  IOgmaNode,
-  TypeAccessRight
-} from '../../index';
+import {IDigest, IEdge, INode, IOgmaEdge, IOgmaNode, ItemId} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
 import {Transformer} from '../transformer';
@@ -37,7 +26,7 @@ export class NodeModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/graph/nodes/count',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: any) => res.count);
   }
 
@@ -59,7 +48,7 @@ export class NodeModule extends Module {
       url: '/{dataSourceKey}/graph/nodes',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((node: any) => VisualizationParser.parseNode(node));
   }
 
@@ -81,7 +70,7 @@ export class NodeModule extends Module {
       url: '/{dataSourceKey}/graph/nodes/{id}',
       method: 'DELETE',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -154,7 +143,7 @@ export class NodeModule extends Module {
       method: 'POST',
       body: body,
       query: query,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((result: {nodes: INode[]; edges: IEdge[]}) => {
       return {
         nodes: result.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
@@ -188,7 +177,7 @@ export class NodeModule extends Module {
         withDigest: data.withDigest,
         withDegree: data.withDegree
       },
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -214,7 +203,7 @@ export class NodeModule extends Module {
       url: '/{dataSourceKey}/graph/nodes/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: INode) => VisualizationParser.parseNode(response));
   }
 }

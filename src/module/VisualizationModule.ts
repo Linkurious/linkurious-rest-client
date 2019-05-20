@@ -59,7 +59,7 @@ export class VisualizationModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/shared',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -73,7 +73,7 @@ export class VisualizationModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/visualizations/count',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((r: any) => r.count);
   }
 
@@ -135,7 +135,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations/folder',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: IFolderFullResponse) => res.folder);
   }
 
@@ -167,7 +167,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
   }
 
@@ -202,7 +202,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations/folder/{id}',
       method: 'DELETE',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -225,7 +225,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations/{id}/duplicate',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -269,7 +269,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/sandbox',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
   }
 
@@ -293,7 +293,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations/{id}',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: any) => VisualizationParser.formatVisualization(res.visualization));
   }
 
@@ -327,7 +327,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations/{id}',
       method: 'DELETE',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -348,7 +348,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations/{id}/shares',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -373,7 +373,7 @@ export class VisualizationModule extends Module {
       body: {
         right: data.right
       },
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -395,7 +395,7 @@ export class VisualizationModule extends Module {
       url: `/{dataSourceKey}/visualizations/{id}/share/${data.userId}`,
       method: 'DELETE',
       query: {id: data.id},
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -418,7 +418,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/visualizations/folder/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: any) => response.folder);
   }
 
@@ -441,7 +441,7 @@ export class VisualizationModule extends Module {
       url: '/{dataSourceKey}/sandbox',
       method: 'PATCH',
       body: {visualization: data},
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 

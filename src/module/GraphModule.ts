@@ -58,7 +58,7 @@ export class GraphModule extends Module {
       url: '/{dataSourceKey}/graph/query/{id}',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -87,7 +87,7 @@ export class GraphModule extends Module {
     return this.request({
       url: '/{dataSourceKey}/graph/query',
       method: 'GET',
-      dataSource: dataSourceKey,
+      path: {sourceKey: dataSourceKey},
       query: data
     });
   }
@@ -142,7 +142,7 @@ export class GraphModule extends Module {
       method: 'POST',
       body: body,
       query: query,
-      dataSource: dataSourceKey,
+      path: {sourceKey: dataSourceKey},
       transform: res => {
         return {
           nodes: res.nodes.map(n => VisualizationParser.parseNode(n)),
@@ -203,7 +203,7 @@ export class GraphModule extends Module {
       method: 'POST',
       query: query,
       body: body,
-      dataSource: dataSourceKey,
+      path: {sourceKey: dataSourceKey},
       transform: res => {
         return {
           nodes: res.nodes.map(n => VisualizationParser.parseNode(n)),
@@ -239,7 +239,7 @@ export class GraphModule extends Module {
       url: '/{dataSourceKey}/graph/check/query',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -282,7 +282,7 @@ export class GraphModule extends Module {
       url: '/{dataSourceKey}/graph/alertPreview',
       method: 'POST',
       body: body,
-      dataSource: dataSourceKey,
+      path: {sourceKey: dataSourceKey},
       transform: res => {
         return res.results.map(result => {
           return {
@@ -326,7 +326,7 @@ export class GraphModule extends Module {
       url: '/{dataSourceKey}/graph/query',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -362,7 +362,7 @@ export class GraphModule extends Module {
       url: '/{dataSourceKey}/graph/query/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -376,7 +376,7 @@ export class GraphModule extends Module {
     return this.request({
       url: '/{dataSourceKey}/graph/query/{id}',
       method: 'DELETE',
-      dataSource: dataSourceKey,
+      path: {sourceKey: dataSourceKey},
       body: data
     });
   }

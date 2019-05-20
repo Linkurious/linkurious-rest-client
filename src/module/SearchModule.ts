@@ -49,7 +49,7 @@ export class SearchModule extends Module {
       url: '/{dataSourceKey}/search/' + data.type,
       method: 'GET',
       query: dataToSend,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: any) => {
       return {
         type: response.type,
@@ -108,7 +108,7 @@ export class SearchModule extends Module {
       url: '/{dataSourceKey}/search/' + data.type,
       method: 'POST',
       body: dataToSend,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: any) => {
       return {
         type: response.type,
@@ -174,7 +174,7 @@ export class SearchModule extends Module {
       url: '/{dataSourceKey}/search/' + data.type + '/full',
       method: 'POST',
       body: dataToSend,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: {nodes: INode[]; edges: IEdge[]}) => {
       return {
         nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
@@ -207,7 +207,7 @@ export class SearchModule extends Module {
       url: '/{dataSourceKey}/search/edges/full',
       method: 'POST',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: IFullNode[]) => {
       return VisualizationParser.splitResponse(response);
     });

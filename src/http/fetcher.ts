@@ -106,26 +106,17 @@ export class Fetcher {
       });
   }
 
-  /**
-   * transform url to add current source key or a specific source key if exists in config
-   */
-  private addSourceKeyToUrl(url: string, explicitSource?: string | number): string {
-    if (explicitSource && typeof explicitSource === 'string') {
-      return this._apiBaseURL + url.replace(Fetcher.SOURCE_KEY_TEMPLATE, explicitSource);
-    } else if (this._clientState.currentSource) {
+  private addSourceKeyToUrl(url: string): string {
+    if (this._clientState.currentSource) {
       return (
         this._apiBaseURL +
         url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key)
       );
     } else {
-      if (explicitSource && typeof explicitSource !== 'string') {
-        throw LinkuriousError.fromClientError('state_error', `Source key must be a string.`);
-      } else {
-        throw LinkuriousError.fromClientError(
-          'state_error',
-          `You need to set a current source to fetch this API (${url}).`
-        );
-      }
+      throw LinkuriousError.fromClientError(
+        'state_error',
+        `You need to set a current source to fetch this API (${url}).`
+      );
     }
   }
 
@@ -178,6 +169,11 @@ export class Fetcher {
     for (const key of Object.keys(pathParams)) {
       url = url.replace(`{${key}}`, encodeURIComponent(pathParams[key]));
     }
+
+    if (url.includes(Fetcher.SOURCE_KEY_TEMPLATE)) {
+      return this.addSourceKeyToUrl(url);
+    }
+
     return url;
   }
 
@@ -186,13 +182,12 @@ export class Fetcher {
    */
   private transformUrl(config: IFetchConfig, data: IDataToSend): string {
     config.url = this.injectPathParams(config.url, config.path);
+
     if (config.url.indexOf(Fetcher.OBJECT_ID_TEMPLATE) >= 0) {
       config.url = this.handleIdInUrl(config.url, data.bodyData, data.queryData);
     }
 
-    if (config.url.indexOf(Fetcher.SOURCE_KEY_TEMPLATE) >= 0) {
-      return this.addSourceKeyToUrl(config.url, config.dataSource);
-    } else if (config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0) {
+    if (config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0) {
       return this.addSourceIndexToUrl(config.url, config.dataSource);
     } else {
       return this._apiBaseURL + config.url;

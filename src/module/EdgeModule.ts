@@ -27,7 +27,7 @@ export class EdgeModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/graph/edges/count',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: any) => res.count);
   }
 
@@ -51,7 +51,7 @@ export class EdgeModule extends Module {
       url: '/{dataSourceKey}/graph/edges',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
   }
 
@@ -77,7 +77,7 @@ export class EdgeModule extends Module {
       url: '/{dataSourceKey}/graph/edges/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
   }
 
@@ -98,7 +98,7 @@ export class EdgeModule extends Module {
       url: '/{dataSourceKey}/graph/edges/{id}',
       method: 'DELETE',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -118,7 +118,7 @@ export class EdgeModule extends Module {
       url: '/{dataSourceKey}/graph/edges/{id}',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((response: any) => {
       return {
         nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),

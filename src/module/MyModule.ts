@@ -68,7 +68,7 @@ export class MyModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/sandbox',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     }).then((res: any) => {
       return {
         styles: res.visualization.design.styles,
@@ -106,7 +106,7 @@ export class MyModule extends Module {
       url: '/{dataSourceKey}/groups',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 }

@@ -30,6 +30,7 @@ export abstract class Module {
     dataSource?: string | number;
     body?: any;
     query?: any;
+    path?: any;
   }): Promise<any> {
     return this._fetcher.fetch(config);
   }

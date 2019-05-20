@@ -137,7 +137,7 @@ export class AdminModule extends Module {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/noIndex/edgeProperties',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -151,7 +151,7 @@ export class AdminModule extends Module {
     return this.fetch({
       url: '/admin/source/{dataSourceKey}/noIndex/nodeProperties',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -170,7 +170,7 @@ export class AdminModule extends Module {
       url: '/admin/source/{dataSourceKey}/noIndex/edgeProperties',
       method: 'PUT',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -189,7 +189,7 @@ export class AdminModule extends Module {
       url: '/admin/source/{dataSourceKey}/noIndex/nodeProperties',
       method: 'PUT',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -248,7 +248,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/groups',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -265,7 +265,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/groups/{id}',
       method: 'DELETE',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -283,7 +283,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/groups/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -300,7 +300,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/groups/{id}',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -317,7 +317,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/groups',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -345,7 +345,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/groups/{id}/access_rights',
       method: 'PUT',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -423,7 +423,7 @@ export class AdminModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/search/status',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -496,7 +496,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/alerts',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -528,7 +528,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/alerts/{id}',
       method: 'PATCH',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -549,7 +549,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/alerts/{id}',
       method: 'DELETE',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -563,7 +563,7 @@ export class AdminModule extends Module {
     return this.fetch({
       url: '/admin/{dataSourceKey}/alerts',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -584,7 +584,7 @@ export class AdminModule extends Module {
       url: '/admin/{dataSourceKey}/alerts/{id}',
       method: 'GET',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -606,7 +606,7 @@ export class AdminModule extends Module {
       url: '/admin/source/{dataSourceKey}/resetDefaults',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -631,7 +631,7 @@ export class AdminModule extends Module {
       url: '/admin/source/{dataSourceKey}/setDefaults',
       method: 'POST',
       body: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 

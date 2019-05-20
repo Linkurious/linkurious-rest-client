@@ -320,7 +320,7 @@ export interface IGraphQuery extends ISimpleGraphQuery {
 // SEARCH
 
 export interface ISearchResult {
-  // todo:remove ambiguity node/nodes/edge/edges (i.e. fix on server too)
+  // TODO Server#1598 remove ambiguity node/nodes and edge/edges
   type: ItemsType | ItemType;
   totalHits?: number;
   moreResults?: boolean;

@@ -164,7 +164,7 @@ export class AlertModule extends Module {
     return this.fetch({
       url: '/{dataSourceKey}/alerts',
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -180,7 +180,7 @@ export class AlertModule extends Module {
       url: '/{dataSourceKey}/alerts/{id}',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -206,7 +206,7 @@ export class AlertModule extends Module {
       url: '/{dataSourceKey}/alerts/{id}/matches',
       method: 'GET',
       query: data,
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -229,7 +229,7 @@ export class AlertModule extends Module {
       url: `/{dataSourceKey}/alerts/${data.alertId}/matches/${data.matchId}/action`,
       method: 'POST',
       body: {action: data.action},
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -250,7 +250,7 @@ export class AlertModule extends Module {
     return this.fetch({
       url: `/{dataSourceKey}/alerts/${data.alertId}/matches/${data.matchId}`,
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 
@@ -271,7 +271,7 @@ export class AlertModule extends Module {
     return this.fetch({
       url: `/{dataSourceKey}/alerts/${data.alertId}/matches/${data.matchId}/actions`,
       method: 'GET',
-      dataSource: dataSourceKey
+      path: {sourceKey: dataSourceKey}
     });
   }
 }
