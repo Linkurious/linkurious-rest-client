@@ -137,20 +137,7 @@ export class GraphModule extends Module {
       withDegree: data.withDegree,
       withAccess: data.withAccess
     };
-    return this.request<
-      {
-        nodes: INode[];
-        edges: IEdge[];
-        truncatedByLimit: boolean;
-        truncatedByAccess: boolean;
-      },
-      {
-        nodes: IOgmaNode[];
-        edges: IOgmaEdge[];
-        truncatedByLimit: boolean;
-        truncatedByAccess: boolean;
-      }
-    >({
+    return this.request({
       url: '/{dataSourceKey}/graph/run/query',
       method: 'POST',
       body: body,
@@ -211,20 +198,7 @@ export class GraphModule extends Module {
       withAccess: data.withAccess,
       withDigest: data.withDigest
     };
-    return this.request<
-      {
-        nodes: INode[];
-        edges: IEdge[];
-        truncatedByLimit: boolean;
-        truncatedByAccess: boolean;
-      },
-      {
-        nodes: IOgmaNode[];
-        edges: IOgmaEdge[];
-        truncatedByLimit: boolean;
-        truncatedByAccess: boolean;
-      }
-    >({
+    return this.request({
       url: '/{dataSourceKey}/graph/run/query/{id}',
       method: 'POST',
       query: query,
@@ -304,10 +278,7 @@ export class GraphModule extends Module {
       timeout: data.timeout,
       columns: data.columns
     };
-    return this.request<
-      {results: Array<{nodes: INode[]; edges: IEdge[]; columns: any}>},
-      Array<{nodes: IOgmaNode[]; edges: IOgmaEdge[]; columns: any}>
-    >({
+    return this.request({
       url: '/{dataSourceKey}/graph/alertPreview',
       method: 'POST',
       body: body,

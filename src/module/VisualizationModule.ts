@@ -24,6 +24,7 @@ import {
   IVisualizationNode,
   IWidget,
   IWidgetContent,
+  NotFound,
   PopulateType,
   Success,
   Unauthorized,
@@ -37,7 +38,7 @@ import {VisualizationParser} from './VisualizationParser';
 export class VisualizationModule extends Module {
   public async mergeVisualizations(
     options: IMergeVisualizationsParams
-  ): Promise<Success<void> | Unauthorized | Forbidden> {
+  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound> {
     return this.request({
       url: '/api/admin/users/mergeVisualizations',
       method: 'POST',

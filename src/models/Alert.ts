@@ -7,7 +7,7 @@
 
 // TS2019-DONE
 
-import {IDataSourceParams, IFolderChildren, IPersistedItem} from './Model';
+import {FolderChildren, IDataSourceParams, IPersistedItem} from './Model';
 
 export interface ICreateAlertFolderParams extends IDataSourceParams {
   title: string;
@@ -36,7 +36,7 @@ export interface IGetAlertTreeResponse {
   id: -1;
   title: 'root';
   type: 'folder';
-  children: IFolderChildren<IGetAlertResponse, 'alert'>;
+  children: FolderChildren<IGetAlertResponse, 'alert'>;
 }
 
 export interface IGetAlertResponse extends IPersistedItem {

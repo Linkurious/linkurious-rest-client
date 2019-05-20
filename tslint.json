@@ -8,11 +8,6 @@
   },
   "jsRules": {},
   "rules": {
-    // don't require interface names to begin with a capital 'I'
-    "interface-name": [
-      false
-    ],
-
     // require single quotes for string literals
     "quotemark": [
       true,

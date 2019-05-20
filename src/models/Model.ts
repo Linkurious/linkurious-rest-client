@@ -17,11 +17,11 @@ export interface IPersistedItem {
   updatedAt: string;
 }
 
-export type IFolderChildren<T, N extends string> = Array<IFolder<T, N> | (T & {type: N})>;
+export type FolderChildren<T, N extends string> = Array<IFolder<T, N> | (T & {type: N})>;
 
 export interface IFolder<T, N extends string> {
   id: number;
   title: string;
   type: string;
-  children: IFolderChildren<T, N>;
+  children: FolderChildren<T, N>;
 }

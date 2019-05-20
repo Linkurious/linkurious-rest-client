@@ -8,11 +8,13 @@
 // TODO TS2019
 
 import {
+  DataSourceUnavailable,
   Forbidden,
   IAlert,
   IMatch,
   IMatchAction,
   IMatchResults,
+  NotFound,
   Success,
   Unauthorized
 } from '../../index';
@@ -29,7 +31,9 @@ import {Module} from './Module';
 export class AlertModule extends Module {
   public async createAlertFolder(
     options: ICreateAlertFolderParams
-  ): Promise<Success<ICreateAlertFolderResponse> | Unauthorized | Forbidden> {
+  ): Promise<
+    Success<ICreateAlertFolderResponse> | Unauthorized | Forbidden | DataSourceUnavailable
+  > {
     return this.request({
       url: '/admin/{sourceKey}/alerts/folder',
       method: 'POST',
@@ -51,7 +55,7 @@ export class AlertModule extends Module {
 
   public async updateAlertFolder(
     options: IUpdateAlertFolderParams
-  ): Promise<Success<void> | Unauthorized | Forbidden> {
+  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound | DataSourceUnavailable> {
     return this.request({
       url: '/admin/{sourceKey}/alerts/folder/{id}',
       method: 'PATCH',
@@ -66,7 +70,7 @@ export class AlertModule extends Module {
 
   public async deleteAlertFolder(
     options: IDeleteAlertFolderParams
-  ): Promise<Success<void> | Unauthorized | Forbidden> {
+  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound | DataSourceUnavailable> {
     return this.request({
       url: '/admin/{sourceKey}/alerts/folder/{id}',
       method: 'DELETE',
@@ -80,7 +84,7 @@ export class AlertModule extends Module {
 
   public async getAlertTree(
     options: IGetAlertTreeParams
-  ): Promise<Success<IGetAlertTreeResponse> | Unauthorized | Forbidden> {
+  ): Promise<Success<IGetAlertTreeResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request<IGetAlertTreeResponse>({
       url: '/admin/{sourceKey}/alerts/tree',
       method: 'GET',
