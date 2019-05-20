@@ -44,7 +44,6 @@ export class AlertModule extends Module {
       mock: true,
       mockValue: {
         id: 1,
-        sourceKey: '1234',
         title: options.title,
         parent: -1,
         createdAt: new Date().toISOString(),
