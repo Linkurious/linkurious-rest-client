@@ -1121,7 +1121,7 @@ describe('Linkurious class', () => {
             description: 'trololo',
             sharing: 'source',
             dialect: 'cypher',
-            content: "MATCH(Person {name: 'Keanu Reeves'})\nRETURN(Person)"
+            content: 'MATCH(Person {name: \'Keanu Reeves\'})\nRETURN(Person)'
           });
         })
         .then(res => {
@@ -1139,7 +1139,7 @@ describe('Linkurious class', () => {
         .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(() => {
           return linkurious.graph.updateGraphQuery({
-            content: "MATCH(Person {name: 'Carrie Anne Moss'})\nRETURN(Person)",
+            content: 'MATCH(Person {name: \'Carrie Anne Moss\'})\nRETURN(Person)',
             id: graphQueryId
           });
         })
@@ -1149,7 +1149,7 @@ describe('Linkurious class', () => {
         .then(res => {
           if (res.isSuccess()) {
             expect(res.response.content).to.eql(
-              "MATCH(Person {name: 'Carrie Anne Moss'})\nRETURN(Person)"
+              'MATCH(Person {name: \'Carrie Anne Moss\'})\nRETURN(Person)'
             );
           }
         });

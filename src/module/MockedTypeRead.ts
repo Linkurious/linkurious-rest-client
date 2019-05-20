@@ -5,6 +5,7 @@
  * - Created on 2019-05-16.
  */
 
+// TODO #76 remove Mock 2.8
 export class Mock {
   public static wrap(type: string, value?: unknown, status?: string) {
     return {

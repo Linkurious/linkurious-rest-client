@@ -30,6 +30,7 @@ import {
   LkPropertyType
 } from '../models/Schema';
 
+// TODO #76 remove Mock 2.8
 class Mock {
   public static indexOf(name: string, items: Array<{name: string}>): number | undefined {
     for (let i = 0; i < items.length; i++) {
