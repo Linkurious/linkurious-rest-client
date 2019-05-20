@@ -49,6 +49,59 @@ export class AlertModule extends Module {
     });
   }
 
+  public createAlertFolder(
+    data: {
+      title: string;
+      parent?: string;
+    },
+    dataSourceKey: string
+  ): Promise<any> {
+    return this.request({
+      url: '/{dataSourceKey}/alerts/folder',
+      method: 'POST',
+      body: data,
+      dataSource: dataSourceKey
+    });
+  }
+
+  public updateAlertFolder(
+    data: {
+      id: number;
+      title?: string;
+      parent?: string;
+    },
+    dataSourceKey: string
+  ): Promise<any> {
+    return this.request({
+      url: '/{dataSourceKey}/alerts/folder/{id}',
+      method: 'PATCH',
+      body: data,
+      dataSource: dataSourceKey
+    });
+  }
+
+  public deleteAlertFolder(
+    data: {
+      id: number;
+    },
+    dataSourceKey: string
+  ): Promise<any> {
+    return this.request({
+      url: '/{dataSourceKey}/alerts/folder/{id}',
+      method: 'DELETE',
+      body: data,
+      dataSource: dataSourceKey
+    });
+  }
+
+  public getAlertFolder(dataSourceKey: string): Promise<any> {
+    return this.request({
+      url: '/{dataSourceKey}/alerts/tree',
+      method: 'GET',
+      dataSource: dataSourceKey
+    });
+  }
+
   /**
    * get matches for an alert
    *

@@ -15,6 +15,7 @@ import {
   IServerVisualization,
   IVisualization
 } from '../../index';
+import {Mock} from './MockedTypeRead';
 
 export class VisualizationParser {
   public static parseEdgeList(
@@ -41,6 +42,7 @@ export class VisualizationParser {
     data: any;
     readAt: string;
   }): IOgmaEdge {
+    edge = Mock.properties(edge);
     return {
       id: edge.id,
       source: edge.source,
@@ -65,6 +67,7 @@ export class VisualizationParser {
     selected?: boolean;
     readAt: string;
   }): IOgmaNode {
+    node = Mock.properties(node);
     return {
       id: node.id,
       x: node.nodelink ? node.nodelink.x : undefined,

@@ -564,6 +564,7 @@ export class AdminModule extends Module {
       scoreDirection?: string;
       maxMatches?: number;
       maxRuntime?: number;
+      folder?: number;
     },
     dataSourceKey?: string
   ): Promise<IFullAdminAlert> {
@@ -595,6 +596,7 @@ export class AdminModule extends Module {
       scoreDirection?: string;
       maxMatches?: number;
       maxRuntime?: number;
+      folder?: number;
     },
     dataSourceKey?: string
   ): Promise<IFullAdminAlert> {

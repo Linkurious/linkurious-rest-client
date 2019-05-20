@@ -8,16 +8,9 @@
  * Description :
  */
 
-import {
-  IEdge,
-  IItemType,
-  INode,
-  IOgmaEdge,
-  IOgmaNode,
-  IProperty,
-  ItemId,
-  TypeAccessRight
-} from '../../index';
+'use strict';
+
+import {IEdge, INode, IOgmaEdge, IOgmaNode, ItemId} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
 import {Transformer} from '../transformer';
@@ -116,10 +109,6 @@ export class EdgeModule extends Module {
 
   /**
    * Get an edge of the graph.
-   *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<IEdge>}
    */
   public getOne(
     data: {
@@ -140,49 +129,6 @@ export class EdgeModule extends Module {
         nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
         edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e))
       };
-    });
-  }
-
-  /**
-   * List all edgeType properties (aggregated from all edgeTypes)
-   *
-   * @param {Object} [data]
-   * @param {string}dataSourceKey
-   * @returns {Promise<Array<IProperty>>}
-   */
-  public getProperties(
-    data?: {
-      includeType?: string;
-      omitNoindex?: boolean;
-    },
-    dataSourceKey?: string
-  ): Promise<IProperty[]> {
-    return this.fetch({
-      url: '/{dataSourceKey}/graph/schema/edgeTypes/properties',
-      method: 'GET',
-      query: data,
-      dataSource: dataSourceKey
-    }).then((res: any) => res.properties);
-  }
-
-  /**
-   * List edge-types indexed by linkurious
-   *
-   * @param {Object} [data]
-   * @param {string}dataSourceKey
-   * @returns {Promise<Array<IItemType>>}
-   */
-  public getTypes(
-    data?: {
-      includeType?: boolean;
-    },
-    dataSourceKey?: string
-  ): Promise<{any: {access: TypeAccessRight}; results: IItemType[]}> {
-    return this.fetch({
-      url: '/{dataSourceKey}/graph/schema/edgeTypes',
-      method: 'GET',
-      query: data,
-      dataSource: dataSourceKey
     });
   }
 }

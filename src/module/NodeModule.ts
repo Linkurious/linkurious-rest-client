@@ -11,12 +11,13 @@
 import {
   IDigest,
   IEdge,
+  IEdge,
   IItemType,
   INode,
+  INode,
+  IOgmaEdge,
   IOgmaEdge,
   IOgmaNode,
-  IProperty,
-  ItemId,
   TypeAccessRight
 } from '../../index';
 import {ErrorListener} from '../errorListener';
@@ -218,48 +219,5 @@ export class NodeModule extends Module {
       body: data,
       dataSource: dataSourceKey
     }).then((response: INode) => VisualizationParser.parseNode(response));
-  }
-
-  /**
-   * List all node-type properties (aggregated from all nodeTypes)
-   *
-   * @param {Object} [params]
-   * @param {string}dataSourceKey
-   * @returns {Promise<Array<IProperty>>}
-   */
-  public getProperties(
-    params?: {
-      includeType?: string;
-      omitNoindex?: boolean;
-    },
-    dataSourceKey?: string
-  ): Promise<IProperty[]> {
-    return this.fetch({
-      url: '/{dataSourceKey}/graph/schema/nodeTypes/properties',
-      method: 'GET',
-      query: params,
-      dataSource: dataSourceKey
-    }).then((res: any) => res.properties);
-  }
-
-  /**
-   * List node-types indexed by Linkurious
-   *
-   * @param {Object} [params]
-   * @param {string}dataSourceKey
-   * @returns {Promise<Array<IItemType>>}
-   */
-  public getTypes(
-    params?: {
-      includeType?: boolean;
-    },
-    dataSourceKey?: string
-  ): Promise<{any: {access: TypeAccessRight}; results: IItemType[]}> {
-    return this.fetch({
-      url: '/{dataSourceKey}/graph/schema/nodeTypes',
-      method: 'GET',
-      query: params,
-      dataSource: dataSourceKey
-    });
   }
 }

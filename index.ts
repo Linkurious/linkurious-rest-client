@@ -78,10 +78,13 @@ export interface FetcherConfig {
   dataSource?: string | number;
   body?: {[key: string]: unknown};
   query?: {[key: string]: unknown};
+  path?: {[key: string]: unknown};
 }
 
 export interface RequestConfig<R, T> extends FetcherConfig {
   transform?: (r: R) => T;
+  mock?: boolean;
+  mockValue?: T;
 }
 
 export interface IClientState {
@@ -1046,6 +1049,7 @@ export interface IFetchConfig {
   id?: number;
   body?: any;
   query?: any;
+  path?: any;
 }
 
 export interface IDataSourceRelative {

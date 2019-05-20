@@ -416,74 +416,61 @@ describe('Linkurious class', () => {
     });
   });
 
-  describe('getEdgeProperties', function() {
-    it('must return a list of edges properties', function() {
-      return linkurious
-        .initSources()
-        .then(function() {
-          return linkurious.edge.getProperties({
-            omitNoindex: true
-          });
-        })
-        .then(function(res) {
-          expect(
-            res.sort((a, b) => {
-              return a.key < b.key ? -1 : a.key > b.key ? 1 : 0;
-            })
-          ).to.eql([{key: 'altEdgeID', count: 1}, {key: 'roles', count: 4}]);
-        });
-    });
-  });
-
-  describe('getNodeProperties', function() {
-    it('must return a list of node properties', function() {
-      return linkurious
-        .initSources()
-        .then(function() {
-          return linkurious.node.getProperties({
-            omitNoindex: true
-          });
-        })
-        .then(function(res: IProperty[]) {
-          expect(res.length).to.be.greaterThan(0);
-        });
-    });
-  });
-
   describe('getEdgeTypes method', function() {
     it('must return edges types', function() {
-      return linkurious
-        .initSources()
-        .then(function() {
-          return linkurious.edge.getTypes({
-            includeType: true
-          });
-        })
-        .then(function(res: {any: {access: TypeAccessRight}; results: IItemType[]}) {
-          const sortedResponse: IItemType[] = res.results.sort((a, b) => {
-            if (a.name < b.name) {
-              return -1;
-            }
-            if (a.name > b.name) {
-              return 1;
-            }
-            return 0;
-          });
-          expect(sortedResponse[0].name).to.eql('ACTED_IN');
-        });
+      return (
+        linkurious
+          .initSources()
+          // TODO #75 remove this line
+          .then(() => linkurious.schema.createEdgeType({name: 'ACTED_IN'}))
+          .then(function() {
+            return linkurious.schema.getEdgeTypes({
+              includeType: true
+            });
+          })
+          .then((success: unknown) => {
+            const schema = (success as Success<GraphSchemaWithAccess>)
+              .response as GraphSchemaWithAccess;
+            expect(schema).to.not.equal(undefined);
+            const sortedResponse = schema.results.sort((a, b) => {
+              if (a.name < b.name) {
+                return -1;
+              }
+              if (a.name > b.name) {
+                return 1;
+              }
+              return 0;
+            });
+            expect(sortedResponse[0].name).to.eql('ACTED_IN');
+          })
+      );
     });
   });
 
   describe('getNodeTypes method', function() {
     it('must return node types', function() {
-      return linkurious
-        .initSources()
-        .then(function() {
-          return linkurious.node.getTypes();
-        })
-        .then(function(res: {any: {access: TypeAccessRight}; results: IItemType[]}) {
-          expect(res.results.length).to.eql(8);
-        });
+      return (
+        linkurious
+          .initSources()
+          // TODO #75 remove next 8 lines
+          .then(() => linkurious.schema.createEdgeType({name: `Person1`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person2`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person3`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person4`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person5`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person6`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person7`}))
+          .then(() => linkurious.schema.createEdgeType({name: `Person8`}))
+          .then(function() {
+            return linkurious.schema.getNodeTypes();
+          })
+          .then((success: unknown) => {
+            const schema = (success as Success<GraphSchemaWithAccess>)
+              .response as GraphSchemaWithAccess;
+            expect(schema).to.not.equal(undefined);
+            expect(schema.results.length).to.eql(8);
+          })
+      );
     });
   });
 
@@ -813,20 +800,6 @@ describe('Linkurious class', () => {
     });
   });
 
-  describe('getHiddenNodeProperties method', () => {
-    it('must return an array of node Properties', () => {
-      return linkurious
-        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
-        .then(function() {
-          return linkurious.admin.getHiddenNodeProperties();
-        })
-        .then(function(res: any) {
-          expect(res.length).to.eql(1);
-          expect(res[0]).to.equal('nodeHiddenProp');
-        });
-    });
-  });
-
   describe('getNonIndexedEdgeProperties method', () => {
     it('must return an array of edge Properties', () => {
       return linkurious
@@ -861,19 +834,6 @@ describe('Linkurious class', () => {
         .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
         .then(function() {
           return linkurious.admin.setHiddenEdgeProperties({properties: ['testHiddenEdgeProp']});
-        })
-        .then(function(res) {
-          expect(res).to.not.be.undefined;
-        });
-    });
-  });
-
-  describe('setHiddenNodeProperties method', () => {
-    it('must return true', () => {
-      return linkurious
-        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
-        .then(function() {
-          return linkurious.admin.setHiddenNodeProperties({properties: ['testHiddenNodeProp']});
         })
         .then(function(res) {
           expect(res).to.not.be.undefined;
