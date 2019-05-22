@@ -124,7 +124,10 @@ export class Fetcher {
     if (explicitSource && typeof explicitSource === 'number') {
       return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, explicitSource + '');
     } else if (this._clientState.currentSource) {
-      return url.replace(Fetcher.SOURCE_INDEX_TEMPLATE, this._clientState.currentSource.configIndex + '');
+      return url.replace(
+        Fetcher.SOURCE_INDEX_TEMPLATE,
+        this._clientState.currentSource.configIndex + ''
+      );
     } else {
       if (explicitSource && typeof explicitSource !== 'number') {
         throw LinkuriousError.fromClientError('state_error', `Source index must be a number.`);

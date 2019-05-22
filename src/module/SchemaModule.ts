@@ -32,9 +32,12 @@ import {
 
 // TODO #76 remove Mock 2.8
 class Mock {
-  public static indexOf(name: string, items: Array<{name: string}>): number | undefined {
+  public static indexOf(
+    propertyKey: string,
+    items: Array<{propertyKey: string}>
+  ): number | undefined {
     for (let i = 0; i < items.length; i++) {
-      if (items[i].name === name) {
+      if (items[i].propertyKey === propertyKey) {
         return i;
       }
     }
@@ -43,21 +46,21 @@ class Mock {
 
   public static property(
     name: string,
-    p: ICreatePropertyParams | IUpdatePropertyParams | ICreatePropertyParams | IUpdatePropertyParams
+    p: ICreatePropertyParams | IUpdatePropertyParams
   ): IGraphSchemaProperty {
     return {
-      name: p.name,
-      typeName: p.typeName || LkPropertyType.AUTO,
+      propertyKey: p.propertyKey,
+      propertyType: p.propertyType || LkPropertyType.AUTO,
       typeOptions: p.typeOptions,
       required: p.required || false,
       visibility: p.visibility || DataVisibility.SEARCHABLE
     };
   }
 
-  public static type(name: string, visibility?: DataVisibility): IGraphSchemaTypeWithAccess {
+  public static type(label: string, visibility?: DataVisibility): IGraphSchemaTypeWithAccess {
     return {
       access: 'writable',
-      name: name,
+      label: label,
       visibility: visibility || DataVisibility.SEARCHABLE,
       properties: []
     };
@@ -112,31 +115,31 @@ export class SchemaModule extends Module {
   public async createType(
     options: ICreateTypeParams
   ): Promise<Success<ICreateTypeResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
-    this.mockSchema.set(options.name, Mock.type(options.name, options.visibility));
+    this.mockSchema.set(options.label, Mock.type(options.label, options.visibility));
     return this.request({
-      url: '/{sourceKey}/graph/schema/{type}/types',
+      url: '/{sourceKey}/graph/schema/{archetype}/types',
       method: 'POST',
       body: options,
       path: {
         sourceKey: options.sourceKey,
-        type: options.type
+        archetype: options.archetype
       },
       mock: true,
-      mockValue: this.mockSchema.get(options.name)
+      mockValue: this.mockSchema.get(options.label)
     });
   }
 
   public async updateType(
     options: IUpdateTypeParams
   ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable | NotFound> {
-    this.mockSchema.set(options.name, Mock.type(options.name, options.visibility));
+    this.mockSchema.set(options.label, Mock.type(options.label, options.visibility));
     return this.request({
-      url: '/{sourceKey}/graph/schema/{type}/types',
+      url: '/{sourceKey}/graph/schema/{archetype}/types',
       method: 'PATCH',
       body: options,
       path: {
         sourceKey: options.sourceKey,
-        type: options.type
+        archetype: options.archetype
       },
       mock: true
     });
@@ -147,19 +150,19 @@ export class SchemaModule extends Module {
   ): Promise<
     Success<ICreatePropertyResponse> | Unauthorized | Forbidden | DataSourceUnavailable | NotFound
   > {
-    const mockValue = Mock.property(options.propertyOf, options);
-    const category = this.mockSchema.get(options.propertyOf);
-    if (category && !Mock.indexOf(options.name, category.properties)) {
-      category.properties.push(mockValue);
+    const mockValue = Mock.property(options.label, options);
+    const graphSchemaType = this.mockSchema.get(options.label);
+    if (graphSchemaType && !Mock.indexOf(options.propertyKey, graphSchemaType.properties)) {
+      graphSchemaType.properties.push(mockValue);
     }
 
     return this.request({
-      url: '/{sourceKey}/graph/schema/{type}/properties',
+      url: '/{sourceKey}/graph/schema/{archetype}/properties',
       method: 'POST',
       body: options,
       path: {
         sourceKey: options.sourceKey,
-        type: options.type
+        archetype: options.archetype
       },
       mock: true,
       mockValue: mockValue
@@ -169,21 +172,21 @@ export class SchemaModule extends Module {
   public async updateProperty(
     options: IUpdatePropertyParams
   ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable | NotFound> {
-    const mockValue = Mock.property(options.propertyOf, options);
-    const category = this.mockSchema.get(options.propertyOf);
-    if (category) {
-      const property = Mock.indexOf(options.name, category.properties);
+    const mockValue = Mock.property(options.label, options);
+    const graphSchemaType = this.mockSchema.get(options.label);
+    if (graphSchemaType) {
+      const property = Mock.indexOf(options.propertyKey, graphSchemaType.properties);
       if (property) {
-        category.properties[property] = mockValue;
+        graphSchemaType.properties[property] = mockValue;
       }
     }
     return this.request({
-      url: '/{sourceKey}/graph/schema/{type}/properties',
+      url: '/{sourceKey}/graph/schema/{archetype}/properties',
       method: 'PATCH',
       body: options,
       path: {
         sourceKey: options.sourceKey,
-        type: options.type
+        archetype: options.archetype
       },
       mock: true
     });
@@ -193,11 +196,11 @@ export class SchemaModule extends Module {
     options: IGetTypesParams
   ): Promise<Success<IGetTypesResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request({
-      url: '/{sourceKey}/graph/schema/{type}/types',
+      url: '/{sourceKey}/graph/schema/{archetype}/types',
       method: 'GET',
       path: {
         sourceKey: options.sourceKey,
-        type: options.type
+        archetype: options.archetype
       },
       mock: true,
       mockValue: {

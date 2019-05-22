@@ -34,7 +34,7 @@ export enum DataVisibility {
   SEARCHABLE = 'searchable'
 }
 
-export enum ItemType {
+export enum Archetype {
   NODE = 'node',
   EDGE = 'edge'
 }
@@ -72,15 +72,15 @@ export interface IDatetimeOptions {
 }
 
 export interface IGraphSchemaProperty {
-  name: string;
-  typeName: LkPropertyType;
+  propertyKey: string;
+  propertyType: LkPropertyType;
   typeOptions?: IEnumOptions | IDateOptions | IDatetimeOptions;
   required: boolean;
   visibility: DataVisibility;
 }
 
 export interface IGraphSchemaType {
-  name: string;
+  label: string;
   properties: IGraphSchemaProperty[];
   visibility: DataVisibility;
 }
@@ -101,43 +101,43 @@ export interface IGraphSchemaTypeWithAccess extends IGraphSchemaType {
 }
 
 export interface ICreateTypeParams extends IDataSourceParams {
-  type: ItemType;
-  name: string;
+  archetype: Archetype;
+  label: string;
   visibility?: DataVisibility; // default is searchable
 }
 
 export interface ICreateTypeResponse extends IGraphSchemaType {}
 
 export interface IUpdateTypeParams extends IDataSourceParams {
-  type: ItemType;
-  name: string;
+  archetype: Archetype;
+  label: string;
   visibility: DataVisibility;
 }
 
 export interface ICreatePropertyParams extends IDataSourceParams {
-  type: ItemType;
-  propertyOf: string;
-  name: string;
-  visibility?: DataVisibility;
-  typeName: LkPropertyType;
+  archetype: Archetype;
+  label: string;
+  propertyKey: string;
+  propertyType: LkPropertyType;
   typeOptions?: IEnumOptions | IDateOptions | IDatetimeOptions;
   required?: boolean;
+  visibility?: DataVisibility;
 }
 
 export interface ICreatePropertyResponse {}
 
 export interface IUpdatePropertyParams extends IDataSourceParams {
-  type: ItemType;
-  propertyOf: string;
-  name: string;
-  visibility?: DataVisibility;
-  typeName?: LkPropertyType;
+  archetype: Archetype;
+  label: string;
+  propertyKey: string;
+  propertyType?: LkPropertyType;
   typeOptions?: IEnumOptions | IDateOptions | IDatetimeOptions;
   required?: boolean;
+  visibility?: DataVisibility;
 }
 
 export interface IGetTypesParams extends IDataSourceParams {
-  type: ItemType;
+  archetype: Archetype;
 }
 
 export interface IGetTypesResponse extends IGraphSchemaWithAccess {}
