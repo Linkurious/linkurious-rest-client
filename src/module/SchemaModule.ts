@@ -27,7 +27,8 @@ import {
   IStopSchemaSampleParams,
   IUpdatePropertyParams,
   IUpdateTypeParams,
-  LkPropertyType
+  LkPropertyType,
+  SamplingStatus
 } from '../models/Schema';
 
 // TODO #76 remove Mock 2.8
@@ -93,7 +94,12 @@ export class SchemaModule extends Module {
       path: {
         sourceKey: options.sourceKey
       },
-      mock: true
+      mock: true,
+      mockValue: {
+        sampling: SamplingStatus.ONGOING,
+        samplingProgress: 65.43,
+        samplingStatus: 'Sampled 50 visualizations out of 500'
+      }
     });
   }
 
