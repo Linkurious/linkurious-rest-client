@@ -101,7 +101,7 @@ export interface IGraphSchemaTypeWithAccess extends IGraphSchemaType {
 }
 
 export interface ICreateTypeParams extends IDataSourceParams {
-  archetype: EntityType;
+  entityType: EntityType;
   label: string;
   visibility?: DataVisibility; // default is searchable
 }
