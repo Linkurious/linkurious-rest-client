@@ -123,12 +123,12 @@ export class SchemaModule extends Module {
   ): Promise<Success<ICreateTypeResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
     this.mockSchema.set(options.label, Mock.type(options.label, options.visibility));
     return this.request({
-      url: '/{sourceKey}/graph/schema/{archetype}/types',
+      url: '/{sourceKey}/graph/schema/{entityType}/types',
       method: 'POST',
       body: options,
       path: {
         sourceKey: options.sourceKey,
-        archetype: options.archetype
+        entityType: options.entityType
       },
       mock: true,
       mockValue: this.mockSchema.get(options.label)
@@ -140,12 +140,12 @@ export class SchemaModule extends Module {
   ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable | NotFound> {
     this.mockSchema.set(options.label, Mock.type(options.label, options.visibility));
     return this.request({
-      url: '/{sourceKey}/graph/schema/{archetype}/types',
+      url: '/{sourceKey}/graph/schema/{entityType}/types',
       method: 'PATCH',
       body: options,
       path: {
         sourceKey: options.sourceKey,
-        archetype: options.archetype
+        entityType: options.entityType
       },
       mock: true
     });
@@ -163,12 +163,12 @@ export class SchemaModule extends Module {
     }
 
     return this.request({
-      url: '/{sourceKey}/graph/schema/{archetype}/properties',
+      url: '/{sourceKey}/graph/schema/{entityType}/properties',
       method: 'POST',
       body: options,
       path: {
         sourceKey: options.sourceKey,
-        archetype: options.archetype
+        entityType: options.entityType
       },
       mock: true,
       mockValue: mockValue
@@ -187,12 +187,12 @@ export class SchemaModule extends Module {
       }
     }
     return this.request({
-      url: '/{sourceKey}/graph/schema/{archetype}/properties',
+      url: '/{sourceKey}/graph/schema/{entityType}/properties',
       method: 'PATCH',
       body: options,
       path: {
         sourceKey: options.sourceKey,
-        archetype: options.archetype
+        entityType: options.entityType
       },
       mock: true
     });
@@ -202,11 +202,11 @@ export class SchemaModule extends Module {
     options: IGetTypesParams
   ): Promise<Success<IGetTypesResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request({
-      url: '/{sourceKey}/graph/schema/{archetype}/types',
+      url: '/{sourceKey}/graph/schema/{entityType}/types',
       method: 'GET',
       path: {
         sourceKey: options.sourceKey,
-        archetype: options.archetype
+        entityType: options.entityType
       },
       mock: true,
       mockValue: {

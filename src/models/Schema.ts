@@ -34,7 +34,7 @@ export enum DataVisibility {
   SEARCHABLE = 'searchable'
 }
 
-export enum Archetype {
+export enum EntityType {
   NODE = 'node',
   EDGE = 'edge'
 }
@@ -101,7 +101,7 @@ export interface IGraphSchemaTypeWithAccess extends IGraphSchemaType {
 }
 
 export interface ICreateTypeParams extends IDataSourceParams {
-  archetype: Archetype;
+  archetype: EntityType;
   label: string;
   visibility?: DataVisibility; // default is searchable
 }
@@ -109,13 +109,13 @@ export interface ICreateTypeParams extends IDataSourceParams {
 export interface ICreateTypeResponse extends IGraphSchemaType {}
 
 export interface IUpdateTypeParams extends IDataSourceParams {
-  archetype: Archetype;
+  entityType: EntityType;
   label: string;
   visibility: DataVisibility;
 }
 
 export interface ICreatePropertyParams extends IDataSourceParams {
-  archetype: Archetype;
+  entityType: EntityType;
   label: string;
   propertyKey: string;
   propertyType: LkPropertyType;
@@ -127,7 +127,7 @@ export interface ICreatePropertyParams extends IDataSourceParams {
 export interface ICreatePropertyResponse {}
 
 export interface IUpdatePropertyParams extends IDataSourceParams {
-  archetype: Archetype;
+  entityType: EntityType;
   label: string;
   propertyKey: string;
   propertyType?: LkPropertyType;
@@ -137,7 +137,7 @@ export interface IUpdatePropertyParams extends IDataSourceParams {
 }
 
 export interface IGetTypesParams extends IDataSourceParams {
-  archetype: Archetype;
+  entityType: EntityType;
 }
 
 export interface IGetTypesResponse extends IGraphSchemaWithAccess {}
