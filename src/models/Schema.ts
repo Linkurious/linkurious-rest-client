@@ -165,6 +165,6 @@ export interface IGetTypesParams extends IDataSourceParams {
 
 export interface IGetTypesResponse extends IGraphSchemaWithAccess {}
 
-export interface ISetSchemaSettingsParams extends IDataSourceParams {
+export interface IUpdateGraphSchemaSettingsParams extends IDataSourceParams {
   strictSchema: boolean;
 }

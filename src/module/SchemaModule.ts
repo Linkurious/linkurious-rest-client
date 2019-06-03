@@ -23,7 +23,7 @@ import {
   IGetTypesResponse,
   IGraphSchemaProperty,
   IGraphSchemaTypeWithAccess,
-  ISetSchemaSettingsParams,
+  IUpdateGraphSchemaSettingsParams,
   IStartSchemaSampleParams,
   IStopSchemaSampleParams,
   IUpdatePropertyParams,
@@ -218,12 +218,12 @@ export class SchemaModule extends Module {
     });
   }
 
-  public async setSchemaSettings(
-    options: ISetSchemaSettingsParams
+  public async updateGraphSchemaSettings(
+    options: IUpdateGraphSchemaSettingsParams
   ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request({
       url: '/{sourceKey}/graph/schema/settings',
-      method: 'POST',
+      method: 'PATCH',
       path: {
         sourceKey: options.sourceKey
       },
