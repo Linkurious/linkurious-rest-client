@@ -40,7 +40,7 @@ export class VisualizationModule extends Module {
     options: IMergeVisualizationsParams
   ): Promise<Success<void> | Unauthorized | Forbidden | NotFound> {
     return this.request({
-      url: '/api/admin/users/mergeVisualizations',
+      url: '/admin/users/mergeVisualizations',
       method: 'POST',
       body: options,
       mock: true

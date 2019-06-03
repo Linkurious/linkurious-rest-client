@@ -159,12 +159,18 @@ export interface IUpdatePropertyParams extends IDataSourceParams {
   visibility?: DataVisibility;
 }
 
+export interface IUpdateSchemaSettingsParams extends IDataSourceParams {
+  strictSchema: boolean;
+}
+
 export interface IGetTypesParams extends IDataSourceParams {
   entityType: EntityType;
 }
 
-export interface IGetTypesResponse extends IGraphSchemaWithAccess {}
+export interface IGetTypesResponse extends IGraphSchema {}
 
-export interface IUpdateGraphSchemaSettingsParams extends IDataSourceParams {
-  strictSchema: boolean;
+export interface IGetTypesWithAccessParams extends IDataSourceParams {
+  entityType: EntityType;
 }
+
+export interface IGetTypesWithAccessResponse extends IGraphSchemaWithAccess {}

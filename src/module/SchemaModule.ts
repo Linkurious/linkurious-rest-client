@@ -21,12 +21,14 @@ import {
   IGetSchemaSampleStatusResponse,
   IGetTypesParams,
   IGetTypesResponse,
+  IGetTypesWithAccessParams,
+  IGetTypesWithAccessResponse,
   IGraphSchemaProperty,
   IGraphSchemaTypeWithAccess,
-  IUpdateGraphSchemaSettingsParams,
   IStartSchemaSampleParams,
   IStopSchemaSampleParams,
   IUpdatePropertyParams,
+  IUpdateSchemaSettingsParams,
   IUpdateTypeParams,
   LkPropertyType,
   SamplingStatus
@@ -75,7 +77,7 @@ export class SchemaModule extends Module {
     options: IStartSchemaSampleParams
   ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request({
-      url: '/api/{sourceKey}/schema/sample/start',
+      url: '/admin/{sourceKey}/schema/sample/start',
       method: 'POST',
       query: options,
       path: {
@@ -91,7 +93,7 @@ export class SchemaModule extends Module {
     Success<IGetSchemaSampleStatusResponse> | Unauthorized | Forbidden | DataSourceUnavailable
   > {
     return this.request({
-      url: '/api/{sourceKey}/schema/sample/status',
+      url: '/admin/{sourceKey}/schema/sample/status',
       method: 'GET',
       path: {
         sourceKey: options.sourceKey
@@ -109,7 +111,7 @@ export class SchemaModule extends Module {
     options: IStopSchemaSampleParams
   ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request({
-      url: '/api/{sourceKey}/schema/sample/stop',
+      url: '/admin/{sourceKey}/schema/sample/stop',
       method: 'POST',
       path: {
         sourceKey: options.sourceKey
@@ -125,7 +127,7 @@ export class SchemaModule extends Module {
   ): Promise<Success<ICreateTypeResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
     this.mockSchema.set(options.label, Mock.type(options.label, options.visibility));
     return this.request({
-      url: '/{sourceKey}/graph/schema/{entityType}/types',
+      url: '/admin/{sourceKey}/graph/schema/{entityType}/types',
       method: 'POST',
       body: options,
       path: {
@@ -142,7 +144,7 @@ export class SchemaModule extends Module {
   ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable | NotFound> {
     this.mockSchema.set(options.label, Mock.type(options.label, options.visibility));
     return this.request({
-      url: '/{sourceKey}/graph/schema/{entityType}/types',
+      url: '/admin/{sourceKey}/graph/schema/{entityType}/types',
       method: 'PATCH',
       body: options,
       path: {
@@ -165,7 +167,7 @@ export class SchemaModule extends Module {
     }
 
     return this.request({
-      url: '/{sourceKey}/graph/schema/{entityType}/properties',
+      url: '/admin/{sourceKey}/graph/schema/{entityType}/properties',
       method: 'POST',
       body: options,
       path: {
@@ -189,7 +191,7 @@ export class SchemaModule extends Module {
       }
     }
     return this.request({
-      url: '/{sourceKey}/graph/schema/{entityType}/properties',
+      url: '/admin/{sourceKey}/graph/schema/{entityType}/properties',
       method: 'PATCH',
       body: options,
       path: {
@@ -200,9 +202,44 @@ export class SchemaModule extends Module {
     });
   }
 
+  public async updateSchemaSettings(
+    options: IUpdateSchemaSettingsParams
+  ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
+    return this.request({
+      url: '/admin/{sourceKey}/graph/schema/settings',
+      method: 'PATCH',
+      path: {
+        sourceKey: options.sourceKey
+      },
+      mock: true
+    });
+  }
+
   public async getTypes(
     options: IGetTypesParams
   ): Promise<Success<IGetTypesResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
+    return this.request({
+      url: '/admin/{sourceKey}/graph/schema/{entityType}/types',
+      method: 'GET',
+      path: {
+        sourceKey: options.sourceKey,
+        entityType: options.entityType
+      },
+      mock: true,
+      mockValue: {
+        results: Array.from(this.mockSchema.values()).map(v => {
+          delete v.access;
+          return v;
+        })
+      }
+    });
+  }
+
+  public async getTypesWithAccess(
+    options: IGetTypesWithAccessParams
+  ): Promise<
+    Success<IGetTypesWithAccessResponse> | Unauthorized | Forbidden | DataSourceUnavailable
+  > {
     return this.request({
       url: '/{sourceKey}/graph/schema/{entityType}/types',
       method: 'GET',
@@ -215,19 +252,6 @@ export class SchemaModule extends Module {
         any: {access: 'writable'},
         results: Array.from(this.mockSchema.values())
       }
-    });
-  }
-
-  public async updateGraphSchemaSettings(
-    options: IUpdateGraphSchemaSettingsParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
-    return this.request({
-      url: '/{sourceKey}/graph/schema/settings',
-      method: 'PATCH',
-      path: {
-        sourceKey: options.sourceKey
-      },
-      mock: true
     });
   }
 }
