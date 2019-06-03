@@ -86,8 +86,7 @@ export type IGraphSchemaProperty = {
       propertyType:
         | LkPropertyType.AUTO
         | LkPropertyType.BOOLEAN
-        | LkPropertyType.NUMBER
-        | LkPropertyType.STRING;
+        | LkPropertyType.NUMBER;
     }
   | {
       propertyType: LkPropertyType.DATE;
@@ -99,7 +98,7 @@ export type IGraphSchemaProperty = {
     }
   | {
       propertyType: LkPropertyType.STRING;
-      typeOptions: IEnumOptions;
+      typeOptions?: IEnumOptions;
     });
 
 export interface IGraphSchemaType {
