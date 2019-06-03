@@ -48,14 +48,20 @@ export enum LkPropertyType {
   STRING = 'string'
 }
 
-export enum DateFormat {
+export enum LkDateFormat {
   NATIVE = 'native',
-  TIMESTAMP = 'timestamp',
-  TIMESTAMP_MS = 'timestamp-ms',
-  ISO = 'iso',
-  ISO_YYYY_MM_DD = 'yyyy-mm-dd',
+  ISO = 'iso', // yyyy-mm-dd
   DD_MM_YYYY = 'dd/mm/yyyy',
-  MM_DD_YYYY = 'mm/dd/yyyy'
+  MM_DD_YYYY= 'mm/dd/yyyy',
+  TIMESTAMP = 'timestamp',
+  TIMESTAMP_MS = 'timestamp-ms'
+}
+
+export enum LkDateTimeFormat {
+  NATIVE = 'native',
+  ISO = 'iso', // YYYY-MM-DDThh:mm:ss
+  TIMESTAMP = 'timestamp',
+  TIMESTAMP_MS = 'timestamp-ms'
 }
 
 export interface IEnumOptions {
@@ -63,11 +69,11 @@ export interface IEnumOptions {
 }
 
 export interface IDateOptions {
-  format: DateFormat;
+  format: LkDateFormat;
 }
 
 export interface IDatetimeOptions {
-  format: DateFormat;
+  format: LkDateTimeFormat;
   timezone?: string; // timezone information e.g: +05:30
 }
 
