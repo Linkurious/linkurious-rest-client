@@ -49,6 +49,7 @@ class Mock {
     name: string,
     p: ICreatePropertyParams | IUpdatePropertyParams
   ): IGraphSchemaProperty {
+    // @ts-ignore
     return {
       propertyKey: p.propertyKey,
       propertyType: p.propertyType || LkPropertyType.AUTO,

@@ -71,13 +71,30 @@ export interface IDatetimeOptions {
   timezone?: string; // timezone information e.g: +05:30
 }
 
-export interface IGraphSchemaProperty {
+export type IGraphSchemaProperty = {
   propertyKey: string;
-  propertyType: LkPropertyType;
-  typeOptions?: IEnumOptions | IDateOptions | IDatetimeOptions;
   required: boolean;
   visibility: DataVisibility;
-}
+} & (
+  | {
+      propertyType:
+        | LkPropertyType.AUTO
+        | LkPropertyType.BOOLEAN
+        | LkPropertyType.NUMBER
+        | LkPropertyType.STRING;
+    }
+  | {
+      propertyType: LkPropertyType.DATE;
+      typeOptions: IDateOptions;
+    }
+  | {
+      propertyType: LkPropertyType.DATETIME;
+      typeOptions: IDatetimeOptions;
+    }
+  | {
+      propertyType: LkPropertyType.STRING;
+      typeOptions: IEnumOptions;
+    });
 
 export interface IGraphSchemaType {
   label: string;
