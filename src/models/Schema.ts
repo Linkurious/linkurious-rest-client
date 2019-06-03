@@ -52,7 +52,7 @@ export enum LkDateFormat {
   NATIVE = 'native',
   ISO = 'iso', // yyyy-mm-dd
   DD_MM_YYYY = 'dd/mm/yyyy',
-  MM_DD_YYYY= 'mm/dd/yyyy',
+  MM_DD_YYYY = 'mm/dd/yyyy',
   TIMESTAMP = 'timestamp',
   TIMESTAMP_MS = 'timestamp-ms'
 }
@@ -164,3 +164,7 @@ export interface IGetTypesParams extends IDataSourceParams {
 }
 
 export interface IGetTypesResponse extends IGraphSchemaWithAccess {}
+
+export interface ISetSchemaSettingsParams extends IDataSourceParams {
+  strictSchema: boolean;
+}

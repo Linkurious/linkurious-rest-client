@@ -23,6 +23,7 @@ import {
   IGetTypesResponse,
   IGraphSchemaProperty,
   IGraphSchemaTypeWithAccess,
+  ISetSchemaSettingsParams,
   IStartSchemaSampleParams,
   IStopSchemaSampleParams,
   IUpdatePropertyParams,
@@ -214,6 +215,19 @@ export class SchemaModule extends Module {
         any: {access: 'writable'},
         results: Array.from(this.mockSchema.values())
       }
+    });
+  }
+
+  public async setSchemaSettings(
+    options: ISetSchemaSettingsParams
+  ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
+    return this.request({
+      url: '/{sourceKey}/graph/schema/settings',
+      method: 'POST',
+      path: {
+        sourceKey: options.sourceKey
+      },
+      mock: true
     });
   }
 }
