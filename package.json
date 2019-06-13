@@ -1,6 +1,6 @@
 {
   "name": "linkurious-rest-client",
-  "version": "2.7.3",
+  "version": "2.7.5",
   "description": "A TypeScript lib to interact with Linkurious REST API",
   "contributors": [
     {
@@ -78,10 +78,10 @@
     "typescript": "3.2.2"
   },
   "peerDependencies": {
-    "linkurious-shared": "github:Linkurious/builds#shared-develop-next"
+    "linkurious-shared": "github:Linkurious/builds#shared-2.7.5"
   },
   "dependencies": {
-    "linkurious-shared": "github:Linkurious/builds#shared-2.7.0",
+    "linkurious-shared": "github:Linkurious/builds#shared-2.7.5",
     "superagent": "^3.5.2",
     "valcheck": "^1.1.0"
   }
