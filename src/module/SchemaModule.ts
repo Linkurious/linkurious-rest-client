@@ -17,8 +17,8 @@ import {
   ICreatePropertyResponse,
   ICreateTypeParams,
   ICreateTypeResponse,
-  IGetSchemaSampleStatusParams,
-  IGetSchemaSampleStatusResponse,
+  IGetSamplingStatusParams,
+  IGetSamplingStatusResponse,
   IGetTypesParams,
   IGetTypesResponse,
   IGetTypesWithAccessParams,
@@ -77,7 +77,7 @@ export class SchemaModule extends Module {
     options: IStartSchemaSampleParams
   ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request({
-      url: '/admin/{sourceKey}/schema/sample/start',
+      url: '/admin/{sourceKey}/schema/sampling/start',
       method: 'POST',
       query: options,
       path: {
@@ -87,22 +87,22 @@ export class SchemaModule extends Module {
     });
   }
 
-  public async getSchemaSampleStatus(
-    options: IGetSchemaSampleStatusParams
+  public async getSamplingStatus(
+    options: IGetSamplingStatusParams
   ): Promise<
-    Success<IGetSchemaSampleStatusResponse> | Unauthorized | Forbidden | DataSourceUnavailable
+    Success<IGetSamplingStatusResponse> | Unauthorized | Forbidden | DataSourceUnavailable
   > {
     return this.request({
-      url: '/admin/{sourceKey}/schema/sample/status',
+      url: '/admin/{sourceKey}/schema/sampling/status',
       method: 'GET',
       path: {
         sourceKey: options.sourceKey
       },
       mock: true,
       mockValue: {
-        sampling: SamplingStatus.ONGOING,
-        samplingProgress: 65.43,
-        samplingStatus: 'Sampled 50 visualizations out of 500'
+        status: SamplingStatus.ONGOING,
+        progress: 65.43,
+        message: 'Sampled 50 visualizations out of 500'
       }
     });
   }
@@ -111,7 +111,7 @@ export class SchemaModule extends Module {
     options: IStopSchemaSampleParams
   ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request({
-      url: '/admin/{sourceKey}/schema/sample/stop',
+      url: '/admin/{sourceKey}/schema/sampling/stop',
       method: 'POST',
       path: {
         sourceKey: options.sourceKey

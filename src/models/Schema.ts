@@ -13,17 +13,17 @@ export interface IStartSchemaSampleParams extends IDataSourceParams {
   reset?: boolean;
 }
 
-export interface IGetSchemaSampleStatusParams extends IDataSourceParams {}
+export interface IGetSamplingStatusParams extends IDataSourceParams {}
 
 export enum SamplingStatus {
   ONGOING = 'ongoing',
   DONE = 'done'
 }
 
-export interface IGetSchemaSampleStatusResponse {
-  sampling: SamplingStatus;
-  samplingProgress?: number;
-  samplingStatus?: string;
+export interface IGetSamplingStatusResponse {
+  status: SamplingStatus;
+  progress?: number;
+  message?: string;
 }
 
 export interface IStopSchemaSampleParams extends IDataSourceParams {}
