@@ -87,6 +87,7 @@ export type IGraphSchemaProperty = {
         | LkPropertyType.AUTO
         | LkPropertyType.BOOLEAN
         | LkPropertyType.NUMBER;
+      typeOptions: undefined;
     }
   | {
       propertyType: LkPropertyType.DATE;
