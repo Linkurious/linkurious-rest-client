@@ -77,30 +77,31 @@ export interface IDatetimeOptions {
   timezone?: string; // timezone information e.g: +05:30
 }
 
-export type IGraphSchemaProperty = {
+export interface ISimpleType {
+  name: LkPropertyType.AUTO | LkPropertyType.NUMBER | LkPropertyType.NUMBER;
+}
+
+export interface IStringType {
+  name: LkPropertyType.STRING;
+  options?: IEnumOptions;
+}
+
+export interface IDateType {
+  name: LkPropertyType.DATE;
+  options: IDateOptions;
+}
+
+export interface IDateTimeType {
+  name: LkPropertyType.DATETIME;
+  options: IDatetimeOptions;
+}
+
+export interface IGraphSchemaProperty {
   propertyKey: string;
   required: boolean;
   visibility: DataVisibility;
-} & (
-  | {
-      propertyType:
-        | LkPropertyType.AUTO
-        | LkPropertyType.BOOLEAN
-        | LkPropertyType.NUMBER;
-      typeOptions: undefined;
-    }
-  | {
-      propertyType: LkPropertyType.DATE;
-      typeOptions: IDateOptions;
-    }
-  | {
-      propertyType: LkPropertyType.DATETIME;
-      typeOptions: IDatetimeOptions;
-    }
-  | {
-      propertyType: LkPropertyType.STRING;
-      typeOptions?: IEnumOptions;
-    });
+  propertyType: ISimpleType | IStringType | IDateType | IDateTimeType;
+}
 
 export interface IGraphSchemaType {
   label: string;
@@ -141,8 +142,7 @@ export interface ICreatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
   label: string;
   propertyKey: string;
-  propertyType: LkPropertyType;
-  typeOptions?: IEnumOptions | IDateOptions | IDatetimeOptions;
+  propertyType: ISimpleType | IStringType | IDateType | IDateTimeType;
   required?: boolean;
   visibility?: DataVisibility;
 }
@@ -153,8 +153,7 @@ export interface IUpdatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
   label: string;
   propertyKey: string;
-  propertyType?: LkPropertyType;
-  typeOptions?: IEnumOptions | IDateOptions | IDatetimeOptions;
+  propertyType?: ISimpleType | IStringType | IDateType | IDateTimeType;
   required?: boolean;
   visibility?: DataVisibility;
 }

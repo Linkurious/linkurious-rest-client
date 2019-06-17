@@ -55,8 +55,7 @@ class Mock {
     // @ts-ignore
     return {
       propertyKey: p.propertyKey,
-      propertyType: p.propertyType || LkPropertyType.AUTO,
-      typeOptions: p.typeOptions,
+      propertyType: p.propertyType || {name: LkPropertyType.AUTO},
       required: p.required || false,
       visibility: p.visibility || DataVisibility.SEARCHABLE
     };
