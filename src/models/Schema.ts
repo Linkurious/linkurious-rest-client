@@ -78,7 +78,7 @@ export interface IDatetimeOptions {
 }
 
 export interface ISimpleType {
-  name: LkPropertyType.AUTO | LkPropertyType.NUMBER | LkPropertyType.NUMBER;
+  name: LkPropertyType.AUTO | LkPropertyType.NUMBER | LkPropertyType.BOOLEAN;
 }
 
 export interface IStringType {
