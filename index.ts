@@ -357,17 +357,8 @@ export interface ISearchMatch {
 
 // SCHEMA
 
-export interface IBaseSchema {
+export interface IDigest {
   nodeCategories: string[];
-}
-
-export interface ISchema extends IBaseSchema {
-  edgeTypes: string[];
-  nodeProperties: string[];
-  edgeProperties: string[];
-}
-
-export interface IDigest extends IBaseSchema {
   edgeType: string;
   nodes: number;
   edges: number;

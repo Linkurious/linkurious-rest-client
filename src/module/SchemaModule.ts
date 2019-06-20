@@ -19,6 +19,8 @@ import {
   ICreateTypeResponse,
   IGetSamplingStatusParams,
   IGetSamplingStatusResponse,
+  IGetSimpleSchemaParams,
+  IGetSimpleSchemaResponse,
   IGetTypesParams,
   IGetTypesResponse,
   IGetTypesWithAccessParams,
@@ -250,6 +252,18 @@ export class SchemaModule extends Module {
       mockValue: {
         any: {access: 'writable'},
         results: Array.from(this.mockSchema.values())
+      }
+    });
+  }
+
+  public async getSimpleSchema(
+    options: IGetSimpleSchemaParams
+  ): Promise<Success<IGetSimpleSchemaResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
+    return this.request({
+      url: '/{sourceKey}/graph/schema/simple',
+      method: 'GET',
+      path: {
+        sourceKey: options.sourceKey
       }
     });
   }

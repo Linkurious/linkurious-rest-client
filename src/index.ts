@@ -17,8 +17,7 @@ import {
   IClientState,
   IDataSourceState,
   IFullUser,
-  ILoggerDriver,
-  ISchema
+  ILoggerDriver
 } from '../index';
 import {ErrorListener} from './errorListener';
 import {AdminModule} from './module/AdminModule';
@@ -477,18 +476,6 @@ export class Linkurious {
         url: '/admin/restart'
       })
       .then((response: any) => response.url);
-  }
-
-  /**
-   * List nodeCategories, edgeTypes, nodeProperties and edgeProperties before the first indexation.
-   *
-   * @returns {Promise<ISchema>}
-   */
-  public getSchema(): Promise<ISchema> {
-    return this._fetcher.fetch({
-      method: 'GET',
-      url: '/{sourceKey}/graph/schema/simple'
-    });
   }
 
   public track(data: any): Promise<any> {
