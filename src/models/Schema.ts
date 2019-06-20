@@ -132,11 +132,7 @@ export interface ICreateTypeParams extends IDataSourceParams {
 
 export interface ICreateTypeResponse extends IGraphSchemaType {}
 
-export interface IUpdateTypeParams extends IDataSourceParams {
-  entityType: EntityType;
-  label: string;
-  visibility: DataVisibility;
-}
+export interface IUpdateTypeParams extends ICreateTypeParams {}
 
 export interface ICreatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
