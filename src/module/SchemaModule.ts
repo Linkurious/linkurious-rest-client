@@ -89,7 +89,7 @@ export class SchemaModule extends Module {
   }
 
   public async getSamplingStatus(
-    options: IGetSamplingStatusParams
+    options?: IGetSamplingStatusParams
   ): Promise<
     Success<IGetSamplingStatusResponse> | Unauthorized | Forbidden | DataSourceUnavailable
   > {
@@ -97,7 +97,7 @@ export class SchemaModule extends Module {
       url: '/admin/{sourceKey}/schema/sampling/status',
       method: 'GET',
       path: {
-        sourceKey: options.sourceKey
+        sourceKey: options && options.sourceKey
       },
       mock: true,
       mockValue: {
@@ -109,13 +109,13 @@ export class SchemaModule extends Module {
   }
 
   public async stopSchemaSample(
-    options: IStopSchemaSampleParams
+    options?: IStopSchemaSampleParams
   ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request({
       url: '/admin/{sourceKey}/schema/sampling/stop',
       method: 'POST',
       path: {
-        sourceKey: options.sourceKey
+        sourceKey: options && options.sourceKey
       },
       mock: true
     });
@@ -257,13 +257,13 @@ export class SchemaModule extends Module {
   }
 
   public async getSimpleSchema(
-    options: IGetSimpleSchemaParams
+    options?: IGetSimpleSchemaParams
   ): Promise<Success<IGetSimpleSchemaResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request({
       url: '/{sourceKey}/graph/schema/simple',
       method: 'GET',
       path: {
-        sourceKey: options.sourceKey
+        sourceKey: options && options.sourceKey
       }
     });
   }
