@@ -178,3 +178,11 @@ export interface IGetSimpleSchemaResponse {
   nodeProperties: string[];
   edgeProperties: string[];
 }
+
+export interface IGetNonIndexedPropertiesParams extends IDataSourceParams {}
+
+export type IGetNonIndexedPropertiesResponse = string[];
+
+export interface ISetNonIndexedPropertiesParams extends IDataSourceParams {
+  properties: string[];
+}

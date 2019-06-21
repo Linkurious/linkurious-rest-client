@@ -725,65 +725,6 @@ describe('Linkurious class', () => {
     });
   });
 
-  describe('getNonIndexedEdgeProperties method', () => {
-    it('must return an array of edge Properties', () => {
-      return linkurious
-        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
-        .then(function() {
-          return linkurious.admin.getNonIndexedEdgeProperties();
-        })
-        .then(function(res: any) {
-          expect(res.length).to.eql(2);
-          expect(res[1]).to.equal('edgeNoIndexProp');
-        });
-    });
-  });
-
-  describe('getNonIndexedNodeProperties method', () => {
-    it('must return an array of node Properties', () => {
-      return linkurious
-        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
-        .then(function() {
-          return linkurious.admin.getNonIndexedNodeProperties();
-        })
-        .then(function(res: any) {
-          expect(res.length).to.eql(2);
-          expect(res[1]).to.equal('nodeNoIndexProp');
-        });
-    });
-  });
-
-  describe('setNonIndexedEdgeProperties method', () => {
-    it('must return true', () => {
-      return linkurious
-        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
-        .then(() => {
-          return linkurious.admin.setNotIndexedEdgeProperties({
-            properties: ['testNonIndexedEdgeProp']
-          });
-        })
-        .then(function(res) {
-          expect(res).to.not.be.undefined;
-        });
-    });
-  });
-
-  describe('setNonIndexedNodeProperties method', () => {
-    it('must return true', () => {
-      return linkurious
-        .init({usernameOrEmail: 'nameChanged', password: 'testPass'})
-        .then(() => {
-          return linkurious.admin.setNotIndexedNodeProperties(
-            {properties: ['testNonIndexedNodeProp']},
-            sourceKey
-          );
-        })
-        .then(function(res) {
-          expect(res).to.not.be.undefined;
-        });
-    });
-  });
-
   describe('createDataSourceConfig method', () => {
     it('must return true', () => {
       return linkurious

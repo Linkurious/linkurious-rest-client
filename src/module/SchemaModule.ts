@@ -17,6 +17,8 @@ import {
   ICreatePropertyResponse,
   ICreateTypeParams,
   ICreateTypeResponse,
+  IGetNonIndexedPropertiesParams,
+  IGetNonIndexedPropertiesResponse,
   IGetSamplingStatusParams,
   IGetSamplingStatusResponse,
   IGetSimpleSchemaParams,
@@ -27,6 +29,7 @@ import {
   IGetTypesWithAccessResponse,
   IGraphSchemaProperty,
   IGraphSchemaTypeWithAccess,
+  ISetNonIndexedPropertiesParams,
   IStartSchemaSampleParams,
   IStopSchemaSampleParams,
   IUpdatePropertyParams,
@@ -262,6 +265,60 @@ export class SchemaModule extends Module {
     return this.request({
       url: '/{sourceKey}/graph/schema/simple',
       method: 'GET',
+      path: {
+        sourceKey: options && options.sourceKey
+      }
+    });
+  }
+
+  public getNonIndexedEdgeProperties(
+    options?: IGetNonIndexedPropertiesParams
+  ): Promise<
+    Success<IGetNonIndexedPropertiesResponse> | Unauthorized | Forbidden | DataSourceUnavailable
+  > {
+    return this.request({
+      url: '/admin/source/{sourceKey}/noIndex/edgeProperties',
+      method: 'GET',
+      path: {
+        sourceKey: options && options.sourceKey
+      }
+    });
+  }
+
+  public getNonIndexedNodeProperties(
+    options?: IGetNonIndexedPropertiesParams
+  ): Promise<
+    Success<IGetNonIndexedPropertiesResponse> | Unauthorized | Forbidden | DataSourceUnavailable
+  > {
+    return this.request({
+      url: '/admin/source/{sourceKey}/noIndex/nodeProperties',
+      method: 'GET',
+      path: {
+        sourceKey: options && options.sourceKey
+      }
+    });
+  }
+
+  public setNotIndexedEdgeProperties(
+    options: ISetNonIndexedPropertiesParams
+  ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
+    return this.request({
+      url: '/admin/source/{sourceKey}/noIndex/edgeProperties',
+      method: 'PUT',
+      body: options,
+      path: {
+        sourceKey: options && options.sourceKey
+      }
+    });
+  }
+
+  public setNotIndexedNodeProperties(
+    options: ISetNonIndexedPropertiesParams
+  ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
+    return this.request({
+      url: '/admin/source/{sourceKey}/noIndex/nodeProperties',
+      method: 'PUT',
+      body: options,
       path: {
         sourceKey: options && options.sourceKey
       }
