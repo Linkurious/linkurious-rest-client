@@ -864,10 +864,10 @@ describe('Linkurious class', () => {
   });
 
   describe('getDataSourcesList method', () => {
-    it('must resturn a list of all dataSource', () => {
+    it('must return a list of all dataSource', () => {
       return linkurious.admin.getDataSourcesList().then((res: any) => {
         expect(res.length).to.eql(2);
-        expect(res[0].state).to.eql('needReindex');
+        expect(res[0].state).to.eql('ready');
         expect(res[1].state).to.eql('connecting');
       });
     });
