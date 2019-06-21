@@ -9,7 +9,7 @@
 
 import {IDataSourceParams} from './Model';
 
-export interface IStartSchemaSampleParams extends IDataSourceParams {
+export interface IStartSchemaSamplingParams extends IDataSourceParams {
   reset?: boolean;
 }
 
@@ -26,7 +26,7 @@ export interface IGetSamplingStatusResponse {
   message?: string;
 }
 
-export interface IStopSchemaSampleParams extends IDataSourceParams {}
+export interface IStopSchemaSamplingParams extends IDataSourceParams {}
 
 export enum DataVisibility {
   NONE = 'none',

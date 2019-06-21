@@ -30,8 +30,8 @@ import {
   IGraphSchemaProperty,
   IGraphSchemaTypeWithAccess,
   ISetNonIndexedPropertiesParams,
-  IStartSchemaSampleParams,
-  IStopSchemaSampleParams,
+  IStartSchemaSamplingParams,
+  IStopSchemaSamplingParams,
   IUpdatePropertyParams,
   IUpdateSchemaSettingsParams,
   IUpdateTypeParams,
@@ -77,8 +77,8 @@ class Mock {
 }
 
 export class SchemaModule extends Module {
-  public async startSchemaSample(
-    options: IStartSchemaSampleParams
+  public async startSchemaSampling(
+    options: IStartSchemaSamplingParams
   ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request({
       url: '/admin/{sourceKey}/schema/sampling/start',
@@ -111,8 +111,8 @@ export class SchemaModule extends Module {
     });
   }
 
-  public async stopSchemaSample(
-    options?: IStopSchemaSampleParams
+  public async stopSchemaSampling(
+    options?: IStopSchemaSamplingParams
   ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request({
       url: '/admin/{sourceKey}/schema/sampling/stop',
