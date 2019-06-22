@@ -17,7 +17,8 @@ export interface IGetSamplingStatusParams extends IDataSourceParams {}
 
 export enum SamplingStatus {
   ONGOING = 'ongoing',
-  DONE = 'done'
+  DONE = 'done',
+  ERROR = 'error'
 }
 
 export interface IGetSamplingStatusResponse {
