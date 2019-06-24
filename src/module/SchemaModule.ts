@@ -86,8 +86,7 @@ export class SchemaModule extends Module {
       query: options,
       path: {
         sourceKey: options.sourceKey
-      },
-      mock: true
+      }
     });
   }
 
@@ -101,12 +100,6 @@ export class SchemaModule extends Module {
       method: 'GET',
       path: {
         sourceKey: options && options.sourceKey
-      },
-      mock: true,
-      mockValue: {
-        status: SamplingStatus.ONGOING,
-        progress: 65.43,
-        message: 'Sampled 50 visualizations out of 500'
       }
     });
   }
@@ -119,8 +112,7 @@ export class SchemaModule extends Module {
       method: 'POST',
       path: {
         sourceKey: options && options.sourceKey
-      },
-      mock: true
+      }
     });
   }
 
@@ -137,9 +129,7 @@ export class SchemaModule extends Module {
       path: {
         sourceKey: options.sourceKey,
         entityType: options.entityType
-      },
-      mock: true,
-      mockValue: this.mockSchema.get(options.label)
+      }
     });
   }
 
@@ -154,8 +144,7 @@ export class SchemaModule extends Module {
       path: {
         sourceKey: options.sourceKey,
         entityType: options.entityType
-      },
-      mock: true
+      }
     });
   }
 
@@ -177,9 +166,7 @@ export class SchemaModule extends Module {
       path: {
         sourceKey: options.sourceKey,
         entityType: options.entityType
-      },
-      mock: true,
-      mockValue: mockValue
+      }
     });
   }
 
@@ -201,8 +188,7 @@ export class SchemaModule extends Module {
       path: {
         sourceKey: options.sourceKey,
         entityType: options.entityType
-      },
-      mock: true
+      }
     });
   }
 
@@ -214,8 +200,7 @@ export class SchemaModule extends Module {
       method: 'PATCH',
       path: {
         sourceKey: options.sourceKey
-      },
-      mock: true
+      }
     });
   }
 
@@ -228,13 +213,6 @@ export class SchemaModule extends Module {
       path: {
         sourceKey: options.sourceKey,
         entityType: options.entityType
-      },
-      mock: true,
-      mockValue: {
-        results: Array.from(this.mockSchema.values()).map(v => {
-          delete v.access;
-          return v;
-        })
       }
     });
   }
@@ -250,11 +228,6 @@ export class SchemaModule extends Module {
       path: {
         sourceKey: options.sourceKey,
         entityType: options.entityType
-      },
-      mock: true,
-      mockValue: {
-        any: {access: 'writable'},
-        results: Array.from(this.mockSchema.values())
       }
     });
   }
