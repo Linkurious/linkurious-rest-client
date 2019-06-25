@@ -73,11 +73,8 @@
     "tslint": "5.16.0",
     "typescript": "3.4.5"
   },
-  "peerDependencies": {
-    "linkurious-shared": "github:Linkurious/builds#shared-develop-next"
-  },
   "dependencies": {
-    "linkurious-shared": "github:Linkurious/builds#shared-2.7.0",
+    "linkurious-shared": "github:Linkurious/builds#shared-develop-next",
     "superagent": "^3.5.2",
     "valcheck": "^1.1.0"
   }
