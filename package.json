@@ -77,7 +77,7 @@
     "linkurious-shared": "github:Linkurious/builds#shared-develop-next"
   },
   "dependencies": {
-    "linkurious-shared": "github:Linkurious/builds#shared-develop-next",
+    "linkurious-shared": "github:Linkurious/builds#shared-2.7.0",
     "superagent": "^3.5.2",
     "valcheck": "^1.1.0"
   }
