@@ -25,6 +25,7 @@ export interface IGetSamplingStatusResponse {
   status: SamplingStatus;
   progress?: number;
   message?: string;
+  lastSampled?: string;
 }
 
 export interface IStopSchemaSamplingParams extends IDataSourceParams {}
