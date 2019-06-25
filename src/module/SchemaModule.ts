@@ -41,7 +41,7 @@ export class SchemaModule extends Module {
     return this.request({
       url: '/admin/{sourceKey}/schema/sampling/start',
       method: 'POST',
-      query: options,
+      body: options,
       path: {
         sourceKey: options.sourceKey
       }
