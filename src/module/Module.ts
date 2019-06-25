@@ -11,6 +11,7 @@ import {Fetcher} from '../http/fetcher';
 import {Rejection} from '../response/errors';
 import {Success} from '../response/success';
 import {Transformer} from '../transformer';
+import {cloneDeep} from 'lodash';
 
 export abstract class Module {
   private _fetcher: Fetcher;
@@ -55,6 +56,7 @@ export abstract class Module {
       return new Success(config.mockValue as T);
     }
 
+    config = cloneDeep(config);
     Module.sanitizeConfig(config);
     const response = await this._transformer.transform(this._fetcher.fetch(config), config);
 
