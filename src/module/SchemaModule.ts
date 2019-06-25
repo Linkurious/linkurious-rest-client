@@ -138,6 +138,7 @@ export class SchemaModule extends Module {
     return this.request({
       url: '/admin/{sourceKey}/graph/schema/settings',
       method: 'PATCH',
+      body: options,
       path: {
         sourceKey: options.sourceKey
       }
