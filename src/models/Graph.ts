@@ -9,28 +9,14 @@
 
 import { IDataSourceParams } from './Model';
 
-export interface ILkDate {
-  type: 'date';
-  value: string; // iso string UTC+0
-}
-
-export interface ILkDateTime {
-  type: 'datetime';
-  value: string; // iso string UTC+0
-}
-
-export interface ILkProperties {
-  [key: string]: string | number | boolean | ILkDate | ILkDateTime;
-}
-
 export interface ICreateNodeParams extends IDataSourceParams {
-  properties: ILkProperties;
+  properties: {[key: string]: unknown};
   categories: string[];
 }
 
 export interface IUpdateNodeParams extends IDataSourceParams {
   id: number;
-  properties?: ILkProperties;
+  properties?: {[key: string]: unknown};
   deletedProperties?: string[];
   addedCategories?: string[];
   deletedCategories?: string[];
@@ -38,7 +24,7 @@ export interface IUpdateNodeParams extends IDataSourceParams {
 }
 
 export interface ICreateEdgeParams extends IDataSourceParams {
-  properties: ILkProperties;
+  properties: {[key: string]: unknown};
   type: string;
   source: string;
   target: string;
@@ -46,7 +32,7 @@ export interface ICreateEdgeParams extends IDataSourceParams {
 
 export interface IUpdateEdgeParams extends IDataSourceParams {
   id: number;
-  properties?: ILkProperties;
+  properties?: {[key: string]: unknown};
   deletedProperties?: string[];
   readAt?: number;
 }
