@@ -5,6 +5,11 @@
  * - Created on 2016-11-28.
  */
 
+export * from './src/models/Alert';
+export * from './src/models/Graph';
+export * from './src/models/Schema';
+export * from './src/models/Visualization';
+
 import {
   BooleanTemplate,
   DateTemplate,
