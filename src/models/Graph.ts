@@ -48,4 +48,5 @@ export interface IUpdateEdgeParams extends IDataSourceParams {
   id: number;
   properties?: ILkProperties;
   deletedProperties?: string[];
+  readAt?: number;
 }
