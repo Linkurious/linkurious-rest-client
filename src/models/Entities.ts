@@ -29,12 +29,7 @@ export interface LkRawEdgeAttributes {
 
 // Attributes after being checked by the schema checker
 
-export type LkValidProperty =
-  | string
-  | number
-  | boolean
-  | LkDate
-  | LkDateTime;
+export type LkValidProperty = string | number | boolean | LkDate | LkDateTime;
 
 export interface LkValidProperties {
   [key: string]: LkValidProperty;
