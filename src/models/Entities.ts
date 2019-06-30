@@ -27,7 +27,32 @@ export interface LkRawEdgeAttributes {
   target: string;
 }
 
-// Attributes after being checked and decoded by the schema checker
+// Attributes after being checked by the schema checker
+
+export type LkValidProperty =
+  | string
+  | number
+  | boolean
+  | LkDate
+  | LkDateTime;
+
+export interface LkValidProperties {
+  [key: string]: LkValidProperty;
+}
+
+export interface LkValidNodeAttributes {
+  data: LkValidProperties;
+  categories: string[];
+}
+
+export interface LkValidEdgeAttributes {
+  data: LkValidProperties;
+  type: string;
+  source: string;
+  target: string;
+}
+
+// Attributes after being decoded by the schema checker
 
 export interface INativeTemporalValue {
   value: number;
