@@ -5,13 +5,13 @@
  * - Created on 2016-05-30.
  */
 
+import {cloneDeep} from 'lodash';
 import {RequestConfig} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
 import {Rejection} from '../response/errors';
 import {Success} from '../response/success';
 import {Transformer} from '../transformer';
-import {cloneDeep} from 'lodash';
 
 export abstract class Module {
   private _fetcher: Fetcher;

@@ -7,7 +7,8 @@
 
 // TS2019-DONE
 
-import { IDataSourceParams } from './Model';
+import {LkNormalizedEdge, LkNormalizedNode} from './Entities';
+import {IDataSourceParams} from './Model';
 
 export interface ICreateNodeParams extends IDataSourceParams {
   properties: {[key: string]: unknown};
@@ -15,7 +16,7 @@ export interface ICreateNodeParams extends IDataSourceParams {
 }
 
 export interface IUpdateNodeParams extends IDataSourceParams {
-  id: number;
+  id: string;
   properties?: {[key: string]: unknown};
   deletedProperties?: string[];
   addedCategories?: string[];
@@ -31,8 +32,16 @@ export interface ICreateEdgeParams extends IDataSourceParams {
 }
 
 export interface IUpdateEdgeParams extends IDataSourceParams {
-  id: number;
+  id: string;
   properties?: {[key: string]: unknown};
   deletedProperties?: string[];
   readAt?: number;
 }
+
+export interface ICreateNodeResponse extends LkNormalizedNode {}
+
+export interface ICreateEdgeResponse extends LkNormalizedEdge {}
+
+export interface IUpdateNodeResponse extends LkNormalizedNode {}
+
+export interface IUpdateEdgeResponse extends LkNormalizedEdge {}
