@@ -23,7 +23,7 @@ export enum SamplingStatus {
 
 export interface IGetSamplingStatusResponse {
   status: SamplingStatus;
-  progress?: number;
+  progress?: string;
   message?: string;
   lastSampled?: string;
 }
