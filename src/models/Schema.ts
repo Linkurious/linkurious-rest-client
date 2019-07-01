@@ -174,12 +174,14 @@ export interface IGetTypesWithAccessResponse extends IGraphSchemaWithAccess {}
 
 export interface IGetSimpleSchemaParams extends IDataSourceParams {}
 
-export interface IGetSimpleSchemaResponse {
+export interface ISimpleSchema {
   nodeCategories: string[];
   edgeTypes: string[];
   nodeProperties: string[];
   edgeProperties: string[];
 }
+
+export interface IGetSimpleSchemaResponse extends ISimpleSchema {}
 
 export interface IGetNonIndexedPropertiesParams extends IDataSourceParams {}
 
