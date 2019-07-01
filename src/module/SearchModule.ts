@@ -5,9 +5,10 @@
  * - Created on 2016-05-30.
  */
 
-import {IEdge, IFullNode, INode, IOgmaEdge, IOgmaNode} from '../../index';
+import {IEdge, INode, IOgmaEdge, IOgmaNode} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
+import {EntityType} from '../models/Schema';
 import {Transformer} from '../transformer';
 import {Module} from './Module';
 import {VisualizationParser} from './VisualizationParser';
@@ -26,7 +27,7 @@ export class SearchModule extends Module {
    */
   public simple(
     data: {
-      type: 'nodes' | 'edges';
+      type: EntityType;
       q: string;
       fuzziness?: number;
       size?: number;
@@ -74,7 +75,7 @@ export class SearchModule extends Module {
    */
   public advanced(
     data: {
-      type: 'nodes' | 'edges';
+      type: EntityType;
       q: string;
       fuzziness?: number;
       size?: number;
@@ -133,7 +134,7 @@ export class SearchModule extends Module {
    */
   public full(
     data: {
-      type: 'nodes' | 'edges';
+      type: EntityType;
       q: string;
       fuzziness?: number;
       size?: number;
@@ -180,36 +181,6 @@ export class SearchModule extends Module {
         nodes: response.nodes.map((n: INode) => VisualizationParser.parseNode(n)),
         edges: response.edges.map((e: IEdge) => VisualizationParser.parseEdge(e))
       };
-    });
-  }
-
-  /**
-   * Search for edges based on a query string and optional parameters. Return a list of full Nodes.
-   *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<Array<ISearchItemList>>}
-   */
-  public fullEdges(
-    data: {
-      q: string;
-      fuzziness?: number;
-      size?: number;
-      from?: number;
-      edges_to?: string[];
-      with_digest?: boolean;
-      with_degree?: boolean;
-      with_access?: boolean;
-    },
-    dataSourceKey?: string
-  ): Promise<{nodes: IOgmaNode[]; edges: IOgmaEdge[]}> {
-    return this.fetch({
-      url: '/{sourceKey}/search/edges/full',
-      method: 'POST',
-      query: data,
-      path: {sourceKey: dataSourceKey}
-    }).then((response: IFullNode[]) => {
-      return VisualizationParser.splitResponse(response);
     });
   }
 
