@@ -342,8 +342,8 @@ export class AdminModule extends Module {
    */
   public startIndexation(): Promise<boolean> {
     return this.fetch({
-      url: '/{sourceKey}/search/reindex',
-      method: 'GET'
+      url: '/{sourceKey}/search/index',
+      method: 'POST'
     });
   }
 
