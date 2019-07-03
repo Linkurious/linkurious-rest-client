@@ -5,9 +5,25 @@
  * - Created on 2016-05-30.
  */
 
-import {IDigest, IEdge, INode, IOgmaEdge, IOgmaNode, ItemId} from '../../index';
+import {
+  DataSourceUnavailable,
+  Forbidden,
+  IDigest,
+  IEdge,
+  INode, InvalidParameter,
+  IOgmaEdge,
+  IOgmaNode,
+  ItemId,
+  Success,
+  Unauthorized
+} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
+import { ICreateNodeParams,
+  ICreateNodeResponse,
+  IUpdateNodeParams,
+  IUpdateNodeResponse
+} from '../models/Graph';
 import {Transformer} from '../transformer';
 import {Module} from './Module';
 import {VisualizationParser} from './VisualizationParser';
@@ -50,6 +66,23 @@ export class NodeModule extends Module {
       body: data,
       path: {sourceKey: dataSourceKey}
     }).then((node: any) => VisualizationParser.parseNode(node));
+  }
+
+  public async createNode(
+    options?: ICreateNodeParams
+  ): Promise<Success<ICreateNodeResponse>
+    | DataSourceUnavailable
+    | Unauthorized
+    | Forbidden
+    | InvalidParameter> {
+    return this.request({
+      url: '/{sourceKey}/graph/nodes',
+      method: 'POST',
+      path: {
+        sourceKey: options && options.sourceKey
+      },
+      body: options
+    });
   }
 
   /**
@@ -205,5 +238,23 @@ export class NodeModule extends Module {
       body: data,
       path: {sourceKey: dataSourceKey}
     }).then((response: INode) => VisualizationParser.parseNode(response));
+  }
+
+  public async updateNode(
+    options?: IUpdateNodeParams
+  ): Promise<Success<IUpdateNodeResponse>
+    | DataSourceUnavailable
+    | Unauthorized
+    | Forbidden
+    | InvalidParameter> {
+    return this.request({
+      url: '/{sourceKey}/graph/nodes/{id}',
+      method: 'PATCH',
+      path: {
+        sourceKey: options && options.sourceKey,
+        id: options && options.id
+      },
+      body: options
+    });
   }
 }

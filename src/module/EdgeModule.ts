@@ -5,9 +5,24 @@
  * - Created on 2016-05-30.
  */
 
-import {IEdge, INode, IOgmaEdge, IOgmaNode, ItemId} from '../../index';
+import {
+  DataSourceUnavailable,
+  Forbidden,
+  IEdge,
+  INode, InvalidParameter,
+  IOgmaEdge,
+  IOgmaNode,
+  ItemId,
+  Success,
+  Unauthorized
+} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
+import {
+  ICreateEdgeParams,
+  ICreateEdgeResponse,
+  IUpdateEdgeParams, IUpdateEdgeResponse
+} from '../models/Graph';
 import {Transformer} from '../transformer';
 import {Module} from './Module';
 import {VisualizationParser} from './VisualizationParser';
@@ -55,6 +70,23 @@ export class EdgeModule extends Module {
     }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
   }
 
+  public async createEdge(
+    options?: ICreateEdgeParams
+  ): Promise<Success<ICreateEdgeResponse>
+    | DataSourceUnavailable
+    | Unauthorized
+    | Forbidden
+    | InvalidParameter> {
+    return this.request({
+      url: '/{sourceKey}/graph/edges',
+      method: 'POST',
+      path: {
+        sourceKey: options && options.sourceKey
+      },
+      body: options
+    });
+  }
+
   /**
    * Modify the properties of an edge in the graph by the given ones. Keeps the other properties of
    * the edge unchanged.
@@ -79,6 +111,24 @@ export class EdgeModule extends Module {
       body: data,
       path: {sourceKey: dataSourceKey}
     }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
+  }
+
+  public async updateEdge(
+    options?: IUpdateEdgeParams
+  ): Promise<Success<IUpdateEdgeResponse>
+    | DataSourceUnavailable
+    | Unauthorized
+    | Forbidden
+    | InvalidParameter> {
+    return this.request({
+      url: '/{sourceKey}/graph/edges/{id}',
+      method: 'PATCH',
+      path: {
+        sourceKey: options && options.sourceKey,
+        id: options && options.id
+      },
+      body: options
+    });
   }
 
   /**
