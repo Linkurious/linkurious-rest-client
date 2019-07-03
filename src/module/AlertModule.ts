@@ -40,14 +40,6 @@ export class AlertModule extends Module {
       body: options,
       path: {
         sourceKey: options.sourceKey
-      },
-      mock: true,
-      mockValue: {
-        id: 1,
-        title: options.title,
-        parent: -1,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
       }
     });
   }
@@ -62,8 +54,7 @@ export class AlertModule extends Module {
       path: {
         sourceKey: options.sourceKey,
         id: options.id
-      },
-      mock: true
+      }
     });
   }
 
@@ -76,8 +67,7 @@ export class AlertModule extends Module {
       path: {
         sourceKey: options.sourceKey,
         id: options.id
-      },
-      mock: true
+      }
     });
   }
 
@@ -89,64 +79,6 @@ export class AlertModule extends Module {
       method: 'GET',
       path: {
         sourceKey: options.sourceKey
-      },
-      mock: true,
-      mockValue: {
-        id: -1,
-        title: 'root',
-        type: 'folder',
-        children: [
-          {
-            id: 1,
-            title: 'folder 1',
-            type: 'folder',
-            children: [
-              {
-                id: 1,
-                title: 'alert in folder 1',
-                type: 'alert',
-                columns: [],
-                lastRun: new Date().toISOString(),
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-              },
-              {
-                id: 2,
-                title: 'alert in folder 1 bis',
-                type: 'alert',
-                columns: [],
-                lastRun: new Date().toISOString(),
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-              }
-            ]
-          },
-          {
-            id: 2,
-            title: 'folder 2',
-            type: 'folder',
-            children: [
-              {
-                id: 3,
-                title: 'alert in folder 2',
-                type: 'alert',
-                columns: [],
-                lastRun: new Date().toISOString(),
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-              }
-            ]
-          },
-          {
-            id: 4,
-            title: 'alert in root',
-            type: 'alert',
-            columns: [],
-            lastRun: new Date().toISOString(),
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          }
-        ]
       }
     });
   }

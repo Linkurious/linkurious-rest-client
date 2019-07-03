@@ -42,8 +42,7 @@ export class VisualizationModule extends Module {
     return this.request({
       url: '/admin/users/mergeVisualizations',
       method: 'POST',
-      body: options,
-      mock: true
+      body: options
     });
   }
 

@@ -35,11 +35,5 @@ export interface IGetAlertTreeResponse {
   id: -1;
   title: 'root';
   type: 'folder';
-  children: FolderChildren<IGetAlertResponse, 'alert'>;
-}
-
-export interface IGetAlertResponse extends IPersistedItem {
-  title: string;
-  columns: Array<{type: 'string' | 'number'; columnName: string; columnTitle: string}>;
-  lastRun: string;
+  children: FolderChildren<{title: string}, 'alert'>;
 }
