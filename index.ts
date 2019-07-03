@@ -14,7 +14,7 @@ import {
   NodeTemplate,
   NumberTemplate,
   StringTemplate
-} from 'linkurious-shared/fesm5';
+} from './src/models/QueryTemplates';
 import {Linkurious} from './src';
 import {Fetcher} from './src/http/fetcher';
 import {FetcherFactory} from './src/http/FetcherFactory';

@@ -4,7 +4,6 @@ const execSync = require('child_process').execSync;
 
 const GitHubAgent = require('./github/enhanced_agent');
 const VERSION = require('./../package.json').version;
-const SHARED = require('./../package.json').dependencies['linkurious-shared'];
 const REPO_NAME = 'builds';
 const BUILD_NAME = '../dist';
 const BUILD_DIR = path.join(__dirname, BUILD_NAME);
@@ -80,11 +79,7 @@ const packageJson = {
   author: 'Linkurious',
   main: './index.js',
   types: './index.d.ts',
-  peerDependencies: {
-    'linkurious-shared': SHARED,
-  },
   dependencies: {
-    'linkurious-shared': SHARED,
     superagent: '^3.5.2',
     valcheck: '^1.1.0',
   },
