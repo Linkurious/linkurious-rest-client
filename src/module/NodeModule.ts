@@ -69,7 +69,7 @@ export class NodeModule extends Module {
   }
 
   public async createNode(
-    options?: ICreateNodeParams
+    options: ICreateNodeParams
   ): Promise<Success<ICreateNodeResponse>
     | DataSourceUnavailable
     | Unauthorized
@@ -241,7 +241,7 @@ export class NodeModule extends Module {
   }
 
   public async updateNode(
-    options?: IUpdateNodeParams
+    options: IUpdateNodeParams
   ): Promise<Success<IUpdateNodeResponse>
     | DataSourceUnavailable
     | Unauthorized

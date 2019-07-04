@@ -71,7 +71,7 @@ export class EdgeModule extends Module {
   }
 
   public async createEdge(
-    options?: ICreateEdgeParams
+    options: ICreateEdgeParams
   ): Promise<Success<ICreateEdgeResponse>
     | DataSourceUnavailable
     | Unauthorized
@@ -114,7 +114,7 @@ export class EdgeModule extends Module {
   }
 
   public async updateEdge(
-    options?: IUpdateEdgeParams
+    options: IUpdateEdgeParams
   ): Promise<Success<IUpdateEdgeResponse>
     | DataSourceUnavailable
     | Unauthorized
