@@ -75,7 +75,7 @@ export class AlertModule extends Module {
     options: IGetAlertTreeParams
   ): Promise<Success<IGetAlertTreeResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request<IGetAlertTreeResponse>({
-      url: '/admin/{sourceKey}/alerts/tree',
+      url: '/{sourceKey}/alerts/tree',
       method: 'GET',
       path: {
         sourceKey: options.sourceKey
