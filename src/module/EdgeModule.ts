@@ -5,6 +5,8 @@
  * - Created on 2016-05-30.
  */
 
+// TODO TS2019
+
 import {
   DataSourceUnavailable,
   Forbidden,
@@ -31,6 +33,45 @@ export class EdgeModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
     super(fetcher, transformer, errorListener);
   }
+
+  // TODO TS2019 refactor above here
+
+  public async createEdge(
+    options: ICreateEdgeParams
+  ): Promise<Success<ICreateEdgeResponse>
+    | DataSourceUnavailable
+    | Unauthorized
+    | Forbidden
+    | InvalidParameter> {
+    return this.request({
+      url: '/{sourceKey}/graph/edges',
+      method: 'POST',
+      path: {
+        sourceKey: options.sourceKey
+      },
+      body: options
+    });
+  }
+
+  public async updateEdge(
+    options: IUpdateEdgeParams
+  ): Promise<Success<IUpdateEdgeResponse>
+    | DataSourceUnavailable
+    | Unauthorized
+    | Forbidden
+    | InvalidParameter> {
+    return this.request({
+      url: '/{sourceKey}/graph/edges/{id}',
+      method: 'PATCH',
+      path: {
+        sourceKey: options.sourceKey,
+        id: options.id
+      },
+      body: options
+    });
+  }
+
+  // TODO TS2019 refactor under here
 
   /**
    * return the number of edges in the graph.
@@ -70,23 +111,6 @@ export class EdgeModule extends Module {
     }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
   }
 
-  public async createEdge(
-    options: ICreateEdgeParams
-  ): Promise<Success<ICreateEdgeResponse>
-    | DataSourceUnavailable
-    | Unauthorized
-    | Forbidden
-    | InvalidParameter> {
-    return this.request({
-      url: '/{sourceKey}/graph/edges',
-      method: 'POST',
-      path: {
-        sourceKey: options && options.sourceKey
-      },
-      body: options
-    });
-  }
-
   /**
    * Modify the properties of an edge in the graph by the given ones. Keeps the other properties of
    * the edge unchanged.
@@ -111,24 +135,6 @@ export class EdgeModule extends Module {
       body: data,
       path: {sourceKey: dataSourceKey}
     }).then((edge: IEdge) => VisualizationParser.parseEdge(edge));
-  }
-
-  public async updateEdge(
-    options: IUpdateEdgeParams
-  ): Promise<Success<IUpdateEdgeResponse>
-    | DataSourceUnavailable
-    | Unauthorized
-    | Forbidden
-    | InvalidParameter> {
-    return this.request({
-      url: '/{sourceKey}/graph/edges/{id}',
-      method: 'PATCH',
-      path: {
-        sourceKey: options && options.sourceKey,
-        id: options && options.id
-      },
-      body: options
-    });
   }
 
   /**
