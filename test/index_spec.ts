@@ -5,19 +5,10 @@
  * - Created on 2016-06-08.
  */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 import 'mocha';
-import {
-  IFullUser,
-  IItemType,
-  IOgmaEdge,
-  IOgmaNode,
-  IProperty,
-  IShare,
-  IVisualization,
-  Linkurious,
-  TypeAccessRight
-} from '../index';
+import { IFullUser, IOgmaEdge, IOgmaNode, IShare, IVisualization, Linkurious } from '../index';
+import { EntityType } from '../src/models/Schema';
 
 describe('Linkurious class', () => {
   let visu: any;
@@ -55,7 +46,7 @@ describe('Linkurious class', () => {
           });
         })
         .then(function(res: any) {
-          expect(res.type).to.equal('node');
+          expect(res.type).to.equal(EntityType.NODE);
           expect(res.totalHits).to.eql(1);
           expect(res.results[0].data.categories).to.eql(['Person']);
 
@@ -73,7 +64,7 @@ describe('Linkurious class', () => {
           });
         })
         .then(function(res: any) {
-          expect(res.type).to.eql('edge');
+          expect(res.type).to.eql(EntityType.EDGE);
           expect(res.totalHits).to.eql(7);
           edgeID = res.results[0].id;
         });
@@ -908,14 +899,14 @@ describe('Linkurious class', () => {
         .initSources()
         .then(function() {
           return linkurious.search.simple({
-            type: 'nodes',
+            type: EntityType.NODE,
             q: 'Carrie-Anne Moss'
           });
         })
         .then((res: any) => {
           sourceId = res.results[0].id;
           return linkurious.search.simple({
-            type: 'nodes',
+            type: EntityType.NODE,
             q: 'Keanu Reeves'
           });
         })
@@ -1118,7 +1109,7 @@ describe('Linkurious class', () => {
       return linkurious
         .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
-          return linkurious.search.advanced({type: 'nodes', q: 'matrix'});
+          return linkurious.search.advanced({type: EntityType.NODE, q: 'matrix'});
         })
         .then((res: any) => {
           expect(res.results.length).to.eql(3);
@@ -1131,7 +1122,7 @@ describe('Linkurious class', () => {
       return linkurious
         .init({usernameOrEmail: 'testName', password: 'testPass'})
         .then(function() {
-          return linkurious.search.advanced({type: 'edges', q: 'ACTED_IN'});
+          return linkurious.search.advanced({type: EntityType.EDGE, q: 'ACTED_IN'});
         })
         .then((res: any) => {
           expect(res.results.length).to.eql(7);
