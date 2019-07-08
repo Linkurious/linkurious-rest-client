@@ -666,7 +666,7 @@ describe('Linkurious class', () => {
           return linkurious.visualization.deleteOne({id: visuToDelete});
         })
         .then((res: any) => {
-          expect(res).toBe('');
+          expect(res).to.eql('');
         });
     }).timeout(5000);
   });
@@ -679,8 +679,8 @@ describe('Linkurious class', () => {
           return linkurious.visualization.getShares({id: visu.id});
         })
         .then((res: any) => {
-          expect(res.shares.length).toEqual(0);
-          expect(res.owner.id).toEqual(116);
+          expect(res.shares.length).to.eql(0);
+          expect(res.owner.id).to.eql(116);
         });
     }).timeout(5000);
   });
