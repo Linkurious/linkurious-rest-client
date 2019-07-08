@@ -130,6 +130,7 @@ export interface LkDate {
 export interface LkDateTime {
   type: 'datetime';
   value: string; // iso string UTC+0
+  offsetSeconds?: number;
 }
 
 export interface ConflictValue {

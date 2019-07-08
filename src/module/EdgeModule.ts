@@ -5,9 +5,26 @@
  * - Created on 2016-05-30.
  */
 
-import {IEdge, INode, IOgmaEdge, IOgmaNode, ItemId} from '../../index';
+// TODO TS2019
+
+import {
+  DataSourceUnavailable,
+  Forbidden,
+  IEdge,
+  INode, InvalidParameter,
+  IOgmaEdge,
+  IOgmaNode,
+  ItemId,
+  Success,
+  Unauthorized
+} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
+import {
+  ICreateEdgeParams,
+  ICreateEdgeResponse,
+  IUpdateEdgeParams, IUpdateEdgeResponse
+} from '../models/Graph';
 import {Transformer} from '../transformer';
 import {Module} from './Module';
 import {VisualizationParser} from './VisualizationParser';
@@ -16,6 +33,45 @@ export class EdgeModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
     super(fetcher, transformer, errorListener);
   }
+
+  // TODO TS2019 refactor above here
+
+  public async createEdge(
+    options: ICreateEdgeParams
+  ): Promise<Success<ICreateEdgeResponse>
+    | DataSourceUnavailable
+    | Unauthorized
+    | Forbidden
+    | InvalidParameter> {
+    return this.request({
+      url: '/{sourceKey}/graph/edges',
+      method: 'POST',
+      path: {
+        sourceKey: options.sourceKey
+      },
+      body: options
+    });
+  }
+
+  public async updateEdge(
+    options: IUpdateEdgeParams
+  ): Promise<Success<IUpdateEdgeResponse>
+    | DataSourceUnavailable
+    | Unauthorized
+    | Forbidden
+    | InvalidParameter> {
+    return this.request({
+      url: '/{sourceKey}/graph/edges/{id}',
+      method: 'PATCH',
+      path: {
+        sourceKey: options.sourceKey,
+        id: options.id
+      },
+      body: options
+    });
+  }
+
+  // TODO TS2019 refactor under here
 
   /**
    * return the number of edges in the graph.

@@ -5,9 +5,27 @@
  * - Created on 2016-05-30.
  */
 
-import {IDigest, IEdge, INode, IOgmaEdge, IOgmaNode, ItemId} from '../../index';
+// TODO TS2019
+
+import {
+  DataSourceUnavailable,
+  Forbidden,
+  IDigest,
+  IEdge,
+  INode, InvalidParameter,
+  IOgmaEdge,
+  IOgmaNode,
+  ItemId,
+  Success,
+  Unauthorized
+} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
+import { ICreateNodeParams,
+  ICreateNodeResponse,
+  IUpdateNodeParams,
+  IUpdateNodeResponse
+} from '../models/Graph';
 import {Transformer} from '../transformer';
 import {Module} from './Module';
 import {VisualizationParser} from './VisualizationParser';
@@ -16,6 +34,45 @@ export class NodeModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
     super(fetcher, transformer, errorListener);
   }
+
+  // TODO TS2019 refactor above here
+
+  public async createNode(
+    options: ICreateNodeParams
+  ): Promise<Success<ICreateNodeResponse>
+    | DataSourceUnavailable
+    | Unauthorized
+    | Forbidden
+    | InvalidParameter> {
+    return this.request({
+      url: '/{sourceKey}/graph/nodes',
+      method: 'POST',
+      path: {
+        sourceKey: options.sourceKey
+      },
+      body: options
+    });
+  }
+
+  public async updateNode(
+    options: IUpdateNodeParams
+  ): Promise<Success<IUpdateNodeResponse>
+    | DataSourceUnavailable
+    | Unauthorized
+    | Forbidden
+    | InvalidParameter> {
+    return this.request({
+      url: '/{sourceKey}/graph/nodes/{id}',
+      method: 'PATCH',
+      path: {
+        sourceKey: options.sourceKey,
+        id: options.id
+      },
+      body: options
+    });
+  }
+
+  // TODO TS2019 refactor under here
 
   /**
    * Number of nodes in the graph.
