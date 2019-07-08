@@ -5,7 +5,7 @@
  * - Created on 2019-01-08.
  */
 
-import {Tools} from 'linkurious-shared';
+import { Utils } from '../http/utils';
 import {ServerResponse} from './index';
 
 export type RejectionKey =
@@ -48,7 +48,7 @@ export class Rejection extends ServerResponse<RejectionKey> {
    * Return true if an offset exists in rejection
    */
   public get hasOffset(): boolean {
-    return Tools.isDefined(this._data.offset);
+    return Utils.isDefined(this._data.offset);
   }
 
   /**

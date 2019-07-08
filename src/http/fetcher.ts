@@ -5,7 +5,6 @@
  * - Created on 2016-05-27.
  */
 
-import {Tools} from 'linkurious-shared';
 import {
   FetcherConfig,
   IClientState,
@@ -48,7 +47,7 @@ export class Fetcher {
   public fetch(configData: FetcherConfig): Promise<any> {
     const config: IFetchConfig = JSON.parse(JSON.stringify(configData));
     const cachedQuery: {[key: string]: unknown} = configData.query
-      ? Tools.clone(configData.query)
+      ? Utils.clone(configData.query)
       : {};
     cachedQuery._ = Date.now();
 
