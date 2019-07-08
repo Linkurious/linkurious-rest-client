@@ -5,6 +5,8 @@
  * - Created on 2016-05-30.
  */
 
+// TODO TS2019
+
 import {
   DataSourceUnavailable,
   Forbidden,
@@ -32,6 +34,45 @@ export class NodeModule extends Module {
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
     super(fetcher, transformer, errorListener);
   }
+
+  // TODO TS2019 refactor above here
+
+  public async createNode(
+    options: ICreateNodeParams
+  ): Promise<Success<ICreateNodeResponse>
+    | DataSourceUnavailable
+    | Unauthorized
+    | Forbidden
+    | InvalidParameter> {
+    return this.request({
+      url: '/{sourceKey}/graph/nodes',
+      method: 'POST',
+      path: {
+        sourceKey: options.sourceKey
+      },
+      body: options
+    });
+  }
+
+  public async updateNode(
+    options: IUpdateNodeParams
+  ): Promise<Success<IUpdateNodeResponse>
+    | DataSourceUnavailable
+    | Unauthorized
+    | Forbidden
+    | InvalidParameter> {
+    return this.request({
+      url: '/{sourceKey}/graph/nodes/{id}',
+      method: 'PATCH',
+      path: {
+        sourceKey: options.sourceKey,
+        id: options.id
+      },
+      body: options
+    });
+  }
+
+  // TODO TS2019 refactor under here
 
   /**
    * Number of nodes in the graph.
@@ -66,23 +107,6 @@ export class NodeModule extends Module {
       body: data,
       path: {sourceKey: dataSourceKey}
     }).then((node: any) => VisualizationParser.parseNode(node));
-  }
-
-  public async createNode(
-    options: ICreateNodeParams
-  ): Promise<Success<ICreateNodeResponse>
-    | DataSourceUnavailable
-    | Unauthorized
-    | Forbidden
-    | InvalidParameter> {
-    return this.request({
-      url: '/{sourceKey}/graph/nodes',
-      method: 'POST',
-      path: {
-        sourceKey: options && options.sourceKey
-      },
-      body: options
-    });
   }
 
   /**
@@ -238,23 +262,5 @@ export class NodeModule extends Module {
       body: data,
       path: {sourceKey: dataSourceKey}
     }).then((response: INode) => VisualizationParser.parseNode(response));
-  }
-
-  public async updateNode(
-    options: IUpdateNodeParams
-  ): Promise<Success<IUpdateNodeResponse>
-    | DataSourceUnavailable
-    | Unauthorized
-    | Forbidden
-    | InvalidParameter> {
-    return this.request({
-      url: '/{sourceKey}/graph/nodes/{id}',
-      method: 'PATCH',
-      path: {
-        sourceKey: options && options.sourceKey,
-        id: options && options.id
-      },
-      body: options
-    });
   }
 }
