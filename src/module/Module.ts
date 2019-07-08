@@ -5,7 +5,7 @@
  * - Created on 2016-05-30.
  */
 
-import {cloneDeep} from 'lodash';
+import {Tools} from 'linkurious-shared';
 import {RequestConfig} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
@@ -56,7 +56,7 @@ export abstract class Module {
       return new Success(config.mockValue as T);
     }
 
-    config = cloneDeep(config);
+    config = Tools.clone(config);
     Module.sanitizeConfig(config);
     const response = await this._transformer.transform(this._fetcher.fetch(config), config);
 
