@@ -35,4 +35,12 @@ export class Utils {
     }
     return result;
   }
+
+  public static clone<T>(value: T): T {
+    return JSON.parse(JSON.stringify(value));
+  }
+
+  public static isDefined(value: unknown): value is {} {
+    return value !== null && value !== undefined;
+  }
 }
