@@ -5,10 +5,10 @@
  * - Created on 2016-06-08.
  */
 
-import { expect } from "chai";
-import "mocha";
-import { IFullUser, IOgmaEdge, IOgmaNode, IShare, IVisualization, Linkurious } from "../index";
-import { EntityType } from "../src/models/Schema";
+import { expect } from 'chai';
+import 'mocha';
+import { IFullUser, IOgmaEdge, IOgmaNode, IShare, IVisualization, Linkurious } from '../index';
+import { EntityType } from '../src/models/Schema';
 
 describe('Linkurious class', () => {
   let visu: any;
@@ -311,7 +311,7 @@ describe('Linkurious class', () => {
             query: 'MATCH (n)\n WHERE ID(n)=' + nodeId + ' return n LIMIT 1'
           });
         })
-        .then((res) => {
+        .then(res => {
           if (res.isSuccess()) {
             expect(res.response.nodes[0].data.properties.name).to.eql('Keanu Reeves');
           }
@@ -331,7 +331,7 @@ describe('Linkurious class', () => {
 
   describe('getCustomFiles method', () => {
     it('must return an array of files', () => {
-      return linkurious.getCustomFiles().then((res) => {
+      return linkurious.getCustomFiles().then(res => {
         expect(res.results.length).to.be.greaterThan(0);
       });
     });
@@ -398,7 +398,7 @@ describe('Linkurious class', () => {
             readAt: node.data.readAt
           });
         })
-        .catch((res) => {
+        .catch(res => {
           expect(res).to.be.true;
         });
     });
@@ -491,7 +491,7 @@ describe('Linkurious class', () => {
     it('must log a user and hydrate app state', () => {
       return linkurious
         .login({usernameOrEmail: 'testName', password: 'testPass'})
-        .then((res) => {
+        .then(res => {
           expect(linkurious.state.user.id).to.eql(userId);
           expect(res.username).to.equal('testName');
         });
@@ -501,7 +501,7 @@ describe('Linkurious class', () => {
       return linkurious.login({usernameOrEmail: 'testName', password: 'testPass'}).then(() => {
         return linkurious
           .login({usernameOrEmail: 'testName', password: 'testPass'})
-          .then((res) => {
+          .then(res => {
             expect(linkurious.state.user.id).to.eql(userId);
             expect(res.username).to.equal('testName');
           });
@@ -516,7 +516,7 @@ describe('Linkurious class', () => {
         .then(() => {
           return linkurious.logout();
         })
-        .then((res) => {
+        .then(res => {
           expect(res).to.eql('user disconnected');
           expect(linkurious.state.user).to.be.undefined;
         });
@@ -738,7 +738,7 @@ describe('Linkurious class', () => {
             name: 'test config'
           });
         })
-        .then((res) => {
+        .then(res => {
           expect(res).to.not.be.undefined;
           setTimeout(() => {}, 5000);
         });
@@ -752,7 +752,7 @@ describe('Linkurious class', () => {
         .then(() => {
           return linkurious.admin.connectDataSource(0);
         })
-        .then((res) => {
+        .then(res => {
           expect(res).to.equal('');
         });
     });
