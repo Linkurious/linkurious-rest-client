@@ -14,7 +14,7 @@ import {
   NodeTemplate,
   NumberTemplate,
   StringTemplate
-} from './src/models/QueryTemplates';
+} from './src/models/TemplateFields';
 import {Linkurious} from './src';
 import {Fetcher} from './src/http/fetcher';
 import {FetcherFactory} from './src/http/FetcherFactory';
