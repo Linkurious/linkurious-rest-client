@@ -39,16 +39,21 @@ export abstract class Module {
   /**
    * Remove path parameters from body and query string params.
    */
-  private static sanitizeConfig<R, T>(config: RequestConfig<R, T>): void {
+  private static sanitizeConfig<R, T>(
+    config: RequestConfig<R, T>
+  ): RequestConfig<R, T> {
+    const body = config.body && Utils.clone(config.body) || undefined;
+    const query = config.query && Utils.clone(config.query) || undefined;
     for (const key of Object.keys(config.path || {})) {
-      if (config.body !== undefined) {
-        delete config.body[key];
+      if (body !== undefined) {
+        delete body[key];
       }
 
-      if (config.query !== undefined) {
-        delete config.query[key];
+      if (query !== undefined) {
+        delete query[key];
       }
     }
+    return {body: body, query: query, ...config};
   }
 
   protected async request<R, T = R>(config: RequestConfig<R, T>): Promise<Success<T> | Rejection> {
@@ -56,8 +61,7 @@ export abstract class Module {
       return new Success(config.mockValue as T);
     }
 
-    config = Utils.clone(config);
-    Module.sanitizeConfig(config);
+    config = Module.sanitizeConfig(config);
     const response = await this._transformer.transform(this._fetcher.fetch(config), config);
 
     if (response.isError()) {
