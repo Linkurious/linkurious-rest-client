@@ -12,7 +12,8 @@ import {
   Forbidden,
   IDigest,
   IEdge,
-  INode, InvalidParameter,
+  INode,
+  InvalidParameter,
   IOgmaEdge,
   IOgmaNode,
   ItemId,
@@ -21,7 +22,8 @@ import {
 } from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
-import { ICreateNodeParams,
+import {
+  ICreateNodeParams,
   ICreateNodeResponse,
   IUpdateNodeParams,
   IUpdateNodeResponse
@@ -39,11 +41,13 @@ export class NodeModule extends Module {
 
   public async createNode(
     options: ICreateNodeParams
-  ): Promise<Success<ICreateNodeResponse>
+  ): Promise<
+    | Success<ICreateNodeResponse>
     | DataSourceUnavailable
     | Unauthorized
     | Forbidden
-    | InvalidParameter> {
+    | InvalidParameter
+  > {
     return this.request({
       url: '/{sourceKey}/graph/nodes',
       method: 'POST',
@@ -56,11 +60,13 @@ export class NodeModule extends Module {
 
   public async updateNode(
     options: IUpdateNodeParams
-  ): Promise<Success<IUpdateNodeResponse>
+  ): Promise<
+    | Success<IUpdateNodeResponse>
     | DataSourceUnavailable
     | Unauthorized
     | Forbidden
-    | InvalidParameter> {
+    | InvalidParameter
+  > {
     return this.request({
       url: '/{sourceKey}/graph/nodes/{id}',
       method: 'PATCH',

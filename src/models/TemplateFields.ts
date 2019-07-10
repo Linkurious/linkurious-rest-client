@@ -5,7 +5,7 @@
  * - Created on 2019-07-03.
  */
 export interface TemplateFieldOptions {
-    [k: string]: string | number | boolean | string[] | object | undefined;
+  [k: string]: string | number | boolean | string[] | object | undefined;
 }
 
 export enum TemplateFieldType {
@@ -78,7 +78,7 @@ export interface NodesetTemplate extends TemplateField<TemplateFieldType.NODE_SE
     categories?: string[];
   };
 }
-export interface DateTemplate extends TemplateField<TemplateFieldType.DATE>  {
+export interface DateTemplate extends TemplateField<TemplateFieldType.DATE> {
   options?: {
     default?: string;
     min?: string;
@@ -86,13 +86,13 @@ export interface DateTemplate extends TemplateField<TemplateFieldType.DATE>  {
     format: DateFormat;
   };
 }
-export interface DatetimeTemplate extends TemplateField<TemplateFieldType.DATE_TIME>  {
+export interface DatetimeTemplate extends TemplateField<TemplateFieldType.DATE_TIME> {
   options?: {
     default?: string;
     min?: string;
     max?: string;
     timezone?: string;
-    format: DatetimeFormat
+    format: DatetimeFormat;
   };
 }
 export interface BooleanTemplate extends TemplateField<TemplateFieldType.BOOLEAN> {

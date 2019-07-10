@@ -488,41 +488,6 @@ export class AdminModule extends Module {
   }
 
   /**
-   * get list of all alerts
-   *
-   * @param {string} dataSourceKey
-   * @returns {Promise<IFullAdminAlert>}
-   */
-  public getAlerts(dataSourceKey?: string): Promise<IFullAdminAlert[]> {
-    return this.fetch({
-      url: '/admin/{sourceKey}/alerts',
-      method: 'GET',
-      path: {sourceKey: dataSourceKey}
-    });
-  }
-
-  /**
-   * get an alert
-   *
-   * @param {Object} data
-   * @param {string} dataSourceKey
-   * @returns {Promise<IFullAdminAlert>}
-   */
-  public getAlert(
-    data: {
-      id: number;
-    },
-    dataSourceKey?: string
-  ): Promise<IFullAdminAlert> {
-    return this.fetch({
-      url: '/admin/{sourceKey}/alerts/{id}',
-      method: 'GET',
-      body: data,
-      path: {sourceKey: dataSourceKey}
-    });
-  }
-
-  /**
    * reset all default styles for a dataSource
    *
    * @param {Object} data

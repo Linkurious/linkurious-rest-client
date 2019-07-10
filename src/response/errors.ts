@@ -5,7 +5,7 @@
  * - Created on 2019-01-08.
  */
 
-import { Utils } from '../http/utils';
+import {Utils} from '../http/utils';
 import {ServerResponse} from './index';
 
 export type RejectionKey =

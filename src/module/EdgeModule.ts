@@ -11,7 +11,8 @@ import {
   DataSourceUnavailable,
   Forbidden,
   IEdge,
-  INode, InvalidParameter,
+  INode,
+  InvalidParameter,
   IOgmaEdge,
   IOgmaNode,
   ItemId,
@@ -23,7 +24,8 @@ import {Fetcher} from '../http/fetcher';
 import {
   ICreateEdgeParams,
   ICreateEdgeResponse,
-  IUpdateEdgeParams, IUpdateEdgeResponse
+  IUpdateEdgeParams,
+  IUpdateEdgeResponse
 } from '../models/Graph';
 import {Transformer} from '../transformer';
 import {Module} from './Module';
@@ -38,11 +40,13 @@ export class EdgeModule extends Module {
 
   public async createEdge(
     options: ICreateEdgeParams
-  ): Promise<Success<ICreateEdgeResponse>
+  ): Promise<
+    | Success<ICreateEdgeResponse>
     | DataSourceUnavailable
     | Unauthorized
     | Forbidden
-    | InvalidParameter> {
+    | InvalidParameter
+  > {
     return this.request({
       url: '/{sourceKey}/graph/edges',
       method: 'POST',
@@ -55,11 +59,13 @@ export class EdgeModule extends Module {
 
   public async updateEdge(
     options: IUpdateEdgeParams
-  ): Promise<Success<IUpdateEdgeResponse>
+  ): Promise<
+    | Success<IUpdateEdgeResponse>
     | DataSourceUnavailable
     | Unauthorized
     | Forbidden
-    | InvalidParameter> {
+    | InvalidParameter
+  > {
     return this.request({
       url: '/{sourceKey}/graph/edges/{id}',
       method: 'PATCH',

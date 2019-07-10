@@ -35,5 +35,23 @@ export interface IGetAlertTreeResponse {
   id: -1;
   title: 'root';
   type: 'folder';
-  children: FolderChildren<{title: string}, 'alert'>;
+  children: FolderChildren<IGetAlertResponse, 'alert'>;
+}
+
+export interface IGetAlertParams extends IDataSourceParams {
+  id: number;
+}
+
+export interface IGetAlertResponse extends IPersistedItem {
+  folder: number;
+  title: string;
+  sourceKey: string;
+  query: string;
+  dialect: string;
+  enabled: boolean;
+  columns: Array<{type: string; columnName: string; columnTitle: string}>;
+  cron: string;
+  lastRun?: string;
+  lastRunProblem?: string;
+  nextRun?: string;
 }

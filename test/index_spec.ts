@@ -5,10 +5,10 @@
  * - Created on 2016-06-08.
  */
 
-import { expect } from 'chai';
+import {expect} from 'chai';
 import 'mocha';
-import { IFullUser, IOgmaEdge, IOgmaNode, IShare, IVisualization, Linkurious } from '../index';
-import { EntityType } from '../src/models/Schema';
+import {IFullUser, IOgmaEdge, IOgmaNode, IShare, IVisualization, Linkurious} from '../index';
+import {EntityType} from '../src/models/Schema';
 
 describe('Linkurious class', () => {
   let visu: any;
@@ -104,34 +104,6 @@ describe('Linkurious class', () => {
     });
   });
 
-  describe('getAlerts for user method', () => {
-    it('must return an array of alerts', () => {
-      return linkurious.initSources().then(() => {
-        return linkurious.alerts.getAlerts(sourceKey).then((res: any) => {
-          expect(res.length).to.eql(1);
-          expect(res[0].title).to.eql('testAlert');
-        });
-      });
-    });
-  });
-
-  describe('getAlert for user method', () => {
-    it('must return an alert', () => {
-      return linkurious.initSources().then(() => {
-        return linkurious.alerts
-          .getAlert(
-            {
-              id: alertId
-            },
-            sourceKey
-          )
-          .then((res: any) => {
-            expect(res.title).to.eql('testAlert');
-          });
-      });
-    });
-  });
-
   let matchId: number;
 
   describe('getMatches method', () => {
@@ -222,34 +194,6 @@ describe('Linkurious class', () => {
           .then((res: any) => {
             expect(res.length).to.eql(1);
             expect(res[0].action).to.eql('confirm');
-          });
-      });
-    });
-  });
-
-  describe('getAlerts method', () => {
-    it('must return an array of alerts', () => {
-      return linkurious.initSources().then(() => {
-        return linkurious.admin.getAlerts(sourceKey).then((res: any) => {
-          expect(res.length).to.eql(1);
-          expect(res[0].title).to.eql('testAlertModified');
-        });
-      });
-    });
-  });
-
-  describe('getAlert method', () => {
-    it('must return an alert', () => {
-      return linkurious.initSources().then(() => {
-        return linkurious.admin
-          .getAlert(
-            {
-              id: alertId
-            },
-            sourceKey
-          )
-          .then((res: any) => {
-            expect(res.title).to.eql('testAlertModified');
           });
       });
     });
@@ -489,22 +433,18 @@ describe('Linkurious class', () => {
 
   describe('login method', () => {
     it('must log a user and hydrate app state', () => {
-      return linkurious
-        .login({usernameOrEmail: 'testName', password: 'testPass'})
-        .then(res => {
-          expect(linkurious.state.user.id).to.eql(userId);
-          expect(res.username).to.equal('testName');
-        });
+      return linkurious.login({usernameOrEmail: 'testName', password: 'testPass'}).then(res => {
+        expect(linkurious.state.user.id).to.eql(userId);
+        expect(res.username).to.equal('testName');
+      });
     });
 
     it('must logout before login if another user is currently authenticated', () => {
       return linkurious.login({usernameOrEmail: 'testName', password: 'testPass'}).then(() => {
-        return linkurious
-          .login({usernameOrEmail: 'testName', password: 'testPass'})
-          .then(res => {
-            expect(linkurious.state.user.id).to.eql(userId);
-            expect(res.username).to.equal('testName');
-          });
+        return linkurious.login({usernameOrEmail: 'testName', password: 'testPass'}).then(res => {
+          expect(linkurious.state.user.id).to.eql(userId);
+          expect(res.username).to.equal('testName');
+        });
       });
     });
   });

@@ -8,7 +8,7 @@
 import {RequestConfig} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
-import { Utils } from '../http/utils';
+import {Utils} from '../http/utils';
 import {Rejection} from '../response/errors';
 import {Success} from '../response/success';
 import {Transformer} from '../transformer';
@@ -39,9 +39,7 @@ export abstract class Module {
   /**
    * Remove path parameters from body and query string params.
    */
-  private static sanitizeConfig<R, T>(
-    config: RequestConfig<R, T>
-  ): RequestConfig<R, T> {
+  private static sanitizeConfig<R, T>(config: RequestConfig<R, T>): RequestConfig<R, T> {
     const originalConfig = config;
     config = Utils.clone(config);
     for (const key of Object.keys(config.path || {})) {

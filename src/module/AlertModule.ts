@@ -10,7 +10,6 @@
 import {
   DataSourceUnavailable,
   Forbidden,
-  IAlert,
   IMatch,
   IMatchAction,
   IMatchResults,
@@ -22,6 +21,8 @@ import {
   ICreateAlertFolderParams,
   ICreateAlertFolderResponse,
   IDeleteAlertFolderParams,
+  IGetAlertParams,
+  IGetAlertResponse,
   IGetAlertTreeParams,
   IGetAlertTreeResponse,
   IUpdateAlertFolderParams
@@ -83,37 +84,20 @@ export class AlertModule extends Module {
     });
   }
 
-  // TODO TS2019 refactor under here
-
-  /**
-   * get list of alerts
-   *
-   * @param {string} dataSourceKey
-   * @returns {Promise<IAlert>}
-   */
-  public getAlerts(dataSourceKey?: string): Promise<IAlert[]> {
-    return this.fetch({
-      url: '/{sourceKey}/alerts',
-      method: 'GET',
-      path: {sourceKey: dataSourceKey}
-    });
-  }
-
-  /**
-   * get an alert
-   *
-   * @param {Object} data
-   * @param {number}dataSourceKey
-   * @returns {Promise<IMatch>}
-   */
-  public getAlert(data: {id: number}, dataSourceKey?: string): Promise<IMatch> {
-    return this.fetch({
+  public async getAlert(
+    options: IGetAlertParams
+  ): Promise<Success<IGetAlertResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
+    return this.request<IGetAlertResponse>({
       url: '/{sourceKey}/alerts/{id}',
       method: 'GET',
-      query: data,
-      path: {sourceKey: dataSourceKey}
+      path: {
+        sourceKey: options.sourceKey,
+        id: options.id
+      }
     });
   }
+
+  // TODO TS2019 refactor under here
 
   /**
    * get matches for an alert
