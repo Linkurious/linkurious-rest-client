@@ -4,6 +4,9 @@
  *
  * - Created on 2019-07-03.
  */
+
+// TS2019-DONE
+
 export interface TemplateFieldOptions {
   [k: string]: string | number | boolean | string[] | object | undefined;
 }
@@ -24,8 +27,10 @@ export interface TemplateField<T extends TemplateFieldType = TemplateFieldType> 
   type: T;
   options?: TemplateFieldOptions;
 }
-export declare type EnumValue = string | number | boolean;
-export declare type EnumChoices = Array<{
+
+export type EnumValue = string | number | boolean;
+
+export type EnumChoices = Array<{
   label: string;
   value: EnumValue;
 }>;
@@ -63,7 +68,7 @@ export interface StringTemplate extends TemplateField<TemplateFieldType.STRING> 
   };
 }
 export interface EnumTemplate extends TemplateField<TemplateFieldType.ENUM> {
-  options?: {
+  options: {
     default?: string;
     values: EnumChoices;
   };
@@ -79,7 +84,7 @@ export interface NodesetTemplate extends TemplateField<TemplateFieldType.NODE_SE
   };
 }
 export interface DateTemplate extends TemplateField<TemplateFieldType.DATE> {
-  options?: {
+  options: {
     default?: string;
     min?: string;
     max?: string;
@@ -87,7 +92,7 @@ export interface DateTemplate extends TemplateField<TemplateFieldType.DATE> {
   };
 }
 export interface DatetimeTemplate extends TemplateField<TemplateFieldType.DATE_TIME> {
-  options?: {
+  options: {
     default?: string;
     min?: string;
     max?: string;
