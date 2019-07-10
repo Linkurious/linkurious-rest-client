@@ -52,6 +52,9 @@ export interface IGetAlertResponse extends IPersistedItem {
   columns: Array<{type: string; columnName: string; columnTitle: string}>;
   cron: string;
   lastRun?: string;
-  lastRunProblem?: string;
+  lastRunProblem?: {
+    error: string;
+    partial: boolean;
+  };
   nextRun?: string;
 }
