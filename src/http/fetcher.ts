@@ -41,6 +41,10 @@ export class Fetcher {
     this._apiBaseURL = this._baseUrl + 'api';
   }
 
+  protected get baseUrl(): string {
+    return this._baseUrl;
+  }
+
   /**
    * HTTPDriver wrapper method
    */
