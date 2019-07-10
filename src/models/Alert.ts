@@ -49,7 +49,7 @@ export interface IGetAlertResponse extends IPersistedItem {
   query: string;
   dialect: string;
   enabled: boolean;
-  columns: Array<{type: string; columnName: string; columnTitle: string}>;
+  columns: Array<{type: 'number' | 'string'; columnName: string; columnTitle: string}>;
   cron: string;
   lastRun?: string;
   lastRunProblem?: {
