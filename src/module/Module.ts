@@ -42,18 +42,19 @@ export abstract class Module {
   private static sanitizeConfig<R, T>(
     config: RequestConfig<R, T>
   ): RequestConfig<R, T> {
-    const body = config.body && Utils.clone(config.body) || undefined;
-    const query = config.query && Utils.clone(config.query) || undefined;
+    const originalConfig = config;
+    config = Utils.clone(config);
     for (const key of Object.keys(config.path || {})) {
-      if (body !== undefined) {
-        delete body[key];
+      if (config.body !== undefined) {
+        delete config.body[key];
       }
 
-      if (query !== undefined) {
-        delete query[key];
+      if (config.query !== undefined) {
+        delete config.query[key];
       }
     }
-    return {body: body, query: query, ...config};
+    // we only want to overwrite the config body and query
+    return {...originalConfig, body: config.body, query: config.query};
   }
 
   protected async request<R, T = R>(config: RequestConfig<R, T>): Promise<Success<T> | Rejection> {
