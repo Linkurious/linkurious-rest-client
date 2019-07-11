@@ -32,7 +32,10 @@ import {
   VisualizationModeType
 } from '../../index';
 import {Utils} from '../http/utils';
-import {IMergeVisualizationsParams} from '../models/Visualization';
+import {
+  IMergeVisualizationsParams,
+  IUpdateVisualizationFolderParams
+} from '../models/Visualization';
 import {Module} from './Module';
 import {VisualizationParser} from './VisualizationParser';
 
