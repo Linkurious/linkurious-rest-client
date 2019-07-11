@@ -73,9 +73,9 @@ export interface FetcherConfig {
   method: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH';
   ignoreContentType?: boolean;
   dataSource?: string | number;
-  body?: {[key: string]: unknown};
-  query?: {[key: string]: unknown};
-  path?: {[key: string]: unknown};
+  body?: object;
+  query?: object;
+  path?: object;
 }
 
 export interface RequestConfig<R, T> extends FetcherConfig {

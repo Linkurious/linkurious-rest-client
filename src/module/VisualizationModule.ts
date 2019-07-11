@@ -8,6 +8,7 @@
 // TODO TS2019
 
 import {
+  DataSourceUnavailable,
   Forbidden,
   IAlternativeIdConfig,
   IFolder,
@@ -43,6 +44,20 @@ export class VisualizationModule extends Module {
       url: '/admin/users/mergeVisualizations',
       method: 'POST',
       body: options
+    });
+  }
+
+  public async updateVisualizationFolder(
+    options: IUpdateVisualizationFolderParams
+  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound | DataSourceUnavailable> {
+    return this.request({
+      url: '/{sourceKey}/visualizations/folder/{id}',
+      method: 'PATCH',
+      body: options,
+      path: {
+        sourceKey: options.sourceKey,
+        id: options.id
+      }
     });
   }
 
@@ -396,29 +411,6 @@ export class VisualizationModule extends Module {
       query: {id: data.id},
       path: {sourceKey: dataSourceKey}
     });
-  }
-
-  /**
-   * Update a property of a folder
-   *
-   * @param {Object} data
-   * @param {string}dataSourceKey
-   * @returns {Promise<any>}
-   */
-  public updateFolder(
-    data: {
-      id: number;
-      key: string;
-      value: string;
-    },
-    dataSourceKey?: string
-  ): Promise<IFolder> {
-    return this.fetch({
-      url: '/{sourceKey}/visualizations/folder/{id}',
-      method: 'PATCH',
-      body: data,
-      path: {sourceKey: dataSourceKey}
-    }).then((response: any) => response.folder);
   }
 
   /**

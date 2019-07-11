@@ -50,12 +50,12 @@ export class Fetcher {
    */
   public fetch(configData: FetcherConfig): Promise<any> {
     const config: IFetchConfig = JSON.parse(JSON.stringify(configData));
-    const cachedQuery: {[key: string]: unknown} = configData.query
-      ? Utils.clone(configData.query)
-      : {};
+    const cachedQuery = configData.query ? Utils.clone(configData.query) : {};
+    // @ts-ignore
     cachedQuery._ = Date.now();
 
     if (this._clientState.guestMode) {
+      // @ts-ignore
       cachedQuery.guest = true;
     }
 
