@@ -49,7 +49,7 @@ export class Fetcher {
    * HTTPDriver wrapper method
    */
   public fetch(configData: FetcherConfig): Promise<any> {
-    const config: IFetchConfig = JSON.parse(JSON.stringify(configData));
+    const config: IFetchConfig = Utils.clone(configData);
     const cachedQuery: {[key: string]: unknown} = configData.query
       ? Utils.clone(configData.query)
       : {};
@@ -78,13 +78,15 @@ export class Fetcher {
       responsePromise = (this._httpDriver as any)[config.method](
         config.url,
         Utils.fixSnakeCase(data.queryData),
-        config.ignoreContentType
+        config.ignoreContentType,
+        config.agent
       );
     } else {
       responsePromise = (this._httpDriver as any)[config.method](
         config.url,
         data.bodyData,
-        Utils.fixSnakeCase(data.queryData)
+        Utils.fixSnakeCase(data.queryData),
+        config.agent
       );
     }
 

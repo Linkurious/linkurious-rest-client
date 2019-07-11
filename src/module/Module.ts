@@ -5,6 +5,7 @@
  * - Created on 2016-05-30.
  */
 
+import * as https from 'https';
 import {RequestConfig} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
@@ -17,6 +18,7 @@ export abstract class Module {
   private _fetcher: Fetcher;
   private _transformer: Transformer;
   private _errorListener: ErrorListener;
+  private agent?: https.Agent;
 
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
     this._fetcher = fetcher;
@@ -33,7 +35,12 @@ export abstract class Module {
     query?: any;
     path?: any;
   }): Promise<any> {
-    return this._fetcher.fetch(config);
+    return this._fetcher.fetch({...config, agent: this.agent});
+  }
+
+  public withAgent(agent?: https.Agent): this {
+    this.agent = agent;
+    return this;
   }
 
   /**
@@ -60,7 +67,7 @@ export abstract class Module {
       return new Success(config.mockValue as T);
     }
 
-    config = Module.sanitizeConfig(config);
+    config = {...Module.sanitizeConfig(config), agent: this.agent};
     const response = await this._transformer.transform(this._fetcher.fetch(config), config);
 
     if (response.isError()) {

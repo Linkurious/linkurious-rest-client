@@ -5,15 +5,16 @@
  * - Created on 2016-04-26.
  */
 
+import * as https from 'https';
 import * as request from 'superagent';
+import {IHttpDriver, IHttpResponse} from '../../index';
 import {LinkuriousError} from '../LinkuriousError';
-import {IHttpDriver, IHttpResponse} from './../../index';
 
 export class DefaultHttpDriver implements IHttpDriver {
-  public POST(uri: string, data?: any, query?: any): Promise<IHttpResponse> {
+  public POST(uri: string, data?: any, query?: any, agent?: https.Agent): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
       request
-        .post(uri)
+        .post(uri).agent(agent)
         .withCredentials()
         .send(data)
         .query(query)
@@ -23,10 +24,10 @@ export class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  public PUT(uri: string, data: any, query?: any): Promise<IHttpResponse> {
+  public PUT(uri: string, data: any, query?: any, agent?: https.Agent): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
       request
-        .put(uri)
+        .put(uri).agent(agent)
         .withCredentials()
         .send(data)
         .query(query)
@@ -36,10 +37,10 @@ export class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  public PATCH(uri: string, data: any, query?: any): Promise<IHttpResponse> {
+  public PATCH(uri: string, data: any, query?: any, agent?: https.Agent): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
       request
-        .patch(uri)
+        .patch(uri).agent(agent)
         .withCredentials()
         .send(data)
         .query(query)
@@ -49,10 +50,10 @@ export class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  public GET(uri: string, query?: any, ignoreContentType?: boolean): Promise<IHttpResponse> {
+  public GET(uri: string, query?: any, ignoreContentType?: boolean, agent?: https.Agent): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
       const q: any = request
-        .get(uri)
+        .get(uri).agent(agent)
         .withCredentials()
         .query(query);
       q.end((err: any, res: request.Response) => {
@@ -61,10 +62,10 @@ export class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  public DELETE(uri: string, data?: any, query?: any): Promise<IHttpResponse> {
+  public DELETE(uri: string, data?: any, query?: any, agent?: https.Agent): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
       request
-        .del(uri)
+        .del(uri).agent(agent)
         .withCredentials()
         .send(data)
         .query(query)
