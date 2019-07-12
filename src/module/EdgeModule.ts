@@ -131,7 +131,7 @@ export class EdgeModule extends Module {
       type?: string;
       properties?: any;
       deletedProperties?: string[];
-      readAt: string;
+      readAt: number;
     },
     dataSourceKey?: string
   ): Promise<IOgmaEdge> {
