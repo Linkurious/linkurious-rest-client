@@ -875,7 +875,7 @@ describe('Linkurious class', () => {
             id: edgeID,
             deletedProperties: [],
             properties: {tralala: 'test'},
-            readAt: '2018-04-16T09:57:31.949Z'
+            readAt: Date.now()
           });
         })
         .then((res: any) => {
