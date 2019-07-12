@@ -414,7 +414,7 @@ export class Linkurious {
    */
   public getAppStatus(): Promise<IAppStatus> {
     return this._fetcher
-      .fetch({
+      .fetchData({
         url: '/status',
         method: 'GET'
       })
