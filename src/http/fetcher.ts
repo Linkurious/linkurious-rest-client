@@ -13,10 +13,10 @@ import {
   IHttpDriver,
   IHttpResponse
 } from '../../index';
-import {LinkuriousError} from '../LinkuriousError';
-import {Logger} from '../log/Logger';
-import {DefaultHttpDriver} from './DefaultHttpDriver';
-import {Utils} from './utils';
+import { LinkuriousError } from '../LinkuriousError';
+import { Logger } from '../log/Logger';
+import { DefaultHttpDriver } from './DefaultHttpDriver';
+import { Utils } from './utils';
 
 export class Fetcher {
   private static SOURCE_KEY_TEMPLATE: string = '{sourceKey}';
@@ -45,10 +45,14 @@ export class Fetcher {
     return this._baseUrl;
   }
 
+  public async fetchData(configData: FetcherConfig): Promise<any> {
+    return (await this.fetch(configData)).body;
+  }
+
   /**
    * HTTPDriver wrapper method
    */
-  public fetch(configData: FetcherConfig): Promise<any> {
+  public fetch(configData: FetcherConfig): Promise<IHttpResponse> {
     const config: IFetchConfig = Utils.clone(configData);
     const cachedQuery: {[key: string]: unknown} = configData.query
       ? Utils.clone(configData.query)
@@ -98,11 +102,10 @@ export class Fetcher {
       .then((response: IHttpResponse) => {
         // create a linkurious error from "soft" error
         if (LinkuriousError.isError(response)) {
-          const linkuriousError: any = LinkuriousError.fromHttpResponse(response);
-          return Promise.reject(linkuriousError);
+          throw LinkuriousError.fromHttpResponse(response);
         }
-        // resolve with response body in case of success
-        return response.body;
+        // resolve with response in case of success
+        return response;
       })
       .catch((error: LinkuriousError) => {
         // logging interceptor

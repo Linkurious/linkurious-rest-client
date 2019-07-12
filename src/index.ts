@@ -183,7 +183,7 @@ export class Linkurious {
    * Collect all the analytics and log files in a compressed tarball and return it.
    */
   public report(): void {
-    this._fetcher.fetch({
+    this._fetcher.fetchData({
       url: '/admin/report',
       ignoreContentType: true,
       method: 'GET'
@@ -206,7 +206,7 @@ export class Linkurious {
     timestamp?: string;
     context?: any;
   }): Promise<void> {
-    return this._fetcher.fetch({
+    return this._fetcher.fetchData({
       url: '/analytics',
       method: 'POST',
       body: data
@@ -229,14 +229,14 @@ export class Linkurious {
     if (this._clientState.user) {
       return this.logout()
         .then(() => {
-          return this._fetcher.fetch(config);
+          return this._fetcher.fetchData(config);
         })
         .then((res: any) => {
           this._clientState.user = res;
           return this._clientState.user;
         });
     } else {
-      return this._fetcher.fetch(config).then((res: any) => {
+      return this._fetcher.fetchData(config).then((res: any) => {
         this._clientState.user = res;
         return this._clientState.user;
       });
@@ -244,7 +244,7 @@ export class Linkurious {
   }
 
   public OAuthAuthentication(data: {code: string; state: string}): Promise<boolean> {
-    return this._fetcher.fetch({
+    return this._fetcher.fetchData({
       url: '/auth/sso/return',
       method: 'GET',
       query: data
@@ -258,7 +258,7 @@ export class Linkurious {
    */
   public logout(): Promise<string> {
     return this._fetcher
-      .fetch({
+      .fetchData({
         url: '/auth/logout',
         method: 'GET'
       })
@@ -282,7 +282,7 @@ export class Linkurious {
     preferences?: any;
   }): Promise<IFullUser> {
     return this._fetcher
-      .fetch({
+      .fetchData({
         url: '/auth/me',
         method: 'PATCH',
         body: data
@@ -314,7 +314,7 @@ export class Linkurious {
     withCaptions?: boolean;
   }): Promise<IDataSourceState[]> {
     return this._fetcher
-      .fetch({
+      .fetchData({
         url: '/dataSources',
         method: 'GET',
         query: data
@@ -429,7 +429,7 @@ export class Linkurious {
    * @returns {Promise<IAppVersion>}
    */
   public getAppVersion(): Promise<IAppVersion> {
-    return this._fetcher.fetch({
+    return this._fetcher.fetchData({
       method: 'GET',
       url: '/version'
     });
@@ -442,7 +442,7 @@ export class Linkurious {
    * @returns {Promise<IAppConfig>}
    */
   public getAppConfig(sourceIndex?: number): Promise<IAppConfig> {
-    return this._fetcher.fetch({
+    return this._fetcher.fetchData({
       method: 'GET',
       query: {sourceIndex: sourceIndex},
       url: '/config'
@@ -459,7 +459,7 @@ export class Linkurious {
     root?: string;
     extensions?: string;
   }): Promise<{results: Array<{path: string; name: 'string'}>}> {
-    return this._fetcher.fetch({
+    return this._fetcher.fetchData({
       method: 'GET',
       query: data,
       url: '/customFiles'
@@ -471,7 +471,7 @@ export class Linkurious {
    */
   public restartServer(): Promise<string> {
     return this._fetcher
-      .fetch({
+      .fetchData({
         method: 'POST',
         url: '/admin/restart'
       })
@@ -479,7 +479,7 @@ export class Linkurious {
   }
 
   public track(data: any): Promise<any> {
-    return this._fetcher.fetch({
+    return this._fetcher.fetchData({
       method: 'POST',
       url: '/track',
       body: data

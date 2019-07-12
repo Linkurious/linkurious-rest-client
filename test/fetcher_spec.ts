@@ -25,7 +25,7 @@ describe('Fetcher class', () => {
     );
 
     fetcher
-      .fetch({
+      .fetchData({
         url: '/test/{sourceKey}',
         method: 'GET'
       })
@@ -60,7 +60,7 @@ describe('Fetcher class', () => {
 
   it('must return an error', () => {
     return fetcher
-      .fetch({
+      .fetchData({
         url: '/test',
         method: 'GET'
       })

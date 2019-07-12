@@ -35,7 +35,7 @@ export abstract class Module {
     query?: any;
     path?: any;
   }): Promise<any> {
-    return this._fetcher.fetch({...config, agent: this.agent});
+    return this._fetcher.fetchData({...config, agent: this.agent});
   }
 
   public withAgent(agent?: https.Agent): this {
@@ -67,7 +67,7 @@ export abstract class Module {
       return new Success(config.mockValue as T);
     }
 
-    config = {...Module.sanitizeConfig(config), agent: this.agent};
+    config = Module.sanitizeConfig({...config, agent: this.agent});
     const response = await this._transformer.transform(this._fetcher.fetch(config), config);
 
     if (response.isError()) {
