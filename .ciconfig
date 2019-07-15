@@ -20,7 +20,6 @@ pipeline {
     stage('Tests') {
       when {
         anyOf {
-          branch 'develop*'
           branch 'master'
         }
       }
