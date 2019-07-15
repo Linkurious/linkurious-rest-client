@@ -60,6 +60,7 @@ export class Fetcher {
     cachedQuery._ = Date.now();
 
     if (this._clientState.guestMode) {
+      // @ts-ignore
       cachedQuery.guest = true;
     }
 

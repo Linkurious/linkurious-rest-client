@@ -7,7 +7,15 @@
 
 // TS2019-DONE
 
+import {IDataSourceParams} from './Model';
+
 export interface IMergeVisualizationsParams {
   from: number;
   to: number;
+}
+
+export interface IUpdateVisualizationFolderParams extends IDataSourceParams {
+  id: number;
+  title?: string;
+  parent?: number;
 }

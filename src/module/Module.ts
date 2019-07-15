@@ -51,10 +51,12 @@ export abstract class Module {
     config = Utils.clone(config);
     for (const key of Object.keys(config.path || {})) {
       if (config.body !== undefined) {
+        // @ts-ignore
         delete config.body[key];
       }
 
       if (config.query !== undefined) {
+        // @ts-ignore
         delete config.query[key];
       }
     }
