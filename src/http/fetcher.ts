@@ -49,7 +49,7 @@ export class Fetcher {
    * HTTPDriver wrapper method
    */
   public async fetchResponse(configData: FetcherConfig): Promise<IHttpResponse> {
-    const config: IFetchConfig = Utils.clone(configData);
+    const config: IFetchConfig = configData;
     const cachedQuery = configData.query
       ? Utils.clone(configData.query)
       : {};
