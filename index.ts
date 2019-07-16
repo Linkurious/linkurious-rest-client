@@ -5,7 +5,6 @@
  * - Created on 2016-11-28.
  */
 
-import * as https from 'https';
 import {Linkurious} from './src';
 import {Fetcher} from './src/http/fetcher';
 import {FetcherFactory} from './src/http/FetcherFactory';
@@ -75,9 +74,9 @@ export interface FetcherConfig {
   method: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH';
   ignoreContentType?: boolean;
   dataSource?: string | number;
-  body?: {[key: string]: unknown};
-  query?: {[key: string]: unknown};
-  path?: {[key: string]: unknown};
+  body?: object;
+  query?: object;
+  path?: object;
   agent?: SuperAgent;
 }
 
@@ -1041,17 +1040,6 @@ export interface IFetchConfig {
   body?: any;
   query?: any;
   path?: any;
-  agent?: SuperAgent;
-}
-
-export interface FetcherConfig {
-  url: string;
-  method: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH';
-  ignoreContentType?: boolean;
-  dataSource?: string | number;
-  body?: {[key: string]: unknown};
-  query?: {[key: string]: unknown};
-  path?: {[key: string]: unknown};
   agent?: SuperAgent;
 }
 
