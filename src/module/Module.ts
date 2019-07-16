@@ -4,8 +4,6 @@
  *
  * - Created on 2016-05-30.
  */
-
-import * as https from 'https';
 import {RequestConfig} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
