@@ -18,7 +18,6 @@ export abstract class Module {
   private _fetcher: Fetcher;
   private _transformer: Transformer;
   private _errorListener: ErrorListener;
-  private agent?: https.Agent;
 
   constructor(fetcher: Fetcher, transformer: Transformer, errorListener: ErrorListener) {
     this._fetcher = fetcher;
@@ -35,12 +34,7 @@ export abstract class Module {
     query?: any;
     path?: any;
   }): Promise<any> {
-    return this._fetcher.fetchData({...config, agent: this.agent});
-  }
-
-  public withAgent(agent?: https.Agent): this {
-    this.agent = agent;
-    return this;
+    return this._fetcher.fetch(config);
   }
 
   /**
@@ -69,7 +63,7 @@ export abstract class Module {
       return new Success(config.mockValue as T);
     }
 
-    config = Module.sanitizeConfig({...config, agent: this.agent});
+    config = Module.sanitizeConfig(config);
     const response = await this._transformer.transform(this._fetcher.fetch(config), config);
 
     if (response.isError()) {

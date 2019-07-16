@@ -41,6 +41,7 @@ import {
   WriteForbidden
 } from './src/response/errors';
 import {Success} from './src/response/success';
+import { SuperAgent } from "./src/http/DefaultHttpDriver";
 
 export type indexingStatus = 'ongoing' | 'needed' | 'done' | 'unknown';
 export type EdgeOrientation = 'in' | 'out' | 'both';
@@ -77,7 +78,7 @@ export interface FetcherConfig {
   body?: {[key: string]: unknown};
   query?: {[key: string]: unknown};
   path?: {[key: string]: unknown};
-  agent?: https.Agent;
+  agent?: SuperAgent;
 }
 
 export interface RequestConfig<R, T> extends FetcherConfig {
@@ -1040,7 +1041,7 @@ export interface IFetchConfig {
   body?: any;
   query?: any;
   path?: any;
-  agent?: https.Agent;
+  agent?: SuperAgent;
 }
 
 export interface FetcherConfig {
@@ -1051,9 +1052,8 @@ export interface FetcherConfig {
   body?: {[key: string]: unknown};
   query?: {[key: string]: unknown};
   path?: {[key: string]: unknown};
-  agent?: https.Agent;
+  agent?: SuperAgent;
 }
-
 
 export interface IDataSourceRelative {
   dataSourceKey?: string;

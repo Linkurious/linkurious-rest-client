@@ -45,14 +45,10 @@ export class Fetcher {
     return this._baseUrl;
   }
 
-  public async fetchData(configData: FetcherConfig): Promise<any> {
-    return (await this.fetch(configData)).body;
-  }
-
   /**
    * HTTPDriver wrapper method
    */
-  public fetch(configData: FetcherConfig): Promise<IHttpResponse> {
+  public async fetchResponse(configData: FetcherConfig): Promise<IHttpResponse> {
     const config: IFetchConfig = Utils.clone(configData);
     const cachedQuery: {[key: string]: unknown} = configData.query
       ? Utils.clone(configData.query)
@@ -113,6 +109,14 @@ export class Fetcher {
         this._logger.error(error);
         return Promise.reject(error);
       });
+  }
+
+  /**
+   * HTTPDriver wrapper method
+   */
+  public async fetch(configData: FetcherConfig): Promise<any> {
+    const response = await this.fetchResponse(configData);
+    return response.body;
   }
 
   private addSourceKeyToUrl(url: string): string {

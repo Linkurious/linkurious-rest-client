@@ -5,31 +5,18 @@
  * - Created on 2016-04-26.
  */
 
-import * as https from 'https';
 import * as request from 'superagent';
 import { SuperAgentRequest } from 'superagent';
 import {IHttpDriver, IHttpResponse} from '../../index';
 import {LinkuriousError} from '../LinkuriousError';
 
+export type SuperAgent = request.SuperAgent<SuperAgentRequest>;
+
 export class DefaultHttpDriver implements IHttpDriver {
-  /**
-   * Optionally set the request agent.
-   */
-  private static withAgent<R extends SuperAgentRequest>(
-    requesting: R,
-    agent?: https.Agent): R {
-    if (agent) {
-      // the browser version of superagent does not support calls to agent
-      // so we add it only when agent is explicitly defined
-      // this avoids printing this warning: 'This is not supported in browser version of superagent'
-      return requesting.agent(agent);
-    }
-    return requesting;
-  }
-
-  public POST(uri: string, data?: any, query?: any, agent?: https.Agent): Promise<IHttpResponse> {
+  public POST(uri: string, data?: any, query?: any, agent?: SuperAgent): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
-      DefaultHttpDriver.withAgent(request.post(uri), agent)
+      (agent ? agent : request)
+        .post(uri)
         .withCredentials()
         .send(data)
         .query(query)
@@ -39,9 +26,10 @@ export class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  public PUT(uri: string, data: any, query?: any, agent?: https.Agent): Promise<IHttpResponse> {
+  public PUT(uri: string, data: any, query?: any, agent?: SuperAgent): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
-      DefaultHttpDriver.withAgent(request.put(uri), agent)
+      (agent ? agent : request)
+        .put(uri)
         .withCredentials()
         .send(data)
         .query(query)
@@ -51,9 +39,10 @@ export class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  public PATCH(uri: string, data: any, query?: any, agent?: https.Agent): Promise<IHttpResponse> {
+  public PATCH(uri: string, data: any, query?: any, agent?: SuperAgent): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
-      DefaultHttpDriver.withAgent(request.patch(uri), agent)
+      (agent ? agent : request)
+        .patch(uri)
         .withCredentials()
         .send(data)
         .query(query)
@@ -67,10 +56,11 @@ export class DefaultHttpDriver implements IHttpDriver {
     uri: string,
     query?: any,
     ignoreContentType?: boolean,
-    agent?: https.Agent
+    agent?: SuperAgent
   ): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
-      return DefaultHttpDriver.withAgent(request.get(uri), agent)
+      (agent ? agent : request)
+        .get(uri)
         .withCredentials()
         .query(query)
         .end((err: any, res: request.Response) => {
@@ -79,9 +69,10 @@ export class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  public DELETE(uri: string, data?: any, query?: any, agent?: https.Agent): Promise<IHttpResponse> {
+  public DELETE(uri: string, data?: any, query?: any, agent?: SuperAgent): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
-      DefaultHttpDriver.withAgent(request.del(uri), agent)
+      (agent ? agent : request)
+        .del(uri)
         .withCredentials()
         .send(data)
         .query(query)
