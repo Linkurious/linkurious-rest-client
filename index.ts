@@ -5,6 +5,11 @@
  * - Created on 2016-11-28.
  */
 
+import {Linkurious} from './src';
+import {Fetcher} from './src/http/fetcher';
+import {FetcherFactory} from './src/http/FetcherFactory';
+import {LinkuriousError} from './src/LinkuriousError';
+import {Logger} from './src/log/Logger';
 import {
   BooleanTemplate,
   DateTemplate,
@@ -15,11 +20,6 @@ import {
   NumberTemplate,
   StringTemplate
 } from './src/models/TemplateFields';
-import {Linkurious} from './src';
-import {Fetcher} from './src/http/fetcher';
-import {FetcherFactory} from './src/http/FetcherFactory';
-import {LinkuriousError} from './src/LinkuriousError';
-import {Logger} from './src/log/Logger';
 import {ServerResponse} from './src/response';
 import {
   BadGraphRequest,
@@ -40,6 +40,7 @@ import {
   WriteForbidden
 } from './src/response/errors';
 import {Success} from './src/response/success';
+import { SuperAgent } from "./src/http/DefaultHttpDriver";
 
 export type indexingStatus = 'ongoing' | 'needed' | 'done' | 'unknown';
 export type EdgeOrientation = 'in' | 'out' | 'both';
@@ -76,6 +77,7 @@ export interface FetcherConfig {
   body?: object;
   query?: object;
   path?: object;
+  agent?: SuperAgent;
 }
 
 export interface RequestConfig<R, T> extends FetcherConfig {
@@ -1038,6 +1040,7 @@ export interface IFetchConfig {
   body?: any;
   query?: any;
   path?: any;
+  agent?: SuperAgent;
 }
 
 export interface IDataSourceRelative {

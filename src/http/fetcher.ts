@@ -13,10 +13,10 @@ import {
   IHttpDriver,
   IHttpResponse
 } from '../../index';
-import {LinkuriousError} from '../LinkuriousError';
-import {Logger} from '../log/Logger';
-import {DefaultHttpDriver} from './DefaultHttpDriver';
-import {Utils} from './utils';
+import { LinkuriousError } from '../LinkuriousError';
+import { Logger } from '../log/Logger';
+import { DefaultHttpDriver } from './DefaultHttpDriver';
+import { Utils } from './utils';
 
 export class Fetcher {
   private static SOURCE_KEY_TEMPLATE: string = '{sourceKey}';
@@ -48,9 +48,11 @@ export class Fetcher {
   /**
    * HTTPDriver wrapper method
    */
-  public fetch(configData: FetcherConfig): Promise<any> {
-    const config: IFetchConfig = JSON.parse(JSON.stringify(configData));
-    const cachedQuery = configData.query ? Utils.clone(configData.query) : {};
+  public async fetchResponse(configData: FetcherConfig): Promise<IHttpResponse> {
+    const config: IFetchConfig = {...configData};
+    const cachedQuery = configData.query
+      ? Utils.clone(configData.query)
+      : {};
     // @ts-ignore
     cachedQuery._ = Date.now();
 
@@ -78,13 +80,15 @@ export class Fetcher {
       responsePromise = (this._httpDriver as any)[config.method](
         config.url,
         Utils.fixSnakeCase(data.queryData),
-        config.ignoreContentType
+        config.ignoreContentType,
+        config.agent
       );
     } else {
       responsePromise = (this._httpDriver as any)[config.method](
         config.url,
         data.bodyData,
-        Utils.fixSnakeCase(data.queryData)
+        Utils.fixSnakeCase(data.queryData),
+        config.agent
       );
     }
 
@@ -96,17 +100,24 @@ export class Fetcher {
       .then((response: IHttpResponse) => {
         // create a linkurious error from "soft" error
         if (LinkuriousError.isError(response)) {
-          const linkuriousError: any = LinkuriousError.fromHttpResponse(response);
-          return Promise.reject(linkuriousError);
+          throw LinkuriousError.fromHttpResponse(response);
         }
-        // resolve with response body in case of success
-        return response.body;
+        // resolve with response in case of success
+        return response;
       })
       .catch((error: LinkuriousError) => {
         // logging interceptor
         this._logger.error(error);
         return Promise.reject(error);
       });
+  }
+
+  /**
+   * HTTPDriver wrapper method
+   */
+  public async fetch(configData: FetcherConfig): Promise<any> {
+    const response = await this.fetchResponse(configData);
+    return response.body;
   }
 
   private addSourceKeyToUrl(url: string): string {

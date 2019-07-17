@@ -6,13 +6,16 @@
  */
 
 import * as request from 'superagent';
+import { SuperAgentRequest } from 'superagent';
+import {IHttpDriver, IHttpResponse} from '../../index';
 import {LinkuriousError} from '../LinkuriousError';
-import {IHttpDriver, IHttpResponse} from './../../index';
+
+export type SuperAgent = request.SuperAgent<SuperAgentRequest>;
 
 export class DefaultHttpDriver implements IHttpDriver {
-  public POST(uri: string, data?: any, query?: any): Promise<IHttpResponse> {
+  public POST(uri: string, data?: any, query?: any, agent?: SuperAgent): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
-      request
+      (agent ? agent : request)
         .post(uri)
         .withCredentials()
         .send(data)
@@ -23,9 +26,9 @@ export class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  public PUT(uri: string, data: any, query?: any): Promise<IHttpResponse> {
+  public PUT(uri: string, data: any, query?: any, agent?: SuperAgent): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
-      request
+      (agent ? agent : request)
         .put(uri)
         .withCredentials()
         .send(data)
@@ -36,9 +39,9 @@ export class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  public PATCH(uri: string, data: any, query?: any): Promise<IHttpResponse> {
+  public PATCH(uri: string, data: any, query?: any, agent?: SuperAgent): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
-      request
+      (agent ? agent : request)
         .patch(uri)
         .withCredentials()
         .send(data)
@@ -49,21 +52,26 @@ export class DefaultHttpDriver implements IHttpDriver {
     });
   }
 
-  public GET(uri: string, query?: any, ignoreContentType?: boolean): Promise<IHttpResponse> {
+  public GET(
+    uri: string,
+    query?: any,
+    ignoreContentType?: boolean,
+    agent?: SuperAgent
+  ): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
-      const q: any = request
+      (agent ? agent : request)
         .get(uri)
         .withCredentials()
-        .query(query);
-      q.end((err: any, res: request.Response) => {
+        .query(query)
+        .end((err: any, res: request.Response) => {
         this.handleResponse(resolve, reject, err, res, ignoreContentType);
       });
     });
   }
 
-  public DELETE(uri: string, data?: any, query?: any): Promise<IHttpResponse> {
+  public DELETE(uri: string, data?: any, query?: any, agent?: SuperAgent): Promise<IHttpResponse> {
     return new Promise((resolve: (r: IHttpResponse) => void, reject: (e: any) => void) => {
-      request
+      (agent ? agent : request)
         .del(uri)
         .withCredentials()
         .send(data)
