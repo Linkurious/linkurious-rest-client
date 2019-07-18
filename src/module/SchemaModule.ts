@@ -54,7 +54,7 @@ export class SchemaModule extends Module {
     Success<IGetSamplingStatusResponse> | Unauthorized | Forbidden | DataSourceUnavailable
   > {
     return this.request({
-      url: '/admin/{sourceKey}/schema/sampling/status',
+      url: '/{sourceKey}/schema/sampling/status',
       method: 'GET',
       path: {
         sourceKey: options && options.sourceKey
