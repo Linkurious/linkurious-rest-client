@@ -136,7 +136,7 @@ export interface LkDateTime {
 export interface ConflictValue {
   type: LkPropertyType;
   status: 'conflict';
-  original: string; // when schema is in conflict we return a string representation
+  original?: string; // when schema is in conflict we return a string representation
 }
 
 export interface InvalidValue {
