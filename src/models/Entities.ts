@@ -147,7 +147,8 @@ export interface InvalidValue {
 
 export interface MissingValue {
   type: LkPropertyType;
-  status: 'missing'; // when mandatory but not there
+  status: 'missing'; // when mandatory or strict mode but not there
+  mandatory: boolean;
 }
 
 export type LkNormalizedProperty =
