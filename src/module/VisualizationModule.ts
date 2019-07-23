@@ -8,12 +8,12 @@
 // TODO TS2019
 
 import {
-  DataSourceUnavailable,
   Forbidden,
   IAlternativeIdConfig,
   IFolder,
   IFolderFullResponse,
   IItemFields,
+  InvalidParameter,
   IShare,
   ISharers,
   ITreeChildren,
@@ -42,7 +42,7 @@ import {VisualizationParser} from './VisualizationParser';
 export class VisualizationModule extends Module {
   public async mergeVisualizations(
     options: IMergeVisualizationsParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound> {
+  ): Promise<Success<void> | Unauthorized | Forbidden> {
     return this.request({
       url: '/admin/users/mergeVisualizations',
       method: 'POST',
@@ -52,7 +52,7 @@ export class VisualizationModule extends Module {
 
   public async updateVisualizationFolder(
     options: IUpdateVisualizationFolderParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound | DataSourceUnavailable> {
+  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound | InvalidParameter> {
     return this.request({
       url: '/{sourceKey}/visualizations/folder/{id}',
       method: 'PATCH',

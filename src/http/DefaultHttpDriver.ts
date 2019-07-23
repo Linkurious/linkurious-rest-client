@@ -6,7 +6,7 @@
  */
 
 import * as request from 'superagent';
-import { SuperAgentRequest } from 'superagent';
+import {SuperAgentRequest} from 'superagent';
 import {IHttpDriver, IHttpResponse} from '../../index';
 import {LinkuriousError} from '../LinkuriousError';
 
@@ -64,8 +64,8 @@ export class DefaultHttpDriver implements IHttpDriver {
         .withCredentials()
         .query(query)
         .end((err: any, res: request.Response) => {
-        this.handleResponse(resolve, reject, err, res, ignoreContentType);
-      });
+          this.handleResponse(resolve, reject, err, res, ignoreContentType);
+        });
     });
   }
 

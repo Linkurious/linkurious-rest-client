@@ -17,6 +17,7 @@ import {
   IOgmaEdge,
   IOgmaNode,
   ItemId,
+  NotFound,
   Success,
   Unauthorized
 } from '../../index';
@@ -65,6 +66,7 @@ export class NodeModule extends Module {
     | DataSourceUnavailable
     | Unauthorized
     | Forbidden
+    | NotFound
     | InvalidParameter
   > {
     return this.request({

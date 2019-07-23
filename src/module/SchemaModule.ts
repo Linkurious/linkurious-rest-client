@@ -76,7 +76,7 @@ export class SchemaModule extends Module {
 
   public async createType(
     options: ICreateTypeParams
-  ): Promise<Success<ICreateTypeResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
+  ): Promise<Success<ICreateTypeResponse> | Unauthorized | Forbidden> {
     return this.request({
       url: '/admin/{sourceKey}/graph/schema/{entityType}/types',
       method: 'POST',
@@ -90,7 +90,7 @@ export class SchemaModule extends Module {
 
   public async updateType(
     options: IUpdateTypeParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable | NotFound> {
+  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound> {
     return this.request({
       url: '/admin/{sourceKey}/graph/schema/{entityType}/types',
       method: 'PATCH',
@@ -104,9 +104,7 @@ export class SchemaModule extends Module {
 
   public async createProperty(
     options: ICreatePropertyParams
-  ): Promise<
-    Success<ICreatePropertyResponse> | Unauthorized | Forbidden | DataSourceUnavailable | NotFound
-  > {
+  ): Promise<Success<ICreatePropertyResponse> | Unauthorized | Forbidden | NotFound> {
     return this.request({
       url: '/admin/{sourceKey}/graph/schema/{entityType}/properties',
       method: 'POST',
@@ -120,7 +118,7 @@ export class SchemaModule extends Module {
 
   public async updateProperty(
     options: IUpdatePropertyParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable | NotFound> {
+  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound> {
     return this.request({
       url: '/admin/{sourceKey}/graph/schema/{entityType}/properties',
       method: 'PATCH',

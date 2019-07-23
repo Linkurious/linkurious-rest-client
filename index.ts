@@ -40,7 +40,7 @@ import {
   WriteForbidden
 } from './src/response/errors';
 import {Success} from './src/response/success';
-import { SuperAgent } from "./src/http/DefaultHttpDriver";
+import {SuperAgent} from './src/http/DefaultHttpDriver';
 
 export type indexingStatus = 'ongoing' | 'needed' | 'done' | 'unknown';
 export type EdgeOrientation = 'in' | 'out' | 'both';

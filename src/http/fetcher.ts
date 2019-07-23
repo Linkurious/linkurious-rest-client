@@ -13,10 +13,10 @@ import {
   IHttpDriver,
   IHttpResponse
 } from '../../index';
-import { LinkuriousError } from '../LinkuriousError';
-import { Logger } from '../log/Logger';
-import { DefaultHttpDriver } from './DefaultHttpDriver';
-import { Utils } from './utils';
+import {LinkuriousError} from '../LinkuriousError';
+import {Logger} from '../log/Logger';
+import {DefaultHttpDriver} from './DefaultHttpDriver';
+import {Utils} from './utils';
 
 export class Fetcher {
   private static SOURCE_KEY_TEMPLATE: string = '{sourceKey}';
@@ -50,9 +50,7 @@ export class Fetcher {
    */
   public async fetchResponse(configData: FetcherConfig): Promise<IHttpResponse> {
     const config: IFetchConfig = {...configData};
-    const cachedQuery = configData.query
-      ? Utils.clone(configData.query)
-      : {};
+    const cachedQuery = configData.query ? Utils.clone(configData.query) : {};
     // @ts-ignore
     cachedQuery._ = Date.now();
 

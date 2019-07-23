@@ -8,7 +8,7 @@
 // TODO TS2019
 
 import {
-  DataSourceUnavailable,
+  ConstraintViolation,
   Forbidden,
   IMatch,
   IMatchAction,
@@ -32,9 +32,7 @@ import {Module} from './Module';
 export class AlertModule extends Module {
   public async createAlertFolder(
     options: ICreateAlertFolderParams
-  ): Promise<
-    Success<ICreateAlertFolderResponse> | Unauthorized | Forbidden | DataSourceUnavailable
-  > {
+  ): Promise<Success<ICreateAlertFolderResponse> | Unauthorized | Forbidden | ConstraintViolation> {
     return this.request({
       url: '/admin/{sourceKey}/alerts/folder',
       method: 'POST',
@@ -47,7 +45,7 @@ export class AlertModule extends Module {
 
   public async updateAlertFolder(
     options: IUpdateAlertFolderParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound | DataSourceUnavailable> {
+  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound | ConstraintViolation> {
     return this.request({
       url: '/admin/{sourceKey}/alerts/folder/{id}',
       method: 'PATCH',
@@ -61,7 +59,7 @@ export class AlertModule extends Module {
 
   public async deleteAlertFolder(
     options: IDeleteAlertFolderParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound | DataSourceUnavailable> {
+  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound> {
     return this.request({
       url: '/admin/{sourceKey}/alerts/folder/{id}',
       method: 'DELETE',
@@ -74,7 +72,7 @@ export class AlertModule extends Module {
 
   public async getAlertTree(
     options: IGetAlertTreeParams
-  ): Promise<Success<IGetAlertTreeResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
+  ): Promise<Success<IGetAlertTreeResponse> | Unauthorized | Forbidden> {
     return this.request<IGetAlertTreeResponse>({
       url: '/{sourceKey}/alerts/tree',
       method: 'GET',
@@ -86,7 +84,7 @@ export class AlertModule extends Module {
 
   public async getAlert(
     options: IGetAlertParams
-  ): Promise<Success<IGetAlertResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
+  ): Promise<Success<IGetAlertResponse> | Unauthorized | Forbidden> {
     return this.request<IGetAlertResponse>({
       url: '/{sourceKey}/alerts/{id}',
       method: 'GET',
