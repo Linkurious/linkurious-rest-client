@@ -124,13 +124,14 @@ export interface LkSubGraph {
 
 export interface LkDate {
   type: 'date';
-  value: string; // iso string UTC+0
+  value: string; // iso string in the correct timezone, e.g: "2019-07-22T00:00:00-08:00"
+  timezone?: string; // e.g. "-08:00"
 }
 
 export interface LkDateTime {
   type: 'datetime';
-  value: string; // iso string UTC+0
-  offsetSeconds?: number;
+  value: string; // iso string in the correct timezone, e.g: "2019-07-22T12:34:56-08:00"
+  timezone?: string; // e.g. "-08:00"
 }
 
 export interface ConflictValue {
