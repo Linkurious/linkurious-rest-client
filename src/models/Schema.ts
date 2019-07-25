@@ -76,7 +76,7 @@ export interface IDateOptions {
 
 export interface IDatetimeOptions {
   format: LkDateTimeFormat;
-  timezone?: string; // timezone information e.g: +05:30
+  timezone?: boolean;
 }
 
 export interface ISimpleType {
