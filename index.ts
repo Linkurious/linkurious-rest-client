@@ -5,13 +5,13 @@
  * - Created on 2016-11-28.
  */
 
-import * as AlertModels from './src/models/Alert';
-import * as GraphModels from './src/models/Graph';
-import * as SchemaModels from './src/models/Schema';
-import * as SearchModels from './src/models/Search';
-import * as VisualizationModels from './src/models/Visualization';
-import * as Entities from './src/models/Entities';
-import * as TemplateFields from './src/models/TemplateFields';
+export * from './src/models/Alert';
+export * from './src/models/Graph';
+export * from './src/models/Schema';
+export * from './src/models/Search';
+export * from './src/models/Visualization';
+export * from './src/models/Entities';
+export * from './src/models/TemplateFields';
 
 import {Linkurious} from './src';
 import {Fetcher} from './src/http/fetcher';
@@ -1084,12 +1084,5 @@ export {
   Cancelled,
   ClientError,
   ServerResponse,
-  Success,
-  AlertModels,
-  GraphModels,
-  SchemaModels,
-  SearchModels,
-  VisualizationModels,
-  Entities,
-  TemplateFields
+  Success
 };
