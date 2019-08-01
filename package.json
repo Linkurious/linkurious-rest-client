@@ -1,24 +1,7 @@
 {
-  "name": "linkurious-rest-client",
+  "name": "@linkurious/rest-client",
   "version": "2.8.0",
   "description": "A TypeScript lib to interact with Linkurious REST API",
-  "contributors": [
-    {
-      "name": "Maxime Allex",
-      "email": "maxime@linkurio.us",
-      "url": "https://github.com/maxime-allex"
-    },
-    {
-      "name": "David Rapin",
-      "email": "david@linkurio.us",
-      "url": "https://github.com/davidrapin"
-    },
-    {
-      "name": "André Barata",
-      "email": "andre@linkurio.us",
-      "url": "https://github.com/aabarata"
-    }
-  ],
   "files": [
     "dist"
   ],
@@ -77,5 +60,8 @@
   "dependencies": {
     "superagent": "^3.5.2",
     "valcheck": "^1.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

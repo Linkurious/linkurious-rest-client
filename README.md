@@ -121,7 +121,3 @@ Linkurious-rest-client use two dependencies to work properly in all environment 
 ## License
 [MIT](https://opensource.org/licenses/MIT)
 
-
-## Authors
-* Maxime Allex([maxime@linkurio.us](maxime@linkurio.us))
-* David Rapin([david@linkurio.us](david@linkurio.us))
