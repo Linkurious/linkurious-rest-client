@@ -17,24 +17,7 @@ pipeline {
         }
       }
     }
-    stage('Tests') {
-      when {
-        anyOf {
-          branch 'develop*'
-          branch 'master'
-        }
-      }
-      steps {
-        throttle(['FrontendTestEnv']) {
-          dir('linkurious-rest-client') {
-            sh 'rm ../linkurious-server/data/config/test.json || true'
-            sh 'node ../linkurious-server/dist/test/runMocha.js -sm & echo $! > SERVER_PID'
-            sh 'xvfb-run node_modules/.bin/karma start'
-            sh 'kill -9 `cat SERVER_PID`'
-          }
-        }
-      }
-    }
+
     stage('Pre-release') {
       when {
         anyOf {
