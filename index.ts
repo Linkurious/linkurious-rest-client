@@ -12,6 +12,7 @@ export * from './src/models/Search';
 export * from './src/models/Visualization';
 export * from './src/models/Entities';
 export * from './src/models/TemplateFields';
+export * from './src/models/Model';
 
 import {Linkurious} from './src';
 import {Fetcher} from './src/http/fetcher';
