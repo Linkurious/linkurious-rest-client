@@ -54,10 +54,11 @@
     "request": "^2.87.0",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.0.0-rc.0",
-    "tslint": "5.18.0",
-    "typescript": "3.5.3"
+    "tslint": "^3.10.2",
+    "typescript": "3.2.2"
   },
   "dependencies": {
+    "linkurious-shared": "github:Linkurious/builds#shared-2.7.6",
     "superagent": "^3.5.2",
     "valcheck": "^1.1.0"
   },
