@@ -31,6 +31,7 @@ import {SearchModule} from './module/SearchModule';
 import {VisualizationModule} from './module/VisualizationModule';
 import {Rejection} from './response/errors';
 import {Transformer} from './transformer';
+import {CustomActionModule} from './module/CustomActionModule';
 
 export class Linkurious {
   private readonly _fetcher: Fetcher;
@@ -47,6 +48,7 @@ export class Linkurious {
   private readonly _visualization: VisualizationModule;
   private readonly _alert: AlertModule;
   private readonly _schema: SchemaModule;
+  private readonly _customAction: CustomActionModule;
 
   get state(): IClientState {
     return this._clientState;
@@ -86,6 +88,7 @@ export class Linkurious {
     );
     this._alert = new AlertModule(this._fetcher, this._transformer, this._errorListener);
     this._schema = new SchemaModule(this._fetcher, this._transformer, this._errorListener);
+    this._customAction = new CustomActionModule(this._fetcher, this._transformer, this._errorListener);
   }
 
   /**
@@ -163,6 +166,13 @@ export class Linkurious {
    */
   get alerts(): AlertModule {
     return this._alert;
+  }
+
+  /**
+   * @returns {CustomActionModule}
+   */
+  get customAction(): CustomActionModule {
+    return this._customAction;
   }
 
   /**
