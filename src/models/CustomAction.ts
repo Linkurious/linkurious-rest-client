@@ -5,23 +5,25 @@
  * - Created on 2019-08-19.
  */
 
-import {IDataSourceParams} from './Model';
-
 // Create
-export interface ICreateCustomActionParams extends IDataSourceParams {
+export interface ICreateCustomActionParams {
+    sourceKey: string;
     name: string;
     urlTemplate: string;
     description?: string;
+    sharing: CustomActionSharing
 }
 export interface ICreateCustomActionResponse extends ICustomAction {}
 
 // Delete
-export interface IDeleteCustomActionParams extends IDataSourceParams {
+export interface IDeleteCustomActionParams {
+    sourceKey: string;
     id: number;
 }
 
 // Update
-export interface IUpdateCustomActionParams extends IDataSourceParams {
+export interface IUpdateCustomActionParams {
+    sourceKey: string;
     id: number;
     name?: string;
     urlTemplate?: string;
@@ -30,13 +32,16 @@ export interface IUpdateCustomActionParams extends IDataSourceParams {
 export interface IUpdateCustomActionResponse extends ICustomAction {}
 
 // Get
-export interface IGetCustomActionsParams extends IDataSourceParams {}
+export interface IGetCustomActionsParams {
+    sourceKey: string;
+}
 export interface IGetCustomActionsResponse{
     [index: number]: ICustomAction;
 }
 
 // Entities
 export interface ICustomAction {
+    sourceKey: string;
     id: number;
     name: string;
     urlTemplate: string;
@@ -57,12 +62,20 @@ export enum CustomActionType {
     NODESET = 'nodeset',
     EDGESET = 'edgeset'
 }
+export enum CustomActionVariable {
+    VISUALIZATION = 'visualization',
+    SOURCEKEY = 'sourceKey',
+    NODE = 'node',
+    EDGE = 'edge',
+    NODESET = 'nodeset',
+    EDGESET = 'edgeset'
+}
 export interface CustomActionElement {
     type: CustomActionElementType;
     value: string;
     start: number;
     end: number;
-    variable?: string;
+    variable?: CustomActionVariable;
     label?: string;
     property?: string;
 }
