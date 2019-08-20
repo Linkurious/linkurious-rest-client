@@ -133,19 +133,23 @@ export interface LkDateTime {
   offsetSeconds?: number;
 }
 
-export interface ConflictValue {
+export interface NonCompliantValue {
+  errorMessage: string;
+}
+
+export interface ConflictValue extends NonCompliantValue {
   type: LkPropertyType;
   status: 'conflict';
   original: string; // when schema is in conflict we return a string representation
 }
 
-export interface InvalidValue {
+export interface InvalidValue extends NonCompliantValue {
   type: LkPropertyType;
   status: 'invalid';
   original: string; // when not of the good type we return a string representation (string[] fall in this category)
 }
 
-export interface MissingValue {
+export interface MissingValue extends NonCompliantValue {
   type: LkPropertyType;
   status: 'missing'; // when mandatory but not there
 }
