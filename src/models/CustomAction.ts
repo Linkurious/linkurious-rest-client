@@ -35,9 +35,7 @@ export interface IUpdateCustomActionResponse extends ICustomAction {}
 export interface IGetCustomActionsParams {
     sourceKey: string;
 }
-export interface IGetCustomActionsResponse{
-    [index: number]: ICustomAction;
-}
+export type IGetCustomActionsResponse = ICustomAction[]
 
 // Entities
 export interface ICustomAction {
@@ -62,24 +60,24 @@ export enum CustomActionType {
     NODESET = 'nodeset',
     EDGESET = 'edgeset'
 }
-export enum CustomActionVariable {
-    VISUALIZATION = 'visualization',
-    SOURCEKEY = 'sourceKey',
-    NODE = 'node',
-    EDGE = 'edge',
-    NODESET = 'nodeset',
-    EDGESET = 'edgeset'
-}
-export interface CustomActionElement {
-    type: CustomActionElementType;
+export type CustomActionElement = {
     value: string;
     start: number;
     end: number;
-    variable?: CustomActionVariable;
-    label?: string;
-    property?: string;
-}
-export enum CustomActionElementType {
-    CA_LITERAL = 'ca-literal',
-    CA_EXPRESSION = 'ca-expression'
-}
+} & (
+    {
+        type: 'ca-literal';
+    } | {
+        type: 'ca-expression';
+        variable: 'visualization' | 'sourceKey';
+    } | {
+        type: 'ca-expression';
+        variable: 'nodeset' | 'edgeset';
+        label?: string;
+    } | {
+        type: 'ca-expression',
+        variable: 'node' | 'edge'
+        label?: string;
+        property?: string;
+    }
+)
