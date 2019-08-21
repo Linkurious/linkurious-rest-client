@@ -7,7 +7,7 @@
 
 // TS2019-DONE
 
-import {LkPropertyType} from './Schema';
+import { IDateTimeType, IDateType, ISimpleType, IStringType, LkPropertyType } from './Schema';
 
 // Attributes as they arrive from the Create ApiParams
 
@@ -133,23 +133,19 @@ export interface LkDateTime {
   offsetSeconds?: number;
 }
 
-export interface NonCompliantValue {
-  errorMessage?: string;
-}
-
-export interface ConflictValue extends NonCompliantValue {
+export interface ConflictValue {
   type: LkPropertyType;
   status: 'conflict';
   original: string; // when schema is in conflict we return a string representation
 }
 
-export interface InvalidValue extends NonCompliantValue {
-  type: LkPropertyType;
+export interface InvalidValue {
+  type: ISimpleType | IStringType | IDateType | IDateTimeType;
   status: 'invalid';
   original: string; // when not of the good type we return a string representation (string[] fall in this category)
 }
 
-export interface MissingValue extends NonCompliantValue {
+export interface MissingValue {
   type: LkPropertyType;
   status: 'missing'; // when mandatory but not there
 }
