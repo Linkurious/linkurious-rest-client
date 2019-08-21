@@ -134,7 +134,7 @@ export interface LkDateTime {
 }
 
 export interface NonCompliantValue {
-  errorMessage: string;
+  errorMessage?: string;
 }
 
 export interface ConflictValue extends NonCompliantValue {
