@@ -30,6 +30,7 @@ export interface IUpdateCustomActionParams {
   name?: string;
   urlTemplate?: string;
   description?: string;
+  sharing?: CustomActionSharing;
 }
 export interface IUpdateCustomActionResponse extends ICustomAction {}
 
