@@ -35,6 +35,11 @@ pipeline {
       }
     }
     stage('Pre-release') {
+      when {
+        anyOf {
+          branch 'develop*'
+        }
+      }
       steps {
         dir('linkurious-rest-client') {
           withCredentials([file(credentialsId: 'apikey', variable: 'API_KEY')]) {
