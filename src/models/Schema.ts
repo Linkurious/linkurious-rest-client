@@ -115,15 +115,22 @@ export interface IGraphSchema {
   results: IGraphSchemaType[];
 }
 
+export enum AccessLevel {
+  READABLE = 'readable',
+  EDITABLE = 'editable',
+  WRITABLE = 'writable',
+  NONE = 'none'
+}
+
 export interface IGraphSchemaWithAccess extends IGraphSchema {
   any: {
-    access: string;
+    access: AccessLevel;
   };
   results: IGraphSchemaTypeWithAccess[];
 }
 
 export interface IGraphSchemaTypeWithAccess extends IGraphSchemaType {
-  access: string;
+  access: AccessLevel;
 }
 
 export interface ICreateTypeParams extends IDataSourceParams {
