@@ -57,7 +57,7 @@ function getLastCommitHash() {
 }
 
 function isValidBranch(branch) {
-  return branch.startsWith('develop');
+  return branch.startsWith('');
 }
 
 const localBranch = getLocalBranchName();
