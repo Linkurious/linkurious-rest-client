@@ -5,6 +5,8 @@
  * - Created on 2019-08-19.
  */
 
+// TS2019-DONE
+
 import {DataSourceUnavailable, Forbidden, InvalidParameter, NotFound, Unauthorized} from '../response/errors';
 import {Success} from '../response/success';
 import {Module} from './Module';
@@ -57,7 +59,7 @@ export class CustomActionModule extends Module {
     public async updateCustomAction(options: IUpdateCustomActionParams):
         Promise<
             Success<IUpdateCustomActionResponse> |
-            Unauthorized | Forbidden | DataSourceUnavailable | NotFound
+            Unauthorized | Forbidden | DataSourceUnavailable | NotFound | InvalidParameter
         >
     {
         return this.request({

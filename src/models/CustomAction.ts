@@ -5,12 +5,14 @@
  * - Created on 2019-08-19.
  */
 
+// TS2019-DONE
+
 // Create
 export interface ICreateCustomActionParams {
     sourceKey: string;
     name: string;
     urlTemplate: string;
-    description?: string;
+    description: string;
     sharing: CustomActionSharing
 }
 export interface ICreateCustomActionResponse extends ICustomAction {}
@@ -43,7 +45,7 @@ export interface ICustomAction {
     id: number;
     name: string;
     urlTemplate: string;
-    description?: string;
+    description: string;
     sharing: CustomActionSharing;
     type: CustomActionType;
     elements: CustomActionElement[];
