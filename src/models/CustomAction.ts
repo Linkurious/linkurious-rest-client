@@ -48,8 +48,11 @@ export interface ICustomAction {
   urlTemplate: string;
   description: string;
   sharing: CustomActionSharing;
-  type: CustomActionType;
-  elements: CustomActionElement[];
+  parsedTemplate: {
+    type: CustomActionType;
+    elements: CustomActionElement[];
+    label: string;
+  };
 }
 export enum CustomActionSharing {
   PRIVATE = 'private',
