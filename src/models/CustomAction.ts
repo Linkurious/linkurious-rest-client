@@ -40,7 +40,7 @@ export interface IGetCustomActionsParams {
 }
 export type IGetCustomActionsResponse = ICustomAction[];
 
-// Entities
+// Types
 export interface ICustomAction {
   sourceKey: string;
   id: number;
@@ -48,44 +48,44 @@ export interface ICustomAction {
   urlTemplate: string;
   description: string;
   sharing: CustomActionSharing;
-  parsedTemplate: {
-    type: CustomActionType;
-    elements: CustomActionElement[];
-    label: string;
-  };
+  parsedTemplate: ParsedCustomAction;
+}
+export interface ParsedCustomAction {
+  type: CustomActionType;
+  elements: CustomActionElement[];
+  label: string;
 }
 export enum CustomActionSharing {
   PRIVATE = 'private',
   SOURCE = 'source'
 }
 export enum CustomActionType {
-  NONE = 'none',
   NON_GRAPH = 'non-graph',
   NODE = 'node',
   EDGE = 'edge',
   NODESET = 'nodeset',
   EDGESET = 'edgeset'
 }
-export type CustomActionElement = {
-  value: string;
-  start: number;
-  end: number;
-} & (
-  | {
+export type CustomActionElement =
+  {
+      value: string;
       type: 'ca-literal';
     }
   | {
+      value: string;
       type: 'ca-expression';
       variable: 'visualization' | 'sourceKey';
     }
   | {
+      value: string;
       type: 'ca-expression';
       variable: 'nodeset' | 'edgeset';
       label?: string;
     }
   | {
+      value: string;
       type: 'ca-expression';
       variable: 'node' | 'edge';
       label?: string;
       property?: string;
-    });
+    };
