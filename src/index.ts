@@ -5,11 +5,6 @@
  * - Created on 2016-04-25.
  */
 
-import {Logger, LogLevel} from './log/Logger';
-
-import {Fetcher} from './http/fetcher';
-import {FetcherFactory} from './http/FetcherFactory';
-
 import {
   IAppConfig,
   IAppStatus,
@@ -19,6 +14,10 @@ import {
   IFullUser,
   ILoggerDriver
 } from '../index';
+
+import {Logger, LogLevel} from './log/Logger';
+import {Fetcher} from './http/fetcher';
+import {FetcherFactory} from './http/FetcherFactory';
 import {ErrorListener} from './errorListener';
 import {AdminModule} from './module/AdminModule';
 import {AlertModule} from './module/AlertModule';

@@ -697,7 +697,7 @@ export interface IDataSourceKey {
 }
 
 export interface IAlertRunProblem {
-  error: Object;
+  error: Record<string, any>;
   partial: boolean;
 }
 
@@ -1025,7 +1025,7 @@ export interface ILoggerDriver {
 export interface IHttpResponse {
   statusCode: number;
   body: any;
-  header: Object;
+  header: Record<string, any>;
 }
 
 export interface IHttpDriver {

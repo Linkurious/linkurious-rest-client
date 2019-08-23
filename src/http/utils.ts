@@ -5,7 +5,7 @@
  * - Created on 2016-04-28.
  */
 
-const CAMEL_CASE_RE: RegExp = /([a-zA-Z0-9])([A-Z])/g;
+const CAMEL_CASE_RE = /([a-zA-Z0-9])([A-Z])/g;
 
 export class Utils {
   /**

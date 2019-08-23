@@ -15,13 +15,14 @@ import {
 } from '../../index';
 import {LinkuriousError} from '../LinkuriousError';
 import {Logger} from '../log/Logger';
+
 import {DefaultHttpDriver} from './DefaultHttpDriver';
 import {Utils} from './utils';
 
 export class Fetcher {
-  private static SOURCE_KEY_TEMPLATE: string = '{sourceKey}';
-  private static SOURCE_INDEX_TEMPLATE: string = '{dataSourceIndex}';
-  private static OBJECT_ID_TEMPLATE: string = '{id}';
+  private static SOURCE_KEY_TEMPLATE = '{sourceKey}';
+  private static SOURCE_INDEX_TEMPLATE = '{dataSourceIndex}';
+  private static OBJECT_ID_TEMPLATE = '{id}';
   protected _httpDriver: IHttpDriver;
   private _logger: Logger;
   private readonly _baseUrl: string;
@@ -64,7 +65,7 @@ export class Fetcher {
       bodyData: config.body
     };
 
-    if (config.url.indexOf('http://') < 0) {
+    if (!config.url.includes('http://')) {
       try {
         config.url = this.transformUrl(config, data);
       } catch (lkError) {
@@ -194,11 +195,11 @@ export class Fetcher {
   private transformUrl(config: IFetchConfig, data: IDataToSend): string {
     config.url = this.injectPathParams(config.url, config.path);
 
-    if (config.url.indexOf(Fetcher.OBJECT_ID_TEMPLATE) >= 0) {
+    if (config.url.includes(Fetcher.OBJECT_ID_TEMPLATE)) {
       config.url = this.handleIdInUrl(config.url, data.bodyData, data.queryData);
     }
 
-    if (config.url.indexOf(Fetcher.SOURCE_INDEX_TEMPLATE) >= 0) {
+    if (config.url.includes(Fetcher.SOURCE_INDEX_TEMPLATE)) {
       config.url = this.addSourceIndexToUrl(config.url, config.dataSource);
     }
 
