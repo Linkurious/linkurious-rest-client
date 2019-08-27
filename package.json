@@ -62,7 +62,6 @@
     "typescript": "3.5.3"
   },
   "dependencies": {
-    "linkurious-shared": "github:Linkurious/builds#shared-2.7.6",
     "superagent": "^3.5.2",
     "valcheck": "^1.1.0"
   },
