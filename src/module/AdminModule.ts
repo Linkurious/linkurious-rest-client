@@ -7,7 +7,7 @@
 
 import {
   IClientState,
-  ICreateDataSource,
+  ICreateDataSource, ICreatePropertyResponse,
   IDeletedDataSource,
   IFullAdminAlert,
   IFullDataSource,
@@ -15,7 +15,7 @@ import {
   IGroup,
   IGroupRights,
   IIndexationStatus
-} from '../../index';
+} from "../../index";
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
 import {Utils} from '../http/utils';
@@ -32,6 +32,20 @@ import {Transformer} from '../transformer';
 
 import {Logger} from './../log/Logger';
 import {Module} from './Module';
+import {
+  AzureSearchConfig,
+  ConfigurationParams, CosmosDbConfig,
+  DataSourceConfig,
+  DataSourceConfigParams,
+  InternalIndexConfig,
+  JanusGraphConfig,
+  JanusGraphForComposeConfig,
+  JanusGraphSearchConfig,
+  Neo2esConfig,
+  Neo4jConfig,
+  Neo4jSearchConfig,
+  ResetConfigParams
+} from "../models/Configuration";
 
 export class AdminModule extends Module {
   private _logger: Logger;
@@ -71,8 +85,17 @@ export class AdminModule extends Module {
    * @param {ICreateDataSource} data
    * @returns {Promise<boolean>}
    */
-  public createDataSourceConfig(data: ICreateDataSource): Promise<any> {
-    return this.fetch({
+  public createDataSourceConfig(data: DataSourceConfig<Neo4jConfig, Neo4jSearchConfig> |
+    DataSourceConfig<Neo4jConfig, InternalIndexConfig> |
+    DataSourceConfig<Neo4jConfig, Neo2esConfig> |
+    DataSourceConfig<JanusGraphConfig, JanusGraphSearchConfig> |
+    DataSourceConfig<JanusGraphConfig, InternalIndexConfig> |
+    DataSourceConfig<CosmosDbConfig, AzureSearchConfig> |
+    DataSourceConfig<CosmosDbConfig, InternalIndexConfig> |
+    DataSourceConfig<JanusGraphForComposeConfig, JanusGraphSearchConfig> |
+    DataSourceConfig<JanusGraphForComposeConfig, InternalIndexConfig>
+  ): Promise<Success<void> | Unauthorized | InvalidParameter> {
+    return this.request({
       url: '/admin/sources/config',
       method: 'POST',
       body: data
@@ -309,32 +332,16 @@ export class AdminModule extends Module {
   }
 
   /**
-   * Sets the configuration of the application
-   *
-   * @param {Object} data
-   * @returns {Promise<string>}
+   * Sets the configuration of the application.
    */
-  public updateConfig(data: {
-    path?: string;
-    configuration?: any;
-    dataSourceIndex?: number;
-    reset?: boolean;
-  }): Promise<string> {
-    const query: any = {
-      reset: data.reset,
-      sourceIndex: data.dataSourceIndex
-    };
-
-    const body: any = {
-      path: data.path,
-      configuration: data.configuration
-    };
-
-    return this.fetch({
+  public updateConfig<T>(
+    data: ResetConfigParams | DataSourceConfigParams | ConfigurationParams<T>
+  ): Promise<Success<void> | Unauthorized> {
+    return this.request({
       url: '/config',
       method: 'POST',
-      body: body,
-      query: query
+      query: {reset: data.reset, sourceIndex: data.sourceIndex},
+      body: data,
     });
   }
 
