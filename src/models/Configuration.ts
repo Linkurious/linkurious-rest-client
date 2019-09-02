@@ -178,6 +178,7 @@ export interface IAccessConfig {
   externalUsersAllowedGroups?: Array<string | number>;
   externalUserDefaultGroupId?: number | number[];
   externalUsersGroupMapping?: GenericObject<number | number[]>;
+  autoRefreshGroupMapping?: boolean;
   azureActiveDirectory: unknown;
   msActiveDirectory?: IMSActiveDirectoryConfig;
   ldap?: ILDAPConfig;
