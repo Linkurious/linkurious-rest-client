@@ -5,6 +5,7 @@
  * - Created on 2019-09-02.
  */
 import { GenericObject, ICaptionsConfig } from "./Configuration";
+import { IDataSourceState, IFullDataSource } from "../../index";
 
 export interface IDataSourceParams {
   sourceKey?: string;
@@ -29,6 +30,14 @@ export interface IGetUserDataSourceParams {
   withCaptions?: boolean;
 }
 
+export interface IGetUserDataSourceResponse {
+  sources: IDataSourceState[];
+}
+
+export interface IGetAdminDataSourceResponse {
+  sources: IFullDataSource[];
+}
+
 
 export interface ISetDataSourceDefaultsParams extends IDataSourceParams {
   styles?: IDataSourceStyle;
@@ -37,4 +46,15 @@ export interface ISetDataSourceDefaultsParams extends IDataSourceParams {
 
 export interface IDeleteDataSourceParams extends IDataSourceParams {
   mergeInto?: string;
+}
+
+export interface IAffectedSource {
+  visualizations: number;
+  folders: number;
+}
+
+
+export interface IDeleteDataSourceResponse {
+  migrated: boolean;
+  affected: IAffectedSource;
 }

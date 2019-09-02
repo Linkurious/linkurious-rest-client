@@ -29,7 +29,7 @@ import {SearchModule} from './module/SearchModule';
 import {VisualizationModule} from './module/VisualizationModule';
 import {Rejection} from './response/errors';
 import {Transformer} from './transformer';
-import { IAdminConfig } from './models/Configuration';
+import { IGetApplicationConfigResponse } from './models/Configuration';
 
 export class Linkurious {
   private readonly _fetcher: Fetcher;
@@ -440,7 +440,7 @@ export class Linkurious {
    * @param {number} [sourceIndex]
    * @returns {Promise<IAppConfig>}
    */
-  public getAppConfig(sourceIndex?: number): Promise<IAdminConfig> {
+  public getAppConfig(sourceIndex?: number): Promise<IGetApplicationConfigResponse> {
     return this._fetcher.fetch({
       method: 'GET',
       query: {sourceIndex: sourceIndex},

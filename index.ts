@@ -254,16 +254,6 @@ export interface IIndexationStatus {
   indexing: indexingStatus;
 }
 
-export interface IDeletedDataSource {
-  migrated: boolean;
-  affected: IAffectedSource;
-}
-
-export interface IAffectedSource {
-  visualizations: number;
-  folders: number;
-}
-
 export interface IBaseGraphConfig {
   alternativeEdgeId?: string;
   alternativeNodeId?: string;

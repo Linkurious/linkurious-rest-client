@@ -4,18 +4,19 @@
  *
  * - Created on 2019-09-02.
  */
-import {Module} from './Module';
+import {Module} from "./Module";
 import {
-  IDataSourceState,
-  IDeletedDataSource,
-  IFullDataSource,
   InvalidParameter,
   Success,
   Unauthorized
-} from '../../index';
+} from "../../index";
 import {
   IConnectDataSourceParams,
-  IDeleteDataSourceParams, IGetUserDataSourceParams,
+  IDeleteDataSourceParams,
+  IDeleteDataSourceResponse,
+  IGetAdminDataSourceResponse,
+  IGetUserDataSourceParams,
+  IGetUserDataSourceResponse,
   IResetDataSourceDefaultsParams,
   ISetDataSourceDefaultsParams
 } from "../models/DataSource";
@@ -25,10 +26,10 @@ export class DataSourceModule extends Module {
    * Get the status of the all data-sources.
    */
   public getUserDataSources(params?: IGetUserDataSourceParams
-  ): Promise<Success<IDataSourceState[]> | Unauthorized | InvalidParameter> {
+  ): Promise<Success<IGetUserDataSourceResponse> | Unauthorized | InvalidParameter> {
     return this.request({
-      url: '/dataSources', // replaces Linkurious.getSourceList
-      method: 'GET',
+      url: "/dataSources", // replaces Linkurious.getSourceList
+      method: "GET",
       query: params
     });
   }
@@ -37,10 +38,10 @@ export class DataSourceModule extends Module {
    * Get information for all data-source, including data-sources that do not exist online.
    */
   public getAdminDataSources()
-    : Promise<Success<IFullDataSource[]> | Unauthorized | InvalidParameter> {
+    : Promise<Success<IGetAdminDataSourceResponse> | Unauthorized | InvalidParameter> {
     return this.fetch({
-      url: '/admin/sources', // replaces AdminModule.getSourceList
-      method: 'GET'
+      url: "/admin/sources", // replaces AdminModule.getSourceList
+      method: "GET"
     });
   }
 
@@ -50,8 +51,8 @@ export class DataSourceModule extends Module {
   public connectDataSource(params: IConnectDataSourceParams
   ): Promise<Success<void> | Unauthorized> | InvalidParameter {
     return this.request({
-      url: '/admin/source/{sourceIndex}/connect', // replaces AdminModule.connectDataSource
-      method: 'POST',
+      url: "/admin/source/{sourceIndex}/connect", // replaces AdminModule.connectDataSource
+      method: "POST",
       path: {sourceIndex: params.sourceIndex}
     });
   }
@@ -62,8 +63,8 @@ export class DataSourceModule extends Module {
   public resetDefaults(params: IResetDataSourceDefaultsParams
   ): Promise<Success<void> | Unauthorized> | InvalidParameter {
     return this.request({
-      url: '/admin/source/{sourceKey}/resetDefaults', // replaces AdminModule.resetDefaults
-      method: 'POST',
+      url: "/admin/source/{sourceKey}/resetDefaults", // replaces AdminModule.resetDefaults
+      method: "POST",
       body: params,
       path: {sourceKey: params.sourceKey}
     });
@@ -75,8 +76,8 @@ export class DataSourceModule extends Module {
   public setDefaults(params: ISetDataSourceDefaultsParams
   ): Promise<Success<void> | Unauthorized> | InvalidParameter{
     return this.fetch({
-      url: '/admin/source/{sourceKey}/setDefaults', // replaces AdminModule.setDefaults
-      method: 'POST',
+      url: "/admin/source/{sourceKey}/setDefaults", // replaces AdminModule.setDefaults
+      method: "POST",
       body: params,
       path: {sourceKey: params.sourceKey}
     });
@@ -89,10 +90,10 @@ export class DataSourceModule extends Module {
    * are not the same in to target data-source.
    */
   public deleteDataSource(params: IDeleteDataSourceParams
-  ): Promise<IDeletedDataSource> {
+  ): Promise<IDeleteDataSourceResponse> {
     return this.fetch({
-      url: '/admin/sources/data/{sourceKey}', // replaces AdminModule.deleteFullDataSource
-      method: 'DELETE',
+      url: "/admin/sources/data/{sourceKey}", // replaces AdminModule.deleteFullDataSource
+      method: "DELETE",
       query: {mergeInto: params.mergeInto},
       path: {sourceKey: params.sourceKey}
     });

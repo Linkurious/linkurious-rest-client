@@ -387,7 +387,7 @@ export interface ICaptionsConfig {
   edges: GenericObject<ICaption>;
 }
 
-export interface IAdminConfig {
+export interface IGetApplicationConfigResponse {
   access: IAccessConfig;
   advanced: IAdvancedConfig;
   alerts?: IAlertsConfig;

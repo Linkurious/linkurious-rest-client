@@ -7,7 +7,6 @@
 
 import {
   IClientState,
-  IDeletedDataSource,
   IFullAdminAlert,
   IFullDataSource,
   IFullUser,
@@ -106,7 +105,7 @@ export class AdminModule extends Module {
   public deleteFullDataSource(data: {
     dataSourceKey: string;
     mergeInto?: string;
-  }): Promise<IDeletedDataSource> {
+  }): Promise<void> { //Promise<IDeletedDataSource> {
     const mergeOptions: any = data.mergeInto ? {mergeInto: data.mergeInto} : undefined;
 
     return this.fetch({

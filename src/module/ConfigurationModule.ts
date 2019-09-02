@@ -6,7 +6,7 @@
  */
 import { Module } from './Module';
 import {
-  IDeleteDataSourceConfigParams, IAdminConfig,
+  IDeleteDataSourceConfigParams, IGetApplicationConfigResponse,
   IConfigurationParams,
   IDataSourceConfigParams,
   IResetConfigParams,
@@ -20,7 +20,7 @@ export class ConfigurationModule extends Module {
    * Return the configuration of the application.
    */
   public getApplicationConfig(params: IGetApplicationConfigParams
-  ): Promise<Success<IAdminConfig> | Unauthorized | InvalidParameter> {
+  ): Promise<Success<IGetApplicationConfigResponse> | Unauthorized | InvalidParameter> {
     return this.request({
       url: '/config', // replaces Linkurious.getAppConfig
       method: 'GET',
