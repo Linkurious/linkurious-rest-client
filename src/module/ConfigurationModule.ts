@@ -22,7 +22,7 @@ export class ConfigurationModule extends Module {
   public getApplicationConfig(params: IGetApplicationConfigParams
   ): Promise<Success<IGetApplicationConfigResponse> | Unauthorized | InvalidParameter> {
     return this.request({
-      url: '/config', // replaces Linkurious.getAppConfig
+      url: '/config',
       method: 'GET',
       query: {sourceIndex: params.sourceIndex}
     });
@@ -36,7 +36,7 @@ export class ConfigurationModule extends Module {
     | IConfigurationParams<T>
   ): Promise<Success<void> | Unauthorized> {
     return this.request({
-      url: '/config', // replaces AdminModule.updateConfig
+      url: '/config',
       method: 'POST',
       query: {reset: params.reset, sourceIndex: params.sourceIndex},
       body: params,
@@ -49,7 +49,7 @@ export class ConfigurationModule extends Module {
   public createDataSourceConfig(params: SelectedDataSourceConfig
   ): Promise<Success<void> | Unauthorized | InvalidParameter> {
     return this.request({
-      url: '/admin/sources/config', // replaces AdminModule.createDataSourceConfig
+      url: '/admin/sources/config',
       method: 'POST',
       body: params
     });
@@ -61,7 +61,7 @@ export class ConfigurationModule extends Module {
   public deleteDataSourceConfig(params: IDeleteDataSourceConfigParams
   ): Promise<Success<void> | Unauthorized>  {
     return this.request({
-      url: '/admin/sources/config/{sourceIndex}',// replace AdminModule.deleteDataSourceConfig
+      url: '/admin/sources/config/{sourceIndex}',
       method: 'DELETE',
       path: {sourceIndex: params.dataSourceIndex}
     });
