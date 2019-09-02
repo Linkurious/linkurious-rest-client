@@ -10,7 +10,7 @@
 import {LkNormalizedEdge, LkNormalizedNode} from './Entities';
 import {IDataSourceParams} from './Model';
 
-export interface ICreateNodeParams extends IDataSourceParams {
+export interface ICreateNodParams extends IDataSourceParams {
   properties?: {[key: string]: unknown};
   categories: string[];
 }
