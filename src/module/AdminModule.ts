@@ -8,7 +8,6 @@
 import {
   IClientState,
   IFullAdminAlert,
-  IFullDataSource,
   IFullUser,
   IGroup,
   IGroupRights,
@@ -16,7 +15,6 @@ import {
 } from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
-import {Utils} from '../http/utils';
 import {
   DataSourceUnavailable,
   Forbidden,
@@ -30,10 +28,6 @@ import {Transformer} from '../transformer';
 
 import {Logger} from './../log/Logger';
 import {Module} from './Module';
-import {
-  IConfigurationParams, IDataSourceConfigParams,
-  IResetConfigParams, SelectedDataSourceConfig
-} from "../models/Configuration";
 
 export class AdminModule extends Module {
   private _logger: Logger;
