@@ -90,9 +90,96 @@ export interface IResetDataSourceDefaultsParams extends IDataSourceParams {
   captions?: boolean;
 }
 
+export enum SelectorType {
+  ANY = 'any',
+  NO_VALUE = 'novalue',
+  NAN = 'nan',
+  RANGE = 'range',
+  IS = 'is'
+}
+
+export interface IRange {
+  '<='?: number;
+  '<'?: number;
+  '>'?: number;
+  '>='?: number;
+}
+
+export enum IOgmaNodeShape {
+  CIRCLE = 'circle',
+  CROSS = 'cross',
+  DIAMOND = 'diamond',
+  PENTAGON = 'pentagon',
+  SQUARE = 'square',
+  STAR = 'star',
+  EQUILATERAL = 'equilateral'
+}
+
+export enum IOgmaEdgeShape {
+  LINE = 'line',
+  ARROW = 'arrow',
+  TAPERED = 'tapered',
+  DASHED = 'dashed',
+  DOTTED = 'dptted'
+}
+
+export interface IStyleRule<T extends (NodeStyle | EdgeStyle)> {
+  index: number,
+  type: SelectorType,
+  itemType?: string,
+  input?: string[],
+  value: string | number | boolean | Array<unknown> | IRange,
+  style: T
+}
+
+export interface IColor {
+  type: 'auto';
+  input: string[];
+  ignoreCase?: boolean;
+}
+
+export interface IIcon {
+  content?: string | number;
+  font?: string;
+  color?: string | IColor;
+  scale?: number;
+  minVisibleSize?: number;
+  // @backward-compatibility replaced by minVisibleSize in 2.5.0
+  threshold?: number;
+}
+
+export interface IImageDataValue {
+  type: 'data',
+  path: string[]
+}
+
+export interface IImage {
+  url: string | IImageDataValue;
+  scale?: number;
+  fit?: boolean;
+  tile?: boolean;
+  minVisibleSize?: number,
+  // @backward-compatibility replaced by minVisibleSize in 2.5.0
+  threshold?: number
+}
+
+export interface NodeStyle {
+  size?: string | number,
+  color?: string | IColor,
+  icon?: string | number | IIcon,
+  image?: string | IImage,
+  shape?: IOgmaNodeShape
+}
+
+export interface EdgeStyle {
+  color?: string | IColor,
+  width?: string | number
+  shape?: IOgmaEdgeShape
+}
+
 export interface IDataSourceStyle {
-  node: Array<GenericObject<unknown>>;
-  edge: Array<GenericObject<unknown>>;
+  node: Array<IStyleRule<NodeStyle>>;
+  edge: Array<IStyleRule<EdgeStyle>>;
 }
 
 export interface IGetUserDataSourceParams {
