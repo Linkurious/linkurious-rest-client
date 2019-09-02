@@ -44,6 +44,8 @@ export type IGetCustomActionsResponse = ICustomAction[];
 export interface ICustomAction {
   sourceKey: string;
   id: number;
+  createdAt: string;
+  updatedAt: string;
   name: string;
   urlTemplate: string;
   description: string;
