@@ -39,7 +39,7 @@ export class DataSourceModule extends Module {
    */
   public getAdminDataSources()
     : Promise<Success<IGetAdminDataSourceResponse> | Unauthorized | InvalidParameter> {
-    return this.fetch({
+    return this.request({
       url: "/admin/sources", // replaces AdminModule.getDataSourcesList
       method: "GET"
     });
