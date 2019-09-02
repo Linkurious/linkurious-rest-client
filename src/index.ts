@@ -11,7 +11,7 @@ import {
   IClientState,
   IFullUser,
   ILoggerDriver, InvalidParameter, Success, Unauthorized
-} from "../index";
+} from '../index';
 
 import {Logger, LogLevel} from './log/Logger';
 import {Fetcher} from './http/fetcher';
