@@ -33,18 +33,18 @@ import {Transformer} from '../transformer';
 import {Logger} from './../log/Logger';
 import {Module} from './Module';
 import {
-  AzureSearchConfig,
-  ConfigurationParams, CosmosDbConfig,
-  DataSourceConfig,
-  DataSourceConfigParams,
+  IAzureSearchConfig,
+  IConfigurationParams, ICosmosDbConfig,
+  IDataSourceConfig,
+  IDataSourceConfigParams,
   InternalIndexConfig,
-  JanusGraphConfig,
-  JanusGraphForComposeConfig,
-  JanusGraphSearchConfig,
-  Neo2esConfig,
-  Neo4jConfig,
-  Neo4jSearchConfig,
-  ResetConfigParams
+  IJanusGraphConfig,
+  IJanusGraphForComposeConfig,
+  IJanusGraphSearchConfig,
+  INeo2esConfig,
+  INeo4jConfig,
+  INeo4jSearchConfig,
+  IResetConfigParams, SelectedDataSourceConfig
 } from "../models/Configuration";
 
 export class AdminModule extends Module {
@@ -85,15 +85,7 @@ export class AdminModule extends Module {
    * @param {ICreateDataSource} data
    * @returns {Promise<boolean>}
    */
-  public createDataSourceConfig(data: DataSourceConfig<Neo4jConfig, Neo4jSearchConfig> |
-    DataSourceConfig<Neo4jConfig, InternalIndexConfig> |
-    DataSourceConfig<Neo4jConfig, Neo2esConfig> |
-    DataSourceConfig<JanusGraphConfig, JanusGraphSearchConfig> |
-    DataSourceConfig<JanusGraphConfig, InternalIndexConfig> |
-    DataSourceConfig<CosmosDbConfig, AzureSearchConfig> |
-    DataSourceConfig<CosmosDbConfig, InternalIndexConfig> |
-    DataSourceConfig<JanusGraphForComposeConfig, JanusGraphSearchConfig> |
-    DataSourceConfig<JanusGraphForComposeConfig, InternalIndexConfig>
+  public createDataSourceConfig(data: SelectedDataSourceConfig
   ): Promise<Success<void> | Unauthorized | InvalidParameter> {
     return this.request({
       url: '/admin/sources/config',
@@ -335,7 +327,7 @@ export class AdminModule extends Module {
    * Sets the configuration of the application.
    */
   public updateConfig<T>(
-    data: ResetConfigParams | DataSourceConfigParams | ConfigurationParams<T>
+    data: IResetConfigParams | IDataSourceConfigParams | IConfigurationParams<T>
   ): Promise<Success<void> | Unauthorized> {
     return this.request({
       url: '/config',

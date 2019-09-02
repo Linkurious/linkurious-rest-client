@@ -6,30 +6,30 @@
  */
 
 import {
-  IAppConfig,
   IAppStatus,
   IAppVersion,
   IClientState,
   IDataSourceState,
   IFullUser,
   ILoggerDriver
-} from '../index';
+} from "../index";
 
-import {Logger, LogLevel} from './log/Logger';
-import {Fetcher} from './http/fetcher';
-import {FetcherFactory} from './http/FetcherFactory';
-import {ErrorListener} from './errorListener';
-import {AdminModule} from './module/AdminModule';
-import {AlertModule} from './module/AlertModule';
-import {EdgeModule} from './module/EdgeModule';
-import {GraphModule} from './module/GraphModule';
-import {MyModule} from './module/MyModule';
-import {NodeModule} from './module/NodeModule';
-import {SchemaModule} from './module/SchemaModule';
-import {SearchModule} from './module/SearchModule';
-import {VisualizationModule} from './module/VisualizationModule';
-import {Rejection} from './response/errors';
-import {Transformer} from './transformer';
+import {Logger, LogLevel} from "./log/Logger";
+import {Fetcher} from "./http/fetcher";
+import {FetcherFactory} from "./http/FetcherFactory";
+import {ErrorListener} from "./errorListener";
+import {AdminModule} from "./module/AdminModule";
+import {AlertModule} from "./module/AlertModule";
+import {EdgeModule} from "./module/EdgeModule";
+import {GraphModule} from "./module/GraphModule";
+import {MyModule} from "./module/MyModule";
+import {NodeModule} from "./module/NodeModule";
+import {SchemaModule} from "./module/SchemaModule";
+import {SearchModule} from "./module/SearchModule";
+import {VisualizationModule} from "./module/VisualizationModule";
+import {Rejection} from "./response/errors";
+import {Transformer} from "./transformer";
+import { IAdminConfig } from "./models/Configuration";
 
 export class Linkurious {
   private readonly _fetcher: Fetcher;
@@ -183,9 +183,9 @@ export class Linkurious {
    */
   public report(): void {
     this._fetcher.fetch({
-      url: '/admin/report',
+      url: "/admin/report",
       ignoreContentType: true,
-      method: 'GET'
+      method: "GET"
     });
   }
 
@@ -206,8 +206,8 @@ export class Linkurious {
     context?: any;
   }): Promise<void> {
     return this._fetcher.fetch({
-      url: '/analytics',
-      method: 'POST',
+      url: "/analytics",
+      method: "POST",
       body: data
     });
   }
@@ -219,9 +219,9 @@ export class Linkurious {
    * @returns {Promise<boolean>}
    */
   public login(data: {usernameOrEmail: string; password: string}): Promise<any> {
-    const config: {url: string; method: 'POST'; body: any} = {
-      url: '/auth/login',
-      method: 'POST',
+    const config: {url: string; method: "POST"; body: any} = {
+      url: "/auth/login",
+      method: "POST",
       body: data
     };
 
@@ -244,8 +244,8 @@ export class Linkurious {
 
   public OAuthAuthentication(data: {code: string; state: string}): Promise<boolean> {
     return this._fetcher.fetch({
-      url: '/auth/sso/return',
-      method: 'GET',
+      url: "/auth/sso/return",
+      method: "GET",
       query: data
     });
   }
@@ -258,12 +258,12 @@ export class Linkurious {
   public logout(): Promise<string> {
     return this._fetcher
       .fetch({
-        url: '/auth/logout',
-        method: 'GET'
+        url: "/auth/logout",
+        method: "GET"
       })
       .then(() => {
         this._clientState.user = undefined;
-        return 'user disconnected';
+        return "user disconnected";
       });
   }
 
@@ -282,8 +282,8 @@ export class Linkurious {
   }): Promise<IFullUser> {
     return this._fetcher
       .fetch({
-        url: '/auth/me',
-        method: 'PATCH',
+        url: "/auth/me",
+        method: "PATCH",
         body: data
       })
       .then((res: IFullUser) => {
@@ -314,8 +314,8 @@ export class Linkurious {
   }): Promise<IDataSourceState[]> {
     return this._fetcher
       .fetch({
-        url: '/dataSources',
-        method: 'GET',
+        url: "/dataSources",
+        method: "GET",
         query: data
       })
       .then((res: any) => res.sources);
@@ -341,7 +341,7 @@ export class Linkurious {
     }>
   ): IDataSourceState {
     for (const sourceState of sourceList) {
-      if (this.storeSource(sourceState, 'connected', true)) {
+      if (this.storeSource(sourceState, "connected", true)) {
         return this._clientState.currentSource;
       } else {
         this._clientState.currentSource = {
@@ -414,8 +414,8 @@ export class Linkurious {
   public getAppStatus(): Promise<IAppStatus> {
     return this._fetcher
       .fetch({
-        url: '/status',
-        method: 'GET'
+        url: "/status",
+        method: "GET"
       })
       .then((res: any) => {
         return res.status;
@@ -429,8 +429,8 @@ export class Linkurious {
    */
   public getAppVersion(): Promise<IAppVersion> {
     return this._fetcher.fetch({
-      method: 'GET',
-      url: '/version'
+      method: "GET",
+      url: "/version"
     });
   }
 
@@ -440,11 +440,11 @@ export class Linkurious {
    * @param {number} [sourceIndex]
    * @returns {Promise<IAppConfig>}
    */
-  public getAppConfig(sourceIndex?: number): Promise<IAppConfig> {
+  public getAppConfig(sourceIndex?: number): Promise<IAdminConfig> {
     return this._fetcher.fetch({
-      method: 'GET',
+      method: "GET",
       query: {sourceIndex: sourceIndex},
-      url: '/config'
+      url: "/config"
     });
   }
 
@@ -457,11 +457,11 @@ export class Linkurious {
   public getCustomFiles(data?: {
     root?: string;
     extensions?: string;
-  }): Promise<{results: Array<{path: string; name: 'string'}>}> {
+  }): Promise<{results: Array<{path: string; name: "string"}>}> {
     return this._fetcher.fetch({
-      method: 'GET',
+      method: "GET",
       query: data,
-      url: '/customFiles'
+      url: "/customFiles"
     });
   }
 
@@ -471,16 +471,16 @@ export class Linkurious {
   public restartServer(): Promise<string> {
     return this._fetcher
       .fetch({
-        method: 'POST',
-        url: '/admin/restart'
+        method: "POST",
+        url: "/admin/restart"
       })
       .then((response: any) => response.url);
   }
 
   public track(data: any): Promise<any> {
     return this._fetcher.fetch({
-      method: 'POST',
-      url: '/track',
+      method: "POST",
+      url: "/track",
       body: data
     });
   }
