@@ -29,7 +29,6 @@ import {SearchModule} from './module/SearchModule';
 import {VisualizationModule} from './module/VisualizationModule';
 import {Rejection} from './response/errors';
 import {Transformer} from './transformer';
-import { IGetApplicationConfigResponse } from './models/Configuration';
 
 export class Linkurious {
   private readonly _fetcher: Fetcher;
@@ -304,24 +303,6 @@ export class Linkurious {
   }
 
   /**
-   * Get the status of the all data-sources.
-   *
-   * @returns {Promise<IDataSourceState>}
-   */
-  public getSourceList(data?: {
-    withStyles?: boolean;
-    withCaptions?: boolean;
-  }): Promise<IDataSourceState[]> {
-    return this._fetcher
-      .fetch({
-        url: '/dataSources',
-        method: 'GET',
-        query: data
-      })
-      .then((res: any) => res.sources);
-  }
-
-  /**
    * Set the currentSource
    *
    * @param {Array<Object>}sourceList
@@ -431,20 +412,6 @@ export class Linkurious {
     return this._fetcher.fetch({
       method: 'GET',
       url: '/version'
-    });
-  }
-
-  /**
-   * Return the configuration of the application.
-   *
-   * @param {number} [sourceIndex]
-   * @returns {Promise<IAppConfig>}
-   */
-  public getAppConfig(sourceIndex?: number): Promise<IGetApplicationConfigResponse> {
-    return this._fetcher.fetch({
-      method: 'GET',
-      query: {sourceIndex: sourceIndex},
-      url: '/config'
     });
   }
 

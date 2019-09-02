@@ -36,7 +36,7 @@ export class ConfigurationModule extends Module {
     | IConfigurationParams<T>
   ): Promise<Success<void> | Unauthorized> {
     return this.request({
-      url: '/config', // replaces Linkurious.updateAppConfig
+      url: '/config', // replaces AdminModule.updateConfig
       method: 'POST',
       query: {reset: params.reset, sourceIndex: params.sourceIndex},
       body: params,

@@ -54,83 +54,6 @@ export class AdminModule extends Module {
   }
 
   /**
-   * Connect a disconnected data-source
-   *
-   * @param {number} dataSourceIndex
-   * @returns {Promise<boolean>}
-   */
-  public connectDataSource(dataSourceIndex?: number): Promise<any> {
-    return this.fetch({
-      url: '/admin/source/{dataSourceIndex}/connect',
-      method: 'POST',
-      dataSource: dataSourceIndex
-    });
-  }
-
-  /**
-   * Create a new data-source configuration (contains a graph database configuration and an index configuration).
-   */
-  public createDataSourceConfig(data: SelectedDataSourceConfig
-  ): Promise<Success<void> | Unauthorized | InvalidParameter> {
-    return this.request({
-      url: '/admin/sources/config',
-      method: 'POST',
-      body: data
-    });
-  }
-
-  /**
-   * Delete a data-source configuration that has currently no connected data-source.
-   *
-   * @param {number} [dataSourceIndex]
-   * @returns {Promise<boolean>}
-   */
-  public deleteDataSourceConfig(dataSourceIndex?: number): Promise<boolean> {
-    return this.fetch({
-      url: '/admin/sources/config/{dataSourceIndex}',
-      method: 'DELETE',
-      dataSource: dataSourceIndex
-    }).then(() => true);
-  }
-
-  /**
-   * Delete all data of data-source (visualizations, access-rights, widgets, full-text indexes).
-   * Optionally merge visualizations and widgets into another data-source instead of deleting them.
-   * Warning: when merging into another data-source, visualizations may break if node and edge IDs
-   * are not the same in to target data-source.
-   *
-   * @param {Object} data
-   * @returns {Promise<IDeletedDataSource>}
-   */
-  public deleteFullDataSource(data: {
-    dataSourceKey: string;
-    mergeInto?: string;
-  }): Promise<void> { //Promise<IDeletedDataSource> {
-    const mergeOptions: any = data.mergeInto ? {mergeInto: data.mergeInto} : undefined;
-
-    return this.fetch({
-      url: '/admin/sources/data/{sourceKey}',
-      method: 'DELETE',
-      query: Utils.fixSnakeCase(mergeOptions),
-      path: {
-        sourceKey: data.dataSourceKey
-      }
-    });
-  }
-
-  /**
-   * Get information for all data-source, including data-sources that do not exist online.
-   *
-   * @returns {Promise<Array<IFullDataSource>>}
-   */
-  public getDataSourcesList(): Promise<IFullDataSource[]> {
-    return this.fetch({
-      url: '/admin/sources',
-      method: 'GET'
-    });
-  }
-
-  /**
    * Add a new user to the application.
    *
    * @param {Object} data
@@ -309,20 +232,6 @@ export class AdminModule extends Module {
   }
 
   /**
-   * Sets the configuration of the application.
-   */
-  public updateConfig<T>(
-    data: IResetConfigParams | IDataSourceConfigParams | IConfigurationParams<T>
-  ): Promise<Success<void> | Unauthorized> {
-    return this.request({
-      url: '/config',
-      method: 'POST',
-      query: {reset: data.reset, sourceIndex: data.sourceIndex},
-      body: data,
-    });
-  }
-
-  /**
    * Request to reindex the graph database. One may want to do it after editing the index configuration.
    *
    * @returns {Promise<boolean>}
@@ -469,53 +378,6 @@ export class AdminModule extends Module {
     return this.fetch({
       url: '/admin/{sourceKey}/alerts/{id}',
       method: 'DELETE',
-      body: data,
-      path: {sourceKey: dataSourceKey}
-    });
-  }
-
-  /**
-   * reset all default styles for a dataSource
-   *
-   * @param {Object} data
-   * @param {number}dataSourceKey
-   * @returns {Promise<boolean>}
-   */
-  public resetDefaults(
-    data: {
-      design?: boolean;
-      captions?: boolean;
-    },
-    dataSourceKey?: string
-  ): Promise<void> {
-    return this.fetch({
-      url: '/admin/source/{sourceKey}/resetDefaults',
-      method: 'POST',
-      body: data,
-      path: {sourceKey: dataSourceKey}
-    });
-  }
-
-  /**
-   * reset all default styles for a dataSource
-   *
-   * @param {Object} data
-   * @param {number}dataSourceKey
-   * @returns {Promise<boolean>}
-   */
-  public setDefaults(
-    data: {
-      styles?: {node: any[]; edge: any[]};
-      captions?: {
-        node: {[key: string]: {active: boolean; displayName: boolean; properties: string[]}};
-        edge: {[key: string]: {active: boolean; displayName: boolean; properties: string[]}};
-      };
-    },
-    dataSourceKey?: string
-  ): Promise<void> {
-    return this.fetch({
-      url: '/admin/source/{sourceKey}/setDefaults',
-      method: 'POST',
       body: data,
       path: {sourceKey: dataSourceKey}
     });
