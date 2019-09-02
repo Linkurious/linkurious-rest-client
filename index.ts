@@ -50,6 +50,7 @@ import {
 } from './src/response/errors';
 import {Success} from './src/response/success';
 import {SuperAgent} from './src/http/DefaultHttpDriver';
+import { IDataSource, IUserDataSource } from "./src/models/DataSource";
 
 export type indexingStatus = 'ongoing' | 'needed' | 'done' | 'unknown';
 export type EdgeOrientation = 'in' | 'out' | 'both';
@@ -97,7 +98,7 @@ export interface RequestConfig<R, T> extends FetcherConfig {
 
 export interface IClientState {
   user: IFullUser | undefined;
-  currentSource: IDataSourceState;
+  currentSource: IUserDataSource;
   guestMode: boolean;
 }
 
@@ -203,46 +204,6 @@ export interface IGroupRights {
 }
 
 // DATA-SOURCE
-
-export interface IDataSource {
-  name: string;
-  key: string;
-  configIndex: number;
-}
-
-export interface IDataSourceState {
-  name: string;
-  key: string;
-  configIndex: number;
-  connected: boolean;
-  state: string;
-  reason: string;
-  error?: string;
-  features: any;
-  settings: any;
-}
-
-export enum DataSourceStatus {
-  READY = 'ready',
-  NEED_REINDEX = 'needReindex',
-  NEED_FIRST_INDEX = 'needFirstIndex',
-  NEED_CONFIG = 'needConfig',
-  INDEXING = 'indexing',
-  DICOVERING_SCHEMA = 'discoveringSchema',
-  OFFLINE = 'offline',
-  CONNECTING = 'connecting'
-}
-
-export interface IFullDataSource extends IDataSource {
-  state: DataSourceStatus;
-  lastSeen: string;
-  lastIndexed: string;
-  lastSampled: string;
-  host: string;
-  port: string;
-  storeId: string;
-  visualizationCount: number;
-}
 
 export interface IIndexationStatus {
   indexing_progress: number;
