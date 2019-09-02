@@ -19,7 +19,7 @@ export interface IResetConfigParams extends IConfigurationParams<undefined> {
   reset: true;
 }
 
-export interface IDataSourceConfigParams extends IConfigurationParams<IDataSourceConfig> {
+export interface IDataSourceConfigParams extends IConfigurationParams<SelectedDataSourceConfig> {
   sourceIndex: number;
   path: 'dataSource'
 }
