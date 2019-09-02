@@ -156,7 +156,7 @@ export class Linkurious {
   }
 
   /**
-   * returns {ConfigurationModule}
+   * @returns {ConfigurationModule}
    */
   get configuration(): ConfigurationModule {
     return this._configuration;
