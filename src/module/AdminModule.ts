@@ -7,7 +7,6 @@
 
 import {
   IClientState,
-  ICreateDataSource, ICreatePropertyResponse,
   IDeletedDataSource,
   IFullAdminAlert,
   IFullDataSource,
@@ -33,17 +32,7 @@ import {Transformer} from '../transformer';
 import {Logger} from './../log/Logger';
 import {Module} from './Module';
 import {
-  IAzureSearchConfig,
-  IConfigurationParams, ICosmosDbConfig,
-  IDataSourceConfig,
-  IDataSourceConfigParams,
-  InternalIndexConfig,
-  IJanusGraphConfig,
-  IJanusGraphForComposeConfig,
-  IJanusGraphSearchConfig,
-  INeo2esConfig,
-  INeo4jConfig,
-  INeo4jSearchConfig,
+  IConfigurationParams, IDataSourceConfigParams,
   IResetConfigParams, SelectedDataSourceConfig
 } from "../models/Configuration";
 
@@ -81,9 +70,6 @@ export class AdminModule extends Module {
 
   /**
    * Create a new data-source configuration (contains a graph database configuration and an index configuration).
-   *
-   * @param {ICreateDataSource} data
-   * @returns {Promise<boolean>}
    */
   public createDataSourceConfig(data: SelectedDataSourceConfig
   ): Promise<Success<void> | Unauthorized | InvalidParameter> {
