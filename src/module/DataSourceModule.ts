@@ -74,8 +74,8 @@ export class DataSourceModule extends Module {
    * Set all default styles for a dataSource.
    */
   public setDefaults(params: ISetDataSourceDefaultsParams
-  ): Promise<Success<void> | Unauthorized> | InvalidParameter{
-    return this.fetch({
+  ): Promise<Success<void> | Unauthorized | InvalidParameter>{
+    return this.request({
       url: "/admin/source/{sourceKey}/setDefaults", // replaces AdminModule.setDefaults
       method: "POST",
       body: params,
@@ -90,8 +90,8 @@ export class DataSourceModule extends Module {
    * are not the same in to target data-source.
    */
   public deleteDataSource(params: IDeleteDataSourceParams
-  ): Promise<IDeleteDataSourceResponse> {
-    return this.fetch({
+  ): Promise<Success<IDeleteDataSourceResponse> | Unauthorized | InvalidParameter> {
+    return this.request({
       url: "/admin/sources/data/{sourceKey}", // replaces AdminModule.deleteFullDataSource
       method: "DELETE",
       query: {mergeInto: params.mergeInto},
