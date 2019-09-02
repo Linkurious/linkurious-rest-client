@@ -7,6 +7,8 @@
 
 // TS2019-DONE
 
+import {IPersistedItem} from './Model';
+
 // Create
 export interface ICreateCustomActionParams {
   sourceKey: string;
@@ -41,11 +43,8 @@ export interface IGetCustomActionsParams {
 export type IGetCustomActionsResponse = ICustomAction[];
 
 // Types
-export interface ICustomAction {
+export interface ICustomAction extends IPersistedItem {
   sourceKey: string;
-  id: number;
-  createdAt: string;
-  updatedAt: string;
   name: string;
   urlTemplate: string;
   description: string;
