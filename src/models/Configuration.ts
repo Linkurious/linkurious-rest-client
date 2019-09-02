@@ -4,7 +4,7 @@
  *
  * - Created on 2019-08-30.
  */
-interface GenericObject<T> {
+export interface GenericObject<T> {
   [key: string]: T
 }
 
@@ -31,6 +31,14 @@ export interface IDataSourceConfig<G = IGraphVendorConfig, I = IIndexVendorConfi
   readonly?: boolean;
   graphdb: G;
   index: I;
+}
+
+export interface IGetApplicationConfigParams {
+  sourceIndex?: number
+}
+
+export interface IDeleteDataSourceConfigParams {
+  dataSourceIndex?: number;
 }
 
 export type SelectedDataSourceConfig =
@@ -384,7 +392,7 @@ export interface IAdminConfig {
   advanced: IAdvancedConfig;
   alerts?: IAlertsConfig;
   auditTrail: IAuditTrailConfig;
-  dataSource: IDataSourceConfig;
+  dataSource: SelectedDataSourceConfig;
   db: IDatabaseConfig;
   defaultPreferences: IUserPreferenceConfig;
   defaultCaptions?: ICaptionsConfig

@@ -7,7 +7,7 @@
 
 // TS2019-DONE
 
-import {IDataSourceParams} from './Model';
+import {IDataSourceParams} from './DataSource';
 
 export interface IMergeVisualizationsParams {
   from: number;

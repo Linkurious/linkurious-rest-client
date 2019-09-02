@@ -222,10 +222,22 @@ export interface IDataSourceState {
   settings: any;
 }
 
+export enum DataSourceStatus {
+  READY = 'ready',
+  NEED_REINDEX = 'needReindex',
+  NEED_FIRST_INDEX = 'needFirstIndex',
+  NEED_CONFIG = 'needConfig',
+  INDEXING = 'indexing',
+  DICOVERING_SCHEMA = 'discoveringSchema',
+  OFFLINE = 'offline',
+  CONNECTING = 'connecting'
+}
+
 export interface IFullDataSource extends IDataSource {
-  state: string;
+  state: DataSourceStatus;
   lastSeen: string;
-  indexedDate: string;
+  lastIndexed: string;
+  lastSampled: string;
   host: string;
   port: string;
   storeId: string;

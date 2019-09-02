@@ -1,0 +1,69 @@
+/**
+ * LINKURIOUS CONFIDENTIAL
+ * Copyright Linkurious SAS 2012 - 2019
+ *
+ * - Created on 2019-09-02.
+ */
+import { Module } from './Module';
+import {
+  IDeleteDataSourceConfigParams, IAdminConfig,
+  IConfigurationParams,
+  IDataSourceConfigParams,
+  IResetConfigParams,
+  SelectedDataSourceConfig, IGetApplicationConfigParams
+} from '../models/Configuration';
+import { Success } from '../response/success';
+import { InvalidParameter, Unauthorized } from '../response/errors';
+
+export class ConfigurationModule extends Module {
+  /**
+   * Return the configuration of the application.
+   */
+  public getApplicationConfig(params: IGetApplicationConfigParams
+  ): Promise<Success<IAdminConfig> | Unauthorized | InvalidParameter> {
+    return this.request({
+      url: '/config', // replaces Linkurious.getAppConfig
+      method: 'GET',
+      query: {sourceIndex: params.sourceIndex}
+    });
+  }
+
+  /**
+   * Sets the configuration of the application.
+   */
+  public updateApplicationConfig<T>(params: IResetConfigParams
+    | IDataSourceConfigParams
+    | IConfigurationParams<T>
+  ): Promise<Success<void> | Unauthorized> {
+    return this.request({
+      url: '/config', // replaces Linkurious.updateAppConfig
+      method: 'POST',
+      query: {reset: params.reset, sourceIndex: params.sourceIndex},
+      body: params,
+    });
+  }
+
+  /**
+   * Create a new data-source configuration (contains a graph database configuration and an index configuration).
+   */
+  public createDataSourceConfig(params: SelectedDataSourceConfig
+  ): Promise<Success<void> | Unauthorized | InvalidParameter> {
+    return this.request({
+      url: '/admin/sources/config', // replaces AdminModule.createDataSourceConfig
+      method: 'POST',
+      body: params
+    });
+  }
+
+  /**
+   * Delete a data-source configuration that has currently no connected data-source.
+   */
+  public deleteDataSourceConfig(params: IDeleteDataSourceConfigParams
+  ): Promise<Success<void> | Unauthorized>  {
+    return this.request({
+      url: '/admin/sources/config/{sourceIndex}',// replace AdminModule.deleteDataSourceConfig
+      method: 'DELETE',
+      path: {sourceIndex: params.dataSourceIndex}
+    });
+  }
+}

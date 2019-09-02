@@ -14,7 +14,7 @@ import {
   IGroup,
   IGroupRights,
   IIndexationStatus
-} from "../../index";
+} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
 import {Utils} from '../http/utils';

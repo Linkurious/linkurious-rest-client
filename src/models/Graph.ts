@@ -8,7 +8,7 @@
 // TS2019-DONE
 
 import {LkNormalizedEdge, LkNormalizedNode} from './Entities';
-import {IDataSourceParams} from './Model';
+import {IDataSourceParams} from './DataSource';
 
 export interface ICreateNodeParams extends IDataSourceParams {
   properties: {[key: string]: unknown};

@@ -6,11 +6,6 @@
  */
 
 // TS2019-DONE
-
-export interface IDataSourceParams {
-  sourceKey?: string;
-}
-
 export interface IPersistedItem {
   id: number;
   createdAt: string;
