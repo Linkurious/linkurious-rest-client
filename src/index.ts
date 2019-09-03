@@ -10,7 +10,10 @@ import {
   IAppVersion,
   IClientState,
   IFullUser,
-  ILoggerDriver, InvalidParameter, Success, Unauthorized
+  ILoggerDriver,
+  InvalidParameter,
+  Success,
+  Unauthorized
 } from '../index';
 
 import {Logger, LogLevel} from './log/Logger';
@@ -28,9 +31,9 @@ import {SearchModule} from './module/SearchModule';
 import {VisualizationModule} from './module/VisualizationModule';
 import {Rejection} from './response/errors';
 import {Transformer} from './transformer';
-import { IGetUserDataSourceResponse, IUserDataSource } from './models/DataSource';
-import { DataSourceModule } from './module/DataSourceModule';
-import { ConfigurationModule } from './module/ConfigurationModule';
+import {IGetUserDataSourceResponse, IUserDataSource} from './models/DataSource';
+import {DataSourceModule} from './module/DataSourceModule';
+import {ConfigurationModule} from './module/ConfigurationModule';
 import {CustomActionModule} from './module/CustomActionModule';
 
 export class Linkurious {
@@ -91,7 +94,11 @@ export class Linkurious {
     this._alert = new AlertModule(this._fetcher, this._transformer, this._errorListener);
     this._schema = new SchemaModule(this._fetcher, this._transformer, this._errorListener);
     this._dataSource = new DataSourceModule(this._fetcher, this._transformer, this._errorListener);
-    this._configuration = new ConfigurationModule(this._fetcher, this._transformer, this._errorListener);
+    this._configuration = new ConfigurationModule(
+      this._fetcher,
+      this._transformer,
+      this._errorListener
+    );
     this._customAction = new CustomActionModule(
       this._fetcher,
       this._transformer,
@@ -330,12 +337,13 @@ export class Linkurious {
    *
    * @returns {Promise<any>}
    */
-  public async initSources(data?: {withStyles?: boolean; withCaptions?: boolean}
-  ): Promise<Success<IUserDataSource> | Unauthorized | InvalidParameter> {
+  public async initSources(data?: {
+    withStyles?: boolean;
+    withCaptions?: boolean;
+  }): Promise<Success<IUserDataSource> | Unauthorized | InvalidParameter> {
     const response = await this.dataSource.getUserDataSources(data);
     if (response.isSuccess()) {
-      return new Success(await this
-        .storeDefaultCurrentSource(response.response!.sources));
+      return new Success(await this.storeDefaultCurrentSource(response.response!.sources));
     }
     return response;
   }
@@ -346,8 +354,7 @@ export class Linkurious {
    * @param {Array<Object>}sourceList
    * @return {IDataSource}
    */
-  public storeDefaultCurrentSource(sourceList: IUserDataSource[]
-  ): IUserDataSource {
+  public storeDefaultCurrentSource(sourceList: IUserDataSource[]): IUserDataSource {
     for (const sourceState of sourceList) {
       if (this.storeSource(sourceState, 'connected', true)) {
         return this._clientState.currentSource;

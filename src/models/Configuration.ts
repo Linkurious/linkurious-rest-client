@@ -5,7 +5,7 @@
  * - Created on 2019-08-30.
  */
 export interface GenericObject<T> {
-  [key: string]: T
+  [key: string]: T;
 }
 
 export interface IConfigurationParams<T> {
@@ -21,7 +21,7 @@ export interface IResetConfigParams extends IConfigurationParams<undefined> {
 
 export interface IDataSourceConfigParams extends IConfigurationParams<SelectedDataSourceConfig> {
   sourceIndex: number;
-  path: 'dataSource'
+  path: 'dataSource';
 }
 
 export interface IDataSourceConfig<G = IGraphVendorConfig, I = IIndexVendorConfig> {
@@ -34,7 +34,7 @@ export interface IDataSourceConfig<G = IGraphVendorConfig, I = IIndexVendorConfi
 }
 
 export interface IGetApplicationConfigParams {
-  sourceIndex?: number
+  sourceIndex?: number;
 }
 
 export interface IDeleteDataSourceConfigParams {
@@ -42,15 +42,15 @@ export interface IDeleteDataSourceConfigParams {
 }
 
 export type SelectedDataSourceConfig =
-  IDataSourceConfig<INeo4jConfig, INeo4jSearchConfig> |
-  IDataSourceConfig<INeo4jConfig, InternalIndexConfig> |
-  IDataSourceConfig<INeo4jConfig, INeo2esConfig> |
-  IDataSourceConfig<IJanusGraphConfig, IJanusGraphSearchConfig> |
-  IDataSourceConfig<IJanusGraphConfig, InternalIndexConfig> |
-  IDataSourceConfig<ICosmosDbConfig, IAzureSearchConfig> |
-  IDataSourceConfig<ICosmosDbConfig, InternalIndexConfig> |
-  IDataSourceConfig<IJanusGraphForComposeConfig, IJanusGraphSearchConfig> |
-  IDataSourceConfig<IJanusGraphForComposeConfig, InternalIndexConfig>;
+  | IDataSourceConfig<INeo4jConfig, INeo4jSearchConfig>
+  | IDataSourceConfig<INeo4jConfig, InternalIndexConfig>
+  | IDataSourceConfig<INeo4jConfig, INeo2esConfig>
+  | IDataSourceConfig<IJanusGraphConfig, IJanusGraphSearchConfig>
+  | IDataSourceConfig<IJanusGraphConfig, InternalIndexConfig>
+  | IDataSourceConfig<ICosmosDbConfig, IAzureSearchConfig>
+  | IDataSourceConfig<ICosmosDbConfig, InternalIndexConfig>
+  | IDataSourceConfig<IJanusGraphForComposeConfig, IJanusGraphSearchConfig>
+  | IDataSourceConfig<IJanusGraphForComposeConfig, InternalIndexConfig>;
 
 export type InternalIndexConfig = IElasticSearchConfig | IElasticSearch2Config;
 
@@ -170,8 +170,8 @@ export interface INeo4jSearchConfig extends IIndexVendorConfig {
 }
 
 export enum DefaultPage {
-  DASHBOARD = "dashboard",
-  WORKSPACE = "workspace"
+  DASHBOARD = 'dashboard',
+  WORKSPACE = 'workspace'
 }
 
 export interface IAccessConfig {
@@ -258,7 +258,6 @@ export interface IHttpServerConfig {
   certificatePassphrase?: string;
 }
 
-
 export interface ILDAPConfig {
   enabled?: boolean;
   url?: string;
@@ -271,7 +270,6 @@ export interface ILDAPConfig {
   authorizedGroups?: unknown;
   tls?: ITLSOptions & GenericObject<unknown>;
 }
-
 
 export interface ILeafletConfig {
   name: string;
@@ -288,7 +286,6 @@ export interface ILeafletConfig {
    */
   overlay?: boolean;
 }
-
 
 export interface ITLSOptions {
   rejectUnauthorized?: boolean;
@@ -322,17 +319,17 @@ export interface IOAuth2Config {
 }
 
 export declare enum AntiAliasing {
-  SUPER_SAMPLING = "super-sampling",
-  NATIVE = "native",
-  NONE = "none"
+  SUPER_SAMPLING = 'super-sampling',
+  NATIVE = 'native',
+  NONE = 'none'
 }
 export declare enum OgmaRenderer {
-  WEBGL = "webgl",
-  CANVAS = "canvas"
+  WEBGL = 'webgl',
+  CANVAS = 'canvas'
 }
 export declare enum ImgCrossOrigin {
-  ANONYMOUS = "anonymous",
-  USE_CREDENTIALS = "use-credentials"
+  ANONYMOUS = 'anonymous',
+  USE_CREDENTIALS = 'use-credentials'
 }
 
 export interface IWebGLConfig {
@@ -345,7 +342,6 @@ export interface IOgmaConfig {
   imgCrossOrigin?: ImgCrossOrigin;
   options?: GenericObject<unknown>;
 }
-
 
 export interface ISaml2Config {
   enabled?: boolean;
@@ -395,7 +391,7 @@ export interface IGetApplicationConfigResponse {
   dataSource: SelectedDataSourceConfig;
   db: IDatabaseConfig;
   defaultPreferences: IUserPreferenceConfig;
-  defaultCaptions?: ICaptionsConfig
+  defaultCaptions?: ICaptionsConfig;
   domain: string;
   guestPreferences: IGuestPreferenceConfig;
   leaflet: ILeafletConfig[];

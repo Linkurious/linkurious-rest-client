@@ -4,7 +4,7 @@
  *
  * - Created on 2019-09-02.
  */
-import { ICaptionsConfig } from './Configuration';
+import {ICaptionsConfig} from './Configuration';
 
 export interface IDataSourceParams {
   sourceKey?: string;
@@ -123,13 +123,13 @@ export enum IOgmaEdgeShape {
   DOTTED = 'dptted'
 }
 
-export interface IStyleRule<T extends (NodeStyle | EdgeStyle)> {
-  index: number,
-  type: SelectorType,
-  itemType?: string,
-  input?: string[],
-  value: string | number | boolean | Array<unknown> | IRange,
-  style: T
+export interface IStyleRule<T extends NodeStyle | EdgeStyle> {
+  index: number;
+  type: SelectorType;
+  itemType?: string;
+  input?: string[];
+  value: string | number | boolean | Array<unknown> | IRange;
+  style: T;
 }
 
 export interface IColor {
@@ -149,8 +149,8 @@ export interface IIcon {
 }
 
 export interface IImageDataValue {
-  type: 'data',
-  path: string[]
+  type: 'data';
+  path: string[];
 }
 
 export interface IImage {
@@ -158,23 +158,23 @@ export interface IImage {
   scale?: number;
   fit?: boolean;
   tile?: boolean;
-  minVisibleSize?: number,
+  minVisibleSize?: number;
   // @backward-compatibility replaced by minVisibleSize in 2.5.0
-  threshold?: number
+  threshold?: number;
 }
 
 export interface NodeStyle {
-  size?: string | number,
-  color?: string | IColor,
-  icon?: string | number | IIcon,
-  image?: string | IImage,
-  shape?: IOgmaNodeShape
+  size?: string | number;
+  color?: string | IColor;
+  icon?: string | number | IIcon;
+  image?: string | IImage;
+  shape?: IOgmaNodeShape;
 }
 
 export interface EdgeStyle {
-  color?: string | IColor,
-  width?: string | number
-  shape?: IOgmaEdgeShape
+  color?: string | IColor;
+  width?: string | number;
+  shape?: IOgmaEdgeShape;
 }
 
 export interface IDataSourceStyle {
@@ -195,7 +195,6 @@ export interface IGetAdminDataSourceResponse {
   sources: IAdminDataSource[];
 }
 
-
 export interface ISetDataSourceDefaultsParams extends IDataSourceParams {
   styles?: IDataSourceStyle;
   captions?: ICaptionsConfig;
@@ -209,7 +208,6 @@ export interface IAffectedSource {
   visualizations: number;
   folders: number;
 }
-
 
 export interface IDeleteDataSourceResponse {
   migrated: boolean;

@@ -8,7 +8,6 @@
 // TS2019-DONE
 
 import {FolderChildren, IPersistedItem} from './Model';
-
 import {IDataSourceParams} from './DataSource';
 
 export interface ICreateAlertFolderParams extends IDataSourceParams {

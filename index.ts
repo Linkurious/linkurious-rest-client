@@ -51,7 +51,7 @@ import {
 } from './src/response/errors';
 import {Success} from './src/response/success';
 import {SuperAgent} from './src/http/DefaultHttpDriver';
-import { IDataSource, IUserDataSource } from "./src/models/DataSource";
+import {IDataSource, IUserDataSource} from './src/models/DataSource';
 
 export type indexingStatus = 'ongoing' | 'needed' | 'done' | 'unknown';
 export type EdgeOrientation = 'in' | 'out' | 'both';

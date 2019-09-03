@@ -4,12 +4,7 @@
  *
  * - Created on 2019-09-02.
  */
-import {Module} from './Module';
-import {
-  InvalidParameter,
-  Success,
-  Unauthorized
-} from '../../index';
+import {InvalidParameter, Success, Unauthorized} from '../../index';
 import {
   IConnectDataSourceParams,
   IDeleteDataSourceParams,
@@ -21,15 +16,18 @@ import {
   ISetDataSourceDefaultsParams
 } from '../models/DataSource';
 
+import {Module} from './Module';
+
 export class DataSourceModule extends Module {
   /**
    * Get the status of the all data-sources.
    */
-  public getUserDataSources(params?: IGetUserDataSourceParams
+  public getUserDataSources(
+    params?: IGetUserDataSourceParams
   ): Promise<Success<IGetUserDataSourceResponse> | Unauthorized | InvalidParameter> {
     return this.request({
       url: '/dataSources',
-      method: "GET",
+      method: 'GET',
       query: params
     });
   }
@@ -37,22 +35,24 @@ export class DataSourceModule extends Module {
   /**
    * Get information for all data-source, including data-sources that do not exist online.
    */
-  public getAdminDataSources()
-    : Promise<Success<IGetAdminDataSourceResponse> | Unauthorized | InvalidParameter> {
+  public getAdminDataSources(): Promise<
+    Success<IGetAdminDataSourceResponse> | Unauthorized | InvalidParameter
+  > {
     return this.request({
       url: '/admin/sources',
-      method: "GET"
+      method: 'GET'
     });
   }
 
   /**
    * Connect a disconnected data-source.
    */
-  public connectDataSource(params: IConnectDataSourceParams
+  public connectDataSource(
+    params: IConnectDataSourceParams
   ): Promise<Success<void> | Unauthorized> | InvalidParameter {
     return this.request({
       url: '/admin/source/{sourceIndex}/connect',
-      method: "POST",
+      method: 'POST',
       path: {sourceIndex: params.sourceIndex}
     });
   }
@@ -60,11 +60,12 @@ export class DataSourceModule extends Module {
   /**
    * Reset all default styles for a dataSource.
    */
-  public resetDefaults(params: IResetDataSourceDefaultsParams
+  public resetDefaults(
+    params: IResetDataSourceDefaultsParams
   ): Promise<Success<void> | Unauthorized> | InvalidParameter {
     return this.request({
       url: '/admin/source/{sourceKey}/resetDefaults',
-      method: "POST",
+      method: 'POST',
       body: params,
       path: {sourceKey: params.sourceKey}
     });
@@ -73,11 +74,12 @@ export class DataSourceModule extends Module {
   /**
    * Set all default styles for a dataSource.
    */
-  public setDefaults(params: ISetDataSourceDefaultsParams
-  ): Promise<Success<void> | Unauthorized | InvalidParameter>{
+  public setDefaults(
+    params: ISetDataSourceDefaultsParams
+  ): Promise<Success<void> | Unauthorized | InvalidParameter> {
     return this.request({
       url: '/admin/source/{sourceKey}/setDefaults',
-      method: "POST",
+      method: 'POST',
       body: params,
       path: {sourceKey: params.sourceKey}
     });
@@ -89,14 +91,14 @@ export class DataSourceModule extends Module {
    * Warning: when merging into another data-source, visualizations may break if node and edge IDs
    * are not the same in to target data-source.
    */
-  public deleteDataSource(params: IDeleteDataSourceParams
+  public deleteDataSource(
+    params: IDeleteDataSourceParams
   ): Promise<Success<IDeleteDataSourceResponse> | Unauthorized | InvalidParameter> {
     return this.request({
       url: '/admin/sources/data/{sourceKey}',
-      method: "DELETE",
+      method: 'DELETE',
       query: {mergeInto: params.mergeInto},
       path: {sourceKey: params.sourceKey}
     });
   }
-
 }
