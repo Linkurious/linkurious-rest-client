@@ -53,7 +53,6 @@ export class CustomActionModule extends Module {
     return this.request({
       url: '/admin/{sourceKey}/customAction/{id}',
       method: 'DELETE',
-      body: options,
       path: {
         sourceKey: options.sourceKey,
         id: options.id

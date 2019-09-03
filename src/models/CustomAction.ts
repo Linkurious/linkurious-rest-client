@@ -7,11 +7,10 @@
 
 // TS2019-DONE
 
-import {IPersistedItem} from './Model';
+import {IPersistedItem, IDataSourceParams} from './Model';
 
 // Create
-export interface ICreateCustomActionParams {
-  sourceKey: string;
+export interface ICreateCustomActionParams extends IDataSourceParams {
   name: string;
   urlTemplate: string;
   description: string;
@@ -20,26 +19,24 @@ export interface ICreateCustomActionParams {
 export interface ICreateCustomActionResponse extends ICustomAction {}
 
 // Delete
-export interface IDeleteCustomActionParams {
-  sourceKey: string;
+export interface IDeleteCustomActionParams extends IDataSourceParams {
   id: number;
 }
 
 // Update
-export interface IUpdateCustomActionParams {
-  sourceKey: string;
+export interface IUpdateCustomActionParams extends IDataSourceParams {
   id: number;
   name?: string;
   urlTemplate?: string;
   description?: string;
   sharing?: CustomActionSharing;
 }
+
 export interface IUpdateCustomActionResponse extends ICustomAction {}
 
 // Get
-export interface IGetCustomActionsParams {
-  sourceKey: string;
-}
+export interface IGetCustomActionsParams extends IDataSourceParams {}
+
 export type IGetCustomActionsResponse = ICustomAction[];
 
 // Types
@@ -51,15 +48,18 @@ export interface ICustomAction extends IPersistedItem {
   sharing: CustomActionSharing;
   parsedTemplate: ParsedCustomAction;
 }
+
 export interface ParsedCustomAction {
   type: CustomActionType;
   elements: CustomActionElement[];
-  label: string;
+  itemType: string;
 }
+
 export enum CustomActionSharing {
   PRIVATE = 'private',
   SOURCE = 'source'
 }
+
 export enum CustomActionType {
   NON_GRAPH = 'non-graph',
   NODE = 'node',
@@ -67,6 +67,7 @@ export enum CustomActionType {
   NODESET = 'nodeset',
   EDGESET = 'edgeset'
 }
+
 export type CustomActionElement =
   {
       value: string;
@@ -81,12 +82,12 @@ export type CustomActionElement =
       value: string;
       type: 'ca-expression';
       variable: 'nodeset' | 'edgeset';
-      label?: string;
+      itemType?: string;
     }
   | {
       value: string;
       type: 'ca-expression';
       variable: 'node' | 'edge';
-      label?: string;
+      itemType?: string;
       property?: string;
     };
