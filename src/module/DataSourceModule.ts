@@ -4,12 +4,12 @@
  *
  * - Created on 2019-09-02.
  */
-import {Module} from "./Module";
+import {Module} from './Module';
 import {
   InvalidParameter,
   Success,
   Unauthorized
-} from "../../index";
+} from '../../index';
 import {
   IConnectDataSourceParams,
   IDeleteDataSourceParams,
@@ -19,7 +19,7 @@ import {
   IGetUserDataSourceResponse,
   IResetDataSourceDefaultsParams,
   ISetDataSourceDefaultsParams
-} from "../models/DataSource";
+} from '../models/DataSource';
 
 export class DataSourceModule extends Module {
   /**
@@ -28,7 +28,7 @@ export class DataSourceModule extends Module {
   public getUserDataSources(params?: IGetUserDataSourceParams
   ): Promise<Success<IGetUserDataSourceResponse> | Unauthorized | InvalidParameter> {
     return this.request({
-      url: "/dataSources",
+      url: '/dataSources',
       method: "GET",
       query: params
     });
@@ -40,7 +40,7 @@ export class DataSourceModule extends Module {
   public getAdminDataSources()
     : Promise<Success<IGetAdminDataSourceResponse> | Unauthorized | InvalidParameter> {
     return this.request({
-      url: "/admin/sources",
+      url: '/admin/sources',
       method: "GET"
     });
   }
@@ -51,7 +51,7 @@ export class DataSourceModule extends Module {
   public connectDataSource(params: IConnectDataSourceParams
   ): Promise<Success<void> | Unauthorized> | InvalidParameter {
     return this.request({
-      url: "/admin/source/{sourceIndex}/connect",
+      url: '/admin/source/{sourceIndex}/connect',
       method: "POST",
       path: {sourceIndex: params.sourceIndex}
     });
@@ -63,7 +63,7 @@ export class DataSourceModule extends Module {
   public resetDefaults(params: IResetDataSourceDefaultsParams
   ): Promise<Success<void> | Unauthorized> | InvalidParameter {
     return this.request({
-      url: "/admin/source/{sourceKey}/resetDefaults",
+      url: '/admin/source/{sourceKey}/resetDefaults',
       method: "POST",
       body: params,
       path: {sourceKey: params.sourceKey}
@@ -76,7 +76,7 @@ export class DataSourceModule extends Module {
   public setDefaults(params: ISetDataSourceDefaultsParams
   ): Promise<Success<void> | Unauthorized | InvalidParameter>{
     return this.request({
-      url: "/admin/source/{sourceKey}/setDefaults",
+      url: '/admin/source/{sourceKey}/setDefaults',
       method: "POST",
       body: params,
       path: {sourceKey: params.sourceKey}
@@ -92,7 +92,7 @@ export class DataSourceModule extends Module {
   public deleteDataSource(params: IDeleteDataSourceParams
   ): Promise<Success<IDeleteDataSourceResponse> | Unauthorized | InvalidParameter> {
     return this.request({
-      url: "/admin/sources/data/{sourceKey}",
+      url: '/admin/sources/data/{sourceKey}',
       method: "DELETE",
       query: {mergeInto: params.mergeInto},
       path: {sourceKey: params.sourceKey}

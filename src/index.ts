@@ -10,7 +10,7 @@ import {
   IAppVersion,
   IClientState,
   IFullUser,
-  ILoggerDriver, InvalidParameter, Success, Unauthorized
+  ILoggerDriver,
 } from '../index';
 
 import {Logger, LogLevel} from './log/Logger';
@@ -28,9 +28,9 @@ import {SearchModule} from './module/SearchModule';
 import {VisualizationModule} from './module/VisualizationModule';
 import {Rejection} from './response/errors';
 import {Transformer} from './transformer';
-import { IGetUserDataSourceResponse, IUserDataSource } from "./models/DataSource";
-import { DataSourceModule } from "./module/DataSourceModule";
-import { ConfigurationModule } from "./module/ConfigurationModule";
+import { IUserDataSource } from './models/DataSource';
+import { DataSourceModule } from './module/DataSourceModule';
+import { ConfigurationModule } from './module/ConfigurationModule';
 
 export class Linkurious {
   private readonly _fetcher: Fetcher;
@@ -318,8 +318,7 @@ export class Linkurious {
    */
   public initSources(data?: {withStyles?: boolean; withCaptions?: boolean}
   ): Promise<IUserDataSource> {
-    return this.dataSource.getUserDataSources(data)
-      .then((response: Success<IGetUserDataSourceResponse> | Unauthorized | InvalidParameter) => {
+    return this.dataSource.getUserDataSources(data).then(response => {
       if (response.isSuccess()) {
         return this.storeDefaultCurrentSource(response.response!.sources);
       }
