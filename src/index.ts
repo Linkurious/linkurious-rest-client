@@ -31,6 +31,7 @@ import {Transformer} from './transformer';
 import { IGetUserDataSourceResponse, IUserDataSource } from './models/DataSource';
 import { DataSourceModule } from './module/DataSourceModule';
 import { ConfigurationModule } from './module/ConfigurationModule';
+import {CustomActionModule} from './module/CustomActionModule';
 
 export class Linkurious {
   private readonly _fetcher: Fetcher;
@@ -49,6 +50,7 @@ export class Linkurious {
   private readonly _schema: SchemaModule;
   private readonly _dataSource: DataSourceModule;
   private readonly _configuration: ConfigurationModule;
+  private readonly _customAction: CustomActionModule;
 
   get state(): IClientState {
     return this._clientState;
@@ -90,6 +92,11 @@ export class Linkurious {
     this._schema = new SchemaModule(this._fetcher, this._transformer, this._errorListener);
     this._dataSource = new DataSourceModule(this._fetcher, this._transformer, this._errorListener);
     this._configuration = new ConfigurationModule(this._fetcher, this._transformer, this._errorListener);
+    this._customAction = new CustomActionModule(
+      this._fetcher,
+      this._transformer,
+      this._errorListener
+    );
   }
 
   /**
@@ -181,6 +188,13 @@ export class Linkurious {
    */
   get alerts(): AlertModule {
     return this._alert;
+  }
+
+  /**
+   * @returns {CustomActionModule}
+   */
+  get customAction(): CustomActionModule {
+    return this._customAction;
   }
 
   /**
