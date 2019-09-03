@@ -7,7 +7,7 @@
 
 // TS2019-DONE
 
-import { IDateTimeType, IDateType, ISimpleType, IStringType, LkPropertyType } from './Schema';
+import {IDateTimeType, IDateType, ISimpleType, IStringType, LkPropertyType} from './Schema';
 
 // Attributes as they arrive from the Create ApiParams
 

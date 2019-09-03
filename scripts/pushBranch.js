@@ -56,15 +56,7 @@ function getLastCommitHash() {
   return exec('git rev-parse HEAD');
 }
 
-function isValidBranch(branch) {
-  return branch.startsWith('develop');
-}
-
 const localBranch = getLocalBranchName();
-
-if (!isValidBranch(localBranch)) {
-  exit('Branch "' + localBranch + '" is not a valid branch');
-}
 
 const agent = new GitHubAgent(REPO_NAME);
 const lastCommit = getLastCommitHash();
