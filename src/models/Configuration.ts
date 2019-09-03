@@ -4,6 +4,9 @@
  *
  * - Created on 2019-08-30.
  */
+
+// TS2019-DONE
+
 export interface GenericObject<T> {
   [key: string]: T;
 }

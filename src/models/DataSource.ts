@@ -4,6 +4,9 @@
  *
  * - Created on 2019-09-02.
  */
+
+// TS2019-DONE
+
 import {ICaptionsConfig} from './Configuration';
 
 export interface IDataSourceParams {
