@@ -29,6 +29,7 @@ import {
   IUpdateEdgeResponse
 } from '../models/Graph';
 import {Transformer} from '../transformer';
+
 import {Module} from './Module';
 import {VisualizationParser} from './VisualizationParser';
 

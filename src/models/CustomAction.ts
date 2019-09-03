@@ -69,7 +69,7 @@ export enum CustomActionType {
 }
 
 export type CustomActionElement =
-  {
+  | {
       value: string;
       type: 'ca-literal';
     }

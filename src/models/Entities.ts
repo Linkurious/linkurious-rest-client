@@ -7,7 +7,7 @@
 
 // TS2019-DONE
 
-import {LkPropertyType} from './Schema';
+import {IDateTimeType, IDateType, ISimpleType, IStringType, LkPropertyType} from './Schema';
 
 // Attributes as they arrive from the Create ApiParams
 
@@ -141,7 +141,7 @@ export interface ConflictValue {
 }
 
 export interface InvalidValue {
-  type: LkPropertyType;
+  type: ISimpleType | IStringType | IDateType | IDateTimeType;
   status: 'invalid';
   original: string; // when not of the good type we return a string representation (string[] fall in this category)
 }

@@ -66,7 +66,7 @@ export abstract class Module {
     const response = await this._transformer.transform(this._fetcher.fetch(config), config);
 
     if (response.isError()) {
-      this._errorListener.dispatch(response as Rejection);
+      this._errorListener.dispatch(response);
     }
     return response;
   }

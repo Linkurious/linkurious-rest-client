@@ -29,6 +29,7 @@ import {
 } from '../response/errors';
 import {Success} from '../response/success';
 import {Transformer} from '../transformer';
+
 import {Logger} from './../log/Logger';
 import {Module} from './Module';
 
@@ -46,8 +47,8 @@ export class AdminModule extends Module {
   ) {
     super(fetcher, transformer, errorListener);
 
-    this._logger = logger as Logger;
-    this._clientState = clientState as IClientState;
+    this._logger = logger;
+    this._clientState = clientState;
   }
 
   /**
@@ -382,8 +383,8 @@ export class AdminModule extends Module {
     keepWhenSourceChange?: boolean
   ): Promise<boolean> {
     clearTimeout(this._timer);
-    let minTimeout: number = 200;
-    const maxTimeout: number = 3000;
+    let minTimeout = 200;
+    const maxTimeout = 3000;
 
     if (this._logger.level === 'debug') {
       minTimeout = 50;

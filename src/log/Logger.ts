@@ -6,6 +6,7 @@
  */
 
 import {LinkuriousError} from '../LinkuriousError';
+
 import {ILoggerDriver} from './../../index';
 import {DefaultLoggerDriver} from './DefaultLoggerDriver';
 

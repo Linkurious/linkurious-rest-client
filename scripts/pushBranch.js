@@ -65,7 +65,7 @@ const branch = `rest-client-${localBranch}`;
 const description = `${localBranch} - ${lastCommit.slice(0, 7)} - ${getCurrentDate()}`;
 
 const packageJson = {
-  name: 'linkurious-rest-client',
+  name: '@linkurious/rest-client',
   description: description,
   version: VERSION,
   author: 'Linkurious',

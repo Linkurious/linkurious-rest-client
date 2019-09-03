@@ -10,6 +10,7 @@ import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
 import {EntityType} from '../models/Schema';
 import {Transformer} from '../transformer';
+
 import {Module} from './Module';
 import {VisualizationParser} from './VisualizationParser';
 
