@@ -4,7 +4,7 @@
  *
  * - Created on 2019-09-02.
  */
-import { GenericObject, ICaptionsConfig } from './Configuration';
+import { ICaptionsConfig } from './Configuration';
 
 export interface IDataSourceParams {
   sourceKey?: string;
@@ -21,7 +21,7 @@ export interface IDataSourceFeatures {
   canCountBeforeIndexation: boolean;
   canIndexEdges: boolean;
   searchHitsCount: boolean;
-  alternativeIds: GenericObject<string>;
+  alternativeIds: IAlternativeIdSettings;
   maxNodeCategories?: number;
   externalIndex: boolean;
   canCount: boolean;
