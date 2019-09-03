@@ -15,8 +15,6 @@ import {
   Unauthorized
 } from '../response/errors';
 import {Success} from '../response/success';
-import {Module} from './Module';
-
 import {
   ICreateCustomActionParams,
   ICreateCustomActionResponse,
@@ -26,6 +24,8 @@ import {
   IGetCustomActionsParams,
   IGetCustomActionsResponse
 } from '../models/CustomAction';
+
+import {Module} from './Module';
 
 export class CustomActionModule extends Module {
   public async createCustomAction(

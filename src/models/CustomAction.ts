@@ -68,7 +68,7 @@ export enum CustomActionType {
   EDGESET = 'edgeset'
 }
 export type CustomActionElement =
-  {
+  | {
       value: string;
       type: 'ca-literal';
     }
