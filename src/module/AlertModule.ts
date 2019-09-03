@@ -27,6 +27,7 @@ import {
   IGetAlertTreeResponse,
   IUpdateAlertFolderParams
 } from '../models/Alert';
+
 import {Module} from './Module';
 
 export class AlertModule extends Module {

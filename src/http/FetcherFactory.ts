@@ -7,6 +7,7 @@
 
 import {IClientState} from '../../index';
 import {Logger} from '../log/Logger';
+
 import {Fetcher} from './fetcher';
 
 export class FetcherFactory {

@@ -7,6 +7,7 @@
 
 import * as request from 'superagent';
 import {SuperAgentRequest} from 'superagent';
+
 import {IHttpDriver, IHttpResponse} from '../../index';
 import {LinkuriousError} from '../LinkuriousError';
 

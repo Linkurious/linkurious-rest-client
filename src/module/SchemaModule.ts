@@ -9,8 +9,6 @@
 
 import {DataSourceUnavailable, Forbidden, NotFound, Unauthorized} from '../response/errors';
 import {Success} from '../response/success';
-import {Module} from './Module';
-
 import {
   ICreatePropertyParams,
   ICreatePropertyResponse,
@@ -33,6 +31,8 @@ import {
   IUpdateSchemaSettingsParams,
   IUpdateTypeParams
 } from '../models/Schema';
+
+import {Module} from './Module';
 
 export class SchemaModule extends Module {
   public async startSchemaSampling(

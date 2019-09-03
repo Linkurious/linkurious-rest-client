@@ -22,6 +22,7 @@ import {
 } from '../response/errors';
 import {Success} from '../response/success';
 import {Transformer} from '../transformer';
+
 import {Module} from './Module';
 import {VisualizationParser} from './VisualizationParser';
 

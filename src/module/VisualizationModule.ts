@@ -36,6 +36,7 @@ import {
   IMergeVisualizationsParams,
   IUpdateVisualizationFolderParams
 } from '../models/Visualization';
+
 import {Module} from './Module';
 import {VisualizationParser} from './VisualizationParser';
 
