@@ -13,12 +13,6 @@ export interface IDataSourceParams {
   sourceKey?: string;
 }
 
-export interface IDataSource {
-  name: string;
-  key: string;
-  configIndex: number;
-}
-
 export interface IDataSourceFeatures {
   immutableNodeCategories: boolean;
   canCountBeforeIndexation: boolean;
@@ -29,38 +23,47 @@ export interface IDataSourceFeatures {
   externalIndex: boolean;
   canCount: boolean;
   dialects: string[];
-}
-
-export interface ISpecialProperties {
-  keu: string;
-  read: boolean;
-  create: boolean;
-  update: boolean;
+  alerts: boolean;
+  canDryRun: boolean;
+  supportNativeDate: boolean;
 }
 
 export interface IAlternativeIdSettings {
-  node: string;
-  edge: string;
+  node?: string;
+  edge?: string;
 }
 
 export interface IDataSourceSettings {
-  strictSchema: boolean;
-  alternativeId: IAlternativeIdSettings;
-  latitudeProperty?: string;
-  longitudeProperty?: string;
-  skipEdgeIndexation: boolean;
   readonly: boolean;
-  specialProperties: ISpecialProperties;
 }
 
-export interface IUserDataSource extends IDataSource {
+export interface IConnectedDataSourceSettings extends IDataSourceSettings {
+  strictSchema: boolean;
+  skipEdgeIndexation: boolean;
+  alternativeIds: IAlternativeIdSettings;
+  latitudeProperty?: string;
+  longitudeProperty?: string;
+}
+
+export type IUserDataSource = {
+  name: string;
+  configIndex: number;
   state: DataSourceStatus;
-  connected: boolean;
   reason: string;
   error?: string;
   features: IDataSourceFeatures;
-  settings: IDataSourceSettings;
-}
+} & (
+  | {
+      connected: true;
+      key: string;
+      defaultStyles: IDataSourceStyle;
+      defaultCaptions: ICaptionsConfig;
+      settings: IDataSourceSettings;
+    }
+  | {
+      connected: false;
+      settings: IConnectedDataSourceSettings;
+    });
 
 export enum DataSourceStatus {
   READY = 'ready',
@@ -73,14 +76,17 @@ export enum DataSourceStatus {
   CONNECTING = 'connecting'
 }
 
-export interface IAdminDataSource extends IDataSource {
-  state: DataSourceStatus;
-  lastSeen: string;
-  lastIndexed: string;
-  lastSampled: string;
+export interface IAdminDataSource {
+  name?: string;
+  configIndex?: number;
+  key?: string;
+  state: string;
+  lastSeen?: string;
+  lastIndexed?: string;
+  lastSampled?: string;
   host: string;
   port: string;
-  storeId: string;
+  storeId?: string;
   visualizationCount: number;
 }
 
@@ -123,7 +129,7 @@ export enum IOgmaEdgeShape {
   ARROW = 'arrow',
   TAPERED = 'tapered',
   DASHED = 'dashed',
-  DOTTED = 'dptted'
+  DOTTED = 'dotted'
 }
 
 export interface IStyleRule<T extends NodeStyle | EdgeStyle> {
@@ -131,7 +137,7 @@ export interface IStyleRule<T extends NodeStyle | EdgeStyle> {
   type: SelectorType;
   itemType?: string;
   input?: string[];
-  value: string | number | boolean | Array<unknown> | IRange;
+  value?: string | number | boolean | Array<unknown> | IRange;
   style: T;
 }
 
@@ -147,8 +153,6 @@ export interface IIcon {
   color?: string | IColor;
   scale?: number;
   minVisibleSize?: number;
-  // @backward-compatibility replaced by minVisibleSize in 2.5.0
-  threshold?: number;
 }
 
 export interface IImageDataValue {
@@ -157,13 +161,11 @@ export interface IImageDataValue {
 }
 
 export interface IImage {
-  url: string | IImageDataValue;
+  url?: string | IImageDataValue;
   scale?: number;
   fit?: boolean;
   tile?: boolean;
   minVisibleSize?: number;
-  // @backward-compatibility replaced by minVisibleSize in 2.5.0
-  threshold?: number;
 }
 
 export interface NodeStyle {
@@ -185,16 +187,16 @@ export interface IDataSourceStyle {
   edge: Array<IStyleRule<EdgeStyle>>;
 }
 
-export interface IGetUserDataSourceParams {
+export interface IGetUserDataSourcesParams {
   withStyles?: boolean;
   withCaptions?: boolean;
 }
 
-export interface IGetUserDataSourceResponse {
+export interface IGetUserDataSourcesResponse {
   sources: IUserDataSource[];
 }
 
-export interface IGetAdminDataSourceResponse {
+export interface IGetAdminDataSourcesResponse {
   sources: IAdminDataSource[];
 }
 
@@ -207,12 +209,10 @@ export interface IDeleteDataSourceParams extends IDataSourceParams {
   mergeInto?: string;
 }
 
-export interface IAffectedSource {
-  visualizations: number;
-  folders: number;
-}
-
 export interface IDeleteDataSourceResponse {
   migrated: boolean;
-  affected: IAffectedSource;
+  affected: {
+    visualizations: number;
+    folders: number;
+  };
 }

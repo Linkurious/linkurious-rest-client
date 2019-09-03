@@ -7,14 +7,14 @@
 
 // TS2019-DONE
 
-import {InvalidParameter, Success, Unauthorized} from '../../index';
+import {Success, Unauthorized} from '../../index';
 import {
   IConnectDataSourceParams,
   IDeleteDataSourceParams,
   IDeleteDataSourceResponse,
-  IGetAdminDataSourceResponse,
-  IGetUserDataSourceParams,
-  IGetUserDataSourceResponse,
+  IGetAdminDataSourcesResponse,
+  IGetUserDataSourcesParams,
+  IGetUserDataSourcesResponse,
   IResetDataSourceDefaultsParams,
   ISetDataSourceDefaultsParams
 } from '../models/DataSource';
@@ -26,8 +26,8 @@ export class DataSourceModule extends Module {
    * Get the status of the all data-sources.
    */
   public getUserDataSources(
-    params?: IGetUserDataSourceParams
-  ): Promise<Success<IGetUserDataSourceResponse> | Unauthorized | InvalidParameter> {
+    params?: IGetUserDataSourcesParams
+  ): Promise<Success<IGetUserDataSourcesResponse> | Unauthorized> {
     return this.request({
       url: '/dataSources',
       method: 'GET',
@@ -38,9 +38,7 @@ export class DataSourceModule extends Module {
   /**
    * Get information for all data-source, including data-sources that do not exist online.
    */
-  public getAdminDataSources(): Promise<
-    Success<IGetAdminDataSourceResponse> | Unauthorized | InvalidParameter
-  > {
+  public getAdminDataSources(): Promise<Success<IGetAdminDataSourcesResponse> | Unauthorized> {
     return this.request({
       url: '/admin/sources',
       method: 'GET'
@@ -52,7 +50,7 @@ export class DataSourceModule extends Module {
    */
   public connectDataSource(
     params: IConnectDataSourceParams
-  ): Promise<Success<void> | Unauthorized> | InvalidParameter {
+  ): Promise<Success<void> | Unauthorized> {
     return this.request({
       url: '/admin/source/{sourceIndex}/connect',
       method: 'POST',
@@ -63,9 +61,9 @@ export class DataSourceModule extends Module {
   /**
    * Reset all default styles for a dataSource.
    */
-  public resetDefaults(
+  public resetDataSourceDefaults(
     params: IResetDataSourceDefaultsParams
-  ): Promise<Success<void> | Unauthorized> | InvalidParameter {
+  ): Promise<Success<void> | Unauthorized> {
     return this.request({
       url: '/admin/source/{sourceKey}/resetDefaults',
       method: 'POST',
@@ -77,9 +75,9 @@ export class DataSourceModule extends Module {
   /**
    * Set all default styles for a dataSource.
    */
-  public setDefaults(
+  public setDataSourceDefaults(
     params: ISetDataSourceDefaultsParams
-  ): Promise<Success<void> | Unauthorized | InvalidParameter> {
+  ): Promise<Success<void> | Unauthorized> {
     return this.request({
       url: '/admin/source/{sourceKey}/setDefaults',
       method: 'POST',
@@ -96,7 +94,7 @@ export class DataSourceModule extends Module {
    */
   public deleteDataSource(
     params: IDeleteDataSourceParams
-  ): Promise<Success<IDeleteDataSourceResponse> | Unauthorized | InvalidParameter> {
+  ): Promise<Success<IDeleteDataSourceResponse> | Unauthorized> {
     return this.request({
       url: '/admin/sources/data/{sourceKey}',
       method: 'DELETE',
