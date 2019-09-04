@@ -80,7 +80,7 @@ export interface IAdminDataSource {
   name?: string;
   configIndex?: number;
   key?: string;
-  state: string;
+  state: DataSourceStatus;
   lastSeen?: string;
   lastIndexed?: string;
   lastSampled?: string;
