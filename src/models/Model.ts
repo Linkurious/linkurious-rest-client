@@ -6,6 +6,7 @@
  */
 
 // TS2019-DONE
+
 export interface IPersistedItem {
   id: number;
   createdAt: string;
