@@ -10,28 +10,6 @@ pipeline {
           checkout scm
           sh 'npm install'
         }
-        dir('linkurious-server') {
-          git branch: 'develop', credentialsId: 'dd38fcea-d471-4856-a009-4029127c6450', url: 'git@github.com:Linkurious/linkurious-server.git'
-          sh 'npm install'
-          sh 'npm run tsc'
-        }
-      }
-    }
-    stage('Tests') {
-      when {
-        anyOf {
-          branch 'master'
-        }
-      }
-      steps {
-        throttle(['FrontendTestEnv']) {
-          dir('linkurious-rest-client') {
-            sh 'rm ../linkurious-server/data/config/test.json || true'
-            sh 'node ../linkurious-server/dist/test/runMocha.js -sm & echo $! > SERVER_PID'
-            sh 'xvfb-run node_modules/.bin/karma start'
-            sh 'kill -9 `cat SERVER_PID`'
-          }
-        }
       }
     }
     stage('Pre-release') {
@@ -44,12 +22,6 @@ pipeline {
           sh 'node ./scripts/pushBranch.js'
         }
       }
-    }
-  }
-  post {
-    always {
-      // Terminate Linkurious Server
-      sh 'kill -9 `cat SERVER_PID` || true'
     }
   }
 }
