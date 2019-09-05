@@ -10,13 +10,12 @@
 import {
   DataSourceUnavailable,
   Forbidden,
-  IDigest,
   IEdge,
   INode,
   InvalidParameter,
   IOgmaEdge,
   IOgmaNode,
-  ItemId,
+  ItemId, LkNodeStatistics,
   NotFound,
   Success,
   Unauthorized
@@ -232,7 +231,7 @@ export class NodeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<IDigest[]> {
+  ): Promise<LkNodeStatistics> {
     return this.fetch({
       url: '/{sourceKey}/graph/neighborhood/statistics',
       method: 'POST',
