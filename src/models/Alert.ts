@@ -7,7 +7,8 @@
 
 // TS2019-DONE
 
-import {FolderChildren, IDataSourceParams, IPersistedItem} from './Model';
+import {FolderChildren, IPersistedItem} from './Model';
+import {IDataSourceParams} from './DataSource';
 
 export interface ICreateAlertFolderParams extends IDataSourceParams {
   title: string;
