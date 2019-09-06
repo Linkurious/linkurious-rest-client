@@ -21,3 +21,7 @@ export interface IFolder<T, N extends string> {
   type: string;
   children: FolderChildren<T, N>;
 }
+
+export interface GenericObject<T> {
+  [key: string]: T;
+}

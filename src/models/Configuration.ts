@@ -7,9 +7,7 @@
 
 // TS2019-DONE
 
-export interface GenericObject<T> {
-  [key: string]: T;
-}
+import {GenericObject} from './Model';
 
 export interface IConfigurationParams<T> {
   path?: string;
@@ -27,8 +25,7 @@ export interface IDataSourceConfigParams extends IConfigurationParams<SelectedDa
   path: 'dataSource';
 }
 
-export interface IDataSourceConfig<G = IGraphVendorConfig, I = IIndexVendorConfig> {
-  deleted?: boolean;
+export interface IDataSourceConfig<G = IGraphVendorConfig, I = IVendorConfig> {
   name?: string;
   manualSourceKey?: string;
   readonly?: boolean;
@@ -41,7 +38,7 @@ export interface IGetApplicationConfigParams {
 }
 
 export interface IDeleteDataSourceConfigParams {
-  dataSourceIndex?: number;
+  dataSourceIndex: number;
 }
 
 export type SelectedDataSourceConfig =
@@ -62,23 +59,17 @@ export interface IVendorConfig {
 }
 
 export interface IGraphVendorConfig extends IVendorConfig {
-  url: string;
-  user?: string;
-  password?: string;
   latitudeProperty?: string;
   longitudeProperty?: string;
   allowSelfSigned?: boolean;
-  alternativeNodeId?: string;
-  alternativeEdgeId?: string;
 }
 
 export interface ICosmosDbConfig extends IGraphVendorConfig {
+  url: string;
   database: string;
   collection: string;
   primaryKey: string;
   '.NET SDK URI'?: string;
-  user: undefined;
-  password: undefined;
 }
 
 export interface IGremlinSessionConfig extends IGraphVendorConfig {
@@ -87,69 +78,78 @@ export interface IGremlinSessionConfig extends IGraphVendorConfig {
 }
 
 export interface IJanusGraphConfig extends IGremlinSessionConfig {
+  url: string;
   graphAlias?: string;
   traversalSourceAlias?: string;
   configurationPath?: string;
   configuration?: object;
+  user?: string;
+  password?: string;
+  alternativeNodeId?: string;
+  alternativeEdgeId?: string;
   disableIndexExistCheck?: boolean;
 }
 
 export interface IJanusGraphForComposeConfig extends IJanusGraphConfig {
+  url: string;
   graphName: string;
   create?: boolean;
-  graphAlias: undefined;
-  traversalSourceAlias: undefined;
-  configurationPath: undefined;
-  configuration: undefined;
+  user?: string;
+  password?: string;
+  alternativeNodeId?: string;
+  alternativeEdgeId?: string;
+  disableIndexExistCheck?: boolean;
 }
 
 export interface INeo4jConfig extends IGraphVendorConfig {
+  url: string;
   proxy?: string;
   writeURL?: string;
+  user?: string;
+  password?: string;
+  alternativeNodeId?: string;
+  alternativeEdgeId?: string;
 }
 
-export interface IIndexVendorConfig extends IVendorConfig {
-  skipEdgeIndexation: boolean;
-  indexName?: string;
-}
-
-export interface IAzureSearchConfig extends IIndexVendorConfig {
+export interface IAzureSearchConfig extends IVendorConfig {
   url: string;
   apiKey: string;
   nodeIndexName: string;
   edgeIndexName?: string;
 }
 
-export interface IElasticSearchConfig extends IIndexVendorConfig {
+export interface IElasticSearchConfig extends IVendorConfig {
   host: string;
   port: number;
-  https?: boolean;
   forceReindex?: boolean;
-  dynamicMapping: boolean;
-  dateDetection: boolean;
+  skipEdgeIndexation?: boolean;
+  dynamicMapping?: boolean;
+  dateDetection?: boolean;
+  https?: boolean;
   indexName?: string;
-  mapping?: object;
   analyzer?: string;
   user?: string;
   password?: string;
 }
 
-export interface IElasticSearch2Config extends IIndexVendorConfig {
+export interface IElasticSearch2Config extends IVendorConfig {
   host: string;
   port: number;
-  https?: boolean;
   forceReindex?: boolean;
-  dynamicMapping: boolean;
-  simplifiedSearch?: boolean;
-  caCert?: string;
-  forceStringMapping: string[];
-  analyzer?: string;
+  https?: boolean;
   user?: string;
   password?: string;
+  dynamicMapping?: boolean;
+  forceStringMapping?: string[];
+  analyzer?: string;
+  skipEdgeIndexation?: boolean;
+  caCert?: string;
+  simplifiedSearch?: boolean;
 }
 
-export interface IJanusGraphSearchConfig extends IIndexVendorConfig {
+export interface IJanusGraphSearchConfig extends IVendorConfig {
   create?: boolean;
+  indexEdges?: boolean;
   nodeIndexName?: string;
   edgeIndexName?: string;
 }
@@ -158,18 +158,10 @@ export interface INeo2esConfig extends IVendorConfig {
   simplifiedSearch?: boolean;
 }
 
-export interface INeo4jSearchConfig extends IIndexVendorConfig {
-  initialization: boolean;
-  categoriesToIndex?: string[];
-  edgeTypesToIndex?: string[];
-  nodeIndexName?: string;
-  edgeIndexName?: string;
-  skipEdgeIndexation: boolean;
+export interface INeo4jSearchConfig extends IVendorConfig {
+  initialization?: boolean;
+  indexEdges?: boolean;
   simplifiedSearch?: boolean;
-  batchSize?: number;
-  numberOfThreads?: number;
-  initialOffsetNodes?: number;
-  initialOffsetEdges?: number;
 }
 
 export enum DefaultPage {
@@ -190,7 +182,6 @@ export interface IAccessConfig {
   externalUserDefaultGroupId?: number | number[];
   externalUsersGroupMapping?: GenericObject<number | number[]>;
   autoRefreshGroupMapping?: boolean;
-  azureActiveDirectory: unknown;
   msActiveDirectory?: IMSActiveDirectoryConfig;
   ldap?: ILDAPConfig;
   saml2?: ISaml2Config;
@@ -199,23 +190,23 @@ export interface IAccessConfig {
 
 export interface IAdvancedConfig {
   supernodeThreshold: number;
-  connectionRetries: number;
-  pollInterval: number;
-  indexationChunkSize: number;
   expandThreshold: number;
   rawQueryLimit: number;
   searchAddAllThreshold: number;
   minSearchQueryLength: number;
   rawQueryTimeout: number;
-  layoutWorkers: number;
-  defaultFuzziness: number;
-  extraCertificateAuthorities?: string;
-  obfuscation?: boolean;
-  edgesBetweenSupernodes?: boolean;
   defaultTimeZone: string;
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
   timeline: boolean;
+  connectionRetries?: number;
+  pollInterval?: number;
+  indexationChunkSize?: number;
+  layoutWorkers?: number;
+  defaultFuzziness?: number;
+  extraCertificateAuthorities?: string;
+  obfuscation?: boolean;
+  edgesBetweenSupernodes?: boolean;
 }
 
 export interface IAlertsConfig {
@@ -232,14 +223,14 @@ export interface IAuditTrailConfig {
   fileSizeLimit?: number;
   strictMode?: boolean;
   logResult?: boolean;
-  mode?: string;
+  mode?: 'r' | 'w' | 'rw';
 }
 
 export interface IGuestPreferenceConfig {
   locale: string;
   uiWorkspaceSearch: boolean;
   uiExport: boolean;
-  uiLayout: string;
+  uiLayout: 'regular' | 'simple' | 'none';
   uiDesign: boolean;
   uiFilter: boolean;
 }
@@ -250,6 +241,7 @@ export interface IHttpServerConfig {
   cookieSecret?: string;
   allowOrigin?: string | string[];
   domain?: string;
+  baseFolder?: string;
   publicPortHttp?: number;
   publicPortHttps?: number;
   cookieDomain?: string;
@@ -262,15 +254,14 @@ export interface IHttpServerConfig {
 }
 
 export interface ILDAPConfig {
-  enabled?: boolean;
-  url?: string;
+  enabled: boolean;
+  url: string;
   bindDN?: string;
   bindPassword?: string;
   baseDN: string | string[];
   usernameField: string;
   emailField?: string;
   groupField?: string;
-  authorizedGroups?: unknown;
   tls?: ITLSOptions & GenericObject<unknown>;
 }
 
@@ -284,15 +275,13 @@ export interface ILeafletConfig {
   subdomains?: boolean;
   id?: boolean;
   accessToken?: boolean;
-  /**
-   * whether this layer is an overlay
-   */
   overlay?: boolean;
 }
 
 export interface ITLSOptions {
   rejectUnauthorized?: boolean;
 }
+
 export interface IMSActiveDirectoryConfig {
   enabled?: boolean;
   url?: string;
@@ -302,14 +291,24 @@ export interface IMSActiveDirectoryConfig {
   tls?: ITLSOptions & GenericObject<unknown>;
 }
 
+export interface ISaml2Config {
+  enabled: boolean;
+  url: string;
+  identityProviderCertificate: string;
+  groupAttribute?: string;
+  emailAttribute?: string;
+}
+
 export interface IOpenIDConnectConfig {
   userinfoURL?: string;
   scope?: string;
   groupClaim?: string;
 }
-export interface AzureOAuthConfig {
+
+export interface IAzureOAuthConfig {
   tenantID?: string;
 }
+
 export interface IOAuth2Config {
   enabled: boolean;
   provider: string;
@@ -318,7 +317,7 @@ export interface IOAuth2Config {
   clientID: string;
   clientSecret: string;
   openidconnect?: IOpenIDConnectConfig;
-  azure?: AzureOAuthConfig;
+  azure?: IAzureOAuthConfig;
 }
 
 export declare enum AntiAliasing {
@@ -326,10 +325,12 @@ export declare enum AntiAliasing {
   NATIVE = 'native',
   NONE = 'none'
 }
+
 export declare enum OgmaRenderer {
   WEBGL = 'webgl',
   CANVAS = 'canvas'
 }
+
 export declare enum ImgCrossOrigin {
   ANONYMOUS = 'anonymous',
   USE_CREDENTIALS = 'use-credentials'
@@ -339,6 +340,7 @@ export interface IWebGLConfig {
   antiAliasing?: AntiAliasing;
   fontSamplingSize?: number;
 }
+
 export interface IOgmaConfig {
   renderer?: OgmaRenderer;
   webglOptions?: IWebGLConfig;
@@ -346,21 +348,15 @@ export interface IOgmaConfig {
   options?: GenericObject<unknown>;
 }
 
-export interface ISaml2Config {
-  enabled?: boolean;
-  url?: string;
-  identityProviderCertificate?: string;
-  groupAttribute?: string;
-  emailAttribute?: string;
-}
-
 export interface IUserPreferenceConfig {
   locale: string;
   pinOnDrag: boolean;
+  incrementalLayout: boolean;
 }
 
 export interface IDatabaseOptions {
-  dialect: string;
+  dialect: 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
+  storage?: string;
   host?: string;
   port?: string;
 }
@@ -373,19 +369,6 @@ export interface IDatabaseConfig {
   options?: IDatabaseOptions;
 }
 
-export interface ICaption {
-  active: boolean;
-  displayName: boolean;
-  properties: string[];
-  id?: unknown;
-  name?: unknown;
-}
-
-export interface ICaptionsConfig {
-  nodes: GenericObject<ICaption>;
-  edges: GenericObject<ICaption>;
-}
-
 export interface IGetApplicationConfigResponse {
   access: IAccessConfig;
   advanced: IAdvancedConfig;
@@ -394,7 +377,6 @@ export interface IGetApplicationConfigResponse {
   dataSource: SelectedDataSourceConfig;
   db: IDatabaseConfig;
   defaultPreferences: IUserPreferenceConfig;
-  defaultCaptions?: ICaptionsConfig;
   domain: string;
   guestPreferences: IGuestPreferenceConfig;
   leaflet: ILeafletConfig[];

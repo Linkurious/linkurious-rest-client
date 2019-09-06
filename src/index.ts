@@ -31,7 +31,7 @@ import {SearchModule} from './module/SearchModule';
 import {VisualizationModule} from './module/VisualizationModule';
 import {Rejection} from './response/errors';
 import {Transformer} from './transformer';
-import {IGetUserDataSourcesResponse, IUserDataSource} from './models/DataSource';
+import {IUserDataSource} from './models/DataSource';
 import {DataSourceModule} from './module/DataSourceModule';
 import {ConfigurationModule} from './module/ConfigurationModule';
 import {CustomActionModule} from './module/CustomActionModule';

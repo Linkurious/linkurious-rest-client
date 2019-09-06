@@ -7,7 +7,7 @@
 
 // TS2019-DONE
 
-import {ICaptionsConfig} from './Configuration';
+import {GenericObject} from './Model';
 
 export interface IDataSourceParams {
   sourceKey?: string;
@@ -43,6 +43,19 @@ export interface IConnectedDataSourceSettings extends IDataSourceSettings {
   alternativeIds: IAlternativeIdSettings;
   latitudeProperty?: string;
   longitudeProperty?: string;
+}
+
+export interface ICaption {
+  active: boolean;
+  displayName: boolean;
+  properties: string[];
+  id?: unknown;
+  name?: unknown;
+}
+
+export interface ICaptionsConfig {
+  nodes: GenericObject<ICaption>;
+  edges: GenericObject<ICaption>;
 }
 
 export type IUserDataSource = {

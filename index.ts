@@ -51,7 +51,7 @@ import {
 } from './src/response/errors';
 import {Success} from './src/response/success';
 import {SuperAgent} from './src/http/DefaultHttpDriver';
-import {IDataSource, IUserDataSource} from './src/models/DataSource';
+import {IUserDataSource} from './src/models/DataSource';
 
 export type indexingStatus = 'ongoing' | 'needed' | 'done' | 'unknown';
 export type EdgeOrientation = 'in' | 'out' | 'both';
@@ -100,12 +100,6 @@ export interface RequestConfig<R, T> extends FetcherConfig {
 export interface IClientState {
   user: IFullUser | undefined;
   currentSource: IUserDataSource;
-  guestMode: boolean;
-}
-
-export interface IFetcherClientState {
-  user: IFullUser;
-  currentSource: IDataSource;
   guestMode: boolean;
 }
 
