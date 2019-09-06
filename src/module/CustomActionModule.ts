@@ -87,7 +87,7 @@ export class CustomActionModule extends Module {
     Success<IGetCustomActionsResponse> | Unauthorized | Forbidden | DataSourceUnavailable
   > {
     return this.request({
-      url: '/admin/{sourceKey}/customAction',
+      url: '/{sourceKey}/customAction',
       method: 'GET',
       path: {
         sourceKey: options.sourceKey
