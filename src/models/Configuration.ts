@@ -370,19 +370,28 @@ export interface IDatabaseConfig {
 }
 
 export interface IGetApplicationConfigResponse {
-  access: IAccessConfig;
-  advanced: IAdvancedConfig;
+  // available only to admins
+  db?: IDatabaseConfig;
+  server?: IHttpServerConfig;
+  auditTrail?: IAuditTrailConfig;
+  defaultPreferences?: IUserPreferenceConfig;
+  guestPreferences?: IGuestPreferenceConfig;
+  dataSource?: SelectedDataSourceConfig;
+  needRestart?: boolean;
+
+  // partially available to authenticated user
   alerts?: IAlertsConfig;
-  auditTrail: IAuditTrailConfig;
-  dataSource: SelectedDataSourceConfig;
-  db: IDatabaseConfig;
-  defaultPreferences: IUserPreferenceConfig;
-  domain: string;
-  guestPreferences: IGuestPreferenceConfig;
-  leaflet: ILeafletConfig[];
-  needRestart: boolean;
+
+  // available to authenticated users
+  advanced?: IAdvancedConfig;
+  leaflet?: ILeafletConfig[];
+
+  // partially available to not authenticated user
+  access?: IAccessConfig;
+
+  // available also to not authenticated user
   ogma: IOgmaConfig;
-  server: IHttpServerConfig;
+  domain: string;
   ssoProvider?: string;
   url: string;
 }
