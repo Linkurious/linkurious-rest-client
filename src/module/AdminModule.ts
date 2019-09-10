@@ -286,7 +286,7 @@ export class AdminModule extends Module {
     }
 
     return this.listenIndexation(
-      this._clientState.currentSource.key,
+      this._clientState.currentSource.key as string,
       timeout,
       callback,
       keepWhenSourceChange

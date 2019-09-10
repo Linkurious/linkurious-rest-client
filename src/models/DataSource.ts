@@ -60,23 +60,17 @@ export interface ICaptionsConfig {
 
 export type IUserDataSource = {
   name: string;
+  connected: boolean;
+  key?: string;
   configIndex: number;
   state: DataSourceStatus;
   reason: string;
   error?: string;
   features: IDataSourceFeatures;
-} & (
-  | {
-      connected: true;
-      key: string;
-      defaultStyles: IDataSourceStyle;
-      defaultCaptions: ICaptionsConfig;
-      settings: IDataSourceSettings;
-    }
-  | {
-      connected: false;
-      settings: IConnectedDataSourceSettings;
-    });
+  defaultStyles?: IDataSourceStyle;
+  defaultCaptions?: ICaptionsConfig;
+  settings: IDataSourceSettings | IConnectedDataSourceSettings;
+};
 
 export enum DataSourceStatus {
   READY = 'ready',
