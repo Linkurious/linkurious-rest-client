@@ -121,7 +121,8 @@ export class Fetcher {
 
   private addSourceKeyToUrl(url: string): string {
     if (this._clientState.currentSource) {
-      return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key as string);
+      return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource
+        .key as string);
     } else {
       throw LinkuriousError.fromClientError(
         'state_error',
