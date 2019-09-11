@@ -6,14 +6,16 @@
  */
 
 export * from './src/models/Alert';
+export * from './src/models/Configuration';
+export * from './src/models/CustomAction';
+export * from './src/models/DataSource';
+export * from './src/models/Entities';
 export * from './src/models/Graph';
+export * from './src/models/Model';
 export * from './src/models/Schema';
 export * from './src/models/Search';
-export * from './src/models/Visualization';
-export * from './src/models/Entities';
 export * from './src/models/TemplateFields';
-export * from './src/models/Model';
-export * from './src/models/CustomAction';
+export * from './src/models/Visualization';
 
 import {Linkurious} from './src';
 import {Fetcher} from './src/http/fetcher';
