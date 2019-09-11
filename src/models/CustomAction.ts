@@ -48,6 +48,12 @@ export interface ICustomAction extends IPersistedItem {
   description: string;
   sharing: CustomActionSharing;
   parsedTemplate: ParsedCustomAction;
+  right: CustomActionRight;
+}
+
+export enum CustomActionRight {
+  OWNER = 'owner',
+  READ = 'read'
 }
 
 export interface ParsedCustomAction {
