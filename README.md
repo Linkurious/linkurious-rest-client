@@ -120,3 +120,4 @@ Linkurious-rest-client use two dependencies to work properly in all environment 
 
 ## License
 [MIT](https://opensource.org/licenses/MIT)
+
