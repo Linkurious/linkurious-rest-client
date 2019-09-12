@@ -35,6 +35,7 @@ import {IUserDataSource} from './models/DataSource';
 import {DataSourceModule} from './module/DataSourceModule';
 import {ConfigurationModule} from './module/ConfigurationModule';
 import {CustomActionModule} from './module/CustomActionModule';
+import {AccessRightsModule} from './module/AccessRightsModule';
 
 export class Linkurious {
   private readonly _fetcher: Fetcher;
@@ -50,6 +51,7 @@ export class Linkurious {
   private readonly _search: SearchModule;
   private readonly _visualization: VisualizationModule;
   private readonly _alert: AlertModule;
+  private readonly _accessRights: AccessRightsModule;
   private readonly _schema: SchemaModule;
   private readonly _dataSource: DataSourceModule;
   private readonly _configuration: ConfigurationModule;
@@ -93,6 +95,11 @@ export class Linkurious {
     );
     this._alert = new AlertModule(this._fetcher, this._transformer, this._errorListener);
     this._schema = new SchemaModule(this._fetcher, this._transformer, this._errorListener);
+    this._accessRights = new AccessRightsModule(
+      this._fetcher,
+      this._transformer,
+      this._errorListener
+    );
     this._dataSource = new DataSourceModule(this._fetcher, this._transformer, this._errorListener);
     this._configuration = new ConfigurationModule(
       this._fetcher,
@@ -160,6 +167,13 @@ export class Linkurious {
    */
   get schema(): SchemaModule {
     return this._schema;
+  }
+
+  /**
+   * @returns {AccessRightsModule}
+   */
+  get accessRights(): AccessRightsModule {
+    return this._accessRights;
   }
 
   /**

@@ -105,8 +105,12 @@ export interface IGraphSchemaProperty {
   propertyType: ISimpleType | IStringType | IDateType | IDateTimeType;
 }
 
+export interface IGraphSchemaPropertyWithAccess extends IGraphSchemaProperty {
+  access: PropertyAccessLevel;
+}
+
 export interface IGraphSchemaType {
-  label: string;
+  itemType: string;
   properties: IGraphSchemaProperty[];
   visibility: DataVisibility;
 }
@@ -115,27 +119,41 @@ export interface IGraphSchema {
   results: IGraphSchemaType[];
 }
 
-export enum AccessLevel {
+export enum AnyTypeAccessLevel {
   READABLE = 'readable',
   EDITABLE = 'editable',
   WRITABLE = 'writable',
   NONE = 'none'
 }
 
+export enum TypeAccessLevel {
+  READABLE = 'readable',
+  EDITABLE = 'editable',
+  WRITABLE = 'writable'
+}
+
+export enum PropertyAccessLevel {
+  READABLE = 'readable',
+  EDITABLE = 'editable',
+  WRITABLE = 'writable'
+}
+
 export interface IGraphSchemaWithAccess extends IGraphSchema {
   any: {
-    access: AccessLevel;
+    access: AnyTypeAccessLevel;
   };
   results: IGraphSchemaTypeWithAccess[];
 }
 
 export interface IGraphSchemaTypeWithAccess extends IGraphSchemaType {
-  access: AccessLevel;
+  access: TypeAccessLevel;
+  // IGraphSchemaPropertyWithAccess[] if property key access rights is enabled
+  properties: IGraphSchemaProperty[] | IGraphSchemaPropertyWithAccess[];
 }
 
 export interface ICreateTypeParams extends IDataSourceParams {
   entityType: EntityType;
-  label: string;
+  itemType: string;
   visibility?: DataVisibility; // default is searchable
 }
 
@@ -145,7 +163,7 @@ export interface IUpdateTypeParams extends ICreateTypeParams {}
 
 export interface ICreatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
-  label: string;
+  itemType: string;
   propertyKey: string;
   propertyType: ISimpleType | IStringType | IDateType | IDateTimeType;
   required?: boolean;
@@ -156,7 +174,7 @@ export interface ICreatePropertyResponse {}
 
 export interface IUpdatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
-  label: string;
+  itemType: string;
   propertyKey: string;
   propertyType?: ISimpleType | IStringType | IDateType | IDateTimeType;
   required?: boolean;
