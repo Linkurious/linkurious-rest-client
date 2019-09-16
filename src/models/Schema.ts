@@ -134,8 +134,7 @@ export enum TypeAccessLevel {
 
 export enum PropertyAccessLevel {
   READABLE = 'readable',
-  EDITABLE = 'editable',
-  WRITABLE = 'writable'
+  EDITABLE = 'editable'
 }
 
 export interface IGraphSchemaWithAccess extends IGraphSchema {
