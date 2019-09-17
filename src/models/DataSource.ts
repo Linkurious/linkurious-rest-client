@@ -199,11 +199,11 @@ export interface IGetUserDataSourcesParams {
   withCaptions?: boolean;
 }
 
-export interface IGetUserDataSourcesResponse {
+export type GetUserDataSourcesResponse = {
   sources: IUserDataSource[];
 }
 
-export interface IGetAdminDataSourcesResponse {
+export type GetAdminDataSourcesResponse = {
   sources: IAdminDataSource[];
 }
 
