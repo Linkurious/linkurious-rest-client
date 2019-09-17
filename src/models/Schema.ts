@@ -119,6 +119,8 @@ export interface IGraphSchema {
   results: IGraphSchemaType[];
 }
 
+// When the user belongs to a builtin group, it has access to all node categories.
+// Used by the frontend to know that a user can create a node with a category not in the schema.
 export enum AnyTypeAccessLevel {
   READABLE = 'readable',
   EDITABLE = 'editable',
