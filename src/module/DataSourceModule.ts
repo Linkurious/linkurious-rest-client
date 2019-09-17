@@ -12,9 +12,9 @@ import {
   IConnectDataSourceParams,
   IDeleteDataSourceParams,
   IDeleteDataSourceResponse,
-  IGetAdminDataSourcesResponse,
+  GetAdminDataSourcesResponse,
   IGetUserDataSourcesParams,
-  IGetUserDataSourcesResponse,
+  GetUserDataSourcesResponse,
   IResetDataSourceDefaultsParams,
   ISetDataSourceDefaultsParams
 } from '../models/DataSource';
@@ -27,7 +27,7 @@ export class DataSourceModule extends Module {
    */
   public getUserDataSources(
     params?: IGetUserDataSourcesParams
-  ): Promise<Success<IGetUserDataSourcesResponse> | Unauthorized> {
+  ): Promise<Success<GetUserDataSourcesResponse> | Unauthorized> {
     return this.request({
       url: '/dataSources',
       method: 'GET',
@@ -38,7 +38,7 @@ export class DataSourceModule extends Module {
   /**
    * Get information for all data-source, including data-sources that do not exist online.
    */
-  public getAdminDataSources(): Promise<Success<IGetAdminDataSourcesResponse> | Unauthorized> {
+  public getAdminDataSources(): Promise<Success<GetAdminDataSourcesResponse> | Unauthorized> {
     return this.request({
       url: '/admin/sources',
       method: 'GET'
