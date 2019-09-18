@@ -199,14 +199,6 @@ export interface IGetUserDataSourcesParams {
   withCaptions?: boolean;
 }
 
-export type GetUserDataSourcesResponse = {
-  sources: IUserDataSource[];
-}
-
-export type GetAdminDataSourcesResponse = {
-  sources: IAdminDataSource[];
-}
-
 export interface ISetDataSourceDefaultsParams extends IDataSourceParams {
   styles?: IDataSourceStyle;
   captions?: ICaptionsConfig;
