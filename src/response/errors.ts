@@ -173,3 +173,15 @@ export class ClientError extends Rejection {
     super({key: 'client_error'});
   }
 }
+}
+export class StrictSchemaRequired extends Rejection {
+  constructor() {
+    super({key: 'strict_schema_required'});
+  }
+}
+}
+export class InvalidPropertyAccessLevel extends Rejection {
+  constructor() {
+    super({key: 'invalid_property_access_level'});
+  }
+}
