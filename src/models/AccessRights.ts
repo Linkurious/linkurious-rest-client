@@ -24,13 +24,13 @@ export interface ISetAccessRightsParams extends IDataSourceParams {
   groupId: number;
   type: AccessRightType;
   targetType: TargetType;
-  targetItemType?: string;
-  targetName: string;
+  targetItemType?: string; // e.g.: 'Person'
+  targetName: string; // e.g.: 'Person' if targetType is 'nodeCategory' or 'name' if targetType is 'nodePropertyKey'
 }
 
 // Examples:
 //
-// NODE_PROPERTY_KEY access right type:
+// NODE_PROPERTY_KEY access right:
 // {
 //   groupId: 10,
 //   type: 'read',
@@ -39,7 +39,7 @@ export interface ISetAccessRightsParams extends IDataSourceParams {
 //   targetName: 'name'
 // }
 //
-// NODE_CATEGORY access right type:
+// NODE_CATEGORY access right:
 // {
 //   groupId: 10,
 //   type: 'read',
