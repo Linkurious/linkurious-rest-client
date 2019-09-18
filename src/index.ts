@@ -343,7 +343,7 @@ export class Linkurious {
   }): Promise<Success<IUserDataSource> | Unauthorized | InvalidParameter> {
     const response = await this.dataSource.getUserDataSources(data);
     if (response.isSuccess()) {
-      return new Success(await this.storeDefaultCurrentSource(response.response!.sources));
+      return new Success(await this.storeDefaultCurrentSource(response.response!));
     }
     return response;
   }
