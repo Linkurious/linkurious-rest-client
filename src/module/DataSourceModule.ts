@@ -7,14 +7,12 @@
 
 // TS2019-DONE
 
-import {Success, Unauthorized} from '../../index';
+import { IAdminDataSource, IUserDataSource, Success, Unauthorized } from '../../index';
 import {
   IConnectDataSourceParams,
   IDeleteDataSourceParams,
   IDeleteDataSourceResponse,
-  GetAdminDataSourcesResponse,
   IGetUserDataSourcesParams,
-  GetUserDataSourcesResponse,
   IResetDataSourceDefaultsParams,
   ISetDataSourceDefaultsParams
 } from '../models/DataSource';
@@ -27,7 +25,7 @@ export class DataSourceModule extends Module {
    */
   public getUserDataSources(
     params?: IGetUserDataSourcesParams
-  ): Promise<Success<GetUserDataSourcesResponse> | Unauthorized> {
+  ): Promise<Success<IUserDataSource[]> | Unauthorized> {
     return this.request({
       url: '/dataSources',
       method: 'GET',
@@ -38,7 +36,7 @@ export class DataSourceModule extends Module {
   /**
    * Get information for all data-source, including data-sources that do not exist online.
    */
-  public getAdminDataSources(): Promise<Success<GetAdminDataSourcesResponse> | Unauthorized> {
+  public getAdminDataSources(): Promise<Success<IAdminDataSource[]> | Unauthorized> {
     return this.request({
       url: '/admin/sources',
       method: 'GET'
