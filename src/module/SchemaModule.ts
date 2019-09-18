@@ -7,7 +7,13 @@
 
 // TS2019-DONE
 
-import {DataSourceUnavailable, Forbidden, NotFound, Unauthorized} from '../response/errors';
+import {
+  DataSourceUnavailable,
+  Forbidden,
+  NotFound,
+  StandardAccessRightRequired,
+  Unauthorized
+} from '../response/errors';
 import {Success} from '../response/success';
 import {
   ICreatePropertyParams,
@@ -132,7 +138,9 @@ export class SchemaModule extends Module {
 
   public async updateSchemaSettings(
     options: IUpdateSchemaSettingsParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
+  ): Promise<
+    Success<void> | Unauthorized | Forbidden | DataSourceUnavailable | StandardAccessRightRequired
+  > {
     return this.request({
       url: '/admin/{sourceKey}/graph/schema/settings',
       method: 'PATCH',
