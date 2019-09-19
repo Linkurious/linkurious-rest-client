@@ -18,7 +18,7 @@ export interface IDataSourceFeatures {
   canCountBeforeIndexation: boolean;
   canIndexEdges: boolean;
   searchHitsCount: boolean;
-  alternativeIds: IAlternativeIdSettings;
+  alternativeIds: boolean;
   maxNodeCategories?: number;
   externalIndex: boolean;
   canCount: boolean;
@@ -35,10 +35,10 @@ export interface IAlternativeIdSettings {
 
 export interface IDataSourceSettings {
   readonly: boolean;
-  alternativeIds: IAlternativeIdSettings;
 }
 
 export interface IConnectedDataSourceSettings extends IDataSourceSettings {
+  alternativeIds: IAlternativeIdSettings;
   strictSchema: boolean;
   skipEdgeIndexation: boolean;
   latitudeProperty?: string;
