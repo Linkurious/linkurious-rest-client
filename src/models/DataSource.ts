@@ -199,6 +199,10 @@ export interface IGetUserDataSourcesParams {
   withCaptions?: boolean;
 }
 
+export type GetUserDataSourcesResponse = IUserDataSource[];
+
+export type GetAdminDataSourcesResponse = IAdminDataSource[];
+
 export interface ISetDataSourceDefaultsParams extends IDataSourceParams {
   styles?: IDataSourceStyle;
   captions?: ICaptionsConfig;
