@@ -26,6 +26,7 @@ import {EdgeModule} from './module/EdgeModule';
 import {GraphModule} from './module/GraphModule';
 import {MyModule} from './module/MyModule';
 import {NodeModule} from './module/NodeModule';
+import { PluginsModule } from './module/PluginsModule';
 import {SchemaModule} from './module/SchemaModule';
 import {SearchModule} from './module/SearchModule';
 import {VisualizationModule} from './module/VisualizationModule';
@@ -54,6 +55,7 @@ export class Linkurious {
   private readonly _dataSource: DataSourceModule;
   private readonly _configuration: ConfigurationModule;
   private readonly _customAction: CustomActionModule;
+  private readonly _plugins: PluginsModule;
 
   get state(): IClientState {
     return this._clientState;
@@ -100,6 +102,11 @@ export class Linkurious {
       this._errorListener
     );
     this._customAction = new CustomActionModule(
+      this._fetcher,
+      this._transformer,
+      this._errorListener
+    );
+    this._plugins = new PluginsModule(
       this._fetcher,
       this._transformer,
       this._errorListener
@@ -203,6 +210,14 @@ export class Linkurious {
   get customAction(): CustomActionModule {
     return this._customAction;
   }
+
+  /**
+   * @returns {PluginsModule}
+   */
+  get plugins(): PluginsModule {
+    return this._plugins;
+  }
+
 
   /**
    * set guest mode
