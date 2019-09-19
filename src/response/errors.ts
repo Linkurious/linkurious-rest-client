@@ -23,7 +23,10 @@ export type RejectionKey =
   | 'unauthorized'
   | 'write_forbidden'
   | 'cancelled'
-  | 'client_error';
+  | 'client_error'
+  | 'property_key_access_rights_requires_strict_schema'
+  | 'property_key_access_rights_required'
+  | 'invalid_property_key_access_level';
 
 export class Rejection extends ServerResponse<RejectionKey> {
   public readonly message: string | undefined;
@@ -173,23 +176,18 @@ export class ClientError extends Rejection {
     super({key: 'client_error'});
   }
 }
-export class StrictSchemaRequired extends Rejection {
+export class PropertyKeyAccessRightsRequiresStrictSchema extends Rejection {
   constructor() {
-    super({key: 'strict_schema_required'});
+    super({key: 'property_key_access_rights_requires_strict_schema'});
   }
 }
-export class PropertyKeyAccessRightRequired extends Rejection {
+export class PropertyKeyAccessRightsRequired extends Rejection {
   constructor() {
-    super({key: 'property_key_access_right_required'});
+    super({key: 'property_key_access_rights_required'});
   }
 }
-export class StandardAccessRightRequired extends Rejection {
+export class InvalidPropertyKeyAccessLevel extends Rejection {
   constructor() {
-    super({key: 'standard_access_right_required'});
-  }
-}
-export class InvalidPropertyAccessLevel extends Rejection {
-  constructor() {
-    super({key: 'invalid_property_access_level'});
+    super({key: 'invalid_property_key_access_level'});
   }
 }

@@ -112,7 +112,7 @@ export interface IGraphSchemaPropertyWithAccess extends IGraphSchemaProperty {
 export interface IGraphSchemaType {
   itemType: string;
   properties: IGraphSchemaProperty[];
-  visibility: DataVisibility;
+  visibility: DataVisibility; // Set in the schema, e.g.: 'available' or 'searchable'
 }
 
 export interface IGraphSchema {

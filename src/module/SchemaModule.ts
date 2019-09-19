@@ -11,7 +11,7 @@ import {
   DataSourceUnavailable,
   Forbidden,
   NotFound,
-  StandardAccessRightRequired,
+  PropertyKeyAccessRightsRequiresStrictSchema,
   Unauthorized
 } from '../response/errors';
 import {Success} from '../response/success';
@@ -139,7 +139,11 @@ export class SchemaModule extends Module {
   public async updateSchemaSettings(
     options: IUpdateSchemaSettingsParams
   ): Promise<
-    Success<void> | Unauthorized | Forbidden | DataSourceUnavailable | StandardAccessRightRequired
+    | Success<void>
+    | Unauthorized
+    | Forbidden
+    | DataSourceUnavailable
+    | PropertyKeyAccessRightsRequiresStrictSchema
   > {
     return this.request({
       url: '/admin/{sourceKey}/graph/schema/settings',

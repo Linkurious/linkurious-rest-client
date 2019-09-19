@@ -10,9 +10,9 @@
 import {DataSourceUnavailable, Forbidden, Success, Unauthorized} from '../../index';
 import {ISetAccessRightsParams, IUpdateAccessRightsSettingsParams} from '../models/AccessRights';
 import {
-  InvalidPropertyAccessLevel,
-  PropertyKeyAccessRightRequired,
-  StrictSchemaRequired
+  PropertyKeyAccessRightsRequiresStrictSchema,
+  InvalidPropertyKeyAccessLevel,
+  PropertyKeyAccessRightsRequired
 } from '../response/errors';
 
 import {Module} from './Module';
@@ -25,8 +25,8 @@ export class AccessRightsModule extends Module {
     | Unauthorized
     | Forbidden
     | DataSourceUnavailable
-    | PropertyKeyAccessRightRequired
-    | InvalidPropertyAccessLevel
+    | InvalidPropertyKeyAccessLevel
+    | PropertyKeyAccessRightsRequired
   > {
     return this.request({
       url: '/api/admin/{sourceKey}/groups/{groupId}/access_rights',
@@ -42,7 +42,11 @@ export class AccessRightsModule extends Module {
   public async updateAccessRightsSettings(
     options: IUpdateAccessRightsSettingsParams
   ): Promise<
-    Success<void> | Unauthorized | Forbidden | DataSourceUnavailable | StrictSchemaRequired
+    | Success<void>
+    | Unauthorized
+    | Forbidden
+    | DataSourceUnavailable
+    | PropertyKeyAccessRightsRequiresStrictSchema
   > {
     return this.request({
       url: '/admin/{sourceKey}/accessRights/settings',
