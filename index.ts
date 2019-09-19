@@ -490,7 +490,14 @@ export interface IServerVisualization extends ISandBox, IIdentified {
   updatedAt?: string;
 }
 
+export enum VisualizationRight {
+  OWNER = 'owner',
+  WRITE = 'write',
+  READ = 'read'
+}
+
 export interface IVisualization extends ISandBox, IIdentified {
+  sourceKey: string;
   title: string;
   folder: number;
   nodes: IOgmaNode[];
@@ -499,6 +506,7 @@ export interface IVisualization extends ISandBox, IIdentified {
   layout: IVisualizationLayout;
   geo: IVisualizationGeo;
   mode: VisualizationModeType;
+  right: VisualizationRight;
   filters: any[];
   createdAt?: string;
   updatedAt?: string;
@@ -682,6 +690,7 @@ export interface IFullAdminAlert extends IAdminAlert, IIdentified {
 }
 
 export interface IMatch extends IIdentified, IBaseAlert {
+  sourceKey: string;
   alertId: number;
   score: number;
   hash: string;

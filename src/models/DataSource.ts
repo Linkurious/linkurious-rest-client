@@ -35,12 +35,12 @@ export interface IAlternativeIdSettings {
 
 export interface IDataSourceSettings {
   readonly: boolean;
+  alternativeIds: IAlternativeIdSettings;
 }
 
 export interface IConnectedDataSourceSettings extends IDataSourceSettings {
   strictSchema: boolean;
   skipEdgeIndexation: boolean;
-  alternativeIds: IAlternativeIdSettings;
   latitudeProperty?: string;
   longitudeProperty?: string;
 }
@@ -65,12 +65,12 @@ export type IUserDataSource = {
   configIndex: number;
   state: DataSourceStatus;
   reason: string;
-  error?: string;
+  error?: string | null;
   features: IDataSourceFeatures;
   defaultStyles?: IDataSourceStyle;
   defaultCaptions?: ICaptionsConfig;
   settings: IDataSourceSettings | IConnectedDataSourceSettings;
-};
+}
 
 export enum DataSourceStatus {
   READY = 'ready',
@@ -197,14 +197,6 @@ export interface IDataSourceStyle {
 export interface IGetUserDataSourcesParams {
   withStyles?: boolean;
   withCaptions?: boolean;
-}
-
-export interface IGetUserDataSourcesResponse {
-  sources: IUserDataSource[];
-}
-
-export interface IGetAdminDataSourcesResponse {
-  sources: IAdminDataSource[];
 }
 
 export interface ISetDataSourceDefaultsParams extends IDataSourceParams {
