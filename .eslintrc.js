@@ -22,6 +22,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-ignore':['off'], // Allows @ts-ignore
     '@typescript-eslint/interface-name-prefix': ['off'], // Allows interfaces prefixed with I
     'import/no-unresolved': ['off'], // TODO Rule not working for TypeScript
-    'import/order': ['error', {'newlines-between': 'always'}] // Orders imports by ['builtin', 'external', 'parent', 'sibling', 'index']
+    'import/order': ['error', {'newlines-between': 'always'}], // Orders imports by ['builtin', 'external', 'parent', 'sibling', 'index']
+    '@typescript-eslint/no-namespace': ['off'] // Allows namespace
   }
 };
