@@ -22,7 +22,7 @@ import {
   IUpdateCustomActionParams,
   IUpdateCustomActionResponse,
   IGetCustomActionsParams,
-  IGetCustomActionsResponse
+  GetCustomActionsResponse
 } from '../models/CustomAction';
 
 import {Module} from './Module';
@@ -83,9 +83,7 @@ export class CustomActionModule extends Module {
 
   public async getCustomActions(
     options: IGetCustomActionsParams
-  ): Promise<
-    Success<IGetCustomActionsResponse> | Unauthorized | Forbidden | DataSourceUnavailable
-  > {
+  ): Promise<Success<GetCustomActionsResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
     return this.request({
       url: '/{sourceKey}/customAction',
       method: 'GET',

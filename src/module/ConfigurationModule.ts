@@ -15,7 +15,7 @@ import {
   IResetConfigParams,
   SelectedDataSourceConfig,
   IGetApplicationConfigParams,
-  ICreateDataSourceConfigResponse
+  CreateDataSourceConfigResponse
 } from '../models/Configuration';
 import {Success} from '../response/success';
 import {Unauthorized} from '../response/errors';
@@ -56,7 +56,7 @@ export class ConfigurationModule extends Module {
    */
   public createDataSourceConfig(
     params: SelectedDataSourceConfig
-  ): Promise<Success<ICreateDataSourceConfigResponse> | Unauthorized> {
+  ): Promise<Success<CreateDataSourceConfigResponse> | Unauthorized> {
     return this.request({
       url: '/admin/sources/config',
       method: 'POST',

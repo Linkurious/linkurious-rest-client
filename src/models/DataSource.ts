@@ -39,6 +39,7 @@ export interface IDataSourceSettings {
 }
 
 export interface IConnectedDataSourceSettings extends IDataSourceSettings {
+  propertyKeyAccessRights: boolean;
   strictSchema: boolean;
   skipEdgeIndexation: boolean;
   latitudeProperty?: string;
@@ -58,7 +59,7 @@ export interface ICaptionsConfig {
   edges: GenericObject<ICaption>;
 }
 
-export type IUserDataSource = {
+export interface IUserDataSource {
   name: string;
   connected: boolean;
   key?: string;
@@ -199,13 +200,9 @@ export interface IGetUserDataSourcesParams {
   withCaptions?: boolean;
 }
 
-export type GetUserDataSourcesResponse = {
-  sources: IUserDataSource[];
-}
+export type GetUserDataSourcesResponse = IUserDataSource[];
 
-export type GetAdminDataSourcesResponse = {
-  sources: IAdminDataSource[];
-}
+export type GetAdminDataSourcesResponse = IAdminDataSource[];
 
 export interface ISetDataSourceDefaultsParams extends IDataSourceParams {
   styles?: IDataSourceStyle;
