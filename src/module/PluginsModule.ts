@@ -3,8 +3,11 @@
  *
  * - Created on 2019-09-17.
  */
+
+// TS2019-DONE
+
 import {Module} from './Module';
-import { IGetPluginsResponse} from '../models/Plugins';
+import { GetPluginsResponse} from '../models/Plugins';
 import { Unauthorized } from '../response/errors';
 import { Success } from '../response/success';
 
@@ -13,7 +16,7 @@ export class PluginsModule extends Module {
   /**
    * Get the list of installed plugins.
    */
-  public getPlugins(): Promise<Success<IGetPluginsResponse> | Unauthorized> {
+  public getPlugins(): Promise<Success<GetPluginsResponse> | Unauthorized> {
     return this.request({
       url: '/admin/plugins',
       method: 'GET'

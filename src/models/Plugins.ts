@@ -3,6 +3,7 @@
  *
  * - Created on 2019-09-17.
  */
+
 // TS2019-DONE
 
 export enum PluginState {
@@ -20,4 +21,4 @@ export interface IInstalledPlugin {
   error?: string
 }
 
-export type IGetPluginsResponse = IInstalledPlugin[]
+export type GetPluginsResponse = IInstalledPlugin[]
