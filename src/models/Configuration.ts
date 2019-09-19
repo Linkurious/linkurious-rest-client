@@ -38,7 +38,7 @@ export interface IGetApplicationConfigParams {
 }
 
 // sourceIndex of the new data-source
-export type ICreateDataSourceConfigResponse = number;
+export type CreateDataSourceConfigResponse = number;
 
 export interface IDeleteDataSourceConfigParams {
   dataSourceIndex: number;

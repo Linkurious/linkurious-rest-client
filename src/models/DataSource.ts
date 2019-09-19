@@ -58,7 +58,7 @@ export interface ICaptionsConfig {
   edges: GenericObject<ICaption>;
 }
 
-export type IUserDataSource = {
+export interface IUserDataSource {
   name: string;
   connected: boolean;
   key?: string;
