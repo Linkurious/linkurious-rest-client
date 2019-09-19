@@ -5,6 +5,7 @@
  * - Created on 2016-11-28.
  */
 
+export * from './src/models/AccessRights';
 export * from './src/models/Alert';
 export * from './src/models/Configuration';
 export * from './src/models/CustomAction';
@@ -192,12 +193,6 @@ export interface IAccessRight extends IDataSourceRelative {
   type: RightType;
   targetType: string;
   targetName: string;
-}
-
-export interface IGroupRights {
-  types: string[];
-  targetTypes: string[];
-  actions: string[];
 }
 
 // DATA-SOURCE
