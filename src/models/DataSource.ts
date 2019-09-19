@@ -39,6 +39,7 @@ export interface IDataSourceSettings {
 }
 
 export interface IConnectedDataSourceSettings extends IDataSourceSettings {
+  propertyKeyAccessRights: boolean;
   strictSchema: boolean;
   skipEdgeIndexation: boolean;
   latitudeProperty?: string;
