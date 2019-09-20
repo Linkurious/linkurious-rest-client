@@ -22,13 +22,16 @@ export enum TargetType {
 export interface ISetAccessRightsParams extends IDataSourceParams {
   groupId: number; // e.g.: 123
   type: AccessRightType; // e.g.: 'read'
-  target:
-    | ISetAccessRightsParams.INodeCategoryTarget
-    | ISetAccessRightsParams.IEdgeTypeTarget
-    | ISetAccessRightsParams.INodePropertyTarget
-    | ISetAccessRightsParams.IEdgePropertyTarget
-    | ISetAccessRightsParams.IActionTarget
-    | ISetAccessRightsParams.IAlertTarget;
+  accessRights: Array<{
+    type: AccessRightType; // e.g.: 'read'
+    target:
+      | ISetAccessRightsParams.INodeCategoryTarget
+      | ISetAccessRightsParams.IEdgeTypeTarget
+      | ISetAccessRightsParams.INodePropertyTarget
+      | ISetAccessRightsParams.IEdgePropertyTarget
+      | ISetAccessRightsParams.IActionTarget
+      | ISetAccessRightsParams.IAlertTarget;
+  }>;
 }
 
 namespace ISetAccessRightsParams {
