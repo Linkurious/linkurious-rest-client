@@ -18,7 +18,7 @@ export interface IDataSourceFeatures {
   canCountBeforeIndexation: boolean;
   canIndexEdges: boolean;
   searchHitsCount: boolean;
-  alternativeIds: IAlternativeIdSettings;
+  alternativeIds: boolean;
   maxNodeCategories?: number;
   externalIndex: boolean;
   canCount: boolean;
@@ -39,6 +39,7 @@ export interface IDataSourceSettings {
 }
 
 export interface IConnectedDataSourceSettings extends IDataSourceSettings {
+  alternativeIds: IAlternativeIdSettings;
   propertyKeyAccessRights: boolean;
   strictSchema: boolean;
   skipEdgeIndexation: boolean;
@@ -59,7 +60,7 @@ export interface ICaptionsConfig {
   edges: GenericObject<ICaption>;
 }
 
-export type IUserDataSource = {
+export interface IUserDataSource {
   name: string;
   connected: boolean;
   key?: string;
@@ -199,6 +200,10 @@ export interface IGetUserDataSourcesParams {
   withStyles?: boolean;
   withCaptions?: boolean;
 }
+
+export type GetUserDataSourcesResponse = IUserDataSource[];
+
+export type GetAdminDataSourcesResponse = IAdminDataSource[];
 
 export interface ISetDataSourceDefaultsParams extends IDataSourceParams {
   styles?: IDataSourceStyle;

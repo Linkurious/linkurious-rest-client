@@ -38,7 +38,7 @@ export interface IUpdateCustomActionResponse extends ICustomAction {}
 // Get
 export interface IGetCustomActionsParams extends IDataSourceParams {}
 
-export type IGetCustomActionsResponse = ICustomAction[];
+export type GetCustomActionsResponse = ICustomAction[];
 
 // Types
 export interface ICustomAction extends IPersistedItem {
