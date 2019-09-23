@@ -9,7 +9,13 @@
 
 import {IDataSourceParams} from './DataSource';
 
-type AccessRightType = 'read' | 'write' | 'edit' | 'do' | 'none';
+export enum AccessRightType {
+  READ = 'read',
+  WRITE = 'write',
+  EDIT = 'edit',
+  DO = 'do',
+  NONE = 'none'
+}
 
 export enum TargetType {
   NODE_CATEGORY = 'nodeCategory',
@@ -26,46 +32,43 @@ export interface ISetAccessRightsParams extends IDataSourceParams {
   accessRights: Array<{
     type: AccessRightType; // e.g.: 'read'
     target:
-      | ISetAccessRightsParams.INodeCategoryTarget
-      | ISetAccessRightsParams.IEdgeTypeTarget
-      | ISetAccessRightsParams.INodePropertyTarget
-      | ISetAccessRightsParams.IEdgePropertyTarget
-      | ISetAccessRightsParams.IActionTarget
-      | ISetAccessRightsParams.IAlertTarget;
+      | INodeCategoryTarget
+      | IEdgeTypeTarget
+      | INodePropertyTarget
+      | IEdgePropertyTarget
+      | IActionTarget
+      | IAlertTarget;
   }>;
 }
 
-namespace ISetAccessRightsParams {
-  // internal interface (not exported)
-  interface IGenericTarget<TT extends TargetType> {
-    targetType: TT; // e.g.: 'nodePropertyKey' or 'nodeCategory'
-    targetName: string; // e.g.: 'dateOfBirth' or 'CITY'
-    targetItemType?: string; // e.g.: 'Person' (only defined if targetType is a property)
-  }
+interface IGenericTarget<TT extends TargetType> {
+  targetType: TT; // e.g.: 'nodePropertyKey' or 'nodeCategory'
+  targetName: string; // e.g.: 'dateOfBirth' or 'CITY'
+  targetItemType?: string; // e.g.: 'Person' (only defined if targetType is a property)
+}
 
-  export interface INodeCategoryTarget extends IGenericTarget<TargetType.NODE_CATEGORY> {
-    targetItemType: undefined;
-  }
+export interface INodeCategoryTarget extends IGenericTarget<TargetType.NODE_CATEGORY> {
+  targetItemType: undefined;
+}
 
-  export interface IEdgeTypeTarget extends IGenericTarget<TargetType.EDGE_TYPE> {
-    targetItemType: undefined;
-  }
+export interface IEdgeTypeTarget extends IGenericTarget<TargetType.EDGE_TYPE> {
+  targetItemType: undefined;
+}
 
-  export interface IActionTarget extends IGenericTarget<TargetType.ACTION> {
-    targetItemType: undefined;
-  }
+export interface IActionTarget extends IGenericTarget<TargetType.ACTION> {
+  targetItemType: undefined;
+}
 
-  export interface IAlertTarget extends IGenericTarget<TargetType.ALERT> {
-    targetItemType: undefined;
-  }
+export interface IAlertTarget extends IGenericTarget<TargetType.ALERT> {
+  targetItemType: undefined;
+}
 
-  export interface INodePropertyTarget extends IGenericTarget<TargetType.NODE_PROPERTY_KEY> {
-    targetItemType: string; // node-category of the property (e.g. 'CITY')
-  }
+export interface INodePropertyTarget extends IGenericTarget<TargetType.NODE_PROPERTY_KEY> {
+  targetItemType: string; // node-category of the property (e.g. 'CITY')
+}
 
-  export interface IEdgePropertyTarget extends IGenericTarget<TargetType.EDGE_PROPERTY_KEY> {
-    targetItemType: string; // edge-type of the property (e.g. 'HAS_CITY')
-  }
+export interface IEdgePropertyTarget extends IGenericTarget<TargetType.EDGE_PROPERTY_KEY> {
+  targetItemType: string; // edge-type of the property (e.g. 'HAS_CITY')
 }
 
 // Examples:

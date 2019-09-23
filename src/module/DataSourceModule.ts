@@ -7,7 +7,7 @@
 
 // TS2019-DONE
 
-import { Success, Unauthorized } from '../../index';
+import {Success, Unauthorized} from '../../index';
 import {
   IConnectDataSourceParams,
   IDeleteDataSourceParams,
