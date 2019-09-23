@@ -44,23 +44,19 @@ export interface ISetAccessRightsParams extends IDataSourceParams {
 interface IGenericTarget<TT extends TargetType> {
   targetType: TT; // e.g.: 'nodePropertyKey' or 'nodeCategory'
   targetName: string; // e.g.: 'dateOfBirth' or 'CITY'
-  targetItemType?: string; // e.g.: 'Person' (only defined if targetType is a property)
+  // targetItemType?: string; e.g.: 'Person' (only defined if targetType is a property)
 }
 
 export interface INodeCategoryTarget extends IGenericTarget<TargetType.NODE_CATEGORY> {
-  targetItemType: undefined;
 }
 
 export interface IEdgeTypeTarget extends IGenericTarget<TargetType.EDGE_TYPE> {
-  targetItemType: undefined;
 }
 
 export interface IActionTarget extends IGenericTarget<TargetType.ACTION> {
-  targetItemType: undefined;
 }
 
 export interface IAlertTarget extends IGenericTarget<TargetType.ALERT> {
-  targetItemType: undefined;
 }
 
 export interface INodePropertyTarget extends IGenericTarget<TargetType.NODE_PROPERTY_KEY> {
