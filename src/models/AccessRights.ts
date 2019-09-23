@@ -9,11 +9,26 @@
 
 import {IDataSourceParams} from './DataSource';
 
-export enum AccessRightType {
+export enum ItemTypeAccessRightType {
   READ = 'read',
-  WRITE = 'write',
   EDIT = 'edit',
+  WRITE = 'write',
+  NONE = 'none'
+}
+
+export enum PropertyAccessRightType {
+  READ = 'read',
+  EDIT = 'edit',
+  NONE = 'none'
+}
+
+export enum ActionAccessRightType {
   DO = 'do',
+  NONE = 'none'
+}
+
+export enum AlertAccessRightType {
+  READ = 'read',
   NONE = 'none'
 }
 
@@ -28,42 +43,47 @@ export enum TargetType {
 
 export interface ISetAccessRightsParams extends IDataSourceParams {
   groupId: number; // e.g.: 123
-  type: AccessRightType; // e.g.: 'read'
-  accessRights: Array<{
-    type: AccessRightType; // e.g.: 'read'
-    target:
-      | INodeCategoryTarget
-      | IEdgeTypeTarget
-      | INodePropertyTarget
-      | IEdgePropertyTarget
-      | IActionTarget
-      | IAlertTarget;
-  }>;
+  accessRights: Array<
+    | INodeCategoryAccessRight
+    | IEdgeTypeAccessRight
+    | INodePropertyAccessRight
+    | IEdgePropertyAccessRight
+    | IActionAccessRight
+    | IAlertAccessRight
+  >;
 }
 
-interface IGenericTarget<TT extends TargetType> {
+interface IGenericAccessRight<TT extends TargetType> {
   targetType: TT; // e.g.: 'nodePropertyKey' or 'nodeCategory'
   targetName: string; // e.g.: 'dateOfBirth' or 'CITY'
   // targetItemType?: string; e.g.: 'Person' (only defined if targetType is a property)
 }
 
-export interface INodeCategoryTarget extends IGenericTarget<TargetType.NODE_CATEGORY> {
+export interface INodeCategoryAccessRight extends IGenericAccessRight<TargetType.NODE_CATEGORY> {
+  type: ItemTypeAccessRightType;
 }
 
-export interface IEdgeTypeTarget extends IGenericTarget<TargetType.EDGE_TYPE> {
+export interface IEdgeTypeAccessRight extends IGenericAccessRight<TargetType.EDGE_TYPE> {
+  type: ItemTypeAccessRightType;
 }
 
-export interface IActionTarget extends IGenericTarget<TargetType.ACTION> {
+export interface IActionAccessRight extends IGenericAccessRight<TargetType.ACTION> {
+  type: ActionAccessRightType;
 }
 
-export interface IAlertTarget extends IGenericTarget<TargetType.ALERT> {
+export interface IAlertAccessRight extends IGenericAccessRight<TargetType.ALERT> {
+  type: AlertAccessRightType;
 }
 
-export interface INodePropertyTarget extends IGenericTarget<TargetType.NODE_PROPERTY_KEY> {
+export interface INodePropertyAccessRight
+  extends IGenericAccessRight<TargetType.NODE_PROPERTY_KEY> {
+  type: PropertyAccessRightType;
   targetItemType: string; // node-category of the property (e.g. 'CITY')
 }
 
-export interface IEdgePropertyTarget extends IGenericTarget<TargetType.EDGE_PROPERTY_KEY> {
+export interface IEdgePropertyAccessRight
+  extends IGenericAccessRight<TargetType.EDGE_PROPERTY_KEY> {
+  type: PropertyAccessRightType;
   targetItemType: string; // edge-type of the property (e.g. 'HAS_CITY')
 }
 
@@ -71,7 +91,6 @@ export interface IEdgePropertyTarget extends IGenericTarget<TargetType.EDGE_PROP
 //
 // NODE_PROPERTY_KEY access right:
 // {
-//   groupId: 10,
 //   type: 'read',
 //   targetType: TargetType.NODE_PROPERTY_KEY,
 //   targetItemType: 'Person',
@@ -80,7 +99,6 @@ export interface IEdgePropertyTarget extends IGenericTarget<TargetType.EDGE_PROP
 //
 // NODE_CATEGORY access right:
 // {
-//   groupId: 10,
 //   type: 'read',
 //   targetType: TargetType.NODE_CATEGORY,
 //   targetName: 'Person'

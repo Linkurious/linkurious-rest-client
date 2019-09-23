@@ -1,6 +1,6 @@
 {
   "name": "@linkurious/rest-client",
-  "version": "2.9.0-pkar-2",
+  "version": "2.9.0-pkar-3",
   "description": "A TypeScript lib to interact with Linkurious REST API",
   "files": [
     "dist"
