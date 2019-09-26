@@ -16,6 +16,7 @@ export * from './src/models/Schema';
 export * from './src/models/Search';
 export * from './src/models/TemplateFields';
 export * from './src/models/Visualization';
+export * from './src/models/CustomAction';
 
 import {Linkurious} from './src';
 import {Fetcher} from './src/http/fetcher';

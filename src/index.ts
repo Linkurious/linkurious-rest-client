@@ -51,9 +51,9 @@ export class Linkurious {
   private readonly _visualization: VisualizationModule;
   private readonly _alert: AlertModule;
   private readonly _schema: SchemaModule;
+  private readonly _customAction: CustomActionModule;
   private readonly _dataSource: DataSourceModule;
   private readonly _configuration: ConfigurationModule;
-  private readonly _customAction: CustomActionModule;
 
   get state(): IClientState {
     return this._clientState;
@@ -99,11 +99,7 @@ export class Linkurious {
       this._transformer,
       this._errorListener
     );
-    this._customAction = new CustomActionModule(
-      this._fetcher,
-      this._transformer,
-      this._errorListener
-    );
+    this._customAction = new CustomActionModule(this._fetcher, this._transformer, this._errorListener);
   }
 
   /**
