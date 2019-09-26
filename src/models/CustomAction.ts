@@ -7,7 +7,8 @@
 
 // TS2019-DONE
 
-import {IPersistedItem, IDataSourceParams} from './Model';
+import {IDataSourceParams} from './DataSource';
+import {IPersistedItem} from './Model';
 
 // Create
 export interface ICreateCustomActionParams extends IDataSourceParams {

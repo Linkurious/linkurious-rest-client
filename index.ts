@@ -5,6 +5,8 @@
  * - Created on 2016-11-28.
  */
 
+import { ILeafletConfig } from "./src/models/Configuration";
+
 export * from './src/models/Alert';
 export * from './src/models/Configuration';
 export * from './src/models/CustomAction';
@@ -16,7 +18,6 @@ export * from './src/models/Schema';
 export * from './src/models/Search';
 export * from './src/models/TemplateFields';
 export * from './src/models/Visualization';
-export * from './src/models/CustomAction';
 
 import {Linkurious} from './src';
 import {Fetcher} from './src/http/fetcher';
@@ -413,18 +414,6 @@ export interface IAnalyticsConfig {
   enabled: boolean;
   code: string;
   domain: string;
-}
-
-export interface ILeafletConfig {
-  name: string;
-  thumbnail: string;
-  urlTemplate: string;
-  attribution: string;
-  subdomains: string;
-  id: string;
-  accessToken: string;
-  minZoom: number;
-  maxZoom: number;
 }
 
 export interface ISourceConfig {
