@@ -8,7 +8,7 @@
 // TS2019-DONE
 
 import {LkNormalizedEdge, LkNormalizedNode, LkNormalizedSubGraph} from './Entities';
-import {IDataSourceParams} from './Model';
+import {IDataSourceParams} from './DataSource';
 import {EntityType} from './Schema';
 
 export interface IStartIndexationParams extends IDataSourceParams {}
