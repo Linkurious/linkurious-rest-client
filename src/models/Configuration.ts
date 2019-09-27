@@ -275,9 +275,9 @@ export interface ILeafletConfig {
   minZoom: number;
   maxZoom: number;
   thumbnail: string;
-  subdomains?: boolean;
-  id?: boolean;
-  accessToken?: boolean;
+  subdomains?: string;
+  id?: string;
+  accessToken?: string;
   overlay?: boolean;
 }
 
