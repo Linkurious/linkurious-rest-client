@@ -9,6 +9,7 @@ export * from './src/models/Alert';
 export * from './src/models/Configuration';
 export * from './src/models/DataSource';
 export * from './src/models/Graph';
+export * from './src/models/Plugins';
 export * from './src/models/Schema';
 export * from './src/models/Search';
 export * from './src/models/Visualization';
