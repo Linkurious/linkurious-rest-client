@@ -31,6 +31,7 @@ import {VisualizationModule} from './module/VisualizationModule';
 import {Rejection} from './response/errors';
 import {Transformer} from './transformer';
 import {CustomActionModule} from './module/CustomActionModule';
+import {AccessRightsModule} from './module/AccessRightsModule';
 
 export class Linkurious {
   private readonly _fetcher: Fetcher;
@@ -46,6 +47,7 @@ export class Linkurious {
   private readonly _search: SearchModule;
   private readonly _visualization: VisualizationModule;
   private readonly _alert: AlertModule;
+  private readonly _accessRights: AccessRightsModule;
   private readonly _schema: SchemaModule;
   private readonly _customAction: CustomActionModule;
 
@@ -87,6 +89,11 @@ export class Linkurious {
     );
     this._alert = new AlertModule(this._fetcher, this._transformer, this._errorListener);
     this._schema = new SchemaModule(this._fetcher, this._transformer, this._errorListener);
+    this._accessRights = new AccessRightsModule(
+      this._fetcher,
+      this._transformer,
+      this._errorListener
+    );
     this._customAction = new CustomActionModule(this._fetcher, this._transformer, this._errorListener);
   }
 
@@ -144,6 +151,13 @@ export class Linkurious {
    */
   get schema(): SchemaModule {
     return this._schema;
+  }
+
+  /**
+   * @returns {AccessRightsModule}
+   */
+  get accessRights(): AccessRightsModule {
+    return this._accessRights;
   }
 
   /**

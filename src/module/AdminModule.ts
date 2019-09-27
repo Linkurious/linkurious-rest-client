@@ -13,7 +13,6 @@ import {
   IFullDataSource,
   IFullUser,
   IGroup,
-  IGroupRights,
   IIndexationStatus
 } from '../../index';
 import {ErrorListener} from '../errorListener';
@@ -254,34 +253,6 @@ export class AdminModule extends Module {
       url: '/admin/{sourceKey}/groups',
       method: 'GET',
       query: data,
-      path: {sourceKey: dataSourceKey}
-    });
-  }
-
-  /**
-   * Get possible targetType, type and action names.
-   */
-  public getGroupsRights(): Promise<Success<IGroupRights> | Unauthorized | Forbidden> {
-    return this.request({
-      url: '/admin/groups/rights_info',
-      method: 'GET'
-    });
-  }
-
-  /**
-   * set access rights for a group
-   */
-  public setGroupAccessRights(
-    data: {
-      id: number;
-      accessRights: Array<{type: string; targetType: string; targetName: string}>;
-    },
-    dataSourceKey?: string
-  ): Promise<Success<void> | Unauthorized | InvalidParameter | NotFound | Forbidden> {
-    return this.request({
-      url: '/admin/{sourceKey}/groups/{id}/access_rights',
-      method: 'PUT',
-      body: data,
       path: {sourceKey: dataSourceKey}
     });
   }
