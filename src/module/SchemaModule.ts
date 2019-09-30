@@ -13,7 +13,7 @@ import {
   NotFound,
   PropertyKeyAccessRightsRequiresStrictSchema,
   Unauthorized
-} from "../response/errors";
+} from '../response/errors';
 import {Success} from '../response/success';
 import {
   ICreatePropertyParams,
@@ -138,7 +138,13 @@ export class SchemaModule extends Module {
 
   public async updateSchemaSettings(
     options: IUpdateSchemaSettingsParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable | PropertyKeyAccessRightsRequiresStrictSchema> {
+  ): Promise<
+    | Success<void>
+    | Unauthorized
+    | Forbidden
+    | DataSourceUnavailable
+    | PropertyKeyAccessRightsRequiresStrictSchema
+  > {
     return this.request({
       url: '/admin/{sourceKey}/graph/schema/settings',
       method: 'PATCH',

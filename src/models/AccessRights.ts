@@ -49,7 +49,7 @@ export interface ISetAccessRightsParams extends IDataSourceParams {
     | IEdgePropertyAccessRight
     | IActionAccessRight
     | IAlertAccessRight
-    >;
+  >;
 }
 
 interface IGenericAccessRight<TT extends TargetType> {

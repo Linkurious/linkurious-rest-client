@@ -89,12 +89,16 @@ export class Linkurious {
     );
     this._alert = new AlertModule(this._fetcher, this._transformer, this._errorListener);
     this._schema = new SchemaModule(this._fetcher, this._transformer, this._errorListener);
+    this._customAction = new CustomActionModule(
+      this._fetcher,
+      this._transformer,
+      this._errorListener
+    );
     this._accessRights = new AccessRightsModule(
       this._fetcher,
       this._transformer,
       this._errorListener
     );
-    this._customAction = new CustomActionModule(this._fetcher, this._transformer, this._errorListener);
   }
 
   /**

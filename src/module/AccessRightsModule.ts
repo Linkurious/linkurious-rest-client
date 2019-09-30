@@ -26,7 +26,7 @@ export class AccessRightsModule extends Module {
     | DataSourceUnavailable
     | InvalidPropertyKeyAccessLevel
     | PropertyKeyAccessRightsRequired
-    > {
+  > {
     return this.request({
       url: '/api/admin/{sourceKey}/groups/{groupId}/access_rights',
       method: 'PUT',
@@ -46,7 +46,7 @@ export class AccessRightsModule extends Module {
     | Forbidden
     | DataSourceUnavailable
     | PropertyKeyAccessRightsRequiresStrictSchema
-    > {
+  > {
     return this.request({
       url: '/admin/{sourceKey}/accessRights/settings',
       method: 'PATCH',
