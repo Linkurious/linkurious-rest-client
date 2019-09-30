@@ -6,6 +6,12 @@
 
 // TS2019-DONE
 
+export enum PluginRequestHeader {
+  USER_ID = 'X-linkurious-user-id',
+  USER_EMAIL = 'X-linkurious-user-email',
+  PLUGIN_SECRET = 'X-linkurious-plugin-secret'
+}
+
 export enum PluginState {
   RUNNING = 'running',
   STOPPED = 'stopped',
