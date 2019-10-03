@@ -7,9 +7,9 @@
 // TS2019-DONE
 
 export enum PluginRequestHeader {
-  USER_ID = 'X-linkurious-user-id',
-  USER_EMAIL = 'X-linkurious-user-email',
-  PLUGIN_SECRET = 'X-linkurious-plugin-secret'
+  USER_ID = 'linkurious-user-id',
+  USER_EMAIL = 'linkurious-user-email',
+  PLUGIN_SECRET = 'linkurious-plugin-secret'
 }
 
 export enum PluginState {
