@@ -22,6 +22,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-ignore':['off'], // Allows @ts-ignore
     '@typescript-eslint/interface-name-prefix': ['off'], // Allows interfaces prefixed with I
     '@typescript-eslint/no-non-null-assertion': ['off'], // Allows non-null assertion
+    '@typescript-eslint/no-empty-function': ['off'], // Allows empty functions
     'import/no-unresolved': ['off'], // TODO Rule not working for TypeScript
     'import/order': ['error', {'newlines-between': 'always'}] // Orders imports by ['builtin', 'external', 'parent', 'sibling', 'index']
   }
