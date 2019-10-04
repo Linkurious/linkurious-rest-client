@@ -21,6 +21,7 @@ module.exports = {
     'object-shorthand': ['error', 'never'], // Disallows shorthand object literal
     '@typescript-eslint/ban-ts-ignore':['off'], // Allows @ts-ignore
     '@typescript-eslint/interface-name-prefix': ['off'], // Allows interfaces prefixed with I
+    '@typescript-eslint/no-non-null-assertion': ['off'], // Allows non-null assertion
     'import/no-unresolved': ['off'], // TODO Rule not working for TypeScript
     'import/order': ['error', {'newlines-between': 'always'}] // Orders imports by ['builtin', 'external', 'parent', 'sibling', 'index']
   }
