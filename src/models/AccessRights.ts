@@ -40,6 +40,8 @@ export enum BuiltinOnlyAvailableAction {
   EDIT_CONFIGURATION = 'admin.config' // Edit the configuration of Linkurious
 }
 
+export type Action = BuiltinOnlyAvailableAction | CustomGroupAvailableAction;
+
 export enum ItemTypeAccessRightType {
   READ = 'read',
   EDIT = 'edit',
