@@ -8,7 +8,10 @@
 
 import {IDataSourceParams} from './DataSource';
 
-export enum CustomGroupAvailableAction {
+/**
+ * Available to custom groups.
+ */
+export enum UserAction {
   CONNECT = 'admin.connect', // Connect the data-source and read the configuration
   INDEX = 'admin.index', // Index the data-source and read the configuration
   MANAGE_USERS = 'admin.users', // Manage the users in the data-source
@@ -34,13 +37,16 @@ export const ImplicitActions = {
   writeCustomAction: ['runCustomAction']
 };
 
-export enum BuiltinOnlyAvailableAction {
+/**
+ * Only for the built-in admin group.
+ */
+export enum AdminAction {
   MANAGE_APPLICATIONS = 'admin.app', // Create API Keys
   DELETE_USERS = 'admin.users.delete', // Delete users
   EDIT_CONFIGURATION = 'admin.config' // Edit the configuration of Linkurious
 }
 
-export type Action = BuiltinOnlyAvailableAction | CustomGroupAvailableAction;
+export type Action = AdminAction | UserAction;
 
 export enum ItemTypeAccessRightType {
   READ = 'read',
@@ -102,7 +108,7 @@ export interface IEdgeTypeAccessRight extends IGenericAccessRight<TargetType.EDG
 
 export interface IActionAccessRight extends IGenericAccessRight<TargetType.ACTION> {
   type: ActionAccessRightType;
-  targetName: CustomGroupAvailableAction;
+  targetName: UserAction;
 }
 
 export interface IAlertAccessRight extends IGenericAccessRight<TargetType.ALERT> {
