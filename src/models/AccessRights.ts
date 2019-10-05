@@ -18,7 +18,7 @@ export enum UserAction {
   MANAGE_SCHEMA = 'admin.schema', // Edit the schema of the data-source
   CREATE_ALERTS = 'admin.alerts', // Manage the alerts in the data-source
   DOWNLOAD_REPORT = 'admin.report', // Generate analytics report
-  RESET_STYLES = 'admin.styles', // Reset design and captions of all sandboxes of the data-source
+  EDIT_STYLES = 'admin.styles', // Edit styles and captions of all sandboxes of the data-source
   RUN_QUERY = 'runQuery', // Execute a saved query
   CREATE_READ_QUERY = 'rawReadQuery', // Create a read query
   CREATE_WRITE_QUERY = 'rawWriteQuery', // Create a read/write query
