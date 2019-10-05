@@ -8,6 +8,38 @@
 
 import {IDataSourceParams} from './DataSource';
 
+export enum CustomGroupAvailableAction {
+  CONNECT = 'admin.connect', // Connect the data-source and read the configuration
+  INDEX = 'admin.index', // Index the data-source and read the configuration
+  MANAGE_USERS = 'admin.users', // Manage the users in the data-source
+  MANAGE_SCHEMA = 'admin.schema', // Edit the schema of the data-source
+  CREATE_ALERTS = 'admin.alerts', // Manage the alerts in the data-source
+  DOWNLOAD_REPORT = 'admin.report', // Generate analytics report
+  RESET_STYLES = 'admin.styles', // Reset design and captions of all sandboxes of the data-source
+  RUN_QUERY = 'runQuery', // Execute a saved query
+  CREATE_READ_QUERY = 'rawReadQuery', // Create a read query
+  CREATE_WRITE_QUERY = 'rawWriteQuery', // Create a read/write query
+  RUN_CUSTOM_ACTION = 'runCustomAction', // Execute a custom action
+  CREATE_CUSTOM_ACTION = 'writeCustomAction' // Edit, update and delete a custom action
+}
+
+export const ImplicitActions = {
+  // if you can create a read query, you can also run them
+  rawReadQuery: ['runQuery'],
+
+  // if you can create a write query, you can also create a read query and run them
+  rawWriteQuery: ['rawReadQuery', 'runQuery'],
+
+  // if you can write a custom action you can also run them
+  writeCustomAction: ['runCustomAction']
+};
+
+export enum BuiltinOnlyAvailableAction {
+  MANAGE_APPLICATIONS = 'admin.app', // Create API Keys
+  DELETE_USERS = 'admin.users.delete', // Delete users
+  EDIT_CONFIGURATION = 'admin.config' // Edit the configuration of Linkurious
+}
+
 export enum ItemTypeAccessRightType {
   READ = 'read',
   EDIT = 'edit',
@@ -68,6 +100,7 @@ export interface IEdgeTypeAccessRight extends IGenericAccessRight<TargetType.EDG
 
 export interface IActionAccessRight extends IGenericAccessRight<TargetType.ACTION> {
   type: ActionAccessRightType;
+  targetName: CustomGroupAvailableAction;
 }
 
 export interface IAlertAccessRight extends IGenericAccessRight<TargetType.ALERT> {
