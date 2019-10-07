@@ -92,7 +92,7 @@ export interface ISetAccessRightsParams extends IDataSourceParams {
   >;
 }
 
-interface IGenericAccessRight<TT extends TargetType> {
+export interface IGenericAccessRight<TT extends TargetType> {
   targetType: TT; // e.g.: 'nodePropertyKey' or 'nodeCategory'
   targetName: string; // e.g.: 'dateOfBirth' or 'CITY'
   // targetItemType?: string; e.g.: 'Person' (only defined if targetType is a property)
