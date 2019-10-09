@@ -26,17 +26,6 @@ export enum UserAction {
   CREATE_CUSTOM_ACTION = 'writeCustomAction' // Edit, update and delete a custom action
 }
 
-export const ImplicitActions = {
-  // if you can create a read query, you can also run them
-  rawReadQuery: ['runQuery'],
-
-  // if you can create a write query, you can also create a read query and run them
-  rawWriteQuery: ['rawReadQuery', 'runQuery'],
-
-  // if you can write a custom action you can also run them
-  writeCustomAction: ['runCustomAction']
-};
-
 /**
  * Only for the built-in admin group.
  */
