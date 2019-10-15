@@ -18,7 +18,7 @@ export class ErrorListener {
     this.listeners = {} as SimpleListeners;
   }
 
-  dispatchError(key: LkErrorKey, payload: any): void {
+  dispatchError(key: LkErrorKey, payload: unknown): void {
     if (this.listeners.hasOwnProperty(key) && typeof this.listeners[key] === 'function') {
       this.listeners[key](payload);
     }

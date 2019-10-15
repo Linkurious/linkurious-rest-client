@@ -5,6 +5,8 @@
  * - Created on 2019-10-01.
  */
 
+import {GenericObject} from "./commonTypes";
+
 export enum LkErrorKey {
   CONNECTION_REFUSED = 'connection_refused', // formerly 'communication_error'
   BAD_FETCH_CONFIG = 'bad_fetch_config', // formerly 'state_error'
@@ -25,21 +27,35 @@ export enum LkErrorKey {
   CLIENT_ERROR = 'client_error'
 }
 
-export enum LkSuccessKey {
-  SUCCESS = 'success'
+// Helper to write less times `LkResponse` as a wrapper in RC methods:
+// this Responses<IGetSomethingResponse | Unauthorized | Forbidden>
+// evaluates to LkResponse<IGetSomethingResponse> | LkResponse<Unauthorized> | LkResponse<Forbidden>
+export type Responses<T> = T extends unknown ? LkResponse<T> : LkResponse<T>
+
+export class LkResponse<B = unknown>{
+  body: B;
+  status: number;
+  header: GenericObject<string>;
+
+  constructor(props: { body: B; status?: number; header?: GenericObject<string>; }) {
+    this.body = props.body;
+    this.status = props.status || 0;
+    this.header = props.header || {};
+  }
+
+  public isSuccess(): this is Exclude<this, LkResponse<ILkError>> {
+    return !((this.body as unknown as ILkError).key in LkErrorKey);
+  }
+  public isAnyError(): this is Extract<this, LkResponse<ILkError>> {
+    return (this.body as unknown as ILkError).key in LkErrorKey;
+  }
+  public isError<E extends LkErrorKey>(key: E
+  ): this is Extract<this, LkResponse<ILkError<E>>> {
+    return (this.body as unknown as ILkError).key === key;
+  }
 }
 
-export interface ServerResponse<K> {
-  key: K;
-  status?: number;
-}
-
-export interface Success<N = unknown> extends ServerResponse<LkSuccessKey> {
-  key: LkSuccessKey.SUCCESS;
-  response: N;
-}
-
-export interface ILkError<K = LkErrorKey> extends ServerResponse<K> {
+export interface ILkError<K = LkErrorKey> {
   key: K;
   message: string; // english message of the error
 }
@@ -51,19 +67,3 @@ export interface Forbidden extends ILkError<LkErrorKey.FORBIDDEN> {}
 export interface DataSourceUnavailable extends ILkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
 export interface NotFound extends ILkError<LkErrorKey.NOT_FOUND> {}
 export interface ConnectionRefused extends ILkError<LkErrorKey.CONNECTION_REFUSED> {}
-
-export class LkGuards {
-  public static isSuccess(o: ServerResponse<LkSuccessKey | LkErrorKey>): o is Success {
-    return o.key === LkSuccessKey.SUCCESS;
-  }
-  // `any` is not good
-  public static isError(o: any): o is ILkError<LkErrorKey> {
-    return (o.key as LkErrorKey) in LkErrorKey;
-  }
-  public static isInvalidParameter(o: ServerResponse<LkErrorKey>): o is InvalidParameter {
-    return o.key === LkErrorKey.INVALID_PARAMETER;
-  }
-  public static isConnectionRefused(o: ServerResponse<LkErrorKey>): o is ConnectionRefused {
-    return o.key === LkErrorKey.CONNECTION_REFUSED;
-  }
-}
