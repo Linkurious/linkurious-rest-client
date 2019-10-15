@@ -36,22 +36,21 @@ export class LkResponse<B = unknown>{
   body: B;
   status: number;
   header: GenericObject<string>;
-
   constructor(props: { body: B; status?: number; header?: GenericObject<string>; }) {
     this.body = props.body;
     this.status = props.status || 0;
     this.header = props.header || {};
   }
-
   public isSuccess(): this is Exclude<this, LkResponse<ILkError>> {
     return !((this.body as unknown as ILkError).key in LkErrorKey);
   }
   public isAnyError(): this is Extract<this, LkResponse<ILkError>> {
     return (this.body as unknown as ILkError).key in LkErrorKey;
   }
-  public isError<E extends LkErrorKey>(key: E
-  ): this is Extract<this, LkResponse<ILkError<E>>> {
-    return (this.body as unknown as ILkError).key === key;
+  // TODO: write this method as non static
+  // FYI This does not work: `public isError<E extends LkErrorKey>(key: E): this is Extract<this, LkResponse<ILkError<E>>>`
+  public static isError<R extends LkResponse, E extends LkErrorKey>(response: R, key: E): response is Extract<R, LkResponse<ILkError<E>>> {
+    return (response.body as unknown as ILkError).key === key;
   }
 }
 
