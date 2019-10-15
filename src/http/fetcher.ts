@@ -1,5 +1,4 @@
 /**
- * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
  * - Created on 2016-05-27.
@@ -121,7 +120,8 @@ export class Fetcher {
 
   private addSourceKeyToUrl(url: string): string {
     if (this._clientState.currentSource) {
-      return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource.key);
+      return url.replace(Fetcher.SOURCE_KEY_TEMPLATE, this._clientState.currentSource
+        .key as string);
     } else {
       throw LinkuriousError.fromClientError(
         'state_error',

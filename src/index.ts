@@ -1,18 +1,18 @@
 /**
- * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
  * - Created on 2016-04-25.
  */
 
 import {
-  IAppConfig,
   IAppStatus,
   IAppVersion,
   IClientState,
-  IDataSourceState,
   IFullUser,
-  ILoggerDriver
+  ILoggerDriver,
+  InvalidParameter,
+  Success,
+  Unauthorized
 } from '../index';
 
 import {Logger, LogLevel} from './log/Logger';
@@ -30,6 +30,9 @@ import {SearchModule} from './module/SearchModule';
 import {VisualizationModule} from './module/VisualizationModule';
 import {Rejection} from './response/errors';
 import {Transformer} from './transformer';
+import {IUserDataSource} from './models/DataSource';
+import {DataSourceModule} from './module/DataSourceModule';
+import {ConfigurationModule} from './module/ConfigurationModule';
 import {CustomActionModule} from './module/CustomActionModule';
 
 export class Linkurious {
@@ -48,6 +51,8 @@ export class Linkurious {
   private readonly _alert: AlertModule;
   private readonly _schema: SchemaModule;
   private readonly _customAction: CustomActionModule;
+  private readonly _dataSource: DataSourceModule;
+  private readonly _configuration: ConfigurationModule;
 
   get state(): IClientState {
     return this._clientState;
@@ -88,6 +93,12 @@ export class Linkurious {
     this._alert = new AlertModule(this._fetcher, this._transformer, this._errorListener);
     this._schema = new SchemaModule(this._fetcher, this._transformer, this._errorListener);
     this._customAction = new CustomActionModule(
+      this._fetcher,
+      this._transformer,
+      this._errorListener
+    );
+    this._dataSource = new DataSourceModule(this._fetcher, this._transformer, this._errorListener);
+    this._configuration = new ConfigurationModule(
       this._fetcher,
       this._transformer,
       this._errorListener
@@ -148,6 +159,20 @@ export class Linkurious {
    */
   get schema(): SchemaModule {
     return this._schema;
+  }
+
+  /**
+   * @returns {DataSourceModule}
+   */
+  get dataSource(): DataSourceModule {
+    return this._dataSource;
+  }
+
+  /**
+   * @returns {ConfigurationModule}
+   */
+  get configuration(): ConfigurationModule {
+    return this._configuration;
   }
 
   /**
@@ -311,28 +336,15 @@ export class Linkurious {
    *
    * @returns {Promise<any>}
    */
-  public initSources(data?: {withStyles?: boolean; withCaptions?: boolean}): Promise<any> {
-    return this.getSourceList(data).then((sourceStates: IDataSourceState[]) => {
-      return this.storeDefaultCurrentSource(sourceStates);
-    });
-  }
-
-  /**
-   * Get the status of the all data-sources.
-   *
-   * @returns {Promise<IDataSourceState>}
-   */
-  public getSourceList(data?: {
+  public async initSources(data?: {
     withStyles?: boolean;
     withCaptions?: boolean;
-  }): Promise<IDataSourceState[]> {
-    return this._fetcher
-      .fetch({
-        url: '/dataSources',
-        method: 'GET',
-        query: data
-      })
-      .then((res: any) => res.sources);
+  }): Promise<Success<IUserDataSource> | Unauthorized | InvalidParameter> {
+    const response = await this.dataSource.getUserDataSources(data);
+    if (response.isSuccess()) {
+      return new Success(await this.storeDefaultCurrentSource(response.response!));
+    }
+    return response;
   }
 
   /**
@@ -341,19 +353,7 @@ export class Linkurious {
    * @param {Array<Object>}sourceList
    * @return {IDataSource}
    */
-  public storeDefaultCurrentSource(
-    sourceList: Array<{
-      name: string;
-      key: string;
-      configIndex: number;
-      connected: boolean;
-      state: string;
-      reason: string;
-      error?: string;
-      features: any;
-      settings: any;
-    }>
-  ): IDataSourceState {
+  public storeDefaultCurrentSource(sourceList: IUserDataSource[]): IUserDataSource {
     for (const sourceState of sourceList) {
       if (this.storeSource(sourceState, 'connected', true)) {
         return this._clientState.currentSource;
@@ -378,19 +378,9 @@ export class Linkurious {
    * Set the currentSource
    *
    * @param {Object} source
-   * @returns {Promise<IDataSourceState>}
+   * @returns {Promise<IUserDataSource>}
    */
-  public setCurrentSource(source: {
-    name: string;
-    key: string;
-    configIndex: number;
-    connected: boolean;
-    state: string;
-    reason: string;
-    error?: string;
-    features: any;
-    settings: any;
-  }): void {
+  public setCurrentSource(source: IUserDataSource): void {
     this._clientState.currentSource = {
       name: source.name,
       key: source.key,
@@ -449,20 +439,6 @@ export class Linkurious {
   }
 
   /**
-   * Return the configuration of the application.
-   *
-   * @param {number} [sourceIndex]
-   * @returns {Promise<IAppConfig>}
-   */
-  public getAppConfig(sourceIndex?: number): Promise<IAppConfig> {
-    return this._fetcher.fetch({
-      method: 'GET',
-      query: {sourceIndex: sourceIndex},
-      url: '/config'
-    });
-  }
-
-  /**
    * Return a sorted list of files stored on server
    *
    * @param {any} data
@@ -502,16 +478,16 @@ export class Linkurious {
   /**
    * Store a source in clientState if condition is verified
    *
-   * @param {IDataSourceState} source
+   * @param {IUserDataSource} source
    * @param {string} property
    * @param {string|number|boolean} matchValue
-   * @returns {IDataSourceState}
+   * @returns {IUserDataSource}
    */
   private storeSource(
-    source: IDataSourceState,
+    source: IUserDataSource,
     property: string,
     matchValue: string | number | boolean
-  ): IDataSourceState | undefined {
+  ): IUserDataSource | undefined {
     if ((source as any)[property] === matchValue) {
       this._clientState.currentSource = {
         name: source.name,
