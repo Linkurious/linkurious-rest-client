@@ -1,5 +1,4 @@
 /**
- * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
  * - Created on 2016-05-30.
@@ -10,13 +9,13 @@
 import {
   DataSourceUnavailable,
   Forbidden,
-  IDigest,
   IEdge,
   INode,
   InvalidParameter,
   IOgmaEdge,
   IOgmaNode,
   ItemId,
+  LkNodeStatistics,
   NotFound,
   Success,
   Unauthorized
@@ -232,7 +231,7 @@ export class NodeModule extends Module {
       withDegree?: boolean;
     },
     dataSourceKey?: string
-  ): Promise<IDigest[]> {
+  ): Promise<LkNodeStatistics> {
     return this.fetch({
       url: '/{sourceKey}/graph/neighborhood/statistics',
       method: 'POST',

@@ -1,5 +1,4 @@
 /**
- * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2017
  *
  * - Created on 2017-02-06.

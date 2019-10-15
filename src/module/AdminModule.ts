@@ -1,5 +1,4 @@
 /**
- * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
  * - Created on 2016-05-27.
@@ -7,17 +6,13 @@
 
 import {
   IClientState,
-  ICreateDataSource,
-  IDeletedDataSource,
   IFullAdminAlert,
-  IFullDataSource,
   IFullUser,
   IGroup,
   IIndexationStatus
 } from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
-import {Utils} from '../http/utils';
 import {
   DataSourceUnavailable,
   Forbidden,
@@ -48,85 +43,6 @@ export class AdminModule extends Module {
 
     this._logger = logger;
     this._clientState = clientState;
-  }
-
-  /**
-   * Connect a disconnected data-source
-   *
-   * @param {number} dataSourceIndex
-   * @returns {Promise<boolean>}
-   */
-  public connectDataSource(dataSourceIndex?: number): Promise<any> {
-    return this.fetch({
-      url: '/admin/source/{dataSourceIndex}/connect',
-      method: 'POST',
-      dataSource: dataSourceIndex
-    });
-  }
-
-  /**
-   * Create a new data-source configuration (contains a graph database configuration and an index configuration).
-   *
-   * @param {ICreateDataSource} data
-   * @returns {Promise<boolean>}
-   */
-  public createDataSourceConfig(data: ICreateDataSource): Promise<any> {
-    return this.fetch({
-      url: '/admin/sources/config',
-      method: 'POST',
-      body: data
-    });
-  }
-
-  /**
-   * Delete a data-source configuration that has currently no connected data-source.
-   *
-   * @param {number} [dataSourceIndex]
-   * @returns {Promise<boolean>}
-   */
-  public deleteDataSourceConfig(dataSourceIndex?: number): Promise<boolean> {
-    return this.fetch({
-      url: '/admin/sources/config/{dataSourceIndex}',
-      method: 'DELETE',
-      dataSource: dataSourceIndex
-    }).then(() => true);
-  }
-
-  /**
-   * Delete all data of data-source (visualizations, access-rights, widgets, full-text indexes).
-   * Optionally merge visualizations and widgets into another data-source instead of deleting them.
-   * Warning: when merging into another data-source, visualizations may break if node and edge IDs
-   * are not the same in to target data-source.
-   *
-   * @param {Object} data
-   * @returns {Promise<IDeletedDataSource>}
-   */
-  public deleteFullDataSource(data: {
-    dataSourceKey: string;
-    mergeInto?: string;
-  }): Promise<IDeletedDataSource> {
-    const mergeOptions: any = data.mergeInto ? {mergeInto: data.mergeInto} : undefined;
-
-    return this.fetch({
-      url: '/admin/sources/data/{sourceKey}',
-      method: 'DELETE',
-      query: Utils.fixSnakeCase(mergeOptions),
-      path: {
-        sourceKey: data.dataSourceKey
-      }
-    });
-  }
-
-  /**
-   * Get information for all data-source, including data-sources that do not exist online.
-   *
-   * @returns {Promise<Array<IFullDataSource>>}
-   */
-  public getDataSourcesList(): Promise<IFullDataSource[]> {
-    return this.fetch({
-      url: '/admin/sources',
-      method: 'GET'
-    });
   }
 
   /**
@@ -280,36 +196,6 @@ export class AdminModule extends Module {
   }
 
   /**
-   * Sets the configuration of the application
-   *
-   * @param {Object} data
-   * @returns {Promise<string>}
-   */
-  public updateConfig(data: {
-    path?: string;
-    configuration?: any;
-    dataSourceIndex?: number;
-    reset?: boolean;
-  }): Promise<string> {
-    const query: any = {
-      reset: data.reset,
-      sourceIndex: data.dataSourceIndex
-    };
-
-    const body: any = {
-      path: data.path,
-      configuration: data.configuration
-    };
-
-    return this.fetch({
-      url: '/config',
-      method: 'POST',
-      body: body,
-      query: query
-    });
-  }
-
-  /**
    * Request to reindex the graph database. One may want to do it after editing the index configuration.
    *
    * @returns {Promise<boolean>}
@@ -370,7 +256,7 @@ export class AdminModule extends Module {
     }
 
     return this.listenIndexation(
-      this._clientState.currentSource.key,
+      this._clientState.currentSource.key as string,
       timeout,
       callback,
       keepWhenSourceChange
@@ -456,53 +342,6 @@ export class AdminModule extends Module {
     return this.fetch({
       url: '/admin/{sourceKey}/alerts/{id}',
       method: 'DELETE',
-      body: data,
-      path: {sourceKey: dataSourceKey}
-    });
-  }
-
-  /**
-   * reset all default styles for a dataSource
-   *
-   * @param {Object} data
-   * @param {number}dataSourceKey
-   * @returns {Promise<boolean>}
-   */
-  public resetDefaults(
-    data: {
-      design?: boolean;
-      captions?: boolean;
-    },
-    dataSourceKey?: string
-  ): Promise<void> {
-    return this.fetch({
-      url: '/admin/source/{sourceKey}/resetDefaults',
-      method: 'POST',
-      body: data,
-      path: {sourceKey: dataSourceKey}
-    });
-  }
-
-  /**
-   * reset all default styles for a dataSource
-   *
-   * @param {Object} data
-   * @param {number}dataSourceKey
-   * @returns {Promise<boolean>}
-   */
-  public setDefaults(
-    data: {
-      styles?: {node: any[]; edge: any[]};
-      captions?: {
-        node: {[key: string]: {active: boolean; displayName: boolean; properties: string[]}};
-        edge: {[key: string]: {active: boolean; displayName: boolean; properties: string[]}};
-      };
-    },
-    dataSourceKey?: string
-  ): Promise<void> {
-    return this.fetch({
-      url: '/admin/source/{sourceKey}/setDefaults',
-      method: 'POST',
       body: data,
       path: {sourceKey: dataSourceKey}
     });

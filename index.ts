@@ -1,22 +1,22 @@
 /**
- * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
  * - Created on 2016-11-28.
  */
+import { ILeafletConfig } from "./src/models/Configuration";
 
 export * from './src/models/AccessRights';
 export * from './src/models/Alert';
 export * from './src/models/Configuration';
+export * from './src/models/CustomAction';
 export * from './src/models/DataSource';
+export * from './src/models/Entities';
 export * from './src/models/Graph';
+export * from './src/models/Model';
 export * from './src/models/Schema';
 export * from './src/models/Search';
-export * from './src/models/Visualization';
-export * from './src/models/Entities';
 export * from './src/models/TemplateFields';
-export * from './src/models/Model';
-export * from './src/models/CustomAction';
+export * from './src/models/Visualization';
 
 import {Linkurious} from './src';
 import {Fetcher} from './src/http/fetcher';
@@ -54,6 +54,7 @@ import {
 } from './src/response/errors';
 import {Success} from './src/response/success';
 import {SuperAgent} from './src/http/DefaultHttpDriver';
+import {IUserDataSource} from './src/models/DataSource';
 
 export type indexingStatus = 'ongoing' | 'needed' | 'done' | 'unknown';
 export type EdgeOrientation = 'in' | 'out' | 'both';
@@ -101,13 +102,7 @@ export interface RequestConfig<R, T> extends FetcherConfig {
 
 export interface IClientState {
   user: IFullUser | undefined;
-  currentSource: IDataSourceState;
-  guestMode: boolean;
-}
-
-export interface IFetcherClientState {
-  user: IFullUser;
-  currentSource: IDataSource;
+  currentSource: IUserDataSource;
   guestMode: boolean;
 }
 
@@ -202,34 +197,6 @@ export interface IAccessRight extends IDataSourceRelative {
 
 // DATA-SOURCE
 
-export interface IDataSource {
-  name: string;
-  key: string;
-  configIndex: number;
-}
-
-export interface IDataSourceState {
-  name: string;
-  key: string;
-  configIndex: number;
-  connected: boolean;
-  state: string;
-  reason: string;
-  error?: string;
-  features: any;
-  settings: any;
-}
-
-export interface IFullDataSource extends IDataSource {
-  state: string;
-  lastSeen: string;
-  indexedDate: string;
-  host: string;
-  port: string;
-  storeId: string;
-  visualizationCount: number;
-}
-
 export interface IIndexationStatus {
   indexing_progress: number;
   node_count: number;
@@ -238,16 +205,6 @@ export interface IIndexationStatus {
   indexed_source: string;
   indexing_status: string;
   indexing: indexingStatus;
-}
-
-export interface IDeletedDataSource {
-  migrated: boolean;
-  affected: IAffectedSource;
-}
-
-export interface IAffectedSource {
-  visualizations: number;
-  folders: number;
 }
 
 export interface IBaseGraphConfig {
@@ -452,18 +409,6 @@ export interface IAnalyticsConfig {
   domain: string;
 }
 
-export interface ILeafletConfig {
-  name: string;
-  thumbnail: string;
-  urlTemplate: string;
-  attribution: string;
-  subdomains: string;
-  id: string;
-  accessToken: string;
-  minZoom: number;
-  maxZoom: number;
-}
-
 export interface ISourceConfig {
   features: any;
   alternativeIds?: IAlternativeIdConfig;
@@ -533,7 +478,14 @@ export interface IServerVisualization extends ISandBox, IIdentified {
   updatedAt?: string;
 }
 
+export enum VisualizationRight {
+  OWNER = 'owner',
+  WRITE = 'write',
+  READ = 'read'
+}
+
 export interface IVisualization extends ISandBox, IIdentified {
+  sourceKey: string;
   title: string;
   folder: number;
   nodes: IOgmaNode[];
@@ -542,6 +494,7 @@ export interface IVisualization extends ISandBox, IIdentified {
   layout: IVisualizationLayout;
   geo: IVisualizationGeo;
   mode: VisualizationModeType;
+  right: VisualizationRight;
   filters: any[];
   createdAt?: string;
   updatedAt?: string;
@@ -725,6 +678,7 @@ export interface IFullAdminAlert extends IAdminAlert, IIdentified {
 }
 
 export interface IMatch extends IIdentified, IBaseAlert {
+  sourceKey: string;
   alertId: number;
   score: number;
   hash: string;
