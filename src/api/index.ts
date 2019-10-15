@@ -144,4 +144,27 @@ export class LinkuriousRestClient extends ErrorListener {
       return undefined;
     }
   }
+
+  public static getCurrentSourceKey(dataSources: IUserDataSource[], userId?: number): IUserDataSource | undefined {
+    // Return last seen dataSource by user in localstorage if it's connected
+    if (userId) {
+      try {
+        const item: string | null = localStorage.getItem('lk-dataSource-lastSeen-' + userId);
+        const parsedDataSource = JSON.parse(item + '');
+        if (parsedDataSource.connected) {
+          return parsedDataSource;
+        }
+      } catch (_) {}
+    }
+
+    // Return the first connected data-source
+    for (let firstConnected of dataSources) {
+      if(firstConnected.connected) {
+        return firstConnected;
+      }
+    }
+
+    // Return the first data-source
+    return dataSources[0];
+  }
 }
