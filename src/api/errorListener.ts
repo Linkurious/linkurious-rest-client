@@ -12,11 +12,7 @@ type SimpleListeners = {
 }
 
 export class ErrorListener {
-  private readonly listeners: SimpleListeners;
-
-  constructor() {
-    this.listeners = {} as SimpleListeners;
-  }
+  private readonly listeners: SimpleListeners = {} as SimpleListeners;
 
   dispatchError(key: LkErrorKey, payload: unknown): void {
     if (this.listeners.hasOwnProperty(key) && typeof this.listeners[key] === 'function') {

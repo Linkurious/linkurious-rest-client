@@ -11,28 +11,31 @@ import {
   LkErrorKey,
   LkResponse
 } from './response';
-import {GenericObject} from "./commonTypes";
 import * as request from "superagent";
 
 import {IFullUser, IUserDataSource} from "../../index";
+import {LinkuriousRestClient} from "./index";
+import {GenericObject} from "./commonTypes";
+
 export type RawFetchConfig = {
   url: string;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
   params?: GenericObject<any>;
-  query?: GenericObject<any>;
+  query?: Record<string, unknown>;
 }
 
 export interface FetchConfig {
   url: string;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
-  body: GenericObject<any>;
-  query: GenericObject<any>;
+  body: Record<string, unknown>;
+  query: Record<string, unknown>;
 }
 
 export interface IClientState {
   user?: IFullUser;
   currentSource?: IUserDataSource;
   guestMode?: boolean;
+  sources?: IUserDataSource[];
 }
 
 // Because it's easier to pass the same params to all the modules
@@ -56,8 +59,7 @@ export abstract class Module {
   }
 
   protected async request<C extends LkResponse>(rawFetchConfig: RawFetchConfig): Promise<C> {
-
-    // Sanitize config
+    // 1) Sanitize config
     let fetchConfig: FetchConfig;
     try {
       fetchConfig = this.sanitizeConfig(rawFetchConfig);
@@ -69,7 +71,7 @@ export abstract class Module {
       }) as C;
     }
 
-    // HTTP request
+    // 2) Make HTTP request
     let response: request.Response;
     try {
       response = await this.props.agent(fetchConfig.method, fetchConfig.url)
@@ -84,7 +86,7 @@ export abstract class Module {
       }) as C;
     }
 
-    // Dispatch server Errors
+    // 3) Dispatch server Errors
     if (response.body.key in LkErrorKey) {
       this.props.dispatchError(response.body.key, {
         serverError: response.body,
@@ -105,71 +107,63 @@ export abstract class Module {
   }
 
   private sanitizeConfig(config: RawFetchConfig): FetchConfig {
-    const params = config.params || {};
+    const {params, url} = this.renderURl(config.url, config.params);
     delete config.params;
 
-    // Iterate over path params in route-like format `/:id/`
-    const regexp: RegExp = /(?<=:)[^/]+(?=\/)/g;
-    let match;
-    while ((match = regexp.exec(config.url)) !== null) {
-      const key = match[0];
-      let paramValue = this.getValueFromClientState({paramKey: key});
-
-      // Take path param values from `config.params`
-      if (params[key]) {
-        paramValue = !paramValue && params[key];
-        delete params[key];
-      }
-
-      // Replace param
-      if (paramValue) {
-        config.url = config.url.replace(':' + key, encodeURIComponent(paramValue as string));
-      } else {
-        throw {pathParamKey: key};
-      }
-    }
-
     // Sort remaining params into query and body
-    let body: GenericObject<unknown> = {};
-    let query: GenericObject<unknown> = {};
-    let extraQuery = {
+    let body: Record<string, unknown> = {};
+    let query: Record<string, unknown> = {
       _: Date.now(),
       guest: this.props.clientState.guestMode ? true : undefined
     };
     if (['GET', 'DELETE'].includes(config.method)) {
-      query = {...extraQuery, ...params};
+      query = {...query, ...params};
     } else if (!config.query) {
-      query = extraQuery;
       body = params;
     } else {
-      query = {...extraQuery, ...config.query};
       for (const key in params) {
-        if (!config.query[key]) {
+        if (config.query[key]) {
+          query[key] = config.query[key];
+        } else {
           body[key] = params[key];
         }
       }
     }
 
-    return {method: config.method, url: this.props.baseUrl + config.url, body, query: Module.toSnakeCaseKeys(query)};
+    return {method: config.method, url: this.props.baseUrl + url, body, query: Module.toSnakeCaseKeys(query)};
   }
 
-  private getValueFromClientState(props: {paramKey: string}): unknown {
-    const SOURCE_KEY_PATH_PARAM = 'sourceKey';
-    const SOURCE_INDEX_PATH_PARAM = 'sourceIndex';
+  private renderURl(templateURL: string, params?: Record<string, unknown>) {
+    const copiedParams = params ? {...params} : {};
+    let renderedURL = templateURL;
+    // Iterate over path params in route-like format `/:id/`
+    const regexp: RegExp = /(?<=:)[^/]+(?=\/)/g;
+    let match;
+    while ((match = regexp.exec(renderedURL)) !== null) {
+      const key = match[0];
+      let paramValue = this.getValueFromClientState({paramKey: key});
 
-    let paramValue: unknown;
-    if (props.paramKey === SOURCE_KEY_PATH_PARAM) {
-      paramValue = this.props.clientState.currentSource &&
-        this.props.clientState.currentSource.key &&
-        this.props.clientState.currentSource.key;
-    } else if (props.paramKey === SOURCE_INDEX_PATH_PARAM ) {
-      paramValue = this.props.clientState.currentSource && this.props.clientState.currentSource.configIndex;
+      // Take path param values from `config.params`
+      if (copiedParams[key]) {
+        paramValue = !paramValue && copiedParams[key];
+        delete copiedParams[key];
+      }
+
+      // Replace param in url template
+      if (paramValue) {
+        renderedURL = renderedURL.replace(':' + key, encodeURIComponent(paramValue as string));
+      } else {
+        throw {pathParamKey: key};
+      }
     }
-    return paramValue;
+    return {
+      params: copiedParams,
+      url: renderedURL
+    };
   }
 
-  private static toSnakeCaseKeys(obj: GenericObject<unknown>) {
-    const result: GenericObject<unknown> = {};
+  private static toSnakeCaseKeys(obj: Record<string, unknown>) {
+    const result: Record<string, unknown> = {};
     for (const key in obj) {
       const fixedKey = key
         .replace(/(^[A-Z])/, (first) => first.toLowerCase())
@@ -178,5 +172,39 @@ export abstract class Module {
       result[fixedKey] = obj[key];
     }
     return result;
+  }
+
+  private getValueFromClientState(props: {paramKey: string}): unknown {
+    const SOURCE_KEY_PATH_PARAM = 'sourceKey';
+    const SOURCE_INDEX_PATH_PARAM = 'sourceIndex';
+
+    let paramValue;
+    switch (props.paramKey) {
+      case SOURCE_KEY_PATH_PARAM: {
+        paramValue = this.props.clientState.currentSource &&
+          this.props.clientState.currentSource.key &&
+          this.getDataSourcePropertyValue('key');
+        break;
+      }
+      case SOURCE_INDEX_PATH_PARAM: {
+        paramValue = this.props.clientState.currentSource &&
+          this.props.clientState.currentSource.configIndex &&
+          this.getDataSourcePropertyValue('configIndex');
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+
+    return paramValue;
+  }
+
+  private getDataSourcePropertyValue(key: keyof IUserDataSource): unknown {
+    const source = LinkuriousRestClient.getCurrentSource(
+      this.props.clientState.sources || [],
+      this.props.clientState.user && this.props.clientState.user.id
+    );
+    return source && source[key];
   }
 }

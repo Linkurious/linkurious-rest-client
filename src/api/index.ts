@@ -51,6 +51,7 @@ export class LinkuriousRestClient extends ErrorListener {
     this.clientState.user = undefined;
   }
 
+  // TODO: #102 Not used in frontend
   /**
    * Set the currentSource
    *
@@ -62,17 +63,7 @@ export class LinkuriousRestClient extends ErrorListener {
       if (this.storeSource(sourceState, 'connected', true)) {
         return this.moduleProps.clientState.currentSource as IUserDataSource;
       } else {
-        this.clientState.currentSource = {
-          name: sourceList[0].name,
-          key: sourceList[0].key,
-          configIndex: sourceList[0].configIndex,
-          connected: sourceList[0].connected,
-          state: sourceList[0].state,
-          reason: sourceList[0].reason,
-          error: sourceList[0].error,
-          features: sourceList[0].features,
-          settings: sourceList[0].settings
-        };
+        this.clientState.currentSource = {...sourceList[0]};
       }
     }
     return sourceList[0];
@@ -85,17 +76,7 @@ export class LinkuriousRestClient extends ErrorListener {
    * @returns {Promise<IUserDataSource>}
    */
   public setCurrentSource(source: IUserDataSource): void {
-    this.clientState.currentSource = {
-      name: source.name,
-      key: source.key,
-      configIndex: source.configIndex,
-      connected: source.connected,
-      state: source.state,
-      reason: source.reason,
-      error: source.error,
-      features: source.features,
-      settings: source.settings
-    };
+    this.clientState.currentSource = {...source};
   }
 
   /**
@@ -114,6 +95,7 @@ export class LinkuriousRestClient extends ErrorListener {
       });
   }
 
+  // TODO: #102 lmao, so useless
   /**
    * Store a source in clientState if condition is verified
    *
@@ -128,31 +110,38 @@ export class LinkuriousRestClient extends ErrorListener {
     matchValue: string | number | boolean
   ): IUserDataSource | undefined {
     if ((source as any)[property] === matchValue) {
-      this.clientState.currentSource = {
-        name: source.name,
-        key: source.key,
-        configIndex: source.configIndex,
-        connected: source.connected,
-        state: source.state,
-        reason: source.reason,
-        error: source.error,
-        features: source.features,
-        settings: source.settings
-      };
+      this.clientState.currentSource = {...source};
       return this.clientState.currentSource;
     } else {
       return undefined;
     }
   }
 
-  public static getCurrentSourceKey(dataSources: IUserDataSource[], userId?: number): IUserDataSource | undefined {
+  /*
+     TODO: #102
+      either frontend adds this in `src/app/services/sources/index/ts`:
+      this.list$.subscribe((sources: Array<IDataSourceState>) => {
+        this._sources = sources;
+        this._restClient.setDataSources(sources) // <== New Line
+      });
+      or I add it to `admin.deleteFullDataSource()`, `admin.deleteDataSourceConfig()` and `getSourceList()`
+   */
+  public setDataSources(sources: IUserDataSource[]): void {
+    this.clientState.sources = sources;
+  }
+
+  // TODO: #102
+  public static getCurrentSource(dataSources: IUserDataSource[], userId?: number): IUserDataSource | undefined {
     // Return last seen dataSource by user in localstorage if it's connected
     if (userId) {
       try {
-        const item: string | null = localStorage.getItem('lk-dataSource-lastSeen-' + userId);
-        const parsedDataSource = JSON.parse(item + '');
-        if (parsedDataSource.connected) {
-          return parsedDataSource;
+        const sourceKey: string | null = localStorage.getItem('lk-lastSeenSourceKey-' + userId);
+        if (sourceKey) {
+          for (let source of dataSources) {
+            if (source.key === sourceKey && source.connected) {
+              return source;
+            }
+          }
         }
       } catch (_) {}
     }
