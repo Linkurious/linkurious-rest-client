@@ -1,5 +1,4 @@
 /**
- * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
  * - Created on 2019-06-28.
@@ -7,7 +6,7 @@
 
 // TS2019-DONE
 
-import { IDateTimeType, IDateType, ISimpleType, IStringType, LkPropertyType } from './Schema';
+import {IDateTimeType, IDateType, ISimpleType, IStringType, LkPropertyType} from './Schema';
 
 // Attributes as they arrive from the Create ApiParams
 
