@@ -32,4 +32,15 @@ export class ErrorListener {
   removeErrorListener(key: LkErrorKey) {
     delete this.listeners[key];
   }
+
+  // Utility
+  getErrorKeysListened(): string[] {
+    return Object.keys(this.listeners);
+  }
+
+  setBasicListenerToAllErrors(): void {
+    for(const errorKey in LkErrorKey) {
+      this.setErrorListener(errorKey as LkErrorKey, (payload: unknown) => console.log(payload))
+    }
+  }
 }
