@@ -13,26 +13,25 @@ import {GraphSchemaModule} from './GraphSchema/module';
 import {LinkuriousModule} from './Linkurious/module';
 import {IUserDataSource} from "../models/DataSource";
 
-import {ModuleProps, IClientState} from "./Module";
-import {LKEStatus} from "./Linkurious/types";
+import {IClientState, ModuleProps} from "./Module";
 import {DataSourceUnavailable, LkErrorKey} from "./response";
 
 export class LinkuriousRestClient extends ErrorListener {
   private readonly moduleProps: ModuleProps;
 
-  readonly linkurious: LinkuriousModule;
-  readonly graphSchema: GraphSchemaModule;
+  readonly linkurious = new LinkuriousModule(this.moduleProps);
+  readonly graphSchema = new GraphSchemaModule(this.moduleProps);
 
-  constructor(baseUrl: string, agent = request) {
+  constructor(props?: {baseUrl?: string, agent?: request.SuperAgentStatic}) {
     super();
     this.moduleProps = {
-      baseUrl: baseUrl.endsWith('/') ? baseUrl + 'api' : baseUrl + '/api',
-      agent: agent,
+      baseUrl: props && props.baseUrl &&
+        (props.baseUrl.endsWith('/') ? props.baseUrl + 'api' : props.baseUrl + '/api') ||
+        '/api',
+      agent: props && props.agent || request,
       clientState: {},
       dispatchError: this.dispatchError
     };
-    this.linkurious = new LinkuriousModule(this.moduleProps);
-    this.graphSchema = new GraphSchemaModule(this.moduleProps);
   }
 
   get clientState(): IClientState {
@@ -143,7 +142,7 @@ export class LinkuriousRestClient extends ErrorListener {
     if (!dataSources.length) {
       throw {
         key: LkErrorKey.DATA_SOURCE_UNAVAILABLE,
-        message: 'There are no datasources configured in LKE'
+        message: 'Datasources cannot be empty'
       } as DataSourceUnavailable;
     }
 

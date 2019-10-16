@@ -48,16 +48,8 @@ export interface ModuleProps {
 }
 
 export abstract class Module {
-  readonly props: ModuleProps;
 
-  constructor(moduleConfig?: ModuleProps) {
-    this.props = moduleConfig || {
-      baseUrl: '/api',
-      agent: request,
-      clientState: {},
-      dispatchError: (() => {})
-    }
-  }
+  constructor(private readonly props: ModuleProps) {}
 
   protected async request<C extends LkResponse>(rawFetchConfig: RawFetchConfig): Promise<C> {
     // 1) Sanitize config. It can return BAD_FETCH_CONFIG or DATA_SOURCE_UNAVAILABLE
