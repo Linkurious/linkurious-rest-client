@@ -14,6 +14,8 @@ import {LinkuriousModule} from './Linkurious/module';
 import {IUserDataSource} from "../models/DataSource";
 
 import {ModuleProps, IClientState} from "./Module";
+import {LKEStatus} from "./Linkurious/types";
+import {DataSourceUnavailable, LkErrorKey} from "./response";
 
 export class LinkuriousRestClient extends ErrorListener {
   private readonly moduleProps: ModuleProps;
@@ -131,19 +133,38 @@ export class LinkuriousRestClient extends ErrorListener {
   }
 
   // TODO: #102
-  public static getCurrentSource(dataSources: IUserDataSource[], userId?: number): IUserDataSource | undefined {
-    // Return last seen dataSource by user in localstorage if it's connected
-    if (userId) {
-      try {
-        const sourceKey: string | null = localStorage.getItem('lk-lastSeenSourceKey-' + userId);
-        if (sourceKey) {
-          for (let source of dataSources) {
-            if (source.key === sourceKey && source.connected) {
-              return source;
-            }
-          }
-        }
-      } catch (_) {}
+  /*
+    throws DATA_SOURCE_UNAVAILABLE
+   */
+  public static getCurrentSource(
+    dataSources: IUserDataSource[],
+    by?: {userId: number} | {sourceKey: string} | {sourceIndex: number}
+  ): IUserDataSource {
+    if (!dataSources.length) {
+      throw {
+        key: LkErrorKey.DATA_SOURCE_UNAVAILABLE,
+        message: 'There are no datasources configured in LKE'
+      } as DataSourceUnavailable;
+    }
+
+    if (by) {
+      let source: IUserDataSource | undefined;
+      if ('userId' in by) {
+        // Return last seen dataSource by user in localstorage if it's connected
+        try {
+          const sourceKey: string | null = localStorage.getItem('lk-lastSeenSourceKey-' + by.userId);
+          source = dataSources.find(s => s.connected && s.key === sourceKey);
+        } catch (_) {}
+      } else if ('sourceKey' in by) {
+        // Return dataSource whose key matches sourceKey
+        source = dataSources.find(s => s.connected && s.key === by.sourceKey);
+      } else {
+        // Return dataSource whose index matches configIndex
+        source = dataSources.find(s => s.connected && s.configIndex === by.sourceIndex);
+      }
+      if (source) {
+        return source;
+      }
     }
 
     // Return the first connected data-source
@@ -152,7 +173,6 @@ export class LinkuriousRestClient extends ErrorListener {
         return firstConnected;
       }
     }
-
     // Return the first data-source
     return dataSources[0];
   }

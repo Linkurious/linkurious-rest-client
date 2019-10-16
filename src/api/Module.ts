@@ -7,7 +7,8 @@
 
 import {ErrorListener} from './errorListener';
 import {
-  ILkError,
+  BadFetchConfig,
+  ConnectionRefused,
   LkErrorKey,
   LkResponse
 } from './response';
@@ -59,19 +60,16 @@ export abstract class Module {
   }
 
   protected async request<C extends LkResponse>(rawFetchConfig: RawFetchConfig): Promise<C> {
-    // 1) Sanitize config
+    // 1) Sanitize config. It can return BAD_FETCH_CONFIG or DATA_SOURCE_UNAVAILABLE
     let fetchConfig: FetchConfig;
     try {
       fetchConfig = this.sanitizeConfig(rawFetchConfig);
-    } catch (e) {
-      return this.dispatchErrorAndReturn({
-        key: LkErrorKey.BAD_FETCH_CONFIG,
-        message: `You need to set "${e.pathParamKey}" to fetch this API (${rawFetchConfig.url}).`,
-        rawFetchConfig: rawFetchConfig
-      }) as C;
+    } catch (error) {
+      this.props.dispatchError(error.key, error);
+      return new LkResponse({body: error}) as C;
     }
 
-    // 2) Make HTTP request
+    // 2) Make HTTP request. It can return CONNECTION_REFUSED
     let response: request.Response;
     try {
       response = await this.props.agent(fetchConfig.method, fetchConfig.url)
@@ -79,14 +77,16 @@ export abstract class Module {
         .send(fetchConfig.body)
         .query(fetchConfig.query);
     } catch (_) {
-      return this.dispatchErrorAndReturn({
+      const error: ConnectionRefused = {
         key: LkErrorKey.CONNECTION_REFUSED,
         message: 'offline',
         fetchConfig: fetchConfig
-      }) as C;
+      };
+      this.props.dispatchError(error.key, error);
+      return new LkResponse({body: error}) as C;
     }
 
-    // 3) Dispatch server Errors
+    // 3) Dispatch server errors
     if (response.body.key in LkErrorKey) {
       this.props.dispatchError(response.body.key, {
         serverError: response.body,
@@ -94,6 +94,7 @@ export abstract class Module {
       });
     }
 
+    // 4) Return server response yay
     return new LkResponse({
       status: response.status,
       header: response.header,
@@ -101,14 +102,11 @@ export abstract class Module {
     }) as C;
   }
 
-  private dispatchErrorAndReturn<E extends ILkError>(error: E) {
-    this.props.dispatchError(error.key, error);
-    return new LkResponse({body: error});
-  }
-
+  /*
+    throws DATA_SOURCE_UNAVAILABLE and BAD_FETCH_CONFIG
+   */
   private sanitizeConfig(config: RawFetchConfig): FetchConfig {
-    const {params, url} = this.renderURl(config.url, config.params);
-    delete config.params;
+    const {params, url} = this.renderURl(config);
 
     // Sort remaining params into query and body
     let body: Record<string, unknown> = {};
@@ -133,9 +131,24 @@ export abstract class Module {
     return {method: config.method, url: this.props.baseUrl + url, body, query: Module.toSnakeCaseKeys(query)};
   }
 
-  private renderURl(templateURL: string, params?: Record<string, unknown>) {
-    const copiedParams = params ? {...params} : {};
-    let renderedURL = templateURL;
+  private static toSnakeCaseKeys(obj: Record<string, unknown>) {
+    const result: Record<string, unknown> = {};
+    for (const key in obj) {
+      const fixedKey = key
+        .replace(/(^[A-Z])/, (first) => first.toLowerCase())
+        .replace(/(?<=_)([A-Z])/g, (letter) => letter.toLowerCase())
+        .replace(/([A-Z])/g, (letter) => `_${letter.toLowerCase()}`);
+      result[fixedKey] = obj[key];
+    }
+    return result;
+  }
+
+  /*
+    throws DATA_SOURCE_UNAVAILABLE and BAD_FETCH_CONFIG
+   */
+  private renderURl(config: RawFetchConfig) {
+    const copiedParams = config.params ? {...config.params} : {};
+    let renderedURL = config.url;
     // Iterate over path params in route-like format `/:id/`
     const regexp: RegExp = /(?<=:)[^/]+(?=\/)/g;
     let match;
@@ -153,7 +166,11 @@ export abstract class Module {
       if (paramValue) {
         renderedURL = renderedURL.replace(':' + key, encodeURIComponent(paramValue as string));
       } else {
-        throw {pathParamKey: key};
+        throw {
+          key: LkErrorKey.BAD_FETCH_CONFIG,
+          message: `You need to set "${key}" to fetch this API (${renderedURL}).`,
+          rawFetchConfig: config
+        } as BadFetchConfig;
       }
     }
     return {
@@ -162,18 +179,9 @@ export abstract class Module {
     };
   }
 
-  private static toSnakeCaseKeys(obj: Record<string, unknown>) {
-    const result: Record<string, unknown> = {};
-    for (const key in obj) {
-      const fixedKey = key
-        .replace(/(^[A-Z])/, (first) => first.toLowerCase())
-        .replace(/(?<=_)([A-Z])/g, (letter) => letter.toLowerCase())
-        .replace(/([A-Z])/g, (letter) => `_${letter.toLowerCase()}`);
-      result[fixedKey] = obj[key];
-    }
-    return result;
-  }
-
+  /*
+    throws DATA_SOURCE_UNAVAILABLE
+   */
   private getValueFromClientState(props: {paramKey: string}): unknown {
     const SOURCE_KEY_PATH_PARAM = 'sourceKey';
     const SOURCE_INDEX_PATH_PARAM = 'sourceIndex';
@@ -182,14 +190,20 @@ export abstract class Module {
     switch (props.paramKey) {
       case SOURCE_KEY_PATH_PARAM: {
         paramValue = this.props.clientState.currentSource &&
-          this.props.clientState.currentSource.key &&
-          this.getDataSourcePropertyValue('key');
+          this.props.clientState.currentSource.key ||
+          LinkuriousRestClient.getCurrentSource(
+            this.props.clientState.sources || [],
+            this.props.clientState.user && {userId: this.props.clientState.user.id}
+          ).key;
         break;
       }
       case SOURCE_INDEX_PATH_PARAM: {
         paramValue = this.props.clientState.currentSource &&
-          this.props.clientState.currentSource.configIndex &&
-          this.getDataSourcePropertyValue('configIndex');
+          this.props.clientState.currentSource.configIndex ||
+          LinkuriousRestClient.getCurrentSource(
+            this.props.clientState.sources || [],
+            this.props.clientState.user && {userId: this.props.clientState.user.id}
+          ).configIndex;
         break;
       }
       default: {
@@ -198,13 +212,5 @@ export abstract class Module {
     }
 
     return paramValue;
-  }
-
-  private getDataSourcePropertyValue(key: keyof IUserDataSource): unknown {
-    const source = LinkuriousRestClient.getCurrentSource(
-      this.props.clientState.sources || [],
-      this.props.clientState.user && this.props.clientState.user.id
-    );
-    return source && source[key];
   }
 }

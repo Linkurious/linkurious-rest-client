@@ -35,11 +35,15 @@ export class LinkuriousModule extends Module {
       url: '/status',
       method: 'GET'
     });
-    return new LkResponse({
-      body: response.body.status,
-      status: response.status,
-      header: response.header
-    });
+    if (response.isSuccess()) {
+      return new LkResponse({
+        body: response.body.status,
+        status: response.status,
+        header: response.header
+      });
+    } else {
+      return response;
+    }
   }
 
   async getVersion(): Promise<Responses<IGetVersionResponse>> {
