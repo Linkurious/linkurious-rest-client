@@ -9,35 +9,38 @@ import {GenericObject} from "./commonTypes";
 import {FetchConfig} from "./Module";
 
 export enum LkErrorKey {
-  BAD_FETCH_CONFIG = 'bad_fetch_config', // formerly 'state_error'
-  DATA_SOURCE_UNAVAILABLE = 'dataSource_unavailable',
-  CONNECTION_REFUSED = 'connection_refused', // formerly 'communication_error'
-  CLIENT_ERROR = 'client_error', // not used anymore
+  UNKNOWN = 'unknown', // (ง ツ) ว
 
-  BAD_GRAPH_REQUEST = 'bad_graph_request',
-  CONSTRAINT_VIOLATION = 'constraint_violation',
-  FORBIDDEN = 'forbidden',
+  // Not a server error
+  CONNECTION_REFUSED = 'connection_refused',
+
+  // These ones have a class
+  ALREADY_EXIST = 'already_exists', // Class: AlreadyExistsError, key: 'constraint_violation'
+  BUG = 'bug',
+  CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed', // Class: CantDeleteNonEmptyFolderError
+  CANNOT_READ = 'cannot_read', // Class: CantReadError, key: 'forbidden'
+  DATA_SOURCE_UNAVAILABLE = 'dataSource_unavailable', // Class: DataSourceUnavailableError
   GRAPH_REQUEST_TIMEOUT = 'graph_request_timeout',
-  GRAPH_UNREACHABLE = 'graph_unreachable',
-  GROUP_EXISTS = 'group_exists',
-  GUEST_DISABLED = 'guest_disabled',
+  ILLEGAL_SOURCE_STATE = 'illegal_source_state', // Class: IllegalSourceStateError
   INVALID_PARAMETER = 'invalid_parameter',
-  NOT_FOUND = 'not_found',
-  UNAUTHORIZED = 'unauthorized',
-  WRITE_FORBIDDEN = 'write_forbidden',
-  CANCELLED = 'cancelled'
+  MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
+  NOT_FOUND = 'not_found', // Class: NotFoundError
+  NOT_OWNED = 'not_owned', // Class: NotOwnedError, key: 'forbidden'
+  NOT_SUPPORTED = 'not_supported', // Class: NotSupportedError
+
+  // These ones are used directly as key
+  BAD_GRAPH_REQUEST = 'bad_graph_request', // in Business
+  CONSTRAINT_VIOLATION = 'constraint_violation', // in Business
+  FORBIDDEN = 'forbidden', // in Access
+  GRAPH_UNREACHABLE = 'graph_unreachable', // in Technical
+  GUEST_DISABLED = 'guest_disabled', // in Access
+  UNAUTHORIZED = 'unauthorized', // in Access
+  WRITE_FORBIDDEN = 'write_forbidden', // in Access
 }
 
-// Helper to write less times `LkResponse` as a wrapper in RC methods:
-// this Responses<IGetSomethingResponse | Unauthorized | Forbidden>
-// evaluates to LkResponse<IGetSomethingResponse> | LkResponse<Unauthorized> | LkResponse<Forbidden>
-// it also includes LkResponse of BadFetchConfig, DataSourceUnavailable and ConnectionRefused
-// TODO: add INTERNAL_SERVER_ERROR??
-// TODO: rename and group BadFetchConfig, DataSourceUnavailable and ConnectionRefused??
 export type Responses<T> = (T extends unknown ? LkResponse<T> : LkResponse<T>) |
-  LkResponse<BadFetchConfig> |
-  LkResponse<DataSourceUnavailable> |
-  LkResponse<ConnectionRefused>
+  LkResponse<ConnectionRefused> |
+  LkResponse<UnknownError>
 
 export class LkResponse<B = unknown>{
   body: B;
@@ -67,17 +70,36 @@ export interface ILkError<K = LkErrorKey> {
   message: string; // english message of the error
 }
 
-// Client errors, thrown before performing the request
-export interface BadFetchConfig extends ILkError<LkErrorKey.BAD_FETCH_CONFIG> {
-  rawFetchConfig: FetchConfig
+export interface UnknownError extends ILkError<LkErrorKey.UNKNOWN> {
+  [key: string]: unknown;
 }
+
 export interface ConnectionRefused extends ILkError<LkErrorKey.CONNECTION_REFUSED> {
   fetchConfig: FetchConfig
 }
+
+export interface AlreadyExists extends ILkError<LkErrorKey.ALREADY_EXIST> {}
+export interface Bug extends ILkError<LkErrorKey.BUG> {}
+export interface CannotDeleteNonEmptyFolder extends ILkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
+export interface CannotRead extends ILkError<LkErrorKey.CANNOT_READ> {}
 export interface DataSourceUnavailable extends ILkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
+export interface GraphRequestTimeout extends ILkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
+export interface IllegalSourceState extends ILkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
+export interface InvalidParameter extends ILkError<LkErrorKey.INVALID_PARAMETER> {}
+export interface MalformedQueryTemplate extends ILkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
+  highlight: {
+    offset: number;
+    length?: number;
+  }
+}
+export interface NotFound extends ILkError<LkErrorKey.NOT_FOUND> {}
+export interface NotOwned extends ILkError<LkErrorKey.NOT_OWNED> {}
+export interface NotSupported extends ILkError<LkErrorKey.NOT_SUPPORTED> {}
 
 export interface BadGraphRequest extends ILkError<LkErrorKey.BAD_GRAPH_REQUEST> {}
-export interface InvalidParameter extends ILkError<LkErrorKey.INVALID_PARAMETER> {}
-export interface Unauthorized extends ILkError<LkErrorKey.UNAUTHORIZED> {}
+export interface ConstraintViolation extends ILkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
 export interface Forbidden extends ILkError<LkErrorKey.FORBIDDEN> {}
-export interface NotFound extends ILkError<LkErrorKey.NOT_FOUND> {}
+export interface GraphUnreacheable extends ILkError<LkErrorKey.GRAPH_UNREACHABLE> {}
+export interface GuestDisabled extends ILkError<LkErrorKey.GUEST_DISABLED> {}
+export interface Unauthorized extends ILkError<LkErrorKey.UNAUTHORIZED> {}
+export interface WriteForbidden extends ILkError<LkErrorKey.WRITE_FORBIDDEN> {}

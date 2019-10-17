@@ -7,7 +7,6 @@
 
 import {ErrorListener} from './errorListener';
 import {
-  BadFetchConfig,
   ConnectionRefused,
   LkErrorKey,
   LkResponse
@@ -51,17 +50,13 @@ export abstract class Module {
 
   constructor(private readonly props: ModuleProps) {}
 
+  // It can throw from RestClient::getCurrentSource or Module::renderURL
   protected async request<C extends LkResponse>(rawFetchConfig: RawFetchConfig): Promise<C> {
-    // 1) Sanitize config. It can return BAD_FETCH_CONFIG or DATA_SOURCE_UNAVAILABLE
+    // 1) Sanitize config
     let fetchConfig: FetchConfig;
-    try {
-      fetchConfig = this.sanitizeConfig(rawFetchConfig);
-    } catch (error) {
-      this.props.dispatchError(error.key, error);
-      return new LkResponse({body: error}) as C;
-    }
+    fetchConfig = this.sanitizeConfig(rawFetchConfig);
 
-    // 2) Make HTTP request. It can return CONNECTION_REFUSED
+    // 2) Make HTTP request
     let response: request.Response;
     try {
       response = await this.props.agent(fetchConfig.method, fetchConfig.url)
@@ -94,9 +89,6 @@ export abstract class Module {
     }) as C;
   }
 
-  /*
-    throws DATA_SOURCE_UNAVAILABLE and BAD_FETCH_CONFIG
-   */
   private sanitizeConfig(config: RawFetchConfig): FetchConfig {
     const {params, url} = this.renderURl(config);
 
@@ -135,9 +127,6 @@ export abstract class Module {
     return result;
   }
 
-  /*
-    throws DATA_SOURCE_UNAVAILABLE and BAD_FETCH_CONFIG
-   */
   private renderURl(config: RawFetchConfig) {
     const copiedParams = config.params ? {...config.params} : {};
     let renderedURL = config.url;
@@ -146,7 +135,17 @@ export abstract class Module {
     let match;
     while ((match = regexp.exec(renderedURL)) !== null) {
       const key = match[0];
-      let paramValue = this.getValueFromClientState({paramKey: key});
+      let paramValue;
+
+      // Get `sourceKey` value
+      if (key === 'sourceKey') {
+        paramValue = this.props.clientState.currentSource &&
+          this.props.clientState.currentSource.key ||
+          LinkuriousRestClient.getCurrentSource(
+            this.props.clientState.sources || [],
+            this.props.clientState.user && {userId: this.props.clientState.user.id}
+          ).key;
+      }
 
       // Take path param values from `config.params`
       if (copiedParams[key]) {
@@ -158,51 +157,12 @@ export abstract class Module {
       if (paramValue) {
         renderedURL = renderedURL.replace(':' + key, encodeURIComponent(paramValue as string));
       } else {
-        throw {
-          key: LkErrorKey.BAD_FETCH_CONFIG,
-          message: `You need to set "${key}" to fetch this API (${renderedURL}).`,
-          rawFetchConfig: config
-        } as BadFetchConfig;
+        throw new Error(`Module::renderURL - You need to set "${key}" to fetch this API (${renderedURL}).`);
       }
     }
     return {
       params: copiedParams,
       url: renderedURL
     };
-  }
-
-  /*
-    throws DATA_SOURCE_UNAVAILABLE
-   */
-  private getValueFromClientState(props: {paramKey: string}): unknown {
-    const SOURCE_KEY_PATH_PARAM = 'sourceKey';
-    const SOURCE_INDEX_PATH_PARAM = 'sourceIndex';
-
-    let paramValue;
-    switch (props.paramKey) {
-      case SOURCE_KEY_PATH_PARAM: {
-        paramValue = this.props.clientState.currentSource &&
-          this.props.clientState.currentSource.key ||
-          LinkuriousRestClient.getCurrentSource(
-            this.props.clientState.sources || [],
-            this.props.clientState.user && {userId: this.props.clientState.user.id}
-          ).key;
-        break;
-      }
-      case SOURCE_INDEX_PATH_PARAM: {
-        paramValue = this.props.clientState.currentSource &&
-          this.props.clientState.currentSource.configIndex ||
-          LinkuriousRestClient.getCurrentSource(
-            this.props.clientState.sources || [],
-            this.props.clientState.user && {userId: this.props.clientState.user.id}
-          ).configIndex;
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-
-    return paramValue;
   }
 }

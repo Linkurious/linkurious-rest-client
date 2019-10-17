@@ -14,7 +14,19 @@ import {LinkuriousModule} from './Linkurious/module';
 import {IUserDataSource} from "../models/DataSource";
 
 import {IClientState, ModuleProps} from "./Module";
-import {DataSourceUnavailable, LkErrorKey} from "./response";
+
+export async function testingTypes() {
+  const restClient = new LinkuriousRestClient();
+  const response = await restClient.linkurious.getConfiguration();
+
+  if(response.isSuccess()){
+    response
+  } else if (response.isAnyError()) {
+    response
+  } else {
+    response
+  }
+}
 
 export class LinkuriousRestClient extends ErrorListener {
   private readonly moduleProps: ModuleProps;
@@ -133,17 +145,14 @@ export class LinkuriousRestClient extends ErrorListener {
 
   // TODO: #102
   /*
-    throws DATA_SOURCE_UNAVAILABLE
+    throws Error
    */
   public static getCurrentSource(
     dataSources: IUserDataSource[],
     by?: {userId: number} | {sourceKey: string} | {sourceIndex: number}
   ): IUserDataSource {
     if (!dataSources.length) {
-      throw {
-        key: LkErrorKey.DATA_SOURCE_UNAVAILABLE,
-        message: 'Datasources cannot be empty'
-      } as DataSourceUnavailable;
+      throw new Error('RestClient::getCurrentSource - Datasources cannot be empty')
     }
 
     if (by) {
