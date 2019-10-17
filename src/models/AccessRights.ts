@@ -70,7 +70,7 @@ export enum TargetType {
 }
 
 export interface ISetAccessRightsParams extends IDataSourceParams {
-  groupId: number; // e.g.: 123
+  groupId: number;
   accessRights: Array<
     | INodeCategoryAccessRight
     | IEdgeTypeAccessRight
