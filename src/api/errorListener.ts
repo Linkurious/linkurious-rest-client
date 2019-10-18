@@ -4,18 +4,20 @@
  *
  * - Created on 2019-03-13.
  */
-import {LkErrorKey} from "./response";
-import {GenericFunction} from "./commonTypes";
 
-type SimpleListeners = {
-  [key in LkErrorKey]: GenericFunction;
-}
+import {LkErrorKey} from './response';
+import {GenericFunction} from './commonTypes';
+
+type SimpleListeners = Record<LkErrorKey, GenericFunction>;
 
 export class ErrorListener {
   private readonly listeners: SimpleListeners = {} as SimpleListeners;
 
   dispatchError(key: LkErrorKey, payload: unknown): void {
-    if (this.listeners.hasOwnProperty(key) && typeof this.listeners[key] === 'function') {
+    if (
+      Object.prototype.hasOwnProperty.call(this.listeners, key) &&
+      typeof this.listeners[key] === 'function'
+    ) {
       this.listeners[key](payload);
     }
   }

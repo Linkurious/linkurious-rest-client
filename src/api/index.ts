@@ -7,26 +7,13 @@
 
 import * as request from 'superagent';
 
+import {IUserDataSource} from '../models/DataSource';
+
 import {ErrorListener} from './errorListener';
-
-import {GraphSchemaModule} from './GraphSchema/module';
 import {LinkuriousModule} from './Linkurious/module';
-import {IUserDataSource} from "../models/DataSource";
-
-import {IClientState, ModuleProps} from "./Module";
-
-export async function testingTypes() {
-  const restClient = new LinkuriousRestClient();
-  const response = await restClient.linkurious.getConfiguration();
-
-  if(response.isSuccess()){
-    response
-  } else if (response.isAnyError()) {
-    response
-  } else {
-    response
-  }
-}
+import {GraphSchemaModule} from './GraphSchema/module';
+import {IClientState, ModuleProps} from './Module';
+import {LkErrorKey} from './response';
 
 export class LinkuriousRestClient extends ErrorListener {
   private readonly moduleProps: ModuleProps;
@@ -34,15 +21,17 @@ export class LinkuriousRestClient extends ErrorListener {
   readonly linkurious = new LinkuriousModule(this.moduleProps);
   readonly graphSchema = new GraphSchemaModule(this.moduleProps);
 
-  constructor(props?: {baseUrl?: string, agent?: request.SuperAgentStatic}) {
+  constructor(props?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();
     this.moduleProps = {
-      baseUrl: props && props.baseUrl &&
-        (props.baseUrl.endsWith('/') ? props.baseUrl + 'api' : props.baseUrl + '/api') ||
-        '/api',
-      agent: props && props.agent || request,
+      baseUrl: props
+        ? props.baseUrl && props.baseUrl.endsWith('/')
+          ? props.baseUrl + 'api'
+          : props.baseUrl + '/api'
+        : '/api',
+      agent: (props && props.agent) || request,
       clientState: {},
-      dispatchError: this.dispatchError
+      dispatchError: (key: LkErrorKey, payload: unknown): void => this.dispatchError(key, payload)
     };
   }
 
@@ -152,7 +141,7 @@ export class LinkuriousRestClient extends ErrorListener {
     by?: {userId: number} | {sourceKey: string} | {sourceIndex: number}
   ): IUserDataSource {
     if (!dataSources.length) {
-      throw new Error('RestClient::getCurrentSource - Datasources cannot be empty')
+      throw new Error('RestClient::getCurrentSource - Datasources cannot be empty');
     }
 
     if (by) {
@@ -160,9 +149,13 @@ export class LinkuriousRestClient extends ErrorListener {
       if ('userId' in by) {
         // Return last seen dataSource by user in localstorage if it's connected
         try {
-          const sourceKey: string | null = localStorage.getItem('lk-lastSeenSourceKey-' + by.userId);
+          const sourceKey: string | null = localStorage.getItem(
+            'lk-lastSeenSourceKey-' + by.userId
+          );
           source = dataSources.find(s => s.connected && s.key === sourceKey);
-        } catch (_) {}
+        } catch (_) {
+          source = undefined;
+        }
       } else if ('sourceKey' in by) {
         // Return dataSource whose key matches sourceKey
         source = dataSources.find(s => s.connected && s.key === by.sourceKey);
@@ -176,8 +169,8 @@ export class LinkuriousRestClient extends ErrorListener {
     }
 
     // Return the first connected data-source
-    for (let firstConnected of dataSources) {
-      if(firstConnected.connected) {
+    for (const firstConnected of dataSources) {
+      if (firstConnected.connected) {
         return firstConnected;
       }
     }

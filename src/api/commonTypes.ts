@@ -5,7 +5,7 @@
  * - Created on 2019-09-30.
  */
 
-export type GenericFunction<A = any, B = any> = (payload: A) => B;
+export type GenericFunction<A = unknown, B = unknown> = (payload: A) => B;
 
 export interface GenericObject<T> {
   [key: string]: T;

@@ -5,28 +5,21 @@
  * - Created on 2019-09-26.
  */
 
+import * as request from 'superagent';
+
+import {IFullUser, IUserDataSource} from '../../index';
+
 import {ErrorListener} from './errorListener';
-import {
-  ConnectionRefused, Forbidden,
-  GraphRequestTimeout,
-  ILkError,
-  InvalidParameter,
-  LkErrorKey,
-  LkResponse,
-  Responses,
-  KeysToResponses, from
-} from './response';
-import * as request from "superagent";
+import {ConnectionRefused, LkErrorKey, LkResponse, KeysToResponses} from './response';
+import {GenericObject} from './commonTypes';
 
-import {IFullUser, IUserDataSource} from "../../index";
-import {LinkuriousRestClient} from "./index";
-import {GenericObject} from "./commonTypes";
+import {LinkuriousRestClient} from './index';
 
-export type RawFetchConfig = {
-  errors: LkErrorKey[],
+export interface RawFetchConfig {
+  errors?: LkErrorKey[];
   url: string;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
-  params?: GenericObject<any>;
+  params?: GenericObject<any>; // TODO: not to use any
   query?: Record<string, unknown>;
 }
 
@@ -44,37 +37,51 @@ export interface IClientState {
   sources?: IUserDataSource[];
 }
 
-// Because it's easier to pass the same params to all the modules
 export interface ModuleProps {
-  baseUrl: string,
-  agent: request.SuperAgentStatic,
-  clientState: IClientState,
-  dispatchError: ErrorListener['dispatchError']
+  baseUrl: string;
+  agent: request.SuperAgentStatic;
+  clientState: IClientState;
+  dispatchError: ErrorListener['dispatchError'];
+}
+
+/*
+  Does an TS assertion on `keys`
+    error = [LkErrorKey.INVALID_PARAMETER, LkErrorKey.GRAPH_UNREACHABLE]
+    error2 = from([LkErrorKey.INVALID_PARAMETER, LkErrorKey.GRAPH_UNREACHABLE])
+    // typeof error evaluates to LKErrorKey[]
+    // typeof error2 evaluates to (LkErrorKey.INVALID_PARAMETER | LkErrorKey.GRAPH_UNREACHABLE)[]
+ */
+export function from<E extends LkErrorKey>(keys: E[]): E[] {
+  return keys;
 }
 
 export abstract class Module {
-
   constructor(private readonly props: ModuleProps) {}
 
-  protected handle<E extends LkErrorKey>(keys: E[]) {
-    const errors = from(keys);
+  /*
+    In `request<S, E extends LkErrorKey>(...)` we want S to be explicit and E to be inferred,
+    to do so in TS is not possible today, `handle` is a workaround for that issue.
+    There's an open issue in TS repo about it: https://github.com/microsoft/TypeScript/issues/10571
+    PR (possible fix): https://github.com/microsoft/TypeScript/pull/26349
+   */
+  protected handle<E extends LkErrorKey>(...errors: E[]) {
     return {
-      request: <S>(raw: Omit<RawFetchConfig, 'errors'>) => this.request<S, typeof errors[0]>({...raw, errors: errors})
+      request: <S = void>(raw: RawFetchConfig) => this.request<S, E>({errors: errors, ...raw})
     };
   }
 
   // It can throw from RestClient::getCurrentSource or Module::renderURL
-  protected async request<S, E extends LkErrorKey> (
+  protected async request<S = void, E extends LkErrorKey = LkErrorKey.CONNECTION_REFUSED>(
     rawFetchConfig: RawFetchConfig
-  ): Promise< LkResponse<S> | KeysToResponses<E> > {
+  ) {
     // 1) Sanitize config
-    let fetchConfig: FetchConfig;
-    fetchConfig = this.sanitizeConfig(rawFetchConfig);
+    const fetchConfig = this.sanitizeConfig(rawFetchConfig);
 
     // 2) Make HTTP request
     let response: request.Response;
     try {
-      response = await this.props.agent(fetchConfig.method, fetchConfig.url)
+      response = await this.props
+        .agent(fetchConfig.method, fetchConfig.url)
         .withCredentials()
         .send(fetchConfig.body)
         .query(fetchConfig.query);
@@ -89,13 +96,13 @@ export abstract class Module {
     }
 
     // 3) Dispatch server errors
-    if (response.body.key in rawFetchConfig.errors) {
+    if (rawFetchConfig.errors && response.body.key in rawFetchConfig.errors) {
       this.props.dispatchError(response.body.key, {
         serverError: response.body,
         fetchConfig: fetchConfig
       });
     } else if (response.status < 200 && response.status >= 400) {
-      throw new Error('Unexpected error: ' + JSON.stringify(response.body));
+      throw new Error('Unhandled error: ' + JSON.stringify(response.body));
     }
 
     // 4) Return server response yay
@@ -103,7 +110,7 @@ export abstract class Module {
       status: response.status,
       header: response.header,
       body: response.body
-    });
+    }) as LkResponse<S> | KeysToResponses<E>;
   }
 
   private sanitizeConfig(config: RawFetchConfig): FetchConfig {
@@ -129,16 +136,21 @@ export abstract class Module {
       }
     }
 
-    return {method: config.method, url: this.props.baseUrl + url, body, query: Module.toSnakeCaseKeys(query)};
+    return {
+      method: config.method,
+      url: this.props.baseUrl + url,
+      body: body,
+      query: Module.toSnakeCaseKeys(query)
+    };
   }
 
   private static toSnakeCaseKeys(obj: Record<string, unknown>) {
     const result: Record<string, unknown> = {};
     for (const key in obj) {
       const fixedKey = key
-        .replace(/(^[A-Z])/, (first) => first.toLowerCase())
-        .replace(/(?<=_)([A-Z])/g, (letter) => letter.toLowerCase())
-        .replace(/([A-Z])/g, (letter) => `_${letter.toLowerCase()}`);
+        .replace(/(^[A-Z])/, first => first.toLowerCase())
+        .replace(/(?<=_)([A-Z])/g, letter => letter.toLowerCase())
+        .replace(/([A-Z])/g, letter => `_${letter.toLowerCase()}`);
       result[fixedKey] = obj[key];
     }
     return result;
@@ -148,7 +160,7 @@ export abstract class Module {
     const copiedParams = config.params ? {...config.params} : {};
     let renderedURL = config.url;
     // Iterate over path params in route-like format `/:id/`
-    const regexp: RegExp = /(?<=:)[^/]+(?=\/)/g;
+    const regexp = /(?<=:)[^/]+(?=\/)/g;
     let match;
     while ((match = regexp.exec(renderedURL)) !== null) {
       const key = match[0];
@@ -156,8 +168,8 @@ export abstract class Module {
 
       // Get `sourceKey` value
       if (key === 'sourceKey') {
-        paramValue = this.props.clientState.currentSource &&
-          this.props.clientState.currentSource.key ||
+        paramValue =
+          (this.props.clientState.currentSource && this.props.clientState.currentSource.key) ||
           LinkuriousRestClient.getCurrentSource(
             this.props.clientState.sources || [],
             this.props.clientState.user && {userId: this.props.clientState.user.id}
@@ -174,7 +186,9 @@ export abstract class Module {
       if (paramValue) {
         renderedURL = renderedURL.replace(':' + key, encodeURIComponent(paramValue as string));
       } else {
-        throw new Error(`Module::renderURL - You need to set "${key}" to fetch this API (${renderedURL}).`);
+        throw new Error(
+          `Module::renderURL - You need to set "${key}" to fetch this API (${renderedURL}).`
+        );
       }
     }
     return {

@@ -18,6 +18,7 @@ module.exports = {
   'rules': {
     'eqeqeq': ['error'], // Requires === or !== in place of == or !=
     '@typescript-eslint/no-empty-interface': ['off'], // Allows empty interfaces
+    '@typescript-eslint/explicit-function-return-type': ['off'], // Allows empty interfaces
     'object-shorthand': ['error', 'never'], // Disallows shorthand object literal
     '@typescript-eslint/ban-ts-ignore':['off'], // Allows @ts-ignore
     '@typescript-eslint/interface-name-prefix': ['off'], // Allows interfaces prefixed with I

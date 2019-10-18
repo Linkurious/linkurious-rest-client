@@ -7,14 +7,12 @@
 
 // TS2019-DONE
 
-import {
-  Forbidden, InvalidParameter, LkErrorKey, LkResponse, Responses, Success, Unauthorized,
-  BadGraphRequest, from
-} from '../response';
-import {Module, RawFetchConfig} from '../Module';
+import {LkErrorKey, LkResponse} from '../response';
+import {Module} from '../Module';
 
 import {
-  IGetConfigParams, IGetConfigResponse,
+  IGetConfigParams,
+  IGetConfigResponse,
   IGetCustomFilesParams,
   IGetCustomFilesResponse,
   IGetReportParams,
@@ -25,9 +23,11 @@ import {
   IUpdateConfigParams
 } from './types';
 
+const {INVALID_PARAMETER, FORBIDDEN, UNAUTHORIZED} = LkErrorKey;
+
 export class LinkuriousModule extends Module {
   async getStatus() {
-    const response: Responses<IGetStatusResponse> = await this.request({
+    const response = await this.request<IGetStatusResponse>({
       url: '/status',
       method: 'GET'
     });
@@ -42,57 +42,47 @@ export class LinkuriousModule extends Module {
     }
   }
 
-  async getVersion(): Promise<Responses<IGetVersionResponse>> {
-    return this.request({
+  async getVersion() {
+    return this.request<IGetVersionResponse>({
       url: '/version',
       method: 'GET'
     });
   }
 
-  async getConfiguration(params?: IGetConfigParams){
-    return this
-      .handle([LkErrorKey.INVALID_PARAMETER, LkErrorKey.BAD_GRAPH_REQUEST])
-      .request<IGetConfigResponse>({
-        url: '/config',
-        method: 'GET',
-        params: params
-      });
+  async getConfiguration(params?: IGetConfigParams) {
+    return this.handle(INVALID_PARAMETER).request<IGetConfigResponse>({
+      url: '/config',
+      method: 'GET',
+      params: params
+    });
   }
 
-  async updateConfiguration(
-    params: IUpdateConfigParams<any>
-  ): Promise<Responses<void | Unauthorized | Forbidden>> {
-    return this.request({
+  async updateConfiguration(params: IUpdateConfigParams<any>) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
       url: '/config',
       method: 'POST',
       params: params
     });
   }
 
-  async sendAnalytics(
-    params: ISendAnalyticsParams
-  ): Promise<Responses<void | InvalidParameter>> {
-    return this.request({
+  async sendAnalytics(params: ISendAnalyticsParams) {
+    return this.handle(INVALID_PARAMETER).request({
       url: '/analytics',
       method: 'POST',
       params: params
     });
   }
 
-  async getReport(
-    params?: IGetReportParams
-  ): Promise<Responses<void | Unauthorized | Forbidden>> {
-    return this.request({
+  async getReport(params?: IGetReportParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
       url: '/admin/report',
       method: 'GET',
       params: params
     });
   }
 
-  async getCustomFiles(
-    params?: IGetCustomFilesParams
-  ): Promise<Responses<IGetCustomFilesResponse>> {
-    return this.request({
+  async getCustomFiles(params?: IGetCustomFilesParams) {
+    return this.request<IGetCustomFilesResponse>({
       url: '/customFiles',
       method: 'GET',
       params: params
@@ -100,10 +90,9 @@ export class LinkuriousModule extends Module {
   }
 
   async restartLinkurious() {
-    const response: Responses<IRestartLinkuriousResponse | Unauthorized | Forbidden> = await this.request({
-      url: '/admin/restart',
-      method: 'POST'
-    });
+    const response = await this.handle(UNAUTHORIZED, FORBIDDEN).request<IRestartLinkuriousResponse>(
+      {url: '/admin/restart', method: 'POST'}
+    );
     if (response.isSuccess()) {
       return new LkResponse({
         body: response.body.url,
@@ -111,8 +100,7 @@ export class LinkuriousModule extends Module {
         header: response.header
       });
     } else {
-      return response
+      return response;
     }
   }
 }
-
