@@ -50,13 +50,13 @@ export class LinkuriousModule extends Module {
   }
 
   async getConfiguration(params?: IGetConfigParams){
-    const errors = from([LkErrorKey.INVALID_PARAMETER, LkErrorKey.BAD_GRAPH_REQUEST]);
-    return this.request<IGetConfigResponse, typeof errors[0]>({
-      errors,
-      url: '/config',
-      method: 'GET',
-      params: params
-    });
+    return this
+      .handle([LkErrorKey.INVALID_PARAMETER, LkErrorKey.BAD_GRAPH_REQUEST])
+      .request<IGetConfigResponse>({
+        url: '/config',
+        method: 'GET',
+        params: params
+      });
   }
 
   async updateConfiguration(

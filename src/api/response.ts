@@ -71,6 +71,10 @@ export function from<E extends LkErrorKey>(keys: E[]): E[] {
   return keys;
 }
 
+const error = [LkErrorKey.INVALID_PARAMETER, LkErrorKey.GRAPH_UNREACHABLE];
+
+const error2 = from([LkErrorKey.INVALID_PARAMETER, LkErrorKey.GRAPH_UNREACHABLE]);
+
 export class LkResponse<B = unknown>{
   body: B;
   status: number;

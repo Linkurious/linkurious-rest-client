@@ -14,7 +14,7 @@ import {
   LkErrorKey,
   LkResponse,
   Responses,
-  KeysToResponses
+  KeysToResponses, from
 } from './response';
 import * as request from "superagent";
 
@@ -56,8 +56,15 @@ export abstract class Module {
 
   constructor(private readonly props: ModuleProps) {}
 
+  protected handle<E extends LkErrorKey>(keys: E[]) {
+    const errors = from(keys);
+    return {
+      request: <S>(raw: Omit<RawFetchConfig, 'errors'>) => this.request<S, typeof errors[0]>({...raw, errors: errors})
+    };
+  }
+
   // It can throw from RestClient::getCurrentSource or Module::renderURL
-  protected async request<S, E extends LkErrorKey>(
+  protected async request<S, E extends LkErrorKey> (
     rawFetchConfig: RawFetchConfig
   ): Promise< LkResponse<S> | KeysToResponses<E> > {
     // 1) Sanitize config
