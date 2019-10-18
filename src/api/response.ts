@@ -6,11 +6,9 @@
  */
 
 import {GenericObject} from "./commonTypes";
-import {FetchConfig} from "./Module";
+import {FetchConfig, RawFetchConfig} from "./Module";
 
 export enum LkErrorKey {
-  UNKNOWN = 'unknown', // (ง ツ) ว
-
   // Not a server error
   CONNECTION_REFUSED = 'connection_refused',
 
@@ -37,10 +35,41 @@ export enum LkErrorKey {
   UNAUTHORIZED = 'unauthorized', // in Access
   WRITE_FORBIDDEN = 'write_forbidden', // in Access
 }
+export type KeyToInterface = {
+  [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefused,
+  [LkErrorKey.ALREADY_EXIST]: AlreadyExists,
+  [LkErrorKey.BUG]: Bug,
+  [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder,
+  [LkErrorKey.CANNOT_READ]: CannotRead,
+  [LkErrorKey.DATA_SOURCE_UNAVAILABLE]: DataSourceUnavailable,
+  [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeout,
+  [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState,
+  [LkErrorKey.INVALID_PARAMETER]: InvalidParameter,
+  [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplate,
+  [LkErrorKey.NOT_FOUND]: NotFound,
+  [LkErrorKey.NOT_OWNED]: NotOwned,
+  [LkErrorKey.NOT_SUPPORTED]: NotSupported,
+  [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequest,
+  [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolation,
+  [LkErrorKey.FORBIDDEN]: Forbidden,
+  [LkErrorKey.GRAPH_UNREACHABLE]: GraphUnreacheable,
+  [LkErrorKey.GUEST_DISABLED]: GuestDisabled,
+  [LkErrorKey.UNAUTHORIZED]: Unauthorized,
+  [LkErrorKey.WRITE_FORBIDDEN]: WriteForbidden
+}
+// If a new error key is added to the enum `LkErrorKey`, it has to be added to the `KeyToInterface` as well
+// otherwise the following type will complain
+export type KeysToResponses<T extends LkErrorKey> = (T extends unknown ?
+  LkResponse<KeyToInterface[T]> :
+  LkResponse<KeyToInterface[T]>) |
+  LkResponse<ConnectionRefused>
 
-export type Responses<T> = (T extends unknown ? LkResponse<T> : LkResponse<T>) |
-  LkResponse<ConnectionRefused> |
-  LkResponse<UnknownError>
+export type Success<T> = LkResponse<T> | LkResponse
+
+// Type guard
+export function from<E extends LkErrorKey>(keys: E[]): E[] {
+  return keys;
+}
 
 export class LkResponse<B = unknown>{
   body: B;
@@ -70,7 +99,7 @@ export interface ILkError<K = LkErrorKey> {
   message: string; // english message of the error
 }
 
-export interface UnknownError extends ILkError<LkErrorKey.UNKNOWN> {
+export interface UnknownError extends ILkError<unknown> {
   [key: string]: unknown;
 }
 

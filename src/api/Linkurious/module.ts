@@ -8,17 +8,13 @@
 // TS2019-DONE
 
 import {
-  Forbidden,
-  InvalidParameter,
-  Unauthorized,
-  Responses,
-  LkResponse
+  Forbidden, InvalidParameter, LkErrorKey, LkResponse, Responses, Success, Unauthorized,
+  BadGraphRequest, from
 } from '../response';
-import {Module} from '../Module';
+import {Module, RawFetchConfig} from '../Module';
 
 import {
-  IGetConfigParams,
-  IGetConfigResponse,
+  IGetConfigParams, IGetConfigResponse,
   IGetCustomFilesParams,
   IGetCustomFilesResponse,
   IGetReportParams,
@@ -53,10 +49,10 @@ export class LinkuriousModule extends Module {
     });
   }
 
-  async getConfiguration(
-    params?: IGetConfigParams
-  ): Promise<Responses<IGetConfigResponse | InvalidParameter>> {
-    return this.request({
+  async getConfiguration(params?: IGetConfigParams){
+    const errors = from([LkErrorKey.INVALID_PARAMETER, LkErrorKey.BAD_GRAPH_REQUEST]);
+    return this.request<IGetConfigResponse, typeof errors[0]>({
+      errors,
       url: '/config',
       method: 'GET',
       params: params

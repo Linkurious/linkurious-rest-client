@@ -7,9 +7,14 @@
 
 import {ErrorListener} from './errorListener';
 import {
-  ConnectionRefused,
+  ConnectionRefused, Forbidden,
+  GraphRequestTimeout,
+  ILkError,
+  InvalidParameter,
   LkErrorKey,
-  LkResponse
+  LkResponse,
+  Responses,
+  KeysToResponses
 } from './response';
 import * as request from "superagent";
 
@@ -18,6 +23,7 @@ import {LinkuriousRestClient} from "./index";
 import {GenericObject} from "./commonTypes";
 
 export type RawFetchConfig = {
+  errors: LkErrorKey[],
   url: string;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
   params?: GenericObject<any>;
@@ -51,7 +57,9 @@ export abstract class Module {
   constructor(private readonly props: ModuleProps) {}
 
   // It can throw from RestClient::getCurrentSource or Module::renderURL
-  protected async request<C extends LkResponse>(rawFetchConfig: RawFetchConfig): Promise<C> {
+  protected async request<S, E extends LkErrorKey>(
+    rawFetchConfig: RawFetchConfig
+  ): Promise< LkResponse<S> | KeysToResponses<E> > {
     // 1) Sanitize config
     let fetchConfig: FetchConfig;
     fetchConfig = this.sanitizeConfig(rawFetchConfig);
@@ -70,15 +78,17 @@ export abstract class Module {
         fetchConfig: fetchConfig
       };
       this.props.dispatchError(error.key, error);
-      return new LkResponse({body: error}) as C;
+      return new LkResponse({body: error});
     }
 
     // 3) Dispatch server errors
-    if (response.body.key in LkErrorKey) {
+    if (response.body.key in rawFetchConfig.errors) {
       this.props.dispatchError(response.body.key, {
         serverError: response.body,
         fetchConfig: fetchConfig
       });
+    } else if (response.status < 200 && response.status >= 400) {
+      throw new Error('Unexpected error: ' + JSON.stringify(response.body));
     }
 
     // 4) Return server response yay
@@ -86,7 +96,7 @@ export abstract class Module {
       status: response.status,
       header: response.header,
       body: response.body
-    }) as C;
+    });
   }
 
   private sanitizeConfig(config: RawFetchConfig): FetchConfig {
