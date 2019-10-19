@@ -591,10 +591,10 @@ export interface IWidgetUI {
 }
 
 export interface IFolderFullResponse {
-  folder: IFolder;
+  folder: IVizFolder;
 }
 
-export interface IFolder {
+export interface IVizFolder {
   id: number;
   title: string;
   parent: number;
