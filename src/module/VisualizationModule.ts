@@ -9,7 +9,7 @@
 import {
   Forbidden,
   IAlternativeIdConfig,
-  IFolder,
+  IVizFolder,
   IFolderFullResponse,
   IItemFields,
   InvalidParameter,
@@ -139,7 +139,7 @@ export class VisualizationModule extends Module {
    *
    * @param {Object} data
    * @param {string}dataSourceKey
-   * @returns {Promise<IFolder>}
+   * @returns {Promise<IVizFolder>}
    */
   public createFolder(
     data: {
@@ -147,7 +147,7 @@ export class VisualizationModule extends Module {
       parent: number;
     },
     dataSourceKey?: string
-  ): Promise<IFolder> {
+  ): Promise<IVizFolder> {
     return this.fetch({
       url: '/{sourceKey}/visualizations/folder',
       method: 'POST',

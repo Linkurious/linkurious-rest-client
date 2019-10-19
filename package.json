@@ -1,6 +1,6 @@
 {
   "name": "@linkurious/rest-client",
-  "version": "2.9.0-10",
+  "version": "2.9.0-11",
   "description": "A TypeScript lib to interact with Linkurious REST API",
   "files": [
     "dist"
