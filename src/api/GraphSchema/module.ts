@@ -7,8 +7,7 @@
 
 // TS2019-DONE
 
-import {DataSourceUnavailable, Forbidden, NotFound, Unauthorized} from '../response';
-import {Success} from '../response';
+import {LkErrorKey} from '../response';
 import {
   ICreatePropertyParams,
   ICreatePropertyResponse,
@@ -34,160 +33,124 @@ import {
 
 import {Module} from '../Module';
 
+const {FORBIDDEN, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND} = LkErrorKey;
+
 export class GraphSchemaModule extends Module {
-  public async startSchemaSampling(
-    params: IStartSchemaSamplingParams
-  ): Promise<Success<void>> {
+  public async startSchemaSampling(params: IStartSchemaSamplingParams) {
     return this.request({
-      url: '/admin/{sourceKey}/schema/sampling/start',
+      url: '/admin/:sourceKey/schema/sampling/start',
       method: 'POST',
       params: params
     });
   }
 
-  public async getSamplingStatus(
-    params?: IGetSamplingStatusParams
-  ): Promise<
-    Success<IGetSamplingStatusResponse>
-  > {
-    return this.request({
-      url: '/{sourceKey}/schema/sampling/status',
+  public async getSamplingStatus(params?: IGetSamplingStatusParams) {
+    return this.request<IGetSamplingStatusResponse>({
+      url: '/:sourceKey/schema/sampling/status',
       method: 'GET',
       params: params
     });
   }
 
-  public async stopSchemaSampling(
-    params?: IStopSchemaSamplingParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
-    return this.request({
-      url: '/admin/{sourceKey}/schema/sampling/stop',
+  public async stopSchemaSampling(params?: IStopSchemaSamplingParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
+      url: '/admin/:sourceKey/schema/sampling/stop',
       method: 'POST',
       params: params
     });
   }
 
-  public async createType(
-    params: ICreateTypeParams
-  ): Promise<Success<ICreateTypeResponse> | Unauthorized | Forbidden> {
-    return this.request({
-      url: '/admin/{sourceKey}/graph/schema/{entityType}/types',
+  public async createType(params: ICreateTypeParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request<ICreateTypeResponse>({
+      url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'POST',
       params: params
     });
   }
 
-  public async updateType(
-    params: IUpdateTypeParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound> {
-    return this.request({
-      url: '/admin/{sourceKey}/graph/schema/{entityType}/types',
+  public async updateType(params: IUpdateTypeParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
+      url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'PATCH',
       params: params
     });
   }
 
-  public async createProperty(
-    params: ICreatePropertyParams
-  ): Promise<Success<ICreatePropertyResponse> | Unauthorized | Forbidden | NotFound> {
-    return this.request({
-      url: '/admin/{sourceKey}/graph/schema/{entityType}/properties',
+  public async createProperty(params: ICreatePropertyParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<ICreatePropertyResponse>({
+      url: '/admin/:sourceKey/graph/schema/:entityType/properties',
       method: 'POST',
       params: params
     });
   }
 
-  public async updateProperty(
-    params: IUpdatePropertyParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | NotFound> {
-    return this.request({
-      url: '/admin/{sourceKey}/graph/schema/{entityType}/properties',
+  public async updateProperty(params: IUpdatePropertyParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
+      url: '/admin/:sourceKey/graph/schema/:entityType/properties',
       method: 'PATCH',
       params: params
     });
   }
 
-  public async updateSchemaSettings(
-    params: IUpdateSchemaSettingsParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
-    return this.request({
-      url: '/admin/{sourceKey}/graph/schema/settings',
+  public async updateSchemaSettings(params: IUpdateSchemaSettingsParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
+      url: '/admin/:sourceKey/graph/schema/settings',
       method: 'PATCH',
       params: params
     });
   }
 
-  public async getTypes(
-    params: IGetTypesParams
-  ): Promise<Success<IGetTypesResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
-    return this.request({
-      url: '/admin/{sourceKey}/graph/schema/{entityType}/types',
+  public async getTypes(params: IGetTypesParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<IGetTypesResponse>({
+      url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'GET',
       params: params
     });
   }
 
-  public async getTypesWithAccess(
-    params: IGetTypesWithAccessParams
-  ): Promise<
-    Success<IGetTypesWithAccessResponse> | Unauthorized | Forbidden | DataSourceUnavailable
-  > {
-    return this.request({
-      url: '/{sourceKey}/graph/schema/{entityType}/types',
+  public async getTypesWithAccess(params: IGetTypesWithAccessParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<IGetTypesWithAccessResponse>({
+      url: '/:sourceKey/graph/schema/:entityType/types',
       method: 'GET',
       params: params
     });
   }
 
-  public async getSimpleSchema(
-    params?: IGetSimpleSchemaParams
-  ): Promise<Success<IGetSimpleSchemaResponse> | Unauthorized | Forbidden | DataSourceUnavailable> {
-    return this.request({
-      url: '/{sourceKey}/graph/schema/simple',
+  public async getSimpleSchema(params?: IGetSimpleSchemaParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<IGetSimpleSchemaResponse>({
+      url: '/:sourceKey/graph/schema/simple',
       method: 'GET',
       params: params
     });
   }
 
-  public getNonIndexedEdgeProperties(
-    params?: IGetNonIndexedPropertiesParams
-  ): Promise<
-    Success<IGetNonIndexedPropertiesResponse> | Unauthorized | Forbidden | DataSourceUnavailable
-  > {
-    return this.request({
-      url: '/admin/source/{sourceKey}/noIndex/edgeProperties',
+  public getNonIndexedEdgeProperties(params?: IGetNonIndexedPropertiesParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<IGetNonIndexedPropertiesResponse>({
+      url: '/admin/source/:sourceKey/noIndex/edgeProperties',
       method: 'GET',
       params: params
     });
   }
 
-  public getNonIndexedNodeProperties(
-    params?: IGetNonIndexedPropertiesParams
-  ): Promise<
-    Success<IGetNonIndexedPropertiesResponse> | Unauthorized | Forbidden | DataSourceUnavailable
-  > {
-    return this.request({
-      url: '/admin/source/{sourceKey}/noIndex/nodeProperties',
+  public getNonIndexedNodeProperties(params?: IGetNonIndexedPropertiesParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<IGetNonIndexedPropertiesResponse>({
+      url: '/admin/source/:sourceKey/noIndex/nodeProperties',
       method: 'GET',
       params: params
     });
   }
 
-  public setNotIndexedEdgeProperties(
-    params: ISetNonIndexedPropertiesParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
-    return this.request({
-      url: '/admin/source/{sourceKey}/noIndex/edgeProperties',
+  public setNotIndexedEdgeProperties(params: ISetNonIndexedPropertiesParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
+      url: '/admin/source/:sourceKey/noIndex/edgeProperties',
       method: 'PUT',
       params: params
     });
   }
 
-  public setNotIndexedNodeProperties(
-    params: ISetNonIndexedPropertiesParams
-  ): Promise<Success<void> | Unauthorized | Forbidden | DataSourceUnavailable> {
-    return this.request({
-      url: '/admin/source/{sourceKey}/noIndex/nodeProperties',
+  public setNotIndexedNodeProperties(params: ISetNonIndexedPropertiesParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
+      url: '/admin/source/:sourceKey/noIndex/nodeProperties',
       method: 'PUT',
       params: params
     });
