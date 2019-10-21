@@ -64,7 +64,7 @@ export interface LkNodeStatistics {
 export interface LkNodeData extends LkItemData {
   categories: string[];
   statistics?: LkNodeStatistics;
-  geo: GeoData
+  geo: GeoData;
 }
 
 export interface LkNode extends LkItem {
@@ -97,10 +97,10 @@ export interface VizNodeInfo {
     y: number;
     layoutable: boolean;
     selected: boolean;
-  },
+  };
   data: {
-    geo: GeoData
-  }
+    geo: GeoData;
+  };
 }
 
 export interface VizEdgeInfo {

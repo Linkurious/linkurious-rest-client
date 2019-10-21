@@ -97,28 +97,6 @@ export interface LkNodeStatistics {
   degree?: number;
 }
 
-export interface LkNode {
-  id: string;
-  categories: string[];
-  data: LkRawProperties;
-  statistics?: LkNodeStatistics;
-  tolerateIsoStringAsNativeDate?: boolean;
-}
-
-export interface LkEdge {
-  id: string;
-  type: string;
-  source: string;
-  target: string;
-  data: LkRawProperties;
-  tolerateIsoStringAsNativeDate?: boolean;
-}
-
-export interface LkSubGraph {
-  nodes: LkNode[];
-  edges: LkEdge[];
-}
-
 // Nodes and edges after being normalized by the schema and being added the read timestamp
 
 export interface LkDate {
