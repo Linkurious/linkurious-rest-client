@@ -86,7 +86,6 @@ export class LinkuriousRestClient extends ErrorListener {
    *
    * @param {Object} data
    * @returns {Promise<IClientState>}
-   */
   public init(data: {usernameOrEmail: string; password: string}): Promise<IClientState> {
     return this.login(data)
       .then(() => {
@@ -96,6 +95,7 @@ export class LinkuriousRestClient extends ErrorListener {
         return this.clientState;
       });
   }
+   */
 
   // TODO: #102 lmao, so useless
   /**
