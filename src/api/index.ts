@@ -7,6 +7,8 @@
 
 import * as request from 'superagent';
 
+export * from './GraphItem/types';
+
 import {IUserDataSource} from '../models/DataSource';
 
 import {ErrorListener} from './errorListener';
