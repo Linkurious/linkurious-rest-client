@@ -4,13 +4,7 @@
  * - Created on 2016-05-27.
  */
 
-import {
-  IClientState,
-  IFullAdminAlert,
-  IFullUser,
-  IGroup,
-  IIndexationStatus
-} from '../../index';
+import {IClientState, IFullAdminAlert, IFullUser, IGroup, IIndexationStatus} from '../../index';
 import {ErrorListener} from '../errorListener';
 import {Fetcher} from '../http/fetcher';
 import {

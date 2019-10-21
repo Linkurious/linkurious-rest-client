@@ -7,6 +7,7 @@
 // TS2019-DONE
 
 import {IDataSourceParams} from './DataSource';
+import {ItemTypeAccessRightType, PropertyAccessRightType} from './AccessRights';
 
 export interface IStartSchemaSamplingParams extends IDataSourceParams {
   reset?: boolean;
@@ -105,7 +106,7 @@ export interface IGraphSchemaProperty {
 }
 
 export interface IGraphSchemaPropertyWithAccess extends IGraphSchemaProperty {
-  access: PropertyAccessLevel;
+  access: PropertyAccessRightType;
 }
 
 export interface IGraphSchemaType {
@@ -118,27 +119,15 @@ export interface IGraphSchema {
   results: IGraphSchemaType[];
 }
 
-export enum TypeAccessLevel {
-  READABLE = 'readable',
-  EDITABLE = 'editable',
-  WRITABLE = 'writable',
-  NONE = 'none'
-}
-
-export enum PropertyAccessLevel {
-  READABLE = 'readable',
-  EDITABLE = 'editable'
-}
-
 export interface IGraphSchemaWithAccess extends IGraphSchema {
   any: {
-    access: TypeAccessLevel;
+    access: ItemTypeAccessRightType;
   };
   results: IGraphSchemaTypeWithAccess[];
 }
 
 export interface IGraphSchemaTypeWithAccess extends IGraphSchemaType {
-  access: TypeAccessLevel;
+  access: ItemTypeAccessRightType;
   // IGraphSchemaPropertyWithAccess[] if property key access rights is enabled
   properties: IGraphSchemaProperty[] | IGraphSchemaPropertyWithAccess[];
 }
