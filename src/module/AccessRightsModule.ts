@@ -28,7 +28,7 @@ export class AccessRightsModule extends Module {
     | PropertyKeyAccessRightsRequired
   > {
     return this.request({
-      url: '/api/admin/{sourceKey}/groups/{groupId}/access_rights',
+      url: '/admin/{sourceKey}/groups/{groupId}/access_rights',
       method: 'PUT',
       body: options,
       path: {
