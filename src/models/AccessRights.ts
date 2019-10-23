@@ -116,6 +116,20 @@ export interface IEdgePropertyAccessRight
   targetItemType: string; // edge-type of the property (e.g. 'HAS_CITY')
 }
 
+export interface IBuiltinOnlyActionAccessRight extends IGenericAccessRight<TargetType.ACTION> {
+  type: ActionAccessRightType;
+  targetName: AdminAction;
+}
+
+export type AnyAccessRightType =
+  | INodeCategoryAccessRight
+  | IEdgeTypeAccessRight
+  | IActionAccessRight
+  | IBuiltinOnlyActionAccessRight
+  | IAlertAccessRight
+  | INodePropertyAccessRight
+  | IEdgePropertyAccessRight;
+
 // Examples:
 //
 // NODE_PROPERTY_KEY access right:

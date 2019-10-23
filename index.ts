@@ -55,6 +55,7 @@ import {
 import {Success} from './src/response/success';
 import {SuperAgent} from './src/http/DefaultHttpDriver';
 import {IUserDataSource} from './src/models/DataSource';
+import {AnyAccessRightType} from './src/models/AccessRights';
 
 export type indexingStatus = 'ongoing' | 'needed' | 'done' | 'unknown';
 export type EdgeOrientation = 'in' | 'out' | 'both';
@@ -185,14 +186,8 @@ export interface ISimpleGroup extends IBaseGroup {
 
 export interface IGroup extends ISimpleGroup {
   userCount?: number;
-  accessRights?: IAccessRight[];
+  accessRights?: AnyAccessRightType;
   sourceKey: string;
-}
-
-export interface IAccessRight extends IDataSourceRelative {
-  type: RightType;
-  targetType: string;
-  targetName: string;
 }
 
 // DATA-SOURCE

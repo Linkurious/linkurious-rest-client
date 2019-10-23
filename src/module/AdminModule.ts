@@ -124,7 +124,7 @@ export class AdminModule extends Module {
       name: string;
     },
     dataSourceKey?: string
-  ): Promise<Success<void> | Unauthorized | NotFound | Forbidden | InvalidParameter> {
+  ): Promise<Success<IGroup> | Unauthorized | NotFound | Forbidden | InvalidParameter> {
     return this.request({
       url: '/admin/{sourceKey}/groups/{id}',
       method: 'PATCH',
