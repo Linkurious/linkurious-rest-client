@@ -186,7 +186,7 @@ export interface ISimpleGroup extends IBaseGroup {
 
 export interface IGroup extends ISimpleGroup {
   userCount?: number;
-  accessRights?: AnyAccessRightType;
+  accessRights?: AnyAccessRightType[];
   sourceKey: string;
 }
 
