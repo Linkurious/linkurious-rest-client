@@ -22,10 +22,10 @@ import {AuthAPI} from './api/Auth';
 export class LinkuriousRestClient extends ErrorListener {
   private readonly moduleProps: ModuleProps;
 
-  readonly linkurious = new LinkuriousAPI(this.moduleProps);
-  readonly graphSchema = new GraphSchemaAPI(this.moduleProps);
-  readonly customAction = new CustomActionAPI(this.moduleProps);
-  readonly auth = new AuthAPI(this.moduleProps);
+  readonly linkurious: LinkuriousAPI;
+  readonly graphSchema: GraphSchemaAPI;
+  readonly customAction: CustomActionAPI;
+  readonly auth: AuthAPI;
 
   constructor(props?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();
@@ -39,6 +39,10 @@ export class LinkuriousRestClient extends ErrorListener {
       clientState: {},
       dispatchError: (key: LkErrorKey, payload: unknown): void => this.dispatchError(key, payload)
     };
+    this.linkurious = new LinkuriousAPI(this.moduleProps);
+    this.graphSchema = new GraphSchemaAPI(this.moduleProps);
+    this.customAction = new CustomActionAPI(this.moduleProps);
+    this.auth = new AuthAPI(this.moduleProps);
   }
 
   get clientState(): IClientState {
