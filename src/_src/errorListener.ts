@@ -5,10 +5,10 @@
  * - Created on 2019-03-13.
  */
 
-import {LkErrorKey} from './response';
-import {GenericFunction} from './commonTypes';
+import {LkErrorKey} from './http/response';
 
-type SimpleListeners = Record<LkErrorKey, GenericFunction>;
+type SimpleCallback<A = unknown, B = unknown> = (payload: A) => B;
+type SimpleListeners = Record<LkErrorKey, SimpleCallback>;
 
 export class ErrorListener {
   private readonly listeners: SimpleListeners = {} as SimpleListeners;
@@ -23,7 +23,7 @@ export class ErrorListener {
   }
 
   // You cannot set more than one error listener key
-  setErrorListener(key: LkErrorKey, callback: GenericFunction): void {
+  setErrorListener(key: LkErrorKey, callback: SimpleCallback): void {
     this.listeners[key] = callback;
   }
 

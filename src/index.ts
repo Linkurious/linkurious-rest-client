@@ -34,7 +34,7 @@ import {IUserDataSource} from './models/DataSource';
 import {DataSourceModule} from './module/DataSourceModule';
 import {ConfigurationModule} from './module/ConfigurationModule';
 import {CustomActionModule} from './module/CustomActionModule';
-export {LinkuriousRestClient} from './api';
+export {LinkuriousRestClient} from './_src';
 
 export class Linkurious {
   private readonly _fetcher: Fetcher;

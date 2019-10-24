@@ -4,10 +4,9 @@
  *
  * - Created on 2019-05-15.
  */
+import {Request} from '../../http/request';
+import {LkErrorKey} from '../../http/response';
 
-// TS2019-DONE
-
-import {LkErrorKey} from '../response';
 import {
   ICreatePropertyParams,
   ICreatePropertyResponse,
@@ -31,11 +30,9 @@ import {
   IUpdateTypeParams
 } from './types';
 
-import {Module} from '../Module';
-
 const {FORBIDDEN, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND} = LkErrorKey;
 
-export class GraphSchemaModule extends Module {
+export class GraphSchemaAPI extends Request {
   public async startSchemaSampling(params: IStartSchemaSamplingParams) {
     return this.request({
       url: '/admin/:sourceKey/schema/sampling/start',
@@ -101,15 +98,19 @@ export class GraphSchemaModule extends Module {
   }
 
   public async getTypes(params: IGetTypesParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<IGetTypesResponse>({
-      url: '/admin/:sourceKey/graph/schema/:entityType/types',
-      method: 'GET',
-      params: params
-    });
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<IGetTypesResponse>(
+      {
+        url: '/admin/:sourceKey/graph/schema/:entityType/types',
+        method: 'GET',
+        params: params
+      }
+    );
   }
 
   public async getTypesWithAccess(params: IGetTypesWithAccessParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<IGetTypesWithAccessResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<
+      IGetTypesWithAccessResponse
+    >({
       url: '/:sourceKey/graph/schema/:entityType/types',
       method: 'GET',
       params: params
@@ -117,7 +118,9 @@ export class GraphSchemaModule extends Module {
   }
 
   public async getSimpleSchema(params?: IGetSimpleSchemaParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<IGetSimpleSchemaResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<
+      IGetSimpleSchemaResponse
+    >({
       url: '/:sourceKey/graph/schema/simple',
       method: 'GET',
       params: params
@@ -125,7 +128,9 @@ export class GraphSchemaModule extends Module {
   }
 
   public getNonIndexedEdgeProperties(params?: IGetNonIndexedPropertiesParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<IGetNonIndexedPropertiesResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<
+      IGetNonIndexedPropertiesResponse
+    >({
       url: '/admin/source/:sourceKey/noIndex/edgeProperties',
       method: 'GET',
       params: params
@@ -133,7 +138,9 @@ export class GraphSchemaModule extends Module {
   }
 
   public getNonIndexedNodeProperties(params?: IGetNonIndexedPropertiesParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<IGetNonIndexedPropertiesResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<
+      IGetNonIndexedPropertiesResponse
+    >({
       url: '/admin/source/:sourceKey/noIndex/nodeProperties',
       method: 'GET',
       params: params

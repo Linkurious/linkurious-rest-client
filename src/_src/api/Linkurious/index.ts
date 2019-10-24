@@ -7,8 +7,8 @@
 
 // TS2019-DONE
 
-import {LkErrorKey, LkResponse} from '../response';
-import {Module} from '../Module';
+import {LkErrorKey, Response} from '../../http/response';
+import {Request} from '../../http/request';
 
 import {
   IGetConfigParams,
@@ -25,14 +25,14 @@ import {
 
 const {INVALID_PARAMETER, FORBIDDEN, UNAUTHORIZED} = LkErrorKey;
 
-export class LinkuriousModule extends Module {
+export class LinkuriousAPI extends Request {
   async getStatus() {
     const response = await this.request<IGetStatusResponse>({
       url: '/status',
       method: 'GET'
     });
     if (response.isSuccess()) {
-      return new LkResponse({
+      return new Response({
         body: response.body.status,
         status: response.status,
         header: response.header
@@ -93,14 +93,14 @@ export class LinkuriousModule extends Module {
     const response = await this.handle(UNAUTHORIZED, FORBIDDEN).request<IRestartLinkuriousResponse>(
       {url: '/admin/restart', method: 'POST'}
     );
-    if (response.isSuccess()) {
-      return new LkResponse({
+    if (response.isAnyError()) {
+      return response;
+    } else {
+      return new Response({
         body: response.body.url,
         status: response.status,
         header: response.header
       });
-    } else {
-      return response;
     }
   }
 }

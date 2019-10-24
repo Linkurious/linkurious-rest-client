@@ -7,21 +7,23 @@
 
 import * as request from 'superagent';
 
-export * from './GraphItem/types';
+export * from './api/GraphItem/types';
 
 import {IUserDataSource} from '../models/DataSource';
 
+import {IClientState, ModuleProps} from './http/types';
+import {LkErrorKey} from './http/response';
 import {ErrorListener} from './errorListener';
-import {LinkuriousModule} from './Linkurious/module';
-import {GraphSchemaModule} from './GraphSchema/module';
-import {IClientState, ModuleProps} from './Module';
-import {LkErrorKey} from './response';
+import {LinkuriousAPI} from './api/Linkurious';
+import {GraphSchemaAPI} from './api/GraphSchema';
+import {CustomActionAPI} from './api/CustomAction';
 
 export class LinkuriousRestClient extends ErrorListener {
   private readonly moduleProps: ModuleProps;
 
-  readonly linkurious = new LinkuriousModule(this.moduleProps);
-  readonly graphSchema = new GraphSchemaModule(this.moduleProps);
+  readonly linkurious = new LinkuriousAPI(this.moduleProps);
+  readonly graphSchema = new GraphSchemaAPI(this.moduleProps);
+  readonly customAction = new CustomActionAPI(this.moduleProps);
 
   constructor(props?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();
