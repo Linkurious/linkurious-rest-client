@@ -12,7 +12,7 @@ import {LkErrorKey, Response} from './response';
 import {ConnectionRefused, ErrorResponses, ModuleProps, RawFetchConfig, FetchConfig} from './types';
 
 export abstract class Request {
-  constructor(private readonly props: ModuleProps) {}
+  constructor(protected readonly props: ModuleProps) {}
 
   /*
     In `request<S, E extends LkErrorKey>(...)` we want S to be explicit and E to be inferred,
@@ -59,7 +59,9 @@ export abstract class Request {
         fetchConfig: fetchConfig
       });
     } else if (response.status < 200 && response.status >= 400) {
-      throw new Error('Unhandled error: ' + JSON.stringify(response.body));
+      throw new Error(
+        'Unexpected error, you should add it to RestClient: ' + JSON.stringify(response.body)
+      );
     }
 
     // 5) Return server response

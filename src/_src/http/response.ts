@@ -44,7 +44,11 @@ export class Response<B = unknown> {
     this.header = props.header || {};
   }
   public isSuccess(): this is Exclude<this, Response<LkError>> {
-    return !(((this.body as unknown) as LkError).key in LkErrorKey);
+    return (
+      this.status >= 200 &&
+      this.status < 300 &&
+      !(((this.body as unknown) as LkError).key in LkErrorKey)
+    );
   }
   public isAnyError(): this is Extract<this, Response<LkError>> {
     return ((this.body as unknown) as LkError).key in LkErrorKey;

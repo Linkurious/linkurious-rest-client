@@ -17,6 +17,7 @@ import {ErrorListener} from './errorListener';
 import {LinkuriousAPI} from './api/Linkurious';
 import {GraphSchemaAPI} from './api/GraphSchema';
 import {CustomActionAPI} from './api/CustomAction';
+import {AuthAPI} from './api/Auth';
 
 export class LinkuriousRestClient extends ErrorListener {
   private readonly moduleProps: ModuleProps;
@@ -24,6 +25,7 @@ export class LinkuriousRestClient extends ErrorListener {
   readonly linkurious = new LinkuriousAPI(this.moduleProps);
   readonly graphSchema = new GraphSchemaAPI(this.moduleProps);
   readonly customAction = new CustomActionAPI(this.moduleProps);
+  readonly auth = new AuthAPI(this.moduleProps);
 
   constructor(props?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();

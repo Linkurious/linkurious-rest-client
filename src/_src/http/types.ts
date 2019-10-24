@@ -6,7 +6,8 @@
  */
 import {SuperAgentStatic} from 'superagent';
 
-import {IFullUser, IUserDataSource} from '../../../index';
+import {IFullUser} from '../api/User/types';
+import {IUserDataSource} from '../../../index';
 import {ErrorListener} from '../errorListener';
 
 import {LkErrorKey, Response} from './response';
@@ -64,7 +65,8 @@ export interface ConnectionRefused extends LkError<LkErrorKey.CONNECTION_REFUSED
 }
 export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
 export interface Bug extends LkError<LkErrorKey.BUG> {}
-export interface CannotDeleteNonEmptyFolder extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
+export interface CannotDeleteNonEmptyFolder
+  extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
 export interface CannotRead extends LkError<LkErrorKey.CANNOT_READ> {}
 export interface DataSourceUnavailable extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
 export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}

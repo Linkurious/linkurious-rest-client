@@ -10,7 +10,6 @@
 import {} from '../commonTypes';
 import {IFullUser} from '../User/types';
 
-
 // Login
 export interface ILoginParams {
   usernameOrEmail: string;
