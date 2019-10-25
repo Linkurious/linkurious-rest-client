@@ -30,9 +30,11 @@ export abstract class Request {
   ) {
     // 1) Render URL template using params
     const requiredConfig = Request.renderURl(rawFetchConfig, this.props);
+    console.log({requiredConfig: requiredConfig});
 
     // 2) Sort remaining params into body and query
     const fetchConfig = Request.splitParams(requiredConfig, this.props);
+    console.log({fetchConfig: fetchConfig});
 
     // 3) Make HTTP request
     let response: SuperAgentResponse;
