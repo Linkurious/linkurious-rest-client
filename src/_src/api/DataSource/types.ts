@@ -3,8 +3,6 @@
  *
  * - Created on 2019-10-25.
  */
-import {GenericObject} from './Model';
-
 export interface IDataSourceParams {
   sourceKey?: string;
 }
@@ -50,8 +48,8 @@ export interface ICaption {
 }
 
 export interface ICaptionsConfig {
-  nodes: GenericObject<ICaption>;
-  edges: GenericObject<ICaption>;
+  nodes: Record<string, ICaption>;
+  edges: Record<string, ICaption>;
 }
 
 export interface IUserDataSource {
