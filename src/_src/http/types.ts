@@ -36,7 +36,7 @@ export interface IClientState {
 }
 export interface ModuleProps {
   baseUrl: string;
-  agent: () => SuperAgentStatic;
+  agent: SuperAgentStatic;
   clientState: IClientState;
   dispatchError: ErrorListener['dispatchError'];
 }
