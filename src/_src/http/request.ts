@@ -40,7 +40,7 @@ export abstract class Request {
     let response: SuperAgentResponse;
     try {
       response = await this.props
-        .agent(fetchConfig.method, fetchConfig.url)
+        .agent()(fetchConfig.method, fetchConfig.url)
         .withCredentials()
         .send(fetchConfig.body)
         .query(fetchConfig.query);
