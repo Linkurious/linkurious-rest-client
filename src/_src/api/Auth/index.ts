@@ -9,7 +9,7 @@ import {Request} from '../../http/request';
 
 import {ILoginParams, ILoginResponse} from './types';
 
-const {INVALID_PARAMETER} = LkErrorKey;
+const {INVALID_PARAMETER, UNAUTHORIZED} = LkErrorKey;
 
 export class AuthAPI extends Request {
   async login(params: ILoginParams) {
@@ -35,7 +35,7 @@ export class AuthAPI extends Request {
   // I think if you logout without being logged in, it throws an error,
   // if so, we should add that error to be handled here
   async logout() {
-    const response = await this.request({
+    const response = await this.handle(UNAUTHORIZED).request({
       url: '/auth/logout',
       method: 'GET'
     });
