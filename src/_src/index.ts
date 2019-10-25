@@ -37,7 +37,7 @@ export class LinkuriousRestClient extends ErrorListener {
           ? props.baseUrl + 'api'
           : props.baseUrl + '/api'
         : '/api',
-      agent: (props && props.agent) || request,
+      agent: (props && props.agent) || request.agent(),
       clientState: {},
       dispatchError: (key: LkErrorKey, payload: unknown): void => this.dispatchError(key, payload)
     };
