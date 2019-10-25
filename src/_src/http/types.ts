@@ -7,7 +7,7 @@
 import {SuperAgentStatic} from 'superagent';
 
 import {IFullUser} from '../api/User/types';
-import {IUserDataSource} from '../../../index';
+import {IUserDataSource} from '../api/DataSource/types';
 import {ErrorListener} from '../errorListener';
 
 import {LkErrorKey, Response} from './response';

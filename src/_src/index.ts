@@ -2,7 +2,7 @@
  * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
- * - Created on 2016-04-25.
+ * - Created on 2019-10-25.
  */
 
 import * as request from 'superagent';
@@ -17,15 +17,17 @@ import {ErrorListener} from './errorListener';
 import {LinkuriousAPI} from './api/Linkurious';
 import {GraphSchemaAPI} from './api/GraphSchema';
 import {CustomActionAPI} from './api/CustomAction';
+import {DataSourceAPI} from './api/DataSource';
 import {AuthAPI} from './api/Auth';
 
 export class LinkuriousRestClient extends ErrorListener {
   private readonly moduleProps: ModuleProps;
 
-  readonly linkurious: LinkuriousAPI;
-  readonly graphSchema: GraphSchemaAPI;
-  readonly customAction: CustomActionAPI;
-  readonly auth: AuthAPI;
+  linkurious: LinkuriousAPI;
+  graphSchema: GraphSchemaAPI;
+  customAction: CustomActionAPI;
+  auth: AuthAPI;
+  dataSource: DataSourceAPI;
 
   constructor(props?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();
@@ -43,6 +45,7 @@ export class LinkuriousRestClient extends ErrorListener {
     this.graphSchema = new GraphSchemaAPI(this.moduleProps);
     this.customAction = new CustomActionAPI(this.moduleProps);
     this.auth = new AuthAPI(this.moduleProps);
+    this.dataSource = new DataSourceAPI(this.moduleProps);
   }
 
   get clientState(): IClientState {
@@ -71,8 +74,9 @@ export class LinkuriousRestClient extends ErrorListener {
    * @return {IDataSource}
    */
   public storeDefaultCurrentSource(sourceList: IUserDataSource[]): IUserDataSource {
-    for (const sourceState of sourceList) {
-      if (this.storeSource(sourceState, 'connected', true)) {
+    for (const source of sourceList) {
+      if (source.connected) {
+        this.clientState.currentSource = {...source};
         return this.moduleProps.clientState.currentSource as IUserDataSource;
       } else {
         this.clientState.currentSource = {...sourceList[0]};
@@ -96,38 +100,12 @@ export class LinkuriousRestClient extends ErrorListener {
    *
    * @param {Object} data
    * @returns {Promise<IClientState>}
-  public init(data: {usernameOrEmail: string; password: string}): Promise<IClientState> {
-    return this.login(data)
-      .then(() => {
-        return this.initSources();
-      })
-      .then(() => {
-        return this.clientState;
-      });
+  public async init(data: {usernameOrEmail: string; password: string}): Promise<IClientState> {
+    const response = await this.auth.login(data);
+    const response2 = await this.initSources();
+    return this.clientState;
   }
    */
-
-  // TODO: #102 lmao, so useless
-  /**
-   * Store a source in clientState if condition is verified
-   *
-   * @param {IUserDataSource} source
-   * @param {string} property
-   * @param {string|number|boolean} matchValue
-   * @returns {IUserDataSource}
-   */
-  private storeSource(
-    source: IUserDataSource,
-    property: string,
-    matchValue: string | number | boolean
-  ): IUserDataSource | undefined {
-    if ((source as any)[property] === matchValue) {
-      this.clientState.currentSource = {...source};
-      return this.clientState.currentSource;
-    } else {
-      return undefined;
-    }
-  }
 
   /*
      TODO: #102
@@ -136,7 +114,7 @@ export class LinkuriousRestClient extends ErrorListener {
         this._sources = sources;
         this._restClient.setDataSources(sources) // <== New Line
       });
-      or I add it to `admin.deleteFullDataSource()`, `admin.deleteDataSourceConfig()` and `getSourceList()`
+      or I add it to `admin.deleteFullDataSource()`, `admin.deleteDataSourceConfig()` and `getUserDataSources()`
    */
   public setDataSources(sources: IUserDataSource[]): void {
     this.clientState.sources = sources;
