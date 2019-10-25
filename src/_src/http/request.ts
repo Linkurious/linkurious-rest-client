@@ -44,7 +44,8 @@ export abstract class Request {
         .withCredentials()
         .send(fetchConfig.body)
         .query(fetchConfig.query);
-    } catch (_) {
+    } catch (ex) {
+      console.log(ex);
       const error: ConnectionRefused = {
         key: LkErrorKey.CONNECTION_REFUSED,
         message: 'offline',
