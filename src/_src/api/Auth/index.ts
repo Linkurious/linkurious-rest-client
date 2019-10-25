@@ -15,7 +15,7 @@ export class AuthAPI extends Request {
   async login(params: ILoginParams) {
     if (this.props.clientState.user) {
       const response = await this.logout();
-      if (response.isAnyError) {
+      if (response.isAnyError()) {
         throw new Error(
           'It was not possible to log out previous user: ' + JSON.stringify(response)
         );
