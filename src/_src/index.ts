@@ -53,78 +53,30 @@ export class LinkuriousRestClient extends ErrorListener {
   }
 
   /**
-   * set guest mode
-   */
-  public setGuestMode(value: boolean): void {
-    this.clientState.guestMode = value;
-  }
-
-  /**
-   * remove user form state
-   */
-  public destroySession(): void {
-    this.clientState.user = undefined;
-  }
-
-  // TODO: #102 Not used in frontend
-  /**
-   * Set the currentSource
-   *
-   * @param {Array<Object>}sourceList
-   * @return {IDataSource}
-   */
-  public storeDefaultCurrentSource(sourceList: IUserDataSource[]): IUserDataSource {
-    for (const source of sourceList) {
-      if (source.connected) {
-        this.clientState.currentSource = {...source};
-        return this.moduleProps.clientState.currentSource as IUserDataSource;
-      } else {
-        this.clientState.currentSource = {...sourceList[0]};
-      }
-    }
-    return sourceList[0];
-  }
-
-  /**
-   * Set the currentSource
-   *
-   * @param {Object} source
-   * @returns {Promise<IUserDataSource>}
-   */
-  public setCurrentSource(source: IUserDataSource): void {
-    this.clientState.currentSource = {...source};
-  }
-
-  /**
    * Process to login and set the default source state and return the REST client state.
    *
    * @param {Object} data
    * @returns {Promise<IClientState>}
-  public async init(data: {usernameOrEmail: string; password: string}): Promise<IClientState> {
-    const response = await this.auth.login(data);
-    const response2 = await this.initSources();
-    return this.clientState;
-  }
    */
+  async init(data: {usernameOrEmail: string; password: string}): Promise<void> {
+    await this.auth.login(data);
+    await this.dataSource.getUserDataSources({
+      withCaptions: true,
+      withStyles: true
+    });
+  }
 
   /*
-     TODO: #102
-      either frontend adds this in `src/app/services/sources/index/ts`:
-      this.list$.subscribe((sources: Array<IDataSourceState>) => {
-        this._sources = sources;
-        this._restClient.setDataSources(sources) // <== New Line
-      });
-      or I add it to `admin.deleteFullDataSource()`, `admin.deleteDataSourceConfig()` and `getUserDataSources()`
+     TODO: Update sources in I add it to
+      [ ] `admin.deleteFullDataSource()`,
+      [ ] `admin.deleteDataSourceConfig()` and
+      [X] `getUserDataSources()`
    */
-  public setDataSources(sources: IUserDataSource[]): void {
-    this.clientState.sources = sources;
-  }
 
-  // TODO: #102
   /*
     throws Error
    */
-  public static getCurrentSource(
+  static getCurrentSource(
     dataSources: IUserDataSource[],
     by?: {userId: number} | {sourceKey: string} | {sourceIndex: number}
   ): IUserDataSource {
