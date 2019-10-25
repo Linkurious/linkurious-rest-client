@@ -51,7 +51,11 @@ export class Response<B = unknown> {
     );
   }
   public isAnyError(): this is Extract<this, Response<LkError>> {
-    return ((this.body as unknown) as LkError).key in LkErrorKey;
+    return (
+      this.status < 200 &&
+      this.status >= 300 &&
+      ((this.body as unknown) as LkError).key in LkErrorKey
+    );
   }
   // TODO: write this method as non static
   public static isError<R extends Response, E extends LkErrorKey>(

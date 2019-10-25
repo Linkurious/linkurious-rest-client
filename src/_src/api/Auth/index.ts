@@ -16,9 +16,7 @@ export class AuthAPI extends Request {
     if (this.props.clientState.user) {
       const response = await this.logout();
       if (response.isAnyError()) {
-        throw new Error(
-          'It was not possible to log out previous user: ' + JSON.stringify(response)
-        );
+        console.log('It was not possible to log out previous user: ' + JSON.stringify(response));
       }
     }
     const response = await this.handle(INVALID_PARAMETER).request<ILoginResponse>({
