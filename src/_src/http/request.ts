@@ -155,7 +155,7 @@ export abstract class Request {
 
     // 2) Split params into `body` and `query` depending on the method
     if (['GET', 'DELETE'].includes(config.method)) {
-      query = {...query, params: config.params};
+      query = {...query, ...config.params};
     } else if (!config.query) {
       body = config.params;
     } else {
