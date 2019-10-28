@@ -30,7 +30,7 @@ export interface IInstalledPlugin {
 
 export interface IPluginConfig extends GenericObject<unknown> {
   basePath?: string;
-  debugPort?: string;
+  debugPort?: number;
 }
 
 export type GetPluginsResponse = IInstalledPlugin[]
