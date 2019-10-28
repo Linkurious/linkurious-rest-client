@@ -3,6 +3,7 @@
  *
  * - Created on 2019-09-17.
  */
+import { GenericObject } from './Model';
 
 // TS2019-DONE
 
@@ -25,6 +26,11 @@ export interface IInstalledPlugin {
   basePath?: string;
   state: PluginState;
   error?: string
+}
+
+export interface IPluginConfig extends GenericObject<unknown> {
+  basePath?: string;
+  debugPort?: string;
 }
 
 export type GetPluginsResponse = IInstalledPlugin[]
