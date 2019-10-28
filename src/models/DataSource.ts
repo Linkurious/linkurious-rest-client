@@ -33,7 +33,7 @@ export interface IAlternativeIdSettings {
 }
 
 export interface IDataSourceSettings {
-  readonly: boolean;
+  readOnly: boolean;
 }
 
 export interface IConnectedDataSourceSettings extends IDataSourceSettings {
