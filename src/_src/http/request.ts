@@ -29,7 +29,7 @@ export abstract class Request {
     rawFetchConfig: RawFetchConfig
   ) {
     // 1) Render URL template using params
-    const requiredConfig = Request.renderURl(rawFetchConfig, this.props);
+    const requiredConfig = Request.renderURL(rawFetchConfig, this.props);
 
     // 2) Sort remaining params into body and query
     const fetchConfig = Request.splitParams(requiredConfig, this.props);
@@ -42,34 +42,44 @@ export abstract class Request {
         .withCredentials()
         .send(fetchConfig.body)
         .query(fetchConfig.query);
-    } catch (_) {
-      const error: ConnectionRefused = {
-        key: LkErrorKey.CONNECTION_REFUSED,
-        message: 'offline',
-        fetchConfig: fetchConfig
-      };
-      this.props.dispatchError(error.key, error);
-      return new Response({body: error});
+    } catch (ex) {
+      // 4) Return error when there is no internet
+      if (!ex.response) {
+        const error: ConnectionRefused = {
+          key: LkErrorKey.CONNECTION_REFUSED,
+          message: 'offline',
+          fetchConfig: fetchConfig
+        };
+        this.props.dispatchError(error.key, error);
+        return new Response({body: error});
+      }
+      // 5) Dispatch server errors and throw unexpected errors if any
+      else {
+        response = ex.response;
+        if (response.body.key in requiredConfig.errors) {
+          this.props.dispatchError(response.body.key, {
+            serverError: response.body,
+            fetchConfig: fetchConfig
+          });
+          return new Response({
+            status: response.status,
+            header: response.header,
+            body: response.body
+          }) as ErrorResponses<EK>;
+        } else if (response.status < 200 && response.status >= 400) {
+          throw new Error(
+            'Unexpected error, you should add it to RestClient: ' + JSON.stringify(response.body)
+          );
+        }
+      }
     }
 
-    // 4) Dispatch server errors and throw unexpected errors if any
-    if (response.body.key in requiredConfig.errors) {
-      this.props.dispatchError(response.body.key, {
-        serverError: response.body,
-        fetchConfig: fetchConfig
-      });
-    } else if (response.status < 200 && response.status >= 400) {
-      throw new Error(
-        'Unexpected error, you should add it to RestClient: ' + JSON.stringify(response.body)
-      );
-    }
-
-    // 5) Return server response
+    // 6) Return the success
     return new Response({
       status: response.status,
       header: response.header,
       body: response.body
-    }) as Response<S> | ErrorResponses<EK>;
+    }) as Response<S>;
   }
 
   /**
@@ -90,14 +100,14 @@ export abstract class Request {
   /**
    * Render `config.url` using `config.params`, and set optional properties to default values
    */
-  public static renderURl(
+  public static renderURL(
     config: RawFetchConfig,
     moduleProps: ModuleProps
   ): Required<RawFetchConfig> {
     // 1) Iterate over path params in route-like format `/:id/`
     const configParams = config.params ? {...config.params} : {};
     let renderedURL = config.url;
-    const regexp = /(?<=:)[^/]+(?=\/)/g;
+    const regexp = /(?<=:)[^/]+/g;
     let match;
     while ((match = regexp.exec(renderedURL)) !== null) {
       const key = match[0];
@@ -114,13 +124,13 @@ export abstract class Request {
       }
 
       // 3) Get other param values using `configParams`
-      if (configParams[key]) {
+      if (configParams[key] !== undefined) {
         paramValue = !paramValue && configParams[key];
         delete configParams[key];
       }
 
       // 4) Replace the value in the url
-      if (paramValue) {
+      if (paramValue !== undefined) {
         renderedURL = renderedURL.replace(':' + key, encodeURIComponent(paramValue as string));
       } else {
         throw new Error(

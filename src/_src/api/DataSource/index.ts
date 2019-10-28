@@ -21,10 +21,7 @@ export class DataSourceAPI extends Request {
       params: params
     });
 
-    console.log({aaa:response})
-
     if (response.isSuccess()) {
-      console.log({aaa: this.props.clientState});
       this.props.clientState.sources = response.body;
       const currentSource = LinkuriousRestClient.getCurrentSource(response.body, {
         userId: this.props.clientState.user ? this.props.clientState.user.id : -1

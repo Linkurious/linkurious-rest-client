@@ -34,7 +34,7 @@ export class CustomActionAPI extends Request {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, INVALID_PARAMETER).request<
       ICreateCustomActionResponse
     >({
-      url: '/admin/:sourceKey/customAction',
+      url: '/:sourceKey/customAction',
       method: 'POST',
       params: params
     });
@@ -48,7 +48,7 @@ export class CustomActionAPI extends Request {
       NOT_FOUND,
       INVALID_PARAMETER
     ).request<IUpdateCustomActionResponse>({
-      url: '/admin/:sourceKey/customAction/:id',
+      url: '/:sourceKey/customAction/:id',
       method: 'PATCH',
       params: params
     });
@@ -56,7 +56,7 @@ export class CustomActionAPI extends Request {
 
   public async deleteCustomAction(params: IDeleteCustomActionParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request({
-      url: '/admin/:sourceKey/customAction/:id',
+      url: '/:sourceKey/customAction/:id',
       method: 'DELETE',
       params: params
     });
