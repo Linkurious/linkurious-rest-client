@@ -64,6 +64,7 @@ export interface ConnectionRefused extends LkError<LkErrorKey.CONNECTION_REFUSED
   fetchConfig: FetchConfig;
 }
 export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
+export interface GroupExists extends LkError<LkErrorKey.GROUP_EXISTS> {}
 export interface Bug extends LkError<LkErrorKey.BUG> {}
 export interface CannotDeleteNonEmptyFolder
   extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
@@ -93,6 +94,7 @@ export interface WriteForbidden extends LkError<LkErrorKey.WRITE_FORBIDDEN> {}
 export type KeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefused;
   [LkErrorKey.ALREADY_EXIST]: AlreadyExists;
+  [LkErrorKey.GROUP_EXISTS]: GroupExists;
   [LkErrorKey.BUG]: Bug;
   [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
   [LkErrorKey.CANNOT_READ]: CannotRead;

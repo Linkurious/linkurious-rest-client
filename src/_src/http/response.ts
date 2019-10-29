@@ -12,6 +12,7 @@ export enum LkErrorKey {
 
   // These ones have a class
   ALREADY_EXIST = 'already_exists', // Class: AlreadyExistsError, key: 'constraint_violation'
+  GROUP_EXISTS = 'group_exists',
   BUG = 'bug',
   CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed', // Class: CantDeleteNonEmptyFolderError
   CANNOT_READ = 'cannot_read', // Class: CantReadError, key: 'forbidden'
