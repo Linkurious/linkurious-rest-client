@@ -3,40 +3,53 @@
  *
  * - Created on 2019-10-24.
  */
+
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
-import {LinkuriousRestClient} from '../../index';
 
 export * from './types';
-import {GetUserDataSourcesResponse, IGetUserDataSourcesParams, IGetIndexationStatusParams, IGetIndexationStatusResponse, IStartIndexationParams} from './types';
-const {FORBIDDEN, NOT_FOUND, UNAUTHORIZED} = LkErrorKey;
+
+const {} = LkErrorKey;
 
 export class DataSourceAPI extends Request {
-  async getUserDataSources(params?: IGetUserDataSourcesParams) {
-    const response = await this.handle(UNAUTHORIZED).request<GetUserDataSourcesResponse>({
+
+  // async getUserDataSources(params?: IGetUserDataSourcesParams) {
+  //   const response = await this.handle(UNAUTHORIZED).request<GetUserDataSourcesResponse>({
+  //     url: '/dataSources',
+  //     method: 'GET',
+  //     params: params
+  //   });
+  //
+  //   if (response.isSuccess()) {
+  //     this.props.clientState.sources = response.body;
+  //     const currentSource = LinkuriousRestClient.getCurrentSource(response.body, {
+  //       userId: this.props.clientState.user ? this.props.clientState.user.id : -1
+  //     });
+  //     this.props.clientState.currentSource = currentSource;
+  //     try {
+  //       if (currentSource.key && this.props.clientState.user) {
+  //         localStorage.setItem(
+  //           'lk-lastSeenSourceKey-' + this.props.clientState.user.id,
+  //           currentSource.key
+  //         );
+  //       }
+  //     } catch (_) {
+  //       // Silent fail
+  //     }
+  //   }
+  //   return response;
+  // }
+  //
+
+
+  public getDataSourcesStatus(params: IGetDataSourcesStatusParams) {
+    return this.handle().request<
+      GetDataSourcesStatusResponse
+      >({
       url: '/dataSources',
       method: 'GET',
       params: params
     });
-
-    if (response.isSuccess()) {
-      this.props.clientState.sources = response.body;
-      const currentSource = LinkuriousRestClient.getCurrentSource(response.body, {
-        userId: this.props.clientState.user ? this.props.clientState.user.id : -1
-      });
-      this.props.clientState.currentSource = currentSource;
-      try {
-        if (currentSource.key && this.props.clientState.user) {
-          localStorage.setItem(
-            'lk-lastSeenSourceKey-' + this.props.clientState.user.id,
-            currentSource.key
-          );
-        }
-      } catch (_) {
-        // Silent fail
-      }
-    }
-    return response;
   }
 
   /**
@@ -50,7 +63,7 @@ export class DataSourceAPI extends Request {
         UNAUTHORIZED,
         FORBIDDEN,
         NOT_FOUND)
-      .request({
+      .request<void>({
           url: '/:sourceKey/search/index',
           method: 'POST'
         }
@@ -68,9 +81,87 @@ export class DataSourceAPI extends Request {
         UNAUTHORIZED,
         FORBIDDEN,
         NOT_FOUND)
-      .request<IGetIndexationStatusResponse>({
+      .request<GetIndexationStatusResponse>({
           url: '/:sourceKey/search/status',
           method: 'GET',
+          params: params
+        }
+      );
+  }
+
+  public connectDataSource(params: IConnectDataSourceParams) {
+    return this
+      .handle()
+      .request<ConnectDataSourceResponse>({
+          url: '/admin/source/:dataSourceIndex/connect',
+          method: 'POST',
+          params: params
+        }
+      );
+  }
+
+
+  public resetSourceStyles(params: IResetSourceStylesParams) {
+    return this
+      .handle()
+      .request<ResetSourceStylesResponse>({
+          url: '/admin/source/:sourceKey/resetDefaults',
+          method: 'POST',
+          params: params
+        }
+      );
+  }
+
+  public setDefaultSourceStyles(params: ISetDefaultSourceStylesParams) {
+    return this
+      .handle()
+      .request<SetDefaultSourceStylesResponse>({
+          url: '/admin/source/:dataSource/setDefaults',
+          method: 'POST',
+          params: params
+        }
+      );
+  }
+
+  public getAllSourceInfo(params: IGetAllSourceInfoParams) {
+    return this
+      .handle()
+      .request<GetAllSourceInfoResponse>({
+          url: '/admin/sources',
+          method: 'GET',
+          params: params
+        }
+      );
+  }
+
+  public createSourceConfig(params: ICreateSourceConfigParams) {
+    return this
+      .handle()
+      .request<CreateSourceConfigResponse>({
+          url: '/admin/sources/config',
+          method: 'POST',
+          params: params
+        }
+      );
+  }
+
+  public deleteSourceConfig(params: IDeleteSourceConfigParams) {
+    return this
+      .handle()
+      .request<DeleteSourceConfigResponse>({
+          url: '/admin/sources/config/:configIndex',
+          method: 'POST',
+          params: params
+        }
+      );
+  }
+
+  public deleteSourceData(params: IDeleteSourceDataParams) {
+    return this
+      .handle()
+      .request<DeleteSourceDataResponse>({
+          url: '/admin/sources/data/:sourceKey',
+          method: 'POST',
           params: params
         }
       );
