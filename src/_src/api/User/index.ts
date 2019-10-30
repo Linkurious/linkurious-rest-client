@@ -78,7 +78,7 @@ export class UserApi extends Request {
         FORBIDDEN,
         NOT_FOUND)
       .request<IUpdateUserResponse>({
-          url: '/admin/users/{id}',
+          url: '/admin/users/:id',
           method: 'PATCH',
           params: params
         }
