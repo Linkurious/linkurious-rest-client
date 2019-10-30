@@ -35,7 +35,7 @@ export class GraphNodeAPI extends Request {
   public createNode(params: ICreateNodeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
       CreateNodeResponse
-      >({
+    >({
       url: '/:sourceKey/graph/nodes',
       method: 'POST',
       params: params
@@ -45,7 +45,7 @@ export class GraphNodeAPI extends Request {
   public updateNode(params: IUpdateNodeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       UpdateNodeResponse
-      >({
+    >({
       url: '/:sourceKey/graph/nodes/:id',
       method: 'PATCH',
       params: params

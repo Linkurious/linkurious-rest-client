@@ -35,7 +35,7 @@ export class GraphEdgeAPI extends Request {
   public createEdge(params: ICreateEdgeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
       CreateEdgeResponse
-      >({
+    >({
       url: '/:sourceKey/graph/edges',
       method: 'POST',
       params: params
@@ -45,7 +45,7 @@ export class GraphEdgeAPI extends Request {
   public updateEdge(params: IUpdateEdgeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       UpdateEdgeResponse
-      >({
+    >({
       url: '/:sourceKey/graph/edges/:id',
       method: 'PATCH',
       params: params
