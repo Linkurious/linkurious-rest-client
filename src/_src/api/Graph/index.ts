@@ -12,7 +12,7 @@ import {
   IRunGraphQueryByIdParams,
   RunGraphQueryResponse
 } from '../GraphQuery/types';
-import { IExpandParams, IGetDigestParams, LkNodeStatistics, SubGraph, IAdvancedSearchParams, ISearchFullParams, ISearchResponse} from './types';
+import { IGetAdjacentNodesParams, IGetDigestParams, LkNodeStatistics, SubGraph, IAdvancedSearchParams, ISearchFullParams, GraphSearchResponse} from './types';
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, BAD_GRAPH_REQUEST, CONSTRAINT_VIOLATION, GRAPH_REQUEST_TIMEOUT, GRAPH_UNREACHABLE, GUEST_DISABLED} = LkErrorKey;
 
 export class GraphApi extends Request {
@@ -36,7 +36,7 @@ export class GraphApi extends Request {
   public search(params: IAdvancedSearchParams) {
     return this
       .handle(UNAUTHORIZED)
-      .request<ISearchResponse>({
+      .request<GraphSearchResponse>({
           url: '/:sourceKey/search/:type',
           method: 'POST',
           params: params
@@ -146,7 +146,7 @@ export class GraphApi extends Request {
    * field. If visible_nodes was specified, edges between source nodes or their neighbors and
    * visible nodes are also included.
    */
-  public expand(params: IExpandParams) {
+  public expand(params: IGetAdjacentNodesParams) {
     return this.request<SubGraph>({
       url: '/:sourceKey/graph/nodes/expand',
       method: 'POST',

@@ -33,7 +33,7 @@ export interface LkNodeStatistics {
   degree?: number;
 }
 
-export interface IExpandParams extends  IDataSourceParams {
+export interface IGetAdjacentNodesParams extends  IDataSourceParams {
   ids: string[] | number[];
   edgesTo?: string[] | number[];
   nodeCategories?: string[];
@@ -62,7 +62,7 @@ export interface IAdvancedSearchParams extends ISimpleSearchParams {
   categoriesOrTypes?: string[];
 }
 
-export interface ISearchResponse {
+export interface GraphSearchResponse {
   type: EntityType;
   totalHits?: number;
   moreResults?: boolean;
