@@ -6,7 +6,7 @@
 
 import * as request from 'superagent';
 
-export * from './api/GraphItem/types';
+export * from './api/types';
 
 import {IUserDataSource} from '../models/DataSource';
 

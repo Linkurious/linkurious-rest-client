@@ -3,7 +3,7 @@
  *
  * - Created on 2019-10-29.
  */
-import { LkEdge, LkNode } from '../..';
+import { LkEdge, LkNode } from '../graphItemTypes';
 
 import { GenericObject, IDataSourceParams } from '../commonTypes';
 import { SubGraph } from '../Graph/types';

@@ -5,7 +5,7 @@
  */
 
 import {GenericObject, IDataSourceParams, IIdentified} from '../commonTypes';
-import {LkNode} from '../..';
+import {LkNode} from '../graphItemTypes';
 
 export interface IGetNodeParams extends IDataSourceParams, IIdentified {}
 

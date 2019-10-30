@@ -4,7 +4,7 @@
  * - Created on 2019-10-30.
  */
 
-import { VizEdge, VizNode } from '../..';
+import { VizEdge, VizNode } from '../graphItemTypes';
 import {IDataSourceParams} from '../commonTypes';
 import { ISimpleUser } from '../User/types';
 
