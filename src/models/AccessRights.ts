@@ -11,31 +11,31 @@ import {IDataSourceParams} from './DataSource';
 /**
  * Available to custom groups.
  */
-export enum UserAction {
-  CONNECT = 'admin.connect', // Connect the data-source and read the configuration
-  INDEX = 'admin.index', // Index the data-source and read the configuration
-  MANAGE_USERS = 'admin.users', // Manage the users in the data-source
-  MANAGE_SCHEMA = 'admin.schema', // Edit the schema of the data-source
-  CREATE_ALERTS = 'admin.alerts', // Manage the alerts in the data-source
-  DOWNLOAD_REPORT = 'admin.report', // Generate analytics report
-  EDIT_STYLES = 'admin.styles', // Edit styles and captions of all sandboxes of the data-source
+export enum Action {
+  ADMIN_CONNECT = 'admin.connect', // Connect the data-source and read the configuration
+  ADMIN_INDEX = 'admin.index', // Index the data-source and read the configuration
+  ADMIN_USERS = 'admin.users', // Manage the users in the data-source
+  ADMIN_SCHEMA = 'admin.schema', // Edit the schema of the data-source
+  ADMIN_ALERTS = 'admin.alerts', // Manage the alerts in the data-source
+  ADMIN_REPORT = 'admin.report', // Generate analytics report
+  ADMIN_STYLES = 'admin.styles', // Edit styles and captions of all sandboxes of the data-source
   RUN_QUERY = 'runQuery', // Execute a saved query
-  CREATE_READ_QUERY = 'rawReadQuery', // Create a read query
-  CREATE_WRITE_QUERY = 'rawWriteQuery', // Create a read/write query
+  RAW_READ_QUERY = 'rawReadQuery', // Create a read query
+  RAW_WRITE_QUERY = 'rawWriteQuery', // Create a read/write query
   RUN_CUSTOM_ACTION = 'runCustomAction', // Execute a custom action
-  CREATE_CUSTOM_ACTION = 'writeCustomAction' // Edit, update and delete a custom action
+  WRITE_CUSTOM_ACTION = 'writeCustomAction' // Edit, update and delete a custom action
 }
 
 /**
  * Only for the built-in admin group.
  */
 export enum AdminAction {
-  MANAGE_APPLICATIONS = 'admin.app', // Create API Keys
-  DELETE_USERS = 'admin.users.delete', // Delete users
-  EDIT_CONFIGURATION = 'admin.config' // Edit the configuration of Linkurious
+  ADMIN_APP = 'admin.app', // Create API Keys
+  ADMIN_USERS_DELETE = 'admin.users.delete', // Delete users
+  ADMIN_CONFIG = 'admin.config' // Edit the configuration of Linkurious
 }
 
-export type Action = AdminAction | UserAction;
+export type AnyAction = AdminAction | Action;
 
 export enum ItemTypeAccessRightType {
   READ = 'read',
@@ -97,7 +97,7 @@ export interface IEdgeTypeAccessRight extends IGenericAccessRight<TargetType.EDG
 
 export interface IActionAccessRight extends IGenericAccessRight<TargetType.ACTION> {
   type: ActionAccessRightType;
-  targetName: UserAction;
+  targetName: Action;
 }
 
 export interface IAlertAccessRight extends IGenericAccessRight<TargetType.ALERT> {
