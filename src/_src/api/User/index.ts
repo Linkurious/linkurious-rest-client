@@ -20,7 +20,7 @@ import {
   IUpdateGroupParams,
   IUpdateUserParams,
   IUpdateUserResponse
-} from '../Admin/types';
+} from './types';
 import { ISearchUsersParams } from '../Search/types';
 import { IMergeVisualizationsParams } from '../Visualization/types';
 import { IFullUser, IGetUserParams } from './types';

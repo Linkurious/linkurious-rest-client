@@ -49,3 +49,23 @@ export interface ISearchFullResponse {
   nodes: LkNode[]
   edges: LkEdge[]
 }
+
+export interface IStartIndexationParams extends IDataSourceParams {}
+
+export interface IGetIndexationStatusParams extends IDataSourceParams {}
+
+export enum IndexationStatus {
+  ONGOING = 'ongoing',
+  DONE = 'done',
+  NEEDED = 'needed'
+}
+
+export interface IGetIndexationStatusResponse {
+  indexing: IndexationStatus;
+  indexing_progress?: string;
+  indexing_status: string;
+  node_count?: number;
+  edge_count?: number;
+  index_size?: number;
+  indexed_source: string;
+}
