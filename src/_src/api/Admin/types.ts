@@ -5,7 +5,7 @@
  * - Created on 2019-10-29.
  */
 import {IDataSourceParams} from '../commonTypes';
-import { IAccessRight, IAlertRunProblem } from '../../../../index';
+import { IAccessRight } from '../../../../index';
 import { ISimpleGroup } from '../User/types';
 export interface ICreateUserParams {
   username: string;
@@ -130,47 +130,3 @@ export interface IGetIndexationStatusResponse {
   index_size?: number;
   indexed_source: string;
 }
-
-export interface ICreateAlertResponse extends IDataSourceParams{
-  title: string;
-  createdAt: string;
-  updatedAt: string;
-  query: string;
-  dialect: string;
-  enabled: boolean;
-  cron: string;
-  nextRun: string;
-  matchTTL: number;
-  scoreColumn: string;
-  sortDirection: string;
-  maxMatches: number;
-  maxRuntime: number;
-  userId: number;
-  lastRun: string;
-  lastRunProblem: IAlertRunProblem;
-}
-
-export interface ICreateAlertParams extends IDataSourceParams {
-  title?: string;
-  query?: string;
-  dialect?: string;
-  enabled?: boolean;
-  cron?: string;
-  matchTTL?: number;
-  scoreColumn?: string;
-  scoreDirection?: string;
-  maxMatches?: number;
-  maxRuntime?: number;
-  folder?: number;
-}
-
-export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
-  id: number;
-}
-
-export interface IUpdateAlertResponse extends ICreateAlertResponse {}
-
-export interface IDeleteAlertParams extends IDataSourceParams {
-  id: number;
-}
-

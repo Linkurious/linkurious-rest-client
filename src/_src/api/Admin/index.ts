@@ -22,10 +22,6 @@ import {
   IStartIndexationParams,
   IGetIndexationStatusParams,
   IGetIndexationStatusResponse,
-  ICreateAlertResponse,
-  ICreateAlertParams,
-  IUpdateAlertParams,
-  IUpdateAlertResponse, IDeleteAlertParams
 } from './types';
 import { Request } from '../../http/request';
 import { LkErrorKey } from '../../http/response';
@@ -256,63 +252,7 @@ export class AdminApi extends Request {
   }
 
   // @breakingChange remove process indexation method
-  /**
-   * Create and return new alert.
-   */
-  public createAlert(params: ICreateAlertParams) {
-    return this
-      .handle(
-        INVALID_PARAMETER,
-        UNAUTHORIZED,
-        FORBIDDEN)
-      .request<ICreateAlertResponse>({
-          url: '/admin/:sourceKey/alerts',
-          method: 'POST',
-          params: params
-        }
-      );
-  }
 
-  /**
-   * update existing alert.
-   *
-   * @breakingChange admin updateAlert method signature changed to the new params/response format
-   */
-  public updateAlert(params: IUpdateAlertParams) {
-    return this
-      .handle(
-        INVALID_PARAMETER,
-        UNAUTHORIZED,
-        FORBIDDEN,
-        NOT_FOUND)
-      .request<IUpdateAlertResponse>({
-          url: '/admin/:sourceKey/alerts/:id',
-          method: 'PATCH',
-          params: params
-        }
-      );
-  }
-
-  /**
-   * Delete existing alert.
-   *
-   * @breakingChange admin deleteAlert method signature changed to the new params/response format
-   * @breakingChange admin deleteAlert response changed from boolean to void
-   */
-  public deleteAlert(params: IDeleteAlertParams) {
-    return this
-      .handle(
-        INVALID_PARAMETER,
-        UNAUTHORIZED,
-        FORBIDDEN,
-        NOT_FOUND)
-      .request({
-          url: '/admin/:sourceKey/alerts/:id',
-          method: 'DELETE',
-          params: params
-        }
-      );
-  }
 
   // @breakingChange removed method checkIndexation in Admin module
   // @breakingCahnge removed method listenIndexation from Admin module

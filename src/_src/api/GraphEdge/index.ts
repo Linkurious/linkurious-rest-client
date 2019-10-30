@@ -21,10 +21,10 @@ import {
 
 export * from './types';
 
-const {NOT_FOUND, DATA_SOURCE_UNAVAILABLE, UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
-export class GraphEdge extends Request {
-  public getEdge(params?: IGetEdgeParams) {
+export class GraphEdgeAPI extends Request {
+  public getEdge(params: IGetEdgeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<GetEdgeResponse>({
       url: '/:sourceKey/graph/edges/:id',
       method: 'GET',
@@ -32,28 +32,28 @@ export class GraphEdge extends Request {
     });
   }
 
-  public createEdge(params?: ICreateEdgeParams) {
+  public createEdge(params: ICreateEdgeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
       CreateEdgeResponse
-    >({
+      >({
       url: '/:sourceKey/graph/edges',
       method: 'POST',
       params: params
     });
   }
 
-  public updateEdge(params?: IUpdateEdgeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
+  public updateEdge(params: IUpdateEdgeParams) {
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       UpdateEdgeResponse
-    >({
+      >({
       url: '/:sourceKey/graph/edges/:id',
       method: 'PATCH',
       params: params
     });
   }
 
-  public deleteEdge(params?: IDeleteEdgeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<void>({
+  public deleteEdge(params: IDeleteEdgeParams) {
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<void>({
       url: '/:sourceKey/graph/edges/:id',
       method: 'DELETE',
       params: params

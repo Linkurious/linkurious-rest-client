@@ -21,10 +21,10 @@ import {
 
 export * from './types';
 
-const {NOT_FOUND, DATA_SOURCE_UNAVAILABLE, UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
-export class GraphNode extends Request {
-  public getNode(params?: IGetNodeParams) {
+export class GraphNodeAPI extends Request {
+  public getNode(params: IGetNodeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<GetNodeResponse>({
       url: '/:sourceKey/graph/nodes/:id',
       method: 'GET',
@@ -32,7 +32,7 @@ export class GraphNode extends Request {
     });
   }
 
-  public createNode(params?: ICreateNodeParams) {
+  public createNode(params: ICreateNodeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
       CreateNodeResponse
       >({
@@ -42,8 +42,8 @@ export class GraphNode extends Request {
     });
   }
 
-  public updateNode(params?: IUpdateNodeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
+  public updateNode(params: IUpdateNodeParams) {
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       UpdateNodeResponse
       >({
       url: '/:sourceKey/graph/nodes/:id',
@@ -52,8 +52,8 @@ export class GraphNode extends Request {
     });
   }
 
-  public deleteNode(params?: IDeleteNodeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<void>({
+  public deleteNode(params: IDeleteNodeParams) {
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<void>({
       url: '/:sourceKey/graph/nodes/:id',
       method: 'DELETE',
       params: params
