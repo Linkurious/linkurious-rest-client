@@ -4,47 +4,49 @@
  * - Created on 2019-10-30.
  */
 
-export interface ICreateAlertParams {
+import { IDataSourceParams, IIdentified, IPersistedItem } from "../commonTypes";
+
+export interface ICreateAlertParams extends IDataSourceParams {
 
 }
 
-export interface CreateAlertResponse {
+export interface CreateAlertResponse extends IPersistedItem {
 
 }
 
-export interface IUpdateAlertParams {
+export interface IUpdateAlertParams extends IDataSourceParams, IIdentified {
 
 }
 
-export interface UpdateAlertResponse {
+export interface UpdateAlertResponse extends IPersistedItem {
 
 }
 
-export interface IDeleteAlertParams {
+export interface IDeleteAlertParams extends IDataSourceParams, IIdentified {
 
 }
 
-export interface ICreateAlertFolderParams {
+export interface ICreateAlertFolderParams extends IDataSourceParams {
 
 }
 
-export interface CreateAlertFolderResponse {
+export interface CreateAlertFolderResponse extends IPersistedItem {
 
 }
 
-export interface IUpdateAlertFolderParams {
+export interface IUpdateAlertFolderParams extends IDataSourceParams, IIdentified {
 
 }
 
-export interface UpdateAlertFolderResponse {
+export interface UpdateAlertFolderResponse extends IPersistedItem {
 
 }
 
-export interface IDeleteAlertFolderParams {
+export interface IDeleteAlertFolderParams extends IDataSourceParams, IIdentified {
 
 }
 
-export interface IGetAlertTreeParams {
+export interface IGetAlertTreeParams extends IDataSourceParams {
 
 }
 
@@ -52,23 +54,23 @@ export interface GetAlertTreeResponse {
 
 }
 
-export interface IGetAlertParams {
+export interface IGetAlertParams extends IDataSourceParams, IIdentified {
 
 }
 
-export interface GetAlertResponse {
+export interface GetAlertResponse extends IPersistedItem {
 
 }
 
-export interface IGetMatchParams {
+export interface IGetMatchParams extends IDataSourceParams {
 
 }
 
-export interface GetMatchResponse {
+export interface GetMatchResponse extends IPersistedItem {
 
 }
 
-export interface IGetMatchesParams {
+export interface IGetMatchesParams extends IDataSourceParams {
 
 }
 
@@ -76,7 +78,7 @@ export interface GetMatchesResponse {
 
 }
 
-export interface IGetMatchActionsParams {
+export interface IGetMatchActionsParams extends IDataSourceParams {
 
 }
 
@@ -84,7 +86,7 @@ export interface GetMatchActionsResponse {
 
 }
 
-export interface IDoMatchActionParams {
+export interface IDoMatchActionParams extends IDataSourceParams {
 
 }
 
@@ -106,28 +108,53 @@ export interface IDoMatchActionParams {
 //   lastRun: string;
 //   lastRunProblem: IAlertRunProblem;
 // }
+
+// export interface ICreateAlertFolderParams extends IDataSourceParams {
+//   title: string;
+//   parent?: number;
+// }
 //
-// export interface ICreateAlertParams extends IDataSourceParams {
+// export interface ICreateAlertFolderResponse extends IPersistedItem {
+//   title: string;
+//   parent: number;
+// }
+//
+// export interface IUpdateAlertFolderParams extends IDataSourceParams {
+//   id: number;
 //   title?: string;
-//   query?: string;
-//   dialect?: string;
-//   enabled?: boolean;
-//   cron?: string;
-//   matchTTL?: number;
-//   scoreColumn?: string;
-//   scoreDirection?: string;
-//   maxMatches?: number;
-//   maxRuntime?: number;
-//   folder?: number;
+//   parent?: number;
 // }
 //
-// export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
+// export interface IDeleteAlertFolderParams extends IDataSourceParams {
 //   id: number;
 // }
 //
-// export interface IUpdateAlertResponse extends ICreateAlertResponse {}
+// export interface IGetAlertTreeParams extends IDataSourceParams {}
 //
-// export interface IDeleteAlertParams extends IDataSourceParams {
+// export interface IGetAlertTreeResponse {
+//   id: -1;
+//   title: 'root';
+//   type: 'folder';
+//   children: FolderChildren<IGetAlertResponse, 'alert'>;
+// }
+//
+// export interface IGetAlertParams extends IDataSourceParams {
 //   id: number;
 // }
 //
+// export interface IGetAlertResponse extends IPersistedItem {
+//   folder: number;
+//   title: string;
+//   sourceKey: string;
+//   query: string;
+//   dialect: string;
+//   enabled: boolean;
+//   columns: Array<{type: 'number' | 'string'; columnName: string; columnTitle: string}>;
+//   cron: string;
+//   lastRun?: string;
+//   lastRunProblem?: {
+//     error: string;
+//     partial: boolean;
+//   };
+//   nextRun?: string;
+// }
