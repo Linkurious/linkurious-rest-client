@@ -7,7 +7,7 @@
 
 // TS2019-DONE
 
-import {IDataSourceRelative, RightType, IPersistedItem, IIdentified} from '../commonTypes';
+import {IDataSourceRelative, RightType, IPersistedItem, IIdentified, IDataSourceParams} from '../commonTypes';
 
 // USER
 export interface ISimpleUser extends IPersistedItem {
@@ -28,6 +28,10 @@ export interface IFullUser extends IUser {
   };
   actions: any;
   accessRights: any;
+}
+
+export interface IGetUserParams extends IDataSourceParams {
+  id: number;
 }
 
 // GROUP

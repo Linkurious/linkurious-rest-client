@@ -5,17 +5,10 @@
  * - Created on 2019-10-29.
  */
 import {
-  ICreateGroupParams,
-  ICreateGroupResponse,
   ICreateUserParams,
   ICreateUserResponse,
-  IDeleteGroupParams,
   IDeleteUserParams,
-  IGetGroupParams,
-  IGetGroupsResponse,
-  IGetGroupsParams,
-  IUpdateGroupParams,
-  IGetGroupRightsResponse,
+  GroupRights,
   ISetGroupAccessRightsParams,
   IUpdateUserParams,
   IUpdateUserResponse,
@@ -30,7 +23,7 @@ import {
 import { Request } from '../../http/request';
 import { LkErrorKey } from '../../http/response';
 
-const {INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN, NOT_FOUND, DATA_SOURCE_UNAVAILABLE, GROUP_EXISTS} = LkErrorKey;
+const {INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class AdminApi extends Request {
   /**
@@ -64,104 +57,6 @@ export class AdminApi extends Request {
     );
   }
 
-  /**
-   * Adds a new group to the application.
-   *
-   * @breakingChange admin createGroup method signature changed to the new params/response format
-   */
-  public createGroup(params: ICreateGroupParams) {
-    return this
-      .handle(
-        INVALID_PARAMETER,
-        UNAUTHORIZED,
-        FORBIDDEN,
-        DATA_SOURCE_UNAVAILABLE,
-        GROUP_EXISTS)
-      .request<ICreateGroupResponse>({
-          url: '/admin/:sourceKey/groups',
-          method: 'POST',
-          params: params
-        }
-      );
-  }
-
-  /**
-   * Deletes a group in the application.
-   *
-   * @breakingChange updateGroup params dataSourceKey is now sourceKey
-   */
-  public deleteGroup(params: IDeleteGroupParams) {
-    return this
-      .handle(
-        INVALID_PARAMETER,
-        UNAUTHORIZED,
-        FORBIDDEN,
-        NOT_FOUND)
-      .request({
-          url: '/admin/:sourceKey/groups',
-          method: 'DELETE',
-          params: params
-        }
-      );
-  }
-
-  /**
-   * Update a group (only name).
-   *
-   * @breakingChange admin updateGroup method signature changed to the new params/response format
-   */
-  public updateGroup(params: IUpdateGroupParams) {
-    return this
-      .handle(
-        INVALID_PARAMETER,
-        UNAUTHORIZED,
-        FORBIDDEN,
-        NOT_FOUND)
-      .request({
-          url: '/admin/:sourceKey/groups/:id',
-          method: 'PATCH',
-          params: params
-        }
-      );
-  }
-
-  /**
-   * Get a group already defined in the database.
-   *
-   * @breakingChange admin getGroup method signature changed to the new params/response format
-   */
-  public getGroup(params: IGetGroupParams) {
-    return this
-      .handle(
-        INVALID_PARAMETER,
-        UNAUTHORIZED,
-        FORBIDDEN,
-        NOT_FOUND)
-      .request<IGetGroupsResponse>({
-        url: '/admin/:sourceKey/groups/:id',
-        method: 'PATCH',
-        params: params
-      }
-    );
-  }
-
-  /**
-   * List all the groups for the current source.
-   *
-   * @breakingChange admin getGroups method signature changed to the new params/response format
-   */
-  public getGroups(params: IGetGroupsParams) {
-    return this
-      .handle(
-        UNAUTHORIZED,
-        FORBIDDEN)
-      .request<IGetGroupsResponse[]>({
-          url: '/admin/:sourceKey/groups',
-          method: 'GET',
-          params: params
-        }
-      );
-  }
 
   /**
    * Get possible targetType, type and action names.
@@ -171,7 +66,7 @@ export class AdminApi extends Request {
       .handle(
         UNAUTHORIZED,
         FORBIDDEN)
-      .request<IGetGroupRightsResponse[]>({
+      .request<GroupRights[]>({
           url: '/admin/groups/rights_info',
           method: 'GET'
         }

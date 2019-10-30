@@ -14,26 +14,24 @@ export interface ICreateUserParams {
   groups?: Array<string | number>;
 }
 
-export interface IUserGroup {
+export interface UserGroup {
   name: string;
   builtin: boolean;
   createdAt: string;
   updatedAt: string;
 }
 
-export interface ISystemGroup extends IUserGroup {
+export interface SystemGroup extends UserGroup {
   userCount?: number;
   accessRights?: IAccessRight[];
   sourceKey: string;
 }
 
-export interface ICreateGroupResponse extends  ISystemGroup {}
-
 export interface ICreateUserResponse {
   id: number;
   username: string;
   email: string;
-  groups: IUserGroup[];
+  groups: UserGroup[];
   source: 'string';
   admin?: boolean;
   preferences: {
@@ -54,7 +52,7 @@ export interface ICreateGroupParams extends IDataSourceParams {
 }
 
 export interface IDeleteGroupParams extends IDataSourceParams {
-  name: string;
+  id: number;
 }
 
 export interface IUpdateGroupParams extends IDataSourceParams {
@@ -70,9 +68,16 @@ export interface IGetGroupsParams extends  IDataSourceParams {
   withAccessRights: boolean;
 }
 
-export interface IGetGroupsResponse extends ISystemGroup {}
+export interface IGetGroupNamesParams extends IDataSourceParams {
+  action: string;
+}
 
-export interface IGetGroupRightsResponse {
+export interface GroupName {
+  id: number;
+  name: string;
+}
+
+export interface GroupRights {
   types: string[];
   targetTypes: string[];
   actions: string[];
@@ -82,6 +87,12 @@ export interface ISetGroupAccessRightsParams extends IDataSourceParams{
   id: number;
   // TODO PKAR add targetItemType
   accessRights: Array<{type: string; targetType: string; targetName: string}>;
+}
+
+export interface IDeleteAccessRightsParams extends IDataSourceParams {
+  groupId: number;
+  targetType: 'nodeCategory' | 'edgeType' | 'alert' | 'action';
+  targetName: string
 }
 
 export interface IUpdateUserParams {

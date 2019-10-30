@@ -6,17 +6,15 @@
  */
 import { LkErrorKey } from '../../http/response';
 import { Request } from '../../http/request';
-import { IFullUser } from '../User/types';
 import {
   ISearchFullParams,
-  ISearchUsersParams,
   ISearchFullResponse,
   IAdvancedSearchParams,
   ISearchResponse,
   ISimpleSearchParams
 } from './types';
 
-const {INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
+const {INVALID_PARAMETER, UNAUTHORIZED,} = LkErrorKey;
 
 
 export class SearchApi extends Request {
@@ -59,18 +57,5 @@ export class SearchApi extends Request {
           params: params
         }
       );
-  }
-
-  /**
-   * get the list of users.
-   */
-  public getUsers(params: ISearchUsersParams) {
-    return this
-      .handle(UNAUTHORIZED, FORBIDDEN)
-      .request<IFullUser>({
-      url: '/users',
-      method: 'GET',
-      params: params
-    });
   }
 }
