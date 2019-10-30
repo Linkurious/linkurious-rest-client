@@ -3,7 +3,7 @@
  *
  * - Created on 2019-10-30.
  */
-import { LkEdge, LkNode } from '../..';
+import { LkEdge, LkNode } from '../graphItemTypes';
 import { IDataSourceParams } from '../commonTypes';
 import { EntityType } from '../GraphSchema/types';
 

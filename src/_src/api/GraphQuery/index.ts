@@ -89,6 +89,7 @@ export class GraphQueryApi extends Request {
   /**
    * Update a graph query owned but the current user.
    */
+  // TODO RC-refactoring update should return the item
   public updateGraphQuery(params: IUpdateGraphQueryParams) {
     return this
       .handle(
@@ -98,7 +99,7 @@ export class GraphQueryApi extends Request {
         NOT_FOUND,
         DATA_SOURCE_UNAVAILABLE,
       )
-      .request({
+      .request<void>({
         url: '/:sourceKey/graph/query/:id',
         method: 'PATCH',
         params: params
@@ -117,7 +118,7 @@ export class GraphQueryApi extends Request {
         NOT_FOUND,
         DATA_SOURCE_UNAVAILABLE,
       )
-      .request({
+      .request<void>({
         url: '/:sourceKey/graph/query/:id',
         method: 'DELETE',
         params: params

@@ -5,7 +5,7 @@
  */
 
 import {GenericObject, IDataSourceParams, IIdentified} from '../commonTypes';
-import {LkEdge} from '../..';
+import {LkEdge} from '../graphItemTypes';
 
 export interface IGetEdgeParams extends IDataSourceParams, IIdentified {}
 

@@ -94,7 +94,7 @@ export class UserApi extends Request {
   public deleteUser(params: IDeleteUserParams) {
     return this
       .handle(UNAUTHORIZED, FORBIDDEN)
-      .request({
+      .request<void>({
           url: '/admin/users/:id',
           method: 'DELETE',
           params: params
@@ -183,7 +183,7 @@ export class UserApi extends Request {
         UNAUTHORIZED,
         FORBIDDEN,
         NOT_FOUND)
-      .request({
+      .request<void>({
           url: '/admin/:sourceKey/groups/:id',
           method: 'PATCH',
           params: params
@@ -202,7 +202,7 @@ export class UserApi extends Request {
         UNAUTHORIZED,
         FORBIDDEN,
         NOT_FOUND)
-      .request({
+      .request<void>({
           url: '/admin/:sourceKey/groups/:id',
           method: 'DELETE',
           params: params
@@ -236,7 +236,7 @@ export class UserApi extends Request {
         UNAUTHORIZED,
         FORBIDDEN,
         NOT_FOUND)
-      .request({
+      .request<void>({
           url: '/admin/:sourceKey/groups/:id/access_rights',
           method: 'PUT',
           params: params
@@ -253,7 +253,7 @@ export class UserApi extends Request {
         UNAUTHORIZED,
         FORBIDDEN,
         NOT_FOUND)
-      .request({
+      .request<void>({
           url: '/admin/:sourceKey/groups/:id/access_rights',
           method: 'DELETE',
           params: params
@@ -264,7 +264,7 @@ export class UserApi extends Request {
   public mergeVisualizations(params: IMergeVisualizationsParams) {
     return this
       .handle(UNAUTHORIZED, FORBIDDEN)
-      .request({
+      .request<void>({
           url: '/admin/users/mergeVisualizations',
           method: 'POST',
           params: params

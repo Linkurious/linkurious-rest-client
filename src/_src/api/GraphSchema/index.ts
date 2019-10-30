@@ -3,6 +3,7 @@
  *
  * - Created on 2019-05-15.
  */
+
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 
@@ -33,7 +34,7 @@ const {FORBIDDEN, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND} = LkErrorKey
 
 export class GraphSchemaAPI extends Request {
   public async startSchemaSampling(params: IStartSchemaSamplingParams) {
-    return this.request({
+    return this.request<void>({
       url: '/admin/:sourceKey/schema/sampling/start',
       method: 'POST',
       params: params
@@ -49,7 +50,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async stopSchemaSampling(params?: IStopSchemaSamplingParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<void>({
       url: '/admin/:sourceKey/schema/sampling/stop',
       method: 'POST',
       params: params
@@ -65,7 +66,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async updateType(params: IUpdateTypeParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<void>({
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'PATCH',
       params: params
@@ -81,7 +82,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async updateProperty(params: IUpdatePropertyParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<void>({
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
       method: 'PATCH',
       params: params
@@ -89,7 +90,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async updateSchemaSettings(params: IUpdateSchemaSettingsParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<void>({
       url: '/admin/:sourceKey/graph/schema/settings',
       method: 'PATCH',
       params: params
@@ -147,7 +148,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public setNotIndexedEdgeProperties(params: ISetNonIndexedPropertiesParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<void>({
       url: '/admin/source/:sourceKey/noIndex/edgeProperties',
       method: 'PUT',
       params: params
@@ -155,7 +156,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public setNotIndexedNodeProperties(params: ISetNonIndexedPropertiesParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<void>({
       url: '/admin/source/:sourceKey/noIndex/nodeProperties',
       method: 'PUT',
       params: params

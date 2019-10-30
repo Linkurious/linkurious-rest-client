@@ -33,7 +33,7 @@ export class AuthAPI extends Request {
   // I think if you logout without being logged in, it throws an error,
   // if so, we should add that error to be handled here
   async logout() {
-    const response = await this.handle(UNAUTHORIZED).request({
+    const response = await this.handle(UNAUTHORIZED).request<void>({
       url: '/auth/logout',
       method: 'GET'
     });
