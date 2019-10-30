@@ -6,12 +6,12 @@
 import { Request } from '../../http/request';
 import { LkErrorKey } from '../../http/response';
 import {
-  IAlertPreviewParams, IAlertPreviewResponse,
+  IAlertPreviewParams, AlertPreviewResponse,
   ICheckGraphQueryParams, ICheckGraphQueryResponse, ICreateGraphQueryParams, IDeleteGraphQueryParams,
   IGetGraphQueriesParams,
   IGetGraphQueryParams,
   IGraphQueryResponse, IRunGraphQueryByContentParams, IRunGraphQueryByIdParams,
-  IRunGraphQueryResponse, IUpdateGraphQueryParams
+  RunGraphQueryResponse, IUpdateGraphQueryParams
 } from './types';
 
 const {INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN, NOT_FOUND, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, BAD_GRAPH_REQUEST, CONSTRAINT_VIOLATION, GRAPH_REQUEST_TIMEOUT, GRAPH_UNREACHABLE} = LkErrorKey;
@@ -65,62 +65,62 @@ export class GraphQueryApi extends Request {
     );
   }
 
-  /**IRunGraphQueryParams
-   * Run a static or template query
-   */
-  public run(params: IRunGraphQueryByContentParams) {
-    return this
-      .handle(
-        INVALID_PARAMETER,
-        UNAUTHORIZED,
-        FORBIDDEN,
-        BAD_GRAPH_REQUEST,
-        CONSTRAINT_VIOLATION,
-        GRAPH_REQUEST_TIMEOUT,
-        DATA_SOURCE_UNAVAILABLE,
-        GRAPH_UNREACHABLE
-      )
-      .request<IRunGraphQueryResponse>({
-        url: '/:sourceKey/graph/run/query',
-        method: 'POST',
-        params: params,
-        query: {
-          withDigest: params.withDigest,
-          withDegree: params.withDegree,
-          withAccess: params.withAccess
-        }
-      }
-    );
-  }
-
-  /**
-   * Run a static or template query.
-   */
-  public runById(params: IRunGraphQueryByIdParams) {
-    return this
-      .handle(
-        INVALID_PARAMETER,
-        UNAUTHORIZED,
-        FORBIDDEN,
-        GUEST_DISABLED,
-        BAD_GRAPH_REQUEST,
-        CONSTRAINT_VIOLATION,
-        GRAPH_REQUEST_TIMEOUT,
-        DATA_SOURCE_UNAVAILABLE,
-        GRAPH_UNREACHABLE
-      )
-      .request<IRunGraphQueryResponse>({
-        url: '/:sourceKey/graph/run/query/:id',
-        method: 'POST',
-        params: params,
-        query: {
-          withDegree: params.withDegree,
-          withAccess: params.withAccess,
-          withDigest: params.withDigest
-        }
-      }
-    );
-  }
+  // /**IRunGraphQueryParams
+  //  * Run a static or template query
+  //  */
+  // public run(params: IRunGraphQueryByContentParams) {
+  //   return this
+  //     .handle(
+  //       INVALID_PARAMETER,
+  //       UNAUTHORIZED,
+  //       FORBIDDEN,
+  //       BAD_GRAPH_REQUEST,
+  //       CONSTRAINT_VIOLATION,
+  //       GRAPH_REQUEST_TIMEOUT,
+  //       DATA_SOURCE_UNAVAILABLE,
+  //       GRAPH_UNREACHABLE
+  //     )
+  //     .request<IRunGraphQueryResponse>({
+  //       url: '/:sourceKey/graph/run/query',
+  //       method: 'POST',
+  //       params: params,
+  //       query: {
+  //         withDigest: params.withDigest,
+  //         withDegree: params.withDegree,
+  //         withAccess: params.withAccess
+  //       }
+  //     }
+  //   );
+  // }
+  //
+  // /**
+  //  * Run a static or template query.
+  //  */
+  // public runById(params: IRunGraphQueryByIdParams) {
+  //   return this
+  //     .handle(
+  //       INVALID_PARAMETER,
+  //       UNAUTHORIZED,
+  //       FORBIDDEN,
+  //       GUEST_DISABLED,
+  //       BAD_GRAPH_REQUEST,
+  //       CONSTRAINT_VIOLATION,
+  //       GRAPH_REQUEST_TIMEOUT,
+  //       DATA_SOURCE_UNAVAILABLE,
+  //       GRAPH_UNREACHABLE
+  //     )
+  //     .request<IRunGraphQueryResponse>({
+  //       url: '/:sourceKey/graph/run/query/:id',
+  //       method: 'POST',
+  //       params: params,
+  //       query: {
+  //         withDegree: params.withDegree,
+  //         withAccess: params.withAccess,
+  //         withDigest: params.withDigest
+  //       }
+  //     }
+  //   );
+  // }
 
   /**
    * Return resolve if the current query is valid.
@@ -145,29 +145,29 @@ export class GraphQueryApi extends Request {
     );
   }
 
-  /**
-   * Preview the result of a query.
-   */
-  public preview(params: IAlertPreviewParams) {
-    return this
-      .handle(
-        INVALID_PARAMETER,
-        UNAUTHORIZED,
-        FORBIDDEN,
-        GUEST_DISABLED,
-        BAD_GRAPH_REQUEST,
-        CONSTRAINT_VIOLATION,
-        GRAPH_REQUEST_TIMEOUT,
-        DATA_SOURCE_UNAVAILABLE,
-        GRAPH_UNREACHABLE
-      )
-      .request<IAlertPreviewResponse>({
-        url: '/:sourceKey/graph/alertPreview',
-        method: 'POST',
-        params: params
-      }
-    );
-  }
+  // /**
+  //  * Preview the result of a query.
+  //  */
+  // public preview(params: IAlertPreviewParams) {
+  //   return this
+  //     .handle(
+  //       INVALID_PARAMETER,
+  //       UNAUTHORIZED,
+  //       FORBIDDEN,
+  //       GUEST_DISABLED,
+  //       BAD_GRAPH_REQUEST,
+  //       CONSTRAINT_VIOLATION,
+  //       GRAPH_REQUEST_TIMEOUT,
+  //       DATA_SOURCE_UNAVAILABLE,
+  //       GRAPH_UNREACHABLE
+  //     )
+  //     .request<IAlertPreviewResponse>({
+  //       url: '/:sourceKey/graph/alertPreview',
+  //       method: 'POST',
+  //       params: params
+  //     }
+  //   );
+  // }
 
   /**
    * Save and Returns the created GraphQuery.

@@ -42,7 +42,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND, INVALID_PARAMETER)
       .request({
-        url: '/{sourceKey}/visualizations/folder/{id}',
+        url: '/:sourceKey/visualizations/folder/:id',
         method: 'PATCH',
         params: params
     });
@@ -55,7 +55,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER)
       .request<ISharedVisualization[]>({
-        url: '/{sourceKey}/visualizations/shared',
+        url: '/:sourceKey/visualizations/shared',
         method: 'GET',
         params: params
       }
@@ -71,7 +71,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER)
       .request<number>({
-        url: '/{sourceKey}/visualizations/count',
+        url: '/:sourceKey/visualizations/count',
         method: 'GET',
         params: params
     });
@@ -113,7 +113,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED)
       .request<ICreateVisualizationFolderResponse>({
-        url: '/{sourceKey}/visualizations/folder',
+        url: '/:sourceKey/visualizations/folder',
         method: 'POST',
         params: params
     });
@@ -126,7 +126,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED)
       .request<IVisualizationResponse>({
-        url: '/{sourceKey}/visualizations',
+        url: '/:sourceKey/visualizations',
         method: 'POST',
         params: params
     });
@@ -139,7 +139,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
       .request({
-        url: '/widget/{id}',
+        url: '/widget/:id',
         method: 'DELETE',
         params: params
     });
@@ -152,7 +152,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
       .request({
-        url: '/{sourceKey}/visualizations/folder/{id}',
+        url: '/:sourceKey/visualizations/folder/:id',
         method: 'DELETE',
         params: params
     });
@@ -165,7 +165,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
       .request<IDuplicateVisualizationResponse>({
-        url: '/{sourceKey}/visualizations/{id}/duplicate',
+        url: '/:sourceKey/visualizations/:id/duplicate',
         method: 'POST',
         params: params
       }
@@ -179,7 +179,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
       .request<IGetWidgetResponse>({
-        url: '/widget/{id}',
+        url: '/widget/:id',
         method: 'GET',
         params: params
     });
@@ -192,7 +192,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED)
       .request<IVisualizationResponse>({
-        url: '/{sourceKey}/sandbox',
+        url: '/:sourceKey/sandbox',
         method: 'GET',
         params: params
     });
@@ -205,7 +205,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
       .request<IVisualizationResponse>({
-        url: '/{sourceKey}/visualizations/{id}',
+        url: '/:sourceKey/visualizations/:id',
         method: 'GET',
         params: params
     });
@@ -220,7 +220,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
       .request<IVisualizationTree[]>({
-        url: '/{sourceKey}/visualizations/tree',
+        url: '/:sourceKey/visualizations/tree',
         method: 'GET',
         params: params
     });
@@ -233,7 +233,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN, NOT_FOUND)
       .request({
-        url: '/{sourceKey}/visualizations/{id}',
+        url: '/:sourceKey/visualizations/:id',
         method: 'DELETE',
         params: params
     });
@@ -246,7 +246,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
       .request<IVisualizationShares>({
-        url: '/{sourceKey}/visualizations/{id}/shares',
+        url: '/:sourceKey/visualizations/:id/shares',
         method: 'GET',
         params: params
       }
@@ -260,7 +260,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
       .request<IVisualizationShare>({
-        url: `/{sourceKey}/visualizations/:vizId/share/:userId`,
+        url: `/:sourceKey/visualizations/:vizId/share/:userId`,
         method: 'PUT',
         params: params
       }
@@ -275,7 +275,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
       .request({
-        url: `/{sourceKey}/visualizations/{id}/share/:userId`,
+        url: `/:sourceKey/visualizations/:id/share/:userId`,
         method: 'DELETE',
         params: params
     });
@@ -288,7 +288,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
       .request({
-        url: '/{sourceKey}/sandbox',
+        url: '/:sourceKey/sandbox',
         method: 'PATCH',
         params: params
     });
@@ -301,7 +301,7 @@ export class VisualizationApi extends Request {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
       .request({
-        url: '/{sourceKey}/visualizations/{id}',
+        url: '/:sourceKey/visualizations/:id',
         method: 'PATCH',
         params: params,
         query: Utils.fixSnakeCase({forceLock: params.forceLock})

@@ -20,9 +20,8 @@ import {
   IUpdateUserParams,
   IUpdateUserResponse
 } from './types';
-import { ISearchUsersParams } from '../Search/types';
 import { IMergeVisualizationsParams } from '../Visualization/types';
-import { IFullUser, IGetUserParams } from './types';
+import { IFullUser, IGetUserParams, ISearchUsersParams } from './types';
 const {UNAUTHORIZED, FORBIDDEN, NOT_FOUND, DATA_SOURCE_UNAVAILABLE, GROUP_EXISTS} = LkErrorKey;
 
 export class UserApi extends Request {
@@ -79,7 +78,7 @@ export class UserApi extends Request {
         FORBIDDEN,
         NOT_FOUND)
       .request<IUpdateUserResponse>({
-          url: '/admin/users/{id}',
+          url: '/admin/users/:id',
           method: 'PATCH',
           params: params
         }
