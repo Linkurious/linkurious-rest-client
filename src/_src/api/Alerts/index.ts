@@ -64,7 +64,7 @@ export class AlertsAPI extends Request {
     });
   }
 
-  public CreateAlertFolder(params: ICreateAlertFolderParams) {
+  public createAlertFolder(params: ICreateAlertFolderParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
       CreateAlertFolderResponse
     >({
@@ -74,7 +74,7 @@ export class AlertsAPI extends Request {
     });
   }
 
-  public UpdateAlertFolder(params: IUpdateAlertFolderParams) {
+  public updateAlertFolder(params: IUpdateAlertFolderParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       UpdateAlertFolderResponse
     >({
@@ -84,7 +84,7 @@ export class AlertsAPI extends Request {
     });
   }
 
-  public DeleteAlertFolder(params: IDeleteAlertFolderParams) {
+  public deleteAlertFolder(params: IDeleteAlertFolderParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<void>({
       url: '/admin/:sourceKey/alerts/folder/:id',
       method: 'DELETE',
@@ -92,7 +92,7 @@ export class AlertsAPI extends Request {
     });
   }
 
-  public GetAlertTree(params?: IGetAlertTreeParams) {
+  public getAlertTree(params?: IGetAlertTreeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
       GetAlertTreeResponse
     >({
@@ -102,7 +102,7 @@ export class AlertsAPI extends Request {
     });
   }
 
-  public GetAlert(params: IGetAlertParams) {
+  public getAlert(params: IGetAlertParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       GetAlertResponse
     >({
@@ -112,7 +112,7 @@ export class AlertsAPI extends Request {
     });
   }
 
-  public GetMatch(params: IGetMatchParams) {
+  public getMatch(params: IGetMatchParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       GetMatchResponse
     >({
@@ -122,7 +122,7 @@ export class AlertsAPI extends Request {
     });
   }
 
-  public GetMatches(params: IGetMatchesParams) {
+  public getMatches(params: IGetMatchesParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       GetMatchesResponse
     >({
@@ -142,7 +142,7 @@ export class AlertsAPI extends Request {
     });
   }
 
-  public DoMatchAction(params: IDoMatchActionParams) {
+  public doMatchAction(params: IDoMatchActionParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<void>({
       url: '/:sourceKey/alerts/:alertId/matches/:matchId/action',
       method: 'POST',

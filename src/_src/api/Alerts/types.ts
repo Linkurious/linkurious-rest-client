@@ -101,7 +101,7 @@ export interface IGetMatchParams extends IDataSourceParams {
 
 type MatchStatus = 'unconfirmed' | 'confirmed' | 'dismissed';
 
-interface Match extends IPersistedItem {
+export interface Match extends IPersistedItem {
   alertId: number;
   hash: string;
   status: MatchStatus;
@@ -143,7 +143,7 @@ export interface IGetMatchActionsParams extends IDataSourceParams {
 
 type MatchActionType = 'confirm' | 'dismiss' | 'unconfirm' | 'open';
 
-interface MatchAction extends IPersistedItem {
+export interface MatchAction extends IPersistedItem {
   matchId: number;
   user: {
     id: number;
