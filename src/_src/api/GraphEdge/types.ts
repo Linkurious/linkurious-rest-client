@@ -4,7 +4,7 @@
  * - Created on 2019-10-30.
  */
 
-import {IDataSourceParams, IIdentified} from '../commonTypes';
+import {GenericObject, IDataSourceParams, IIdentified} from '../commonTypes';
 import {LkEdge} from '../..';
 
 export interface IGetEdgeParams extends IDataSourceParams, IIdentified {}
@@ -15,13 +15,13 @@ export interface ICreateEdgeParams extends IDataSourceParams {
   source: string;
   target: string;
   type: string;
-  properties?: {[key: string]: unknown};
+  properties?: GenericObject<unknown>;
 }
 
 export interface CreateEdgeResponse extends LkEdge {}
 
 export interface IUpdateEdgeParams extends IDataSourceParams, IIdentified {
-  properties?: {[key: string]: unknown};
+  properties?: GenericObject<unknown>;
   deletedProperties?: string[];
   readAt?: number;
 }

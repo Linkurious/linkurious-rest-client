@@ -4,7 +4,7 @@
  * - Created on 2019-10-30.
  */
 
-import {IDataSourceParams, IIdentified} from '../commonTypes';
+import {GenericObject, IDataSourceParams, IIdentified} from '../commonTypes';
 import {LkNode} from '../..';
 
 export interface IGetNodeParams extends IDataSourceParams, IIdentified {}
@@ -13,13 +13,13 @@ export interface GetNodeResponse extends LkNode {}
 
 export interface ICreateNodeParams extends IDataSourceParams {
   categories: string[];
-  properties?: {[key: string]: unknown};
+  properties?: GenericObject<unknown>;
 }
 
 export interface CreateNodeResponse extends LkNode {}
 
 export interface IUpdateNodeParams extends IDataSourceParams, IIdentified {
-  properties?: {[key: string]: unknown};
+  properties?: GenericObject<unknown>;
   deletedProperties?: string[];
   addedCategories?: string[];
   deletedCategories?: string[];

@@ -38,3 +38,5 @@ export interface IFolder<T, N extends string> {
 }
 
 export type RightType = 'read' | 'write' | 'none' | 'do';
+
+export type QueryDialect = 'cypher' | 'gremlin';
