@@ -73,7 +73,7 @@ export class AdminModule extends Module {
    */
   public deleteUser(userId: number): Promise<boolean> {
     return this.fetch({
-      url: '/admin/users/{id}',
+      url: '/admin/users/:id',
       method: 'DELETE',
       body: {id: userId}
     }).then(() => true);
@@ -218,7 +218,7 @@ export class AdminModule extends Module {
     removedGroups?: number[];
   }): Promise<IFullUser> {
     return this.fetch({
-      url: '/admin/users/{id}',
+      url: '/admin/users/:id',
       method: 'PATCH',
       body: data
     });

@@ -24,7 +24,6 @@ import {
   IGetVisualizationSharesPrams,
   IGetWidgetParams,
   IGetWidgetResponse,
-  IMergeVisualizationsParams,
   ISharedVisualization,
   IShareVisualizationParams,
   IUnshareVisualizationParams,
@@ -39,16 +38,6 @@ import {
 const {INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class VisualizationApi extends Request {
-  public mergeVisualizations(params: IMergeVisualizationsParams) {
-    return this
-      .handle(UNAUTHORIZED, FORBIDDEN)
-      .request({
-        url: '/admin/users/mergeVisualizations',
-        method: 'POST',
-        params: params
-      }
-    );
-  }
 
   public async updateVisualizationFolder(params: IUpdateVisualizationFolderParams) {
     return this
