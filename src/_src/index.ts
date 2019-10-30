@@ -16,6 +16,9 @@ import {LkErrorKey} from './http/response';
 import {ErrorListener} from './errorListener';
 import {LinkuriousAPI} from './api/Linkurious';
 import {GraphSchemaAPI} from './api/GraphSchema';
+import {GraphNodeAPI} from './api/GraphNode';
+import {GraphEdgeAPI} from './api/GraphEdge';
+import {AlertsAPI} from './api/Alerts';
 import {CustomActionAPI} from './api/CustomAction';
 import {DataSourceAPI} from './api/DataSource';
 import {AuthAPI} from './api/Auth';
@@ -25,6 +28,9 @@ export class LinkuriousRestClient extends ErrorListener {
 
   linkurious: LinkuriousAPI;
   graphSchema: GraphSchemaAPI;
+  graphNode: GraphNodeAPI;
+  graphEdge: GraphEdgeAPI;
+  alerts: AlertsAPI;
   customAction: CustomActionAPI;
   auth: AuthAPI;
   dataSource: DataSourceAPI;
@@ -43,6 +49,9 @@ export class LinkuriousRestClient extends ErrorListener {
     };
     this.linkurious = new LinkuriousAPI(this.moduleProps);
     this.graphSchema = new GraphSchemaAPI(this.moduleProps);
+    this.graphNode = new GraphNodeAPI(this.moduleProps);
+    this.graphEdge = new GraphEdgeAPI(this.moduleProps);
+    this.alerts = new AlertsAPI(this.moduleProps);
     this.customAction = new CustomActionAPI(this.moduleProps);
     this.auth = new AuthAPI(this.moduleProps);
     this.dataSource = new DataSourceAPI(this.moduleProps);
