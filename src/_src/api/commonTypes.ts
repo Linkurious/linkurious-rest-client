@@ -1,5 +1,4 @@
 /**
- * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
  * - Created on 2019-09-30.
@@ -38,3 +37,5 @@ export interface IFolder<T, N extends string> {
 }
 
 export type RightType = 'read' | 'write' | 'none' | 'do';
+
+export type QueryDialect = 'cypher' | 'gremlin';

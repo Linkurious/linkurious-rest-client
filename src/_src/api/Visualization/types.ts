@@ -1,11 +1,10 @@
-import { VizEdge, VizNode } from '../..';
-
 /**
- * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
  * - Created on 2019-10-30.
  */
+
+import { VizEdge, VizNode } from '../..';
 import {IDataSourceParams} from '../commonTypes';
 import { ISimpleUser } from '../User/types';
 
