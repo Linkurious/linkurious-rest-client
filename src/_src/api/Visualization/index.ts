@@ -41,7 +41,7 @@ export class VisualizationApi extends Request {
   public async updateVisualizationFolder(params: IUpdateVisualizationFolderParams) {
     return this
       .handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND, INVALID_PARAMETER)
-      .request({
+      .request<void>({
         url: '/:sourceKey/visualizations/folder/:id',
         method: 'PATCH',
         params: params
@@ -138,7 +138,7 @@ export class VisualizationApi extends Request {
   public deleteWidget(params: IDeleteWidgetParams) {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
-      .request({
+      .request<void>({
         url: '/widget/:id',
         method: 'DELETE',
         params: params
@@ -151,7 +151,7 @@ export class VisualizationApi extends Request {
   public deleteFolder(params: IDeleteFolderParams) {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
-      .request({
+      .request<void>({
         url: '/:sourceKey/visualizations/folder/:id',
         method: 'DELETE',
         params: params
@@ -232,7 +232,7 @@ export class VisualizationApi extends Request {
   public deleteOne(params: IDeleteVisualizationParams) {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN, NOT_FOUND)
-      .request({
+      .request<void>({
         url: '/:sourceKey/visualizations/:id',
         method: 'DELETE',
         params: params
@@ -274,7 +274,7 @@ export class VisualizationApi extends Request {
   public unshare(params: IUnshareVisualizationParams) {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
-      .request({
+      .request<void>({
         url: `/:sourceKey/visualizations/:id/share/:userId`,
         method: 'DELETE',
         params: params
@@ -287,7 +287,7 @@ export class VisualizationApi extends Request {
   public updateSandbox(params: IUpdateSandboxParams){
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
-      .request({
+      .request<void>({
         url: '/:sourceKey/sandbox',
         method: 'PATCH',
         params: params
@@ -300,7 +300,7 @@ export class VisualizationApi extends Request {
   public update(params: IUpdateVisualizationParams) {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
-      .request({
+      .request<void>({
         url: '/:sourceKey/visualizations/:id',
         method: 'PATCH',
         params: params,

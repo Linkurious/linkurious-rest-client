@@ -54,7 +54,7 @@ export class CustomActionAPI extends Request {
   }
 
   public async deleteCustomAction(params: IDeleteCustomActionParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<void>({
       url: '/:sourceKey/customAction/:id',
       method: 'DELETE',
       params: params
