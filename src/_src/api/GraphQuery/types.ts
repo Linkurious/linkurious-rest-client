@@ -7,6 +7,7 @@
 import { LkEdge, LkNode } from '../..';
 
 import { GenericObject, IDataSourceParams } from '../commonTypes';
+import { SubGraph } from '../Graph/types';
 
 
 export interface TemplateFieldOptions {
@@ -187,9 +188,7 @@ export interface IRunGraphQueryByIdParams extends IRunGraphQueryParams {
   id: number;
 }
 
-export interface IRunGraphQueryResponse {
-  nodes: LkNode[];
-  edges: LkEdge[];
+export interface RunGraphQueryResponse extends SubGraph {
   truncatedByLimit: boolean;
   truncatedByAccess: boolean;
 }
@@ -218,7 +217,7 @@ export interface IAlertPreviewParams {
   limit?: number;
   timeout?: number;
 }
-export interface IAlertPreviewResponse {
+export interface AlertPreviewResponse {
   results: Array<{
     nodes: LkNode[];
     edges: LkEdge[];

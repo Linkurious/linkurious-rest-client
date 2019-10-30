@@ -179,3 +179,13 @@ export interface IUpdateUserResponse {
   actions: any;
   accessRights: any;
 }
+
+export interface ISearchUsersParams {
+  startsWith?: string;
+  contains?: string;
+  groupId?: number;
+  offset?: number;
+  limit?: number;
+  sortBy?: string;
+  sortDirection?: string;
+}

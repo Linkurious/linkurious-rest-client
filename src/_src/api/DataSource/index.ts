@@ -9,9 +9,8 @@ import {LkErrorKey} from '../../http/response';
 import {LinkuriousRestClient} from '../../index';
 
 export * from './types';
-import {GetUserDataSourcesResponse, IGetUserDataSourcesParams} from './types';
-
-const {UNAUTHORIZED} = LkErrorKey;
+import {GetUserDataSourcesResponse, IGetUserDataSourcesParams, IGetIndexationStatusParams, IGetIndexationStatusResponse, IStartIndexationParams} from './types';
+const {FORBIDDEN, NOT_FOUND, UNAUTHORIZED} = LkErrorKey;
 
 export class DataSourceAPI extends Request {
   async getUserDataSources(params?: IGetUserDataSourcesParams) {
@@ -39,5 +38,42 @@ export class DataSourceAPI extends Request {
       }
     }
     return response;
+  }
+
+  /**
+   * Request to reindex the graph database. One may want to do it after editing the index configuration.
+   *
+   * @breakingChange admin startIndexation method signature changed to the new params/response format
+   */
+  public startIndexation(params: IStartIndexationParams) {
+    return this
+      .handle(
+        UNAUTHORIZED,
+        FORBIDDEN,
+        NOT_FOUND)
+      .request({
+          url: '/:sourceKey/search/index',
+          method: 'POST'
+        }
+      );
+  }
+
+  /**
+   * Get the status of the Search API and return the indexing progress.
+   *
+   * @breakingChange admin getIndexationStatus method signature changed to the new params/response format
+   */
+  public getIndexationStatus(params: IGetIndexationStatusParams) {
+    return this
+      .handle(
+        UNAUTHORIZED,
+        FORBIDDEN,
+        NOT_FOUND)
+      .request<IGetIndexationStatusResponse>({
+          url: '/:sourceKey/search/status',
+          method: 'GET',
+          params: params
+        }
+      );
   }
 }
