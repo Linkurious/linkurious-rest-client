@@ -6,7 +6,7 @@
 
 // TS2019-DONE
 
-import {} from '../commonTypes';
+import { GenericObject } from '../commonTypes';
 import {IFullUser} from '../User/types';
 
 // Login
@@ -15,4 +15,15 @@ export interface ILoginParams {
   password: string;
 }
 
-export type ILoginResponse = IFullUser;
+export interface ISSOLoginParams {
+  code: string;
+  state: string;
+}
+
+export interface IUpdateMeParams {
+  id: number;
+  username?: string;
+  email?: string;
+  password?: string;
+  preferences?: GenericObject<unknown>;
+}
