@@ -6,7 +6,7 @@
 
 import {VizEdge, VizNode} from '../graphItemTypes';
 import {FolderChildren, IDataSourceParams} from '../commonTypes';
-import {ISimpleUser} from '../User';
+import {SimpleUser} from '../User';
 
 export interface IMergeVisualizationsParams {
   from: number;
@@ -19,23 +19,23 @@ export interface IUpdateVisualizationFolderParams extends IDataSourceParams {
   parent?: number;
 }
 
-export interface IVisualizationDesign {
+export interface VisualizationDesign {
   styles?: any;
   palette?: any;
 }
 
-export interface IVisualizationGeo {
+export interface VisualizationGeo {
   latitudeProperty?: string;
   longitudeProperty?: string;
   layers?: string[];
 }
 
-export interface IAlternativeIdConfig {
+export interface AlternativeIdConfig {
   node: string;
   edge: string;
 }
 
-export interface IVisualizationLayout {
+export interface VisualizationLayout {
   algorithm?: string;
   mode?: string;
 }
@@ -45,7 +45,7 @@ export enum VisuslizationMode {
   GEO = 'geo'
 }
 
-export interface IWidgetUI {
+export interface WidgetUI {
   search?: boolean;
   share?: boolean;
   layout?: boolean;
@@ -57,17 +57,17 @@ export interface IWidgetUI {
 
 export interface VisualizationResponse {
   id: number;
-  design: IVisualizationDesign;
-  nodeFields: IItemFields;
-  edgeFields: IItemFields;
+  design: VisualizationDesign;
+  nodeFields: ItemFields;
+  edgeFields: ItemFields;
   sourceKey: string;
   title: string;
   folder: number;
   nodes: VizNode[];
   edges: VizEdge[];
-  alternativeIds: IAlternativeIdConfig;
-  layout: IVisualizationLayout;
-  geo: IVisualizationGeo;
+  alternativeIds: AlternativeIdConfig;
+  layout: VisualizationLayout;
+  geo: VisualizationGeo;
   mode: VisuslizationMode;
   right: VisualizationRights;
   filters: any[];
@@ -75,18 +75,18 @@ export interface VisualizationResponse {
   updatedAt?: string;
 }
 
-export interface IWidgetContent extends IVisualizationDesign {
+export interface WidgetContent extends VisualizationDesign {
   title?: string;
   description?: string;
   url?: string;
   mode?: string;
   mapLayers?: any[];
-  ui?: IWidgetUI;
+  ui?: WidgetUI;
 }
 
 export interface ICreateWidgetParams {
   visualizationId: number;
-  content?: IWidgetContent;
+  content?: WidgetContent;
 }
 
 export interface IUpdateWidgetParams extends ICreateWidgetParams {}
@@ -103,7 +103,7 @@ export interface CreateVisualizationFolderResponse {
   sourceKey: string;
 }
 
-export interface ISharedVisualization extends IDataSourceParams {
+export interface SharedVisualization extends IDataSourceParams {
   title: string;
   visualizationId: number;
   ownerId: number;
@@ -114,27 +114,27 @@ export enum VisualizationRights {
   WRITE = 'write',
   OWNER = 'owner'
 }
-export interface IBaseShare {
+export interface BaseShare {
   userId: number;
   right: VisualizationRights;
   visualizationId: number;
 }
 
-export interface ISharer extends IBaseShare {
+export interface Sharer extends BaseShare {
   username: string;
   email: string;
 }
 
 export interface SharedWith {
-  owner: ISimpleUser;
-  shares: ISharer[];
+  owner: SimpleUser;
+  shares: Sharer[];
   userId: number;
   right: VisualizationRights;
   visualizationId: number;
 }
 
-export interface IVisualizationShares {
-  owner: ISimpleUser;
+export interface VisualizationShares {
+  owner: SimpleUser;
   shares: SharedWith[];
 }
 
@@ -143,14 +143,14 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   folder?: number;
   nodes: VizNode[];
   edges: VizEdge[];
-  alternativeIds?: IAlternativeIdConfig;
-  layout?: IVisualizationLayout;
+  alternativeIds?: AlternativeIdConfig;
+  layout?: VisualizationLayout;
   mode?: string;
-  geo?: IVisualizationGeo;
-  design?: IVisualizationDesign;
+  geo?: VisualizationGeo;
+  design?: VisualizationDesign;
   filters?: any[];
-  nodeFields: IItemFields;
-  edgeFields: IItemFields;
+  nodeFields: ItemFields;
+  edgeFields: ItemFields;
 }
 
 export interface IDeleteWidgetParams {
@@ -180,7 +180,7 @@ export interface GetWidgetResponse {
   key: string;
   userId: number;
   visualizationId: number;
-  content: IWidgetContent;
+  content: WidgetContent;
 }
 
 export enum PopulateType {
@@ -230,7 +230,7 @@ export interface IDeleteVisualizationParams {
   id: number;
 }
 
-export interface IGetVisualizationSharesPrams extends IDataSourceParams {
+export interface IGetVisualizationSharesParams extends IDataSourceParams {
   id: number;
 }
 
@@ -240,7 +240,7 @@ export interface IShareVisualizationParams extends IDataSourceParams {
   vizId: number;
 }
 
-export interface IVisualizationShare {
+export interface VisualizationShare {
   userId: number;
   right: VisualizationRights;
   visualizationId: number;
@@ -253,15 +253,15 @@ export interface IUnshareVisualizationParams extends IDataSourceParams {
   userId: number;
 }
 
-export interface IItemFields {
+export interface ItemFields {
   captions: {[key: string]: {displayName: boolean; properties: string[]; active: boolean}};
   types: {[key: string]: string};
 }
 
 export interface IUpdateSandboxParams extends IDataSourceParams {
-  design?: IVisualizationDesign;
-  nodeFields?: IItemFields;
-  edgeFields?: IItemFields;
+  design?: VisualizationDesign;
+  nodeFields?: ItemFields;
+  edgeFields?: ItemFields;
 }
 
 export interface IUpdateVisualizationParams extends Partial<ICreateVisualizationParams> {

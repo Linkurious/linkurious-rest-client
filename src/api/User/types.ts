@@ -7,17 +7,17 @@
 import {PersistedItem, Identified, IDataSourceParams} from '../commonTypes';
 
 // USER
-export interface ISimpleUser extends PersistedItem {
+export interface SimpleUser extends PersistedItem {
   username: string;
   email: string;
 }
 
-export interface IUser extends ISimpleUser {
-  groups: ISimpleGroup[];
+export interface User extends SimpleUser {
+  groups: SimpleGroup[];
   source: string;
 }
 
-export interface IFullUser extends IUser {
+export interface FullUser extends User {
   preferences: {
     pinOnDrag: boolean;
     incrementalLayout: boolean;
@@ -32,25 +32,25 @@ export interface IGetUserParams extends IDataSourceParams {
 }
 
 // GROUP
-export interface IBaseGroup extends Identified {
+export interface BaseGroup extends Identified {
   name: string;
 }
 
-export interface ISimpleGroup extends IBaseGroup {
+export interface SimpleGroup extends BaseGroup {
   builtin: boolean;
   createdAt: string;
   updatedAt: string;
 }
 
-export interface IGroup extends ISimpleGroup {
+export interface Group extends SimpleGroup {
   userCount?: number;
-  accessRights?: IAccessRight[];
+  accessRights?: AccessRight[];
   sourceKey: string;
 }
 
 export type RightType = 'read' | 'write' | 'none' | 'do';
 
-export interface IAccessRight {
+export interface AccessRight {
   type: RightType;
   targetType: string;
   targetName: string;
@@ -78,7 +78,7 @@ export interface UserGroup {
 
 export interface SystemGroup extends UserGroup {
   userCount?: number;
-  accessRights?: IAccessRight[];
+  accessRights?: AccessRight[];
   sourceKey: string;
 }
 
@@ -166,7 +166,7 @@ export interface UpdateUserResponse {
   updatedAt: string;
   username: string;
   email: string;
-  groups: ISimpleGroup[];
+  groups: SimpleGroup[];
   source: string;
   preferences: {
     pinOnDrag: boolean;

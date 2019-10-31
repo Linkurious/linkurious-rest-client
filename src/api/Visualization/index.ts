@@ -20,10 +20,10 @@ import {
   DuplicateVisualizationResponse,
   IGetVisualizationByIdParams,
   IGetVisualizationSandboxParams,
-  IGetVisualizationSharesPrams,
+  IGetVisualizationSharesParams,
   IGetWidgetParams,
   GetWidgetResponse,
-  ISharedVisualization,
+  SharedVisualization,
   IShareVisualizationParams,
   IUnshareVisualizationParams,
   IUpdateSandboxParams,
@@ -31,8 +31,8 @@ import {
   IUpdateVisualizationParams,
   IUpdateWidgetParams,
   VisualizationResponse,
-  IVisualizationShare,
-  IVisualizationShares,
+  VisualizationShare,
+  VisualizationShares,
   GetVisualizationTreeResponse
 } from './types';
 
@@ -53,7 +53,7 @@ export class VisualizationAPI extends Request {
    * Get shared visualizations.
    */
   public getShared(params: IDataSourceParams) {
-    return this.handle(INVALID_PARAMETER).request<ISharedVisualization[]>({
+    return this.handle(INVALID_PARAMETER).request<SharedVisualization[]>({
       url: '/:sourceKey/visualizations/shared',
       method: 'GET',
       params: params
@@ -216,8 +216,8 @@ export class VisualizationAPI extends Request {
   /**
    * Get all share rights on a visualization.
    */
-  public getShares(params: IGetVisualizationSharesPrams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<IVisualizationShares>({
+  public getShares(params: IGetVisualizationSharesParams) {
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<VisualizationShares>({
       url: '/:sourceKey/visualizations/:id/shares',
       method: 'GET',
       params: params
@@ -228,7 +228,7 @@ export class VisualizationAPI extends Request {
    * Set the share right of a user on a visualization.
    */
   public share(params: IShareVisualizationParams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<IVisualizationShare>({
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<VisualizationShare>({
       url: `/:sourceKey/visualizations/:vizId/share/:userId`,
       method: 'PUT',
       params: params

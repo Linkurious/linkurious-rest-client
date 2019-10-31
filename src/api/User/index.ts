@@ -25,7 +25,7 @@ import {
   IUpdateGroupParams,
   IUpdateUserParams,
   UpdateUserResponse,
-  IFullUser,
+  FullUser,
   IGetUserParams,
   ISearchUsersParams
 } from './types';
@@ -39,7 +39,7 @@ export class UserAPI extends Request {
    * Get a user by id.
    */
   public getUser(params: IGetUserParams) {
-    return this.handle(UNAUTHORIZED, NOT_FOUND).request<IFullUser>({
+    return this.handle(UNAUTHORIZED, NOT_FOUND).request<FullUser>({
       url: '/admin/users/:id',
       method: 'GET',
       params: params
@@ -50,7 +50,7 @@ export class UserAPI extends Request {
    * Get the list of users.
    */
   public getUsers(params: ISearchUsersParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<IFullUser[]>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request<FullUser[]>({
       url: '/users',
       method: 'GET',
       params: params

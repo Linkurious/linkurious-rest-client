@@ -6,7 +6,7 @@
 
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
-import {IFullUser} from '../User';
+import {FullUser} from '../User';
 
 import {ILoginParams, ISSOLoginParams, IUpdateMeParams} from './types';
 
@@ -22,7 +22,7 @@ export class AuthAPI extends Request {
         console.log('It was not possible to log out previous user: ' + JSON.stringify(response));
       }
     }
-    const response = await this.handle(INVALID_PARAMETER).request<IFullUser>({
+    const response = await this.handle(INVALID_PARAMETER).request<FullUser>({
       url: '/auth/login',
       method: 'POST',
       params: params
@@ -78,7 +78,7 @@ export class AuthAPI extends Request {
    * Update the current user connected.
    */
   public async updateMe(params: IUpdateMeParams) {
-    const response = await this.handle(UNAUTHORIZED, FORBIDDEN).request<IFullUser>({
+    const response = await this.handle(UNAUTHORIZED, FORBIDDEN).request<FullUser>({
       url: '/auth/me',
       method: 'PATCH',
       params: params
