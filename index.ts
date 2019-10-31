@@ -4,7 +4,7 @@
  * - Created on 2016-11-28.
  */
 
-import { ILeafletConfig } from "./src/models/Configuration";
+import {ILeafletConfig} from './src/models/Configuration';
 
 export * from './src/models/Alert';
 export * from './src/models/Configuration';
