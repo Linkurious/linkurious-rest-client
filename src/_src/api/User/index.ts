@@ -68,8 +68,6 @@ export class UserApi extends Request {
 
   /**
    * Patches a user in the application.
-   *
-   * @breakingChange admin updateUser method signature changed to the new params/response format
    */
   public updateUser(params: IUpdateUserParams) {
     return this
@@ -88,7 +86,6 @@ export class UserApi extends Request {
   /**
    * Deletes a user in the application.
    *
-   * @breakingChange change params from number to IDeleteUserParams for consistency
    * @breakingChange response type is now void instead of boolean
    */
   public deleteUser(params: IDeleteUserParams) {
@@ -104,8 +101,6 @@ export class UserApi extends Request {
 
   /**
    * Get a group already defined in the database.
-   *
-   * @breakingChange admin getGroup method signature changed to the new params/response format
    */
   public getGroup(params: IGetGroupParams) {
     return this
@@ -123,8 +118,6 @@ export class UserApi extends Request {
 
   /**
    * List all the groups for the current source.
-   *
-   * @breakingChange admin getGroups method signature changed to the new params/response format
    */
   public getGroups(params: IGetGroupsParams) {
     return this
@@ -154,8 +147,6 @@ export class UserApi extends Request {
 
   /**
    * Adds a new group to the application.
-   *
-   * @breakingChange admin createGroup method signature changed to the new params/response format
    */
   public createGroup(params: ICreateGroupParams) {
     return this
@@ -174,8 +165,6 @@ export class UserApi extends Request {
 
   /**
    * Update a group (only name).
-   *
-   * @breakingChange admin updateGroup method signature changed to the new params/response format
    */
   public renameGroup(params: IUpdateGroupParams) {
     return this
@@ -193,8 +182,6 @@ export class UserApi extends Request {
 
   /**
    * Deletes a group in the application.
-   *
-   * @breakingChange updateGroup params dataSourceKey is now sourceKey
    */
   public deleteGroup(params: IDeleteGroupParams) {
     return this
@@ -227,8 +214,6 @@ export class UserApi extends Request {
 
   /**
    * set access rights for a group.
-   *
-   * @breakingChange admin setGroupAccessRights method signature changed to the new params/response format
    */
   public putAccessRights(params: ISetGroupAccessRightsParams) {
     return this

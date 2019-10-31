@@ -5,7 +5,7 @@
  */
 
 import { VizEdge, VizNode } from '../graphItemTypes';
-import {IDataSourceParams} from '../commonTypes';
+import { FolderChildren, IDataSourceParams } from '../commonTypes';
 import { ISimpleUser } from '../User/types';
 
 
@@ -215,14 +215,20 @@ export interface IGetVisualizationByIdParams {
   withDegree?: boolean;
 }
 
-export interface IVisualizationTree {
-  type: 'visu' | 'folder';
+export interface VizInfo {
   id: number;
   title: string;
-  children?: IVisualizationTree[];
   shareCount?: number;
   widgetKey?: string;
 }
+
+export interface GetVisualizationTreeResponse {
+  id: -1;
+  title: 'root';
+  type: 'folder';
+  children?: FolderChildren<VizInfo, 'visu'>
+}
+
 
 export interface IDeleteVisualizationParams {
   id: number;
@@ -265,13 +271,4 @@ export interface IUpdateSandboxParams extends IDataSourceParams {
 export interface IUpdateVisualizationParams extends Partial<ICreateVisualizationParams> {
   id: number;
   forceLock?: boolean;
-}
-
-export interface IVisualizationTree {
-  type: 'visu' | 'folder';
-  id: number;
-  title: string;
-  children?: IVisualizationTree[];
-  shareCount?: number;
-  widgetKey?: string;
 }

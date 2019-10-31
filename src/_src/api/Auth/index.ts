@@ -5,20 +5,21 @@
  */
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
+import { IFullUser } from '../User/types';
 
-import {ILoginParams, ILoginResponse} from './types';
+import { ILoginParams, ISSOLoginParams, IUpdateMeParams } from './types';
 
-const {INVALID_PARAMETER, UNAUTHORIZED} = LkErrorKey;
+const {INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
 
 export class AuthAPI extends Request {
-  async login(params: ILoginParams) {
+  public async login(params: ILoginParams) {
     if (this.props.clientState.user) {
       const response = await this.logout();
       if (response.isAnyError()) {
         console.log('It was not possible to log out previous user: ' + JSON.stringify(response));
       }
     }
-    const response = await this.handle(INVALID_PARAMETER).request<ILoginResponse>({
+    const response = await this.handle(INVALID_PARAMETER).request<IFullUser>({
       url: '/auth/login',
       method: 'POST',
       params: params
@@ -41,4 +42,53 @@ export class AuthAPI extends Request {
     }
     return response;
   }
+
+  public SSOLogin(params: ISSOLoginParams)  {
+    return this.request<boolean>({
+      url: '/auth/sso/return',
+      method: 'GET',
+      params: params
+    });
+  }
+
+
+  /**
+   * Check if the user is authenticated.
+   */
+  public isAuthenticated() {
+    return this.request<boolean>({
+      url: '/auth/authenticated',
+      method: 'GET'
+    });
+  }
+
+  /**
+   * Check if the user is authenticated.
+   */
+  public getMe() {
+    return this.request<boolean>({
+      url: '/auth/authenticated',
+      method: 'GET'
+    });
+  }
+
+  /**
+   * Update the current user connected.
+   */
+  public async updateMe(params: IUpdateMeParams) {
+    const response = await this
+      .handle(UNAUTHORIZED, FORBIDDEN)
+      .request<IFullUser>({
+        url: '/auth/me',
+        method: 'PATCH',
+        params: params
+      });
+
+    if (response.isSuccess()) {
+      this.props.clientState.user = response.body;
+    }
+
+    return response;
+  }
+
 }
