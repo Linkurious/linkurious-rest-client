@@ -73,18 +73,22 @@ export class AuthAPI extends Request {
   }
 
   /**
-   * Update the current user connected
-   *
-   * @breakingChange current state is not updated
+   * Update the current user connected.
    */
-  public updateMe(params: IUpdateMeParams) {
-    return this
+  public async updateMe(params: IUpdateMeParams) {
+    const response = await this
       .handle(UNAUTHORIZED, FORBIDDEN)
       .request<IFullUser>({
         url: '/auth/me',
         method: 'PATCH',
         params: params
-      })
+      });
+
+    if (response.isSuccess()) {
+      this.props.clientState.user = response.body;
+    }
+
+    return response;
   }
 
 }
