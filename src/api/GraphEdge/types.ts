@@ -32,5 +32,5 @@ export interface IDeleteEdgeParams extends IDataSourceParams, Identified {}
 
 export interface IGetEdgeCountParams extends IDataSourceParams {}
 
-// TODO RC-refactoring change api response
+// TODO change api response to be just a number
 export type GetEdgeCountResponse = number;

@@ -19,10 +19,10 @@ export interface ICreateNodeParams extends IDataSourceParams {
 export interface CreateNodeResponse extends LkNode {}
 
 export interface IUpdateNodeParams extends IDataSourceParams, Identified {
-  properties?: GenericObject;
-  deletedProperties?: string[];
   addedCategories?: string[];
   deletedCategories?: string[];
+  properties?: GenericObject;
+  deletedProperties?: string[];
   readAt?: number;
 }
 
@@ -32,5 +32,5 @@ export interface IDeleteNodeParams extends IDataSourceParams, Identified {}
 
 export interface IGetNodeCountParams extends IDataSourceParams {}
 
-// TODO RC-refactoring change api response
+// TODO change api response to be just a number
 export type GetNodeCountResponse = number;
