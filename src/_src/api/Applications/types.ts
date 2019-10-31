@@ -4,7 +4,7 @@
  * - Created on 2019-10-30.
  */
 
-import { IIdentified, IPersistedItem } from "../commonTypes";
+import {IIdentified, IPersistedItem} from '../commonTypes';
 
 // TODO add type to rights (today enum is in the lke-server)
 interface Application extends IPersistedItem {

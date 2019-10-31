@@ -6,10 +6,9 @@
 
 // TS2019-DONE
 
-import {TlsOptions} from "tls";
+import {TlsOptions} from 'tls';
 
 import {GenericObject} from '../commonTypes';
-
 
 // GetStatus
 export interface IGetStatusResponse {
@@ -52,7 +51,10 @@ export interface IGetConfigResponse {
 }
 
 // UpdateConfigParams
-export type IUpdateConfigParams<T> = IResetConfigParams | IDataSourceConfigParams | IConfigurationParams<T>;
+export type IUpdateConfigParams<T> =
+  | IResetConfigParams
+  | IDataSourceConfigParams
+  | IConfigurationParams<T>;
 
 // SendAnalytics
 export interface ISendAnalyticsParams {
@@ -102,7 +104,7 @@ export interface LKEStatus {
 export interface LKEVersion {
   tag_name: string;
   name: string;
-  prerelease: boolean
+  prerelease: boolean;
 }
 
 // GetConfig
@@ -134,7 +136,7 @@ export interface IHttpServerConfig {
   listenPortHttps?: number;
   useHttps?: boolean;
   forceHttps?: boolean;
-  forcePublicHttps: boolean,
+  forcePublicHttps: boolean;
   certificateFile?: string;
   certificateKeyFile?: string;
   certificatePassphrase?: string;
@@ -174,7 +176,6 @@ export type SelectedDataSourceConfig =
   | IDataSourceConfig<ICosmosDbConfig, InternalIndexConfig>
   | IDataSourceConfig<IJanusGraphForComposeConfig, IJanusGraphSearchConfig>
   | IDataSourceConfig<IJanusGraphForComposeConfig, InternalIndexConfig>;
-
 
 export interface IDataSourceConfig<G = IGraphVendorConfig, I = IVendorConfig> {
   name?: string;
@@ -456,7 +457,3 @@ export interface IDataSourceConfigParams extends IConfigurationParams<SelectedDa
   sourceIndex: number;
   path: 'dataSource';
 }
-
-
-
-

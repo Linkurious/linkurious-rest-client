@@ -5,7 +5,13 @@
  */
 
 // TS2019-DONE
-import {IDataSourceRelative, RightType, IPersistedItem, IIdentified, IDataSourceParams} from '../commonTypes';
+import {
+  IDataSourceRelative,
+  RightType,
+  IPersistedItem,
+  IIdentified,
+  IDataSourceParams
+} from '../commonTypes';
 
 // USER
 export interface ISimpleUser extends IPersistedItem {
@@ -118,7 +124,7 @@ export interface IGetGroupParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IGetGroupsParams extends  IDataSourceParams {
+export interface IGetGroupsParams extends IDataSourceParams {
   withAccessRights: boolean;
 }
 
@@ -137,7 +143,7 @@ export interface GroupRights {
   actions: string[];
 }
 
-export interface ISetGroupAccessRightsParams extends IDataSourceParams{
+export interface ISetGroupAccessRightsParams extends IDataSourceParams {
   id: number;
   // TODO PKAR add targetItemType
   accessRights: Array<{type: string; targetType: string; targetName: string}>;
@@ -146,7 +152,7 @@ export interface ISetGroupAccessRightsParams extends IDataSourceParams{
 export interface IDeleteAccessRightsParams extends IDataSourceParams {
   groupId: number;
   targetType: 'nodeCategory' | 'edgeType' | 'alert' | 'action';
-  targetName: string
+  targetName: string;
 }
 
 export interface IUpdateUserParams {

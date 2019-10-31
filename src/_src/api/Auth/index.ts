@@ -5,9 +5,9 @@
  */
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
-import { IFullUser } from '../User/types';
+import {IFullUser} from '../User/types';
 
-import { ILoginParams, ISSOLoginParams, IUpdateMeParams } from './types';
+import {ILoginParams, ISSOLoginParams, IUpdateMeParams} from './types';
 
 const {INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
 
@@ -43,14 +43,13 @@ export class AuthAPI extends Request {
     return response;
   }
 
-  public SSOLogin(params: ISSOLoginParams)  {
+  public SSOLogin(params: ISSOLoginParams) {
     return this.request<boolean>({
       url: '/auth/sso/return',
       method: 'GET',
       params: params
     });
   }
-
 
   /**
    * Check if the user is authenticated.
@@ -76,13 +75,11 @@ export class AuthAPI extends Request {
    * Update the current user connected.
    */
   public async updateMe(params: IUpdateMeParams) {
-    const response = await this
-      .handle(UNAUTHORIZED, FORBIDDEN)
-      .request<IFullUser>({
-        url: '/auth/me',
-        method: 'PATCH',
-        params: params
-      });
+    const response = await this.handle(UNAUTHORIZED, FORBIDDEN).request<IFullUser>({
+      url: '/auth/me',
+      method: 'PATCH',
+      params: params
+    });
 
     if (response.isSuccess()) {
       this.props.clientState.user = response.body;
@@ -90,5 +87,4 @@ export class AuthAPI extends Request {
 
     return response;
   }
-
 }

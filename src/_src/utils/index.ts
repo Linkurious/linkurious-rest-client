@@ -19,7 +19,6 @@ export class Utils {
 
     const CamelCaseRx = /([a-zA-Z0-9])([A-Z])/g;
 
-
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
         let sanitizedKey: string;

@@ -6,8 +6,7 @@
 
 import * as request from 'superagent';
 
-import {IUserDataSource} from './api/DataSource';
-
+import {IUserDataSource, DataSourceAPI} from './api/DataSource';
 import {IClientState, ModuleProps} from './http/types';
 import {LkErrorKey} from './http/response';
 import {ErrorListener} from './errorListener';
@@ -17,7 +16,6 @@ import {GraphNodeAPI} from './api/GraphNode';
 import {GraphEdgeAPI} from './api/GraphEdge';
 import {AlertsAPI} from './api/Alerts';
 import {CustomActionAPI} from './api/CustomAction';
-import {DataSourceAPI} from './api/DataSource';
 import {AuthAPI} from './api/Auth';
 
 export class LinkuriousRestClient extends ErrorListener {

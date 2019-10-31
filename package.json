@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
   "scripts": {
     "build": "tsc",
+    "tsc": "tsc",
     "lint": "eslint --fix --ext .ts .",
     "watch": "tsc -w | tee"
   },

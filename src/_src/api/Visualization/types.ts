@@ -4,10 +4,9 @@
  * - Created on 2019-10-30.
  */
 
-import { VizEdge, VizNode } from '../graphItemTypes';
-import { FolderChildren, IDataSourceParams } from '../commonTypes';
-import { ISimpleUser } from '../User/types';
-
+import {VizEdge, VizNode} from '../graphItemTypes';
+import {FolderChildren, IDataSourceParams} from '../commonTypes';
+import {ISimpleUser} from '../User/types';
 
 export interface IMergeVisualizationsParams {
   from: number;
@@ -30,7 +29,6 @@ export interface IVisualizationGeo {
   longitudeProperty?: string;
   layers?: string[];
 }
-
 
 export interface IAlternativeIdConfig {
   node: string;
@@ -86,13 +84,12 @@ export interface IWidgetContent extends IVisualizationDesign {
   ui?: IWidgetUI;
 }
 
-
 export interface ICreateWidgetParams {
   visualizationId: number;
   content?: IWidgetContent;
 }
 
-export interface IUpdateWidgetParams extends  ICreateWidgetParams {}
+export interface IUpdateWidgetParams extends ICreateWidgetParams {}
 
 export interface ICreateVisualizationFolderParams {
   title: string;
@@ -175,7 +172,7 @@ export interface IDuplicateVisualizationResponse {
 }
 
 export interface IGetWidgetParams {
- id: string;
+  id: string;
 }
 
 export interface IGetWidgetResponse {
@@ -226,9 +223,8 @@ export interface GetVisualizationTreeResponse {
   id: -1;
   title: 'root';
   type: 'folder';
-  children?: FolderChildren<VizInfo, 'visu'>
+  children?: FolderChildren<VizInfo, 'visu'>;
 }
-
 
 export interface IDeleteVisualizationParams {
   id: number;

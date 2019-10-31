@@ -3,11 +3,9 @@
  *
  * - Created on 2019-10-29.
  */
-import { LkEdge, LkNode } from '../graphItemTypes';
-
-import { GenericObject, IDataSourceParams } from '../commonTypes';
-import { SubGraph } from '../Graph/types';
-
+import {LkEdge, LkNode} from '../graphItemTypes';
+import {GenericObject, IDataSourceParams} from '../commonTypes';
+import {SubGraph} from '../Graph/types';
 
 export interface TemplateFieldOptions {
   [k: string]: string | number | boolean | string[] | object | undefined;
@@ -30,9 +28,16 @@ export interface TemplateField<T extends TemplateFieldType = TemplateFieldType> 
   options?: TemplateFieldOptions;
 }
 
-export type TemplateFields = Array<NumberTemplate | StringTemplate
-  | EnumTemplate | NodeTemplate | NodesetTemplate | DateTemplate
-  | DatetimeTemplate | BooleanTemplate>
+export type TemplateFields = Array<
+  | NumberTemplate
+  | StringTemplate
+  | EnumTemplate
+  | NodeTemplate
+  | NodesetTemplate
+  | DateTemplate
+  | DatetimeTemplate
+  | BooleanTemplate
+>;
 
 export type EnumValue = string | number | boolean;
 
@@ -112,7 +117,6 @@ export interface BooleanTemplate extends TemplateField<TemplateFieldType.BOOLEAN
   };
 }
 
-
 export enum GraphQuerySharingMode {
   PRIVATE = 'private',
   SOURCE = 'source',
@@ -130,10 +134,10 @@ export enum GraphQueryType {
 }
 
 export enum GraphInputType {
-  NONE = "none",
-  _1_NODE = "1-node",
-  _2_NODES = "2-nodes",
-  NODESET = "nodeset"
+  NONE = 'none',
+  _1_NODE = '1-node',
+  _2_NODES = '2-nodes',
+  NODESET = 'nodeset'
 }
 
 export enum RIGHT_VALUES {
@@ -164,8 +168,8 @@ export interface IGraphQueryResponse {
   updatedAt: string;
 }
 
-export interface IGetGraphQueriesParams extends  IDataSourceParams {
-  type: GraphQueryType
+export interface IGetGraphQueriesParams extends IDataSourceParams {
+  type: GraphQueryType;
 }
 
 export interface IRunGraphQueryParams extends IDataSourceParams {
@@ -231,7 +235,6 @@ export interface ICreateGraphQueryParams extends IDataSourceParams {
   description: string;
   sharing: GraphQuerySharingMode;
   sharedWithGroups?: number[];
-
 }
 
 export interface IUpdateGraphQueryParams extends Partial<ICreateGraphQueryParams> {

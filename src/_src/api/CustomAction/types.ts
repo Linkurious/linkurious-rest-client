@@ -75,24 +75,24 @@ export enum CustomActionType {
 
 export type CustomActionElement =
   | {
-  value: string;
-  type: 'ca-literal';
-}
+      value: string;
+      type: 'ca-literal';
+    }
   | {
-  value: string;
-  type: 'ca-expression';
-  variable: 'visualization' | 'sourceKey';
-}
+      value: string;
+      type: 'ca-expression';
+      variable: 'visualization' | 'sourceKey';
+    }
   | {
-  value: string;
-  type: 'ca-expression';
-  variable: 'nodeset' | 'edgeset';
-  itemType?: string;
-}
+      value: string;
+      type: 'ca-expression';
+      variable: 'nodeset' | 'edgeset';
+      itemType?: string;
+    }
   | {
-  value: string;
-  type: 'ca-expression';
-  variable: 'node' | 'edge';
-  itemType?: string;
-  property?: string;
-};
+      value: string;
+      type: 'ca-expression';
+      variable: 'node' | 'edge';
+      itemType?: string;
+      property?: string;
+    };

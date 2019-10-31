@@ -6,7 +6,7 @@
 
 // TS2019-DONE
 
-import { GenericObject } from '../commonTypes';
+import {GenericObject} from '../commonTypes';
 import {IFullUser} from '../User/types';
 
 // Login
