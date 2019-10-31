@@ -31,7 +31,7 @@ import {
   IUpdateVisualizationParams,
   IUpdateWidgetParams,
   IVisualizationResponse,
-  IVisualizationShare, IVisualizationShares, IVisualizationTree
+  IVisualizationShare, IVisualizationShares, GetVisualizationTreeResponse
 } from './types';
 
 const {INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
@@ -65,7 +65,7 @@ export class VisualizationApi extends Request {
   /**
    * Get the number of visualizations for the current user in this data-source.
    *
-   * @breakingChange update this api on the server to return number
+   * @breakingChange update the server api to return number
    */
   public count(params: IDataSourceParams) {
     return this
@@ -219,7 +219,7 @@ export class VisualizationApi extends Request {
   public getTree(params: IDataSourceParams) {
     return this
       .handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN)
-      .request<IVisualizationTree[]>({
+      .request<GetVisualizationTreeResponse[]>({
         url: '/:sourceKey/visualizations/tree',
         method: 'GET',
         params: params

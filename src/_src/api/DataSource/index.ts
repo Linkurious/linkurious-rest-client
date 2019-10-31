@@ -54,8 +54,6 @@ export class DataSourceAPI extends Request {
 
   /**
    * Request to reindex the graph database. One may want to do it after editing the index configuration.
-   *
-   * @breakingChange admin startIndexation method signature changed to the new params/response format
    */
   public startIndexation(params: IStartIndexationParams) {
     return this
@@ -72,8 +70,6 @@ export class DataSourceAPI extends Request {
 
   /**
    * Get the status of the Search API and return the indexing progress.
-   *
-   * @breakingChange admin getIndexationStatus method signature changed to the new params/response format
    */
   public getIndexationStatus(params: IGetIndexationStatusParams) {
     return this

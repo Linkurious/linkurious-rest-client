@@ -32,7 +32,7 @@ export type FolderChildren<T, N extends string> = Array<IFolder<T, N> | (T & {ty
 export interface IFolder<T, N extends string> {
   id: number;
   title: string;
-  type: string;
+  type: 'folder';
   children: FolderChildren<T, N>;
 }
 
