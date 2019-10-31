@@ -264,8 +264,7 @@ export class VisualizationAPI extends Request {
     return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<void>({
       url: '/:sourceKey/visualizations/:id',
       method: 'PATCH',
-      params: params,
-      query: {forceLock: params.forceLock}
+      params: params
     });
   }
 }

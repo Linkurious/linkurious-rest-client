@@ -73,12 +73,7 @@ export class GraphAPI extends Request {
     ).request<RunGraphQueryResponse>({
       url: '/:sourceKey/graph/run/query',
       method: 'POST',
-      params: params,
-      query: {
-        withDigest: params.withDigest,
-        withDegree: params.withDegree,
-        withAccess: params.withAccess
-      }
+      params: params
     });
   }
 
@@ -98,12 +93,7 @@ export class GraphAPI extends Request {
     ).request<RunGraphQueryResponse>({
       url: '/:sourceKey/graph/run/query/:id',
       method: 'POST',
-      params: params,
-      query: {
-        withDegree: params.withDegree,
-        withAccess: params.withAccess,
-        withDigest: params.withDigest
-      }
+      params: params
     });
   }
 
@@ -134,11 +124,7 @@ export class GraphAPI extends Request {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request<LkNodeStatistics>({
       url: '/:sourceKey/graph/neighborhood/statistics',
       method: 'POST',
-      params: params,
-      query: {
-        withDigest: params.withDigest,
-        withDegree: params.withDegree
-      }
+      params: params
     });
   }
 
@@ -153,11 +139,7 @@ export class GraphAPI extends Request {
     return this.request<SubGraph>({
       url: '/:sourceKey/graph/nodes/expand',
       method: 'POST',
-      params: params,
-      query: {
-        withDigest: params.withDigest,
-        withDegree: params.withDegree
-      }
+      params: params
     });
   }
 }

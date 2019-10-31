@@ -72,8 +72,7 @@ export class GraphQueryAPI extends Request {
     ).request<GraphQueryResponse[]>({
       url: '/:sourceKey/graph/query',
       method: 'GET',
-      params: params,
-      query: {type: params.type}
+      params: params
     });
   }
 

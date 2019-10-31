@@ -23,6 +23,8 @@ import {LinkuriousAPI} from './api/Linkurious';
 import {UserAPI} from './api/User';
 import {VisualizationAPI} from './api/Visualization';
 
+// TODO make sure that withDegree, withDigest and forceLock are taken from the body
+
 export class RestClient extends ErrorListener {
   private readonly moduleProps: ModuleProps;
 

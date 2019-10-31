@@ -16,8 +16,8 @@ export abstract class Request {
 
   /*
     In `request<S, E extends LkErrorKey>(...)` we want S to be explicit and E to be inferred,
-    to do so in TS is not possible today, so `handle` is a workaround for that issue.
-    There's an issue and PR about it: https://github.com/microsoft/TypeScript/issues/10571
+    to do so in TS is not possible today, so `handle` is a workaround for this issue.
+    There is an issue and a PR about it: https://github.com/microsoft/TypeScript/issues/10571
    */
   protected handle<E extends LkErrorKey>(...errors: E[]) {
     return {
@@ -141,8 +141,7 @@ export abstract class Request {
       errors: config.errors || [],
       url: renderedURL,
       method: config.method,
-      params: configParams,
-      query: config.query || {}
+      params: configParams
     };
   }
 

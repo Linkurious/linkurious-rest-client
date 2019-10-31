@@ -20,14 +20,12 @@ export interface RawFetchConfig {
   url: string;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
   params?: Record<string, unknown>;
-  query?: Record<string, unknown>;
 }
 
 export interface FetchConfig {
   url: string;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
   body: Record<string, unknown>;
-  query: Record<string, unknown>;
 }
 
 export interface ClientState {
