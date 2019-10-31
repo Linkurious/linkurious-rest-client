@@ -177,7 +177,6 @@ export interface IRunGraphQueryParams extends IDataSourceParams {
   limit?: number;
   timeout?: number;
   edgesTo?: Array<string | number>;
-  withAccess?: boolean;
   withDegree?: boolean;
   withDigest?: boolean;
   templateData?: GenericObject;

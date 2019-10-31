@@ -49,5 +49,4 @@ export interface ISearchFullParams extends IAdvancedSearchParams {
   edgesTo?: string[];
   withDigest?: boolean;
   withDegree?: boolean;
-  withAccess?: boolean;
 }
