@@ -4,13 +4,7 @@
  * - Created on 2019-08-19.
  */
 
-import {
-  DataSourceRelative,
-  RightType,
-  PersistedItem,
-  Identified,
-  IDataSourceParams
-} from '../commonTypes';
+import {PersistedItem, Identified, IDataSourceParams} from '../commonTypes';
 
 // USER
 export interface ISimpleUser extends PersistedItem {
@@ -54,7 +48,9 @@ export interface IGroup extends ISimpleGroup {
   sourceKey: string;
 }
 
-export interface IAccessRight extends DataSourceRelative {
+export type RightType = 'read' | 'write' | 'none' | 'do';
+
+export interface IAccessRight {
   type: RightType;
   targetType: string;
   targetName: string;

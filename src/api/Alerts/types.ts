@@ -4,18 +4,13 @@
  * - Created on 2019-10-30.
  */
 
-import {
-  FolderChildren,
-  IDataSourceParams,
-  Identified,
-  PersistedItem,
-  QueryDialect
-} from '../commonTypes';
+import {FolderChildren, IDataSourceParams, Identified, PersistedItem} from '../commonTypes';
+import {GraphQueryDialect} from '../GraphQuery';
 
 export interface ICreateAlertParams extends IDataSourceParams {
   title: string;
   query: string;
-  dialect: QueryDialect;
+  dialect: GraphQueryDialect;
   folder?: number;
   enabled: boolean;
   columns: Array<{
@@ -31,7 +26,7 @@ export interface ICreateAlertParams extends IDataSourceParams {
 interface Alert extends PersistedItem {
   title: string;
   query: string;
-  dialect: QueryDialect;
+  dialect: GraphQueryDialect;
   folder: number;
   enabled: boolean;
   columns: Array<{

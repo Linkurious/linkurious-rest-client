@@ -12,11 +12,6 @@ export interface IDataSourceParams {
   sourceKey?: string;
 }
 
-export interface DataSourceRelative {
-  dataSourceKey?: string; // I believe this is no longer used
-  dataSourceIndex?: number;
-}
-
 export interface PersistedItem {
   id: number;
   createdAt: string;
@@ -35,7 +30,3 @@ export interface Folder<T, N extends string> {
   type: 'folder';
   children: FolderChildren<T, N>;
 }
-
-export type RightType = 'read' | 'write' | 'none' | 'do';
-
-export type QueryDialect = 'cypher' | 'gremlin';
