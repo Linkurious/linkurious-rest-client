@@ -1,9 +1,6 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "stripInternal": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "dist",
@@ -11,16 +8,12 @@
     "inlineSourceMap": true,
     "noImplicitReturns": true,
     "incremental": true,
-    "lib": ["es2015", "dom", "es6"],
+    "lib": ["es5", "dom"],
     "target": "es5",
     "noUnusedLocals": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "allowUnreachableCode": false,
-    "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true
-  },
-  "files": [
-    "index.ts"
-  ]
+    "forceConsistentCasingInFileNames": true
+  }
 }

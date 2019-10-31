@@ -3,9 +3,9 @@
  *
  * - Created on 2019-10-30.
  */
-import { LkEdge, LkNode } from '../graphItemTypes';
-import { IDataSourceParams } from '../commonTypes';
-import { EntityType } from '../GraphSchema/types';
+import {LkEdge, LkNode} from '../graphItemTypes';
+import {IDataSourceParams} from '../commonTypes';
+import {EntityType} from '../GraphSchema/types';
 
 export interface LkDigestItem {
   nodeCategories: string[];
@@ -33,7 +33,7 @@ export interface LkNodeStatistics {
   degree?: number;
 }
 
-export interface IGetAdjacentNodesParams extends  IDataSourceParams {
+export interface IGetAdjacentNodesParams extends IDataSourceParams {
   ids: string[] | number[];
   edgesTo?: string[] | number[];
   nodeCategories?: string[];
@@ -45,8 +45,8 @@ export interface IGetAdjacentNodesParams extends  IDataSourceParams {
 }
 
 export interface SubGraph {
-  nodes: LkNode[]
-  edges: LkEdge[]
+  nodes: LkNode[];
+  edges: LkEdge[];
 }
 
 export interface ISimpleSearchParams extends IDataSourceParams {

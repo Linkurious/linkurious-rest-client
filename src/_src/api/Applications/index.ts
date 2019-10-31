@@ -4,8 +4,8 @@
  * - Created on 2019-10-30.
  */
 
-import { Request } from "../../http/request";
-import { LkErrorKey } from "../../http/response";
+import {Request} from '../../http/request';
+import {LkErrorKey} from '../../http/response';
 
 import {
   CreateApplicationResponse,
@@ -13,7 +13,7 @@ import {
   ICreateApplicationParams,
   IUpdateApplicationParams,
   UpdateApplicationResponse
-} from "./types";
+} from './types';
 
 export * from './types';
 

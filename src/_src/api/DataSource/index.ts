@@ -12,7 +12,6 @@ export * from './types';
 const {} = LkErrorKey;
 
 export class DataSourceAPI extends Request {
-
   // async getUserDataSources(params?: IGetUserDataSourcesParams) {
   //   const response = await this.handle(UNAUTHORIZED).request<GetUserDataSourcesResponse>({
   //     url: '/dataSources',
@@ -41,11 +40,8 @@ export class DataSourceAPI extends Request {
   // }
   //
 
-
   public getDataSourcesStatus(params: IGetDataSourcesStatusParams) {
-    return this.handle().request<
-      GetDataSourcesStatusResponse
-      >({
+    return this.handle().request<GetDataSourcesStatusResponse>({
       url: '/dataSources',
       method: 'GET',
       params: params
@@ -56,110 +52,76 @@ export class DataSourceAPI extends Request {
    * Request to reindex the graph database. One may want to do it after editing the index configuration.
    */
   public startIndexation(params: IStartIndexationParams) {
-    return this
-      .handle(
-        UNAUTHORIZED,
-        FORBIDDEN,
-        NOT_FOUND)
-      .request<void>({
-          url: '/:sourceKey/search/index',
-          method: 'POST'
-        }
-      );
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<void>({
+      url: '/:sourceKey/search/index',
+      method: 'POST'
+    });
   }
 
   /**
    * Get the status of the Search API and return the indexing progress.
    */
   public getIndexationStatus(params: IGetIndexationStatusParams) {
-    return this
-      .handle(
-        UNAUTHORIZED,
-        FORBIDDEN,
-        NOT_FOUND)
-      .request<GetIndexationStatusResponse>({
-          url: '/:sourceKey/search/status',
-          method: 'GET',
-          params: params
-        }
-      );
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<GetIndexationStatusResponse>({
+      url: '/:sourceKey/search/status',
+      method: 'GET',
+      params: params
+    });
   }
 
   public connectDataSource(params: IConnectDataSourceParams) {
-    return this
-      .handle()
-      .request<ConnectDataSourceResponse>({
-          url: '/admin/source/:dataSourceIndex/connect',
-          method: 'POST',
-          params: params
-        }
-      );
+    return this.handle().request<ConnectDataSourceResponse>({
+      url: '/admin/source/:dataSourceIndex/connect',
+      method: 'POST',
+      params: params
+    });
   }
 
-
   public resetSourceStyles(params: IResetSourceStylesParams) {
-    return this
-      .handle()
-      .request<ResetSourceStylesResponse>({
-          url: '/admin/source/:sourceKey/resetDefaults',
-          method: 'POST',
-          params: params
-        }
-      );
+    return this.handle().request<ResetSourceStylesResponse>({
+      url: '/admin/source/:sourceKey/resetDefaults',
+      method: 'POST',
+      params: params
+    });
   }
 
   public setDefaultSourceStyles(params: ISetDefaultSourceStylesParams) {
-    return this
-      .handle()
-      .request<SetDefaultSourceStylesResponse>({
-          url: '/admin/source/:dataSource/setDefaults',
-          method: 'POST',
-          params: params
-        }
-      );
+    return this.handle().request<SetDefaultSourceStylesResponse>({
+      url: '/admin/source/:dataSource/setDefaults',
+      method: 'POST',
+      params: params
+    });
   }
 
   public getAllSourceInfo(params: IGetAllSourceInfoParams) {
-    return this
-      .handle()
-      .request<GetAllSourceInfoResponse>({
-          url: '/admin/sources',
-          method: 'GET',
-          params: params
-        }
-      );
+    return this.handle().request<GetAllSourceInfoResponse>({
+      url: '/admin/sources',
+      method: 'GET',
+      params: params
+    });
   }
 
   public createSourceConfig(params: ICreateSourceConfigParams) {
-    return this
-      .handle()
-      .request<CreateSourceConfigResponse>({
-          url: '/admin/sources/config',
-          method: 'POST',
-          params: params
-        }
-      );
+    return this.handle().request<CreateSourceConfigResponse>({
+      url: '/admin/sources/config',
+      method: 'POST',
+      params: params
+    });
   }
 
   public deleteSourceConfig(params: IDeleteSourceConfigParams) {
-    return this
-      .handle()
-      .request<DeleteSourceConfigResponse>({
-          url: '/admin/sources/config/:configIndex',
-          method: 'POST',
-          params: params
-        }
-      );
+    return this.handle().request<DeleteSourceConfigResponse>({
+      url: '/admin/sources/config/:configIndex',
+      method: 'POST',
+      params: params
+    });
   }
 
   public deleteSourceData(params: IDeleteSourceDataParams) {
-    return this
-      .handle()
-      .request<DeleteSourceDataResponse>({
-          url: '/admin/sources/data/:sourceKey',
-          method: 'POST',
-          params: params
-        }
-      );
+    return this.handle().request<DeleteSourceDataResponse>({
+      url: '/admin/sources/data/:sourceKey',
+      method: 'POST',
+      params: params
+    });
   }
 }
