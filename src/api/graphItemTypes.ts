@@ -101,7 +101,9 @@ export interface VizNodeInfo {
 
 export interface VizEdgeInfo {
   id: string;
-  selected: boolean;
+  attributes: {
+    selected: boolean;
+  };
 }
 
 export type VizNode = LkNode & VizNodeInfo;
