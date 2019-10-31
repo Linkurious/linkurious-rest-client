@@ -149,7 +149,7 @@ export interface IGetGraphQueryParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IGraphQueryResponse {
+export interface GraphQueryResponse {
   id: number;
   sourceKey: string;
   name: string;
@@ -201,7 +201,7 @@ export interface ICheckGraphQueryParams extends IDataSourceParams {
   dialect?: GraphQueryDialect;
 }
 
-export interface ICheckGraphQueryResponse {
+export interface CheckGraphQueryResponse {
   write: boolean;
   type: GraphQueryType;
   graphInput?: GraphInputType;

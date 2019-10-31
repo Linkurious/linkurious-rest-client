@@ -9,13 +9,13 @@ import {Request} from '../../http/request';
 
 import {
   IGetConfigParams,
-  IGetConfigResponse,
+  GetConfigResponse,
   IGetCustomFilesParams,
-  IGetCustomFilesResponse,
+  GetCustomFilesResponse,
   IGetReportParams,
-  IGetStatusResponse,
-  IGetVersionResponse,
-  IRestartLinkuriousResponse,
+  GetStatusResponse,
+  GetVersionResponse,
+  RestartLinkuriousResponse,
   ISendAnalyticsParams,
   IUpdateConfigParams
 } from './types';
@@ -26,7 +26,7 @@ const {INVALID_PARAMETER, FORBIDDEN, UNAUTHORIZED} = LkErrorKey;
 
 export class LinkuriousAPI extends Request {
   async getStatus() {
-    const response = await this.request<IGetStatusResponse>({
+    const response = await this.request<GetStatusResponse>({
       url: '/status',
       method: 'GET'
     });
@@ -42,14 +42,14 @@ export class LinkuriousAPI extends Request {
   }
 
   async getVersion() {
-    return this.request<IGetVersionResponse>({
+    return this.request<GetVersionResponse>({
       url: '/version',
       method: 'GET'
     });
   }
 
   async getConfiguration(params?: IGetConfigParams) {
-    return this.handle(INVALID_PARAMETER).request<IGetConfigResponse>({
+    return this.handle(INVALID_PARAMETER).request<GetConfigResponse>({
       url: '/config',
       method: 'GET',
       params: params
@@ -81,7 +81,7 @@ export class LinkuriousAPI extends Request {
   }
 
   async getCustomFiles(params?: IGetCustomFilesParams) {
-    return this.request<IGetCustomFilesResponse>({
+    return this.request<GetCustomFilesResponse>({
       url: '/customFiles',
       method: 'GET',
       params: params
@@ -89,7 +89,7 @@ export class LinkuriousAPI extends Request {
   }
 
   async restartLinkurious() {
-    const response = await this.handle(UNAUTHORIZED, FORBIDDEN).request<IRestartLinkuriousResponse>(
+    const response = await this.handle(UNAUTHORIZED, FORBIDDEN).request<RestartLinkuriousResponse>(
       {url: '/admin/restart', method: 'POST'}
     );
     if (response.isAnyError()) {

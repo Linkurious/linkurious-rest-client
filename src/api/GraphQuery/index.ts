@@ -9,12 +9,12 @@ import {LkErrorKey} from '../../http/response';
 
 import {
   ICheckGraphQueryParams,
-  ICheckGraphQueryResponse,
+  CheckGraphQueryResponse,
   ICreateGraphQueryParams,
   IDeleteGraphQueryParams,
   IGetGraphQueriesParams,
   IGetGraphQueryParams,
-  IGraphQueryResponse,
+  GraphQueryResponse,
   IUpdateGraphQueryParams
 } from './types';
 
@@ -48,7 +48,7 @@ export class GraphQueryAPI extends Request {
       GRAPH_REQUEST_TIMEOUT,
       DATA_SOURCE_UNAVAILABLE,
       GRAPH_UNREACHABLE
-    ).request<IGraphQueryResponse>({
+    ).request<GraphQueryResponse>({
       url: '/:sourceKey/graph/query/:id',
       method: 'GET',
       params: params
@@ -69,7 +69,7 @@ export class GraphQueryAPI extends Request {
       GRAPH_REQUEST_TIMEOUT,
       DATA_SOURCE_UNAVAILABLE,
       GRAPH_UNREACHABLE
-    ).request<IGraphQueryResponse[]>({
+    ).request<GraphQueryResponse[]>({
       url: '/:sourceKey/graph/query',
       method: 'GET',
       params: params,
@@ -90,7 +90,7 @@ export class GraphQueryAPI extends Request {
       GRAPH_REQUEST_TIMEOUT,
       DATA_SOURCE_UNAVAILABLE,
       GRAPH_UNREACHABLE
-    ).request<IGraphQueryResponse>({
+    ).request<GraphQueryResponse>({
       url: '/:sourceKey/graph/query',
       method: 'POST',
       params: params
@@ -145,7 +145,7 @@ export class GraphQueryAPI extends Request {
       GRAPH_REQUEST_TIMEOUT,
       DATA_SOURCE_UNAVAILABLE,
       GRAPH_UNREACHABLE
-    ).request<ICheckGraphQueryResponse>({
+    ).request<CheckGraphQueryResponse>({
       url: '/:sourceKey/graph/check/query',
       method: 'POST',
       params: params

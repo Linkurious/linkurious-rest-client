@@ -12,24 +12,24 @@ export interface IDataSourceParams {
   sourceKey?: string;
 }
 
-export interface IDataSourceRelative {
+export interface DataSourceRelative {
   dataSourceKey?: string; // I believe this is no longer used
   dataSourceIndex?: number;
 }
 
-export interface IPersistedItem {
+export interface PersistedItem {
   id: number;
   createdAt: string;
   updatedAt: string;
 }
 
-export interface IIdentified {
+export interface Identified {
   id: number;
 }
 
-export type FolderChildren<T, N extends string> = Array<IFolder<T, N> | (T & {type: N})>;
+export type FolderChildren<T, N extends string> = Array<Folder<T, N> | (T & {type: N})>;
 
-export interface IFolder<T, N extends string> {
+export interface Folder<T, N extends string> {
   id: number;
   title: string;
   type: 'folder';

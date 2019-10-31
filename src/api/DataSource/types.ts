@@ -203,7 +203,7 @@ export interface IDeleteDataSourceParams extends IDataSourceParams {
   mergeInto?: string;
 }
 
-export interface IDeleteDataSourceResponse {
+export interface DeleteDataSourceResponse {
   migrated: boolean;
   affected: {
     visualizations: number;
@@ -221,7 +221,7 @@ export enum IndexationStatus {
   NEEDED = 'needed'
 }
 
-export interface IGetIndexationStatusResponse {
+export interface GetIndexationStatusResponse {
   indexing: IndexationStatus;
   indexing_progress?: string;
   indexing_status: string;

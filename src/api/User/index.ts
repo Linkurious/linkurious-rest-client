@@ -12,7 +12,7 @@ import {
   GroupName,
   ICreateGroupParams,
   ICreateUserParams,
-  ICreateUserResponse,
+  CreateUserResponse,
   IDeleteAccessRightsParams,
   IDeleteGroupParams,
   IDeleteUserParams,
@@ -24,7 +24,7 @@ import {
   SystemGroup,
   IUpdateGroupParams,
   IUpdateUserParams,
-  IUpdateUserResponse,
+  UpdateUserResponse,
   IFullUser,
   IGetUserParams,
   ISearchUsersParams
@@ -61,7 +61,7 @@ export class UserAPI extends Request {
    * Add a new user to the application.
    */
   public createUser(params: ICreateUserParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<ICreateUserResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request<CreateUserResponse>({
       url: '/admin/users',
       method: 'POST',
       params: params
@@ -72,7 +72,7 @@ export class UserAPI extends Request {
    * Patches a user in the application.
    */
   public updateUser(params: IUpdateUserParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<IUpdateUserResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<UpdateUserResponse>({
       url: '/admin/users/:id',
       method: 'PATCH',
       params: params

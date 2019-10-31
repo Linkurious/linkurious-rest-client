@@ -55,7 +55,7 @@ export interface IWidgetUI {
   geo?: boolean;
 }
 
-export interface IVisualizationResponse {
+export interface VisualizationResponse {
   id: number;
   design: IVisualizationDesign;
   nodeFields: IItemFields;
@@ -96,7 +96,7 @@ export interface ICreateVisualizationFolderParams {
   parent: number;
 }
 
-export interface ICreateVisualizationFolderResponse {
+export interface CreateVisualizationFolderResponse {
   id: number;
   title: string;
   parent: number;
@@ -167,7 +167,7 @@ export interface IDuplicateVisualizationParams {
   folder?: number;
 }
 
-export interface IDuplicateVisualizationResponse {
+export interface DuplicateVisualizationResponse {
   visualizationId: number;
 }
 
@@ -175,7 +175,7 @@ export interface IGetWidgetParams {
   id: string;
 }
 
-export interface IGetWidgetResponse {
+export interface GetWidgetResponse {
   title: string;
   key: string;
   userId: number;

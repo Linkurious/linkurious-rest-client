@@ -10,19 +10,19 @@ import {IDataSourceParams} from '../commonTypes';
 
 import {
   ICreateVisualizationFolderParams,
-  ICreateVisualizationFolderResponse,
+  CreateVisualizationFolderResponse,
   ICreateVisualizationParams,
   ICreateWidgetParams,
   IDeleteFolderParams,
   IDeleteVisualizationParams,
   IDeleteWidgetParams,
   IDuplicateVisualizationParams,
-  IDuplicateVisualizationResponse,
+  DuplicateVisualizationResponse,
   IGetVisualizationByIdParams,
   IGetVisualizationSandboxParams,
   IGetVisualizationSharesPrams,
   IGetWidgetParams,
-  IGetWidgetResponse,
+  GetWidgetResponse,
   ISharedVisualization,
   IShareVisualizationParams,
   IUnshareVisualizationParams,
@@ -30,7 +30,7 @@ import {
   IUpdateVisualizationFolderParams,
   IUpdateVisualizationParams,
   IUpdateWidgetParams,
-  IVisualizationResponse,
+  VisualizationResponse,
   IVisualizationShare,
   IVisualizationShares,
   GetVisualizationTreeResponse
@@ -101,7 +101,7 @@ export class VisualizationAPI extends Request {
    * @breakingChange update the server api to return the folder directly
    */
   public createFolder(params: ICreateVisualizationFolderParams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED).request<ICreateVisualizationFolderResponse>(
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED).request<CreateVisualizationFolderResponse>(
       {
         url: '/:sourceKey/visualizations/folder',
         method: 'POST',
@@ -114,7 +114,7 @@ export class VisualizationAPI extends Request {
    * Create a new visualization.
    */
   public create(params: ICreateVisualizationParams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED).request<IVisualizationResponse>({
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED).request<VisualizationResponse>({
       url: '/:sourceKey/visualizations',
       method: 'POST',
       params: params
@@ -148,7 +148,7 @@ export class VisualizationAPI extends Request {
    */
   public duplicate(params: IDuplicateVisualizationParams) {
     return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<
-      IDuplicateVisualizationResponse
+      DuplicateVisualizationResponse
     >({
       url: '/:sourceKey/visualizations/:id/duplicate',
       method: 'POST',
@@ -160,7 +160,7 @@ export class VisualizationAPI extends Request {
    * Get a visualization widget's data by key.
    */
   public getWidget(params: IGetWidgetParams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<IGetWidgetResponse>({
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<GetWidgetResponse>({
       url: '/widget/:id',
       method: 'GET',
       params: params
@@ -171,7 +171,7 @@ export class VisualizationAPI extends Request {
    * Return the visualization sandbox of the current user for a given data-source.
    */
   public getSandbox(params: IGetVisualizationSandboxParams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED).request<IVisualizationResponse>({
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED).request<VisualizationResponse>({
       url: '/:sourceKey/sandbox',
       method: 'GET',
       params: params
@@ -182,7 +182,7 @@ export class VisualizationAPI extends Request {
    * Return one visualizations selected by ID.
    */
   public getOne(params: IGetVisualizationByIdParams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<IVisualizationResponse>({
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<VisualizationResponse>({
       url: '/:sourceKey/visualizations/:id',
       method: 'GET',
       params: params

@@ -4,10 +4,10 @@
  * - Created on 2019-10-30.
  */
 
-import {IIdentified, IPersistedItem} from '../commonTypes';
+import {Identified, PersistedItem} from '../commonTypes';
 
 // TODO add type to rights (today enum is in the lke-server)
-interface Application extends IPersistedItem {
+interface Application extends PersistedItem {
   name: string;
   apiKey: string;
   enabled: boolean;
@@ -26,6 +26,6 @@ export interface ICreateApplicationParams {
 
 export interface CreateApplicationResponse extends Application {}
 
-export interface IUpdateApplicationParams extends IIdentified, Partial<ICreateApplicationParams> {}
+export interface IUpdateApplicationParams extends Identified, Partial<ICreateApplicationParams> {}
 
 export interface UpdateApplicationResponse extends Application {}

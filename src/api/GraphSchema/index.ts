@@ -9,19 +9,19 @@ import {LkErrorKey} from '../../http/response';
 
 import {
   ICreatePropertyParams,
-  ICreatePropertyResponse,
+  CreatePropertyResponse,
   ICreateTypeParams,
-  ICreateTypeResponse,
+  CreateTypeResponse,
   IGetNonIndexedPropertiesParams,
   IGetNonIndexedPropertiesResponse,
   IGetSamplingStatusParams,
-  IGetSamplingStatusResponse,
+  GetSamplingStatusResponse,
   IGetSimpleSchemaParams,
-  IGetSimpleSchemaResponse,
+  GetSimpleSchemaResponse,
   IGetTypesParams,
-  IGetTypesResponse,
+  GetTypesResponse,
   IGetTypesWithAccessParams,
-  IGetTypesWithAccessResponse,
+  GetTypesWithAccessResponse,
   ISetNonIndexedPropertiesParams,
   IStartSchemaSamplingParams,
   IStopSchemaSamplingParams,
@@ -44,7 +44,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async getSamplingStatus(params?: IGetSamplingStatusParams) {
-    return this.request<IGetSamplingStatusResponse>({
+    return this.request<GetSamplingStatusResponse>({
       url: '/:sourceKey/schema/sampling/status',
       method: 'GET',
       params: params
@@ -60,7 +60,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async createType(params: ICreateTypeParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<ICreateTypeResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request<CreateTypeResponse>({
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'POST',
       params: params
@@ -76,7 +76,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async createProperty(params: ICreatePropertyParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<ICreatePropertyResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<CreatePropertyResponse>({
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
       method: 'POST',
       params: params
@@ -100,7 +100,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async getTypes(params: IGetTypesParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<IGetTypesResponse>(
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<GetTypesResponse>(
       {
         url: '/admin/:sourceKey/graph/schema/:entityType/types',
         method: 'GET',
@@ -111,7 +111,7 @@ export class GraphSchemaAPI extends Request {
 
   public async getTypesWithAccess(params: IGetTypesWithAccessParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<
-      IGetTypesWithAccessResponse
+      GetTypesWithAccessResponse
     >({
       url: '/:sourceKey/graph/schema/:entityType/types',
       method: 'GET',
@@ -121,7 +121,7 @@ export class GraphSchemaAPI extends Request {
 
   public async getSimpleSchema(params?: IGetSimpleSchemaParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<
-      IGetSimpleSchemaResponse
+      GetSimpleSchemaResponse
     >({
       url: '/:sourceKey/graph/schema/simple',
       method: 'GET',

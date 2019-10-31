@@ -7,8 +7,8 @@
 import {
   FolderChildren,
   IDataSourceParams,
-  IIdentified,
-  IPersistedItem,
+  Identified,
+  PersistedItem,
   QueryDialect
 } from '../commonTypes';
 
@@ -28,7 +28,7 @@ export interface ICreateAlertParams extends IDataSourceParams {
   maxMatches?: number;
 }
 
-interface Alert extends IPersistedItem {
+interface Alert extends PersistedItem {
   title: string;
   query: string;
   dialect: QueryDialect;
@@ -55,31 +55,31 @@ export interface CreateAlertResponse extends Alert {}
 
 export interface IUpdateAlertParams
   extends IDataSourceParams,
-    IIdentified,
+    Identified,
     Partial<ICreateAlertParams> {}
 
 export interface UpdateAlertResponse extends Alert {}
 
-export interface IDeleteAlertParams extends IDataSourceParams, IIdentified {}
+export interface IDeleteAlertParams extends IDataSourceParams, Identified {}
 
 export interface ICreateAlertFolderParams extends IDataSourceParams {
   title: string;
 }
 
-interface AlertFolder extends IPersistedItem {
+interface AlertFolder extends PersistedItem {
   title: string;
   parent: number;
 }
 
 export interface CreateAlertFolderResponse extends AlertFolder {}
 
-export interface IUpdateAlertFolderParams extends IDataSourceParams, IIdentified {
+export interface IUpdateAlertFolderParams extends IDataSourceParams, Identified {
   title: string;
 }
 
 export interface UpdateAlertFolderResponse extends AlertFolder {}
 
-export interface IDeleteAlertFolderParams extends IDataSourceParams, IIdentified {}
+export interface IDeleteAlertFolderParams extends IDataSourceParams, Identified {}
 
 export interface IGetAlertTreeParams extends IDataSourceParams {}
 
@@ -90,7 +90,7 @@ export interface GetAlertTreeResponse {
   children: FolderChildren<Alert, 'alert'>;
 }
 
-export interface IGetAlertParams extends IDataSourceParams, IIdentified {}
+export interface IGetAlertParams extends IDataSourceParams, Identified {}
 
 export interface GetAlertResponse extends Alert {}
 
@@ -101,7 +101,7 @@ export interface IGetMatchParams extends IDataSourceParams {
 
 type MatchStatus = 'unconfirmed' | 'confirmed' | 'dismissed';
 
-export interface Match extends IPersistedItem {
+export interface Match extends PersistedItem {
   alertId: number;
   hash: string;
   status: MatchStatus;
@@ -143,7 +143,7 @@ export interface IGetMatchActionsParams extends IDataSourceParams {
 
 type MatchActionType = 'confirm' | 'dismiss' | 'unconfirm' | 'open';
 
-export interface MatchAction extends IPersistedItem {
+export interface MatchAction extends PersistedItem {
   matchId: number;
   user: {
     id: number;

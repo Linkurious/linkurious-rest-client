@@ -4,15 +4,15 @@
  * - Created on 2019-10-21.
  */
 
-export interface INativeTemporalValue {
+export interface NativeTemporalValue {
   value: number;
 }
 
-export interface INativeDate extends INativeTemporalValue {}
+export interface NativeDate extends NativeTemporalValue {}
 
-export interface INativeDateTime extends INativeTemporalValue {}
+export interface NativeDateTime extends NativeTemporalValue {}
 
-export type LkProperty = string | number | boolean | INativeDate | INativeDateTime;
+export type LkProperty = string | number | boolean | NativeDate | NativeDateTime;
 
 export interface LkProperties {
   [key: string]: LkProperty;

@@ -9,19 +9,19 @@ import {TlsOptions} from 'tls';
 import {GenericObject} from '../commonTypes';
 
 // GetStatus
-export interface IGetStatusResponse {
+export interface GetStatusResponse {
   status: LKEStatus;
 }
 
 // GetVersion
-export interface IGetVersionResponse extends LKEVersion {}
+export interface GetVersionResponse extends LKEVersion {}
 
 // GetConfig
 export interface IGetConfigParams {
   sourceIndex: number;
 }
 
-export interface IGetConfigResponse {
+export interface GetConfigResponse {
   // available to not authenticated user
   ogma: OgmaConfiguration;
   domain: string;
@@ -78,7 +78,7 @@ export interface IGetCustomFilesParams {
   extensions?: string;
 }
 
-export interface IGetCustomFilesResponse {
+export interface GetCustomFilesResponse {
   results: Array<{
     path: string;
     name: string;
@@ -86,7 +86,7 @@ export interface IGetCustomFilesResponse {
 }
 
 // RestartLinkurious
-export interface IRestartLinkuriousResponse {
+export interface RestartLinkuriousResponse {
   url: string;
 }
 

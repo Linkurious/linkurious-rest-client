@@ -12,6 +12,7 @@ export * from './types';
 const {} = LkErrorKey;
 
 export class DataSourceAPI extends Request {
+  // TODO refresh data-source status on API (deleteFullDataSource, deleteDataSourceConfig)
   // async getUserDataSources(params?: IGetUserDataSourcesParams) {
   //   const response = await this.handle(UNAUTHORIZED).request<GetUserDataSourcesResponse>({
   //     url: '/dataSources',

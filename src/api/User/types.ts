@@ -5,15 +5,15 @@
  */
 
 import {
-  IDataSourceRelative,
+  DataSourceRelative,
   RightType,
-  IPersistedItem,
-  IIdentified,
+  PersistedItem,
+  Identified,
   IDataSourceParams
 } from '../commonTypes';
 
 // USER
-export interface ISimpleUser extends IPersistedItem {
+export interface ISimpleUser extends PersistedItem {
   username: string;
   email: string;
 }
@@ -38,7 +38,7 @@ export interface IGetUserParams extends IDataSourceParams {
 }
 
 // GROUP
-export interface IBaseGroup extends IIdentified {
+export interface IBaseGroup extends Identified {
   name: string;
 }
 
@@ -54,7 +54,7 @@ export interface IGroup extends ISimpleGroup {
   sourceKey: string;
 }
 
-export interface IAccessRight extends IDataSourceRelative {
+export interface IAccessRight extends DataSourceRelative {
   type: RightType;
   targetType: string;
   targetName: string;
@@ -86,7 +86,7 @@ export interface SystemGroup extends UserGroup {
   sourceKey: string;
 }
 
-export interface ICreateUserResponse {
+export interface CreateUserResponse {
   id: number;
   username: string;
   email: string;
@@ -164,7 +164,7 @@ export interface IUpdateUserParams {
   removedGroups?: number[];
 }
 
-export interface IUpdateUserResponse {
+export interface UpdateUserResponse {
   id: number;
   createdAt: string;
   updatedAt: string;

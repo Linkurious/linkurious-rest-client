@@ -4,7 +4,7 @@
  * - Created on 2019-08-19.
  */
 
-import {IDataSourceParams, IPersistedItem} from '../commonTypes';
+import {IDataSourceParams, PersistedItem} from '../commonTypes';
 
 // Create
 export interface ICreateCustomActionParams extends IDataSourceParams {
@@ -13,7 +13,7 @@ export interface ICreateCustomActionParams extends IDataSourceParams {
   description: string;
   sharing: CustomActionSharing;
 }
-export interface ICreateCustomActionResponse extends ICustomAction {}
+export interface CreateCustomActionResponse extends CustomAction {}
 
 // Delete
 export interface IDeleteCustomActionParams extends IDataSourceParams {
@@ -29,15 +29,15 @@ export interface IUpdateCustomActionParams extends IDataSourceParams {
   sharing?: CustomActionSharing;
 }
 
-export interface IUpdateCustomActionResponse extends ICustomAction {}
+export interface UpdateCustomActionResponse extends CustomAction {}
 
 // Get
 export interface IGetCustomActionsParams extends IDataSourceParams {}
 
-export type GetCustomActionsResponse = ICustomAction[];
+export type GetCustomActionsResponse = CustomAction[];
 
 // Types
-export interface ICustomAction extends IPersistedItem {
+export interface CustomAction extends PersistedItem {
   sourceKey: string;
   name: string;
   urlTemplate: string;

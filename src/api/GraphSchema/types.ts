@@ -18,7 +18,7 @@ export enum SamplingStatus {
   ERROR = 'error'
 }
 
-export interface IGetSamplingStatusResponse {
+export interface GetSamplingStatusResponse {
   status: SamplingStatus;
   progress?: string;
   message?: string;
@@ -136,7 +136,7 @@ export interface ICreateTypeParams extends IDataSourceParams {
   visibility?: DataVisibility; // default is searchable
 }
 
-export interface ICreateTypeResponse extends IGraphSchemaType {}
+export interface CreateTypeResponse extends IGraphSchemaType {}
 
 export interface IUpdateTypeParams extends ICreateTypeParams {}
 
@@ -149,7 +149,7 @@ export interface ICreatePropertyParams extends IDataSourceParams {
   visibility?: DataVisibility;
 }
 
-export interface ICreatePropertyResponse {}
+export interface CreatePropertyResponse {}
 
 export interface IUpdatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
@@ -168,13 +168,13 @@ export interface IGetTypesParams extends IDataSourceParams {
   entityType: EntityType;
 }
 
-export interface IGetTypesResponse extends IGraphSchema {}
+export interface GetTypesResponse extends IGraphSchema {}
 
 export interface IGetTypesWithAccessParams extends IDataSourceParams {
   entityType: EntityType;
 }
 
-export interface IGetTypesWithAccessResponse extends IGraphSchemaWithAccess {}
+export interface GetTypesWithAccessResponse extends IGraphSchemaWithAccess {}
 
 export interface IGetSimpleSchemaParams extends IDataSourceParams {}
 
@@ -185,7 +185,7 @@ export interface ISimpleSchema {
   edgeProperties: string[];
 }
 
-export interface IGetSimpleSchemaResponse extends ISimpleSchema {}
+export interface GetSimpleSchemaResponse extends ISimpleSchema {}
 
 export interface IGetNonIndexedPropertiesParams extends IDataSourceParams {}
 

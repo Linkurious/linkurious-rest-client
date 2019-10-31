@@ -9,10 +9,10 @@ import {LkErrorKey} from '../../http/response';
 
 import {
   ICreateCustomActionParams,
-  ICreateCustomActionResponse,
+  CreateCustomActionResponse,
   IDeleteCustomActionParams,
   IUpdateCustomActionParams,
-  IUpdateCustomActionResponse,
+  UpdateCustomActionResponse,
   IGetCustomActionsParams,
   GetCustomActionsResponse
 } from './types';
@@ -34,7 +34,7 @@ export class CustomActionAPI extends Request {
 
   public async createCustomAction(params: ICreateCustomActionParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, INVALID_PARAMETER).request<
-      ICreateCustomActionResponse
+      CreateCustomActionResponse
     >({
       url: '/:sourceKey/customAction',
       method: 'POST',
@@ -49,7 +49,7 @@ export class CustomActionAPI extends Request {
       DATA_SOURCE_UNAVAILABLE,
       NOT_FOUND,
       INVALID_PARAMETER
-    ).request<IUpdateCustomActionResponse>({
+    ).request<UpdateCustomActionResponse>({
       url: '/:sourceKey/customAction/:id',
       method: 'PATCH',
       params: params

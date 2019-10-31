@@ -6,7 +6,7 @@
 
 import * as request from 'superagent';
 
-import {IClientState, LkErrorKeyToInterface, ModuleProps} from './http/types';
+import {ClientState, LkErrorKeyToInterface, ModuleProps} from './http/types';
 import {LkErrorKey} from './http/response';
 import {ErrorListener} from './errorListener';
 import {AlertsAPI} from './api/Alerts';
@@ -70,11 +70,10 @@ export class RestClient extends ErrorListener {
     this.visualization = new VisualizationAPI(this.moduleProps);
   }
 
-  public get clientState(): IClientState {
+  public get clientState(): ClientState {
     return this.moduleProps.clientState;
   }
 
-  // TODO refresh data-source status on API (deleteFullDataSource, deleteDataSourceConfig)
   /**
    * Login a user and populate the client state with the list of the data-sources.
    */
