@@ -63,53 +63,53 @@ export enum LkDateTimeFormat {
   TIMESTAMP_MS = 'timestamp-ms'
 }
 
-export interface IEnumOptions {
+export interface EnumOptions {
   values: string[];
 }
 
-export interface IDateOptions {
+export interface DateOptions {
   format: LkDateFormat;
 }
 
-export interface IDatetimeOptions {
+export interface DatetimeOptions {
   format: LkDateTimeFormat;
   timezone?: boolean;
 }
 
-export interface ISimpleType {
+export interface SimpleType {
   name: LkPropertyType.AUTO | LkPropertyType.NUMBER | LkPropertyType.BOOLEAN;
 }
 
-export interface IStringType {
+export interface StringType {
   name: LkPropertyType.STRING;
-  options?: IEnumOptions;
+  options?: EnumOptions;
 }
 
-export interface IDateType {
+export interface DateType {
   name: LkPropertyType.DATE;
-  options: IDateOptions;
+  options: DateOptions;
 }
 
-export interface IDateTimeType {
+export interface DateTimeType {
   name: LkPropertyType.DATETIME;
-  options: IDatetimeOptions;
+  options: DatetimeOptions;
 }
 
-export interface IGraphSchemaProperty {
+export interface GraphSchemaProperty {
   propertyKey: string;
   required: boolean;
   visibility: DataVisibility;
-  propertyType: ISimpleType | IStringType | IDateType | IDateTimeType;
+  propertyType: SimpleType | StringType | DateType | DateTimeType;
 }
 
-export interface IGraphSchemaType {
+export interface GraphSchemaType {
   label: string;
-  properties: IGraphSchemaProperty[];
+  properties: GraphSchemaProperty[];
   visibility: DataVisibility;
 }
 
-export interface IGraphSchema {
-  results: IGraphSchemaType[];
+export interface GraphSchema {
+  results: GraphSchemaType[];
 }
 
 export enum AccessLevel {
@@ -119,14 +119,14 @@ export enum AccessLevel {
   NONE = 'none'
 }
 
-export interface IGraphSchemaWithAccess extends IGraphSchema {
+export interface GraphSchemaWithAccess extends GraphSchema {
   any: {
     access: AccessLevel;
   };
-  results: IGraphSchemaTypeWithAccess[];
+  results: GraphSchemaTypeWithAccess[];
 }
 
-export interface IGraphSchemaTypeWithAccess extends IGraphSchemaType {
+export interface GraphSchemaTypeWithAccess extends GraphSchemaType {
   access: AccessLevel;
 }
 
@@ -136,7 +136,7 @@ export interface ICreateTypeParams extends IDataSourceParams {
   visibility?: DataVisibility; // default is searchable
 }
 
-export interface CreateTypeResponse extends IGraphSchemaType {}
+export interface CreateTypeResponse extends GraphSchemaType {}
 
 export interface IUpdateTypeParams extends ICreateTypeParams {}
 
@@ -144,7 +144,7 @@ export interface ICreatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
   label: string;
   propertyKey: string;
-  propertyType: ISimpleType | IStringType | IDateType | IDateTimeType;
+  propertyType: SimpleType | StringType | DateType | DateTimeType;
   required?: boolean;
   visibility?: DataVisibility;
 }
@@ -155,7 +155,7 @@ export interface IUpdatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
   label: string;
   propertyKey: string;
-  propertyType?: ISimpleType | IStringType | IDateType | IDateTimeType;
+  propertyType?: SimpleType | StringType | DateType | DateTimeType;
   required?: boolean;
   visibility?: DataVisibility;
 }
@@ -168,24 +168,24 @@ export interface IGetTypesParams extends IDataSourceParams {
   entityType: EntityType;
 }
 
-export interface GetTypesResponse extends IGraphSchema {}
+export interface GetTypesResponse extends GraphSchema {}
 
 export interface IGetTypesWithAccessParams extends IDataSourceParams {
   entityType: EntityType;
 }
 
-export interface GetTypesWithAccessResponse extends IGraphSchemaWithAccess {}
+export interface GetTypesWithAccessResponse extends GraphSchemaWithAccess {}
 
 export interface IGetSimpleSchemaParams extends IDataSourceParams {}
 
-export interface ISimpleSchema {
+export interface SimpleSchema {
   nodeCategories: string[];
   edgeTypes: string[];
   nodeProperties: string[];
   edgeProperties: string[];
 }
 
-export interface GetSimpleSchemaResponse extends ISimpleSchema {}
+export interface GetSimpleSchemaResponse extends SimpleSchema {}
 
 export interface IGetNonIndexedPropertiesParams extends IDataSourceParams {}
 

@@ -38,7 +38,7 @@ export interface IConnectedDataSourceSettings extends IDataSourceSettings {
   longitudeProperty?: string;
 }
 
-export interface ICaption {
+export interface Caption {
   active: boolean;
   displayName: boolean;
   properties: string[];
@@ -47,8 +47,8 @@ export interface ICaption {
 }
 
 export interface ICaptionsConfig {
-  nodes: GenericObject<ICaption>;
-  edges: GenericObject<ICaption>;
+  nodes: GenericObject<Caption>;
+  edges: GenericObject<Caption>;
 }
 
 export interface IUserDataSource {
