@@ -31,7 +31,7 @@ const {
   GRAPH_UNREACHABLE
 } = LkErrorKey;
 
-export class GraphQueryApi extends Request {
+export class GraphQueryAPI extends Request {
   /**
    * Returns a saved GraphModule Query owned by the current user.
    */

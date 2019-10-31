@@ -32,7 +32,7 @@ import {
 
 const {UNAUTHORIZED, FORBIDDEN, NOT_FOUND, DATA_SOURCE_UNAVAILABLE, GROUP_EXISTS} = LkErrorKey;
 
-export class UserApi extends Request {
+export class UserAPI extends Request {
   /**
    * Get a user by id.
    */

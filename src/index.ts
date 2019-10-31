@@ -6,32 +6,43 @@
 
 import * as request from 'superagent';
 
-import {IUserDataSource, DataSourceAPI} from './api/DataSource';
 import {IClientState, ModuleProps} from './http/types';
 import {LkErrorKey} from './http/response';
 import {ErrorListener} from './errorListener';
-import {LinkuriousAPI} from './api/Linkurious';
-import {GraphSchemaAPI} from './api/GraphSchema';
-import {GraphNodeAPI} from './api/GraphNode';
-import {GraphEdgeAPI} from './api/GraphEdge';
 import {AlertsAPI} from './api/Alerts';
-import {CustomActionAPI} from './api/CustomAction';
+import {ApplicationsAPI} from './api/Applications';
 import {AuthAPI} from './api/Auth';
+import {CustomActionAPI} from './api/CustomAction';
+import {DataSourceAPI} from './api/DataSource';
+import {GraphAPI} from './api/Graph';
+import {GraphEdgeAPI} from './api/GraphEdge';
+import {GraphNodeAPI} from './api/GraphNode';
+import {GraphQueryAPI} from './api/GraphQuery';
+import {GraphSchemaAPI} from './api/GraphSchema';
+import {LinkuriousAPI} from './api/Linkurious';
+import {UserAPI} from './api/User';
+import {VisualizationAPI} from './api/Visualization';
 
 export class RestClient extends ErrorListener {
   private readonly moduleProps: ModuleProps;
 
-  linkurious: LinkuriousAPI;
-  graphSchema: GraphSchemaAPI;
-  graphNode: GraphNodeAPI;
-  graphEdge: GraphEdgeAPI;
-  alerts: AlertsAPI;
-  customAction: CustomActionAPI;
-  auth: AuthAPI;
-  dataSource: DataSourceAPI;
+  public alerts: AlertsAPI;
+  public applications: ApplicationsAPI;
+  public auth: AuthAPI;
+  public customAction: CustomActionAPI;
+  public dataSource: DataSourceAPI;
+  public graph: GraphAPI;
+  public graphEdge: GraphEdgeAPI;
+  public graphNode: GraphNodeAPI;
+  public graphQuery: GraphQueryAPI;
+  public graphSchema: GraphSchemaAPI;
+  public linkurious: LinkuriousAPI;
+  public user: UserAPI;
+  public visualization: VisualizationAPI;
 
   constructor(props?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();
+
     this.moduleProps = {
       baseUrl: props
         ? props.baseUrl && props.baseUrl.endsWith('/')

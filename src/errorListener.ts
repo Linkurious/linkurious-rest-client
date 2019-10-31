@@ -12,7 +12,8 @@ type SimpleListeners = Record<LkErrorKey, SimpleCallback>;
 export class ErrorListener {
   private readonly listeners: SimpleListeners = {} as SimpleListeners;
 
-  dispatchError(key: LkErrorKey, payload: unknown): void {
+  // TODO add a type to dispatched payload
+  protected dispatchError(key: LkErrorKey, payload: unknown): void {
     if (
       Object.prototype.hasOwnProperty.call(this.listeners, key) &&
       typeof this.listeners[key] === 'function'
@@ -21,16 +22,15 @@ export class ErrorListener {
     }
   }
 
-  // You cannot set more than one error listener key
-  setErrorListener(key: LkErrorKey, callback: SimpleCallback): void {
+  public setErrorListener(key: LkErrorKey, callback: SimpleCallback): void {
     this.listeners[key] = callback;
   }
 
-  removeErrorListener(key: LkErrorKey): void {
+  public removeErrorListener(key: LkErrorKey): void {
     delete this.listeners[key];
   }
 
-  getErrorKeysListened(): LkErrorKey[] {
+  public getErrorKeysListened(): LkErrorKey[] {
     return Object.keys(this.listeners) as LkErrorKey[];
   }
 }

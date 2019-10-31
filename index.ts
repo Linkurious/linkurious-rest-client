@@ -21,5 +21,4 @@ export * from './src/api/commonTypes';
 export * from './src/api/graphItemTypes';
 export * from './src/http/response';
 export * from './src/http/types';
-export * from './src/errorListener';
 export * from './src/index';

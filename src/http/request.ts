@@ -37,7 +37,6 @@ export abstract class Request {
     // 3) Make HTTP request
     let response: SuperAgentResponse;
     try {
-      // @ts-ignore
       response = await this.props.agent[fetchConfig.method.toLowerCase()](fetchConfig.url)
         .withCredentials()
         .send(fetchConfig.body)

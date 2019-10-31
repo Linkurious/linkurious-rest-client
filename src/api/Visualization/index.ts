@@ -39,7 +39,7 @@ import {
 
 const {INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
-export class VisualizationApi extends Request {
+export class VisualizationAPI extends Request {
   public async updateVisualizationFolder(params: IUpdateVisualizationFolderParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND, INVALID_PARAMETER).request<void>({
       url: '/:sourceKey/visualizations/folder/:id',

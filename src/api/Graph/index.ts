@@ -35,7 +35,7 @@ const {
   GUEST_DISABLED
 } = LkErrorKey;
 
-export class GraphApi extends Request {
+export class GraphAPI extends Request {
   /**
    * Search for nodes based on a query string and optional parameters. Return a list of full Nodes.
    */
