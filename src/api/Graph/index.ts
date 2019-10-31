@@ -1,9 +1,9 @@
 /**
- * LINKURIOUS CONFIDENTIAL
  * Copyright Linkurious SAS 2012 - 2019
  *
  * - Created on 2019-10-30.
  */
+
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 import {
@@ -23,6 +23,7 @@ import {
   ISearchFullParams,
   GraphSearchResponse
 } from './types';
+
 const {
   UNAUTHORIZED,
   DATA_SOURCE_UNAVAILABLE,

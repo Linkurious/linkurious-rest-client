@@ -4,8 +4,6 @@
  * - Created on 2019-08-19.
  */
 
-// TS2019-DONE
-
 import {IDataSourceParams, IPersistedItem} from '../commonTypes';
 
 // Create

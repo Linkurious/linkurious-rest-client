@@ -4,7 +4,6 @@
  * - Created on 2019-10-21.
  */
 
-// Graph Item
 export interface INativeTemporalValue {
   value: number;
 }

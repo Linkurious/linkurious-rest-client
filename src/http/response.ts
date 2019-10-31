@@ -3,6 +3,7 @@
  *
  * - Created on 2019-10-01.
  */
+
 import {LkError} from './types';
 
 export enum LkErrorKey {

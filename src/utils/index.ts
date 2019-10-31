@@ -3,6 +3,7 @@
  *
  * - Created on 2019-10-30.
  */
+
 export class Utils {
   /**
    * take an object with camelCase fields and return one with only snake_case fields.

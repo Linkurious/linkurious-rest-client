@@ -3,6 +3,7 @@
  *
  * - Created on 2019-09-26.
  */
+
 import {Response as SuperAgentResponse} from 'superagent';
 
 import {RestClient} from '../index';

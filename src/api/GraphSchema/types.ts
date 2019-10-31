@@ -4,8 +4,6 @@
  * - Created on 2019-05-15.
  */
 
-// TS2019-DONE
-
 import {IDataSourceParams} from '../commonTypes';
 
 export interface IStartSchemaSamplingParams extends IDataSourceParams {
