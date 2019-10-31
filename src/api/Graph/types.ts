@@ -6,32 +6,12 @@
 
 import {LkEdge, LkNode} from '../graphItemTypes';
 import {IDataSourceParams} from '../commonTypes';
-import {EntityType} from '../GraphSchema/types';
-
-export interface LkDigestItem {
-  nodeCategories: string[];
-  edgeType: string;
-  nodes: number;
-  edges: number;
-}
+import {EntityType} from '../GraphSchema';
 
 export interface IGetDigestParams extends IDataSourceParams {
   ids: string[] | number[];
   withDigest?: boolean;
   withDegree?: boolean;
-}
-
-export interface LkEdgeDigestItem {
-  edgeType: string;
-  edges: number;
-}
-
-export interface LkNodeStatistics {
-  supernode?: boolean;
-  supernodeDigest?: LkEdgeDigestItem[];
-  supernodeDegree?: number;
-  digest?: LkDigestItem[];
-  degree?: number;
 }
 
 export interface IGetAdjacentNodesParams extends IDataSourceParams {
@@ -43,11 +23,6 @@ export interface IGetAdjacentNodesParams extends IDataSourceParams {
   limitType?: string;
   withDigest?: boolean;
   withDegree?: boolean;
-}
-
-export interface SubGraph {
-  nodes: LkNode[];
-  edges: LkEdge[];
 }
 
 export interface ISimpleSearchParams extends IDataSourceParams {

@@ -6,7 +6,7 @@
 
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
-import {IMergeVisualizationsParams} from '../Visualization/types';
+import {IMergeVisualizationsParams} from '../Visualization';
 
 import {
   GroupName,
@@ -29,6 +29,8 @@ import {
   IGetUserParams,
   ISearchUsersParams
 } from './types';
+
+export * from './types';
 
 const {UNAUTHORIZED, FORBIDDEN, NOT_FOUND, DATA_SOURCE_UNAVAILABLE, GROUP_EXISTS} = LkErrorKey;
 

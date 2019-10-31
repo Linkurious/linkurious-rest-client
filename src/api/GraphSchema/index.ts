@@ -30,6 +30,8 @@ import {
   IUpdateTypeParams
 } from './types';
 
+export * from './types';
+
 const {FORBIDDEN, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND} = LkErrorKey;
 
 export class GraphSchemaAPI extends Request {

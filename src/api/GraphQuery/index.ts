@@ -18,6 +18,8 @@ import {
   IUpdateGraphQueryParams
 } from './types';
 
+export * from './types';
+
 const {
   INVALID_PARAMETER,
   UNAUTHORIZED,

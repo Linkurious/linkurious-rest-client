@@ -12,17 +12,17 @@ import {
   IRunGraphQueryByContentParams,
   IRunGraphQueryByIdParams,
   RunGraphQueryResponse
-} from '../GraphQuery/types';
+} from '../GraphQuery';
 
 import {
   IGetAdjacentNodesParams,
   IGetDigestParams,
-  LkNodeStatistics,
-  SubGraph,
   IAdvancedSearchParams,
   ISearchFullParams,
   GraphSearchResponse
 } from './types';
+
+export * from './types';
 
 const {
   UNAUTHORIZED,

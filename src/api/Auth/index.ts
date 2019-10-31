@@ -6,9 +6,11 @@
 
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
-import {IFullUser} from '../User/types';
+import {IFullUser} from '../User';
 
 import {ILoginParams, ISSOLoginParams, IUpdateMeParams} from './types';
+
+export * from './types';
 
 const {INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
 

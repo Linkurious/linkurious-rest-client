@@ -6,7 +6,6 @@
 
 import {LkEdge, LkNode} from '../graphItemTypes';
 import {GenericObject, IDataSourceParams} from '../commonTypes';
-import {SubGraph} from '../Graph/types';
 
 export interface TemplateFieldOptions {
   [k: string]: string | number | boolean | string[] | object | undefined;

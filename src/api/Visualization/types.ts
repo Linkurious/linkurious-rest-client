@@ -6,7 +6,7 @@
 
 import {VizEdge, VizNode} from '../graphItemTypes';
 import {FolderChildren, IDataSourceParams} from '../commonTypes';
-import {ISimpleUser} from '../User/types';
+import {ISimpleUser} from '../User';
 
 export interface IMergeVisualizationsParams {
   from: number;

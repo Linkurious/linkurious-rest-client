@@ -17,6 +17,8 @@ import {
   GetCustomActionsResponse
 } from './types';
 
+export * from './types';
+
 const {FORBIDDEN, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, INVALID_PARAMETER, NOT_FOUND} = LkErrorKey;
 
 export class CustomActionAPI extends Request {

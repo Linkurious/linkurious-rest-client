@@ -20,6 +20,8 @@ import {
   IUpdateConfigParams
 } from './types';
 
+export * from './types';
+
 const {INVALID_PARAMETER, FORBIDDEN, UNAUTHORIZED} = LkErrorKey;
 
 export class LinkuriousAPI extends Request {

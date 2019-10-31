@@ -6,7 +6,7 @@
 
 import * as request from 'superagent';
 
-import {IClientState, ModuleProps} from './http/types';
+import {IClientState, LkErrorKeyToInterface, ModuleProps} from './http/types';
 import {LkErrorKey} from './http/response';
 import {ErrorListener} from './errorListener';
 import {AlertsAPI} from './api/Alerts';
@@ -51,7 +51,8 @@ export class RestClient extends ErrorListener {
         : '/api',
       agent: (options && options.agent) || request.agent(),
       clientState: {},
-      dispatchError: (key: LkErrorKey, payload: unknown): void => this.dispatchError(key, payload)
+      dispatchError: <T extends LkErrorKey>(key: T, payload: LkErrorKeyToInterface[T]): void =>
+        this.dispatchError(key, payload)
     };
 
     this.alerts = new AlertsAPI(this.moduleProps);

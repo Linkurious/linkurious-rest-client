@@ -6,7 +6,7 @@
 
 import {SuperAgentStatic} from 'superagent';
 
-import {IFullUser} from '../api/User/types';
+import {IFullUser} from '../api/User';
 import {IUserDataSource} from '../api/DataSource';
 import {ErrorListener} from '../errorListener';
 
@@ -22,18 +22,21 @@ export interface RawFetchConfig {
   params?: Record<string, any>; // TODO: would be nice not to use any
   query?: Record<string, unknown>;
 }
+
 export interface FetchConfig {
   url: string;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
   body: Record<string, unknown>;
   query: Record<string, unknown>;
 }
+
 export interface IClientState {
   user?: IFullUser;
   currentSource?: IUserDataSource;
   guestMode?: boolean;
   sources?: IUserDataSource[];
 }
+
 export interface ModuleProps {
   baseUrl: string;
   agent: SuperAgentStatic;

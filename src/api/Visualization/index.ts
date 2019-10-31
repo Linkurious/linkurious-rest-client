@@ -36,6 +36,8 @@ import {
   GetVisualizationTreeResponse
 } from './types';
 
+export * from './types';
+
 const {INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class VisualizationAPI extends Request {
