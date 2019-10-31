@@ -5,7 +5,6 @@
  */
 
 // TS2019-DONE
-
 import {IDataSourceRelative, RightType, IPersistedItem, IIdentified, IDataSourceParams} from '../commonTypes';
 
 // USER
@@ -62,8 +61,6 @@ export interface IGroupRights {
   actions: string[];
 }
 
-import { IAccessRight } from '../../../../index';
-import { ISimpleGroup } from '../User/types';
 export interface ICreateUserParams {
   username: string;
   email: string;

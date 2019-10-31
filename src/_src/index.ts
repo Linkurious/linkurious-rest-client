@@ -6,9 +6,7 @@
 
 import * as request from 'superagent';
 
-export * from './api/types';
-
-import {IUserDataSource} from '../models/DataSource';
+import {IUserDataSource} from './api/DataSource';
 
 import {IClientState, ModuleProps} from './http/types';
 import {LkErrorKey} from './http/response';
@@ -68,7 +66,7 @@ export class LinkuriousRestClient extends ErrorListener {
    */
   async init(data: {usernameOrEmail: string; password: string}): Promise<void> {
     await this.auth.login(data);
-    await this.dataSource.getUserDataSources({
+    await this.dataSource.getDataSourcesStatus({
       withCaptions: true,
       withStyles: true
     });
