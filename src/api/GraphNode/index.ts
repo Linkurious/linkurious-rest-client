@@ -53,7 +53,7 @@ export class GraphNodeAPI extends Request {
   }
 
   public deleteNode(params: IDeleteNodeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<void>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/graph/nodes/:id',
       method: 'DELETE',
       params: params

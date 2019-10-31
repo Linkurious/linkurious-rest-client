@@ -57,7 +57,7 @@ export class LinkuriousAPI extends Request {
   }
 
   async updateConfiguration(params: IUpdateConfigParams<any>) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<void>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
       url: '/config',
       method: 'POST',
       params: params
@@ -65,7 +65,7 @@ export class LinkuriousAPI extends Request {
   }
 
   async sendAnalytics(params: ISendAnalyticsParams) {
-    return this.handle(INVALID_PARAMETER).request<void>({
+    return this.handle(INVALID_PARAMETER).request({
       url: '/analytics',
       method: 'POST',
       params: params
@@ -73,7 +73,7 @@ export class LinkuriousAPI extends Request {
   }
 
   async getReport(params?: IGetReportParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<void>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
       url: '/admin/report',
       method: 'GET',
       params: params

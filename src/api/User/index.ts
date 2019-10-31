@@ -85,7 +85,7 @@ export class UserAPI extends Request {
    * @breakingChange response type is now void instead of boolean
    */
   public deleteUser(params: IDeleteUserParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<void>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
       url: '/admin/users/:id',
       method: 'DELETE',
       params: params
@@ -142,7 +142,7 @@ export class UserAPI extends Request {
    * Update a group (only name).
    */
   public renameGroup(params: IUpdateGroupParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<void>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/groups/:id',
       method: 'PATCH',
       params: params
@@ -153,7 +153,7 @@ export class UserAPI extends Request {
    * Deletes a group in the application.
    */
   public deleteGroup(params: IDeleteGroupParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<void>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/groups/:id',
       method: 'DELETE',
       params: params
@@ -174,7 +174,7 @@ export class UserAPI extends Request {
    * set access rights for a group.
    */
   public putAccessRights(params: ISetGroupAccessRightsParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<void>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/groups/:id/access_rights',
       method: 'PUT',
       params: params
@@ -185,7 +185,7 @@ export class UserAPI extends Request {
    * Delete access right.
    */
   public deleteAccessRights(params: IDeleteAccessRightsParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<void>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/groups/:id/access_rights',
       method: 'DELETE',
       params: params
@@ -193,7 +193,7 @@ export class UserAPI extends Request {
   }
 
   public mergeVisualizations(params: IMergeVisualizationsParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<void>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
       url: '/admin/users/mergeVisualizations',
       method: 'POST',
       params: params

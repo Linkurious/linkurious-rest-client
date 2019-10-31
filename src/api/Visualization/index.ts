@@ -42,7 +42,7 @@ const {INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class VisualizationAPI extends Request {
   public async updateVisualizationFolder(params: IUpdateVisualizationFolderParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND, INVALID_PARAMETER).request<void>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND, INVALID_PARAMETER).request({
       url: '/:sourceKey/visualizations/folder/:id',
       method: 'PATCH',
       params: params
@@ -123,7 +123,7 @@ export class VisualizationAPI extends Request {
    * Delete a widget for a visualization.
    */
   public deleteWidget(params: IDeleteWidgetParams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<void>({
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request({
       url: '/widget/:id',
       method: 'DELETE',
       params: params
@@ -134,7 +134,7 @@ export class VisualizationAPI extends Request {
    * Remove the specified folder and its children (visualizations and sub-folders).
    */
   public deleteFolder(params: IDeleteFolderParams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<void>({
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request({
       url: '/:sourceKey/visualizations/folder/:id',
       method: 'DELETE',
       params: params
@@ -206,7 +206,7 @@ export class VisualizationAPI extends Request {
    * Remove visualization selected by id.
    */
   public deleteOne(params: IDeleteVisualizationParams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<void>({
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/visualizations/:id',
       method: 'DELETE',
       params: params
@@ -239,7 +239,7 @@ export class VisualizationAPI extends Request {
    * Remove a share right of a user on a visualization.
    */
   public unshare(params: IUnshareVisualizationParams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<void>({
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request({
       url: `/:sourceKey/visualizations/:id/share/:userId`,
       method: 'DELETE',
       params: params
@@ -250,7 +250,7 @@ export class VisualizationAPI extends Request {
    * Update the sandbox of the current user for a given data-source.
    */
   public updateSandbox(params: IUpdateSandboxParams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<void>({
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request({
       url: '/:sourceKey/sandbox',
       method: 'PATCH',
       params: params
@@ -261,7 +261,7 @@ export class VisualizationAPI extends Request {
    * Update visualization selected by id.
    */
   public update(params: IUpdateVisualizationParams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request<void>({
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN).request({
       url: '/:sourceKey/visualizations/:id',
       method: 'PATCH',
       params: params

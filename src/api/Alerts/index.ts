@@ -57,7 +57,7 @@ export class AlertsAPI extends Request {
   }
 
   public deleteAlert(params: IDeleteAlertParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<void>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/alerts/:id',
       method: 'DELETE',
       params: params
@@ -85,7 +85,7 @@ export class AlertsAPI extends Request {
   }
 
   public deleteAlertFolder(params: IDeleteAlertFolderParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<void>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/alerts/folder/:id',
       method: 'DELETE',
       params: params
@@ -143,7 +143,7 @@ export class AlertsAPI extends Request {
   }
 
   public doMatchAction(params: IDoMatchActionParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<void>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/alerts/:alertId/matches/:matchId/action',
       method: 'POST',
       params: params

@@ -53,7 +53,7 @@ export class DataSourceAPI extends Request {
    * Request to reindex the graph database. One may want to do it after editing the index configuration.
    */
   public startIndexation(params: IStartIndexationParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<void>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/search/index',
       method: 'POST'
     });

@@ -53,7 +53,7 @@ export class GraphEdgeAPI extends Request {
   }
 
   public deleteEdge(params: IDeleteEdgeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<void>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/graph/edges/:id',
       method: 'DELETE',
       params: params

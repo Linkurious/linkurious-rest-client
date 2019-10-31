@@ -107,7 +107,7 @@ export class GraphQueryAPI extends Request {
       FORBIDDEN,
       NOT_FOUND,
       DATA_SOURCE_UNAVAILABLE
-    ).request<void>({
+    ).request({
       url: '/:sourceKey/graph/query/:id',
       method: 'PATCH',
       params: params
@@ -124,7 +124,7 @@ export class GraphQueryAPI extends Request {
       FORBIDDEN,
       NOT_FOUND,
       DATA_SOURCE_UNAVAILABLE
-    ).request<void>({
+    ).request({
       url: '/:sourceKey/graph/query/:id',
       method: 'DELETE',
       params: params
