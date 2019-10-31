@@ -22,5 +22,6 @@ export interface IUpdateMeParams {
   username?: string;
   email?: string;
   password?: string;
+  // TODO preferences have a type
   preferences?: GenericObject;
 }

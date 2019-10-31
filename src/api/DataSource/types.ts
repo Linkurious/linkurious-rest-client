@@ -4,6 +4,8 @@
  * - Created on 2019-10-25.
  */
 
+import {GenericObject} from '../commonTypes';
+
 export interface IDataSourceFeatures {
   immutableNodeCategories: boolean;
   canCountBeforeIndexation: boolean;
@@ -45,8 +47,8 @@ export interface ICaption {
 }
 
 export interface ICaptionsConfig {
-  nodes: Record<string, ICaption>;
-  edges: Record<string, ICaption>;
+  nodes: GenericObject<ICaption>;
+  edges: GenericObject<ICaption>;
 }
 
 export interface IUserDataSource {
