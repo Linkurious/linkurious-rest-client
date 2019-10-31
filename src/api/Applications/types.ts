@@ -7,7 +7,7 @@
 import {Identified, PersistedItem} from '../commonTypes';
 
 // TODO add type to rights (today enum is in the lke-server)
-interface Application extends PersistedItem {
+export interface Application extends PersistedItem {
   name: string;
   apiKey: string;
   enabled: boolean;

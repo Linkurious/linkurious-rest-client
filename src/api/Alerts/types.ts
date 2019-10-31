@@ -23,7 +23,7 @@ export interface ICreateAlertParams extends IDataSourceParams {
   maxMatches?: number;
 }
 
-interface Alert extends PersistedItem {
+export interface Alert extends PersistedItem {
   title: string;
   query: string;
   dialect: GraphQueryDialect;
@@ -61,7 +61,7 @@ export interface ICreateAlertFolderParams extends IDataSourceParams {
   title: string;
 }
 
-interface AlertFolder extends PersistedItem {
+export interface AlertFolder extends PersistedItem {
   title: string;
   parent: number;
 }
