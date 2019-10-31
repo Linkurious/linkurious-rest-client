@@ -22,7 +22,7 @@ import {
 
 export * from './types';
 
-const {INVALID_PARAMETER, FORBIDDEN, UNAUTHORIZED} = LkErrorKey;
+const {FORBIDDEN, UNAUTHORIZED} = LkErrorKey;
 
 export class LinkuriousAPI extends Request {
   async getStatus() {
@@ -49,7 +49,7 @@ export class LinkuriousAPI extends Request {
   }
 
   async getConfiguration(params?: IGetConfigParams) {
-    return this.handle(INVALID_PARAMETER).request<GetConfigResponse>({
+    return this.handle().request<GetConfigResponse>({
       url: '/config',
       method: 'GET',
       params: params
@@ -65,7 +65,7 @@ export class LinkuriousAPI extends Request {
   }
 
   async sendAnalytics(params: ISendAnalyticsParams) {
-    return this.handle(INVALID_PARAMETER).request({
+    return this.handle().request({
       url: '/analytics',
       method: 'POST',
       params: params

@@ -12,7 +12,7 @@ import {ILoginParams, ISSOLoginParams, IUpdateMeParams} from './types';
 
 export * from './types';
 
-const {INVALID_PARAMETER, UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
+const {UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
 
 export class AuthAPI extends Request {
   public async login(params: ILoginParams) {
@@ -22,7 +22,7 @@ export class AuthAPI extends Request {
         console.log('It was not possible to log out previous user: ' + JSON.stringify(response));
       }
     }
-    const response = await this.handle(INVALID_PARAMETER).request<FullUser>({
+    const response = await this.handle().request<FullUser>({
       url: '/auth/login',
       method: 'POST',
       params: params

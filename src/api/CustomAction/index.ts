@@ -19,7 +19,7 @@ import {
 
 export * from './types';
 
-const {FORBIDDEN, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, INVALID_PARAMETER, NOT_FOUND} = LkErrorKey;
+const {FORBIDDEN, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND} = LkErrorKey;
 
 export class CustomActionAPI extends Request {
   public async getCustomActions(params?: IGetCustomActionsParams) {
@@ -33,7 +33,7 @@ export class CustomActionAPI extends Request {
   }
 
   public async createCustomAction(params: ICreateCustomActionParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, INVALID_PARAMETER).request<
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<
       CreateCustomActionResponse
     >({
       url: '/:sourceKey/customAction',
@@ -43,13 +43,9 @@ export class CustomActionAPI extends Request {
   }
 
   public async updateCustomAction(params: IUpdateCustomActionParams) {
-    return this.handle(
-      UNAUTHORIZED,
-      FORBIDDEN,
-      DATA_SOURCE_UNAVAILABLE,
-      NOT_FOUND,
-      INVALID_PARAMETER
-    ).request<UpdateCustomActionResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
+      UpdateCustomActionResponse
+    >({
       url: '/:sourceKey/customAction/:id',
       method: 'PATCH',
       params: params

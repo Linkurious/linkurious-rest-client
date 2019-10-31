@@ -20,7 +20,6 @@ export enum LkErrorKey {
   DATA_SOURCE_UNAVAILABLE = 'dataSource_unavailable',
   GRAPH_REQUEST_TIMEOUT = 'graph_request_timeout',
   ILLEGAL_SOURCE_STATE = 'illegal_source_state',
-  INVALID_PARAMETER = 'invalid_parameter',
   MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
   NOT_FOUND = 'not_found',
   NOT_OWNED = 'not_owned',
@@ -94,7 +93,6 @@ export interface CannotRead extends LkError<LkErrorKey.CANNOT_READ> {}
 export interface DataSourceUnavailable extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
 export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
 export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
-export interface InvalidParameter extends LkError<LkErrorKey.INVALID_PARAMETER> {}
 export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
   highlight: {
     offset: number;
@@ -123,7 +121,6 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.DATA_SOURCE_UNAVAILABLE]: DataSourceUnavailable;
   [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeout;
   [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
-  [LkErrorKey.INVALID_PARAMETER]: InvalidParameter;
   [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplate;
   [LkErrorKey.NOT_FOUND]: NotFound;
   [LkErrorKey.NOT_OWNED]: NotOwned;

@@ -13,6 +13,7 @@ import {
   IRunGraphQueryByIdParams,
   RunGraphQueryResponse
 } from '../GraphQuery';
+import {LkSubGraph} from '../graphItemTypes';
 
 import {
   IGetAdjacentNodesParams,
@@ -40,7 +41,7 @@ export class GraphAPI extends Request {
    * Search for nodes based on a query string and optional parameters. Return a list of full Nodes.
    */
   public SearchAndAddSubGraph(params: ISearchFullParams) {
-    return this.handle(UNAUTHORIZED).request<SubGraph>({
+    return this.handle(UNAUTHORIZED).request<LkSubGraph>({
       url: '/:sourceKey/search/:type/full',
       method: 'POST',
       params: params
@@ -136,7 +137,7 @@ export class GraphAPI extends Request {
    * visible nodes are also included.
    */
   public expand(params: IGetAdjacentNodesParams) {
-    return this.request<SubGraph>({
+    return this.request<LkSubGraph>({
       url: '/:sourceKey/graph/nodes/expand',
       method: 'POST',
       params: params
