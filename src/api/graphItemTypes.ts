@@ -27,7 +27,6 @@ export interface LkItem {
   id: string;
   data: LkItemData;
 }
-// Graph Item - end
 
 // LkNode
 export interface GeoCoordinates {
@@ -69,7 +68,6 @@ export interface LkNodeData extends LkItemData {
 export interface LkNode extends LkItem {
   data: LkNodeData;
 }
-// LkNode - end
 
 // LkEdge
 export interface LkEdgeData extends LkItemData {
@@ -81,7 +79,6 @@ export interface LkEdge extends LkItem {
   target: string;
   data: LkEdgeData;
 }
-// LkEdge - end
 
 export interface LkSubGraph {
   nodes: LkNode[];
@@ -109,4 +106,3 @@ export interface VizEdgeInfo {
 
 export type VizNode = LkNode & VizNodeInfo;
 export type VizEdge = LkEdge & VizEdgeInfo;
-// VizNode & VizEdge - end
