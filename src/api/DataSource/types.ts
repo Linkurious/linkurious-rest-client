@@ -3,9 +3,6 @@
  *
  * - Created on 2019-10-25.
  */
-export interface IDataSourceParams {
-  sourceKey?: string;
-}
 
 export interface IDataSourceFeatures {
   immutableNodeCategories: boolean;

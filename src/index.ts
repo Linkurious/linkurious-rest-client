@@ -18,7 +18,7 @@ import {AlertsAPI} from './api/Alerts';
 import {CustomActionAPI} from './api/CustomAction';
 import {AuthAPI} from './api/Auth';
 
-export class LinkuriousRestClient extends ErrorListener {
+export class RestClient extends ErrorListener {
   private readonly moduleProps: ModuleProps;
 
   linkurious: LinkuriousAPI;

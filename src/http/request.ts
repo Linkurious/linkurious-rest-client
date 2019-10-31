@@ -5,7 +5,7 @@
  */
 import {Response as SuperAgentResponse} from 'superagent';
 
-import {LinkuriousRestClient} from '../index';
+import {RestClient} from '../index';
 
 import {LkErrorKey, Response} from './response';
 import {ConnectionRefused, ErrorResponses, ModuleProps, RawFetchConfig, FetchConfig} from './types';
@@ -116,7 +116,7 @@ export abstract class Request {
       if (key === 'sourceKey') {
         paramValue =
           (moduleProps.clientState.currentSource && moduleProps.clientState.currentSource.key) ||
-          LinkuriousRestClient.getCurrentSource(
+          RestClient.getCurrentSource(
             moduleProps.clientState.sources || [],
             moduleProps.clientState.user && {userId: moduleProps.clientState.user.id}
           ).key;
