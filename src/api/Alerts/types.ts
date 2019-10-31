@@ -91,7 +91,7 @@ export interface IGetMatchParams extends IDataSourceParams {
   matchId: number;
 }
 
-type MatchStatus = 'unconfirmed' | 'confirmed' | 'dismissed';
+export type MatchStatus = 'unconfirmed' | 'confirmed' | 'dismissed';
 
 export interface Match extends PersistedItem {
   alertId: number;
@@ -120,7 +120,7 @@ export interface IGetMatchesParams extends IDataSourceParams {
   alertId: number;
   offset?: number;
   limit?: number;
-  // TODO RC-refactoring fix snake case in server
+  // TODO fix snake case in server
   sortDirection?: 'asc' | 'desc';
   sortBy?: 'date' | '0' | '1' | '2' | '3' | '4';
   status?: MatchStatus;
@@ -133,7 +133,7 @@ export interface IGetMatchActionsParams extends IDataSourceParams {
   matchId: number;
 }
 
-type MatchActionType = 'confirm' | 'dismiss' | 'unconfirm' | 'open';
+export type MatchActionType = 'confirm' | 'dismiss' | 'unconfirm' | 'open';
 
 export interface MatchAction extends PersistedItem {
   matchId: number;
