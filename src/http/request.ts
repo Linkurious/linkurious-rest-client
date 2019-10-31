@@ -7,6 +7,7 @@
 import {Response as SuperAgentResponse} from 'superagent';
 
 import {RestClient} from '../index';
+import {GenericObject} from '../api/commonTypes';
 
 import {ConnectionRefused, ErrorResponses, LkErrorKey, Response} from './response';
 import {ModuleProps, RawFetchConfig, FetchConfig} from './types';
@@ -52,8 +53,11 @@ export abstract class Request {
       }
 
       // 3) Get other param values using `configParams`
+      // @ts-ignore
       if (configParams[key] !== undefined) {
+        // @ts-ignore
         paramValue = configParams[key];
+        // @ts-ignore
         delete configParams[key];
       }
 
@@ -78,8 +82,8 @@ export abstract class Request {
   /**
    * Return object in input with keys transformed from camelCase to snake_case
    */
-  public static toSnakeCaseKeys(obj: Record<string, unknown>) {
-    const result: Record<string, unknown> = {};
+  public static toSnakeCaseKeys(obj: GenericObject) {
+    const result: GenericObject = {};
     for (const key in obj) {
       const fixedKey = key
         .replace(/(^[A-Z])/, first => first.toLowerCase())
@@ -99,8 +103,8 @@ export abstract class Request {
     moduleProps: ModuleProps
   ): FetchConfig {
     // 1) Default values for `body` and `query`
-    let body: Record<string, unknown> | undefined;
-    let query: Record<string, unknown> = {
+    let body: GenericObject | undefined;
+    let query: GenericObject = {
       _: Date.now(),
       guest: moduleProps.clientState.guestMode ? true : undefined
     };

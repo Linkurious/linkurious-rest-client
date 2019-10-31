@@ -4,6 +4,8 @@
  * - Created on 2019-10-01.
  */
 
+import {GenericObject} from '../api/commonTypes';
+
 import {FetchConfig} from './types';
 
 export enum LkErrorKey {
@@ -43,8 +45,8 @@ export interface LkError<K extends LkErrorKey = LkErrorKey> {
 export class Response<B> {
   body: B;
   status: number;
-  header: Record<string, unknown>;
-  constructor(options: {body: B; status?: number; header?: Record<string, unknown>}) {
+  header: GenericObject;
+  constructor(options: {body: B; status?: number; header?: GenericObject}) {
     this.body = options.body;
     this.status = options.status || 0;
     this.header = options.header || {};

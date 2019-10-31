@@ -9,24 +9,25 @@ import {SuperAgentStatic} from 'superagent';
 import {IFullUser} from '../api/User';
 import {IUserDataSource} from '../api/DataSource';
 import {ErrorListener} from '../errorListener';
+import {GenericObject} from '../api/commonTypes';
 
 import {LkErrorKey} from './response';
 
 /**
  * Interfaces for Request class
  */
-export interface RawFetchConfig {
+export interface RawFetchConfig<P extends {} = {}> {
   errors?: LkErrorKey[];
   url: string;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
-  params?: Record<string, unknown>;
+  params?: P;
 }
 
 export interface FetchConfig {
   url: string;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
-  body?: Record<string, unknown>;
-  query: Record<string, unknown>;
+  body?: GenericObject;
+  query: GenericObject;
 }
 
 export interface ClientState {
