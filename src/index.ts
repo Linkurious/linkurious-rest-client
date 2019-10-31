@@ -6,8 +6,8 @@
 
 import * as request from 'superagent';
 
-import {ClientState, LkErrorKeyToInterface, ModuleProps} from './http/types';
-import {LkErrorKey} from './http/response';
+import {ClientState, ModuleProps} from './http/types';
+import {LkErrorKey, LkErrorKeyToInterface} from './http/response';
 import {ErrorListener} from './errorListener';
 import {AlertsAPI} from './api/Alerts';
 import {ApplicationsAPI} from './api/Applications';

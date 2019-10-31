@@ -101,13 +101,11 @@ export class VisualizationAPI extends Request {
    * @breakingChange update the server api to return the folder directly
    */
   public createFolder(params: ICreateVisualizationFolderParams) {
-    return this.handle(INVALID_PARAMETER, UNAUTHORIZED).request<CreateVisualizationFolderResponse>(
-      {
-        url: '/:sourceKey/visualizations/folder',
-        method: 'POST',
-        params: params
-      }
-    );
+    return this.handle(INVALID_PARAMETER, UNAUTHORIZED).request<CreateVisualizationFolderResponse>({
+      url: '/:sourceKey/visualizations/folder',
+      method: 'POST',
+      params: params
+    });
   }
 
   /**

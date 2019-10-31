@@ -100,13 +100,11 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async getTypes(params: IGetTypesParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<GetTypesResponse>(
-      {
-        url: '/admin/:sourceKey/graph/schema/:entityType/types',
-        method: 'GET',
-        params: params
-      }
-    );
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<GetTypesResponse>({
+      url: '/admin/:sourceKey/graph/schema/:entityType/types',
+      method: 'GET',
+      params: params
+    });
   }
 
   public async getTypesWithAccess(params: IGetTypesWithAccessParams) {

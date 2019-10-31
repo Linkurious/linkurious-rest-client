@@ -89,9 +89,10 @@ export class LinkuriousAPI extends Request {
   }
 
   async restartLinkurious() {
-    const response = await this.handle(UNAUTHORIZED, FORBIDDEN).request<RestartLinkuriousResponse>(
-      {url: '/admin/restart', method: 'POST'}
-    );
+    const response = await this.handle(UNAUTHORIZED, FORBIDDEN).request<RestartLinkuriousResponse>({
+      url: '/admin/restart',
+      method: 'POST'
+    });
     if (response.isAnyError()) {
       return response;
     } else {

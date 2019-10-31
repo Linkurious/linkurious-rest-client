@@ -10,7 +10,7 @@ import {IFullUser} from '../api/User';
 import {IUserDataSource} from '../api/DataSource';
 import {ErrorListener} from '../errorListener';
 
-import {LkErrorKey, Response} from './response';
+import {LkErrorKey} from './response';
 
 /**
  * Interfaces for Request class
@@ -19,7 +19,7 @@ export interface RawFetchConfig {
   errors?: LkErrorKey[];
   url: string;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
-  params?: Record<string, any>; // TODO: would be nice not to use any
+  params?: Record<string, unknown>;
   query?: Record<string, unknown>;
 }
 
@@ -30,7 +30,7 @@ export interface FetchConfig {
   query: Record<string, unknown>;
 }
 
-export interface IClientState {
+export interface ClientState {
   user?: IFullUser;
   currentSource?: IUserDataSource;
   guestMode?: boolean;
@@ -40,82 +40,6 @@ export interface IClientState {
 export interface ModuleProps {
   baseUrl: string;
   agent: SuperAgentStatic;
-  clientState: IClientState;
+  clientState: ClientState;
   dispatchError: ErrorListener['dispatchError'];
 }
-
-/**
- * Basic error to be extended by custom errors
- */
-export interface LkError<K = LkErrorKey> {
-  key: K;
-  message: string;
-}
-
-/**
- * This is a trick so that:
- * in `const name = ErrorResponses<LkErrorKey.FORBIDDEN, LkErrorKey.UNAUTHORIZED>`
- * the type of name is evaluated to `Response<Forbidden> | Response<Unauthorized>`
- */
-export type ErrorResponses<T extends LkErrorKey> = T extends unknown
-  ? Response<LkErrorKeyToInterface[T]>
-  : Response<LkErrorKeyToInterface[T]>;
-
-/**
- * Every error can carry some payload
- */
-// TODO check if all error are used and carry the correct payload
-export interface ConnectionRefused extends LkError<LkErrorKey.CONNECTION_REFUSED> {
-  fetchConfig: FetchConfig;
-}
-export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
-export interface GroupExists extends LkError<LkErrorKey.GROUP_EXISTS> {}
-export interface Bug extends LkError<LkErrorKey.BUG> {}
-export interface CannotDeleteNonEmptyFolder
-  extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
-export interface CannotRead extends LkError<LkErrorKey.CANNOT_READ> {}
-export interface DataSourceUnavailable extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
-export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
-export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
-export interface InvalidParameter extends LkError<LkErrorKey.INVALID_PARAMETER> {}
-export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
-  highlight: {
-    offset: number;
-    length?: number;
-  };
-}
-export interface NotFound extends LkError<LkErrorKey.NOT_FOUND> {}
-export interface NotOwned extends LkError<LkErrorKey.NOT_OWNED> {}
-export interface NotSupported extends LkError<LkErrorKey.NOT_SUPPORTED> {}
-export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {}
-export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
-export interface Forbidden extends LkError<LkErrorKey.FORBIDDEN> {}
-export interface GraphUnreachable extends LkError<LkErrorKey.GRAPH_UNREACHABLE> {}
-export interface GuestDisabled extends LkError<LkErrorKey.GUEST_DISABLED> {}
-export interface Unauthorized extends LkError<LkErrorKey.UNAUTHORIZED> {}
-export interface WriteForbidden extends LkError<LkErrorKey.WRITE_FORBIDDEN> {}
-
-// Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
-export type LkErrorKeyToInterface = {
-  [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefused;
-  [LkErrorKey.ALREADY_EXIST]: AlreadyExists;
-  [LkErrorKey.GROUP_EXISTS]: GroupExists;
-  [LkErrorKey.BUG]: Bug;
-  [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
-  [LkErrorKey.CANNOT_READ]: CannotRead;
-  [LkErrorKey.DATA_SOURCE_UNAVAILABLE]: DataSourceUnavailable;
-  [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeout;
-  [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
-  [LkErrorKey.INVALID_PARAMETER]: InvalidParameter;
-  [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplate;
-  [LkErrorKey.NOT_FOUND]: NotFound;
-  [LkErrorKey.NOT_OWNED]: NotOwned;
-  [LkErrorKey.NOT_SUPPORTED]: NotSupported;
-  [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequest;
-  [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolation;
-  [LkErrorKey.FORBIDDEN]: Forbidden;
-  [LkErrorKey.GRAPH_UNREACHABLE]: GraphUnreachable;
-  [LkErrorKey.GUEST_DISABLED]: GuestDisabled;
-  [LkErrorKey.UNAUTHORIZED]: Unauthorized;
-  [LkErrorKey.WRITE_FORBIDDEN]: WriteForbidden;
-};
