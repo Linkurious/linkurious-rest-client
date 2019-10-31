@@ -4,7 +4,7 @@
  * - Created on 2019-10-29.
  */
 
-import {LkEdge, LkNode} from '../graphItemTypes';
+import {LkEdge, LkNode, LkSubGraph} from '../graphItemTypes';
 import {GenericObject, IDataSourceParams} from '../commonTypes';
 
 export interface TemplateFieldOptions {
@@ -140,7 +140,7 @@ export enum GraphInputType {
   NODESET = 'nodeset'
 }
 
-export enum RIGHT_VALUES {
+export enum GraphRightValues {
   OWNER = 'owner',
   READ = 'read'
 }
@@ -162,7 +162,7 @@ export interface GraphQueryResponse {
   graphInput?: GraphInputType;
   templateFields?: TemplateFields;
   type: GraphQueryType;
-  right: RIGHT_VALUES;
+  right: GraphRightValues;
   builtin: boolean;
   createdAt: string;
   updatedAt: string;
@@ -190,7 +190,7 @@ export interface IRunGraphQueryByIdParams extends IRunGraphQueryParams {
   id: number;
 }
 
-export interface RunGraphQueryResponse extends SubGraph {
+export interface RunGraphQueryResponse extends LkSubGraph {
   truncatedByLimit: boolean;
   truncatedByAccess: boolean;
 }
@@ -207,7 +207,7 @@ export interface CheckGraphQueryResponse {
   templateFields?: TemplateField[];
 }
 
-export enum COLUMN_TYPE_VALUES {
+export enum ColumnTypeValues {
   STRING = 'string',
   NUMBER = 'number'
 }
@@ -215,7 +215,7 @@ export enum COLUMN_TYPE_VALUES {
 export interface IAlertPreviewParams {
   query: string;
   dialect?: GraphQueryDialect;
-  columns?: Array<{columnName: string; columnTitle?: string; type: COLUMN_TYPE_VALUES}>;
+  columns?: Array<{columnName: string; columnTitle?: string; type: ColumnTypeValues}>;
   limit?: number;
   timeout?: number;
 }

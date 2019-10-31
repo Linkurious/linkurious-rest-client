@@ -88,7 +88,7 @@ export class DataSourceAPI extends Request {
 
   public setDefaultSourceStyles(params: ISetDefaultSourceStylesParams) {
     return this.handle().request<SetDefaultSourceStylesResponse>({
-      url: '/admin/source/:dataSource/setDefaults',
+      url: '/admin/source/:sourceKey/setDefaults',
       method: 'POST',
       params: params
     });

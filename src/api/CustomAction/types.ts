@@ -6,37 +6,22 @@
 
 import {IDataSourceParams, PersistedItem} from '../commonTypes';
 
-// Create
-export interface ICreateCustomActionParams extends IDataSourceParams {
-  name: string;
-  urlTemplate: string;
-  description: string;
-  sharing: CustomActionSharing;
-}
-export interface CreateCustomActionResponse extends CustomAction {}
-
-// Delete
-export interface IDeleteCustomActionParams extends IDataSourceParams {
-  id: number;
+export enum CustomActionSharing {
+  PRIVATE = 'private',
+  SOURCE = 'source'
 }
 
-// Update
-export interface IUpdateCustomActionParams extends IDataSourceParams {
-  id: number;
-  name?: string;
-  urlTemplate?: string;
-  description?: string;
-  sharing?: CustomActionSharing;
+export interface ParsedCustomAction {
+  type: CustomActionType;
+  elements: CustomActionElement[];
+  itemType: string;
 }
 
-export interface UpdateCustomActionResponse extends CustomAction {}
+export enum CustomActionRight {
+  OWNER = 'owner',
+  READ = 'read'
+}
 
-// Get
-export interface IGetCustomActionsParams extends IDataSourceParams {}
-
-export type GetCustomActionsResponse = CustomAction[];
-
-// Types
 export interface CustomAction extends PersistedItem {
   sourceKey: string;
   name: string;
@@ -47,21 +32,32 @@ export interface CustomAction extends PersistedItem {
   right: CustomActionRight;
 }
 
-export enum CustomActionRight {
-  OWNER = 'owner',
-  READ = 'read'
+export interface ICreateCustomActionParams extends IDataSourceParams {
+  name: string;
+  urlTemplate: string;
+  description: string;
+  sharing: CustomActionSharing;
 }
 
-export interface ParsedCustomAction {
-  type: CustomActionType;
-  elements: CustomActionElement[];
-  itemType: string;
+export interface CreateCustomActionResponse extends CustomAction {}
+
+export interface IDeleteCustomActionParams extends IDataSourceParams {
+  id: number;
 }
 
-export enum CustomActionSharing {
-  PRIVATE = 'private',
-  SOURCE = 'source'
+export interface IUpdateCustomActionParams extends IDataSourceParams {
+  id: number;
+  name?: string;
+  urlTemplate?: string;
+  description?: string;
+  sharing?: CustomActionSharing;
 }
+
+export interface UpdateCustomActionResponse extends CustomAction {}
+
+export interface IGetCustomActionsParams extends IDataSourceParams {}
+
+export type GetCustomActionsResponse = CustomAction[];
 
 export enum CustomActionType {
   NON_GRAPH = 'non-graph',
