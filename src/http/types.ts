@@ -7,7 +7,7 @@
 import {SuperAgentStatic} from 'superagent';
 
 import {IFullUser} from '../api/User/types';
-import {IUserDataSource} from '../api/DataSource/types';
+import {IUserDataSource} from '../api/DataSource';
 import {ErrorListener} from '../errorListener';
 
 import {LkErrorKey, Response} from './response';
@@ -50,16 +50,18 @@ export interface LkError<K = LkErrorKey> {
 }
 
 /**
- * In `const name = KeysToResponses<LkErrorKey.FORBIDDEN, LkErrorKey.UNAUTHORIZED>`
+ * This is a trick so that:
+ * in `const name = ErrorResponses<LkErrorKey.FORBIDDEN, LkErrorKey.UNAUTHORIZED>`
  * the type of name is evaluated to `Response<Forbidden> | Response<Unauthorized>`
  */
 export type ErrorResponses<T extends LkErrorKey> = T extends unknown
-  ? Response<KeyToInterface[T]>
-  : Response<KeyToInterface[T]>;
+  ? Response<LkErrorKeyToInterface[T]>
+  : Response<LkErrorKeyToInterface[T]>;
 
 /**
- * Custom errors. These can have custom properties
+ * Every error can carry some payload
  */
+// TODO check if all error are used and carry the correct payload
 export interface ConnectionRefused extends LkError<LkErrorKey.CONNECTION_REFUSED> {
   fetchConfig: FetchConfig;
 }
@@ -85,13 +87,13 @@ export interface NotSupported extends LkError<LkErrorKey.NOT_SUPPORTED> {}
 export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {}
 export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
 export interface Forbidden extends LkError<LkErrorKey.FORBIDDEN> {}
-export interface GraphUnreacheable extends LkError<LkErrorKey.GRAPH_UNREACHABLE> {}
+export interface GraphUnreachable extends LkError<LkErrorKey.GRAPH_UNREACHABLE> {}
 export interface GuestDisabled extends LkError<LkErrorKey.GUEST_DISABLED> {}
 export interface Unauthorized extends LkError<LkErrorKey.UNAUTHORIZED> {}
 export interface WriteForbidden extends LkError<LkErrorKey.WRITE_FORBIDDEN> {}
 
-// Mapping from LkErrorKey to LkError, it's used by `KeysToResponses`
-export type KeyToInterface = {
+// Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
+export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefused;
   [LkErrorKey.ALREADY_EXIST]: AlreadyExists;
   [LkErrorKey.GROUP_EXISTS]: GroupExists;
@@ -109,7 +111,7 @@ export type KeyToInterface = {
   [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequest;
   [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolation;
   [LkErrorKey.FORBIDDEN]: Forbidden;
-  [LkErrorKey.GRAPH_UNREACHABLE]: GraphUnreacheable;
+  [LkErrorKey.GRAPH_UNREACHABLE]: GraphUnreachable;
   [LkErrorKey.GUEST_DISABLED]: GuestDisabled;
   [LkErrorKey.UNAUTHORIZED]: Unauthorized;
   [LkErrorKey.WRITE_FORBIDDEN]: WriteForbidden;
