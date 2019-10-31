@@ -347,7 +347,7 @@ export interface IAccessConfig {
   authRequired?: boolean;
   guestMode?: boolean;
   defaultPage?: DefaultPage;
-  defaultPageParams?: GenericObject<unknown>;
+  defaultPageParams?: GenericObject;
   dataEdition?: boolean;
   widget?: boolean;
   loginTimeout?: number;
@@ -436,7 +436,7 @@ export interface OgmaConfiguration {
   renderer?: OgmaRenderer;
   webglOptions?: IWebGLConfig;
   imgCrossOrigin?: ImgCrossOrigin;
-  options?: GenericObject<unknown>;
+  options?: GenericObject;
 }
 
 // UpdateConfigParams

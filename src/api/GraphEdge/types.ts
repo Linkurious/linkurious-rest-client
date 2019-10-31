@@ -15,13 +15,13 @@ export interface ICreateEdgeParams extends IDataSourceParams {
   source: string;
   target: string;
   type: string;
-  properties?: GenericObject<unknown>;
+  properties?: GenericObject;
 }
 
 export interface CreateEdgeResponse extends LkEdge {}
 
 export interface IUpdateEdgeParams extends IDataSourceParams, Identified {
-  properties?: GenericObject<unknown>;
+  properties?: GenericObject;
   deletedProperties?: string[];
   readAt?: number;
 }

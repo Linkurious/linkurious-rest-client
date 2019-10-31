@@ -8,8 +8,8 @@ import {Response as SuperAgentResponse} from 'superagent';
 
 import {RestClient} from '../index';
 
-import {LkErrorKey, Response} from './response';
-import {ConnectionRefused, ErrorResponses, ModuleProps, RawFetchConfig, FetchConfig} from './types';
+import {ConnectionRefused, ErrorResponses, LkErrorKey, Response} from './response';
+import {ModuleProps, RawFetchConfig, FetchConfig} from './types';
 
 export abstract class Request {
   constructor(protected readonly props: ModuleProps) {}

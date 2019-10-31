@@ -180,7 +180,7 @@ export interface IRunGraphQueryParams extends IDataSourceParams {
   withAccess?: boolean;
   withDegree?: boolean;
   withDigest?: boolean;
-  templateData?: GenericObject<unknown>;
+  templateData?: GenericObject;
 }
 
 export interface IRunGraphQueryByContentParams extends IRunGraphQueryParams {

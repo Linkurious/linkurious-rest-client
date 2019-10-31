@@ -13,13 +13,13 @@ export interface GetNodeResponse extends LkNode {}
 
 export interface ICreateNodeParams extends IDataSourceParams {
   categories: string[];
-  properties?: GenericObject<unknown>;
+  properties?: GenericObject;
 }
 
 export interface CreateNodeResponse extends LkNode {}
 
 export interface IUpdateNodeParams extends IDataSourceParams, Identified {
-  properties?: GenericObject<unknown>;
+  properties?: GenericObject;
   deletedProperties?: string[];
   addedCategories?: string[];
   deletedCategories?: string[];

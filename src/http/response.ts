@@ -35,12 +35,12 @@ export enum LkErrorKey {
 /**
  * Basic error to be extended by custom errors
  */
-export interface LkError<K = LkErrorKey> {
+export interface LkError<K extends LkErrorKey = LkErrorKey> {
   key: K;
   message: string;
 }
 
-export class Response<B = unknown> {
+export class Response<B> {
   body: B;
   status: number;
   header: Record<string, unknown>;

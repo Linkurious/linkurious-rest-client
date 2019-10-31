@@ -22,5 +22,5 @@ export interface IUpdateMeParams {
   username?: string;
   email?: string;
   password?: string;
-  preferences?: GenericObject<unknown>;
+  preferences?: GenericObject;
 }
