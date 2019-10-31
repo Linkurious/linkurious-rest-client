@@ -75,7 +75,7 @@ export interface CreateCustomActionResponse extends CustomAction {}
 
 export interface IDeleteCustomActionParams extends IDataSourceParams, Identified {}
 
-export interface IUpdateCustomActionParams extends Partial<ICreateCustomActionParams> {}
+export interface IUpdateCustomActionParams extends Identified, Partial<ICreateCustomActionParams> {}
 
 export interface UpdateCustomActionResponse extends CustomAction {}
 

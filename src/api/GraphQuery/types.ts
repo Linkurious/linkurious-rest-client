@@ -5,7 +5,7 @@
  */
 
 import {LkEdge, LkNode, LkSubGraph} from '../graphItemTypes';
-import {GenericObject, IDataSourceParams} from '../commonTypes';
+import {GenericObject, IDataSourceParams, Identified} from '../commonTypes';
 
 export interface TemplateFieldOptions {
   [k: string]: string | number | boolean | string[] | object | undefined;
@@ -236,9 +236,7 @@ export interface ICreateGraphQueryParams extends IDataSourceParams {
   sharedWithGroups?: number[];
 }
 
-export interface IUpdateGraphQueryParams extends Partial<ICreateGraphQueryParams> {
-  id: number;
-}
+export interface IUpdateGraphQueryParams extends Identified, Partial<ICreateGraphQueryParams> {}
 
 export interface IDeleteGraphQueryParams extends IDataSourceParams {
   id: number;

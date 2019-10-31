@@ -48,10 +48,7 @@ export interface Alert extends PersistedItem {
 
 export interface CreateAlertResponse extends Alert {}
 
-export interface IUpdateAlertParams
-  extends IDataSourceParams,
-    Identified,
-    Partial<ICreateAlertParams> {}
+export interface IUpdateAlertParams extends Identified, Partial<ICreateAlertParams> {}
 
 export interface UpdateAlertResponse extends Alert {}
 
