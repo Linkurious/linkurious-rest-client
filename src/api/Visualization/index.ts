@@ -7,7 +7,6 @@
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
-import {Utils} from '../../utils';
 
 import {
   ICreateVisualizationFolderParams,
@@ -266,7 +265,7 @@ export class VisualizationAPI extends Request {
       url: '/:sourceKey/visualizations/:id',
       method: 'PATCH',
       params: params,
-      query: Utils.fixSnakeCase({forceLock: params.forceLock})
+      query: {forceLock: params.forceLock}
     });
   }
 }
