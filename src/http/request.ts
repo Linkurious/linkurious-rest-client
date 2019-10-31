@@ -27,7 +27,8 @@ export abstract class Request {
   }
 
   /**
-   * Render `config.url` using `config.params` and set optional properties to default values
+   * Render `config.url` using `config.params`
+   * and subtract the params used from `config.params`.
    */
   private static renderURL(
     config: RawFetchConfig,
