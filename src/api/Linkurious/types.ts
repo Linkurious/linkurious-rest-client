@@ -106,7 +106,7 @@ export interface LKEVersion {
 }
 
 // GetConfig
-export interface IDatabaseOptions {
+export interface DatabaseOptions {
   dialect: 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
   storage?: string;
   host?: string;
@@ -118,7 +118,7 @@ export interface IDatabaseConfig {
   username?: string;
   password?: string;
   connectionRetries?: number;
-  options?: IDatabaseOptions;
+  options?: DatabaseOptions;
 }
 
 export interface IHttpServerConfig {

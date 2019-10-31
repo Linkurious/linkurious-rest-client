@@ -56,12 +56,6 @@ export interface AccessRight {
   targetName: string;
 }
 
-export interface IGroupRights {
-  types: string[];
-  targetTypes: string[];
-  actions: string[];
-}
-
 export interface ICreateUserParams {
   username: string;
   email: string;
