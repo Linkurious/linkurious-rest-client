@@ -5,7 +5,6 @@
  */
 
 import {Request} from '../../http/request';
-import {LkErrorKey} from '../../http/response';
 
 import {
   AlertPreviewResponse,
@@ -29,7 +28,16 @@ import {
 export * from './types';
 
 // TODO make sure data-source unavailable is thrown instead of graph_unreachable
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  GUEST_DISABLED,
+  FORBIDDEN,
+  NOT_FOUND,
+  BAD_GRAPH_REQUEST,
+  CONSTRAINT_VIOLATION,
+  GRAPH_REQUEST_TIMEOUT
+} = LkErrorKey;
 
 export class GraphAPI extends Request {
   public search(params: ISearchParams) {

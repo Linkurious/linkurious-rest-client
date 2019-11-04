@@ -18,10 +18,6 @@ export interface PersistedItem {
   updatedAt: string;
 }
 
-export interface Identified {
-  id: number;
-}
-
 export type FolderChildren<T, N extends string> = Array<Folder<T, N> | (T & {type: N})>;
 
 export interface Folder<T, N extends string> {

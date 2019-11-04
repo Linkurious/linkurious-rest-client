@@ -4,7 +4,7 @@
  * - Created on 2019-08-19.
  */
 
-import {IDataSourceParams, Identified, PersistedItem} from '../commonTypes';
+import {IDataSourceParams, PersistedItem} from '../commonTypes';
 
 export enum CustomActionType {
   NON_GRAPH = 'non-graph',
@@ -73,9 +73,13 @@ export interface ICreateCustomActionParams extends IDataSourceParams {
 
 export interface CreateCustomActionResponse extends CustomAction {}
 
-export interface IDeleteCustomActionParams extends IDataSourceParams, Identified {}
+export interface IDeleteCustomActionParams extends IDataSourceParams {
+  id: number;
+}
 
-export interface IUpdateCustomActionParams extends Identified, Partial<ICreateCustomActionParams> {}
+export interface IUpdateCustomActionParams extends Partial<ICreateCustomActionParams> {
+  id: number;
+}
 
 export interface UpdateCustomActionResponse extends CustomAction {}
 

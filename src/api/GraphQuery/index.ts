@@ -8,8 +8,6 @@ import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 
 import {
-  ICheckGraphQueryParams,
-  CheckGraphQueryResponse,
   ICreateGraphQueryParams,
   IDeleteGraphQueryParams,
   IGetGraphQueriesParams,

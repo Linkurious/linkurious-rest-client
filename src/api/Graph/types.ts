@@ -4,7 +4,7 @@
  * - Created on 2019-10-30.
  */
 
-import {GenericObject, IDataSourceParams, Identified} from '../commonTypes';
+import {GenericObject, IDataSourceParams} from '../commonTypes';
 import {LkEdge, LkNode, LkNodeStatistics, LkSubGraph} from '../graphItemTypes';
 import {GraphInputType, GraphQueryDialect, GraphQueryType, TemplateField} from '../GraphQuery';
 import {EntityType} from '../GraphSchema';
@@ -67,7 +67,9 @@ export interface RunQueryResponse extends LkSubGraph {
 
 export type RunQueryByContentResponse = RunQueryResponse;
 
-export interface IRunQueryByIdParams extends IGetSubGraphParams, IRunQueryParams, Identified {}
+export interface IRunQueryByIdParams extends IGetSubGraphParams, IRunQueryParams {
+  id: number;
+}
 
 export type RunQueryByIdResponse = RunQueryResponse;
 

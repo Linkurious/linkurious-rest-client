@@ -4,7 +4,7 @@
  * - Created on 2019-08-19.
  */
 
-import {PersistedItem, Identified, IDataSourceParams} from '../commonTypes';
+import {PersistedItem, IDataSourceParams} from '../commonTypes';
 
 // USER
 export interface SimpleUser extends PersistedItem {
@@ -32,7 +32,8 @@ export interface IGetUserParams extends IDataSourceParams {
 }
 
 // GROUP
-export interface BaseGroup extends Identified {
+export interface BaseGroup {
+  id: number;
   name: string;
 }
 

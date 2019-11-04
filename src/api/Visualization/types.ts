@@ -5,7 +5,7 @@
  */
 
 import {VizEdge, VizNode} from '../graphItemTypes';
-import {FolderChildren, IDataSourceParams, Identified} from '../commonTypes';
+import {FolderChildren, IDataSourceParams} from '../commonTypes';
 import {SimpleUser} from '../User';
 
 export interface IMergeVisualizationsParams {
@@ -264,8 +264,7 @@ export interface IUpdateSandboxParams extends IDataSourceParams {
   edgeFields?: ItemFields;
 }
 
-export interface IUpdateVisualizationParams
-  extends Identified,
-    Partial<ICreateVisualizationParams> {
+export interface IUpdateVisualizationParams extends Partial<ICreateVisualizationParams> {
+  id: number;
   forceLock?: boolean;
 }

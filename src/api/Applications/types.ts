@@ -4,7 +4,7 @@
  * - Created on 2019-10-30.
  */
 
-import {Identified, PersistedItem} from '../commonTypes';
+import {PersistedItem} from '../commonTypes';
 
 // TODO add type to rights after PKAR is merged
 export interface Application extends PersistedItem {
@@ -26,6 +26,8 @@ export interface ICreateApplicationParams {
 
 export interface CreateApplicationResponse extends Application {}
 
-export interface IUpdateApplicationParams extends Identified, Partial<ICreateApplicationParams> {}
+export interface IUpdateApplicationParams extends Partial<ICreateApplicationParams> {
+  id: number;
+}
 
 export interface UpdateApplicationResponse extends Application {}

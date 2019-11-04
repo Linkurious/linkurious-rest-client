@@ -4,7 +4,7 @@
  * - Created on 2019-10-30.
  */
 
-import {FolderChildren, IDataSourceParams, Identified, PersistedItem} from '../commonTypes';
+import {FolderChildren, IDataSourceParams, PersistedItem} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 
 export enum ColumnType {
@@ -53,11 +53,15 @@ export interface Alert extends PersistedItem {
 
 export interface CreateAlertResponse extends Alert {}
 
-export interface IUpdateAlertParams extends Identified, Partial<ICreateAlertParams> {}
+export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
+  id: number;
+}
 
 export interface UpdateAlertResponse extends Alert {}
 
-export interface IDeleteAlertParams extends IDataSourceParams, Identified {}
+export interface IDeleteAlertParams extends IDataSourceParams {
+  id: number;
+}
 
 export interface ICreateAlertFolderParams extends IDataSourceParams {
   title: string;
@@ -70,13 +74,16 @@ export interface AlertFolder extends PersistedItem {
 
 export interface CreateAlertFolderResponse extends AlertFolder {}
 
-export interface IUpdateAlertFolderParams extends IDataSourceParams, Identified {
+export interface IUpdateAlertFolderParams extends IDataSourceParams {
+  id: number;
   title: string;
 }
 
 export interface UpdateAlertFolderResponse extends AlertFolder {}
 
-export interface IDeleteAlertFolderParams extends IDataSourceParams, Identified {}
+export interface IDeleteAlertFolderParams extends IDataSourceParams {
+  id: number;
+}
 
 export interface IGetAlertTreeParams extends IDataSourceParams {}
 
@@ -87,7 +94,9 @@ export interface GetAlertTreeResponse {
   children: FolderChildren<Alert, 'alert'>;
 }
 
-export interface IGetAlertParams extends IDataSourceParams, Identified {}
+export interface IGetAlertParams extends IDataSourceParams {
+  id: number;
+}
 
 export interface GetAlertResponse extends Alert {}
 
