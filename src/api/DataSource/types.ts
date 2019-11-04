@@ -4,7 +4,7 @@
  * - Created on 2019-10-25.
  */
 
-import {GenericObject} from '../commonTypes';
+import {GenericObject, IDataSourceParams} from '../commonTypes';
 
 export interface IDataSourceFeatures {
   immutableNodeCategories: boolean;

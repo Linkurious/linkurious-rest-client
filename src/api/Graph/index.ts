@@ -6,63 +6,48 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
-import {
-  IAlertPreviewParams,
-  AlertPreviewResponse,
-  IRunGraphQueryByContentParams,
-  IRunGraphQueryByIdParams,
-  RunGraphQueryResponse
-} from '../GraphQuery';
-import {LkSubGraph} from '../graphItemTypes';
 
 import {
+  AlertPreviewResponse,
+  CheckQueryResponse,
+  GetAdjacentNodesResponse,
+  GetStatisticsResponse,
+  IAlertPreviewParams,
+  ICheckQueryParams,
   IGetAdjacentNodesParams,
-  IGetDigestParams,
-  IAdvancedSearchParams,
+  IGetStatisticsParams,
+  IRunQueryByContentParams,
+  IRunQueryByIdParams,
   ISearchFullParams,
-  GraphSearchResponse
+  ISearchParams,
+  RunQueryByContentResponse,
+  RunQueryByIdResponse,
+  SearchFullResponse,
+  SearchResponse
 } from './types';
 
 export * from './types';
 
-const {
-  UNAUTHORIZED,
-  DATA_SOURCE_UNAVAILABLE,
-  FORBIDDEN,
-  BAD_GRAPH_REQUEST,
-  CONSTRAINT_VIOLATION,
-  GRAPH_REQUEST_TIMEOUT,
-  GRAPH_UNREACHABLE,
-  GUEST_DISABLED
-} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND} = LkErrorKey;
 
 export class GraphAPI extends Request {
-  /**
-   * Search for nodes based on a query string and optional parameters. Return a list of full Nodes.
-   */
-  public SearchAndAddSubGraph(params: ISearchFullParams) {
-    return this.handle(UNAUTHORIZED).request<LkSubGraph>({
+  public searchFull(params: ISearchFullParams) {
+    return this.handle(UNAUTHORIZED).request<SearchFullResponse>({
       url: '/:sourceKey/search/:type/full',
       method: 'POST',
       params: params
     });
   }
 
-  /**
-   * Search for items with filters.
-   */
-  public search(params: IAdvancedSearchParams) {
-    return this.handle(UNAUTHORIZED).request<GraphSearchResponse>({
+  public search(params: ISearchParams) {
+    return this.handle(UNAUTHORIZED).request<SearchResponse>({
       url: '/:sourceKey/search/:type',
       method: 'POST',
       params: params
     });
   }
 
-  /**
-   * Run a static or template query.
-   */
-  public runQuery(params: IRunGraphQueryByContentParams) {
+  public checkQuery(params: ICheckQueryParams) {
     return this.handle(
       UNAUTHORIZED,
       FORBIDDEN,
@@ -71,17 +56,30 @@ export class GraphAPI extends Request {
       GRAPH_REQUEST_TIMEOUT,
       DATA_SOURCE_UNAVAILABLE,
       GRAPH_UNREACHABLE
-    ).request<RunGraphQueryResponse>({
+    ).request<CheckQueryResponse>({
+      url: '/:sourceKey/graph/check/query',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  public runQuery(params: IRunQueryByContentParams) {
+    return this.handle(
+      UNAUTHORIZED,
+      FORBIDDEN,
+      BAD_GRAPH_REQUEST,
+      CONSTRAINT_VIOLATION,
+      GRAPH_REQUEST_TIMEOUT,
+      DATA_SOURCE_UNAVAILABLE,
+      GRAPH_UNREACHABLE
+    ).request<RunQueryByContentResponse>({
       url: '/:sourceKey/graph/run/query',
       method: 'POST',
       params: params
     });
   }
 
-  /**
-   * Run a static or template query.
-   */
-  public runQueryById(params: IRunGraphQueryByIdParams) {
+  public runQueryById(params: IRunQueryByIdParams) {
     return this.handle(
       UNAUTHORIZED,
       FORBIDDEN,
@@ -91,16 +89,13 @@ export class GraphAPI extends Request {
       GRAPH_REQUEST_TIMEOUT,
       DATA_SOURCE_UNAVAILABLE,
       GRAPH_UNREACHABLE
-    ).request<RunGraphQueryResponse>({
+    ).request<RunQueryByIdResponse>({
       url: '/:sourceKey/graph/run/query/:id',
       method: 'POST',
       params: params
     });
   }
 
-  /**
-   * Preview the result of a query.
-   */
   public alertPreview(params: IAlertPreviewParams) {
     return this.handle(
       UNAUTHORIZED,
@@ -118,26 +113,20 @@ export class GraphAPI extends Request {
     });
   }
 
-  /**
-   * Get node-categories and edge-types of neighbors.
-   */
-  public getDigest(params: IGetDigestParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<LkNodeStatistics>({
+  public getStatistics(params: IGetStatisticsParams) {
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
+      GetStatisticsResponse
+    >({
       url: '/:sourceKey/graph/neighborhood/statistics',
       method: 'POST',
       params: params
     });
   }
 
-  /**
-   * Get all adjacent nodes and edges for one or many source nodes (ids). The result is an array of
-   * nodes containing the sources nodes (ids) and their neighbors. Edges between sources nodes and
-   * neighbors - as well as edges between neighbors themselves - are returned in each node's edges
-   * field. If visible_nodes was specified, edges between source nodes or their neighbors and
-   * visible nodes are also included.
-   */
-  public expand(params: IGetAdjacentNodesParams) {
-    return this.request<LkSubGraph>({
+  public getAdjacentNodes(params: IGetAdjacentNodesParams) {
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
+      GetAdjacentNodesResponse
+    >({
       url: '/:sourceKey/graph/nodes/expand',
       method: 'POST',
       params: params

@@ -172,47 +172,9 @@ export interface IGetGraphQueriesParams extends IDataSourceParams {
   type: GraphQueryType;
 }
 
-export interface IRunGraphQueryParams extends IDataSourceParams {
-  dialect?: string;
-  limit?: number;
-  timeout?: number;
-  edgesTo?: Array<string | number>;
-  withDegree?: boolean;
-  withDigest?: boolean;
-  templateData?: GenericObject;
-}
-
-export interface IRunGraphQueryByContentParams extends IRunGraphQueryParams {
-  query: string;
-}
-
-export interface IRunGraphQueryByIdParams extends IRunGraphQueryParams {
-  id: number;
-}
-
-export interface RunGraphQueryResponse extends LkSubGraph {
-  truncatedByLimit: boolean;
-  truncatedByAccess: boolean;
-}
-
 export enum ColumnTypeValues {
   STRING = 'string',
   NUMBER = 'number'
-}
-
-export interface IAlertPreviewParams {
-  query: string;
-  dialect?: GraphQueryDialect;
-  columns?: Array<{columnName: string; columnTitle?: string; type: ColumnTypeValues}>;
-  limit?: number;
-  timeout?: number;
-}
-export interface AlertPreviewResponse {
-  results: Array<{
-    nodes: LkNode[];
-    edges: LkEdge[];
-    columns: Array<string | number>;
-  }>;
 }
 
 export interface ICreateGraphQueryParams extends IDataSourceParams {
