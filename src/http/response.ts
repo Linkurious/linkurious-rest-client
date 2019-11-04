@@ -84,14 +84,21 @@ export type ErrorResponses<T extends LkErrorKey> = T extends unknown
 export interface ConnectionRefused extends LkError<LkErrorKey.CONNECTION_REFUSED> {
   fetchConfig: FetchConfig;
 }
+export interface Unauthorized extends LkError<LkErrorKey.UNAUTHORIZED> {}
+export interface DataSourceUnavailable extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
+export interface GuestDisabled extends LkError<LkErrorKey.GUEST_DISABLED> {}
+export interface Forbidden extends LkError<LkErrorKey.FORBIDDEN> {}
+export interface NotFound extends LkError<LkErrorKey.NOT_FOUND> {}
+export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {}
+export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
+export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
+
 export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
 export interface GroupExists extends LkError<LkErrorKey.GROUP_EXISTS> {}
 export interface Bug extends LkError<LkErrorKey.BUG> {}
 export interface CannotDeleteNonEmptyFolder
   extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
 export interface CannotRead extends LkError<LkErrorKey.CANNOT_READ> {}
-export interface DataSourceUnavailable extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
-export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
 export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
 export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
   highlight: {
@@ -99,37 +106,32 @@ export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUE
     length?: number;
   };
 }
-export interface NotFound extends LkError<LkErrorKey.NOT_FOUND> {}
 export interface NotOwned extends LkError<LkErrorKey.NOT_OWNED> {}
 export interface NotSupported extends LkError<LkErrorKey.NOT_SUPPORTED> {}
-export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {}
-export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
-export interface Forbidden extends LkError<LkErrorKey.FORBIDDEN> {}
 export interface GraphUnreachable extends LkError<LkErrorKey.GRAPH_UNREACHABLE> {}
-export interface GuestDisabled extends LkError<LkErrorKey.GUEST_DISABLED> {}
-export interface Unauthorized extends LkError<LkErrorKey.UNAUTHORIZED> {}
 export interface WriteForbidden extends LkError<LkErrorKey.WRITE_FORBIDDEN> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefused;
+  [LkErrorKey.UNAUTHORIZED]: Unauthorized;
+  [LkErrorKey.DATA_SOURCE_UNAVAILABLE]: DataSourceUnavailable;
+  [LkErrorKey.GUEST_DISABLED]: GuestDisabled;
+  [LkErrorKey.FORBIDDEN]: Forbidden;
+  [LkErrorKey.NOT_FOUND]: NotFound;
+  [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequest;
+  [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeout;
+  [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolation;
+
   [LkErrorKey.ALREADY_EXIST]: AlreadyExists;
   [LkErrorKey.GROUP_EXISTS]: GroupExists;
   [LkErrorKey.BUG]: Bug;
   [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
   [LkErrorKey.CANNOT_READ]: CannotRead;
-  [LkErrorKey.DATA_SOURCE_UNAVAILABLE]: DataSourceUnavailable;
-  [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeout;
   [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
   [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplate;
-  [LkErrorKey.NOT_FOUND]: NotFound;
   [LkErrorKey.NOT_OWNED]: NotOwned;
   [LkErrorKey.NOT_SUPPORTED]: NotSupported;
-  [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequest;
-  [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolation;
-  [LkErrorKey.FORBIDDEN]: Forbidden;
   [LkErrorKey.GRAPH_UNREACHABLE]: GraphUnreachable;
-  [LkErrorKey.GUEST_DISABLED]: GuestDisabled;
-  [LkErrorKey.UNAUTHORIZED]: Unauthorized;
   [LkErrorKey.WRITE_FORBIDDEN]: WriteForbidden;
 };
