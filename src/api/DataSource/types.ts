@@ -51,7 +51,7 @@ export interface ICaptionsConfig {
   edges: GenericObject<Caption>;
 }
 
-export interface IUserDataSource {
+export interface UserDataSource {
   name: string;
   connected: boolean;
   key?: string;
@@ -192,7 +192,7 @@ export interface IGetUserDataSourcesParams {
   withCaptions?: boolean;
 }
 
-export type GetUserDataSourcesResponse = IUserDataSource[];
+export type GetUserDataSourcesResponse = UserDataSource[];
 
 export type GetAdminDataSourcesResponse = IAdminDataSource[];
 

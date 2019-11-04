@@ -19,6 +19,7 @@ export enum LkErrorKey {
   BAD_GRAPH_REQUEST = 'bad_graph_request',
   GRAPH_REQUEST_TIMEOUT = 'graph_request_timeout',
   CONSTRAINT_VIOLATION = 'constraint_violation',
+  USER_EXISTS = 'user_exists',
 
   ALREADY_EXIST = 'already_exists',
   GROUP_EXISTS = 'group_exists',
@@ -91,6 +92,7 @@ export interface NotFound extends LkError<LkErrorKey.NOT_FOUND> {}
 export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {}
 export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
 export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
+export interface UserExists extends LkError<LkErrorKey.USER_EXISTS> {}
 
 export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
 export interface GroupExists extends LkError<LkErrorKey.GROUP_EXISTS> {}
@@ -120,6 +122,7 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequest;
   [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeout;
   [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolation;
+  [LkErrorKey.USER_EXISTS]: UserExists;
 
   [LkErrorKey.ALREADY_EXIST]: AlreadyExists;
   [LkErrorKey.GROUP_EXISTS]: GroupExists;

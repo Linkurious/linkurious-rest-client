@@ -6,23 +6,28 @@
 
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
-import {FullUser} from '../User';
 
-import {ILoginParams, ISSOLoginParams, IUpdateMeParams} from './types';
+import {
+  GetCurrentUserResponse,
+  ILoginParams,
+  IUpdateCurrentUserParams,
+  LoginResponse,
+  UpdateCurrentUserResponse
+} from './types';
 
 export * from './types';
 
-const {UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
+const {UNAUTHORIZED, GUEST_DISABLED, FORBIDDEN, USER_EXISTS} = LkErrorKey;
 
 export class AuthAPI extends Request {
+  /**
+   * Log a user in by e-mail or username and password and return it.
+   */
   public async login(params: ILoginParams) {
     if (this.props.clientState.user) {
-      const response = await this.logout();
-      if (response.isAnyError()) {
-        console.log('It was not possible to log out previous user: ' + JSON.stringify(response));
-      }
+      this.props.clientState.user = undefined;
     }
-    const response = await this.handle().request<FullUser>({
+    const response = await this.handle(UNAUTHORIZED).request<LoginResponse>({
       url: '/auth/login',
       method: 'POST',
       params: params
@@ -33,58 +38,50 @@ export class AuthAPI extends Request {
     return response;
   }
 
-  // I think if you logout without being logged in, it throws an error,
-  // if so, we should add that error to be handled here
-  async logout() {
+  /**
+   * Log the current user out.
+   */
+  public async logout() {
     const response = await this.handle(UNAUTHORIZED).request({
       url: '/auth/logout',
       method: 'GET'
     });
-    if (response.isSuccess()) {
-      this.props.clientState.user = undefined;
-    }
+    this.props.clientState.user = undefined;
     return response;
   }
 
-  public SSOLogin(params: ISSOLoginParams) {
-    return this.request<boolean>({
-      url: '/auth/sso/return',
-      method: 'GET',
-      params: params
-    });
-  }
+  // TODO handle the login with SSO
+
+  // TODO remove check isAuthenticated API from server
 
   /**
-   * Check if the user is authenticated.
+   * Get the profile of the current user.
    */
-  public isAuthenticated() {
-    return this.request<boolean>({
-      url: '/auth/authenticated',
+  public async getCurrentUser() {
+    const response = await this.handle(UNAUTHORIZED, GUEST_DISABLED).request<
+      GetCurrentUserResponse
+    >({
+      url: '/auth/me',
       method: 'GET'
     });
+    if (response.isSuccess()) {
+      this.props.clientState.user = response.body;
+    }
+
+    return response;
   }
 
   /**
-   * Check if the user is authenticated.
+   * Update the current user.
    */
-  public getMe() {
-    // TODO handle GUEST_DISABLED
-    return this.request<boolean>({
-      url: '/auth/authenticated',
-      method: 'GET'
-    });
-  }
-
-  /**
-   * Update the current user connected.
-   */
-  public async updateMe(params: IUpdateMeParams) {
-    const response = await this.handle(UNAUTHORIZED, FORBIDDEN).request<FullUser>({
+  public async updateCurrentUser(params: IUpdateCurrentUserParams) {
+    const response = await this.handle(UNAUTHORIZED, FORBIDDEN, USER_EXISTS).request<
+      UpdateCurrentUserResponse
+    >({
       url: '/auth/me',
       method: 'PATCH',
       params: params
     });
-
     if (response.isSuccess()) {
       this.props.clientState.user = response.body;
     }

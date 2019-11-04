@@ -6,8 +6,8 @@
 
 import {SuperAgentStatic} from 'superagent';
 
-import {FullUser} from '../api/User';
-import {IUserDataSource} from '../api/DataSource';
+import {User} from '../api/User';
+import {UserDataSource} from '../api/DataSource';
 import {ErrorListener} from '../errorListener';
 import {GenericObject} from '../api/commonTypes';
 
@@ -31,10 +31,10 @@ export interface FetchConfig {
 }
 
 export interface ClientState {
-  user?: FullUser;
-  currentSource?: IUserDataSource;
+  user?: User;
+  currentSource?: UserDataSource;
   guestMode?: boolean;
-  sources?: IUserDataSource[];
+  sources?: UserDataSource[];
 }
 
 export interface ModuleProps {

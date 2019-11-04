@@ -3,25 +3,23 @@
  *
  * - Created on 2019-08-19.
  */
+import {UserPreferences, User} from '../User';
 
-import {GenericObject} from '../commonTypes';
-
-// Login
 export interface ILoginParams {
   usernameOrEmail: string;
   password: string;
 }
 
-export interface ISSOLoginParams {
-  code: string;
-  state: string;
-}
+export type LoginResponse = User;
 
-export interface IUpdateMeParams {
+export type GetCurrentUserResponse = User;
+
+export interface IUpdateCurrentUserParams {
   id: number;
   username?: string;
   email?: string;
   password?: string;
-  // TODO preferences have a type
-  preferences?: GenericObject;
+  preferences?: Partial<UserPreferences>;
 }
+
+export type UpdateCurrentUserResponse = User;

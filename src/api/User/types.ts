@@ -6,26 +6,31 @@
 
 import {PersistedItem, IDataSourceParams} from '../commonTypes';
 
+export interface UserPreferences {
+  pinOnDrag: boolean;
+  locale: string;
+  incrementalLayout: boolean;
+}
+
 // USER
 export interface SimpleUser extends PersistedItem {
   username: string;
   email: string;
 }
 
-export interface User extends SimpleUser {
-  groups: SimpleGroup[];
-  source: string;
+export interface User {
+
 }
 
-export interface FullUser extends User {
-  preferences: {
-    pinOnDrag: boolean;
-    incrementalLayout: boolean;
-    locale: string;
-  };
-  actions: any;
-  accessRights: any;
-}
+// export interface FullUser extends User {
+//   preferences: {
+//     pinOnDrag: boolean;
+//     incrementalLayout: boolean;
+//     locale: string;
+//   };
+//   actions: any;
+//   accessRights: any;
+// }
 
 export interface IGetUserParams extends IDataSourceParams {
   id: number;
@@ -163,11 +168,7 @@ export interface UpdateUserResponse {
   email: string;
   groups: SimpleGroup[];
   source: string;
-  preferences: {
-    pinOnDrag: boolean;
-    incrementalLayout: boolean;
-    locale: string;
-  };
+  preferences: UserPreferences;
   actions: any;
   accessRights: any;
 }

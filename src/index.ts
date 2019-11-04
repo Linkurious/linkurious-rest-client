@@ -13,7 +13,7 @@ import {AlertsAPI} from './api/Alerts';
 import {ApplicationsAPI} from './api/Applications';
 import {AuthAPI} from './api/Auth';
 import {CustomActionAPI} from './api/CustomAction';
-import {DataSourceAPI, IUserDataSource} from './api/DataSource';
+import {DataSourceAPI, UserDataSource} from './api/DataSource';
 import {GraphAPI} from './api/Graph';
 import {GraphEdgeAPI} from './api/GraphEdge';
 import {GraphNodeAPI} from './api/GraphNode';
@@ -86,15 +86,15 @@ export class RestClient extends ErrorListener {
   }
 
   public static getCurrentSource(
-    dataSources: IUserDataSource[],
+    dataSources: UserDataSource[],
     by?: {userId: number} | {sourceKey: string} | {configIndex: number}
-  ): IUserDataSource {
+  ): UserDataSource {
     if (!dataSources.length) {
       throw new Error('RestClient::getCurrentSource - dataSources cannot be empty.');
     }
 
     if (by) {
-      let source: IUserDataSource | undefined;
+      let source: UserDataSource | undefined;
       if ('userId' in by) {
         // Return the last seen data-source by the current user if the data-source is connected
         try {
