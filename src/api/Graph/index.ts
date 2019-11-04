@@ -5,6 +5,7 @@
  */
 
 import {Request} from '../../http/request';
+import {LkErrorKey} from '../../http/response';
 
 import {
   AlertPreviewResponse,
@@ -35,13 +36,15 @@ const {
   FORBIDDEN,
   NOT_FOUND,
   BAD_GRAPH_REQUEST,
-  CONSTRAINT_VIOLATION,
-  GRAPH_REQUEST_TIMEOUT
+  GRAPH_REQUEST_TIMEOUT,
+  CONSTRAINT_VIOLATION
 } = LkErrorKey;
 
 export class GraphAPI extends Request {
   public search(params: ISearchParams) {
-    return this.handle(UNAUTHORIZED, GUEST_DISABLED).request<SearchResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
+      SearchResponse
+    >({
       url: '/:sourceKey/search/:type',
       method: 'POST',
       params: params
@@ -49,7 +52,9 @@ export class GraphAPI extends Request {
   }
 
   public searchFull(params: ISearchFullParams) {
-    return this.handle(UNAUTHORIZED, GUEST_DISABLED).request<SearchFullResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
+      SearchFullResponse
+    >({
       url: '/:sourceKey/search/:type/full',
       method: 'POST',
       params: params
@@ -90,8 +95,8 @@ export class GraphAPI extends Request {
     return this.handle(
       UNAUTHORIZED,
       DATA_SOURCE_UNAVAILABLE,
-      FORBIDDEN,
       GUEST_DISABLED,
+      FORBIDDEN,
       BAD_GRAPH_REQUEST,
       CONSTRAINT_VIOLATION,
       GRAPH_REQUEST_TIMEOUT
