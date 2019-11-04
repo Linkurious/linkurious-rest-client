@@ -24,6 +24,10 @@ export * from './types';
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class GraphNodeAPI extends Request {
+  /**
+   * Get a node of the graph.
+   * A subgraph made of the single node is returned.
+   */
   public getNode(params: IGetNodeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
       GetNodeResponse
@@ -34,6 +38,9 @@ export class GraphNodeAPI extends Request {
     });
   }
 
+  /**
+   * Add a node to the graph.
+   */
   public createNode(params: ICreateNodeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
       CreateNodeResponse
@@ -44,6 +51,10 @@ export class GraphNodeAPI extends Request {
     });
   }
 
+  /**
+   * Update a subset of properties and categories of a node.
+   * Keep every other property and category of the node unchanged.
+   */
   public updateNode(params: IUpdateNodeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       UpdateNodeResponse
@@ -54,6 +65,9 @@ export class GraphNodeAPI extends Request {
     });
   }
 
+  /**
+   * Delete a node and its adjacent edges from the graph.
+   */
   public deleteNode(params: IDeleteNodeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/graph/nodes/:id',
@@ -62,6 +76,9 @@ export class GraphNodeAPI extends Request {
     });
   }
 
+  /**
+   * Get the number of nodes in the graph.
+   */
   public getNodeCount(params?: IGetNodeCountParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
       GetNodeCountResponse

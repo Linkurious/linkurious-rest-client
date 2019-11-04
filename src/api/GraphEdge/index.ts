@@ -24,6 +24,10 @@ export * from './types';
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class GraphEdgeAPI extends Request {
+  /**
+   * Get an edge of the graph.
+   * A subgraph made of the edge and its extremities is returned.
+   */
   public getEdge(params: IGetEdgeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
       GetEdgeResponse
@@ -34,6 +38,9 @@ export class GraphEdgeAPI extends Request {
     });
   }
 
+  /**
+   * Add an edge to the graph.
+   */
   public createEdge(params: ICreateEdgeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
       CreateEdgeResponse
@@ -44,6 +51,10 @@ export class GraphEdgeAPI extends Request {
     });
   }
 
+  /**
+   * Update a subset of properties of an edge. Keep every other property of the edge unchanged.
+   * It's not possible to update the type of an edge.
+   */
   public updateEdge(params: IUpdateEdgeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       UpdateEdgeResponse
@@ -54,6 +65,9 @@ export class GraphEdgeAPI extends Request {
     });
   }
 
+  /**
+   * Delete an edge from the graph.
+   */
   public deleteEdge(params: IDeleteEdgeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/graph/edges/:id',
@@ -62,6 +76,9 @@ export class GraphEdgeAPI extends Request {
     });
   }
 
+  /**
+   * Get the number of edges in the graph.
+   */
   public getEdgeCount(params?: IGetEdgeCountParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
       GetEdgeCountResponse

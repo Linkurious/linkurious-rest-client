@@ -20,6 +20,9 @@ export * from './types';
 const {UNAUTHORIZED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class ApplicationsAPI extends Request {
+  /**
+   * Get all the API applications.
+   */
   public getApplications() {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request<GetApplicationsResponse>({
       url: '/admin/applications',
@@ -27,6 +30,9 @@ export class ApplicationsAPI extends Request {
     });
   }
 
+  /**
+   * Add a new API application.
+   */
   public createApplication(params: ICreateApplicationParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<CreateApplicationResponse>({
       url: '/admin/applications',
@@ -35,6 +41,9 @@ export class ApplicationsAPI extends Request {
     });
   }
 
+  /**
+   * Update an API application.
+   */
   public updateApplication(params: IUpdateApplicationParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<UpdateApplicationResponse>({
       url: '/admin/applications/:id',

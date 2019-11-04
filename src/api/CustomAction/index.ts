@@ -22,6 +22,9 @@ export * from './types';
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class CustomActionAPI extends Request {
+  /**
+   * Get all the custom actions owned by the current user or shared with them.
+   */
   public async getCustomActions(params?: IGetCustomActionsParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN).request<
       GetCustomActionsResponse
@@ -33,6 +36,9 @@ export class CustomActionAPI extends Request {
   }
 
   // TODO investigate on when Invalid Parameter is used as business error and fix that
+  /**
+   * Create a new custom action for the current user.
+   */
   public async createCustomAction(params: ICreateCustomActionParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
       CreateCustomActionResponse
@@ -43,6 +49,9 @@ export class CustomActionAPI extends Request {
     });
   }
 
+  /**
+   * Update a custom action owned by the current user.
+   */
   public async updateCustomAction(params: IUpdateCustomActionParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       UpdateCustomActionResponse
@@ -53,6 +62,9 @@ export class CustomActionAPI extends Request {
     });
   }
 
+  /**
+   * Delete a custom action owned by the current user.
+   */
   public async deleteCustomAction(params: IDeleteCustomActionParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/customAction/:id',

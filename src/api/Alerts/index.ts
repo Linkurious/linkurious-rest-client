@@ -36,6 +36,10 @@ export * from './types';
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class AlertsAPI extends Request {
+  /**
+   * Create a new alert. If `matchTTL` is set to 0, unconfirmed matches
+   * will disappear when they stop matching the alert query.
+   */
   public createAlert(params: ICreateAlertParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
       CreateAlertResponse
@@ -46,6 +50,10 @@ export class AlertsAPI extends Request {
     });
   }
 
+  /**
+   * Update the alert selected by id.
+   * Updating an alert query will results in all the previous detected matches deleted.
+   */
   public updateAlert(params: IUpdateAlertParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       UpdateAlertResponse
@@ -56,6 +64,9 @@ export class AlertsAPI extends Request {
     });
   }
 
+  /**
+   * Delete the alert by id and all its matches.
+   */
   public deleteAlert(params: IDeleteAlertParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/alerts/:id',
@@ -64,6 +75,9 @@ export class AlertsAPI extends Request {
     });
   }
 
+  /**
+   * Create an alert folder.
+   */
   public createAlertFolder(params: ICreateAlertFolderParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
       CreateAlertFolderResponse
@@ -74,6 +88,9 @@ export class AlertsAPI extends Request {
     });
   }
 
+  /**
+   * Update an alert folder.
+   */
   public updateAlertFolder(params: IUpdateAlertFolderParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       UpdateAlertFolderResponse
@@ -84,6 +101,9 @@ export class AlertsAPI extends Request {
     });
   }
 
+  /**
+   * Delete an alert folder.
+   */
   public deleteAlertFolder(params: IDeleteAlertFolderParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/alerts/folder/:id',
@@ -92,6 +112,9 @@ export class AlertsAPI extends Request {
     });
   }
 
+  /**
+   * Get the alerts and the alert folders in a tree structure.
+   */
   public getAlertTree(params?: IGetAlertTreeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
       GetAlertTreeResponse
@@ -102,6 +125,9 @@ export class AlertsAPI extends Request {
     });
   }
 
+  /**
+   * Get an alert by id.
+   */
   public getAlert(params: IGetAlertParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       GetAlertResponse
@@ -112,6 +138,9 @@ export class AlertsAPI extends Request {
     });
   }
 
+  /**
+   * Get the match by id.
+   */
   public getMatch(params: IGetMatchParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       GetMatchResponse
@@ -122,6 +151,9 @@ export class AlertsAPI extends Request {
     });
   }
 
+  /**
+   * Get all the matches of an alert.
+   */
   public getMatches(params: IGetMatchesParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       GetMatchesResponse
@@ -132,6 +164,9 @@ export class AlertsAPI extends Request {
     });
   }
 
+  /**
+   * Get all the actions of a match ordered by creation date.
+   */
   public GetMatchActions(params: IGetMatchActionsParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       GetMatchActionsResponse
@@ -142,6 +177,9 @@ export class AlertsAPI extends Request {
     });
   }
 
+  /**
+   * Do an action (open, dismiss, confirm, unconfirm) on a match.
+   */
   public doMatchAction(params: IDoMatchActionParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/alerts/:alertId/matches/:matchId/action',
