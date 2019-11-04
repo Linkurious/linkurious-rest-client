@@ -6,7 +6,7 @@
 
 import {Identified, PersistedItem} from '../commonTypes';
 
-// TODO add type to rights (today enum is in the lke-server)
+// TODO add type to rights after PKAR is merged
 export interface Application extends PersistedItem {
   name: string;
   apiKey: string;

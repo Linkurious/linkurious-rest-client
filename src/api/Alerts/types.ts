@@ -120,7 +120,6 @@ export interface IGetMatchesParams extends IDataSourceParams {
   alertId: number;
   offset?: number;
   limit?: number;
-  // TODO fix snake case in server
   sortDirection?: 'asc' | 'desc';
   sortBy?: 'date' | '0' | '1' | '2' | '3' | '4';
   status?: MatchStatus;

@@ -32,5 +32,4 @@ export interface IDeleteNodeParams extends IDataSourceParams, Identified {}
 
 export interface IGetNodeCountParams extends IDataSourceParams {}
 
-// TODO change api response to be just a number
 export type GetNodeCountResponse = number;
