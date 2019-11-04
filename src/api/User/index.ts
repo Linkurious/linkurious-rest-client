@@ -81,8 +81,6 @@ export class UserAPI extends Request {
 
   /**
    * Deletes a user in the application.
-   *
-   * @breakingChange response type is now void instead of boolean
    */
   public deleteUser(params: IDeleteUserParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request({

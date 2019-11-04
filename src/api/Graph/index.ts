@@ -107,7 +107,7 @@ export class GraphAPI extends Request {
   }
 
   /**
-   * Get all the nodes and edges matching the given saved graph query by ID.
+   * Get all the nodes and edges matching the given saved graph query by id.
    * A subgraph made of all the nodes and the edges from each subgraph matching the graph query is returned.
    */
   public runQueryById(params: IRunQueryByIdParams) {

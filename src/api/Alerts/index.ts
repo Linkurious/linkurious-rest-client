@@ -139,7 +139,7 @@ export class AlertsAPI extends Request {
   }
 
   /**
-   * Get the match by id.
+   * Get a match by id.
    */
   public getMatch(params: IGetMatchParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
