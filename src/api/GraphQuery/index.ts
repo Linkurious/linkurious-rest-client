@@ -114,23 +114,4 @@ export class GraphQueryAPI extends Request {
       params: params
     });
   }
-
-  /**
-   * Return resolve if the current query is valid.
-   */
-  public checkQuery(params: ICheckGraphQueryParams) {
-    return this.handle(
-      UNAUTHORIZED,
-      FORBIDDEN,
-      BAD_GRAPH_REQUEST,
-      CONSTRAINT_VIOLATION,
-      GRAPH_REQUEST_TIMEOUT,
-      DATA_SOURCE_UNAVAILABLE,
-      GRAPH_UNREACHABLE
-    ).request<CheckGraphQueryResponse>({
-      url: '/:sourceKey/graph/check/query',
-      method: 'POST',
-      params: params
-    });
-  }
 }

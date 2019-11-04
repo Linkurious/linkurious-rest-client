@@ -195,18 +195,6 @@ export interface RunGraphQueryResponse extends LkSubGraph {
   truncatedByAccess: boolean;
 }
 
-export interface ICheckGraphQueryParams extends IDataSourceParams {
-  query: string;
-  dialect?: GraphQueryDialect;
-}
-
-export interface CheckGraphQueryResponse {
-  write: boolean;
-  type: GraphQueryType;
-  graphInput?: GraphInputType;
-  templateFields?: TemplateField[];
-}
-
 export enum ColumnTypeValues {
   STRING = 'string',
   NUMBER = 'number'
