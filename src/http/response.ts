@@ -11,25 +11,24 @@ import {FetchConfig} from './types';
 export enum LkErrorKey {
   // Not a server error
   CONNECTION_REFUSED = 'connection_refused',
+  UNAUTHORIZED = 'unauthorized',
+  DATA_SOURCE_UNAVAILABLE = 'dataSource_unavailable',
+  GUEST_DISABLED = 'guest_disabled',
+  FORBIDDEN = 'forbidden',
+  NOT_FOUND = 'not_found',
+  BAD_GRAPH_REQUEST = 'bad_graph_request',
+  GRAPH_REQUEST_TIMEOUT = 'graph_request_timeout',
+  CONSTRAINT_VIOLATION = 'constraint_violation',
 
   ALREADY_EXIST = 'already_exists',
   GROUP_EXISTS = 'group_exists',
-  BUG = 'bug',
   CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed',
   CANNOT_READ = 'cannot_read',
-  DATA_SOURCE_UNAVAILABLE = 'dataSource_unavailable',
-  GRAPH_REQUEST_TIMEOUT = 'graph_request_timeout',
   ILLEGAL_SOURCE_STATE = 'illegal_source_state',
   MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
-  NOT_FOUND = 'not_found',
   NOT_OWNED = 'not_owned',
   NOT_SUPPORTED = 'not_supported',
-  BAD_GRAPH_REQUEST = 'bad_graph_request',
-  CONSTRAINT_VIOLATION = 'constraint_violation',
-  FORBIDDEN = 'forbidden',
   GRAPH_UNREACHABLE = 'graph_unreachable',
-  GUEST_DISABLED = 'guest_disabled',
-  UNAUTHORIZED = 'unauthorized',
   WRITE_FORBIDDEN = 'write_forbidden'
 }
 
@@ -95,7 +94,6 @@ export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLA
 
 export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
 export interface GroupExists extends LkError<LkErrorKey.GROUP_EXISTS> {}
-export interface Bug extends LkError<LkErrorKey.BUG> {}
 export interface CannotDeleteNonEmptyFolder
   extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
 export interface CannotRead extends LkError<LkErrorKey.CANNOT_READ> {}
@@ -125,7 +123,6 @@ export type LkErrorKeyToInterface = {
 
   [LkErrorKey.ALREADY_EXIST]: AlreadyExists;
   [LkErrorKey.GROUP_EXISTS]: GroupExists;
-  [LkErrorKey.BUG]: Bug;
   [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
   [LkErrorKey.CANNOT_READ]: CannotRead;
   [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
