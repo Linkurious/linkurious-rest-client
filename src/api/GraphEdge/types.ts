@@ -5,11 +5,12 @@
  */
 
 import {GenericObject, IDataSourceParams, Identified} from '../commonTypes';
-import {LkEdge} from '../graphItemTypes';
+import {LkEdge, LkSubGraph} from '../graphItemTypes';
+import {IGetSubGraphParams} from '../Graph';
 
-export interface IGetEdgeParams extends IDataSourceParams, Identified {}
+export interface IGetEdgeParams extends IGetSubGraphParams, Identified {}
 
-export interface GetEdgeResponse extends LkEdge {}
+export interface GetEdgeResponse extends LkSubGraph {}
 
 export interface ICreateEdgeParams extends IDataSourceParams {
   source: string;

@@ -28,20 +28,21 @@ import {
 
 export * from './types';
 
+// TODO make sure data-source unavailable is thrown instead of graph_unreachable
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND} = LkErrorKey;
 
 export class GraphAPI extends Request {
-  public searchFull(params: ISearchFullParams) {
-    return this.handle(UNAUTHORIZED).request<SearchFullResponse>({
-      url: '/:sourceKey/search/:type/full',
+  public search(params: ISearchParams) {
+    return this.handle(UNAUTHORIZED).request<SearchResponse>({
+      url: '/:sourceKey/search/:type',
       method: 'POST',
       params: params
     });
   }
 
-  public search(params: ISearchParams) {
-    return this.handle(UNAUTHORIZED).request<SearchResponse>({
-      url: '/:sourceKey/search/:type',
+  public searchFull(params: ISearchFullParams) {
+    return this.handle(UNAUTHORIZED).request<SearchFullResponse>({
+      url: '/:sourceKey/search/:type/full',
       method: 'POST',
       params: params
     });
@@ -54,8 +55,7 @@ export class GraphAPI extends Request {
       BAD_GRAPH_REQUEST,
       CONSTRAINT_VIOLATION,
       GRAPH_REQUEST_TIMEOUT,
-      DATA_SOURCE_UNAVAILABLE,
-      GRAPH_UNREACHABLE
+      DATA_SOURCE_UNAVAILABLE
     ).request<CheckQueryResponse>({
       url: '/:sourceKey/graph/check/query',
       method: 'POST',
@@ -70,8 +70,7 @@ export class GraphAPI extends Request {
       BAD_GRAPH_REQUEST,
       CONSTRAINT_VIOLATION,
       GRAPH_REQUEST_TIMEOUT,
-      DATA_SOURCE_UNAVAILABLE,
-      GRAPH_UNREACHABLE
+      DATA_SOURCE_UNAVAILABLE
     ).request<RunQueryByContentResponse>({
       url: '/:sourceKey/graph/run/query',
       method: 'POST',
@@ -87,8 +86,7 @@ export class GraphAPI extends Request {
       BAD_GRAPH_REQUEST,
       CONSTRAINT_VIOLATION,
       GRAPH_REQUEST_TIMEOUT,
-      DATA_SOURCE_UNAVAILABLE,
-      GRAPH_UNREACHABLE
+      DATA_SOURCE_UNAVAILABLE
     ).request<RunQueryByIdResponse>({
       url: '/:sourceKey/graph/run/query/:id',
       method: 'POST',
@@ -104,8 +102,7 @@ export class GraphAPI extends Request {
       BAD_GRAPH_REQUEST,
       CONSTRAINT_VIOLATION,
       GRAPH_REQUEST_TIMEOUT,
-      DATA_SOURCE_UNAVAILABLE,
-      GRAPH_UNREACHABLE
+      DATA_SOURCE_UNAVAILABLE
     ).request<AlertPreviewResponse>({
       url: '/:sourceKey/graph/alertPreview',
       method: 'POST',

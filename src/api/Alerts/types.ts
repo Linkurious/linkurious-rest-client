@@ -7,6 +7,11 @@
 import {FolderChildren, IDataSourceParams, Identified, PersistedItem} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 
+export enum ColumnType {
+  STRING = 'string',
+  NUMBER = 'number'
+}
+
 export interface ICreateAlertParams extends IDataSourceParams {
   title: string;
   query: string;
@@ -14,7 +19,7 @@ export interface ICreateAlertParams extends IDataSourceParams {
   folder?: number;
   enabled: boolean;
   columns: Array<{
-    type: string;
+    type: ColumnType;
     columnName: string;
     columnTitle: string;
   }>;
@@ -30,7 +35,7 @@ export interface Alert extends PersistedItem {
   folder: number;
   enabled: boolean;
   columns: Array<{
-    type: string;
+    type: ColumnType;
     columnName: string;
     columnTitle: string;
   }>;

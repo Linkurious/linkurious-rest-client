@@ -4,138 +4,102 @@
  * - Created on 2019-10-30.
  */
 
-export interface ISearchFullParams {}
+import {GenericObject, IDataSourceParams, Identified} from '../commonTypes';
+import {LkEdge, LkNode, LkNodeStatistics, LkSubGraph} from '../graphItemTypes';
+import {GraphInputType, GraphQueryDialect, GraphQueryType, TemplateField} from '../GraphQuery';
+import {EntityType} from '../GraphSchema';
+import {ColumnType} from '../Alerts';
 
-export interface SearchFullResponse {}
+export interface IGetSubGraphParams extends IDataSourceParams {
+  edgesTo?: string[];
+  withDigest?: boolean;
+  withDegree?: boolean;
+}
 
-export interface ISearchParams {}
+export interface ISearchParams extends IDataSourceParams {
+  type: EntityType;
+  q: string;
+  fuzziness?: number;
+  size?: number;
+  from?: number;
+  categoriesOrTypes?: string[];
+  filter?: Array<[string, string]>;
+}
 
-export interface SearchResponse {}
+export interface SearchResponse {
+  type: EntityType;
+  totalHits?: number;
+  moreResults?: boolean;
+  results: LkNode[] | LkEdge[];
+}
 
-export interface ICheckQueryParams {}
+export interface ISearchFullParams extends IGetSubGraphParams, ISearchParams {}
 
-export interface CheckQueryResponse {}
+export type SearchFullResponse = LkSubGraph;
 
-export interface IRunQueryByContentParams {}
+export interface ICheckQueryParams extends IDataSourceParams {
+  query: string;
+  dialect?: GraphQueryDialect;
+}
 
-export interface RunQueryByContentResponse {}
+export interface CheckQueryResponse {
+  write: boolean;
+  type: GraphQueryType;
+  graphInput?: GraphInputType;
+  templateFields?: TemplateField[];
+}
 
-export interface IRunQueryByIdParams {}
+export interface IRunQueryParams extends IDataSourceParams {
+  dialect?: GraphQueryDialect;
+  limit?: number;
+  timeout?: number;
+  templateData?: GenericObject;
+}
 
-export interface RunQueryByIdResponse {}
+export interface IRunQueryByContentParams extends IGetSubGraphParams, IRunQueryParams {
+  query: string;
+}
 
-export interface IAlertPreviewParams {}
+export interface RunQueryResponse extends LkSubGraph {
+  truncatedByLimit: boolean;
+  truncatedByAccess: boolean;
+}
 
-export interface AlertPreviewResponse {}
+export type RunQueryByContentResponse = RunQueryResponse;
 
-export interface IGetStatisticsParams {}
+export interface IRunQueryByIdParams extends IGetSubGraphParams, IRunQueryParams, Identified {}
 
-export interface GetStatisticsResponse {}
+export type RunQueryByIdResponse = RunQueryResponse;
 
-export interface IGetAdjacentNodesParams {}
+export interface IAlertPreviewParams extends IDataSourceParams {
+  query: string;
+  dialect?: GraphQueryDialect;
+  columns?: Array<{columnName: string; columnTitle?: string; type: ColumnType}>;
+  limit?: number;
+  timeout?: number;
+}
 
-export interface GetAdjacentNodesResponse {}
+// TODO make server return the array directly
+export type AlertPreviewResponse = Array<{
+  nodes: LkNode[];
+  edges: LkEdge[];
+  columns: Array<string | number>;
+}>;
 
-// import {LkEdge, LkNode, LkSubGraph} from '../graphItemTypes';
-// import {GenericObject, IDataSourceParams} from '../commonTypes';
-// import {EntityType} from '../GraphSchema';
-// import {
-//   ColumnTypeValues,
-//   GraphInputType,
-//   GraphQueryDialect,
-//   GraphQueryType,
-//   TemplateField
-// } from '../GraphQuery';
-//
-// export interface IGetDigestParams extends IDataSourceParams {
-//   ids: string[] | number[];
-//   withDigest?: boolean;
-//   withDegree?: boolean;
-// }
-//
-// export interface IGetAdjacentNodesParams extends IDataSourceParams {
-//   ids: string[] | number[];
-//   edgesTo?: string[] | number[];
-//   nodeCategories?: string[];
-//   edgeTypes?: string[];
-//   limit?: number;
-//   limitType?: string;
-//   withDigest?: boolean;
-//   withDegree?: boolean;
-// }
-//
-// export interface ISimpleSearchParams extends IDataSourceParams {
-//   type: EntityType;
-//   q: string;
-//   fuzziness?: number;
-//   size?: number;
-//   from?: number;
-// }
-//
-// export interface IAdvancedSearchParams extends ISimpleSearchParams {
-//   filter?: Array<[string, string]>;
-//   categoriesOrTypes?: string[];
-// }
-//
-// export interface GraphSearchResponse {
-//   type: EntityType;
-//   totalHits?: number;
-//   moreResults?: boolean;
-//   results: LkNode[] | LkEdge[];
-// }
-//
-// export interface ISearchFullParams extends IAdvancedSearchParams {
-//   edgesTo?: string[];
-//   withDigest?: boolean;
-//   withDegree?: boolean;
-// }
-//
-// export interface ICheckGraphQueryParams extends IDataSourceParams {
-//   query: string;
-//   dialect?: GraphQueryDialect;
-// }
-//
-// export interface CheckGraphQueryResponse {
-//   write: boolean;
-//   type: GraphQueryType;
-//   graphInput?: GraphInputType;
-//   templateFields?: TemplateField[];
-// }
-//
-// export interface IAlertPreviewParams {
-//   query: string;
-//   dialect?: GraphQueryDialect;
-//   columns?: Array<{columnName: string; columnTitle?: string; type: ColumnTypeValues}>;
-//   limit?: number;
-//   timeout?: number;
-// }
-// export interface AlertPreviewResponse {
-//   results: Array<{
-//     nodes: LkNode[];
-//     edges: LkEdge[];
-//     columns: Array<string | number>;
-//   }>;
-// }
-//
-// export interface IRunGraphQueryParams extends IDataSourceParams {
-//   dialect?: string;
-//   limit?: number;
-//   timeout?: number;
-//   edgesTo?: Array<string | number>;
-//   withDegree?: boolean;
-//   withDigest?: boolean;
-//   templateData?: GenericObject;
-// }
-//
-// export interface IRunGraphQueryByContentParams extends IRunGraphQueryParams {
-//   query: string;
-// }
-//
-// export interface IRunGraphQueryByIdParams extends IRunGraphQueryParams {
-//   id: number;
-// }
-//
-// export interface RunGraphQueryResponse extends LkSubGraph {
-//   truncatedByLimit: boolean;
-//   truncatedByAccess: boolean;
-// }
+export interface IGetStatisticsParams extends IDataSourceParams {
+  ids: string[];
+  withDigest?: boolean;
+  withDegree?: boolean;
+}
+
+export type GetStatisticsResponse = LkNodeStatistics;
+
+export interface IGetAdjacentNodesParams extends IGetSubGraphParams {
+  ids: string[];
+  limit?: number;
+  limitType?: 'id' | 'highestDegree' | 'lowestDegree';
+  nodeCategories?: string[];
+  edgeTypes?: string[];
+}
+
+export type GetAdjacentNodesResponse = LkSubGraph;

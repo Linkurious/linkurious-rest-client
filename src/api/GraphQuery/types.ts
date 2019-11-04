@@ -172,11 +172,6 @@ export interface IGetGraphQueriesParams extends IDataSourceParams {
   type: GraphQueryType;
 }
 
-export enum ColumnTypeValues {
-  STRING = 'string',
-  NUMBER = 'number'
-}
-
 export interface ICreateGraphQueryParams extends IDataSourceParams {
   name: string;
   content: string;

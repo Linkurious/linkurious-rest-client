@@ -5,11 +5,12 @@
  */
 
 import {GenericObject, IDataSourceParams, Identified} from '../commonTypes';
-import {LkNode} from '../graphItemTypes';
+import {LkNode, LkSubGraph} from '../graphItemTypes';
+import {IGetSubGraphParams} from '../Graph';
 
-export interface IGetNodeParams extends IDataSourceParams, Identified {}
+export interface IGetNodeParams extends IGetSubGraphParams, Identified {}
 
-export interface GetNodeResponse extends LkNode {}
+export interface GetNodeResponse extends LkSubGraph {}
 
 export interface ICreateNodeParams extends IDataSourceParams {
   categories: string[];
