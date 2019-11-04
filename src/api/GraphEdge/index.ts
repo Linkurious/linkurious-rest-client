@@ -21,11 +21,13 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class GraphEdgeAPI extends Request {
   public getEdge(params: IGetEdgeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<GetEdgeResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
+      GetEdgeResponse
+    >({
       url: '/:sourceKey/graph/edges/:id',
       method: 'GET',
       params: params
@@ -61,7 +63,9 @@ export class GraphEdgeAPI extends Request {
   }
 
   public getEdgeCount(params?: IGetEdgeCountParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<GetEdgeCountResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
+      GetEdgeCountResponse
+    >({
       url: '/:sourceKey/graph/edges/count',
       method: 'GET',
       params: params

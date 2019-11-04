@@ -44,6 +44,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async getSamplingStatus(params?: IGetSamplingStatusParams) {
+    // TODO handle GUEST_DISABLED
     return this.request<GetSamplingStatusResponse>({
       url: '/:sourceKey/schema/sampling/status',
       method: 'GET',
@@ -108,7 +109,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async getTypesWithAccess(params: IGetTypesWithAccessParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
       GetTypesWithAccessResponse
     >({
       url: '/:sourceKey/graph/schema/:entityType/types',
@@ -118,7 +119,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async getSimpleSchema(params?: IGetSimpleSchemaParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<
+    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
       GetSimpleSchemaResponse
     >({
       url: '/:sourceKey/graph/schema/simple',

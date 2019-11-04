@@ -21,11 +21,13 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class GraphNodeAPI extends Request {
   public getNode(params: IGetNodeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<GetNodeResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
+      GetNodeResponse
+    >({
       url: '/:sourceKey/graph/nodes/:id',
       method: 'GET',
       params: params
@@ -61,7 +63,9 @@ export class GraphNodeAPI extends Request {
   }
 
   public getNodeCount(params?: IGetNodeCountParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<GetNodeCountResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
+      GetNodeCountResponse
+    >({
       url: '/:sourceKey/graph/nodes/count',
       method: 'GET',
       params: params

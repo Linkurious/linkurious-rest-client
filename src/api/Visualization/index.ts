@@ -66,7 +66,7 @@ export class VisualizationAPI extends Request {
    * @breakingChange update the server api to return number
    */
   public count(params: IDataSourceParams) {
-    return this.handle().request<number>({
+    return this.handle(GUEST_DISABLED).request<number>({
       url: '/:sourceKey/visualizations/count',
       method: 'GET',
       params: params
@@ -167,7 +167,7 @@ export class VisualizationAPI extends Request {
    * Return the visualization sandbox of the current user for a given data-source.
    */
   public getSandbox(params: IGetVisualizationSandboxParams) {
-    return this.handle(UNAUTHORIZED).request<VisualizationResponse>({
+    return this.handle(UNAUTHORIZED, GUEST_DISABLED).request<VisualizationResponse>({
       url: '/:sourceKey/sandbox',
       method: 'GET',
       params: params

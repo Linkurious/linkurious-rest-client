@@ -68,6 +68,7 @@ export class AuthAPI extends Request {
    * Check if the user is authenticated.
    */
   public getMe() {
+    // TODO handle GUEST_DISABLED
     return this.request<boolean>({
       url: '/auth/authenticated',
       method: 'GET'

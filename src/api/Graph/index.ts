@@ -29,11 +29,11 @@ import {
 export * from './types';
 
 // TODO make sure data-source unavailable is thrown instead of graph_unreachable
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class GraphAPI extends Request {
   public search(params: ISearchParams) {
-    return this.handle(UNAUTHORIZED).request<SearchResponse>({
+    return this.handle(UNAUTHORIZED, GUEST_DISABLED).request<SearchResponse>({
       url: '/:sourceKey/search/:type',
       method: 'POST',
       params: params
@@ -41,7 +41,7 @@ export class GraphAPI extends Request {
   }
 
   public searchFull(params: ISearchFullParams) {
-    return this.handle(UNAUTHORIZED).request<SearchFullResponse>({
+    return this.handle(UNAUTHORIZED, GUEST_DISABLED).request<SearchFullResponse>({
       url: '/:sourceKey/search/:type/full',
       method: 'POST',
       params: params
@@ -51,11 +51,11 @@ export class GraphAPI extends Request {
   public checkQuery(params: ICheckQueryParams) {
     return this.handle(
       UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
       BAD_GRAPH_REQUEST,
       CONSTRAINT_VIOLATION,
-      GRAPH_REQUEST_TIMEOUT,
-      DATA_SOURCE_UNAVAILABLE
+      GRAPH_REQUEST_TIMEOUT
     ).request<CheckQueryResponse>({
       url: '/:sourceKey/graph/check/query',
       method: 'POST',
@@ -66,11 +66,11 @@ export class GraphAPI extends Request {
   public runQuery(params: IRunQueryByContentParams) {
     return this.handle(
       UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
       BAD_GRAPH_REQUEST,
       CONSTRAINT_VIOLATION,
-      GRAPH_REQUEST_TIMEOUT,
-      DATA_SOURCE_UNAVAILABLE
+      GRAPH_REQUEST_TIMEOUT
     ).request<RunQueryByContentResponse>({
       url: '/:sourceKey/graph/run/query',
       method: 'POST',
@@ -81,12 +81,12 @@ export class GraphAPI extends Request {
   public runQueryById(params: IRunQueryByIdParams) {
     return this.handle(
       UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
       GUEST_DISABLED,
       BAD_GRAPH_REQUEST,
       CONSTRAINT_VIOLATION,
-      GRAPH_REQUEST_TIMEOUT,
-      DATA_SOURCE_UNAVAILABLE
+      GRAPH_REQUEST_TIMEOUT
     ).request<RunQueryByIdResponse>({
       url: '/:sourceKey/graph/run/query/:id',
       method: 'POST',
@@ -97,12 +97,11 @@ export class GraphAPI extends Request {
   public alertPreview(params: IAlertPreviewParams) {
     return this.handle(
       UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
-      GUEST_DISABLED,
       BAD_GRAPH_REQUEST,
       CONSTRAINT_VIOLATION,
-      GRAPH_REQUEST_TIMEOUT,
-      DATA_SOURCE_UNAVAILABLE
+      GRAPH_REQUEST_TIMEOUT
     ).request<AlertPreviewResponse>({
       url: '/:sourceKey/graph/alertPreview',
       method: 'POST',
@@ -111,7 +110,7 @@ export class GraphAPI extends Request {
   }
 
   public getStatistics(params: IGetStatisticsParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
       GetStatisticsResponse
     >({
       url: '/:sourceKey/graph/neighborhood/statistics',
@@ -121,7 +120,7 @@ export class GraphAPI extends Request {
   }
 
   public getAdjacentNodes(params: IGetAdjacentNodesParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
       GetAdjacentNodesResponse
     >({
       url: '/:sourceKey/graph/nodes/expand',

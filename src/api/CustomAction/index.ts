@@ -8,22 +8,22 @@ import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 
 import {
-  ICreateCustomActionParams,
   CreateCustomActionResponse,
+  GetCustomActionsResponse,
+  ICreateCustomActionParams,
   IDeleteCustomActionParams,
-  IUpdateCustomActionParams,
-  UpdateCustomActionResponse,
   IGetCustomActionsParams,
-  GetCustomActionsResponse
+  IUpdateCustomActionParams,
+  UpdateCustomActionResponse
 } from './types';
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class CustomActionAPI extends Request {
   public async getCustomActions(params?: IGetCustomActionsParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN).request<
       GetCustomActionsResponse
     >({
       url: '/:sourceKey/customAction',

@@ -42,7 +42,7 @@ export class DataSourceAPI extends Request {
   //
 
   public getDataSourcesStatus(params: IGetDataSourcesStatusParams) {
-    return this.handle().request<GetDataSourcesStatusResponse>({
+    return this.handle(GUEST_DISABLED).request<GetDataSourcesStatusResponse>({
       url: '/dataSources',
       method: 'GET',
       params: params
@@ -63,7 +63,9 @@ export class DataSourceAPI extends Request {
    * Get the status of the Search API and return the indexing progress.
    */
   public getIndexationStatus(params: IGetIndexationStatusParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<GetIndexationStatusResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND, GUEST_DISABLED).request<
+      GetIndexationStatusResponse
+    >({
       url: '/:sourceKey/search/status',
       method: 'GET',
       params: params
