@@ -44,7 +44,7 @@ export interface ParsedCustomAction {
   itemType: string;
 }
 
-export enum CustomActionSharing {
+export enum CustomActionSharingMode {
   PRIVATE = 'private',
   SOURCE = 'source'
 }
@@ -59,7 +59,7 @@ export interface CustomAction extends PersistedItem {
   name: string;
   urlTemplate: string;
   description: string;
-  sharing: CustomActionSharing;
+  sharing: CustomActionSharingMode;
   parsedTemplate: ParsedCustomAction;
   right: CustomActionRight;
 }
@@ -68,7 +68,7 @@ export interface ICreateCustomActionParams extends IDataSourceParams {
   name: string;
   urlTemplate: string;
   description: string;
-  sharing: CustomActionSharing;
+  sharing: CustomActionSharingMode;
 }
 
 export interface CreateCustomActionResponse extends CustomAction {}

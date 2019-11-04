@@ -4,63 +4,22 @@
  * - Created on 2019-10-29.
  */
 
-import {IDataSourceParams} from '../commonTypes';
-
-export interface TemplateFieldOptions {
-  [k: string]: string | number | boolean | string[] | object | undefined;
-}
+import {IDataSourceParams, PersistedItem} from '../commonTypes';
 
 export enum TemplateFieldType {
+  NUMBER = 'number',
+  STRING = 'string',
+  ENUM = 'enum',
   NODE = 'node',
   NODE_SET = 'nodeset',
-  STRING = 'string',
-  NUMBER = 'number',
-  BOOLEAN = 'boolean',
-  ENUM = 'enum',
   DATE = 'date',
-  DATE_TIME = 'datetime'
+  DATE_TIME = 'datetime',
+  BOOLEAN = 'boolean'
 }
 
 export interface TemplateField<T extends TemplateFieldType = TemplateFieldType> {
   key: string;
   type: T;
-  options?: TemplateFieldOptions;
-}
-
-export type TemplateFields = Array<
-  | NumberTemplate
-  | StringTemplate
-  | EnumTemplate
-  | NodeTemplate
-  | NodesetTemplate
-  | DateTemplate
-  | DatetimeTemplate
-  | BooleanTemplate
->;
-
-export type EnumValue = string | number | boolean;
-
-export type EnumChoices = Array<{
-  label: string;
-  value: EnumValue;
-}>;
-
-export enum DatetimeFormat {
-  TIMESTAMP = 'timestamp',
-  TIMESTAMP_MS = 'timestamp-ms',
-  ISO = 'iso',
-  YYYY_MM_DD_T = 'yyyy-MM-ddThh:mm:ss',
-  NATIVE = 'native'
-}
-
-export enum DateFormat {
-  TIMESTAMP = 'timestamp',
-  TIMESTAMP_MS = 'timestamp-ms',
-  ISO = 'iso',
-  ISO_YYYY_MM_DD = 'yyyy-MM-dd',
-  DD_MM_YYYY = 'dd/mm/yyyy',
-  MM_DD_YYYY = 'mm/dd/yyyy',
-  NATIVE = 'native'
 }
 
 export interface NumberTemplate extends TemplateField<TemplateFieldType.NUMBER> {
@@ -77,22 +36,43 @@ export interface StringTemplate extends TemplateField<TemplateFieldType.STRING> 
     placeholder?: string;
   };
 }
+
+export type EnumValue = string | number | boolean;
+
+export type EnumChoices = Array<{
+  label: string;
+  value: EnumValue;
+}>;
+
 export interface EnumTemplate extends TemplateField<TemplateFieldType.ENUM> {
   options: {
     default?: string;
     values: EnumChoices;
   };
 }
+
 export interface NodeTemplate extends TemplateField<TemplateFieldType.NODE> {
   options?: {
     categories?: string[];
   };
 }
+
 export interface NodesetTemplate extends TemplateField<TemplateFieldType.NODE_SET> {
   options?: {
     categories?: string[];
   };
 }
+
+export enum DateFormat {
+  TIMESTAMP = 'timestamp',
+  TIMESTAMP_MS = 'timestamp-ms',
+  ISO = 'iso',
+  ISO_YYYY_MM_DD = 'yyyy-MM-dd',
+  DD_MM_YYYY = 'dd/mm/yyyy',
+  MM_DD_YYYY = 'mm/dd/yyyy',
+  NATIVE = 'native'
+}
+
 export interface DateTemplate extends TemplateField<TemplateFieldType.DATE> {
   options: {
     default?: string;
@@ -101,6 +81,15 @@ export interface DateTemplate extends TemplateField<TemplateFieldType.DATE> {
     format: DateFormat;
   };
 }
+
+export enum DatetimeFormat {
+  TIMESTAMP = 'timestamp',
+  TIMESTAMP_MS = 'timestamp-ms',
+  ISO = 'iso',
+  YYYY_MM_DD_T = 'yyyy-MM-ddThh:mm:ss',
+  NATIVE = 'native'
+}
+
 export interface DatetimeTemplate extends TemplateField<TemplateFieldType.DATE_TIME> {
   options: {
     default?: string;
@@ -116,10 +105,22 @@ export interface BooleanTemplate extends TemplateField<TemplateFieldType.BOOLEAN
   };
 }
 
-export enum GraphQuerySharingMode {
-  PRIVATE = 'private',
-  SOURCE = 'source',
-  GROUPS = 'groups'
+export type TemplateFields = Array<
+  | NumberTemplate
+  | StringTemplate
+  | EnumTemplate
+  | NodeTemplate
+  | NodesetTemplate
+  | DateTemplate
+  | DatetimeTemplate
+  | BooleanTemplate
+>;
+
+export enum GraphQueryInputType {
+  NONE = 'none',
+  _1_NODE = '1-node',
+  _2_NODES = '2-nodes',
+  NODESET = 'nodeset'
 }
 
 export enum GraphQueryDialect {
@@ -127,29 +128,23 @@ export enum GraphQueryDialect {
   GREMLIN = 'gremlin'
 }
 
+export enum GraphQuerySharingMode {
+  PRIVATE = 'private',
+  SOURCE = 'source',
+  GROUPS = 'groups'
+}
+
+export enum GraphQueryRight {
+  OWNER = 'owner',
+  READ = 'read'
+}
+
 export enum GraphQueryType {
   STATIC = 'static',
   TEMPLATE = 'template'
 }
 
-export enum GraphInputType {
-  NONE = 'none',
-  _1_NODE = '1-node',
-  _2_NODES = '2-nodes',
-  NODESET = 'nodeset'
-}
-
-export enum GraphRightValues {
-  OWNER = 'owner',
-  READ = 'read'
-}
-
-export interface IGetGraphQueryParams extends IDataSourceParams {
-  id: number;
-}
-
-export interface GraphQueryResponse {
-  id: number;
+export interface GraphQuery extends PersistedItem {
   sourceKey: string;
   name: string;
   content: string;
@@ -158,20 +153,26 @@ export interface GraphQueryResponse {
   sharing: GraphQuerySharingMode;
   sharedWithGroups?: number[];
   write: boolean;
-  graphInput?: GraphInputType;
+  graphInput?: GraphQueryInputType;
   templateFields?: TemplateFields;
   type: GraphQueryType;
-  right: GraphRightValues;
+  right: GraphQueryRight;
   builtin: boolean;
-  createdAt: string;
-  updatedAt: string;
 }
 
-export interface IGetGraphQueriesParams extends IDataSourceParams {
+export interface IGetQueryParams extends IDataSourceParams {
+  id: number;
+}
+
+export type GetQueryResponse = GraphQuery;
+
+export interface IGetQueriesParams extends IDataSourceParams {
   type: GraphQueryType;
 }
 
-export interface ICreateGraphQueryParams extends IDataSourceParams {
+export type GetQueriesResponse = GraphQuery[];
+
+export interface ICreateQueryParams extends IDataSourceParams {
   name: string;
   content: string;
   dialect?: GraphQueryDialect;
@@ -180,10 +181,14 @@ export interface ICreateGraphQueryParams extends IDataSourceParams {
   sharedWithGroups?: number[];
 }
 
-export interface IUpdateGraphQueryParams extends Partial<ICreateGraphQueryParams> {
+export type CreateQueryResponse = GraphQuery;
+
+export interface IUpdateQueryParams extends Partial<ICreateQueryParams> {
   id: number;
 }
 
-export interface IDeleteGraphQueryParams extends IDataSourceParams {
+export type UpdateQueryResponse = GraphQuery;
+
+export interface IDeleteQueryParams extends IDataSourceParams {
   id: number;
 }

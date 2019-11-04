@@ -69,7 +69,7 @@ export interface VisualizationResponse {
   layout: VisualizationLayout;
   geo: VisualizationGeo;
   mode: VisuslizationMode;
-  right: VisualizationRights;
+  right: VisualizationRight;
   filters: any[];
   createdAt?: string;
   updatedAt?: string;
@@ -109,14 +109,14 @@ export interface SharedVisualization extends IDataSourceParams {
   ownerId: number;
 }
 
-export enum VisualizationRights {
+export enum VisualizationRight {
   READ = 'read',
   WRITE = 'write',
   OWNER = 'owner'
 }
 export interface BaseShare {
   userId: number;
-  right: VisualizationRights;
+  right: VisualizationRight;
   visualizationId: number;
 }
 
@@ -129,7 +129,7 @@ export interface SharedWith {
   owner: SimpleUser;
   shares: Sharer[];
   userId: number;
-  right: VisualizationRights;
+  right: VisualizationRight;
   visualizationId: number;
 }
 
@@ -242,7 +242,7 @@ export interface IShareVisualizationParams extends IDataSourceParams {
 
 export interface VisualizationShare {
   userId: number;
-  right: VisualizationRights;
+  right: VisualizationRight;
   visualizationId: number;
   updatedAt: string;
   createdAt: string;

@@ -30,6 +30,7 @@ export interface ICreateAlertParams extends IDataSourceParams {
 
 export interface Alert extends PersistedItem {
   title: string;
+  sourceKey: string;
   query: string;
   dialect: GraphQueryDialect;
   folder: number;
@@ -108,6 +109,7 @@ export interface IGetMatchParams extends IDataSourceParams {
 export type MatchStatus = 'unconfirmed' | 'confirmed' | 'dismissed';
 
 export interface Match extends PersistedItem {
+  sourceKey: string;
   alertId: number;
   hash: string;
   status: MatchStatus;
