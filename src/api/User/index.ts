@@ -8,37 +8,40 @@ import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
 import {
-  GroupName,
+  CreateGroupResponse,
+  CreateUserResponse,
+  GetGroupNamesResponse,
+  GetGroupResponse,
+  GetGroupsResponse,
+  GetUserResponse,
   ICreateGroupParams,
   ICreateUserParams,
-  CreateUserResponse,
-  IDeleteAccessRightsParams,
   IDeleteGroupParams,
   IDeleteUserParams,
   IGetGroupNamesParams,
   IGetGroupParams,
-  GroupRights,
   IGetGroupsParams,
-  ISetGroupAccessRightsParams,
-  SystemGroup,
+  IGetUserParams,
+  IMergeVisualizationsParams,
+  ISearchUsersParams,
+  ISetAccessRightsParams,
   IUpdateGroupParams,
   IUpdateUserParams,
-  UpdateUserResponse,
-  FullUser,
-  IGetUserParams,
-  ISearchUsersParams
+  SearchUserResponse,
+  UpdateGroupResponse,
+  UpdateUserResponse
 } from './types';
 
 export * from './types';
 
-const {UNAUTHORIZED, FORBIDDEN, NOT_FOUND, DATA_SOURCE_UNAVAILABLE, GROUP_EXISTS} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, GROUP_EXISTS} = LkErrorKey;
 
 export class UserAPI extends Request {
   /**
    * Get a user by id.
    */
   public getUser(params: IGetUserParams) {
-    return this.handle(UNAUTHORIZED, NOT_FOUND).request<FullUser>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<GetUserResponse>({
       url: '/admin/users/:id',
       method: 'GET',
       params: params
@@ -46,10 +49,10 @@ export class UserAPI extends Request {
   }
 
   /**
-   * Get the list of users.
+   * Get all the users or filter them by username, e-mail or group id.
    */
-  public getUsers(params: ISearchUsersParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<FullUser[]>({
+  public searchUsers(params: ISearchUsersParams) {
+    return this.handle(UNAUTHORIZED).request<SearchUserResponse>({
       url: '/users',
       method: 'GET',
       params: params
@@ -57,7 +60,7 @@ export class UserAPI extends Request {
   }
 
   /**
-   * Add a new user to the application.
+   * Add a new user.
    */
   public createUser(params: ICreateUserParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request<CreateUserResponse>({
@@ -68,7 +71,7 @@ export class UserAPI extends Request {
   }
 
   /**
-   * Patches a user in the application.
+   * Update a user.
    */
   public updateUser(params: IUpdateUserParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<UpdateUserResponse>({
@@ -79,7 +82,7 @@ export class UserAPI extends Request {
   }
 
   /**
-   * Deletes a user in the application.
+   * Delete a user.
    */
   public deleteUser(params: IDeleteUserParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request({
@@ -90,10 +93,12 @@ export class UserAPI extends Request {
   }
 
   /**
-   * Get a group already defined in the database.
+   * Get a group.
    */
   public getGroup(params: IGetGroupParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<SystemGroup>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
+      GetGroupResponse
+    >({
       url: '/admin/:sourceKey/groups/:id',
       method: 'PATCH',
       params: params
@@ -101,21 +106,23 @@ export class UserAPI extends Request {
   }
 
   /**
-   * List all the groups for the current source.
+   * Get all the groups within a data-source.
    */
   public getGroups(params: IGetGroupsParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<SystemGroup[]>({
-      url: '/admin/:sourceKey/groups',
-      method: 'GET',
-      params: params
-    });
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<GetGroupsResponse>(
+      {
+        url: '/admin/:sourceKey/groups',
+        method: 'GET',
+        params: params
+      }
+    );
   }
 
   /**
-   * List all the available groups for the current source.
+   * Get the names of groups that can perform a given action on the data-source.
    */
   public getGroupNames(params: IGetGroupNamesParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<GroupName[]>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<GetGroupNamesResponse>({
       url: '/:sourceKey/groups',
       method: 'GET',
       params: params
@@ -123,11 +130,11 @@ export class UserAPI extends Request {
   }
 
   /**
-   * Adds a new group to the application.
+   * Add a new group.
    */
   public createGroup(params: ICreateGroupParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, GROUP_EXISTS).request<
-      SystemGroup
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, GROUP_EXISTS).request<
+      CreateGroupResponse
     >({
       url: '/admin/:sourceKey/groups',
       method: 'POST',
@@ -136,10 +143,12 @@ export class UserAPI extends Request {
   }
 
   /**
-   * Update a group (only name).
+   * Rename a group.
    */
-  public renameGroup(params: IUpdateGroupParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
+  public updateGroup(params: IUpdateGroupParams) {
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
+      UpdateGroupResponse
+    >({
       url: '/admin/:sourceKey/groups/:id',
       method: 'PATCH',
       params: params
@@ -147,10 +156,10 @@ export class UserAPI extends Request {
   }
 
   /**
-   * Deletes a group in the application.
+   * Delete a group.
    */
   public deleteGroup(params: IDeleteGroupParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/groups/:id',
       method: 'DELETE',
       params: params
@@ -158,20 +167,10 @@ export class UserAPI extends Request {
   }
 
   /**
-   * Get possible targetType, type and action names.
+   * Set access rights on a group. The access rights will be checked to be of node categories or edge types in the schema.
    */
-  public getAccessRightsInfo() {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<GroupRights[]>({
-      url: '/admin/groups/rights_info',
-      method: 'GET'
-    });
-  }
-
-  /**
-   * set access rights for a group.
-   */
-  public putAccessRights(params: ISetGroupAccessRightsParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
+  public setAccessRights(params: ISetAccessRightsParams) {
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/groups/:id/access_rights',
       method: 'PUT',
       params: params
@@ -179,16 +178,8 @@ export class UserAPI extends Request {
   }
 
   /**
-   * Delete access right.
+   * Transfer all the visualizations from a source user to a target user.
    */
-  public deleteAccessRights(params: IDeleteAccessRightsParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
-      url: '/admin/:sourceKey/groups/:id/access_rights',
-      method: 'DELETE',
-      params: params
-    });
-  }
-
   public mergeVisualizations(params: IMergeVisualizationsParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request({
       url: '/admin/users/mergeVisualizations',

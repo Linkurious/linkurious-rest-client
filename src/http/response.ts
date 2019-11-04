@@ -18,18 +18,16 @@ export enum LkErrorKey {
   NOT_FOUND = 'not_found',
   BAD_GRAPH_REQUEST = 'bad_graph_request',
   GRAPH_REQUEST_TIMEOUT = 'graph_request_timeout',
-  CONSTRAINT_VIOLATION = 'constraint_violation',
-  USER_EXISTS = 'user_exists',
+  CONSTRAINT_VIOLATION = 'constraint_violation', // TODO too generic
+  USER_EXISTS = 'user_exists', // TODO too specific?
+  GROUP_EXISTS = 'group_exists',
 
   ALREADY_EXIST = 'already_exists',
-  GROUP_EXISTS = 'group_exists',
   CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed',
   CANNOT_READ = 'cannot_read',
   ILLEGAL_SOURCE_STATE = 'illegal_source_state',
   MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
   NOT_OWNED = 'not_owned',
-  NOT_SUPPORTED = 'not_supported',
-  GRAPH_UNREACHABLE = 'graph_unreachable',
   WRITE_FORBIDDEN = 'write_forbidden'
 }
 
@@ -93,9 +91,9 @@ export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
 export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
 export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
 export interface UserExists extends LkError<LkErrorKey.USER_EXISTS> {}
+export interface GroupExists extends LkError<LkErrorKey.GROUP_EXISTS> {}
 
 export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
-export interface GroupExists extends LkError<LkErrorKey.GROUP_EXISTS> {}
 export interface CannotDeleteNonEmptyFolder
   extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
 export interface CannotRead extends LkError<LkErrorKey.CANNOT_READ> {}
@@ -107,8 +105,6 @@ export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUE
   };
 }
 export interface NotOwned extends LkError<LkErrorKey.NOT_OWNED> {}
-export interface NotSupported extends LkError<LkErrorKey.NOT_SUPPORTED> {}
-export interface GraphUnreachable extends LkError<LkErrorKey.GRAPH_UNREACHABLE> {}
 export interface WriteForbidden extends LkError<LkErrorKey.WRITE_FORBIDDEN> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
@@ -123,15 +119,13 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeout;
   [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolation;
   [LkErrorKey.USER_EXISTS]: UserExists;
+  [LkErrorKey.GROUP_EXISTS]: GroupExists;
 
   [LkErrorKey.ALREADY_EXIST]: AlreadyExists;
-  [LkErrorKey.GROUP_EXISTS]: GroupExists;
   [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
   [LkErrorKey.CANNOT_READ]: CannotRead;
   [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
   [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplate;
   [LkErrorKey.NOT_OWNED]: NotOwned;
-  [LkErrorKey.NOT_SUPPORTED]: NotSupported;
-  [LkErrorKey.GRAPH_UNREACHABLE]: GraphUnreachable;
   [LkErrorKey.WRITE_FORBIDDEN]: WriteForbidden;
 };
