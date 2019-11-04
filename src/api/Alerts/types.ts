@@ -68,9 +68,11 @@ export interface ICreateAlertFolderParams extends IDataSourceParams {
   title: string;
 }
 
+// TODO add sourceKey to server
 export interface AlertFolder extends PersistedItem {
   title: string;
   parent: number;
+  sourceKey: string;
 }
 
 export interface CreateAlertFolderResponse extends AlertFolder {}

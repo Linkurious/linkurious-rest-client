@@ -6,7 +6,6 @@
 
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
-import {IMergeVisualizationsParams} from '../Visualization';
 
 import {
   GroupName,

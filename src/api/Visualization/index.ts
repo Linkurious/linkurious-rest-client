@@ -18,7 +18,6 @@ import {
   DuplicateVisualizationResponse,
   IDeleteVisualizationParams,
   IUpdateVisualizationParams,
-  UpdateVisualizationResponse,
   IGetSharedVisualizationsParams,
   GetSharedVisualizationsResponse,
   ICreateVisualizationFolderParams,
@@ -31,7 +30,8 @@ import {
   IGetSandboxParams,
   GetSandboxResponse,
   IUpdateSandboxParams,
-  IGetVisualizationShares,
+  UpdateSandboxResponse,
+  IGetVisualizationSharesParams,
   GetVisualizationSharesResponse,
   IShareVisualizationParams,
   ShareVisualizationResponse,
@@ -67,6 +67,7 @@ export class VisualizationAPI extends Request {
   /**
    * Get a visualization by id.
    */
+  // TODO remove populated = false
   public getVisualization(params: IGetVisualizationParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
       GetVisualizationResponse
@@ -91,6 +92,7 @@ export class VisualizationAPI extends Request {
   /**
    * Duplicate a visualization. Return the id of the copy.
    */
+  // TODO return directly the id
   public duplicateVisualization(params: IDuplicateVisualizationParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
       DuplicateVisualizationResponse
@@ -116,9 +118,7 @@ export class VisualizationAPI extends Request {
    * Update the visualization selected by id.
    */
   public updateVisualization(params: IUpdateVisualizationParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
-      UpdateVisualizationResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request({
       url: '/:sourceKey/visualizations/:id',
       method: 'PATCH',
       params: params
@@ -207,7 +207,7 @@ export class VisualizationAPI extends Request {
    * Update the sandbox of the current user for a given data-source.
    */
   public updateSandbox(params: IUpdateSandboxParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<UpdateSandboxResponse>({
       url: '/:sourceKey/sandbox',
       method: 'PATCH',
       params: params
@@ -217,7 +217,7 @@ export class VisualizationAPI extends Request {
   /**
    * Get all share rights on a visualization.
    */
-  public getVisualizationShares(params: IGetVisualizationShares) {
+  public getVisualizationShares(params: IGetVisualizationSharesParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<
       GetVisualizationSharesResponse
     >({
@@ -234,7 +234,7 @@ export class VisualizationAPI extends Request {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
       ShareVisualizationResponse
     >({
-      url: `/:sourceKey/visualizations/:vizId/share/:userId`,
+      url: `/:sourceKey/visualizations/:visualizationId/share/:userId`,
       method: 'PUT',
       params: params
     });
@@ -257,7 +257,7 @@ export class VisualizationAPI extends Request {
   public getWidget(params: IGetWidgetParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<GetWidgetResponse>(
       {
-        url: '/widget/:id',
+        url: '/widget/:widgetKey',
         method: 'GET',
         params: params
       }
@@ -293,7 +293,7 @@ export class VisualizationAPI extends Request {
    */
   public deleteWidget(params: IDeleteWidgetParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request({
-      url: '/widget/:id',
+      url: '/widget/:widgetKey',
       method: 'DELETE',
       params: params
     });

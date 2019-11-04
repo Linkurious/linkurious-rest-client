@@ -3,6 +3,7 @@
  *
  * - Created on 2019-10-21.
  */
+import {GenericObject} from './commonTypes';
 
 export interface NativeTemporalValue {
   value: number;
@@ -14,9 +15,7 @@ export interface NativeDateTime extends NativeTemporalValue {}
 
 export type LkProperty = string | number | boolean | NativeDate | NativeDateTime;
 
-export interface LkProperties {
-  [key: string]: LkProperty;
-}
+export type LkProperties = GenericObject<LkProperty>;
 
 export interface LkItemData {
   properties: LkProperties;

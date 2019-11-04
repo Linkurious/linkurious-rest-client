@@ -181,3 +181,8 @@ export interface ISearchUsersParams {
   sortBy?: string;
   sortDirection?: string;
 }
+
+export interface IMergeVisualizationsParams {
+  from: number;
+  to: number;
+}

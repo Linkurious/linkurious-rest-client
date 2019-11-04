@@ -4,333 +4,317 @@
  * - Created on 2019-10-30.
  */
 
-export interface IGetVisualizationCountParams {}
+import {FolderChildren, GenericObject, IDataSourceParams, PersistedItem} from '../commonTypes';
+import {VizEdge, VizEdgeInfo, VizNode, VizNodeInfo} from '../graphItemTypes';
+import {IAlternativeIdSettings} from '../DataSource';
+import {GraphQueryDialect} from '../GraphQuery';
 
-export interface GetVisualizationCountResponse {}
+export interface IGetVisualizationCountParams extends IDataSourceParams {}
 
-export interface IGetVisualizationParams {}
+export type GetVisualizationCountResponse = number;
 
-export interface GetVisualizationResponse {}
+export interface IGetVisualizationParams extends IDataSourceParams {
+  id: number;
+  withDigest?: boolean;
+  withDegree?: boolean;
+}
 
-export interface ICreateVisualizationParams {}
+export enum VisualizationRight {
+  READ = 'read',
+  WRITE = 'write',
+  OWNER = 'owner'
+}
 
-export interface CreateVisualizationResponse {}
+export enum VisualizationMode {
+  NODE_LINK = 'nodelink',
+  GEO = 'geo'
+}
 
-export interface IDuplicateVisualizationParams {}
+export interface ItemFields {
+  captions: GenericObject<{displayName: boolean; properties: string[]; active: boolean}>;
+  types: GenericObject<'string' | 'number' | 'date-timestamp'>;
+}
 
-export interface DuplicateVisualizationResponse {}
+export interface VisualizationDesign {
+  // TODO type visualization design
+}
 
-export interface IDeleteVisualizationParams {}
+export interface VisualizationGeo {
+  latitudeProperty?: string;
+  longitudeProperty?: string;
+  layers: string[];
+}
 
-export interface IUpdateVisualizationParams {}
+export type VisualizationLayout =
+  | {}
+  | {
+      algorithm: 'force';
+      mode: 'best' | 'fast';
+    }
+  | {
+      algorithm: 'hierarchical';
+      mode: 'LR' | 'RL' | 'BT' | 'TB';
+      rootNode?: string;
+    }
+  | {
+      algorithm: 'radial';
+      rootNode?: string;
+    };
 
-export interface UpdateVisualizationResponse {}
+export interface VisualizationFilters {
+  // TODO type visualization filters
+}
 
-export interface IGetSharedVisualizationsParams {}
+export interface VisualizationTimeline {
+  node: GenericObject<string>;
+  edge: GenericObject<string>;
+  range: {
+    '<='?: number;
+    '<'?: number;
+    '>'?: number;
+    '>='?: number;
+  };
+  zoomLevel: 'years' | 'months' | 'days' | 'hours' | 'minutes' | 'seconds';
+}
 
-export interface GetSharedVisualizationsResponse {}
+export interface Visualization extends PersistedItem {
+  title: string;
+  sourceKey: string;
+  folder: number;
+  nodes: VizNode[];
+  edges: VizEdge[];
+  right: VisualizationRight;
+  widgetKey?: string;
+  sandbox: boolean;
+  alternativeIds: IAlternativeIdSettings;
+  mode: VisualizationMode;
+  design: VisualizationDesign;
+  nodeFields: ItemFields;
+  edgeFields: ItemFields;
+  filters: VisualizationFilters;
+  timeline: VisualizationTimeline;
+  layout: VisualizationLayout;
+  geo: VisualizationGeo;
+  user: {
+    username: string;
+    email: string;
+  };
+}
 
-export interface ICreateVisualizationFolderParams {}
+export type GetVisualizationResponse = Visualization;
 
-export interface CreateVisualizationFolderResponse {}
+export interface ICreateVisualizationParams extends IDataSourceParams {
+  title: string;
+  folder?: number;
+  nodes: VizNodeInfo[];
+  edges: VizEdgeInfo[];
+  alternativeIds?: IAlternativeIdSettings;
+  mode?: string;
+  design?: VisualizationDesign;
+  nodeFields?: ItemFields;
+  edgeFields?: ItemFields;
+  filters?: VisualizationFilters;
+  timeline?: VisualizationTimeline;
+  layout?: VisualizationLayout;
+  geo?: VisualizationGeo;
+}
 
-export interface IUpdateVisualizationFolderParams {}
+export type CreateVisualizationResponse = Visualization;
 
-export interface UpdateVisualizationFolderResponse {}
+export interface IDuplicateVisualizationParams extends IDataSourceParams {
+  id: number;
+  title?: string;
+  folder?: number;
+}
 
-export interface IDeleteVisualizationFolderParams {}
+export type DuplicateVisualizationResponse = number;
 
-export interface IGetVisualizationTreeParams {}
+export interface IDeleteVisualizationParams extends IDataSourceParams {
+  id: number;
+}
 
-export interface GetVisualizationTreeResponse {}
+// TODO forceLock and doLayout camelCase in server
+export interface IUpdateVisualizationParams extends IDataSourceParams {
+  id: number;
+  visualization: Partial<ICreateVisualizationParams>;
+  forceLock?: boolean;
+  doLayout?: boolean;
+}
 
-export interface IGetSandboxParams {}
+export interface IGetSharedVisualizationsParams extends IDataSourceParams {}
 
-export interface GetSandboxResponse {}
+export type GetSharedVisualizationsResponse = Array<{
+  right: VisualizationRight;
+  visualizationId: number;
+  ownerId: number;
+  ownerUsername: string;
+  sourceKey: string;
+  title: string;
+  updatedAt: string;
+}>;
 
-export interface IUpdateSandboxParams {}
+export interface ICreateVisualizationFolderParams extends IDataSourceParams {
+  title: string;
+  parent: number;
+}
 
-export interface IGetVisualizationShares {}
+// TODO add createdAt updatedAt to server
+export interface VisualizationFolder extends PersistedItem {
+  title: string;
+  parent: number;
+  sourceKey: string;
+}
 
-export interface GetVisualizationSharesResponse {}
+export type CreateVisualizationFolderResponse = VisualizationFolder;
 
-export interface IShareVisualizationParams {}
+export interface IUpdateVisualizationFolderParams
+  extends Partial<ICreateVisualizationFolderParams> {
+  id: number;
+}
 
-export interface ShareVisualizationResponse {}
+// TODO unwrap folder in server
+export type UpdateVisualizationFolderResponse = VisualizationFolder;
 
-export interface IUnshareVisualizationParams {}
+export interface IDeleteVisualizationFolderParams extends IDataSourceParams {
+  id: number;
+}
 
-export interface IGetWidgetParams {}
+export interface IGetVisualizationTreeParams extends IDataSourceParams {}
 
-export interface GetWidgetResponse {}
+export interface GetVisualizationTreeResponse {
+  id: -1;
+  title: 'root';
+  type: 'folder';
+  children: FolderChildren<
+    {
+      id: number;
+      title: string;
+      shareCount: number;
+      widgetKey?: string;
+    },
+    'alert'
+  >;
+}
 
-export interface ICreateWidgetParams {}
+export enum PopulateType {
+  VISUALIZATION_ID = 'visualizationId',
+  EXPAND_NODE_ID = 'expandNodeId',
+  NODE_ID = 'nodeId',
+  EDGE_ID = 'edgeId',
+  SEARCH_NODE = 'searchNodes',
+  SEARCH_EDGE = 'searchEdges',
+  PATTERN = 'pattern',
+  MATCH_ID = 'matchId'
+}
 
-export interface CreateWidgetResponse {}
+export interface IGetSandboxParams extends IDataSourceParams {
+  populate?: PopulateType;
+  itemId?: number;
+  matchId?: number;
+  searchQuery?: string;
+  searchFuzziness?: number;
+  patternQuery?: boolean;
+  patternDialect?: GraphQueryDialect;
+  doLayout?: boolean;
+  withDigest?: boolean;
+  withDegree?: boolean;
+}
 
-export interface IUpdateWidgetParams {}
+// TODO unwrap getSandbox and updateSandbox responses in server
+export type GetSandboxResponse = Visualization;
 
-export interface UpdateWidgetResponse {}
+export interface IUpdateSandboxParams extends IDataSourceParams {
+  design?: VisualizationDesign;
+  nodeFields?: ItemFields;
+  edgeFields?: ItemFields;
+  geo?: VisualizationGeo;
+  layout?: VisualizationLayout;
+  timeline?: VisualizationTimeline; // TODO timeline in update sandbox?
+}
 
-export interface IDeleteWidgetParams {}
+export type UpdateSandboxResponse = Visualization;
 
-// export interface IMergeVisualizationsParams {
-//   from: number;
-//   to: number;
-// }
-//
-// export interface IUpdateVisualizationFolderParams extends IDataSourceParams {
-//   id: number;
-//   title?: string;
-//   parent?: number;
-// }
-//
-// export interface VisualizationDesign {
-//   styles?: any;
-//   palette?: any;
-// }
-//
-// export interface VisualizationGeo {
-//   latitudeProperty?: string;
-//   longitudeProperty?: string;
-//   layers?: string[];
-// }
-//
-// export interface AlternativeIdConfig {
-//   node: string;
-//   edge: string;
-// }
-//
-// export interface VisualizationLayout {
-//   algorithm?: string;
-//   mode?: string;
-// }
-//
-// export enum VisuslizationMode {
-//   NODE_LINK = 'nodelink',
-//   GEO = 'geo'
-// }
-//
-// export interface WidgetUI {
-//   search?: boolean;
-//   share?: boolean;
-//   layout?: boolean;
-//   fullscreen?: boolean;
-//   zoom?: boolean;
-//   legend?: boolean;
-//   geo?: boolean;
-// }
-//
-// export interface VisualizationResponse {
-//   id: number;
-//   design: VisualizationDesign;
-//   nodeFields: ItemFields;
-//   edgeFields: ItemFields;
-//   sourceKey: string;
-//   title: string;
-//   folder: number;
-//   nodes: VizNode[];
-//   edges: VizEdge[];
-//   alternativeIds: AlternativeIdConfig;
-//   layout: VisualizationLayout;
-//   geo: VisualizationGeo;
-//   mode: VisuslizationMode;
-//   right: VisualizationRight;
-//   filters: any[];
-//   createdAt?: string;
-//   updatedAt?: string;
-// }
-//
-// export interface WidgetContent extends VisualizationDesign {
-//   title?: string;
-//   description?: string;
-//   url?: string;
-//   mode?: string;
-//   mapLayers?: any[];
-//   ui?: WidgetUI;
-// }
-//
-// export interface ICreateWidgetParams {
-//   visualizationId: number;
-//   content?: WidgetContent;
-// }
-//
-// export interface IUpdateWidgetParams extends ICreateWidgetParams {}
-//
-// export interface ICreateVisualizationFolderParams {
-//   title: string;
-//   parent: number;
-// }
-//
-// export interface CreateVisualizationFolderResponse {
-//   id: number;
-//   title: string;
-//   parent: number;
-//   sourceKey: string;
-// }
-//
-// export interface SharedVisualization extends IDataSourceParams {
-//   title: string;
-//   visualizationId: number;
-//   ownerId: number;
-// }
-//
-// export enum VisualizationRight {
-//   READ = 'read',
-//   WRITE = 'write',
-//   OWNER = 'owner'
-// }
-// export interface BaseShare {
-//   userId: number;
-//   right: VisualizationRight;
-//   visualizationId: number;
-// }
-//
-// export interface Sharer extends BaseShare {
-//   username: string;
-//   email: string;
-// }
-//
-// export interface SharedWith {
-//   owner: SimpleUser;
-//   shares: Sharer[];
-//   userId: number;
-//   right: VisualizationRight;
-//   visualizationId: number;
-// }
-//
-// export interface VisualizationShares {
-//   owner: SimpleUser;
-//   shares: SharedWith[];
-// }
-//
-// export interface ICreateVisualizationParams extends IDataSourceParams {
-//   title: string;
-//   folder?: number;
-//   nodes: VizNode[];
-//   edges: VizEdge[];
-//   alternativeIds?: AlternativeIdConfig;
-//   layout?: VisualizationLayout;
-//   mode?: string;
-//   geo?: VisualizationGeo;
-//   design?: VisualizationDesign;
-//   filters?: any[];
-//   nodeFields: ItemFields;
-//   edgeFields: ItemFields;
-// }
-//
-// export interface IDeleteWidgetParams {
-//   id: string;
-// }
-//
-// export interface IDeleteFolderParams {
-//   id: number;
-// }
-//
-// export interface IDuplicateVisualizationParams {
-//   id: number;
-//   title?: string;
-//   folder?: number;
-// }
-//
-// export interface DuplicateVisualizationResponse {
-//   visualizationId: number;
-// }
-//
-// export interface IGetWidgetParams {
-//   id: string;
-// }
-//
-// export interface GetWidgetResponse {
-//   title: string;
-//   key: string;
-//   userId: number;
-//   visualizationId: number;
-//   content: WidgetContent;
-// }
-//
-// export enum PopulateType {
-//   EXPAND_NODE_ID = 'expandNodeId',
-//   NODE_ID = 'nodeId',
-//   EDGE_ID = 'edgeId',
-//   SEARCH_NODE = 'searchNodes',
-//   SEARCH_EDGE = 'searchEdges',
-//   PATTERN = 'pattern'
-// }
-//
-// export interface IGetVisualizationSandboxParams {
-//   populate?: PopulateType;
-//   itemId?: number;
-//   searchQuery?: string;
-//   searchFuzziness?: number;
-//   doLayout?: boolean;
-//   patternDialect?: string;
-//   patternQuery?: boolean;
-//   withDigest?: boolean;
-//   withDegree?: boolean;
-//   matchId?: boolean;
-// }
-//
-// export interface IGetVisualizationByIdParams {
-//   id: number;
-//   populated?: boolean;
-//   withDigest?: boolean;
-//   withDegree?: boolean;
-// }
-//
-// export interface VizInfo {
-//   id: number;
-//   title: string;
-//   shareCount?: number;
-//   widgetKey?: string;
-// }
-//
-// export interface GetVisualizationTreeResponse {
-//   id: -1;
-//   title: 'root';
-//   type: 'folder';
-//   children?: FolderChildren<VizInfo, 'visu'>;
-// }
-//
-// export interface IDeleteVisualizationParams {
-//   id: number;
-// }
-//
-// export interface IGetVisualizationSharesParams extends IDataSourceParams {
-//   id: number;
-// }
-//
-// export interface IShareVisualizationParams extends IDataSourceParams {
-//   userId: number;
-//   right?: string;
-//   vizId: number;
-// }
-//
-// export interface VisualizationShare {
-//   userId: number;
-//   right: VisualizationRight;
-//   visualizationId: number;
-//   updatedAt: string;
-//   createdAt: string;
-// }
-//
-// export interface IUnshareVisualizationParams extends IDataSourceParams {
-//   id: number;
-//   userId: number;
-// }
-//
-// export interface ItemFields {
-//   captions: {[key: string]: {displayName: boolean; properties: string[]; active: boolean}};
-//   types: {[key: string]: string};
-// }
-//
-// export interface IUpdateSandboxParams extends IDataSourceParams {
-//   design?: VisualizationDesign;
-//   nodeFields?: ItemFields;
-//   edgeFields?: ItemFields;
-// }
-//
-// export interface IUpdateVisualizationParams extends Partial<ICreateVisualizationParams> {
-//   id: number;
-//   forceLock?: boolean;
-// }
+export interface IGetVisualizationSharesParams extends IDataSourceParams {
+  id: number;
+}
+
+// TODO remove redundant visualizationId from shares in server
+export interface GetVisualizationSharesResponse {
+  owner: {
+    id: number;
+    username: string;
+    email: string;
+  };
+  shares: Array<{
+    userId: number;
+    username: string;
+    email: string;
+    right: VisualizationRight;
+  }>;
+}
+
+export interface IShareVisualizationParams extends IDataSourceParams {
+  visualizationId: number;
+  userId: number;
+  right: 'read' | 'write';
+}
+
+export interface VisualizationShare {
+  userId: number;
+  right: VisualizationRight;
+  visualizationId: number;
+  updatedAt: string;
+  createdAt: string;
+}
+
+export type ShareVisualizationResponse = VisualizationShare;
+
+export interface IUnshareVisualizationParams extends IDataSourceParams {
+  id: number;
+  userId: number;
+}
+
+export interface IGetWidgetParams {
+  widgetKey: string;
+}
+
+export interface WidgetContent {
+  // TODO type WidgetContent
+}
+
+interface Widget {
+  title: string;
+  key: string;
+  userId: number;
+  visualizationId: number;
+  password: boolean;
+  url: string;
+  createdAt: string;
+  updatedAt: string;
+  content: WidgetContent;
+}
+
+export type GetWidgetResponse = Widget;
+
+export interface ICreateWidgetParams {
+  visualizationId: number;
+  options?: {
+    search?: boolean;
+    share?: boolean;
+    fullscreen?: boolean;
+    zoom?: boolean;
+    legend?: boolean;
+    geo?: boolean;
+    password?: string;
+  };
+}
+
+export type CreateWidgetResponse = string;
+
+export type IUpdateWidgetParams = ICreateWidgetParams;
+
+export type UpdateWidgetResponse = string;
+
+export interface IDeleteWidgetParams {
+  widgetKey: string;
+}
