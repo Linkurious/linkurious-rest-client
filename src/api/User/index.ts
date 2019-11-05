@@ -9,11 +9,9 @@ import {Request} from '../../http/request';
 
 import {
   CreateGroupResponse,
-  CreateUserResponse,
   GetGroupNamesResponse,
   GetGroupResponse,
   GetGroupsResponse,
-  GetUserResponse,
   ICreateGroupParams,
   ICreateUserParams,
   IDeleteGroupParams,
@@ -29,7 +27,7 @@ import {
   IUpdateUserParams,
   SearchUserResponse,
   UpdateGroupResponse,
-  UpdateUserResponse
+  User
 } from './types';
 
 export * from './types';
@@ -41,7 +39,7 @@ export class UserAPI extends Request {
    * Get a user by id.
    */
   public getUser(params: IGetUserParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<GetUserResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<User>({
       url: '/admin/users/:id',
       method: 'GET',
       params: params
@@ -63,7 +61,7 @@ export class UserAPI extends Request {
    * Add a new user.
    */
   public createUser(params: ICreateUserParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<CreateUserResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request<User>({
       url: '/admin/users',
       method: 'POST',
       params: params
@@ -74,7 +72,7 @@ export class UserAPI extends Request {
    * Update a user.
    */
   public updateUser(params: IUpdateUserParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<UpdateUserResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<User>({
       url: '/admin/users/:id',
       method: 'PATCH',
       params: params

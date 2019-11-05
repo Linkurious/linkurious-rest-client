@@ -6,8 +6,9 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
+import {LkSubGraph} from '../graphItemTypes';
 
-import {ISearchFullParams, ISearchParams, SearchFullResponse, SearchResponse} from './types';
+import {ISearchFullParams, ISearchParams, SearchResponse} from './types';
 
 export * from './types';
 
@@ -33,9 +34,7 @@ export class SearchAPI extends Request {
    * A subgraph made of the items that matched the search query and the edges between them is returned.
    */
   public searchFull(params: ISearchFullParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
-      SearchFullResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<LkSubGraph>({
       url: '/:sourceKey/search/:type/full',
       method: 'POST',
       params: params

@@ -5,7 +5,7 @@
  */
 
 import {IDataSourceParams, IGetSubGraphParams} from '../commonTypes';
-import {LkEdge, LkNode, LkSubGraph} from '../graphItemTypes';
+import {LkEdge, LkNode} from '../graphItemTypes';
 import {EntityType} from '../GraphSchema';
 
 export interface ISearchParams extends IDataSourceParams {
@@ -26,5 +26,3 @@ export interface SearchResponse {
 }
 
 export interface ISearchFullParams extends IGetSubGraphParams, ISearchParams {}
-
-export type SearchFullResponse = LkSubGraph;

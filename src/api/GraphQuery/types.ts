@@ -166,13 +166,9 @@ export interface IGetQueryParams extends IDataSourceParams {
   id: number;
 }
 
-export type GetQueryResponse = GraphQuery;
-
 export interface IGetQueriesParams extends IDataSourceParams {
   type: GraphQueryType;
 }
-
-export type GetQueriesResponse = GraphQuery[];
 
 export interface ICreateQueryParams extends IDataSourceParams {
   name: string;
@@ -183,13 +179,9 @@ export interface ICreateQueryParams extends IDataSourceParams {
   sharedWithGroups?: number[];
 }
 
-export type CreateQueryResponse = GraphQuery;
-
 export interface IUpdateQueryParams extends Partial<ICreateQueryParams> {
   id: number;
 }
-
-export type UpdateQueryResponse = GraphQuery;
 
 export interface IDeleteQueryParams extends IDataSourceParams {
   id: number;
@@ -223,10 +215,6 @@ export interface RunQueryResponse extends LkSubGraph {
   truncatedByAccess: boolean;
 }
 
-export type RunQueryByContentResponse = RunQueryResponse;
-
 export interface IRunQueryByIdParams extends IGetSubGraphParams, IRunQueryParams {
   id: number;
 }
-
-export type RunQueryByIdResponse = RunQueryResponse;

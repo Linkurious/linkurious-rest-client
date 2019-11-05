@@ -9,11 +9,8 @@ import {LkErrorKey} from '../../http/response';
 
 import {
   IGetVisualizationCountParams,
-  GetVisualizationCountResponse,
   IGetVisualizationParams,
-  GetVisualizationResponse,
   ICreateVisualizationParams,
-  CreateVisualizationResponse,
   IDuplicateVisualizationParams,
   DuplicateVisualizationResponse,
   IDeleteVisualizationParams,
@@ -21,27 +18,24 @@ import {
   IGetSharedVisualizationsParams,
   GetSharedVisualizationsResponse,
   ICreateVisualizationFolderParams,
-  CreateVisualizationFolderResponse,
   IUpdateVisualizationFolderParams,
-  UpdateVisualizationFolderResponse,
   IDeleteVisualizationFolderParams,
   IGetVisualizationTreeParams,
-  GetVisualizationTreeResponse,
+  VisualizationTree,
   IGetSandboxParams,
-  GetSandboxResponse,
   IUpdateSandboxParams,
   IGetVisualizationSharesParams,
   GetVisualizationSharesResponse,
   IShareVisualizationParams,
-  ShareVisualizationResponse,
   IUnshareVisualizationParams,
   IGetWidgetParams,
   GetWidgetResponse,
   ICreateWidgetParams,
-  CreateWidgetResponse,
   IUpdateWidgetParams,
-  UpdateWidgetResponse,
-  IDeleteWidgetParams
+  IDeleteWidgetParams,
+  VisualizationShare,
+  Visualization,
+  VisualizationFolder
 } from './types';
 
 export * from './types';
@@ -53,9 +47,7 @@ export class VisualizationAPI extends Request {
    * Get the number of visualizations for the current user in this data-source.
    */
   public getVisualizationCount(params?: IGetVisualizationCountParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
-      GetVisualizationCountResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<number>({
       url: '/:sourceKey/visualizations/count',
       method: 'GET',
       params: params
@@ -66,9 +58,7 @@ export class VisualizationAPI extends Request {
    * Get a visualization by id.
    */
   public getVisualization(params: IGetVisualizationParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
-      GetVisualizationResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<Visualization>({
       url: '/:sourceKey/visualizations/:id',
       method: 'GET',
       params: params
@@ -79,7 +69,7 @@ export class VisualizationAPI extends Request {
    * Create a new visualization.
    */
   public createVisualization(params: ICreateVisualizationParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<CreateVisualizationResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<Visualization>({
       url: '/:sourceKey/visualizations',
       method: 'POST',
       params: params
@@ -138,9 +128,7 @@ export class VisualizationAPI extends Request {
    * Create a visualization folder.
    */
   public createVisualizationFolder(params: ICreateVisualizationFolderParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<
-      CreateVisualizationFolderResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<VisualizationFolder>({
       url: '/:sourceKey/visualizations/folder',
       method: 'POST',
       params: params
@@ -152,7 +140,7 @@ export class VisualizationAPI extends Request {
    */
   public async updateVisualizationFolder(params: IUpdateVisualizationFolderParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
-      UpdateVisualizationFolderResponse
+      VisualizationFolder
     >({
       url: '/:sourceKey/visualizations/folder/:id',
       method: 'PATCH',
@@ -175,13 +163,11 @@ export class VisualizationAPI extends Request {
    * Get the visualizations and the visualization folders in a tree structure.
    */
   public getVisualizationTree(params?: IGetVisualizationTreeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<GetVisualizationTreeResponse>(
-      {
-        url: '/:sourceKey/visualizations/tree',
-        method: 'GET',
-        params: params
-      }
-    );
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<VisualizationTree>({
+      url: '/:sourceKey/visualizations/tree',
+      method: 'GET',
+      params: params
+    });
   }
 
   /**
@@ -189,7 +175,7 @@ export class VisualizationAPI extends Request {
    */
   public getSandbox(params: IGetSandboxParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
-      GetSandboxResponse
+      Visualization
     >({
       url: '/:sourceKey/sandbox',
       method: 'GET',
@@ -226,7 +212,7 @@ export class VisualizationAPI extends Request {
    */
   public shareVisualization(params: IShareVisualizationParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
-      ShareVisualizationResponse
+      VisualizationShare
     >({
       url: `/:sourceKey/visualizations/:visualizationId/share/:userId`,
       method: 'PUT',
@@ -259,10 +245,10 @@ export class VisualizationAPI extends Request {
   }
 
   /**
-   * Create a widget for a visualization.
+   * Create a widget for a visualization. Return the widget key.
    */
   public createWidget(params: ICreateWidgetParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<CreateWidgetResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<string>({
       url: '/widget',
       method: 'POST',
       params: params
@@ -270,12 +256,10 @@ export class VisualizationAPI extends Request {
   }
 
   /**
-   * Update the widget of a visualization.
+   * Update the widget of a visualization. Return the widget key.
    */
   public updateWidget(params: IUpdateWidgetParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
-      UpdateWidgetResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<string>({
       url: '/widget',
       method: 'PUT',
       params: params

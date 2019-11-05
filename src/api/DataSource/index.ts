@@ -55,7 +55,8 @@ export class DataSourceAPI extends Request {
   public startIndexation(params: IStartIndexationParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/search/index',
-      method: 'POST'
+      method: 'POST',
+      params: params
     });
   }
 

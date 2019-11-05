@@ -20,8 +20,6 @@ export interface IGetUserParams {
   id: number;
 }
 
-export type GetUserResponse = User;
-
 export interface ISearchUsersParams {
   startsWith?: string;
   contains?: string;
@@ -43,8 +41,6 @@ export interface ICreateUserParams {
   groups?: number[];
 }
 
-export type CreateUserResponse = User;
-
 export interface IUpdateUserParams {
   id: number;
   username?: string;
@@ -54,8 +50,6 @@ export interface IUpdateUserParams {
   addedGroups?: number[];
   removedGroups?: number[];
 }
-
-export type UpdateUserResponse = User;
 
 export interface IDeleteUserParams {
   id: number;

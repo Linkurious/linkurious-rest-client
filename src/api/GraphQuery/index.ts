@@ -8,21 +8,17 @@ import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 
 import {
-  CreateQueryResponse,
-  GetQueriesResponse,
-  GetQueryResponse,
   ICreateQueryParams,
   IDeleteQueryParams,
   IGetQueryParams,
   IGetQueriesParams,
   IUpdateQueryParams,
-  UpdateQueryResponse,
   IRunQueryByContentParams,
-  RunQueryByContentResponse,
   IRunQueryByIdParams,
-  RunQueryByIdResponse,
   CheckQueryResponse,
-  ICheckQueryParams
+  ICheckQueryParams,
+  GraphQuery,
+  RunQueryResponse
 } from './types';
 
 export * from './types';
@@ -50,7 +46,7 @@ export class GraphQueryAPI extends Request {
       GUEST_DISABLED,
       FORBIDDEN,
       NOT_FOUND
-    ).request<GetQueryResponse>({
+    ).request<GraphQuery>({
       url: '/:sourceKey/graph/query/:id',
       method: 'GET',
       params: params
@@ -62,7 +58,7 @@ export class GraphQueryAPI extends Request {
    */
   public getQueries(params: IGetQueriesParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN).request<
-      GetQueriesResponse
+      GraphQuery[]
     >({
       url: '/:sourceKey/graph/query',
       method: 'GET',
@@ -74,9 +70,7 @@ export class GraphQueryAPI extends Request {
    * Create a graph query for the current user.
    */
   public createQuery(params: ICreateQueryParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
-      CreateQueryResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<GraphQuery>({
       url: '/:sourceKey/graph/query',
       method: 'POST',
       params: params
@@ -88,7 +82,7 @@ export class GraphQueryAPI extends Request {
    */
   public updateQuery(params: IUpdateQueryParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
-      UpdateQueryResponse
+      GraphQuery
     >({
       url: '/:sourceKey/graph/query/:id',
       method: 'PATCH',
@@ -137,7 +131,7 @@ export class GraphQueryAPI extends Request {
       BAD_GRAPH_REQUEST,
       GRAPH_REQUEST_TIMEOUT,
       CONSTRAINT_VIOLATION
-    ).request<RunQueryByContentResponse>({
+    ).request<RunQueryResponse>({
       url: '/:sourceKey/graph/run/query',
       method: 'POST',
       params: params
@@ -158,7 +152,7 @@ export class GraphQueryAPI extends Request {
       BAD_GRAPH_REQUEST,
       GRAPH_REQUEST_TIMEOUT,
       CONSTRAINT_VIOLATION
-    ).request<RunQueryByIdResponse>({
+    ).request<RunQueryResponse>({
       url: '/:sourceKey/graph/run/query/:id',
       method: 'POST',
       params: params

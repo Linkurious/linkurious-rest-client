@@ -11,8 +11,6 @@ import {GraphQueryDialect} from '../GraphQuery';
 
 export interface IGetVisualizationCountParams extends IDataSourceParams {}
 
-export type GetVisualizationCountResponse = number;
-
 export interface IGetVisualizationParams extends IDataSourceParams {
   id: number;
   withDigest?: boolean;
@@ -123,8 +121,6 @@ export interface Visualization extends PersistedItem {
   };
 }
 
-export type GetVisualizationResponse = Visualization;
-
 export interface ICreateVisualizationParams extends IDataSourceParams {
   title: string;
   folder?: number;
@@ -140,8 +136,6 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   layout?: VisualizationLayout;
   geo?: VisualizationGeo;
 }
-
-export type CreateVisualizationResponse = Visualization;
 
 export interface IDuplicateVisualizationParams extends IDataSourceParams {
   id: number;
@@ -189,14 +183,10 @@ export interface VisualizationFolder extends PersistedItem {
   sourceKey: string;
 }
 
-export type CreateVisualizationFolderResponse = VisualizationFolder;
-
 export interface IUpdateVisualizationFolderParams
   extends Partial<ICreateVisualizationFolderParams> {
   id: number;
 }
-
-export type UpdateVisualizationFolderResponse = VisualizationFolder;
 
 export interface IDeleteVisualizationFolderParams extends IDataSourceParams {
   id: number;
@@ -204,7 +194,7 @@ export interface IDeleteVisualizationFolderParams extends IDataSourceParams {
 
 export interface IGetVisualizationTreeParams extends IDataSourceParams {}
 
-export interface GetVisualizationTreeResponse {
+export interface VisualizationTree {
   id: -1;
   title: 'root';
   type: 'folder';
@@ -242,8 +232,6 @@ export interface IGetSandboxParams extends IDataSourceParams {
   withDigest?: boolean;
   withDegree?: boolean;
 }
-
-export type GetSandboxResponse = Visualization;
 
 export interface IUpdateSandboxParams extends IDataSourceParams {
   design?: VisualizationDesign;
@@ -286,8 +274,6 @@ export interface VisualizationShare {
   createdAt: string;
 }
 
-export type ShareVisualizationResponse = VisualizationShare;
-
 export interface IUnshareVisualizationParams extends IDataSourceParams {
   id: number;
   userId: number;
@@ -301,7 +287,7 @@ export interface WidgetContent {
   // TODO type this
 }
 
-interface Widget {
+export interface Widget {
   title: string;
   key: string;
   userId: number;
@@ -328,11 +314,7 @@ export interface ICreateWidgetParams {
   };
 }
 
-export type CreateWidgetResponse = string;
-
 export type IUpdateWidgetParams = ICreateWidgetParams;
-
-export type UpdateWidgetResponse = string;
 
 export interface IDeleteWidgetParams {
   widgetKey: string;
