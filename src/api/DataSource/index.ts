@@ -12,7 +12,9 @@ import {
   IGetDataSourcesStatusParams,
   IResetSourceStylesParams,
   ISetDefaultSourceStylesParams,
-  UserDataSource
+  DataSource,
+  IDeleteSourceDataParams,
+  DeleteSourceDataResponse
 } from './types';
 
 export * from './types';
@@ -27,7 +29,7 @@ export class DataSourceAPI extends Request {
    * data-sources.
    */
   public getDataSourcesStatus(params: IGetDataSourcesStatusParams) {
-    return this.handle(UNAUTHORIZED, GUEST_DISABLED).request<UserDataSource>({
+    return this.handle(UNAUTHORIZED, GUEST_DISABLED).request<DataSource>({
       url: '/dataSources',
       method: 'GET',
       params: params
@@ -89,6 +91,19 @@ export class DataSourceAPI extends Request {
     });
   }
 
+  /**
+   * Delete all data of data-source (visualizations, access rights, widgets, full-text indexes).
+   * Optionally merge visualizations and widgets into another data-source instead of deleting them.
+   * Warning: when merging into another data-source, visualizations may break if node and edge IDs are not the same in the target data-source.
+   */
+  public deleteSourceData(params: IDeleteSourceDataParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request<DeleteSourceDataResponse>({
+      url: '/admin/sources/data/:sourceKey',
+      method: 'POST',
+      params: params
+    });
+  }
+
   public getAllSourceInfo(params: IGetAllSourceInfoParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request<GetAllSourceInfoResponse>({
       url: '/admin/sources',
@@ -96,7 +111,6 @@ export class DataSourceAPI extends Request {
       params: params
     });
   }
-
 
   public createSourceConfig(params: ICreateSourceConfigParams) {
     return this.request<CreateSourceConfigResponse>({
@@ -110,14 +124,6 @@ export class DataSourceAPI extends Request {
   public deleteSourceConfig(params: IDeleteSourceConfigParams) {
     return this.request<DeleteSourceConfigResponse>({
       url: '/admin/sources/config/:configIndex',
-      method: 'POST',
-      params: params
-    });
-  }
-
-  public deleteSourceData(params: IDeleteSourceDataParams) {
-    return this.request<DeleteSourceDataResponse>({
-      url: '/admin/sources/data/:sourceKey',
       method: 'POST',
       params: params
     });

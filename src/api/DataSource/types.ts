@@ -55,7 +55,7 @@ export interface ConnectedDataSourceSettings extends DataSourceSettings {
   longitudeProperty?: string;
 }
 
-export interface UserDataSource {
+export interface DataSource {
   name: string;
   connected: boolean;
   key?: string;
@@ -83,6 +83,22 @@ export interface IConnectDataSourceParams {
   sourceIndex: number;
 }
 
+export interface IDeleteSourceDataParams extends IDataSourceParams {
+  mergeInto?: string;
+}
+
+export interface DeleteSourceDataResponse {
+  migrated: boolean;
+  affected: {
+    visualizations: number;
+    folders: number;
+    groups: number;
+    alerts: number;
+    matches: number;
+    graphQueries: number;
+  };
+}
+
 // export interface IAdminDataSource {
 //   name?: string;
 //   configIndex?: number;
@@ -96,19 +112,3 @@ export interface IConnectDataSourceParams {
 //   storeId?: string;
 //   visualizationCount: number;
 // }
-//
-//
-// export type GetAdminDataSourcesResponse = IAdminDataSource[];
-//
-// export interface IDeleteDataSourceParams extends IDataSourceParams {
-//   mergeInto?: string;
-// }
-//
-// export interface DeleteDataSourceResponse {
-//   migrated: boolean;
-//   affected: {
-//     visualizations: number;
-//     folders: number;
-//   };
-// }
-//
