@@ -11,6 +11,7 @@ export interface ServerStatus {
   uptime: number;
 }
 
+// TODO make camelCase for consistency
 export interface ServerVersion {
   tag_name: string;
   name: string;

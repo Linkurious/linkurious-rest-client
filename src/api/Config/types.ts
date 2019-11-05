@@ -12,7 +12,7 @@ export interface IGetConfigParams {
   sourceIndex: number;
 }
 
-export interface GetConfigResponse {
+export interface Configuration {
   // available to not authenticated user
   ogma: OgmaConfiguration;
   domain: string;

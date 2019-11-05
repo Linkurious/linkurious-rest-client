@@ -33,7 +33,7 @@ export class LinkuriousAPI extends Request {
   }
 
   /**
-   * Get Linkurious' current version information.
+   * Get Linkurious current version information.
    */
   public getVersion() {
     return this.request<ServerVersion>({
@@ -43,7 +43,7 @@ export class LinkuriousAPI extends Request {
   }
 
   /**
-   * Save an event to the analytics' log file. All events follow the Segment Spec.
+   * Save an event to the analytics log file. All events follow the Segment Spec.
    */
   public sendAnalytics(params: ISendAnalyticsParams) {
     return this.request({

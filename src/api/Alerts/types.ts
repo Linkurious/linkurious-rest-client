@@ -4,7 +4,7 @@
  * - Created on 2019-10-30.
  */
 
-import {FolderChildren, IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
+import {IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {LkEdge, LkNode} from '../graphItemTypes';
 

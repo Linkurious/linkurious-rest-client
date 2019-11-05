@@ -100,6 +100,7 @@ export interface IMergeVisualizationsParams {
   to: number;
 }
 
+// TODO remove this
 // export interface FullUser extends User {
 //   preferences: {
 //     pinOnDrag: boolean;

@@ -4,13 +4,7 @@
  * - Created on 2019-10-30.
  */
 
-import {
-  FolderChildren,
-  GenericObject,
-  IDataSourceParams,
-  PersistedItem,
-  Tree
-} from '../commonTypes';
+import {GenericObject, IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
 import {VizEdge, VizEdgeInfo, VizNode, VizNodeInfo} from '../graphItemTypes';
 import {IAlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';

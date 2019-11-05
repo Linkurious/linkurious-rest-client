@@ -219,6 +219,7 @@ export enum IndexationStatus {
   NEEDED = 'needed'
 }
 
+// TODO make camelCase for consistency
 export interface GetIndexationStatusResponse {
   indexing: IndexationStatus;
   indexing_progress?: string;

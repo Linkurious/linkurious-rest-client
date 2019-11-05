@@ -7,22 +7,28 @@
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
-import {IGetConfigParams, GetConfigResponse, IUpdateConfigParams} from './types';
+import {IGetConfigParams, Configuration, IUpdateConfigParams} from './types';
 
 export * from './types';
 
 const {UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
 
 export class ConfigAPI extends Request {
+  /**
+   * Get the configuration of Linkurious.
+   */
   public getConfiguration(params?: IGetConfigParams) {
-    return this.request<GetConfigResponse>({
+    return this.request<Configuration>({
       url: '/config',
       method: 'GET',
       params: params
     });
   }
 
-  public updateConfiguration(params: IUpdateConfigParams<any>) {
+  /**
+   * Update Linkurious configuration.
+   */
+  public updateConfiguration(params: IUpdateConfigParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request({
       url: '/config',
       method: 'POST',
