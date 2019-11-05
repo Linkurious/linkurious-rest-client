@@ -39,6 +39,16 @@ export class AuthAPI extends Request {
   }
 
   /**
+   * Redirect the user to the OAuth2 or SAML2 provider for authorization.
+   */
+  public async loginSSO() {
+    return this.request<never>({
+      url: '/auth/sso/login',
+      method: 'GET'
+    });
+  }
+
+  /**
    * Log the current user out.
    */
   public async logout() {
@@ -49,10 +59,6 @@ export class AuthAPI extends Request {
     this.props.clientState.user = undefined;
     return response;
   }
-
-  // TODO handle the login with SSO
-
-  // TODO remove check isAuthenticated API from server
 
   /**
    * Get the profile of the current user.
