@@ -90,7 +90,6 @@ export interface IDeleteGroupParams extends IDataSourceParams {
   id: number;
 }
 
-// TODO type when we merge PKAR
 export interface ISetAccessRightsParams extends IDataSourceParams {
   id: number;
   accessRights: Array<{type: string; targetType: string; targetName: string}>;
