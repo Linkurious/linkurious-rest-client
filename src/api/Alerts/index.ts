@@ -25,7 +25,8 @@ import {
   IAlertPreviewParams,
   Alert,
   AlertFolder,
-  MatchAction
+  MatchAction,
+  Match
 } from './types';
 
 export * from './types';

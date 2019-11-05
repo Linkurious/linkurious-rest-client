@@ -7,13 +7,7 @@
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 
-import {
-  CreateApplicationResponse,
-  GetApplicationsResponse,
-  ICreateApplicationParams,
-  IUpdateApplicationParams,
-  UpdateApplicationResponse
-} from './types';
+import {Application, ICreateApplicationParams, IUpdateApplicationParams} from './types';
 
 export * from './types';
 
@@ -24,7 +18,7 @@ export class ApplicationsAPI extends Request {
    * Get all the API applications.
    */
   public getApplications() {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<GetApplicationsResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request<Application[]>({
       url: '/admin/applications',
       method: 'GET'
     });
@@ -34,7 +28,7 @@ export class ApplicationsAPI extends Request {
    * Add a new API application.
    */
   public createApplication(params: ICreateApplicationParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<CreateApplicationResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<Application>({
       url: '/admin/applications',
       method: 'POST',
       params: params
@@ -45,7 +39,7 @@ export class ApplicationsAPI extends Request {
    * Update an API application.
    */
   public updateApplication(params: IUpdateApplicationParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<UpdateApplicationResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<Application>({
       url: '/admin/applications/:id',
       method: 'PATCH',
       params: params

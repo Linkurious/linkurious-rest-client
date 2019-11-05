@@ -6,14 +6,9 @@
 
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
+import {User} from '../User';
 
-import {
-  GetCurrentUserResponse,
-  ILoginParams,
-  IUpdateCurrentUserParams,
-  LoginResponse,
-  UpdateCurrentUserResponse
-} from './types';
+import {ILoginParams, IUpdateCurrentUserParams} from './types';
 
 export * from './types';
 
@@ -27,7 +22,7 @@ export class AuthAPI extends Request {
     if (this.props.clientState.user) {
       this.props.clientState.user = undefined;
     }
-    const response = await this.handle(UNAUTHORIZED).request<LoginResponse>({
+    const response = await this.handle(UNAUTHORIZED).request<User>({
       url: '/auth/login',
       method: 'POST',
       params: params
@@ -64,9 +59,7 @@ export class AuthAPI extends Request {
    * Get the profile of the current user.
    */
   public async getCurrentUser() {
-    const response = await this.handle(UNAUTHORIZED, GUEST_DISABLED).request<
-      GetCurrentUserResponse
-    >({
+    const response = await this.handle(UNAUTHORIZED, GUEST_DISABLED).request<User>({
       url: '/auth/me',
       method: 'GET'
     });
@@ -81,9 +74,7 @@ export class AuthAPI extends Request {
    * Update the current user.
    */
   public async updateCurrentUser(params: IUpdateCurrentUserParams) {
-    const response = await this.handle(UNAUTHORIZED, FORBIDDEN, USER_EXISTS).request<
-      UpdateCurrentUserResponse
-    >({
+    const response = await this.handle(UNAUTHORIZED, FORBIDDEN, USER_EXISTS).request<User>({
       url: '/auth/me',
       method: 'PATCH',
       params: params

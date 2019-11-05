@@ -15,8 +15,6 @@ export interface Application extends PersistedItem {
   rights: string[];
 }
 
-export type GetApplicationsResponse = Application[];
-
 export interface ICreateApplicationParams {
   name: string;
   enabled?: boolean;
@@ -24,10 +22,6 @@ export interface ICreateApplicationParams {
   rights: string[];
 }
 
-export interface CreateApplicationResponse extends Application {}
-
 export interface IUpdateApplicationParams extends Partial<ICreateApplicationParams> {
   id: number;
 }
-
-export interface UpdateApplicationResponse extends Application {}

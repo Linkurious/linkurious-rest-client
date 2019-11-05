@@ -3,16 +3,12 @@
  *
  * - Created on 2019-08-19.
  */
-import {UserPreferences, User} from '../User';
+import {UserPreferences} from '../User';
 
 export interface ILoginParams {
   usernameOrEmail: string;
   password: string;
 }
-
-export type LoginResponse = User;
-
-export type GetCurrentUserResponse = User;
 
 export interface IUpdateCurrentUserParams {
   id: number;
@@ -21,5 +17,3 @@ export interface IUpdateCurrentUserParams {
   password?: string;
   preferences?: Partial<UserPreferences>;
 }
-
-export type UpdateCurrentUserResponse = User;
