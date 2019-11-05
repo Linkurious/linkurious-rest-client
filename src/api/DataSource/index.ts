@@ -6,44 +6,14 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
-import {IDataSourceParams} from '../commonTypes';
 
 import {IGetDataSourcesStatusParams, UserDataSource} from './types';
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED} = LkErrorKey;
 
 export class DataSourceAPI extends Request {
-  // TODO refresh data-source status on API (deleteFullDataSource, deleteDataSourceConfig)
-  // async getUserDataSources(params?: IGetUserDataSourcesParams) {
-  //   const response = await this.handle(UNAUTHORIZED).request<GetUserDataSourcesResponse>({
-  //     url: '/dataSources',
-  //     method: 'GET',
-  //     params: params
-  //   });
-  //
-  //   if (response.isSuccess()) {
-  //     this.props.clientState.sources = response.body;
-  //     const currentSource = LinkuriousRestClient.getCurrentSource(response.body, {
-  //       userId: this.props.clientState.user ? this.props.clientState.user.id : -1
-  //     });
-  //     this.props.clientState.currentSource = currentSource;
-  //     try {
-  //       if (currentSource.key && this.props.clientState.user) {
-  //         localStorage.setItem(
-  //           'lk-lastSeenSourceKey-' + this.props.clientState.user.id,
-  //           currentSource.key
-  //         );
-  //       }
-  //     } catch (_) {
-  //       // Silent fail
-  //     }
-  //   }
-  //   return response;
-  // }
-  //
-
   /**
    * Get the status of all the data-sources.
    * Users can only see data-sources with at least one group belonging to that data-source.
@@ -56,31 +26,31 @@ export class DataSourceAPI extends Request {
       method: 'GET',
       params: params
     });
+
+    // TODO add set current source method
+    //
+    // if (response.isSuccess()) {
+    //   this.props.clientState.sources = response.body;
+    //   const currentSource = LinkuriousRestClient.getCurrentSource(response.body, {
+    //     userId: this.props.clientState.user ? this.props.clientState.user.id : -1
+    //   });
+    //   this.props.clientState.currentSource = currentSource;
+    //   try {
+    //     if (currentSource.key && this.props.clientState.user) {
+    //       localStorage.setItem(
+    //         'lk-lastSeenSourceKey-' + this.props.clientState.user.id,
+    //         currentSource.key
+    //       );
+    //     }
+    //   } catch (_) {
+    //     // Silent fail
+    //   }
+    // }
   }
 
-  /**
-   * Request to reindex the graph database. One may want to do it after editing the index configuration.
-   */
-  public startIndexation(params: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
-      url: '/:sourceKey/search/index',
-      method: 'POST',
-      params: params
-    });
-  }
-
-  /**
-   * Get the status of the Search API and return the indexing progress.
-   */
-  public getIndexationStatus(params: IDataSourceParams) {
-    return this.handle(
-      UNAUTHORIZED,
-      DATA_SOURCE_UNAVAILABLE,
-      FORBIDDEN,
-      NOT_FOUND,
-      GUEST_DISABLED
-    ).request<GetIndexationStatusResponse>({
-      url: '/:sourceKey/search/status',
+  public getAllSourceInfo(params: IGetAllSourceInfoParams) {
+    return this.request<GetAllSourceInfoResponse>({
+      url: '/admin/sources',
       method: 'GET',
       params: params
     });
@@ -110,14 +80,6 @@ export class DataSourceAPI extends Request {
     });
   }
 
-  public getAllSourceInfo(params: IGetAllSourceInfoParams) {
-    return this.request<GetAllSourceInfoResponse>({
-      url: '/admin/sources',
-      method: 'GET',
-      params: params
-    });
-  }
-
   public createSourceConfig(params: ICreateSourceConfigParams) {
     return this.request<CreateSourceConfigResponse>({
       url: '/admin/sources/config',
@@ -126,6 +88,7 @@ export class DataSourceAPI extends Request {
     });
   }
 
+  // TODO refresh data-source status on API (deleteFullDataSource, deleteDataSourceConfig)
   public deleteSourceConfig(params: IDeleteSourceConfigParams) {
     return this.request<DeleteSourceConfigResponse>({
       url: '/admin/sources/config/:configIndex',
