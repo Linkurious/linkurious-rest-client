@@ -77,8 +77,6 @@ export interface GroupName {
   name: string;
 }
 
-export type GetGroupNamesResponse = GroupName[];
-
 export interface ICreateGroupParams extends IDataSourceParams {
   name: string;
 }

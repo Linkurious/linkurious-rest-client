@@ -8,8 +8,8 @@ import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
 import {
-  GetGroupNamesResponse,
   Group,
+  GroupName,
   ICreateGroupParams,
   ICreateUserParams,
   IDeleteGroupParams,
@@ -113,7 +113,7 @@ export class UserAPI extends Request {
    * Get the names of groups that can perform a given action on the data-source.
    */
   public getGroupNames(params: IGetGroupNamesParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<GetGroupNamesResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<GroupName[]>({
       url: '/:sourceKey/groups',
       method: 'GET',
       params: params
