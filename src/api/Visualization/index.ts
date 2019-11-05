@@ -50,7 +50,6 @@ export * from './types';
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND} = LkErrorKey;
 
 export class VisualizationAPI extends Request {
-  // TODO return the number directly
   /**
    * Get the number of visualizations for the current user in this data-source.
    */
@@ -67,7 +66,6 @@ export class VisualizationAPI extends Request {
   /**
    * Get a visualization by id.
    */
-  // TODO remove populated = false
   public getVisualization(params: IGetVisualizationParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
       GetVisualizationResponse
