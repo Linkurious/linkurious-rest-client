@@ -6,17 +6,14 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
+import {LkEdge, LkSubGraph} from '../graphItemTypes';
 
 import {
-  CreateEdgeResponse,
-  GetEdgeCountResponse,
-  GetEdgeResponse,
   ICreateEdgeParams,
   IDeleteEdgeParams,
   IGetEdgeCountParams,
   IGetEdgeParams,
-  IUpdateEdgeParams,
-  UpdateEdgeResponse
+  IUpdateEdgeParams
 } from './types';
 
 export * from './types';
@@ -30,7 +27,7 @@ export class GraphEdgeAPI extends Request {
    */
   public getEdge(params: IGetEdgeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
-      GetEdgeResponse
+      LkSubGraph
     >({
       url: '/:sourceKey/graph/edges/:id',
       method: 'GET',
@@ -42,9 +39,7 @@ export class GraphEdgeAPI extends Request {
    * Add an edge to the graph.
    */
   public createEdge(params: ICreateEdgeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
-      CreateEdgeResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<LkEdge>({
       url: '/:sourceKey/graph/edges',
       method: 'POST',
       params: params
@@ -56,13 +51,13 @@ export class GraphEdgeAPI extends Request {
    * It's not possible to update the type of an edge.
    */
   public updateEdge(params: IUpdateEdgeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
-      UpdateEdgeResponse
-    >({
-      url: '/:sourceKey/graph/edges/:id',
-      method: 'PATCH',
-      params: params
-    });
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<LkEdge>(
+      {
+        url: '/:sourceKey/graph/edges/:id',
+        method: 'PATCH',
+        params: params
+      }
+    );
   }
 
   /**
@@ -80,9 +75,7 @@ export class GraphEdgeAPI extends Request {
    * Get the number of edges in the graph.
    */
   public getEdgeCount(params?: IGetEdgeCountParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
-      GetEdgeCountResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<number>({
       url: '/:sourceKey/graph/edges/count',
       method: 'GET',
       params: params

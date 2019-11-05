@@ -6,19 +6,14 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
+import {LkNode, LkNodeStatistics, LkSubGraph} from '../graphItemTypes';
 
 import {
-  CreateNodeResponse,
-  GetNodeCountResponse,
-  GetNodeResponse,
   ICreateNodeParams,
   IDeleteNodeParams,
   IGetNodeCountParams,
   IGetNodeParams,
   IUpdateNodeParams,
-  UpdateNodeResponse,
-  GetAdjacentNodesResponse,
-  GetStatisticsResponse,
   IGetAdjacentNodesParams,
   IGetStatisticsParams
 } from './types';
@@ -32,7 +27,7 @@ export class GraphNodeAPI extends Request {
    */
   public getNode(params: IGetNodeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
-      GetNodeResponse
+      LkSubGraph
     >({
       url: '/:sourceKey/graph/nodes/:id',
       method: 'GET',
@@ -44,9 +39,7 @@ export class GraphNodeAPI extends Request {
    * Add a node to the graph.
    */
   public createNode(params: ICreateNodeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
-      CreateNodeResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<LkNode>({
       url: '/:sourceKey/graph/nodes',
       method: 'POST',
       params: params
@@ -58,13 +51,13 @@ export class GraphNodeAPI extends Request {
    * Keep every other property and category of the node unchanged.
    */
   public updateNode(params: IUpdateNodeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
-      UpdateNodeResponse
-    >({
-      url: '/:sourceKey/graph/nodes/:id',
-      method: 'PATCH',
-      params: params
-    });
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<LkNode>(
+      {
+        url: '/:sourceKey/graph/nodes/:id',
+        method: 'PATCH',
+        params: params
+      }
+    );
   }
 
   /**
@@ -82,9 +75,7 @@ export class GraphNodeAPI extends Request {
    * Get the number of nodes in the graph.
    */
   public getNodeCount(params?: IGetNodeCountParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
-      GetNodeCountResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<number>({
       url: '/:sourceKey/graph/nodes/count',
       method: 'GET',
       params: params
@@ -99,7 +90,7 @@ export class GraphNodeAPI extends Request {
    */
   public getStatistics(params: IGetStatisticsParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
-      GetStatisticsResponse
+      LkNodeStatistics
     >({
       url: '/:sourceKey/graph/neighborhood/statistics',
       method: 'POST',
@@ -113,7 +104,7 @@ export class GraphNodeAPI extends Request {
    */
   public getAdjacentNodes(params: IGetAdjacentNodesParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
-      GetAdjacentNodesResponse
+      LkSubGraph
     >({
       url: '/:sourceKey/graph/nodes/expand',
       method: 'POST',

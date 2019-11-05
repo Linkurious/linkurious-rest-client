@@ -8,13 +8,11 @@ import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 
 import {
-  CreateCustomActionResponse,
-  GetCustomActionsResponse,
+  CustomAction,
   ICreateCustomActionParams,
   IDeleteCustomActionParams,
   IGetCustomActionsParams,
-  IUpdateCustomActionParams,
-  UpdateCustomActionResponse
+  IUpdateCustomActionParams
 } from './types';
 
 export * from './types';
@@ -27,7 +25,7 @@ export class CustomActionAPI extends Request {
    */
   public async getCustomActions(params?: IGetCustomActionsParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN).request<
-      GetCustomActionsResponse
+      CustomAction[]
     >({
       url: '/:sourceKey/customAction',
       method: 'GET',
@@ -40,9 +38,7 @@ export class CustomActionAPI extends Request {
    * Create a new custom action for the current user.
    */
   public async createCustomAction(params: ICreateCustomActionParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
-      CreateCustomActionResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<CustomAction>({
       url: '/:sourceKey/customAction',
       method: 'POST',
       params: params
@@ -54,7 +50,7 @@ export class CustomActionAPI extends Request {
    */
   public async updateCustomAction(params: IUpdateCustomActionParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
-      UpdateCustomActionResponse
+      CustomAction
     >({
       url: '/:sourceKey/customAction/:id',
       method: 'PATCH',

@@ -71,8 +71,6 @@ export interface ICreateCustomActionParams extends IDataSourceParams {
   sharing: CustomActionSharingMode;
 }
 
-export interface CreateCustomActionResponse extends CustomAction {}
-
 export interface IDeleteCustomActionParams extends IDataSourceParams {
   id: number;
 }
@@ -81,8 +79,4 @@ export interface IUpdateCustomActionParams extends Partial<ICreateCustomActionPa
   id: number;
 }
 
-export interface UpdateCustomActionResponse extends CustomAction {}
-
 export interface IGetCustomActionsParams extends IDataSourceParams {}
-
-export type GetCustomActionsResponse = CustomAction[];

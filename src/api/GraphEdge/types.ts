@@ -5,13 +5,10 @@
  */
 
 import {GenericObject, IDataSourceParams, IGetSubGraphParams} from '../commonTypes';
-import {LkEdge, LkSubGraph} from '../graphItemTypes';
 
 export interface IGetEdgeParams extends IGetSubGraphParams {
   id: string;
 }
-
-export interface GetEdgeResponse extends LkSubGraph {}
 
 export interface ICreateEdgeParams extends IDataSourceParams {
   source: string;
@@ -20,8 +17,6 @@ export interface ICreateEdgeParams extends IDataSourceParams {
   properties?: GenericObject;
 }
 
-export interface CreateEdgeResponse extends LkEdge {}
-
 export interface IUpdateEdgeParams extends IDataSourceParams {
   id: string;
   properties?: GenericObject;
@@ -29,12 +24,8 @@ export interface IUpdateEdgeParams extends IDataSourceParams {
   readAt?: number;
 }
 
-export interface UpdateEdgeResponse extends LkEdge {}
-
 export interface IDeleteEdgeParams extends IDataSourceParams {
   id: string;
 }
 
 export interface IGetEdgeCountParams extends IDataSourceParams {}
-
-export type GetEdgeCountResponse = number;
