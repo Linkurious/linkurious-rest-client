@@ -7,14 +7,9 @@
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 import {LkEdge, LkSubGraph} from '../graphItemTypes';
+import {IDataSourceParams} from '../commonTypes';
 
-import {
-  ICreateEdgeParams,
-  IDeleteEdgeParams,
-  IGetEdgeCountParams,
-  IGetEdgeParams,
-  IUpdateEdgeParams
-} from './types';
+import {ICreateEdgeParams, IDeleteEdgeParams, IGetEdgeParams, IUpdateEdgeParams} from './types';
 
 export * from './types';
 
@@ -74,7 +69,7 @@ export class GraphEdgeAPI extends Request {
   /**
    * Get the number of edges in the graph.
    */
-  public getEdgeCount(params?: IGetEdgeCountParams) {
+  public getEdgeCount(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<number>({
       url: '/:sourceKey/graph/edges/count',
       method: 'GET',

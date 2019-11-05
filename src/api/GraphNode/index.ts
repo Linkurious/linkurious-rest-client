@@ -7,11 +7,11 @@
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 import {LkNode, LkNodeStatistics, LkSubGraph} from '../graphItemTypes';
+import {IDataSourceParams} from '../commonTypes';
 
 import {
   ICreateNodeParams,
   IDeleteNodeParams,
-  IGetNodeCountParams,
   IGetNodeParams,
   IUpdateNodeParams,
   IGetAdjacentNodesParams,
@@ -74,7 +74,7 @@ export class GraphNodeAPI extends Request {
   /**
    * Get the number of nodes in the graph.
    */
-  public getNodeCount(params?: IGetNodeCountParams) {
+  public getNodeCount(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<number>({
       url: '/:sourceKey/graph/nodes/count',
       method: 'GET',

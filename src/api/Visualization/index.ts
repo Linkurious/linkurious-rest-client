@@ -6,9 +6,9 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
+import {IDataSourceParams} from '../commonTypes';
 
 import {
-  IGetVisualizationCountParams,
   IGetVisualizationParams,
   ICreateVisualizationParams,
   IDuplicateVisualizationParams,
@@ -20,7 +20,6 @@ import {
   ICreateVisualizationFolderParams,
   IUpdateVisualizationFolderParams,
   IDeleteVisualizationFolderParams,
-  IGetVisualizationTreeParams,
   VisualizationTree,
   IGetSandboxParams,
   IUpdateSandboxParams,
@@ -46,7 +45,7 @@ export class VisualizationAPI extends Request {
   /**
    * Get the number of visualizations for the current user in this data-source.
    */
-  public getVisualizationCount(params?: IGetVisualizationCountParams) {
+  public getVisualizationCount(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<number>({
       url: '/:sourceKey/visualizations/count',
       method: 'GET',
@@ -162,7 +161,7 @@ export class VisualizationAPI extends Request {
   /**
    * Get the visualizations and the visualization folders in a tree structure.
    */
-  public getVisualizationTree(params?: IGetVisualizationTreeParams) {
+  public getVisualizationTree(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<VisualizationTree>({
       url: '/:sourceKey/visualizations/tree',
       method: 'GET',

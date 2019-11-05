@@ -27,5 +27,3 @@ export interface IUpdateEdgeParams extends IDataSourceParams {
 export interface IDeleteEdgeParams extends IDataSourceParams {
   id: string;
 }
-
-export interface IGetEdgeCountParams extends IDataSourceParams {}

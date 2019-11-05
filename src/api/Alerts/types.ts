@@ -81,8 +81,6 @@ export interface IDeleteAlertFolderParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IGetAlertTreeParams extends IDataSourceParams {}
-
 export interface AlertTree {
   id: -1;
   title: 'root';

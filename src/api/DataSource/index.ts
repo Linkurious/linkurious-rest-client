@@ -42,7 +42,7 @@ export class DataSourceAPI extends Request {
   //
 
   public getDataSourcesStatus(params: IGetDataSourcesStatusParams) {
-    return this.handle(GUEST_DISABLED).request<GetDataSourcesStatusResponse>({
+    return this.handle(UNAUTHORIZED, GUEST_DISABLED).request<GetDataSourcesStatusResponse>({
       url: '/dataSources',
       method: 'GET',
       params: params

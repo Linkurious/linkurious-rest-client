@@ -27,6 +27,25 @@ export interface GetSamplingStatusResponse {
 
 export interface IStopSchemaSamplingParams extends IDataSourceParams {}
 
+export interface IGetSimpleSchemaParams extends IDataSourceParams {}
+
+export interface SimpleSchema {
+  nodeCategories: string[];
+  edgeTypes: string[];
+  nodeProperties: string[];
+  edgeProperties: string[];
+}
+
+export interface IUpdateSchemaSettingsParams extends IDataSourceParams {
+  strictSchema: boolean;
+}
+
+export interface IGetNonIndexedPropertiesParams extends IDataSourceParams {}
+
+export interface ISetNonIndexedPropertiesParams extends IDataSourceParams {
+  properties: string[];
+}
+
 export enum DataVisibility {
   NONE = 'none',
   AVAILABLE = 'available',
@@ -160,10 +179,6 @@ export interface IUpdatePropertyParams extends IDataSourceParams {
   visibility?: DataVisibility;
 }
 
-export interface IUpdateSchemaSettingsParams extends IDataSourceParams {
-  strictSchema: boolean;
-}
-
 export interface IGetTypesParams extends IDataSourceParams {
   entityType: EntityType;
 }
@@ -175,22 +190,3 @@ export interface IGetTypesWithAccessParams extends IDataSourceParams {
 }
 
 export interface GetTypesWithAccessResponse extends GraphSchemaWithAccess {}
-
-export interface IGetSimpleSchemaParams extends IDataSourceParams {}
-
-export interface SimpleSchema {
-  nodeCategories: string[];
-  edgeTypes: string[];
-  nodeProperties: string[];
-  edgeProperties: string[];
-}
-
-export interface GetSimpleSchemaResponse extends SimpleSchema {}
-
-export interface IGetNonIndexedPropertiesParams extends IDataSourceParams {}
-
-export type IGetNonIndexedPropertiesResponse = string[];
-
-export interface ISetNonIndexedPropertiesParams extends IDataSourceParams {
-  properties: string[];
-}

@@ -9,8 +9,6 @@ import {VizEdge, VizEdgeInfo, VizNode, VizNodeInfo} from '../graphItemTypes';
 import {IAlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
 
-export interface IGetVisualizationCountParams extends IDataSourceParams {}
-
 export interface IGetVisualizationParams extends IDataSourceParams {
   id: number;
   withDigest?: boolean;
@@ -191,8 +189,6 @@ export interface IUpdateVisualizationFolderParams
 export interface IDeleteVisualizationFolderParams extends IDataSourceParams {
   id: number;
 }
-
-export interface IGetVisualizationTreeParams extends IDataSourceParams {}
 
 export interface VisualizationTree {
   id: -1;

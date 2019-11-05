@@ -6,6 +6,7 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
+import {IDataSourceParams} from '../commonTypes';
 
 import {
   AlertTree,
@@ -15,7 +16,6 @@ import {
   IDeleteAlertParams,
   IDoMatchActionParams,
   IGetAlertParams,
-  IGetAlertTreeParams,
   IGetMatchActionsParams,
   IGetMatchesParams,
   IGetMatchParams,
@@ -116,7 +116,7 @@ export class AlertsAPI extends Request {
   /**
    * Get the alerts and the alert folders in a tree structure.
    */
-  public getAlertTree(params?: IGetAlertTreeParams) {
+  public getAlertTree(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<AlertTree>({
       url: '/:sourceKey/alerts/tree',
       method: 'GET',

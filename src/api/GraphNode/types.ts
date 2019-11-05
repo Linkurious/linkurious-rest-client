@@ -28,8 +28,6 @@ export interface IDeleteNodeParams extends IDataSourceParams {
   id: string;
 }
 
-export interface IGetNodeCountParams extends IDataSourceParams {}
-
 export interface IGetStatisticsParams extends IDataSourceParams {
   ids: string[];
   withDigest?: boolean;
