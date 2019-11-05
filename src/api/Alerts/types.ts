@@ -122,12 +122,12 @@ export interface Match extends PersistedItem {
     username: string;
     email: string;
   };
-  viewers: {
+  viewers: Array<{
     id: number;
     username: string;
     email: string;
     date: string;
-  };
+  }>;
   nodes: string[];
   edges: string[];
   columns: string[];
