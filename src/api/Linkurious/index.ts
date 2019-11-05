@@ -8,16 +8,13 @@ import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
 import {
-  IGetConfigParams,
-  GetConfigResponse,
   IGetCustomFilesParams,
-  GetCustomFilesResponse,
   IGetReportParams,
   RestartLinkuriousResponse,
   ISendAnalyticsParams,
-  IUpdateConfigParams,
   ServerStatus,
-  ServerVersion
+  ServerVersion,
+  CustomFile
 } from './types';
 
 export * from './types';
@@ -77,24 +74,11 @@ export class LinkuriousAPI extends Request {
     });
   }
 
-  public getConfiguration(params?: IGetConfigParams) {
-    return this.request<GetConfigResponse>({
-      url: '/config',
-      method: 'GET',
-      params: params
-    });
-  }
-
-  public updateConfiguration(params: IUpdateConfigParams<any>) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
-      url: '/config',
-      method: 'POST',
-      params: params
-    });
-  }
-
+  /**
+   * List all custom files in the specified root directory.
+   */
   public getCustomFiles(params?: IGetCustomFilesParams) {
-    return this.request<GetCustomFilesResponse>({
+    return this.handle(UNAUTHORIZED).request<CustomFile[]>({
       url: '/customFiles',
       method: 'GET',
       params: params

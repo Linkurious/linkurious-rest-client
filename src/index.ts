@@ -12,6 +12,7 @@ import {ErrorListener} from './errorListener';
 import {AlertsAPI} from './api/Alerts';
 import {ApplicationsAPI} from './api/Applications';
 import {AuthAPI} from './api/Auth';
+import {ConfigAPI} from './api/Config';
 import {CustomActionAPI} from './api/CustomAction';
 import {DataSourceAPI, UserDataSource} from './api/DataSource';
 import {GraphEdgeAPI} from './api/GraphEdge';
@@ -29,6 +30,7 @@ export class RestClient extends ErrorListener {
   public readonly alerts: AlertsAPI;
   public readonly applications: ApplicationsAPI;
   public readonly auth: AuthAPI;
+  public readonly config: ConfigAPI;
   public readonly customAction: CustomActionAPI;
   public readonly dataSource: DataSourceAPI;
   public readonly graphEdge: GraphEdgeAPI;
@@ -58,6 +60,7 @@ export class RestClient extends ErrorListener {
     this.alerts = new AlertsAPI(this.moduleProps);
     this.applications = new ApplicationsAPI(this.moduleProps);
     this.auth = new AuthAPI(this.moduleProps);
+    this.config = new ConfigAPI(this.moduleProps);
     this.customAction = new CustomActionAPI(this.moduleProps);
     this.dataSource = new DataSourceAPI(this.moduleProps);
     this.graphEdge = new GraphEdgeAPI(this.moduleProps);
