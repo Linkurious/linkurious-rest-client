@@ -299,8 +299,6 @@ export interface Widget {
   content: WidgetContent;
 }
 
-export type GetWidgetResponse = Widget;
-
 export interface ICreateWidgetParams {
   visualizationId: number;
   options?: {

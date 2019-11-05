@@ -29,13 +29,13 @@ import {
   IShareVisualizationParams,
   IUnshareVisualizationParams,
   IGetWidgetParams,
-  GetWidgetResponse,
   ICreateWidgetParams,
   IUpdateWidgetParams,
   IDeleteWidgetParams,
   VisualizationShare,
   Visualization,
-  VisualizationFolder
+  VisualizationFolder,
+  Widget
 } from './types';
 
 export * from './types';
@@ -235,13 +235,11 @@ export class VisualizationAPI extends Request {
    * Get a visualization widget's data by key.
    */
   public getWidget(params: IGetWidgetParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<GetWidgetResponse>(
-      {
-        url: '/widget/:widgetKey',
-        method: 'GET',
-        params: params
-      }
-    );
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<Widget>({
+      url: '/widget/:widgetKey',
+      method: 'GET',
+      params: params
+    });
   }
 
   /**
