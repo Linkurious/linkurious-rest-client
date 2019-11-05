@@ -85,7 +85,7 @@ export class UserAPI extends Request {
    * Delete a user.
    */
   public deleteUser(params: IDeleteUserParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/users/:id',
       method: 'DELETE',
       params: params

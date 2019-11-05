@@ -208,8 +208,8 @@ export class AlertsAPI extends Request {
       DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
       BAD_GRAPH_REQUEST,
-      CONSTRAINT_VIOLATION,
-      GRAPH_REQUEST_TIMEOUT
+      GRAPH_REQUEST_TIMEOUT,
+      CONSTRAINT_VIOLATION
     ).request<AlertPreviewResponse>({
       url: '/:sourceKey/graph/alertPreview',
       method: 'POST',

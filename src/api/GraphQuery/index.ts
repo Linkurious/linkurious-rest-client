@@ -44,9 +44,13 @@ export class GraphQueryAPI extends Request {
    * Get a graph query owned by the current user or shared with it.
    */
   public getQuery(params: IGetQueryParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN).request<
-      GetQueryResponse
-    >({
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      GUEST_DISABLED,
+      FORBIDDEN,
+      NOT_FOUND
+    ).request<GetQueryResponse>({
       url: '/:sourceKey/graph/query/:id',
       method: 'GET',
       params: params
@@ -112,8 +116,8 @@ export class GraphQueryAPI extends Request {
       DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
       BAD_GRAPH_REQUEST,
-      CONSTRAINT_VIOLATION,
-      GRAPH_REQUEST_TIMEOUT
+      GRAPH_REQUEST_TIMEOUT,
+      CONSTRAINT_VIOLATION
     ).request<CheckQueryResponse>({
       url: '/:sourceKey/graph/check/query',
       method: 'POST',
@@ -131,8 +135,8 @@ export class GraphQueryAPI extends Request {
       DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
       BAD_GRAPH_REQUEST,
-      CONSTRAINT_VIOLATION,
-      GRAPH_REQUEST_TIMEOUT
+      GRAPH_REQUEST_TIMEOUT,
+      CONSTRAINT_VIOLATION
     ).request<RunQueryByContentResponse>({
       url: '/:sourceKey/graph/run/query',
       method: 'POST',
@@ -150,9 +154,10 @@ export class GraphQueryAPI extends Request {
       DATA_SOURCE_UNAVAILABLE,
       GUEST_DISABLED,
       FORBIDDEN,
+      NOT_FOUND,
       BAD_GRAPH_REQUEST,
-      CONSTRAINT_VIOLATION,
-      GRAPH_REQUEST_TIMEOUT
+      GRAPH_REQUEST_TIMEOUT,
+      CONSTRAINT_VIOLATION
     ).request<RunQueryByIdResponse>({
       url: '/:sourceKey/graph/run/query/:id',
       method: 'POST',

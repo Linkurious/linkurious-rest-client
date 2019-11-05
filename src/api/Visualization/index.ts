@@ -212,7 +212,7 @@ export class VisualizationAPI extends Request {
    * Get all share rights on a visualization.
    */
   public getVisualizationShares(params: IGetVisualizationSharesParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
       GetVisualizationSharesResponse
     >({
       url: '/:sourceKey/visualizations/:id/shares',
