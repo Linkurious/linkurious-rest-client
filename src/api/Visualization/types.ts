@@ -174,7 +174,6 @@ export interface IUpdateVisualizationFolderParams
   id: number;
 }
 
-// TODO unwrap folder in server
 export type UpdateVisualizationFolderResponse = VisualizationFolder;
 
 export interface IDeleteVisualizationFolderParams extends IDataSourceParams {
