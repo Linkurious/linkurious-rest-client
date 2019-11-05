@@ -53,7 +53,7 @@ export class DataSourceAPI extends Request {
    * Request to reindex the graph database. One may want to do it after editing the index configuration.
    */
   public startIndexation(params: IStartIndexationParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/search/index',
       method: 'POST'
     });
@@ -63,7 +63,7 @@ export class DataSourceAPI extends Request {
    * Get the status of the Search API and return the indexing progress.
    */
   public getIndexationStatus(params: IGetIndexationStatusParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND, GUEST_DISABLED).request<
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, GUEST_DISABLED).request<
       GetIndexationStatusResponse
     >({
       url: '/:sourceKey/search/status',
@@ -81,7 +81,7 @@ export class DataSourceAPI extends Request {
   }
 
   public resetSourceStyles(params: IResetSourceStylesParams) {
-    return this.handle().request<ResetSourceStylesResponse>({
+    return this.handle(DATA_SOURCE_UNAVAILABLE).request<ResetSourceStylesResponse>({
       url: '/admin/source/:sourceKey/resetDefaults',
       method: 'POST',
       params: params
@@ -89,7 +89,7 @@ export class DataSourceAPI extends Request {
   }
 
   public setDefaultSourceStyles(params: ISetDefaultSourceStylesParams) {
-    return this.handle().request<SetDefaultSourceStylesResponse>({
+    return this.handle(DATA_SOURCE_UNAVAILABLE).request<SetDefaultSourceStylesResponse>({
       url: '/admin/source/:sourceKey/setDefaults',
       method: 'POST',
       params: params

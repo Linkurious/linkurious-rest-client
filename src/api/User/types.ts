@@ -121,15 +121,15 @@ export interface IMergeVisualizationsParams {
   to: number;
 }
 
-// // export interface FullUser extends User {
-// //   preferences: {
-// //     pinOnDrag: boolean;
-// //     incrementalLayout: boolean;
-// //     locale: string;
-// //   };
-// //   actions: any;
-// //   accessRights: any;
-// // }
+// export interface FullUser extends User {
+//   preferences: {
+//     pinOnDrag: boolean;
+//     incrementalLayout: boolean;
+//     locale: string;
+//   };
+//   actions: any;
+//   accessRights: any;
+// }
 //
 // // GROUP
 // export interface BaseGroup {

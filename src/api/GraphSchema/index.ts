@@ -36,7 +36,7 @@ const {FORBIDDEN, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOU
 
 export class GraphSchemaAPI extends Request {
   public async startSchemaSampling(params: IStartSchemaSamplingParams) {
-    return this.request({
+    return this.handle(DATA_SOURCE_UNAVAILABLE).request({
       url: '/admin/:sourceKey/schema/sampling/start',
       method: 'POST',
       params: params
@@ -44,7 +44,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async getSamplingStatus(params?: IGetSamplingStatusParams) {
-    return this.handle(GUEST_DISABLED).request<GetSamplingStatusResponse>({
+    return this.handle(DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<GetSamplingStatusResponse>({
       url: '/:sourceKey/schema/sampling/status',
       method: 'GET',
       params: params
@@ -60,7 +60,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async createType(params: ICreateTypeParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<CreateTypeResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<CreateTypeResponse>({
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'POST',
       params: params
@@ -68,7 +68,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async updateType(params: IUpdateTypeParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'PATCH',
       params: params
@@ -76,7 +76,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async createProperty(params: ICreatePropertyParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<CreatePropertyResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<CreatePropertyResponse>({
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
       method: 'POST',
       params: params
@@ -84,7 +84,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async updateProperty(params: IUpdatePropertyParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
       method: 'PATCH',
       params: params
