@@ -6,7 +6,7 @@
 
 import {PersistedItem} from '../commonTypes';
 
-// TODO add type to rights after PKAR is merged
+// TODO type when we merge PKAR
 export interface Application extends PersistedItem {
   name: string;
   apiKey: string;

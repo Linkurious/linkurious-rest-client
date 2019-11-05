@@ -81,7 +81,6 @@ export interface IAlertPreviewParams extends IDataSourceParams {
   timeout?: number;
 }
 
-// TODO make server return the array directly
 export type AlertPreviewResponse = Array<{
   nodes: LkNode[];
   edges: LkEdge[];

@@ -82,6 +82,7 @@ export interface IUpdateAlertFolderParams extends IDataSourceParams {
   title: string;
 }
 
+// TODO return alert folder in server
 export interface UpdateAlertFolderResponse extends AlertFolder {}
 
 export interface IDeleteAlertFolderParams extends IDataSourceParams {

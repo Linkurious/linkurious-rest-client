@@ -36,7 +36,7 @@ export interface ItemFields {
 }
 
 export interface VisualizationDesign {
-  // TODO type visualization design
+  // TODO type this
 }
 
 export interface VisualizationGeo {
@@ -62,7 +62,7 @@ export type VisualizationLayout =
     };
 
 export interface VisualizationFilters {
-  // TODO type visualization filters
+  // TODO type this
 }
 
 export interface VisualizationTimeline {
