@@ -10,20 +10,19 @@ import {IDataSourceParams} from '../commonTypes';
 
 import {
   ICreatePropertyParams,
-  CreatePropertyResponse,
   ICreateTypeParams,
-  CreateTypeResponse,
   GetSamplingStatusResponse,
-  IGetTypesParams,
-  GetTypesResponse,
-  IGetTypesWithAccessParams,
-  GetTypesWithAccessResponse,
   ISetNonIndexedPropertiesParams,
   IStartSchemaSamplingParams,
   IUpdatePropertyParams,
   IUpdateSchemaSettingsParams,
   IUpdateTypeParams,
-  SimpleSchema
+  SimpleSchema,
+  GraphSchemaType,
+  GraphSchemaProperty,
+  IGetTypesParams,
+  GraphSchemaWithAccess,
+  GraphSchema
 } from './types';
 
 export * from './types';
@@ -135,16 +134,20 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
+  /**
+   * Add a new type to the graph schema.
+   */
   public createType(params: ICreateTypeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
-      CreateTypeResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<GraphSchemaType>({
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'POST',
       params: params
     });
   }
 
+  /**
+   * Update an existing graph schema type.
+   */
   public updateType(params: IUpdateTypeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
@@ -153,9 +156,12 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
+  /**
+   * Add a new property for a type on the graph schema.
+   */
   public createProperty(params: ICreatePropertyParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
-      CreatePropertyResponse
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
+      GraphSchemaProperty
     >({
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
       method: 'POST',
@@ -163,6 +169,9 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
+  /**
+   * Update an existing graph schema property.
+   */
   public updateProperty(params: IUpdatePropertyParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
@@ -171,17 +180,23 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
+  /**
+   * List all the types and properties of a data-source.
+   */
   public getTypes(params: IGetTypesParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<GetTypesResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<GraphSchema>({
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'GET',
       params: params
     });
   }
 
-  public getTypesWithAccess(params: IGetTypesWithAccessParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
-      GetTypesWithAccessResponse
+  /**
+   * List all the readable types and properties of a data-source.
+   */
+  public getTypesWithAccess(params: IGetTypesParams) {
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, GUEST_DISABLED).request<
+      GraphSchemaWithAccess
     >({
       url: '/:sourceKey/graph/schema/:entityType/types',
       method: 'GET',

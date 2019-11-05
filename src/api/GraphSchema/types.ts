@@ -38,16 +38,24 @@ export interface ISetNonIndexedPropertiesParams extends IDataSourceParams {
   properties: string[];
 }
 
+export enum EntityType {
+  NODE = 'node',
+  EDGE = 'edge'
+}
+
 export enum DataVisibility {
   NONE = 'none',
   AVAILABLE = 'available',
   SEARCHABLE = 'searchable'
 }
 
-export enum EntityType {
-  NODE = 'node',
-  EDGE = 'edge'
+export interface ICreateTypeParams extends IDataSourceParams {
+  entityType: EntityType;
+  label: string;
+  visibility?: DataVisibility; // default is searchable
 }
+
+export interface IUpdateTypeParams extends ICreateTypeParams {}
 
 export enum LkPropertyType {
   AUTO = 'auto',
@@ -56,6 +64,19 @@ export enum LkPropertyType {
   DATETIME = 'datetime',
   NUMBER = 'number',
   STRING = 'string'
+}
+
+export interface SimpleType {
+  name: LkPropertyType.AUTO | LkPropertyType.NUMBER | LkPropertyType.BOOLEAN;
+}
+
+export interface EnumOptions {
+  values: string[];
+}
+
+export interface StringType {
+  name: LkPropertyType.STRING;
+  options?: EnumOptions;
 }
 
 export enum LkDateFormat {
@@ -67,33 +88,8 @@ export enum LkDateFormat {
   TIMESTAMP_MS = 'timestamp-ms'
 }
 
-export enum LkDateTimeFormat {
-  NATIVE = 'native',
-  ISO = 'iso', // YYYY-MM-DDThh:mm:ss
-  TIMESTAMP = 'timestamp',
-  TIMESTAMP_MS = 'timestamp-ms'
-}
-
-export interface EnumOptions {
-  values: string[];
-}
-
 export interface DateOptions {
   format: LkDateFormat;
-}
-
-export interface DatetimeOptions {
-  format: LkDateTimeFormat;
-  timezone?: boolean;
-}
-
-export interface SimpleType {
-  name: LkPropertyType.AUTO | LkPropertyType.NUMBER | LkPropertyType.BOOLEAN;
-}
-
-export interface StringType {
-  name: LkPropertyType.STRING;
-  options?: EnumOptions;
 }
 
 export interface DateType {
@@ -101,9 +97,39 @@ export interface DateType {
   options: DateOptions;
 }
 
+export enum LkDateTimeFormat {
+  NATIVE = 'native',
+  ISO = 'iso', // YYYY-MM-DDThh:mm:ss
+  TIMESTAMP = 'timestamp',
+  TIMESTAMP_MS = 'timestamp-ms'
+}
+
+export interface DatetimeOptions {
+  format: LkDateTimeFormat;
+  timezone?: boolean;
+}
+
 export interface DateTimeType {
   name: LkPropertyType.DATETIME;
   options: DatetimeOptions;
+}
+
+export interface ICreatePropertyParams extends IDataSourceParams {
+  entityType: EntityType;
+  label: string;
+  propertyKey: string;
+  propertyType: SimpleType | StringType | DateType | DateTimeType;
+  required?: boolean;
+  visibility?: DataVisibility;
+}
+
+export interface IUpdatePropertyParams extends IDataSourceParams {
+  entityType: EntityType;
+  label: string;
+  propertyKey: string;
+  propertyType?: SimpleType | StringType | DateType | DateTimeType;
+  required?: boolean;
+  visibility?: DataVisibility;
 }
 
 export interface GraphSchemaProperty {
@@ -119,6 +145,10 @@ export interface GraphSchemaType {
   visibility: DataVisibility;
 }
 
+export interface IGetTypesParams extends IDataSourceParams {
+  entityType: EntityType;
+}
+
 export interface GraphSchema {
   results: GraphSchemaType[];
 }
@@ -130,55 +160,13 @@ export enum AccessLevel {
   NONE = 'none'
 }
 
+export interface GraphSchemaTypeWithAccess extends GraphSchemaType {
+  access: AccessLevel;
+}
+
 export interface GraphSchemaWithAccess extends GraphSchema {
   any: {
     access: AccessLevel;
   };
   results: GraphSchemaTypeWithAccess[];
 }
-
-export interface GraphSchemaTypeWithAccess extends GraphSchemaType {
-  access: AccessLevel;
-}
-
-export interface ICreateTypeParams extends IDataSourceParams {
-  entityType: EntityType;
-  label: string;
-  visibility?: DataVisibility; // default is searchable
-}
-
-export interface CreateTypeResponse extends GraphSchemaType {}
-
-export interface IUpdateTypeParams extends ICreateTypeParams {}
-
-export interface ICreatePropertyParams extends IDataSourceParams {
-  entityType: EntityType;
-  label: string;
-  propertyKey: string;
-  propertyType: SimpleType | StringType | DateType | DateTimeType;
-  required?: boolean;
-  visibility?: DataVisibility;
-}
-
-export interface CreatePropertyResponse {}
-
-export interface IUpdatePropertyParams extends IDataSourceParams {
-  entityType: EntityType;
-  label: string;
-  propertyKey: string;
-  propertyType?: SimpleType | StringType | DateType | DateTimeType;
-  required?: boolean;
-  visibility?: DataVisibility;
-}
-
-export interface IGetTypesParams extends IDataSourceParams {
-  entityType: EntityType;
-}
-
-export interface GetTypesResponse extends GraphSchema {}
-
-export interface IGetTypesWithAccessParams extends IDataSourceParams {
-  entityType: EntityType;
-}
-
-export interface GetTypesWithAccessResponse extends GraphSchemaWithAccess {}
