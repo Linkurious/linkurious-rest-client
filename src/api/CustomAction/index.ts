@@ -6,12 +6,12 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
+import {IDataSourceParams} from '../commonTypes';
 
 import {
   CustomAction,
   ICreateCustomActionParams,
   IDeleteCustomActionParams,
-  IGetCustomActionsParams,
   IUpdateCustomActionParams
 } from './types';
 
@@ -23,7 +23,7 @@ export class CustomActionAPI extends Request {
   /**
    * Get all the custom actions owned by the current user or shared with them.
    */
-  public getCustomActions(params?: IGetCustomActionsParams) {
+  public getCustomActions(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN).request<
       CustomAction[]
     >({

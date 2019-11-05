@@ -213,10 +213,6 @@ export interface DeleteDataSourceResponse {
   };
 }
 
-export interface IStartIndexationParams extends IDataSourceParams {}
-
-export interface IGetIndexationStatusParams extends IDataSourceParams {}
-
 export enum IndexationStatus {
   ONGOING = 'ongoing',
   DONE = 'done',

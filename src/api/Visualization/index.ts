@@ -15,7 +15,6 @@ import {
   DuplicateVisualizationResponse,
   IDeleteVisualizationParams,
   IUpdateVisualizationParams,
-  IGetSharedVisualizationsParams,
   GetSharedVisualizationsResponse,
   ICreateVisualizationFolderParams,
   IUpdateVisualizationFolderParams,
@@ -113,7 +112,7 @@ export class VisualizationAPI extends Request {
   /**
    * Get all visualizations shared with the current user.
    */
-  public getSharedVisualizations(params?: IGetSharedVisualizationsParams) {
+  public getSharedVisualizations(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<
       GetSharedVisualizationsResponse
     >({

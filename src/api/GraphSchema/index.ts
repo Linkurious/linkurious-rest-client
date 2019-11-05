@@ -6,23 +6,20 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
+import {IDataSourceParams} from '../commonTypes';
 
 import {
   ICreatePropertyParams,
   CreatePropertyResponse,
   ICreateTypeParams,
   CreateTypeResponse,
-  IGetNonIndexedPropertiesParams,
-  IGetSamplingStatusParams,
   GetSamplingStatusResponse,
-  IGetSimpleSchemaParams,
   IGetTypesParams,
   GetTypesResponse,
   IGetTypesWithAccessParams,
   GetTypesWithAccessResponse,
   ISetNonIndexedPropertiesParams,
   IStartSchemaSamplingParams,
-  IStopSchemaSamplingParams,
   IUpdatePropertyParams,
   IUpdateSchemaSettingsParams,
   IUpdateTypeParams,
@@ -48,7 +45,7 @@ export class GraphSchemaAPI extends Request {
   /**
    * Get the schema sampling status.
    */
-  public getSamplingStatus(params?: IGetSamplingStatusParams) {
+  public getSamplingStatus(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
       GetSamplingStatusResponse
     >({
@@ -61,7 +58,7 @@ export class GraphSchemaAPI extends Request {
   /**
    * Stop the schema sampling.
    */
-  public stopSchemaSampling(params?: IStopSchemaSamplingParams) {
+  public stopSchemaSampling(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
       url: '/admin/:sourceKey/schema/sampling/stop',
       method: 'POST',
@@ -73,7 +70,7 @@ export class GraphSchemaAPI extends Request {
    * List all `edgeTypes`, `nodeCategories`, `edgeProperties`, `nodeProperties`
    * that exist in the graph database.
    */
-  public getSimpleSchema(params?: IGetSimpleSchemaParams) {
+  public getSimpleSchema(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<SimpleSchema>(
       {
         url: '/:sourceKey/graph/schema/simple',
@@ -97,7 +94,7 @@ export class GraphSchemaAPI extends Request {
   /**
    * Get the list of edge properties that are not indexed for the given data-source.
    */
-  public getNonIndexedEdgeProperties(params?: IGetNonIndexedPropertiesParams) {
+  public getNonIndexedEdgeProperties(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<string[]>({
       url: '/admin/source/:sourceKey/noIndex/edgeProperties',
       method: 'GET',
@@ -108,7 +105,7 @@ export class GraphSchemaAPI extends Request {
   /**
    * Get the list of node properties that are not indexed for the given data-source.
    */
-  public getNonIndexedNodeProperties(params?: IGetNonIndexedPropertiesParams) {
+  public getNonIndexedNodeProperties(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<string[]>({
       url: '/admin/source/:sourceKey/noIndex/nodeProperties',
       method: 'GET',

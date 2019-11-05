@@ -157,8 +157,6 @@ export interface IUpdateVisualizationParams extends IDataSourceParams {
   doLayout?: boolean;
 }
 
-export interface IGetSharedVisualizationsParams extends IDataSourceParams {}
-
 export type GetSharedVisualizationsResponse = Array<{
   right: VisualizationRight;
   visualizationId: number;

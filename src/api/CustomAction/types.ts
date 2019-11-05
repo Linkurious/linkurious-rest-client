@@ -78,5 +78,3 @@ export interface IDeleteCustomActionParams extends IDataSourceParams {
 export interface IUpdateCustomActionParams extends Partial<ICreateCustomActionParams> {
   id: number;
 }
-
-export interface IGetCustomActionsParams extends IDataSourceParams {}

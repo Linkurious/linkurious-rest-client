@@ -10,8 +10,6 @@ export interface IStartSchemaSamplingParams extends IDataSourceParams {
   reset?: boolean;
 }
 
-export interface IGetSamplingStatusParams extends IDataSourceParams {}
-
 export enum SamplingStatus {
   ONGOING = 'ongoing',
   DONE = 'done',
@@ -25,10 +23,6 @@ export interface GetSamplingStatusResponse {
   lastSampled?: string;
 }
 
-export interface IStopSchemaSamplingParams extends IDataSourceParams {}
-
-export interface IGetSimpleSchemaParams extends IDataSourceParams {}
-
 export interface SimpleSchema {
   nodeCategories: string[];
   edgeTypes: string[];
@@ -39,8 +33,6 @@ export interface SimpleSchema {
 export interface IUpdateSchemaSettingsParams extends IDataSourceParams {
   strictSchema: boolean;
 }
-
-export interface IGetNonIndexedPropertiesParams extends IDataSourceParams {}
 
 export interface ISetNonIndexedPropertiesParams extends IDataSourceParams {
   properties: string[];

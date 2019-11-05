@@ -6,6 +6,7 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
+import {IDataSourceParams} from '../commonTypes';
 
 export * from './types';
 
@@ -52,7 +53,7 @@ export class DataSourceAPI extends Request {
   /**
    * Request to reindex the graph database. One may want to do it after editing the index configuration.
    */
-  public startIndexation(params: IStartIndexationParams) {
+  public startIndexation(params: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/search/index',
       method: 'POST',
@@ -63,7 +64,7 @@ export class DataSourceAPI extends Request {
   /**
    * Get the status of the Search API and return the indexing progress.
    */
-  public getIndexationStatus(params: IGetIndexationStatusParams) {
+  public getIndexationStatus(params: IDataSourceParams) {
     return this.handle(
       UNAUTHORIZED,
       DATA_SOURCE_UNAVAILABLE,
