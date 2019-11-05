@@ -16,7 +16,8 @@ import {
   IDeleteSourceDataParams,
   DeleteSourceDataResponse,
   IDeleteSourceConfigParams,
-  DataSourceAdminInfo
+  DataSourceAdminInfo,
+  ICreateSourceConfigParams
 } from './types';
 
 export * from './types';
@@ -116,8 +117,12 @@ export class DataSourceAPI extends Request {
     });
   }
 
+  /**
+   * Create a new data-source configuration made of a graph database configuration
+   * and an index configuration. Return the configuration index of the new data-source.
+   */
   public createSourceConfig(params: ICreateSourceConfigParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<CreateSourceConfigResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request<number>({
       url: '/admin/sources/config',
       method: 'POST',
       params: params

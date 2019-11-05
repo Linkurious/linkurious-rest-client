@@ -8,6 +8,8 @@ import {TlsOptions} from 'tls';
 
 import {GenericObject} from '../commonTypes';
 
+// TODO review this file
+
 export interface IGetConfigParams {
   sourceIndex: number;
 }
@@ -39,7 +41,7 @@ export interface Configuration {
   needRestart?: boolean;
 }
 
-export type IUpdateConfigParams<T> =
+export type IUpdateConfigParams =
   | IResetConfigParams
   | IDataSourceConfigParams
   | IConfigurationParams<T>;
