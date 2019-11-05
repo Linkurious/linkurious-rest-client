@@ -14,7 +14,8 @@ import {
   ISetDefaultSourceStylesParams,
   DataSource,
   IDeleteSourceDataParams,
-  DeleteSourceDataResponse
+  DeleteSourceDataResponse,
+  IDeleteSourceConfigParams
 } from './types';
 
 export * from './types';
@@ -90,6 +91,17 @@ export class DataSourceAPI extends Request {
     });
   }
 
+  /**
+   * Delete a data-source configuration that has currently no connected data-source.
+   */
+  public deleteSourceConfig(params: IDeleteSourceConfigParams) {
+    return this.request({
+      url: '/admin/sources/config/:configIndex',
+      method: 'POST',
+      params: params
+    });
+  }
+
   public getAllSourceInfo(params: IGetAllSourceInfoParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request<GetAllSourceInfoResponse>({
       url: '/admin/sources',
@@ -101,14 +113,6 @@ export class DataSourceAPI extends Request {
   public createSourceConfig(params: ICreateSourceConfigParams) {
     return this.request<CreateSourceConfigResponse>({
       url: '/admin/sources/config',
-      method: 'POST',
-      params: params
-    });
-  }
-
-  public deleteSourceConfig(params: IDeleteSourceConfigParams) {
-    return this.request<DeleteSourceConfigResponse>({
-      url: '/admin/sources/config/:configIndex',
       method: 'POST',
       params: params
     });

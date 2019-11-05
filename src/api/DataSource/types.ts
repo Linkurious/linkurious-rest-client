@@ -99,6 +99,10 @@ export interface DeleteSourceDataResponse {
   };
 }
 
+export interface IDeleteSourceConfigParams {
+  configIndex: number;
+}
+
 // export interface IAdminDataSource {
 //   name?: string;
 //   configIndex?: number;
