@@ -7,11 +7,17 @@
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 
-import {IGetDataSourcesStatusParams, UserDataSource} from './types';
+import {
+  IConnectDataSourceParams,
+  IGetDataSourcesStatusParams,
+  IResetSourceStylesParams,
+  ISetDefaultSourceStylesParams,
+  UserDataSource
+} from './types';
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN} = LkErrorKey;
 
 export class DataSourceAPI extends Request {
   /**
@@ -48,37 +54,49 @@ export class DataSourceAPI extends Request {
     // }
   }
 
-  public getAllSourceInfo(params: IGetAllSourceInfoParams) {
-    return this.request<GetAllSourceInfoResponse>({
-      url: '/admin/sources',
-      method: 'GET',
-      params: params
-    });
-  }
-
-  public connectDataSource(params: IConnectDataSourceParams) {
-    return this.request<ConnectDataSourceResponse>({
-      url: '/admin/source/:dataSourceIndex/connect',
+  /**
+   * Set default design styles and/or captions for the given data-source.
+   */
+  public setDefaultSourceStyles(params: ISetDefaultSourceStylesParams) {
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request({
+      url: '/admin/source/:sourceKey/setDefaults',
       method: 'POST',
       params: params
     });
   }
 
+  /**
+   * Reset design and/or captions of all sandboxes of the given data-source to default values.
+   * If `design` is true, set `design.palette` and `design.styles` to default `palette` and `defaultStyles` of the data-source.
+   * If `captions` is true, set `nodeFields.captions` and `edgeFields.captions` to current `defaultCaptions.nodes` and `defaultCaptions.edges` of the data-source.
+   */
   public resetSourceStyles(params: IResetSourceStylesParams) {
-    return this.handle(DATA_SOURCE_UNAVAILABLE).request<ResetSourceStylesResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request({
       url: '/admin/source/:sourceKey/resetDefaults',
       method: 'POST',
       params: params
     });
   }
 
-  public setDefaultSourceStyles(params: ISetDefaultSourceStylesParams) {
-    return this.handle(DATA_SOURCE_UNAVAILABLE).request<SetDefaultSourceStylesResponse>({
-      url: '/admin/source/:sourceKey/setDefaults',
+  /**
+   * Connect a disconnected data-source.
+   */
+  public connectDataSource(params: IConnectDataSourceParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
+      url: '/admin/source/:dataSourceIndex/connect',
       method: 'POST',
       params: params
     });
   }
+
+  public getAllSourceInfo(params: IGetAllSourceInfoParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request<GetAllSourceInfoResponse>({
+      url: '/admin/sources',
+      method: 'GET',
+      params: params
+    });
+  }
+
 
   public createSourceConfig(params: ICreateSourceConfigParams) {
     return this.request<CreateSourceConfigResponse>({

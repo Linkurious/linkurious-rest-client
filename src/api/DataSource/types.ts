@@ -5,6 +5,7 @@
  */
 
 import {Captions, Styles} from '../displayTypes';
+import {IDataSourceParams} from '../commonTypes';
 
 export interface IGetDataSourcesStatusParams {
   withStyles?: boolean;
@@ -68,6 +69,20 @@ export interface UserDataSource {
   settings: DataSourceSettings | ConnectedDataSourceSettings;
 }
 
+export interface ISetDefaultSourceStylesParams extends IDataSourceParams {
+  styles?: Styles;
+  captions?: Captions;
+}
+
+export interface IResetSourceStylesParams extends IDataSourceParams {
+  design?: boolean;
+  captions?: boolean;
+}
+
+export interface IConnectDataSourceParams {
+  sourceIndex: number;
+}
+
 // export interface IAdminDataSource {
 //   name?: string;
 //   configIndex?: number;
@@ -82,21 +97,8 @@ export interface UserDataSource {
 //   visualizationCount: number;
 // }
 //
-// export interface IConnectDataSourceParams {
-//   sourceIndex: number;
-// }
-//
-// export interface IResetDataSourceDefaultsParams extends IDataSourceParams {
-//   design?: boolean;
-//   captions?: boolean;
-// }
 //
 // export type GetAdminDataSourcesResponse = IAdminDataSource[];
-//
-// export interface ISetDataSourceDefaultsParams extends IDataSourceParams {
-//   styles?: IDataSourceStyle;
-//   captions?: ICaptionsConfig;
-// }
 //
 // export interface IDeleteDataSourceParams extends IDataSourceParams {
 //   mergeInto?: string;
