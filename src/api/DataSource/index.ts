@@ -15,7 +15,8 @@ import {
   DataSource,
   IDeleteSourceDataParams,
   DeleteSourceDataResponse,
-  IDeleteSourceConfigParams
+  IDeleteSourceConfigParams,
+  DataSourceAdminInfo
 } from './types';
 
 export * from './types';
@@ -29,7 +30,7 @@ export class DataSourceAPI extends Request {
    * If a user has the "admin.connect" access right, it can also see all the disconnected
    * data-sources.
    */
-  public async getDataSourcesStatus(params: IGetDataSourcesStatusParams) {
+  public async getDataSources(params: IGetDataSourcesStatusParams) {
     const response = await this.handle(UNAUTHORIZED, GUEST_DISABLED).request<DataSource[]>({
       url: '/dataSources',
       method: 'GET',
@@ -95,23 +96,28 @@ export class DataSourceAPI extends Request {
    * Delete a data-source configuration that has currently no connected data-source.
    */
   public deleteSourceConfig(params: IDeleteSourceConfigParams) {
-    return this.request({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
       url: '/admin/sources/config/:configIndex',
       method: 'POST',
       params: params
     });
   }
 
-  public getAllSourceInfo(params: IGetAllSourceInfoParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<GetAllSourceInfoResponse>({
+  /**
+   * Get the admin info of all the data-sources, including:
+   * - connected data-sources with a valid configuration
+   * - disconnected data-source configurations
+   * - disconnected data-source states not configured anymore
+   */
+  public getDataSourcesAdminInfo() {
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request<DataSourceAdminInfo[]>({
       url: '/admin/sources',
-      method: 'GET',
-      params: params
+      method: 'GET'
     });
   }
 
   public createSourceConfig(params: ICreateSourceConfigParams) {
-    return this.request<CreateSourceConfigResponse>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request<CreateSourceConfigResponse>({
       url: '/admin/sources/config',
       method: 'POST',
       params: params

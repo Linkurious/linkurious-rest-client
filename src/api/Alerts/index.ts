@@ -162,7 +162,7 @@ export class AlertsAPI extends Request {
   /**
    * Get all the actions of a match ordered by creation date.
    */
-  public GetMatchActions(params: IGetMatchActionsParams) {
+  public getMatchActions(params: IGetMatchActionsParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       MatchAction[]
     >({

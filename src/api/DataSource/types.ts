@@ -12,7 +12,7 @@ export interface IGetDataSourcesStatusParams {
   withCaptions?: boolean;
 }
 
-export enum DataSourceStatus {
+export enum DataSourceState {
   READY = 'ready',
   NEED_REINDEX = 'needReindex',
   NEED_FIRST_INDEX = 'needFirstIndex',
@@ -60,7 +60,7 @@ export interface DataSource {
   connected: boolean;
   key?: string;
   configIndex: number;
-  state: DataSourceStatus;
+  state: DataSourceState;
   reason: string;
   error?: string;
   features: DataSourceFeatures;
@@ -103,16 +103,16 @@ export interface IDeleteSourceConfigParams {
   configIndex: number;
 }
 
-// export interface IAdminDataSource {
-//   name?: string;
-//   configIndex?: number;
-//   key?: string;
-//   state: DataSourceStatus;
-//   lastSeen?: string;
-//   lastIndexed?: string;
-//   lastSampled?: string;
-//   host: string;
-//   port: string;
-//   storeId?: string;
-//   visualizationCount: number;
-// }
+export interface DataSourceAdminInfo {
+  name?: string;
+  configIndex?: number;
+  key?: string;
+  state: DataSourceState;
+  lastSeen?: string;
+  lastIndexed?: string;
+  lastSampled?: string;
+  host: string;
+  port: string;
+  storeId?: string;
+  visualizationCount: number;
+}

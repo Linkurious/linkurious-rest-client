@@ -82,7 +82,7 @@ export class RestClient extends ErrorListener {
    */
   public async init(data: {usernameOrEmail: string; password: string}): Promise<void> {
     await this.auth.login(data);
-    await this.dataSource.getDataSourcesStatus({
+    await this.dataSource.getDataSources({
       withCaptions: true,
       withStyles: true
     });
