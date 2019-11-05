@@ -32,3 +32,10 @@ export interface Folder<T, N extends string> {
   type: 'folder';
   children: FolderChildren<T, N>;
 }
+
+export interface Tree<T, N extends string> {
+  id: -1;
+  title: 'root';
+  type: 'folder';
+  children: FolderChildren<T, N>;
+}

@@ -4,7 +4,7 @@
  * - Created on 2019-10-30.
  */
 
-import {FolderChildren, IDataSourceParams, PersistedItem} from '../commonTypes';
+import {FolderChildren, IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {LkEdge, LkNode} from '../graphItemTypes';
 
@@ -81,12 +81,7 @@ export interface IDeleteAlertFolderParams extends IDataSourceParams {
   id: number;
 }
 
-export interface AlertTree {
-  id: -1;
-  title: 'root';
-  type: 'folder';
-  children: FolderChildren<Alert, 'alert'>;
-}
+export type AlertTree = Tree<Alert, 'alert'>;
 
 export interface IGetAlertParams extends IDataSourceParams {
   id: number;

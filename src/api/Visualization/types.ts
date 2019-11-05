@@ -4,7 +4,13 @@
  * - Created on 2019-10-30.
  */
 
-import {FolderChildren, GenericObject, IDataSourceParams, PersistedItem} from '../commonTypes';
+import {
+  FolderChildren,
+  GenericObject,
+  IDataSourceParams,
+  PersistedItem,
+  Tree
+} from '../commonTypes';
 import {VizEdge, VizEdgeInfo, VizNode, VizNodeInfo} from '../graphItemTypes';
 import {IAlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
@@ -188,20 +194,15 @@ export interface IDeleteVisualizationFolderParams extends IDataSourceParams {
   id: number;
 }
 
-export interface VisualizationTree {
-  id: -1;
-  title: 'root';
-  type: 'folder';
-  children: FolderChildren<
-    {
-      id: number;
-      title: string;
-      shareCount: number;
-      widgetKey?: string;
-    },
-    'alert'
-  >;
-}
+export type VisualizationTree = Tree<
+  {
+    id: number;
+    title: string;
+    shareCount: number;
+    widgetKey?: string;
+  },
+  'visu'
+>;
 
 export enum PopulateType {
   VISUALIZATION_ID = 'visualizationId',
