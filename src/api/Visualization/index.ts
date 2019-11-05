@@ -30,7 +30,6 @@ import {
   IGetSandboxParams,
   GetSandboxResponse,
   IUpdateSandboxParams,
-  UpdateSandboxResponse,
   IGetVisualizationSharesParams,
   GetVisualizationSharesResponse,
   IShareVisualizationParams,
@@ -202,7 +201,7 @@ export class VisualizationAPI extends Request {
    * Update the sandbox of the current user for a given data-source.
    */
   public updateSandbox(params: IUpdateSandboxParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<UpdateSandboxResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request({
       url: '/:sourceKey/sandbox',
       method: 'PATCH',
       params: params

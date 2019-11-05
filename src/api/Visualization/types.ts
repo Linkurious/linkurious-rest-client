@@ -230,10 +230,7 @@ export interface IUpdateSandboxParams extends IDataSourceParams {
   edgeFields?: ItemFields;
   geo?: VisualizationGeo;
   layout?: VisualizationLayout;
-  timeline?: VisualizationTimeline; // TODO timeline in update sandbox?
 }
-
-export type UpdateSandboxResponse = Visualization;
 
 export interface IGetVisualizationSharesParams extends IDataSourceParams {
   id: number;
