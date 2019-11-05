@@ -50,9 +50,9 @@ export type ForceLayoutMode = 'best' | 'fast';
 export type HierarchicalLayoutMode = 'LR' | 'RL' | 'TB' | 'BT';
 
 export enum LayoutAlgorithm {
-  Force = 'force',
-  Hierarchical = 'hierarchical',
-  Radial = 'radial'
+  FORCE = 'force',
+  HIERARCHICAL = 'hierarchical',
+  RADIAL = 'radial'
 }
 
 export interface ForceParameters {
@@ -70,15 +70,15 @@ export interface RadialParameters {
 }
 
 export interface ForceAlgorithm extends ForceParameters {
-  algorithm: LayoutAlgorithm.Force;
+  algorithm: LayoutAlgorithm.FORCE;
 }
 
 export interface HierarchicalAlgorithm extends HierarchicalParameters {
-  algorithm: LayoutAlgorithm.Hierarchical;
+  algorithm: LayoutAlgorithm.HIERARCHICAL;
 }
 
 export interface RadialAlgorithm extends RadialParameters {
-  algorithm: LayoutAlgorithm.Radial;
+  algorithm: LayoutAlgorithm.RADIAL;
 }
 
 export interface VisualizationFilters {
