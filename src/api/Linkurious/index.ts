@@ -22,7 +22,7 @@ import {
 
 export * from './types';
 
-const {FORBIDDEN, UNAUTHORIZED} = LkErrorKey;
+const {UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
 
 export class LinkuriousAPI extends Request {
   async getStatus() {

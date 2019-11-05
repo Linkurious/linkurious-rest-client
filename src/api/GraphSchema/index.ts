@@ -32,7 +32,7 @@ import {
 
 export * from './types';
 
-const {FORBIDDEN, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class GraphSchemaAPI extends Request {
   public async startSchemaSampling(params: IStartSchemaSamplingParams) {
