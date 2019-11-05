@@ -4,7 +4,7 @@
  * - Created on 2019-08-19.
  */
 
-import {LkErrorKey, Response} from '../../http/response';
+import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
 import {
@@ -13,11 +13,11 @@ import {
   IGetCustomFilesParams,
   GetCustomFilesResponse,
   IGetReportParams,
-  GetStatusResponse,
-  GetVersionResponse,
   RestartLinkuriousResponse,
   ISendAnalyticsParams,
-  IUpdateConfigParams
+  IUpdateConfigParams,
+  ServerStatus,
+  ServerVersion
 } from './types';
 
 export * from './types';
@@ -25,22 +25,60 @@ export * from './types';
 const {UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
 
 export class LinkuriousAPI extends Request {
+  /**
+   * Get the status of the Linkurious server.
+   */
   public getStatus() {
-    return this.request<GetStatusResponse>({
+    return this.request<ServerStatus>({
       url: '/status',
       method: 'GET'
     });
   }
 
+  /**
+   * Get Linkurious' current version information.
+   */
   public getVersion() {
-    return this.request<GetVersionResponse>({
+    return this.request<ServerVersion>({
       url: '/version',
       method: 'GET'
     });
   }
 
+  /**
+   * Save an event to the analytics' log file. All events follow the Segment Spec.
+   */
+  public sendAnalytics(params: ISendAnalyticsParams) {
+    return this.request({
+      url: '/analytics',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Collect all the analytics and log files in a compressed tarball and return it.
+   */
+  public getReport(params?: IGetReportParams) {
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
+      url: '/admin/report',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Restart Linkurious. Return the URL of Linkurious after the restart.
+   */
+  public restartLinkurious() {
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request<RestartLinkuriousResponse>({
+      url: '/admin/restart',
+      method: 'POST'
+    });
+  }
+
   public getConfiguration(params?: IGetConfigParams) {
-    return this.handle().request<GetConfigResponse>({
+    return this.request<GetConfigResponse>({
       url: '/config',
       method: 'GET',
       params: params
@@ -55,43 +93,11 @@ export class LinkuriousAPI extends Request {
     });
   }
 
-  public sendAnalytics(params: ISendAnalyticsParams) {
-    return this.handle().request({
-      url: '/analytics',
-      method: 'POST',
-      params: params
-    });
-  }
-
-  public getReport(params?: IGetReportParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
-      url: '/admin/report',
-      method: 'GET',
-      params: params
-    });
-  }
-
   public getCustomFiles(params?: IGetCustomFilesParams) {
     return this.request<GetCustomFilesResponse>({
       url: '/customFiles',
       method: 'GET',
       params: params
     });
-  }
-
-  public async restartLinkurious() {
-    const response = await this.handle(UNAUTHORIZED, FORBIDDEN).request<RestartLinkuriousResponse>({
-      url: '/admin/restart',
-      method: 'POST'
-    });
-    if (response.isAnyError()) {
-      return response;
-    } else {
-      return new Response({
-        body: response.body.url,
-        status: response.status,
-        header: response.header
-      });
-    }
   }
 }

@@ -8,10 +8,8 @@ import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
 import {
-  CreateGroupResponse,
   GetGroupNamesResponse,
-  GetGroupResponse,
-  GetGroupsResponse,
+  Group,
   ICreateGroupParams,
   ICreateUserParams,
   IDeleteGroupParams,
@@ -26,7 +24,6 @@ import {
   IUpdateGroupParams,
   IUpdateUserParams,
   SearchUserResponse,
-  UpdateGroupResponse,
   User
 } from './types';
 
@@ -94,9 +91,7 @@ export class UserAPI extends Request {
    * Get a group.
    */
   public getGroup(params: IGetGroupParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
-      GetGroupResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<Group>({
       url: '/admin/:sourceKey/groups/:id',
       method: 'PATCH',
       params: params
@@ -107,13 +102,11 @@ export class UserAPI extends Request {
    * Get all the groups within a data-source.
    */
   public getGroups(params: IGetGroupsParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<GetGroupsResponse>(
-      {
-        url: '/admin/:sourceKey/groups',
-        method: 'GET',
-        params: params
-      }
-    );
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<Group[]>({
+      url: '/admin/:sourceKey/groups',
+      method: 'GET',
+      params: params
+    });
   }
 
   /**
@@ -132,7 +125,7 @@ export class UserAPI extends Request {
    */
   public createGroup(params: ICreateGroupParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, GROUP_EXISTS).request<
-      CreateGroupResponse
+      Group
     >({
       url: '/admin/:sourceKey/groups',
       method: 'POST',
@@ -144,9 +137,7 @@ export class UserAPI extends Request {
    * Rename a group.
    */
   public updateGroup(params: IUpdateGroupParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
-      UpdateGroupResponse
-    >({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<Group>({
       url: '/admin/:sourceKey/groups/:id',
       method: 'PATCH',
       params: params

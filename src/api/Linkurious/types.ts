@@ -8,11 +8,35 @@ import {TlsOptions} from 'tls';
 
 import {GenericObject} from '../commonTypes';
 
-export interface GetStatusResponse {
-  status: LKEStatus;
+export interface ServerStatus {
+  code: number;
+  name: string;
+  message: string;
+  uptime: number;
 }
 
-export interface GetVersionResponse extends LKEVersion {}
+export interface ServerVersion {
+  tag_name: string;
+  name: string;
+  prerelease: boolean;
+}
+
+export interface ISendAnalyticsParams {
+  type: 'identify' | 'track' | 'page';
+  event?: string;
+  name?: string;
+  properties?: object;
+  traits?: object;
+  context?: object;
+}
+
+export interface IGetReportParams {
+  withConfiguration?: boolean;
+}
+
+export interface RestartLinkuriousResponse {
+  url: string;
+}
 
 export interface IGetConfigParams {
   sourceIndex: number;
@@ -50,22 +74,6 @@ export type IUpdateConfigParams<T> =
   | IDataSourceConfigParams
   | IConfigurationParams<T>;
 
-export interface ISendAnalyticsParams {
-  type: string;
-  userId?: number;
-  event?: string;
-  name?: string;
-  properties?: any;
-  traits?: any;
-  timestamp?: string;
-  context?: any;
-  groupId?: string;
-}
-
-export interface IGetReportParams {
-  with_configuration: boolean;
-}
-
 export interface IGetCustomFilesParams {
   root?: string;
   extensions?: string;
@@ -76,23 +84,6 @@ export interface GetCustomFilesResponse {
     path: string;
     name: string;
   }>;
-}
-
-export interface RestartLinkuriousResponse {
-  url: string;
-}
-
-export interface LKEStatus {
-  code: number;
-  name: string;
-  message: string;
-  uptime: number;
-}
-
-export interface LKEVersion {
-  tag_name: string;
-  name: string;
-  prerelease: boolean;
 }
 
 export interface DatabaseOptions {

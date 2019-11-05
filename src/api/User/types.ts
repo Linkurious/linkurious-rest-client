@@ -4,7 +4,7 @@
  * - Created on 2019-08-19.
  */
 
-import {IDataSourceParams} from '../commonTypes';
+import {IDataSourceParams, PersistedItem} from '../commonTypes';
 
 export interface UserPreferences {
   pinOnDrag: boolean;
@@ -12,7 +12,7 @@ export interface UserPreferences {
   incrementalLayout: boolean;
 }
 
-export interface User {
+export interface User extends PersistedItem {
   // TODO type this
 }
 
@@ -59,16 +59,12 @@ export interface IGetGroupParams extends IDataSourceParams {
   id: number;
 }
 
-export interface GetGroupResponse {
+export interface Group extends PersistedItem {
   // TODO type this
 }
 
 export interface IGetGroupsParams extends IDataSourceParams {
   withAccessRights: boolean;
-}
-
-export interface GetGroupsResponse {
-  // TODO type this
 }
 
 export interface IGetGroupNamesParams extends IDataSourceParams {
@@ -87,17 +83,9 @@ export interface ICreateGroupParams extends IDataSourceParams {
   name: string;
 }
 
-export interface CreateGroupResponse {
-  // TODO type this
-}
-
 export interface IUpdateGroupParams extends IDataSourceParams {
   id: string;
   name: string;
-}
-
-export interface UpdateGroupResponse {
-  // TODO type this
 }
 
 export interface IDeleteGroupParams extends IDataSourceParams {

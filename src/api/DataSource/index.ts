@@ -78,7 +78,7 @@ export class DataSourceAPI extends Request {
   }
 
   public connectDataSource(params: IConnectDataSourceParams) {
-    return this.handle().request<ConnectDataSourceResponse>({
+    return this.request<ConnectDataSourceResponse>({
       url: '/admin/source/:dataSourceIndex/connect',
       method: 'POST',
       params: params
@@ -102,7 +102,7 @@ export class DataSourceAPI extends Request {
   }
 
   public getAllSourceInfo(params: IGetAllSourceInfoParams) {
-    return this.handle().request<GetAllSourceInfoResponse>({
+    return this.request<GetAllSourceInfoResponse>({
       url: '/admin/sources',
       method: 'GET',
       params: params
@@ -110,7 +110,7 @@ export class DataSourceAPI extends Request {
   }
 
   public createSourceConfig(params: ICreateSourceConfigParams) {
-    return this.handle().request<CreateSourceConfigResponse>({
+    return this.request<CreateSourceConfigResponse>({
       url: '/admin/sources/config',
       method: 'POST',
       params: params
@@ -118,7 +118,7 @@ export class DataSourceAPI extends Request {
   }
 
   public deleteSourceConfig(params: IDeleteSourceConfigParams) {
-    return this.handle().request<DeleteSourceConfigResponse>({
+    return this.request<DeleteSourceConfigResponse>({
       url: '/admin/sources/config/:configIndex',
       method: 'POST',
       params: params
@@ -126,7 +126,7 @@ export class DataSourceAPI extends Request {
   }
 
   public deleteSourceData(params: IDeleteSourceDataParams) {
-    return this.handle().request<DeleteSourceDataResponse>({
+    return this.request<DeleteSourceDataResponse>({
       url: '/admin/sources/data/:sourceKey',
       method: 'POST',
       params: params

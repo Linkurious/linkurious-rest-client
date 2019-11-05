@@ -6,12 +6,12 @@
 
 import {PersistedItem} from '../commonTypes';
 
-// TODO type when we merge PKAR
 export interface Application extends PersistedItem {
   name: string;
   apiKey: string;
   enabled: boolean;
   groups: number[];
+  // TODO type when we merge PKAR
   rights: string[];
 }
 
