@@ -92,7 +92,6 @@ export class VisualizationAPI extends Request {
   /**
    * Duplicate a visualization. Return the id of the copy.
    */
-  // TODO return directly the id
   public duplicateVisualization(params: IDuplicateVisualizationParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
       DuplicateVisualizationResponse
@@ -138,7 +137,6 @@ export class VisualizationAPI extends Request {
     });
   }
 
-  // TODO return folder directly?
   /**
    * Create a visualization folder.
    */
@@ -176,7 +174,6 @@ export class VisualizationAPI extends Request {
     });
   }
 
-  // TODO return tree directly?
   /**
    * Get the visualizations and the visualization folders in a tree structure.
    */

@@ -74,7 +74,7 @@ export interface IGetGroupsParams extends IDataSourceParams {
 export interface GetGroupsResponse {}
 
 export interface IGetGroupNamesParams extends IDataSourceParams {
-  // TODO add type to action after PKAR is merged
+  // TODO type when we merge PKAR
   action: string;
 }
 
@@ -104,7 +104,7 @@ export interface IDeleteGroupParams extends IDataSourceParams {
   id: number;
 }
 
-// TODO proper refactoring of this with PKAR
+// TODO type when we merge PKAR
 export interface ISetAccessRightsParams extends IDataSourceParams {
   id: number;
   accessRights: Array<{type: string; targetType: string; targetName: string}>;

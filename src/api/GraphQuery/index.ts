@@ -66,7 +66,6 @@ export class GraphQueryAPI extends Request {
   /**
    * Update a graph query owned by the current user.
    */
-  // TODO update should return the item
   public updateQuery(params: IUpdateQueryParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       UpdateQueryResponse

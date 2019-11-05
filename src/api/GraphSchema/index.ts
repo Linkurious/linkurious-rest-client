@@ -32,7 +32,7 @@ import {
 
 export * from './types';
 
-const {FORBIDDEN, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND} = LkErrorKey;
+const {FORBIDDEN, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND} = LkErrorKey;
 
 export class GraphSchemaAPI extends Request {
   public async startSchemaSampling(params: IStartSchemaSamplingParams) {
@@ -44,8 +44,7 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async getSamplingStatus(params?: IGetSamplingStatusParams) {
-    // TODO handle GUEST_DISABLED
-    return this.request<GetSamplingStatusResponse>({
+    return this.handle(GUEST_DISABLED).request<GetSamplingStatusResponse>({
       url: '/:sourceKey/schema/sampling/status',
       method: 'GET',
       params: params

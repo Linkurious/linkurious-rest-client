@@ -16,12 +16,13 @@ export enum LkErrorKey {
   GUEST_DISABLED = 'guest_disabled',
   FORBIDDEN = 'forbidden',
   NOT_FOUND = 'not_found',
-  BAD_GRAPH_REQUEST = 'bad_graph_request',
+  BAD_GRAPH_REQUEST = 'bad_graph_request', // TODO is payload ignored?
   GRAPH_REQUEST_TIMEOUT = 'graph_request_timeout',
-  CONSTRAINT_VIOLATION = 'constraint_violation', // TODO too generic
+  CONSTRAINT_VIOLATION = 'constraint_violation', // TODO too generic?
   USER_EXISTS = 'user_exists', // TODO too specific?
   GROUP_EXISTS = 'group_exists',
 
+  // TODO check if these errors are used
   ALREADY_EXIST = 'already_exists',
   CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed',
   CANNOT_READ = 'cannot_read',
@@ -78,7 +79,6 @@ export type ErrorResponses<T extends LkErrorKey> = T extends unknown
 /**
  * Every error can carry some payload
  */
-// TODO check if all error are used and carry the correct payload
 export interface ConnectionRefused extends LkError<LkErrorKey.CONNECTION_REFUSED> {
   fetchConfig: FetchConfig;
 }

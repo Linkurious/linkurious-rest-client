@@ -127,7 +127,9 @@ export interface IDuplicateVisualizationParams extends IDataSourceParams {
   folder?: number;
 }
 
-export type DuplicateVisualizationResponse = number;
+export type DuplicateVisualizationResponse = {
+  visualizationId: number;
+};
 
 export interface IDeleteVisualizationParams extends IDataSourceParams {
   id: number;
