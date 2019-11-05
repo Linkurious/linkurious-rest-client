@@ -23,7 +23,7 @@ export class CustomActionAPI extends Request {
   /**
    * Get all the custom actions owned by the current user or shared with them.
    */
-  public async getCustomActions(params?: IGetCustomActionsParams) {
+  public getCustomActions(params?: IGetCustomActionsParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN).request<
       CustomAction[]
     >({
@@ -37,7 +37,7 @@ export class CustomActionAPI extends Request {
   /**
    * Create a new custom action for the current user.
    */
-  public async createCustomAction(params: ICreateCustomActionParams) {
+  public createCustomAction(params: ICreateCustomActionParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<CustomAction>({
       url: '/:sourceKey/customAction',
       method: 'POST',
@@ -48,7 +48,7 @@ export class CustomActionAPI extends Request {
   /**
    * Update a custom action owned by the current user.
    */
-  public async updateCustomAction(params: IUpdateCustomActionParams) {
+  public updateCustomAction(params: IUpdateCustomActionParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       CustomAction
     >({
@@ -61,7 +61,7 @@ export class CustomActionAPI extends Request {
   /**
    * Delete a custom action owned by the current user.
    */
-  public async deleteCustomAction(params: IDeleteCustomActionParams) {
+  public deleteCustomAction(params: IDeleteCustomActionParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/customAction/:id',
       method: 'DELETE',

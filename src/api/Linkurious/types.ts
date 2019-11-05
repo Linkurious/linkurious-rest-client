@@ -8,15 +8,12 @@ import {TlsOptions} from 'tls';
 
 import {GenericObject} from '../commonTypes';
 
-// GetStatus
 export interface GetStatusResponse {
   status: LKEStatus;
 }
 
-// GetVersion
 export interface GetVersionResponse extends LKEVersion {}
 
-// GetConfig
 export interface IGetConfigParams {
   sourceIndex: number;
 }
@@ -48,13 +45,11 @@ export interface GetConfigResponse {
   needRestart?: boolean;
 }
 
-// UpdateConfigParams
 export type IUpdateConfigParams<T> =
   | IResetConfigParams
   | IDataSourceConfigParams
   | IConfigurationParams<T>;
 
-// SendAnalytics
 export interface ISendAnalyticsParams {
   type: string;
   userId?: number;
@@ -67,12 +62,10 @@ export interface ISendAnalyticsParams {
   groupId?: string;
 }
 
-// GetReport
 export interface IGetReportParams {
   with_configuration: boolean;
 }
 
-// GetCustomFiles
 export interface IGetCustomFilesParams {
   root?: string;
   extensions?: string;
@@ -85,12 +78,10 @@ export interface GetCustomFilesResponse {
   }>;
 }
 
-// RestartLinkurious
 export interface RestartLinkuriousResponse {
   url: string;
 }
 
-// GetStatus
 export interface LKEStatus {
   code: number;
   name: string;
@@ -98,14 +89,12 @@ export interface LKEStatus {
   uptime: number;
 }
 
-// GetVersion
 export interface LKEVersion {
   tag_name: string;
   name: string;
   prerelease: boolean;
 }
 
-// GetConfig
 export interface DatabaseOptions {
   dialect: 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
   storage?: string;

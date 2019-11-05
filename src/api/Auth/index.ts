@@ -36,7 +36,7 @@ export class AuthAPI extends Request {
   /**
    * Redirect the user to the OAuth2 or SAML2 provider for authorization.
    */
-  public async loginSSO() {
+  public loginSSO() {
     return this.request<never>({
       url: '/auth/sso/login',
       method: 'GET'

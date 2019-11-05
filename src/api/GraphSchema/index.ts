@@ -35,7 +35,7 @@ export * from './types';
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class GraphSchemaAPI extends Request {
-  public async startSchemaSampling(params: IStartSchemaSamplingParams) {
+  public startSchemaSampling(params: IStartSchemaSamplingParams) {
     return this.handle(DATA_SOURCE_UNAVAILABLE).request({
       url: '/admin/:sourceKey/schema/sampling/start',
       method: 'POST',
@@ -43,7 +43,7 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
-  public async getSamplingStatus(params?: IGetSamplingStatusParams) {
+  public getSamplingStatus(params?: IGetSamplingStatusParams) {
     return this.handle(DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<GetSamplingStatusResponse>({
       url: '/:sourceKey/schema/sampling/status',
       method: 'GET',
@@ -51,7 +51,7 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
-  public async stopSchemaSampling(params?: IStopSchemaSamplingParams) {
+  public stopSchemaSampling(params?: IStopSchemaSamplingParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
       url: '/admin/:sourceKey/schema/sampling/stop',
       method: 'POST',
@@ -59,7 +59,7 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
-  public async createType(params: ICreateTypeParams) {
+  public createType(params: ICreateTypeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
       CreateTypeResponse
     >({
@@ -69,7 +69,7 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
-  public async updateType(params: IUpdateTypeParams) {
+  public updateType(params: IUpdateTypeParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'PATCH',
@@ -77,7 +77,7 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
-  public async createProperty(params: ICreatePropertyParams) {
+  public createProperty(params: ICreatePropertyParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       CreatePropertyResponse
     >({
@@ -87,7 +87,7 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
-  public async updateProperty(params: IUpdatePropertyParams) {
+  public updateProperty(params: IUpdatePropertyParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
       method: 'PATCH',
@@ -95,7 +95,7 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
-  public async updateSchemaSettings(params: IUpdateSchemaSettingsParams) {
+  public updateSchemaSettings(params: IUpdateSchemaSettingsParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
       url: '/admin/:sourceKey/graph/schema/settings',
       method: 'PATCH',
@@ -103,7 +103,7 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
-  public async getTypes(params: IGetTypesParams) {
+  public getTypes(params: IGetTypesParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<GetTypesResponse>({
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'GET',
@@ -111,7 +111,7 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
-  public async getTypesWithAccess(params: IGetTypesWithAccessParams) {
+  public getTypesWithAccess(params: IGetTypesWithAccessParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
       GetTypesWithAccessResponse
     >({
@@ -121,7 +121,7 @@ export class GraphSchemaAPI extends Request {
     });
   }
 
-  public async getSimpleSchema(params?: IGetSimpleSchemaParams) {
+  public getSimpleSchema(params?: IGetSimpleSchemaParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
       GetSimpleSchemaResponse
     >({

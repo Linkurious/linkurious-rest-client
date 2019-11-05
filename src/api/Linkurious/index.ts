@@ -25,30 +25,21 @@ export * from './types';
 const {UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
 
 export class LinkuriousAPI extends Request {
-  async getStatus() {
-    const response = await this.request<GetStatusResponse>({
+  public getStatus() {
+    return this.request<GetStatusResponse>({
       url: '/status',
       method: 'GET'
     });
-    if (response.isSuccess()) {
-      return new Response({
-        body: response.body.status,
-        status: response.status,
-        header: response.header
-      });
-    } else {
-      return response;
-    }
   }
 
-  async getVersion() {
+  public getVersion() {
     return this.request<GetVersionResponse>({
       url: '/version',
       method: 'GET'
     });
   }
 
-  async getConfiguration(params?: IGetConfigParams) {
+  public getConfiguration(params?: IGetConfigParams) {
     return this.handle().request<GetConfigResponse>({
       url: '/config',
       method: 'GET',
@@ -56,7 +47,7 @@ export class LinkuriousAPI extends Request {
     });
   }
 
-  async updateConfiguration(params: IUpdateConfigParams<any>) {
+  public updateConfiguration(params: IUpdateConfigParams<any>) {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request({
       url: '/config',
       method: 'POST',
@@ -64,7 +55,7 @@ export class LinkuriousAPI extends Request {
     });
   }
 
-  async sendAnalytics(params: ISendAnalyticsParams) {
+  public sendAnalytics(params: ISendAnalyticsParams) {
     return this.handle().request({
       url: '/analytics',
       method: 'POST',
@@ -72,7 +63,7 @@ export class LinkuriousAPI extends Request {
     });
   }
 
-  async getReport(params?: IGetReportParams) {
+  public getReport(params?: IGetReportParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request({
       url: '/admin/report',
       method: 'GET',
@@ -80,7 +71,7 @@ export class LinkuriousAPI extends Request {
     });
   }
 
-  async getCustomFiles(params?: IGetCustomFilesParams) {
+  public getCustomFiles(params?: IGetCustomFilesParams) {
     return this.request<GetCustomFilesResponse>({
       url: '/customFiles',
       method: 'GET',
@@ -88,7 +79,7 @@ export class LinkuriousAPI extends Request {
     });
   }
 
-  async restartLinkurious() {
+  public async restartLinkurious() {
     const response = await this.handle(UNAUTHORIZED, FORBIDDEN).request<RestartLinkuriousResponse>({
       url: '/admin/restart',
       method: 'POST'

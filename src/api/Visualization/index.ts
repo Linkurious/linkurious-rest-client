@@ -138,7 +138,7 @@ export class VisualizationAPI extends Request {
   /**
    * Update a visualization folder.
    */
-  public async updateVisualizationFolder(params: IUpdateVisualizationFolderParams) {
+  public updateVisualizationFolder(params: IUpdateVisualizationFolderParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
       VisualizationFolder
     >({
