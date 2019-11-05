@@ -8,6 +8,7 @@ import {GenericObject, IDataSourceParams, PersistedItem, Tree} from '../commonTy
 import {VizEdge, VizEdgeInfo, VizNode, VizNodeInfo} from '../graphItemTypes';
 import {AlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
+import {Styles} from '../displayTypes';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
   id: number;
@@ -32,7 +33,10 @@ export interface ItemFields {
 }
 
 export interface VisualizationDesign {
-  // TODO type this
+  palette: {
+    default: string[];
+  };
+  styles: Styles;
 }
 
 export interface VisualizationGeo {

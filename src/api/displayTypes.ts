@@ -15,7 +15,7 @@ export enum SelectorType {
   IS = 'is'
 }
 
-export interface RangeValue {
+export interface RangeValues {
   '<='?: number;
   '<'?: number;
   '>'?: number;
@@ -86,7 +86,7 @@ export interface StyleRule<T extends NodeStyle | EdgeStyle> {
   type: SelectorType;
   itemType?: string;
   input?: string[];
-  value?: string | number | boolean | Array<unknown> | RangeValue;
+  value?: string | number | boolean | Array<unknown> | RangeValues;
   style: T;
 }
 

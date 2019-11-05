@@ -35,7 +35,7 @@ export class DataSourceAPI extends Request {
       params: params
     });
 
-    if (response.isSuccess()){
+    if (response.isSuccess()) {
       this.props.clientState.sources = response.body;
     }
 
