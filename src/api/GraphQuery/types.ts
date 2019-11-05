@@ -21,6 +21,7 @@ export enum TemplateFieldType {
 export interface TemplateField<T extends TemplateFieldType = TemplateFieldType> {
   key: string;
   type: T;
+  options?: object;
 }
 
 export interface NumberTemplate extends TemplateField<TemplateFieldType.NUMBER> {

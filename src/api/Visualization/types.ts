@@ -45,21 +45,43 @@ export interface VisualizationGeo {
   layers: string[];
 }
 
-export type VisualizationLayout =
-  | {}
-  | {
-      algorithm: 'force';
-      mode: 'best' | 'fast';
-    }
-  | {
-      algorithm: 'hierarchical';
-      mode: 'LR' | 'RL' | 'BT' | 'TB';
-      rootNode?: string;
-    }
-  | {
-      algorithm: 'radial';
-      rootNode?: string;
-    };
+// TODO make viz layout mandatory in the server
+export type VisualizationLayout = ForceAlgorithm | HierarchicalAlgorithm | RadialAlgorithm;
+
+export type ForceLayoutMode = 'best' | 'fast';
+export type HierarchicalLayoutMode = 'LR' | 'RL' | 'TB' | 'BT';
+
+export enum LayoutAlgorithm {
+  Force = 'force',
+  Hierarchical = 'hierarchical',
+  Radial = 'radial'
+}
+
+export interface ForceParameters {
+  mode: ForceLayoutMode;
+}
+
+export interface HierarchicalParameters {
+  mode: HierarchicalLayoutMode;
+  rootNode?: string;
+}
+
+// TODO make rootNode mandatory in the server
+export interface RadialParameters {
+  rootNode: string;
+}
+
+export interface ForceAlgorithm extends ForceParameters {
+  algorithm: LayoutAlgorithm.Force;
+}
+
+export interface HierarchicalAlgorithm extends HierarchicalParameters {
+  algorithm: LayoutAlgorithm.Hierarchical;
+}
+
+export interface RadialAlgorithm extends RadialParameters {
+  algorithm: LayoutAlgorithm.Radial;
+}
 
 export interface VisualizationFilters {
   // TODO type this
