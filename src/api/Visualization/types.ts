@@ -222,7 +222,6 @@ export interface IGetSandboxParams extends IDataSourceParams {
   withDegree?: boolean;
 }
 
-// TODO unwrap getSandbox and updateSandbox responses in server
 export type GetSandboxResponse = Visualization;
 
 export interface IUpdateSandboxParams extends IDataSourceParams {
@@ -240,7 +239,6 @@ export interface IGetVisualizationSharesParams extends IDataSourceParams {
   id: number;
 }
 
-// TODO remove redundant visualizationId from shares in server
 export interface GetVisualizationSharesResponse {
   owner: {
     id: number;
@@ -249,6 +247,7 @@ export interface GetVisualizationSharesResponse {
   };
   shares: Array<{
     userId: number;
+    visualizationId: number;
     username: string;
     email: string;
     right: VisualizationRight;
@@ -281,7 +280,7 @@ export interface IGetWidgetParams {
 }
 
 export interface WidgetContent {
-  // TODO type WidgetContent
+  // TODO type this
 }
 
 interface Widget {

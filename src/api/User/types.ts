@@ -12,8 +12,9 @@ export interface UserPreferences {
   incrementalLayout: boolean;
 }
 
-// TODO type this
-export interface User {}
+export interface User {
+  // TODO type this
+}
 
 export interface IGetUserParams {
   id: number;
@@ -31,8 +32,9 @@ export interface ISearchUsersParams {
   sortDirection?: 'asc' | 'desc';
 }
 
-// TODO type this
-export interface SearchUserResponse {}
+export interface SearchUserResponse {
+  // TODO type this
+}
 
 export interface ICreateUserParams {
   username: string;
@@ -63,15 +65,17 @@ export interface IGetGroupParams extends IDataSourceParams {
   id: number;
 }
 
-// TODO type this
-export interface GetGroupResponse {}
+export interface GetGroupResponse {
+  // TODO type this
+}
 
 export interface IGetGroupsParams extends IDataSourceParams {
   withAccessRights: boolean;
 }
 
-// TODO type this
-export interface GetGroupsResponse {}
+export interface GetGroupsResponse {
+  // TODO type this
+}
 
 export interface IGetGroupNamesParams extends IDataSourceParams {
   // TODO type when we merge PKAR
@@ -89,16 +93,18 @@ export interface ICreateGroupParams extends IDataSourceParams {
   name: string;
 }
 
-// TODO type this
-export interface CreateGroupResponse {}
+export interface CreateGroupResponse {
+  // TODO type this
+}
 
 export interface IUpdateGroupParams extends IDataSourceParams {
   id: string;
   name: string;
 }
 
-// TODO type this
-export interface UpdateGroupResponse {}
+export interface UpdateGroupResponse {
+  // TODO type this
+}
 
 export interface IDeleteGroupParams extends IDataSourceParams {
   id: number;
