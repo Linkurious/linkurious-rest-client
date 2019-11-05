@@ -53,13 +53,9 @@ export interface Alert extends PersistedItem {
   nextRun?: string;
 }
 
-export interface CreateAlertResponse extends Alert {}
-
 export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
   id: number;
 }
-
-export interface UpdateAlertResponse extends Alert {}
 
 export interface IDeleteAlertParams extends IDataSourceParams {
   id: number;
@@ -76,15 +72,10 @@ export interface AlertFolder extends PersistedItem {
   sourceKey: string;
 }
 
-export interface CreateAlertFolderResponse extends AlertFolder {}
-
 export interface IUpdateAlertFolderParams extends IDataSourceParams {
   id: number;
   title: string;
 }
-
-// TODO return alert folder in server
-export interface UpdateAlertFolderResponse extends AlertFolder {}
 
 export interface IDeleteAlertFolderParams extends IDataSourceParams {
   id: number;
@@ -92,7 +83,7 @@ export interface IDeleteAlertFolderParams extends IDataSourceParams {
 
 export interface IGetAlertTreeParams extends IDataSourceParams {}
 
-export interface GetAlertTreeResponse {
+export interface AlertTree {
   id: -1;
   title: 'root';
   type: 'folder';
@@ -102,8 +93,6 @@ export interface GetAlertTreeResponse {
 export interface IGetAlertParams extends IDataSourceParams {
   id: number;
 }
-
-export interface GetAlertResponse extends Alert {}
 
 export interface IGetMatchParams extends IDataSourceParams {
   alertId: number;
@@ -134,8 +123,6 @@ export interface Match extends PersistedItem {
   expirationDate: string;
 }
 
-export interface GetMatchResponse extends Match {}
-
 export interface IGetMatchesParams extends IDataSourceParams {
   alertId: number;
   offset?: number;
@@ -144,8 +131,6 @@ export interface IGetMatchesParams extends IDataSourceParams {
   sortBy?: 'date' | '0' | '1' | '2' | '3' | '4';
   status?: MatchStatus;
 }
-
-export type GetMatchesResponse = Match[];
 
 export interface IGetMatchActionsParams extends IDataSourceParams {
   alertId: number;
@@ -164,8 +149,6 @@ export interface MatchAction extends PersistedItem {
   action: MatchActionType;
 }
 
-export type GetMatchActionsResponse = MatchAction[];
-
 export interface IDoMatchActionParams extends IDataSourceParams {
   alertId: number;
   matchId: number;
@@ -180,7 +163,7 @@ export interface IAlertPreviewParams extends IDataSourceParams {
   timeout?: number;
 }
 
-export type AlertPreviewResponse = Array<{
+export type AlertPreview = Array<{
   nodes: LkNode[];
   edges: LkEdge[];
   columns: Array<string | number>;
