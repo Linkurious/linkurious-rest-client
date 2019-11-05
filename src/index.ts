@@ -88,6 +88,20 @@ export class RestClient extends ErrorListener {
     });
   }
 
+  public setCurrentSource(dataSource: DataSource) {
+    this.moduleProps.clientState.currentSource = dataSource;
+    try {
+      if (dataSource.key && this.moduleProps.clientState.user) {
+        localStorage.setItem(
+          'lk-lastSeenSourceKey-' + this.moduleProps.clientState.user.id,
+          dataSource.key
+        );
+      }
+    } catch (_) {
+      // Silently fail if localStorage is not supported
+    }
+  }
+
   public static getCurrentSource(
     dataSources: DataSource[],
     by?: {userId: number} | {sourceKey: string} | {configIndex: number}

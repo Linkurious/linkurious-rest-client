@@ -28,32 +28,18 @@ export class DataSourceAPI extends Request {
    * If a user has the "admin.connect" access right, it can also see all the disconnected
    * data-sources.
    */
-  public getDataSourcesStatus(params: IGetDataSourcesStatusParams) {
-    return this.handle(UNAUTHORIZED, GUEST_DISABLED).request<DataSource>({
+  public async getDataSourcesStatus(params: IGetDataSourcesStatusParams) {
+    const response = await this.handle(UNAUTHORIZED, GUEST_DISABLED).request<DataSource[]>({
       url: '/dataSources',
       method: 'GET',
       params: params
     });
 
-    // TODO add set current source method
-    //
-    // if (response.isSuccess()) {
-    //   this.props.clientState.sources = response.body;
-    //   const currentSource = LinkuriousRestClient.getCurrentSource(response.body, {
-    //     userId: this.props.clientState.user ? this.props.clientState.user.id : -1
-    //   });
-    //   this.props.clientState.currentSource = currentSource;
-    //   try {
-    //     if (currentSource.key && this.props.clientState.user) {
-    //       localStorage.setItem(
-    //         'lk-lastSeenSourceKey-' + this.props.clientState.user.id,
-    //         currentSource.key
-    //       );
-    //     }
-    //   } catch (_) {
-    //     // Silent fail
-    //   }
-    // }
+    if (response.isSuccess()){
+      this.props.clientState.sources = response.body;
+    }
+
+    return response;
   }
 
   /**
@@ -120,7 +106,6 @@ export class DataSourceAPI extends Request {
     });
   }
 
-  // TODO refresh data-source status on API (deleteFullDataSource, deleteDataSourceConfig)
   public deleteSourceConfig(params: IDeleteSourceConfigParams) {
     return this.request<DeleteSourceConfigResponse>({
       url: '/admin/sources/config/:configIndex',
