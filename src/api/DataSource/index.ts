@@ -8,6 +8,8 @@ import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
 
+import {IGetDataSourcesStatusParams, UserDataSource} from './types';
+
 export * from './types';
 
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
@@ -42,8 +44,14 @@ export class DataSourceAPI extends Request {
   // }
   //
 
+  /**
+   * Get the status of all the data-sources.
+   * Users can only see data-sources with at least one group belonging to that data-source.
+   * If a user has the "admin.connect" access right, it can also see all the disconnected
+   * data-sources.
+   */
   public getDataSourcesStatus(params: IGetDataSourcesStatusParams) {
-    return this.handle(UNAUTHORIZED, GUEST_DISABLED).request<GetDataSourcesStatusResponse>({
+    return this.handle(UNAUTHORIZED, GUEST_DISABLED).request<UserDataSource>({
       url: '/dataSources',
       method: 'GET',
       params: params
