@@ -28,12 +28,22 @@ import {
   IUpdateAlertFolderParams,
   IUpdateAlertParams,
   UpdateAlertFolderResponse,
-  UpdateAlertResponse
+  UpdateAlertResponse,
+  AlertPreviewResponse,
+  IAlertPreviewParams
 } from './types';
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND} = LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  FORBIDDEN,
+  NOT_FOUND,
+  BAD_GRAPH_REQUEST,
+  GRAPH_REQUEST_TIMEOUT,
+  CONSTRAINT_VIOLATION
+} = LkErrorKey;
 
 export class AlertsAPI extends Request {
   /**
@@ -183,6 +193,25 @@ export class AlertsAPI extends Request {
   public doMatchAction(params: IDoMatchActionParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/:sourceKey/alerts/:alertId/matches/:matchId/action',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get all the nodes and edges matching the given graph query.
+   * An array of subgraphs, one for each subgraph matching the graph query, is returned.
+   */
+  public alertPreview(params: IAlertPreviewParams) {
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      BAD_GRAPH_REQUEST,
+      CONSTRAINT_VIOLATION,
+      GRAPH_REQUEST_TIMEOUT
+    ).request<AlertPreviewResponse>({
+      url: '/:sourceKey/graph/alertPreview',
       method: 'POST',
       params: params
     });

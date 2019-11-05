@@ -14,12 +14,12 @@ import {ApplicationsAPI} from './api/Applications';
 import {AuthAPI} from './api/Auth';
 import {CustomActionAPI} from './api/CustomAction';
 import {DataSourceAPI, UserDataSource} from './api/DataSource';
-import {GraphAPI} from './api/Graph';
 import {GraphEdgeAPI} from './api/GraphEdge';
 import {GraphNodeAPI} from './api/GraphNode';
 import {GraphQueryAPI} from './api/GraphQuery';
 import {GraphSchemaAPI} from './api/GraphSchema';
 import {LinkuriousAPI} from './api/Linkurious';
+import {SearchAPI} from './api/Search';
 import {UserAPI} from './api/User';
 import {VisualizationAPI} from './api/Visualization';
 
@@ -31,12 +31,12 @@ export class RestClient extends ErrorListener {
   public readonly auth: AuthAPI;
   public readonly customAction: CustomActionAPI;
   public readonly dataSource: DataSourceAPI;
-  public readonly graph: GraphAPI;
   public readonly graphEdge: GraphEdgeAPI;
   public readonly graphNode: GraphNodeAPI;
   public readonly graphQuery: GraphQueryAPI;
   public readonly graphSchema: GraphSchemaAPI;
   public readonly linkurious: LinkuriousAPI;
+  public readonly search: SearchAPI;
   public readonly user: UserAPI;
   public readonly visualization: VisualizationAPI;
 
@@ -60,12 +60,12 @@ export class RestClient extends ErrorListener {
     this.auth = new AuthAPI(this.moduleProps);
     this.customAction = new CustomActionAPI(this.moduleProps);
     this.dataSource = new DataSourceAPI(this.moduleProps);
-    this.graph = new GraphAPI(this.moduleProps);
     this.graphEdge = new GraphEdgeAPI(this.moduleProps);
     this.graphNode = new GraphNodeAPI(this.moduleProps);
     this.graphQuery = new GraphQueryAPI(this.moduleProps);
     this.graphSchema = new GraphSchemaAPI(this.moduleProps);
     this.linkurious = new LinkuriousAPI(this.moduleProps);
+    this.search = new SearchAPI(this.moduleProps);
     this.user = new UserAPI(this.moduleProps);
     this.visualization = new VisualizationAPI(this.moduleProps);
   }

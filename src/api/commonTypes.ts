@@ -12,6 +12,12 @@ export interface IDataSourceParams {
   sourceKey?: string;
 }
 
+export interface IGetSubGraphParams extends IDataSourceParams {
+  edgesTo?: string[];
+  withDigest?: boolean;
+  withDegree?: boolean;
+}
+
 export interface PersistedItem {
   id: number;
   createdAt: string;

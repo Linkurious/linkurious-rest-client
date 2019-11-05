@@ -10,7 +10,7 @@ export * from './src/api/Applications';
 export * from './src/api/Auth';
 export * from './src/api/CustomAction';
 export * from './src/api/DataSource';
-export * from './src/api/Graph';
+export * from './src/api/Search';
 export * from './src/api/GraphEdge';
 export * from './src/api/GraphNode';
 export * from './src/api/GraphQuery';

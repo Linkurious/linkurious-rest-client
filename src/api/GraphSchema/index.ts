@@ -60,7 +60,9 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async createType(params: ICreateTypeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<CreateTypeResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
+      CreateTypeResponse
+    >({
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'POST',
       params: params
@@ -76,7 +78,9 @@ export class GraphSchemaAPI extends Request {
   }
 
   public async createProperty(params: ICreatePropertyParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<CreatePropertyResponse>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
+      CreatePropertyResponse
+    >({
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
       method: 'POST',
       params: params

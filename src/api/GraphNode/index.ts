@@ -16,10 +16,12 @@ import {
   IGetNodeCountParams,
   IGetNodeParams,
   IUpdateNodeParams,
-  UpdateNodeResponse
+  UpdateNodeResponse,
+  GetAdjacentNodesResponse,
+  GetStatisticsResponse,
+  IGetAdjacentNodesParams,
+  IGetStatisticsParams
 } from './types';
-
-export * from './types';
 
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
@@ -85,6 +87,36 @@ export class GraphNodeAPI extends Request {
     >({
       url: '/:sourceKey/graph/nodes/count',
       method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get the digest (the number of adjacent nodes and edges grouped by node categories and edge types)
+   * and/or the degree of a given subset of nodes.
+   * You can't get aggregated statistics of a subset of nodes containing one or more supernodes.
+   * To get the statistics of a supernode invoke the API with only its node ID.
+   */
+  public getStatistics(params: IGetStatisticsParams) {
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
+      GetStatisticsResponse
+    >({
+      url: '/:sourceKey/graph/neighborhood/statistics',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get all the adjacent nodes and edges to one or more source nodes.
+   * A subgraph made of the items that matched the expand query and the edges between them is returned.
+   */
+  public getAdjacentNodes(params: IGetAdjacentNodesParams) {
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
+      GetAdjacentNodesResponse
+    >({
+      url: '/:sourceKey/graph/nodes/expand',
+      method: 'POST',
       params: params
     });
   }

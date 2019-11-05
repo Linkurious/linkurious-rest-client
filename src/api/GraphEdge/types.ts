@@ -4,9 +4,8 @@
  * - Created on 2019-10-30.
  */
 
-import {GenericObject, IDataSourceParams} from '../commonTypes';
+import {GenericObject, IDataSourceParams, IGetSubGraphParams} from '../commonTypes';
 import {LkEdge, LkSubGraph} from '../graphItemTypes';
-import {IGetSubGraphParams} from '../Graph';
 
 export interface IGetEdgeParams extends IGetSubGraphParams {
   id: string;

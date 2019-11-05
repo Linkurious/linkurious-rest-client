@@ -6,6 +6,7 @@
 
 import {FolderChildren, IDataSourceParams, PersistedItem} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
+import {LkEdge, LkNode} from '../graphItemTypes';
 
 export enum ColumnType {
   STRING = 'string',
@@ -170,3 +171,17 @@ export interface IDoMatchActionParams extends IDataSourceParams {
   matchId: number;
   action: MatchActionType;
 }
+
+export interface IAlertPreviewParams extends IDataSourceParams {
+  query: string;
+  dialect?: GraphQueryDialect;
+  columns?: Array<{columnName: string; columnTitle?: string; type: ColumnType}>;
+  limit?: number;
+  timeout?: number;
+}
+
+export type AlertPreviewResponse = Array<{
+  nodes: LkNode[];
+  edges: LkEdge[];
+  columns: Array<string | number>;
+}>;

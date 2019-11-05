@@ -9,7 +9,7 @@ import {LkErrorKey} from '../../http/response';
 
 export * from './types';
 
-const {} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class DataSourceAPI extends Request {
   // TODO refresh data-source status on API (deleteFullDataSource, deleteDataSourceConfig)
@@ -63,9 +63,13 @@ export class DataSourceAPI extends Request {
    * Get the status of the Search API and return the indexing progress.
    */
   public getIndexationStatus(params: IGetIndexationStatusParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, GUEST_DISABLED).request<
-      GetIndexationStatusResponse
-    >({
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND,
+      GUEST_DISABLED
+    ).request<GetIndexationStatusResponse>({
       url: '/:sourceKey/search/status',
       method: 'GET',
       params: params

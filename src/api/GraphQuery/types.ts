@@ -4,7 +4,8 @@
  * - Created on 2019-10-29.
  */
 
-import {IDataSourceParams, PersistedItem} from '../commonTypes';
+import {GenericObject, IDataSourceParams, IGetSubGraphParams, PersistedItem} from '../commonTypes';
+import {LkSubGraph} from '../graphItemTypes';
 
 export enum TemplateFieldType {
   NUMBER = 'number',
@@ -192,3 +193,39 @@ export type UpdateQueryResponse = GraphQuery;
 export interface IDeleteQueryParams extends IDataSourceParams {
   id: number;
 }
+
+export interface ICheckQueryParams extends IDataSourceParams {
+  query: string;
+  dialect?: GraphQueryDialect;
+}
+
+export interface CheckQueryResponse {
+  write: boolean;
+  type: GraphQueryType;
+  graphInput?: GraphQueryInputType;
+  templateFields?: TemplateField[];
+}
+
+export interface IRunQueryParams extends IDataSourceParams {
+  dialect?: GraphQueryDialect;
+  limit?: number;
+  timeout?: number;
+  templateData?: GenericObject;
+}
+
+export interface IRunQueryByContentParams extends IGetSubGraphParams, IRunQueryParams {
+  query: string;
+}
+
+export interface RunQueryResponse extends LkSubGraph {
+  truncatedByLimit: boolean;
+  truncatedByAccess: boolean;
+}
+
+export type RunQueryByContentResponse = RunQueryResponse;
+
+export interface IRunQueryByIdParams extends IGetSubGraphParams, IRunQueryParams {
+  id: number;
+}
+
+export type RunQueryByIdResponse = RunQueryResponse;
