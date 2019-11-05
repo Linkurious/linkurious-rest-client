@@ -350,18 +350,18 @@ export interface IOAuth2Config {
   azure?: IAzureOAuthConfig;
 }
 
-export declare enum AntiAliasing {
+export enum AntiAliasing {
   SUPER_SAMPLING = 'super-sampling',
   NATIVE = 'native',
   NONE = 'none'
 }
 
-export declare enum OgmaRenderer {
+export enum OgmaRenderer {
   WEBGL = 'webgl',
   CANVAS = 'canvas'
 }
 
-export declare enum ImgCrossOrigin {
+export enum ImgCrossOrigin {
   ANONYMOUS = 'anonymous',
   USE_CREDENTIALS = 'use-credentials'
 }

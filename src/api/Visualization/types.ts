@@ -6,7 +6,7 @@
 
 import {GenericObject, IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
 import {VizEdge, VizEdgeInfo, VizNode, VizNodeInfo} from '../graphItemTypes';
-import {IAlternativeIdSettings} from '../DataSource';
+import {AlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
@@ -104,7 +104,7 @@ export interface Visualization extends PersistedItem {
   right: VisualizationRight;
   widgetKey?: string;
   sandbox: boolean;
-  alternativeIds: IAlternativeIdSettings;
+  alternativeIds: AlternativeIdSettings;
   mode: VisualizationMode;
   design: VisualizationDesign;
   nodeFields: ItemFields;
@@ -124,7 +124,7 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   folder?: number;
   nodes: VizNodeInfo[];
   edges: VizEdgeInfo[];
-  alternativeIds?: IAlternativeIdSettings;
+  alternativeIds?: AlternativeIdSettings;
   mode?: string;
   design?: VisualizationDesign;
   nodeFields?: ItemFields;
