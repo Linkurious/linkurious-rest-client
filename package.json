@@ -1,6 +1,6 @@
 {
   "name": "@linkurious/rest-client",
-  "version": "2.9.0-refactoring-1",
+  "version": "2.9.0-refactoring-2",
   "description": "A library to interact with Linkurious APIs",
   "files": [
     "dist"
@@ -24,8 +24,8 @@
     "watch": "tsc -w | tee"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "2.6.0",
-    "@typescript-eslint/parser": "2.6.0",
+    "@typescript-eslint/eslint-plugin": "2.6.1",
+    "@typescript-eslint/parser": "2.6.1",
     "@types/superagent": "4.1.4",
     "eslint": "6.6.0",
     "eslint-config-prettier": "6.5.0",
