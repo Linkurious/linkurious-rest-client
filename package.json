@@ -32,7 +32,7 @@
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-prettier": "3.1.1",
     "prettier": "1.18.2",
-    "typescript": "3.6.4"
+    "typescript": "3.7.2"
   },
   "dependencies": {
     "superagent": "5.1.0",
