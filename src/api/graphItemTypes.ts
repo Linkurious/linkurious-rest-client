@@ -6,6 +6,12 @@
 import {GenericObject} from './commonTypes';
 import {LkPropertyType, SimpleType, StringType, DateType, DateTimeType} from './GraphSchema';
 
+// Valid properties for edges and nodes
+export type LkValidProperty = string | number | boolean | LkDate | LkDateTime;
+
+export type LkValidProperties = GenericObject<LkValidProperty>;
+
+// Item and Properties
 export interface LkDate {
   type: 'date';
   value: string; // iso string in the correct timezone, e.g: "2019-07-22T00:00:00-08:00"

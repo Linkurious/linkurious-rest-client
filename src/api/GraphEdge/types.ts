@@ -4,7 +4,8 @@
  * - Created on 2019-10-30.
  */
 
-import {GenericObject, IDataSourceParams, IGetSubGraphParams} from '../commonTypes';
+import {IDataSourceParams, IGetSubGraphParams} from '../commonTypes';
+import {LkValidProperties} from '../graphItemTypes';
 
 export interface IGetEdgeParams extends IGetSubGraphParams {
   id: string;
@@ -14,12 +15,12 @@ export interface ICreateEdgeParams extends IDataSourceParams {
   source: string;
   target: string;
   type: string;
-  properties?: GenericObject;
+  properties?: LkValidProperties;
 }
 
 export interface IUpdateEdgeParams extends IDataSourceParams {
   id: string;
-  properties?: GenericObject;
+  properties?: LkValidProperties;
   deletedProperties?: string[];
   readAt?: number;
 }

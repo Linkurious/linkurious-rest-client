@@ -41,7 +41,7 @@ export interface Configuration {
   needRestart?: boolean;
 }
 
-export type IUpdateConfigParams =
+export type IUpdateConfigParams<T = unknown> =
   | IResetConfigParams
   | IDataSourceConfigParams
   | IConfigurationParams<T>;

@@ -4,7 +4,8 @@
  * - Created on 2019-10-30.
  */
 
-import {GenericObject, IDataSourceParams, IGetSubGraphParams} from '../commonTypes';
+import {IDataSourceParams, IGetSubGraphParams} from '../commonTypes';
+import {LkValidProperties} from '../graphItemTypes';
 
 export interface IGetNodeParams extends IGetSubGraphParams {
   id: string;
@@ -12,14 +13,14 @@ export interface IGetNodeParams extends IGetSubGraphParams {
 
 export interface ICreateNodeParams extends IDataSourceParams {
   categories: string[];
-  properties?: GenericObject;
+  properties?: LkValidProperties;
 }
 
 export interface IUpdateNodeParams extends IDataSourceParams {
   id: string;
   addedCategories?: string[];
   deletedCategories?: string[];
-  properties?: GenericObject;
+  properties?: LkValidProperties;
   deletedProperties?: string[];
   readAt?: number;
 }
