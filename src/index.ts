@@ -25,6 +25,7 @@ import {UserAPI} from './api/User';
 import {VisualizationAPI} from './api/Visualization';
 
 export class RestClient extends ErrorListener {
+  private readonly clientState: ClientState;
   private readonly moduleProps: ModuleProps;
 
   public readonly alerts: AlertsAPI;
@@ -45,6 +46,7 @@ export class RestClient extends ErrorListener {
   constructor(options?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();
 
+    this.clientState = {};
     this.moduleProps = {
       baseUrl: options
         ? options.baseUrl && options.baseUrl.endsWith('/')
@@ -52,7 +54,7 @@ export class RestClient extends ErrorListener {
           : options.baseUrl + '/api'
         : '/api',
       agent: (options && options.agent) || request.agent(),
-      clientState: {},
+      clientState: this.clientState,
       dispatchError: <T extends LkErrorKey>(key: T, payload: LkErrorKeyToInterface[T]): void =>
         this.dispatchError(key, payload)
     };
@@ -73,10 +75,6 @@ export class RestClient extends ErrorListener {
     this.visualization = new VisualizationAPI(this.moduleProps);
   }
 
-  public get clientState(): ClientState {
-    return this.moduleProps.clientState;
-  }
-
   /**
    * Login a user and populate the client state with the list of the data-sources.
    */
@@ -88,14 +86,15 @@ export class RestClient extends ErrorListener {
     });
   }
 
+  public setGuestMode(guestMode: boolean) {
+    this.clientState.guestMode = guestMode;
+  }
+
   public setCurrentSource(dataSource: DataSource) {
-    this.moduleProps.clientState.currentSource = dataSource;
+    this.clientState.currentSource = dataSource;
     try {
-      if (dataSource.key && this.moduleProps.clientState.user) {
-        localStorage.setItem(
-          'lk-lastSeenSourceKey-' + this.moduleProps.clientState.user.id,
-          dataSource.key
-        );
+      if (dataSource.key && this.clientState.user) {
+        localStorage.setItem('lk-lastSeenSourceKey-' + this.clientState.user.id, dataSource.key);
       }
     } catch (_) {
       // Silently fail if localStorage is not supported
