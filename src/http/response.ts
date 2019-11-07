@@ -58,10 +58,6 @@ export class Response<B> {
     );
   }
 
-  public isAnyError(): this is Extract<this, Response<LkError>> {
-    return !this.isSuccess();
-  }
-
   public isError<E extends LkErrorKey>(key: E): this is Extract<this, Response<LkError<E>>> {
     return ((this.body as unknown) as LkError).key === key;
   }
