@@ -16,7 +16,7 @@ export interface IGetConfigParams {
 
 export interface Configuration {
   // available to not authenticated user
-  ogma: OgmaConfiguration;
+  ogma: IOgmaConfig;
   domain: string;
   ssoProvider?: string;
   url: string;
@@ -373,7 +373,7 @@ export interface IWebGLConfig {
   fontSamplingSize?: number;
 }
 
-export interface OgmaConfiguration {
+export interface IOgmaConfig {
   renderer?: OgmaRenderer;
   webglOptions?: IWebGLConfig;
   imgCrossOrigin?: ImgCrossOrigin;
