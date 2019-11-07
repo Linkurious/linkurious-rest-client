@@ -4,16 +4,47 @@
  * - Created on 2019-10-21.
  */
 import {GenericObject} from './commonTypes';
+import {LkPropertyType, SimpleType, StringType, DateType, DateTimeType} from './GraphSchema';
 
-export interface NativeTemporalValue {
-  value: number;
+export interface LkDate {
+  type: 'date';
+  value: string; // iso string in the correct timezone, e.g: "2019-07-22T00:00:00-08:00"
+  timezone?: string; // e.g. "-08:00"
 }
 
-export interface NativeDate extends NativeTemporalValue {}
+export interface LkDateTime {
+  type: 'datetime';
+  value: string; // iso string in the correct timezone, e.g: "2019-07-22T12:34:56-08:00"
+  timezone?: string; // e.g. "-08:00"
+}
 
-export interface NativeDateTime extends NativeTemporalValue {}
+export interface ConflictValue {
+  type: LkPropertyType;
+  status: 'conflict';
+  original?: string; // when schema is in conflict we return a string representation
+}
 
-export type LkProperty = string | number | boolean | NativeDate | NativeDateTime;
+export interface InvalidValue {
+  type: SimpleType | StringType | DateType | DateTimeType;
+  status: 'invalid';
+  original: string; // when not of the good type we return a string representation (string[] fall in this category)
+}
+
+export interface MissingValue {
+  type: LkPropertyType;
+  status: 'missing'; // when mandatory or strict mode but not there
+  mandatory: boolean;
+}
+
+export type LkProperty =
+  | string
+  | number
+  | boolean
+  | LkDate
+  | LkDateTime
+  | MissingValue
+  | InvalidValue
+  | ConflictValue;
 
 export type LkProperties = GenericObject<LkProperty>;
 
