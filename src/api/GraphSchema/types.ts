@@ -114,11 +114,13 @@ export interface DateTimeType {
   options: DatetimeOptions;
 }
 
+export type LkType = SimpleType | StringType | DateType | DateTimeType;
+
 export interface ICreatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
   label: string;
   propertyKey: string;
-  propertyType: SimpleType | StringType | DateType | DateTimeType;
+  propertyType: LkType;
   required?: boolean;
   visibility?: DataVisibility;
 }
@@ -127,7 +129,7 @@ export interface IUpdatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
   label: string;
   propertyKey: string;
-  propertyType?: SimpleType | StringType | DateType | DateTimeType;
+  propertyType?: LkType;
   required?: boolean;
   visibility?: DataVisibility;
 }
@@ -136,7 +138,7 @@ export interface GraphSchemaProperty {
   propertyKey: string;
   required: boolean;
   visibility: DataVisibility;
-  propertyType: SimpleType | StringType | DateType | DateTimeType;
+  propertyType: LkType;
 }
 
 export interface GraphSchemaType {

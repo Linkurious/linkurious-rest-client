@@ -4,7 +4,7 @@
  * - Created on 2019-10-21.
  */
 import {GenericObject} from './commonTypes';
-import {LkPropertyType, SimpleType, StringType, DateType, DateTimeType} from './GraphSchema';
+import {LkPropertyType, LkType} from './GraphSchema';
 
 export interface LkDate {
   type: 'date';
@@ -25,7 +25,7 @@ export interface ConflictValue {
 }
 
 export interface InvalidValue {
-  type: SimpleType | StringType | DateType | DateTimeType;
+  type: LkType;
   status: 'invalid';
   original: string; // when not of the good type we return a string representation (string[] fall in this category)
 }
