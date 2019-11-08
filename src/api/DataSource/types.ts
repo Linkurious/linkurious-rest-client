@@ -39,7 +39,7 @@ export interface DataSourceFeatures {
 }
 
 export interface DataSourceSettings {
-  readonly: boolean;
+  readOnly: boolean;
 }
 
 export interface AlternativeIdSettings {
