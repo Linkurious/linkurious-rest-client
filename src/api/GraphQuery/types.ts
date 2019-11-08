@@ -106,7 +106,7 @@ export interface BooleanTemplate extends TemplateField<TemplateFieldType.BOOLEAN
   };
 }
 
-export type TemplateFields = Array<
+export type AnyTemplate =
   | NumberTemplate
   | StringTemplate
   | EnumTemplate
@@ -114,10 +114,7 @@ export type TemplateFields = Array<
   | NodesetTemplate
   | DateTemplate
   | DatetimeTemplate
-  | BooleanTemplate
->;
-
-export type AnyTemplate = TemplateFields[0];
+  | BooleanTemplate;
 
 export enum GraphQueryInputType {
   NONE = 'none',
@@ -157,7 +154,7 @@ export interface GraphQuery extends PersistedItem {
   sharedWithGroups?: number[];
   write: boolean;
   graphInput?: GraphQueryInputType;
-  templateFields?: TemplateFields;
+  templateFields?: AnyTemplate[];
   type: GraphQueryType;
   right: GraphQueryRight;
   builtin: boolean;
@@ -197,7 +194,7 @@ export interface CheckQueryResponse {
   write: boolean;
   type: GraphQueryType;
   graphInput?: GraphQueryInputType;
-  templateFields?: TemplateField[];
+  templateFields?: AnyTemplate[];
 }
 
 export interface IRunQueryParams extends IDataSourceParams {
