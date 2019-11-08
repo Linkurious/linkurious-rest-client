@@ -111,7 +111,7 @@ export abstract class Request {
     };
 
     // 2) Split params into `body` and `query` depending on the method
-    if (['GET', 'DELETE'].includes(config.method)) {
+    if (['GET', 'DELETE'].indexOf(config.method) >= 0) {
       query = {...query, ...config.params};
     } else {
       body = config.params;
@@ -178,7 +178,14 @@ export abstract class Request {
       throw new Error('Unexpected error: ' + JSON.stringify(response.body));
     }
 
-    // 4.e) Return the success
+    // 4.e) Throw error if unexpected status code
+    if ([200, 201, 204].indexOf(response.status) >= 0) {
+      throw new Error(
+        'Unexpected status code "' + response.status + '": ' + JSON.stringify(response.body)
+      );
+    }
+
+    // 4.f) Return the success
     return new Response({
       status: response.status,
       header: response.header,
