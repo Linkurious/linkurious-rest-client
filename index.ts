@@ -20,6 +20,7 @@ export * from './src/api/Linkurious';
 export * from './src/api/User';
 export * from './src/api/Visualization';
 export * from './src/api/commonTypes';
+export * from './src/api/displayTypes';
 export * from './src/api/graphItemTypes';
 export * from './src/http/request';
 export * from './src/http/response';

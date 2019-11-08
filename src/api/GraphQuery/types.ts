@@ -21,7 +21,6 @@ export enum TemplateFieldType {
 export interface TemplateField<T extends TemplateFieldType = TemplateFieldType> {
   key: string;
   type: T;
-  options?: object;
 }
 
 export interface NumberTemplate extends TemplateField<TemplateFieldType.NUMBER> {
@@ -117,6 +116,8 @@ export type TemplateFields = Array<
   | DatetimeTemplate
   | BooleanTemplate
 >;
+
+export type AnyTemplate = TemplateFields[0];
 
 export enum GraphQueryInputType {
   NONE = 'none',
