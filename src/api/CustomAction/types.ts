@@ -22,7 +22,7 @@ export type CustomActionElement =
   | {
       value: string;
       type: 'ca-expression';
-      variable: 'visualization' | 'sourceKey';
+      variable: 'visualization' | 'sourcekey';
     }
   | {
       value: string;
@@ -41,7 +41,6 @@ export type CustomActionElement =
 export interface ParsedCustomAction {
   type: CustomActionType;
   elements: CustomActionElement[];
-  itemType: string;
 }
 
 export enum CustomActionSharingMode {
