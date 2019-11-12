@@ -68,7 +68,7 @@ export enum DateTemplateFormat {
   TIMESTAMP = 'timestamp',
   TIMESTAMP_MS = 'timestamp-ms',
   ISO = 'iso',
-  ISO_YYYY_MM_DD = 'yyyy-MM-dd',
+  ISO_YYYY_MM_DD = 'yyyy-mm-dd',
   DD_MM_YYYY = 'dd/mm/yyyy',
   MM_DD_YYYY = 'mm/dd/yyyy',
   NATIVE = 'native'
@@ -87,7 +87,7 @@ export enum DatetimeTemplateFormat {
   TIMESTAMP = 'timestamp',
   TIMESTAMP_MS = 'timestamp-ms',
   ISO = 'iso',
-  YYYY_MM_DD_T = 'yyyy-MM-ddThh:mm:ss',
+  YYYY_MM_DD_T = 'YYYY-MM-DDThh:mm:ss',
   NATIVE = 'native'
 }
 
