@@ -25,7 +25,7 @@ export interface TemplateField<T extends TemplateFieldType = TemplateFieldType> 
 
 export interface NumberTemplate extends TemplateField<TemplateFieldType.NUMBER> {
   options?: {
-    default?: string;
+    default?: number;
     min?: number;
     max?: number;
     placeholder?: string;
