@@ -66,17 +66,17 @@ export enum PropertyTypeName {
   STRING = 'string'
 }
 
-export interface SimpleType {
+export interface ISimpleType {
   name: PropertyTypeName.AUTO | PropertyTypeName.NUMBER | PropertyTypeName.BOOLEAN;
 }
 
-export interface EnumOptions {
+export interface IEnumOptions {
   values: string[];
 }
 
-export interface StringType {
+export interface IStringType {
   name: PropertyTypeName.STRING;
-  options?: EnumOptions;
+  options?: IEnumOptions;
 }
 
 export enum DateFormat {
@@ -88,13 +88,13 @@ export enum DateFormat {
   TIMESTAMP_MS = 'timestamp-ms'
 }
 
-export interface DateOptions {
+export interface IDateOptions {
   format: DateFormat;
 }
 
-export interface DateType {
+export interface IDateType {
   name: PropertyTypeName.DATE;
-  options: DateOptions;
+  options: IDateOptions;
 }
 
 export enum DateTimeFormat {
@@ -104,17 +104,17 @@ export enum DateTimeFormat {
   TIMESTAMP_MS = 'timestamp-ms'
 }
 
-export interface DatetimeOptions {
+export interface IDatetimeOptions {
   format: DateTimeFormat;
   timezone?: boolean;
 }
 
-export interface DateTimeType {
+export interface IDateTimeType {
   name: PropertyTypeName.DATETIME;
-  options: DatetimeOptions;
+  options: IDatetimeOptions;
 }
 
-export type PropertyType = SimpleType | StringType | DateType | DateTimeType;
+export type PropertyType = ISimpleType | IStringType | IDateType | IDateTimeType;
 
 export interface ICreatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
