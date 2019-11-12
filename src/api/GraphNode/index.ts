@@ -18,6 +18,8 @@ import {
   IGetStatisticsParams
 } from './types';
 
+export * from './types';
+
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
 export class GraphNodeAPI extends Request {
