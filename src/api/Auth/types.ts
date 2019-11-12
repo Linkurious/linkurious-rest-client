@@ -10,6 +10,11 @@ export interface ILoginParams {
   password: string;
 }
 
+export interface ILoginOAuth2Params {
+  code: string;
+  state: string;
+}
+
 export interface IUpdateCurrentUserParams {
   id: number;
   username?: string;

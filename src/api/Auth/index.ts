@@ -8,7 +8,7 @@ import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 import {User} from '../User';
 
-import {ILoginParams, IUpdateCurrentUserParams} from './types';
+import {ILoginOAuth2Params, ILoginParams, IUpdateCurrentUserParams} from './types';
 
 export * from './types';
 
@@ -32,12 +32,13 @@ export class AuthAPI extends Request {
   }
 
   /**
-   * Redirect the user to the OAuth2 or SAML2 provider for authorization.
+   * Log a user in via OAuth2.
    */
-  public loginSSO() {
+  public loginOAuth2(params: ILoginOAuth2Params) {
     return this.request<never>({
-      url: '/auth/sso/login',
-      method: 'GET'
+      url: '/auth/sso/return',
+      method: 'GET',
+      params: params
     });
   }
 
