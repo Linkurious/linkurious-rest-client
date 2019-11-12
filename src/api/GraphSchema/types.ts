@@ -57,7 +57,7 @@ export interface ICreateTypeParams extends IDataSourceParams {
 
 export interface IUpdateTypeParams extends ICreateTypeParams {}
 
-export enum PropertyName {
+export enum PropertyTypeName {
   AUTO = 'auto',
   BOOLEAN = 'boolean',
   DATE = 'date',
@@ -67,7 +67,7 @@ export enum PropertyName {
 }
 
 export interface SimpleType {
-  name: PropertyName.AUTO | PropertyName.NUMBER | PropertyName.BOOLEAN;
+  name: PropertyTypeName.AUTO | PropertyTypeName.NUMBER | PropertyTypeName.BOOLEAN;
 }
 
 export interface EnumOptions {
@@ -75,7 +75,7 @@ export interface EnumOptions {
 }
 
 export interface StringType {
-  name: PropertyName.STRING;
+  name: PropertyTypeName.STRING;
   options?: EnumOptions;
 }
 
@@ -93,7 +93,7 @@ export interface DateOptions {
 }
 
 export interface DateType {
-  name: PropertyName.DATE;
+  name: PropertyTypeName.DATE;
   options: DateOptions;
 }
 
@@ -110,7 +110,7 @@ export interface DatetimeOptions {
 }
 
 export interface DateTimeType {
-  name: PropertyName.DATETIME;
+  name: PropertyTypeName.DATETIME;
   options: DatetimeOptions;
 }
 
