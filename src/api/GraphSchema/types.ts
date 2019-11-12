@@ -57,7 +57,7 @@ export interface ICreateTypeParams extends IDataSourceParams {
 
 export interface IUpdateTypeParams extends ICreateTypeParams {}
 
-export enum LkPropertyType {
+export enum PropertyTypeName {
   AUTO = 'auto',
   BOOLEAN = 'boolean',
   DATE = 'date',
@@ -67,7 +67,7 @@ export enum LkPropertyType {
 }
 
 export interface SimpleType {
-  name: LkPropertyType.AUTO | LkPropertyType.NUMBER | LkPropertyType.BOOLEAN;
+  name: PropertyTypeName.AUTO | PropertyTypeName.NUMBER | PropertyTypeName.BOOLEAN;
 }
 
 export interface EnumOptions {
@@ -75,11 +75,11 @@ export interface EnumOptions {
 }
 
 export interface StringType {
-  name: LkPropertyType.STRING;
+  name: PropertyTypeName.STRING;
   options?: EnumOptions;
 }
 
-export enum LkDateFormat {
+export enum DateFormat {
   NATIVE = 'native',
   ISO = 'iso', // yyyy-mm-dd
   DD_MM_YYYY = 'dd/mm/yyyy',
@@ -89,15 +89,15 @@ export enum LkDateFormat {
 }
 
 export interface DateOptions {
-  format: LkDateFormat;
+  format: DateFormat;
 }
 
 export interface DateType {
-  name: LkPropertyType.DATE;
+  name: PropertyTypeName.DATE;
   options: DateOptions;
 }
 
-export enum LkDateTimeFormat {
+export enum DateTimeFormat {
   NATIVE = 'native',
   ISO = 'iso', // YYYY-MM-DDThh:mm:ss
   TIMESTAMP = 'timestamp',
@@ -105,20 +105,22 @@ export enum LkDateTimeFormat {
 }
 
 export interface DatetimeOptions {
-  format: LkDateTimeFormat;
+  format: DateTimeFormat;
   timezone?: boolean;
 }
 
 export interface DateTimeType {
-  name: LkPropertyType.DATETIME;
+  name: PropertyTypeName.DATETIME;
   options: DatetimeOptions;
 }
+
+export type PropertyType = SimpleType | StringType | DateType | DateTimeType;
 
 export interface ICreatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
   label: string;
   propertyKey: string;
-  propertyType: SimpleType | StringType | DateType | DateTimeType;
+  propertyType: PropertyType;
   required?: boolean;
   visibility?: DataVisibility;
 }
@@ -127,7 +129,7 @@ export interface IUpdatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
   label: string;
   propertyKey: string;
-  propertyType?: SimpleType | StringType | DateType | DateTimeType;
+  propertyType?: PropertyType;
   required?: boolean;
   visibility?: DataVisibility;
 }
@@ -136,7 +138,7 @@ export interface GraphSchemaProperty {
   propertyKey: string;
   required: boolean;
   visibility: DataVisibility;
-  propertyType: SimpleType | StringType | DateType | DateTimeType;
+  propertyType: PropertyType;
 }
 
 export interface GraphSchemaType {

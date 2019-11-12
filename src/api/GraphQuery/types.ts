@@ -25,7 +25,7 @@ export interface TemplateField<T extends TemplateFieldType = TemplateFieldType> 
 
 export interface NumberTemplate extends TemplateField<TemplateFieldType.NUMBER> {
   options?: {
-    default?: string;
+    default?: number;
     min?: number;
     max?: number;
     placeholder?: string;
@@ -64,7 +64,7 @@ export interface NodesetTemplate extends TemplateField<TemplateFieldType.NODE_SE
   };
 }
 
-export enum DateFormat {
+export enum DateTemplateFormat {
   TIMESTAMP = 'timestamp',
   TIMESTAMP_MS = 'timestamp-ms',
   ISO = 'iso',
@@ -79,11 +79,11 @@ export interface DateTemplate extends TemplateField<TemplateFieldType.DATE> {
     default?: string;
     min?: string;
     max?: string;
-    format: DateFormat;
+    format: DateTemplateFormat;
   };
 }
 
-export enum DatetimeFormat {
+export enum DatetimeTemplateFormat {
   TIMESTAMP = 'timestamp',
   TIMESTAMP_MS = 'timestamp-ms',
   ISO = 'iso',
@@ -97,7 +97,7 @@ export interface DatetimeTemplate extends TemplateField<TemplateFieldType.DATE_T
     min?: string;
     max?: string;
     timezone?: string;
-    format: DatetimeFormat;
+    format: DatetimeTemplateFormat;
   };
 }
 export interface BooleanTemplate extends TemplateField<TemplateFieldType.BOOLEAN> {
