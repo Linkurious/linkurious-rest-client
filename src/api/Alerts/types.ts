@@ -13,28 +13,12 @@ export enum ColumnType {
   NUMBER = 'number'
 }
 
-export interface ICreateAlertParams extends IDataSourceParams {
-  title: string;
-  query: string;
-  dialect: GraphQueryDialect;
-  folder?: number;
-  enabled: boolean;
-  columns: Array<{
-    type: ColumnType;
-    columnName: string;
-    columnTitle: string;
-  }>;
-  cron: string;
-  matchTTL?: number;
-  maxMatches?: number;
-}
-
+// Public Alert
 export interface Alert extends PersistedItem {
-  title: string;
   sourceKey: string;
+  title: string;
   query: string;
   dialect: GraphQueryDialect;
-  folder: number;
   enabled: boolean;
   columns: Array<{
     type: ColumnType;
@@ -44,18 +28,29 @@ export interface Alert extends PersistedItem {
   cron: string;
   matchTTL: number;
   maxMatches: number;
-  userId: number;
   lastRun: string;
-  lastRunProblem?: {
-    error: string;
+  lastRunProblem: {
+    error: Record<string, unknown>;
     partial: boolean;
   };
   nextRun?: string;
+  userId: number;
+  folder: number;
 }
 
-export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
-  id: number;
-}
+export interface ICreateAlertParams
+  extends IDataSourceParams,
+    Pick<Alert, 'title' | 'query' | 'dialect' | 'enabled' | 'columns' | 'cron'>,
+    Partial<Pick<Alert, 'sourceKey' | 'matchTTL' | 'maxMatches' | 'folder'>> {}
+
+export interface IUpdateAlertParams
+  extends IDataSourceParams,
+    Partial<
+      Pick<
+        Alert,
+        'title' | 'query' | 'dialect' | 'enabled' | 'cron' | 'matchTTL' | 'maxMatches' | 'folder'
+      >
+    > {}
 
 export interface IDeleteAlertParams extends IDataSourceParams {
   id: number;
@@ -65,7 +60,6 @@ export interface ICreateAlertFolderParams extends IDataSourceParams {
   title: string;
 }
 
-// TODO add sourceKey to server
 export interface AlertFolder extends PersistedItem {
   title: string;
   parent: number;
@@ -74,14 +68,30 @@ export interface AlertFolder extends PersistedItem {
 
 export interface IUpdateAlertFolderParams extends IDataSourceParams {
   id: number;
-  title: string;
+  title?: string;
 }
 
 export interface IDeleteAlertFolderParams extends IDataSourceParams {
   id: number;
 }
 
-export type AlertTree = Tree<Alert, 'alert'>;
+export type AlertTree = Tree<AlertTreeNode, 'alert'>;
+
+export interface AlertTreeNode
+  extends PersistedItem,
+    Pick<
+      Alert,
+      | 'folder'
+      | 'title'
+      | 'sourceKey'
+      | 'query'
+      | 'dialect'
+      | 'enabled'
+      | 'columns'
+      | 'cron'
+      | 'nextRun'
+    >,
+    Partial<Pick<Alert, 'lastRun' | 'lastRunProblem'>> {}
 
 export interface IGetAlertParams extends IDataSourceParams {
   id: number;
