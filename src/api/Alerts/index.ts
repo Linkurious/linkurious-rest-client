@@ -9,8 +9,6 @@ import {LkErrorKey} from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
 
 import {
-  Alert,
-  AlertTreeNode,
   AlertTree,
   ICreateAlertFolderParams,
   ICreateAlertParams,
@@ -25,6 +23,7 @@ import {
   IUpdateAlertParams,
   AlertPreview,
   IAlertPreviewParams,
+  Alert,
   AlertFolder,
   MatchAction,
   Match
@@ -129,7 +128,7 @@ export class AlertsAPI extends Request {
    * Get an alert by id.
    */
   public getAlert(params: IGetAlertParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<AlertTreeNode>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<Alert>({
       url: '/:sourceKey/alerts/:id',
       method: 'GET',
       params: params
