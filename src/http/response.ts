@@ -21,6 +21,7 @@ export enum LkErrorKey {
   CONSTRAINT_VIOLATION = 'constraint_violation', // TODO too generic?
   USER_EXISTS = 'user_exists', // TODO too specific?
   GROUP_EXISTS = 'group_exists',
+  INVALID_PARAMETER = 'invalid_parameter',
 
   // TODO check if these errors are used
   ALREADY_EXIST = 'already_exists',
@@ -88,6 +89,7 @@ export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TI
 export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
 export interface UserExists extends LkError<LkErrorKey.USER_EXISTS> {}
 export interface GroupExists extends LkError<LkErrorKey.GROUP_EXISTS> {}
+export interface InvalidParameter extends LkError<LkErrorKey.INVALID_PARAMETER> {}
 
 export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
 export interface CannotDeleteNonEmptyFolder
@@ -116,6 +118,7 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolation;
   [LkErrorKey.USER_EXISTS]: UserExists;
   [LkErrorKey.GROUP_EXISTS]: GroupExists;
+  [LkErrorKey.INVALID_PARAMETER]: InvalidParameter;
 
   [LkErrorKey.ALREADY_EXIST]: AlreadyExists;
   [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
