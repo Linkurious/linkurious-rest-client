@@ -93,7 +93,6 @@ export class AlertsAPI extends Request {
    * Update an alert folder.
    */
   public updateAlertFolder(params: IUpdateAlertFolderParams) {
-    // TODO return alert folder in server
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
       AlertFolder
     >({
