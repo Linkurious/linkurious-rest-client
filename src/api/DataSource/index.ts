@@ -6,6 +6,7 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
+import {SelectedDataSourceConfig} from '../Config';
 
 import {
   IConnectDataSourceParams,
@@ -16,8 +17,7 @@ import {
   IDeleteSourceDataParams,
   DeleteSourceDataResponse,
   IDeleteSourceConfigParams,
-  DataSourceAdminInfo,
-  ICreateSourceConfigParams
+  DataSourceAdminInfo
 } from './types';
 
 export * from './types';
@@ -121,7 +121,7 @@ export class DataSourceAPI extends Request {
    * Create a new data-source configuration made of a graph database configuration
    * and an index configuration. Return the configuration index of the new data-source.
    */
-  public createSourceConfig(params: ICreateSourceConfigParams) {
+  public createSourceConfig(params: SelectedDataSourceConfig) {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request<number>({
       url: '/admin/sources/config',
       method: 'POST',

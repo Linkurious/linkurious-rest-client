@@ -117,7 +117,3 @@ export interface DataSourceAdminInfo {
   storeId?: string;
   visualizationCount: number;
 }
-
-export interface ICreateSourceConfigParams {
-  // TODO type this
-}
