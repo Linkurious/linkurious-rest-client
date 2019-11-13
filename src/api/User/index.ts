@@ -48,7 +48,7 @@ export class UserAPI extends Request {
    */
   public searchUsers(params: ISearchUsersParams) {
     return this.handle(UNAUTHORIZED).request<SearchUserResponse>({
-      url: '/users',
+      url: 'c',
       method: 'GET',
       params: params
     });

@@ -6,6 +6,8 @@
 
 import {IDataSourceParams, PersistedItem} from '../commonTypes';
 
+// TODO: Update access rights after PKAR id merged
+
 export interface UserPreferences {
   pinOnDrag: boolean;
   locale: string;
@@ -13,8 +15,16 @@ export interface UserPreferences {
 }
 
 export interface User extends PersistedItem {
-  // TODO type this
+  username: string;
+  email: string;
+  groups: GroupName[];
+  source: string;
+  preferences: UserPreferences;
+  actions: string[];
+  accessRights: any;
 }
+
+export type SimpleUser = Pick<User, 'id' | 'username' | 'email'>;
 
 export interface IGetUserParams {
   id: number;
@@ -59,9 +69,21 @@ export interface IGetGroupParams extends IDataSourceParams {
   id: number;
 }
 
-export interface Group extends PersistedItem {
-  // TODO type this
+export interface AccessRight {
+  type: 'read' | 'write' | 'none' | 'do';
+  targetType: string;
+  targetName: string;
 }
+
+export interface Group extends PersistedItem {
+  name: string;
+  sourceKey: string;
+  builtin: boolean;
+  userCount?: number;
+  accessRights?: AccessRight[];
+}
+
+export type GroupName = Pick<Group, 'id' | 'name'>;
 
 export interface IGetGroupsParams extends IDataSourceParams {
   withAccessRights: boolean;
@@ -70,11 +92,6 @@ export interface IGetGroupsParams extends IDataSourceParams {
 export interface IGetGroupNamesParams extends IDataSourceParams {
   // TODO type when we merge PKAR
   action: string;
-}
-
-export interface GroupName {
-  id: number;
-  name: string;
 }
 
 export interface ICreateGroupParams extends IDataSourceParams {
@@ -92,7 +109,7 @@ export interface IDeleteGroupParams extends IDataSourceParams {
 
 export interface ISetAccessRightsParams extends IDataSourceParams {
   id: number;
-  accessRights: Array<{type: string; targetType: string; targetName: string}>;
+  accessRights: Array<AccessRight>;
 }
 
 export interface IMergeVisualizationsParams {
