@@ -4,7 +4,7 @@
  * - Created on 2019-10-21.
  */
 import {GenericObject} from './commonTypes';
-import {PropertyTypeName, PropertyType} from './GraphSchema';
+import {PropertyType} from './GraphSchema';
 
 export interface LkDate {
   type: 'date';
@@ -19,8 +19,7 @@ export interface LkDateTime {
 }
 
 export interface ConflictValue {
-  // TODO use propertyType
-  type: PropertyTypeName;
+  type: PropertyType;
   status: 'conflict';
   original: string; // when schema is in conflict we return a string representation
 }
@@ -32,8 +31,7 @@ export interface InvalidValue {
 }
 
 export interface MissingValue {
-  // TODO use propertyType
-  type: PropertyTypeName;
+  type: PropertyType;
   status: 'missing'; // when mandatory or strict mode but not there
   mandatory: boolean;
 }
