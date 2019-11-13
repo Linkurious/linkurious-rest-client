@@ -26,7 +26,8 @@ import {
   Alert,
   AlertFolder,
   MatchAction,
-  Match
+  Match,
+  GetMatchesResponse
 } from './types';
 
 export * from './types';
@@ -151,7 +152,7 @@ export class AlertsAPI extends Request {
    */
   public getMatches(params: IGetMatchesParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
-      Match[]
+      GetMatchesResponse
     >({
       url: '/:sourceKey/alerts/:alertId/matches',
       method: 'GET',
