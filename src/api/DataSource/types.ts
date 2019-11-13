@@ -6,6 +6,7 @@
 
 import {Captions, Styles} from '../displayTypes';
 import {IDataSourceParams} from '../commonTypes';
+import {GraphQueryDialect} from '../GraphQuery';
 
 export interface IGetDataSourcesStatusParams {
   withStyles?: boolean;
@@ -32,7 +33,7 @@ export interface DataSourceFeatures {
   maxNodeCategories?: number;
   externalIndex: boolean;
   canCount: boolean;
-  dialects: string[];
+  dialects: GraphQueryDialect[];
   alerts: boolean;
   canDryRun: boolean;
   supportNativeDate: boolean;
