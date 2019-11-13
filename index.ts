@@ -17,6 +17,7 @@ export * from './src/api/GraphNode';
 export * from './src/api/GraphQuery';
 export * from './src/api/GraphSchema';
 export * from './src/api/Linkurious';
+export * from './src/api/Plugin';
 export * from './src/api/User';
 export * from './src/api/Visualization';
 export * from './src/api/commonTypes';

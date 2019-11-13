@@ -20,6 +20,7 @@ import {GraphNodeAPI} from './api/GraphNode';
 import {GraphQueryAPI} from './api/GraphQuery';
 import {GraphSchemaAPI} from './api/GraphSchema';
 import {LinkuriousAPI} from './api/Linkurious';
+import {PluginAPI} from './api/Plugin';
 import {SearchAPI} from './api/Search';
 import {UserAPI} from './api/User';
 import {VisualizationAPI} from './api/Visualization';
@@ -39,6 +40,7 @@ export class RestClient extends ErrorListener {
   public readonly graphQuery: GraphQueryAPI;
   public readonly graphSchema: GraphSchemaAPI;
   public readonly linkurious: LinkuriousAPI;
+  public readonly plugin: PluginAPI;
   public readonly search: SearchAPI;
   public readonly user: UserAPI;
   public readonly visualization: VisualizationAPI;
@@ -70,6 +72,7 @@ export class RestClient extends ErrorListener {
     this.graphQuery = new GraphQueryAPI(this.moduleProps);
     this.graphSchema = new GraphSchemaAPI(this.moduleProps);
     this.linkurious = new LinkuriousAPI(this.moduleProps);
+    this.plugin = new PluginAPI(this.moduleProps);
     this.search = new SearchAPI(this.moduleProps);
     this.user = new UserAPI(this.moduleProps);
     this.visualization = new VisualizationAPI(this.moduleProps);

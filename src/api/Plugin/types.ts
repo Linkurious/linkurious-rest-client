@@ -3,9 +3,7 @@
  *
  * - Created on 2019-09-17.
  */
-import {GenericObject} from './Model';
-
-// TS2019-DONE
+import {GenericObject} from '../commonTypes';
 
 export enum PluginRequestHeader {
   USER_ID = 'linkurious-user-id',
@@ -20,7 +18,7 @@ export enum PluginState {
   ERROR_MANIFEST = 'error-manifest'
 }
 
-export interface IInstalledPlugin {
+export interface InstalledPlugin {
   name: string;
   version?: string;
   basePath?: string;
@@ -28,9 +26,7 @@ export interface IInstalledPlugin {
   error?: string;
 }
 
-export interface IPluginConfig extends GenericObject<unknown> {
+export interface PluginConfig extends GenericObject {
   basePath?: string;
   debugPort?: number;
 }
-
-export type GetPluginsResponse = IInstalledPlugin[];
