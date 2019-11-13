@@ -109,18 +109,15 @@ export interface Visualization extends PersistedItem {
   design: VisualizationDesign;
   filters: VisualizationFilters;
   sourceKey: string;
-  user: {
-    id: number;
-    username: string;
-    email: string;
-  };
+  userId: number;
   sandbox: boolean;
   alternativeIds: AlternativeIdSettings;
   mode: VisualizationMode;
   layout: VisualizationLayout;
   geo: VisualizationGeo;
   timeline: VisualizationTimeline;
-  right?: VisualizationRight;
+  // TODO: Add right to the sandbox and createViz in server
+  right: VisualizationRight;
   widgetKey?: string;
 }
 

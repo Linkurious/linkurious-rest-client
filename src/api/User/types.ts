@@ -24,8 +24,6 @@ export interface User extends PersistedItem {
   accessRights: any;
 }
 
-export type SimpleUser = Pick<User, 'id' | 'username' | 'email'>;
-
 export interface IGetUserParams {
   id: number;
 }
