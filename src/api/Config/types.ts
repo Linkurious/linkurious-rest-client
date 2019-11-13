@@ -375,12 +375,45 @@ export interface IWebGLConfig {
   fontSamplingSize?: number;
 }
 
+interface TextOptions {
+  maxTextLength: number;
+  minVisibleSize: number;
+  maxLineLength: number;
+  backgroundColor: string;
+  font: string;
+  color: string;
+  size: number;
+}
+
 export interface IOgmaConfig {
   renderer?: OgmaRenderer;
   webglOptions?: IWebGLConfig;
   imgCrossOrigin?: ImgCrossOrigin;
-  // TODO type this ???
-  options?: GenericObject;
+  options?: {
+    styles: {
+      node: {
+        nodeRadius: number;
+        shape: 'circle';
+        text: TextOptions;
+      };
+      edge: {
+        edgeWidth: number;
+        shape: 'arrow';
+        text: TextOptions;
+      };
+    };
+    interactions: {
+      zoom: {
+        modifier?: number;
+      } & GenericObject;
+      pan: GenericObject;
+      rotation: {
+        enabled: false;
+      };
+      selection: GenericObject;
+    };
+    backgroundColor: string;
+  };
 }
 
 // UpdateConfigParams
