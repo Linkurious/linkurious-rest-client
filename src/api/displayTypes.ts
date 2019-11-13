@@ -81,7 +81,7 @@ export interface EdgeStyle {
   shape?: OgmaEdgeShape;
 }
 
-export interface StyleRule<T extends NodeStyle | EdgeStyle> {
+export interface IStyleRule<T extends NodeStyle | EdgeStyle> {
   index: number;
   type: SelectorType;
   itemType?: string;
@@ -91,8 +91,8 @@ export interface StyleRule<T extends NodeStyle | EdgeStyle> {
 }
 
 export interface Styles {
-  node: Array<StyleRule<NodeStyle>>;
-  edge: Array<StyleRule<EdgeStyle>>;
+  node: Array<IStyleRule<NodeStyle>>;
+  edge: Array<IStyleRule<EdgeStyle>>;
 }
 
 export interface Caption {
