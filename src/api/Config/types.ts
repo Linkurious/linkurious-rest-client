@@ -7,7 +7,7 @@
 import {TlsOptions} from 'tls';
 
 import {GenericObject} from '../commonTypes';
-import {PluginConfig} from '../Plugin';
+import {IPluginConfig} from '../Plugin';
 
 // TODO review this file
 
@@ -40,7 +40,7 @@ export interface Configuration {
   guestPreferences?: IGuestPreferenceConfig;
   dataSource?: SelectedDataSourceConfig;
   needRestart?: boolean;
-  plugins?: PluginConfig;
+  plugins?: IPluginConfig;
 }
 
 export type IUpdateConfigParams<T = unknown> =
