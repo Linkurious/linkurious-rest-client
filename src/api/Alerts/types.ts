@@ -113,6 +113,15 @@ export interface Match extends PersistedItem {
   expirationDate: string;
 }
 
+export interface GetMatchesResponse {
+  counts: {
+    unconfirmed: number;
+    confirmed: number;
+    dismissed: number;
+  };
+  matches: Match[];
+}
+
 export interface IGetMatchesParams extends IDataSourceParams {
   alertId: number;
   offset?: number;
