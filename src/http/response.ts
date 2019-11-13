@@ -23,6 +23,7 @@ export enum LkErrorKey {
   GROUP_EXISTS = 'group_exists',
   INVALID_PARAMETER = 'invalid_parameter',
 
+  // TODO use these errors in the rest-client when the method throws them
   ALREADY_EXIST = 'already_exists',
   CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed',
   CANNOT_READ = 'cannot_read',

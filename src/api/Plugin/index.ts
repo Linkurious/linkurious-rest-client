@@ -11,14 +11,14 @@ import {InstalledPlugin} from './types';
 
 export * from './types';
 
-const {UNAUTHORIZED} = LkErrorKey;
+const {UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
 
 export class PluginAPI extends Request {
   /**
    * Get the list of installed plugins.
    */
   public getPlugins() {
-    return this.handle(UNAUTHORIZED).request<InstalledPlugin[]>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request<InstalledPlugin[]>({
       url: '/admin/plugins',
       method: 'GET'
     });
@@ -28,7 +28,7 @@ export class PluginAPI extends Request {
    * Restart all plugins.
    */
   public restartAll() {
-    return this.handle(UNAUTHORIZED).request({
+    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
       url: '/admin/plugins/restart-all',
       method: 'POST'
     });

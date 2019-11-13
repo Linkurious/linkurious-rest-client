@@ -3,6 +3,7 @@
  *
  * - Created on 2019-09-17.
  */
+
 import {GenericObject} from '../commonTypes';
 
 export enum PluginRequestHeader {
@@ -26,7 +27,7 @@ export interface InstalledPlugin {
   error?: string;
 }
 
-export interface PluginConfig extends GenericObject {
+export interface IPluginConfig extends GenericObject {
   basePath?: string;
   debugPort?: number;
 }

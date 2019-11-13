@@ -121,6 +121,7 @@ export class DataSourceAPI extends Request {
    * Create a new data-source configuration made of a graph database configuration
    * and an index configuration. Return the configuration index of the new data-source.
    */
+  // TODO restore ICreateSourceConfig
   public createSourceConfig(params: SelectedDataSourceConfig) {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request<number>({
       url: '/admin/sources/config',
