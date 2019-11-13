@@ -101,26 +101,27 @@ export interface VisualizationTimeline {
 
 export interface Visualization extends PersistedItem {
   title: string;
-  sourceKey: string;
   folder: number;
   nodes: VizNode[];
   edges: VizEdge[];
-  right: VisualizationRight;
-  widgetKey?: string;
-  sandbox: boolean;
-  alternativeIds: AlternativeIdSettings;
-  mode: VisualizationMode;
-  design: VisualizationDesign;
   nodeFields: ItemFields;
   edgeFields: ItemFields;
+  design: VisualizationDesign;
   filters: VisualizationFilters;
-  timeline: VisualizationTimeline;
-  layout: VisualizationLayout;
-  geo: VisualizationGeo;
+  sourceKey: string;
   user: {
+    id: number;
     username: string;
     email: string;
   };
+  sandbox: boolean;
+  alternativeIds: AlternativeIdSettings;
+  mode: VisualizationMode;
+  layout: VisualizationLayout;
+  geo: VisualizationGeo;
+  timeline: VisualizationTimeline;
+  right?: VisualizationRight;
+  widgetKey?: string;
 }
 
 export interface ICreateVisualizationParams extends IDataSourceParams {

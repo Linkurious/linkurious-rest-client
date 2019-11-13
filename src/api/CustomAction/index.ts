@@ -17,7 +17,14 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  GUEST_DISABLED,
+  FORBIDDEN,
+  NOT_FOUND,
+  INVALID_PARAMETER
+} = LkErrorKey;
 
 export class CustomActionAPI extends Request {
   /**
@@ -33,12 +40,13 @@ export class CustomActionAPI extends Request {
     });
   }
 
-  // TODO investigate on when Invalid Parameter is used as business error and fix that
   /**
    * Create a new custom action for the current user.
    */
   public createCustomAction(params: ICreateCustomActionParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<CustomAction>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, INVALID_PARAMETER).request<
+      CustomAction
+    >({
       url: '/:sourceKey/customAction',
       method: 'POST',
       params: params
@@ -49,9 +57,13 @@ export class CustomActionAPI extends Request {
    * Update a custom action owned by the current user.
    */
   public updateCustomAction(params: IUpdateCustomActionParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
-      CustomAction
-    >({
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND,
+      INVALID_PARAMETER
+    ).request<CustomAction>({
       url: '/:sourceKey/customAction/:id',
       method: 'PATCH',
       params: params

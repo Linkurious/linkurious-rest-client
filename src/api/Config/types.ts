@@ -289,7 +289,7 @@ export interface IAccessConfig {
   authRequired?: boolean;
   guestMode?: boolean;
   defaultPage?: DefaultPage;
-  // TODO type this
+  // TODO type this ???
   defaultPageParams?: GenericObject;
   dataEdition?: boolean;
   widget?: boolean;
@@ -379,7 +379,7 @@ export interface IOgmaConfig {
   renderer?: OgmaRenderer;
   webglOptions?: IWebGLConfig;
   imgCrossOrigin?: ImgCrossOrigin;
-  // TODO type this
+  // TODO type this ???
   options?: GenericObject;
 }
 
