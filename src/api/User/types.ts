@@ -6,7 +6,6 @@
 
 import {IDataSourceParams, PersistedItem} from '../commonTypes';
 
-// TODO: Update access rights after PKAR id merged
 
 export interface UserPreferences {
   pinOnDrag: boolean;
@@ -20,6 +19,7 @@ export interface User extends PersistedItem {
   source: string;
   preferences: UserPreferences;
   groups: GroupName[];
+  // TODO type actions and accessRights once PKAR is merged
   actions: any;
   accessRights: any;
 }
@@ -40,6 +40,7 @@ export interface ISearchUsersParams {
 
 export interface SearchUserResponse {
   found: number;
+  // TODO SearchUser can't return all properties of users
   results: Array<User & {visCount: number}>;
 }
 
@@ -78,6 +79,7 @@ export interface Group extends PersistedItem {
   name: string;
   sourceKey: string;
   builtin: boolean;
+  // TODO create two types, one for getGroups and one for getGroup
   userCount?: number;
   accessRights?: AccessRight[];
 }
