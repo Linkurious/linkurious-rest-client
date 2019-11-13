@@ -19,7 +19,6 @@ export interface LkDateTime {
 }
 
 export interface ConflictValue {
-  // TODO: (not for 2.9) use propertyType
   type: PropertyTypeName;
   status: 'conflict';
   original: string; // when schema is in conflict we return a string representation
@@ -32,7 +31,6 @@ export interface InvalidValue {
 }
 
 export interface MissingValue {
-  // TODO: (not for 2.9) use propertyType
   type: PropertyTypeName;
   status: 'missing'; // when mandatory or strict mode but not there
   mandatory: boolean;
