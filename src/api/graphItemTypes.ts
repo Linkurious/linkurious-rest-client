@@ -4,7 +4,7 @@
  * - Created on 2019-10-21.
  */
 import {GenericObject} from './commonTypes';
-import {PropertyTypeName, PropertyType} from './GraphSchema';
+import {PropertyType} from './GraphSchema';
 
 export interface LkDate {
   type: 'date';
