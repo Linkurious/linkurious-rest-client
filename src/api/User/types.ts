@@ -17,10 +17,10 @@ export interface UserPreferences {
 export interface User extends PersistedItem {
   username: string;
   email: string;
-  groups: GroupName[];
   source: string;
   preferences: UserPreferences;
-  actions: string[];
+  groups: GroupName[];
+  actions: any;
   accessRights: any;
 }
 
@@ -41,7 +41,8 @@ export interface ISearchUsersParams {
 }
 
 export interface SearchUserResponse {
-  // TODO type this
+  found: number;
+  results: Array<User & {visCount: number}>;
 }
 
 export interface ICreateUserParams {
