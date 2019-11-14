@@ -5,7 +5,8 @@
  * - Created on 2019-11-05.
  */
 
-import { GenericObject } from './commonTypes';
+import {GenericObject} from './commonTypes';
+import {ItemSelector} from './Visualization';
 
 export enum SelectorType {
   ANY = 'any',
@@ -82,12 +83,8 @@ export interface EdgeStyle {
   shape?: OgmaEdgeShape;
 }
 
-export interface IStyleRule<T extends NodeStyle | EdgeStyle> {
+export interface IStyleRule<T extends NodeStyle | EdgeStyle> extends ItemSelector {
   index: number;
-  type: SelectorType;
-  itemType?: string;
-  input?: string[];
-  value?: string | number | boolean | Array<unknown> | RangeValues;
   style: T;
 }
 

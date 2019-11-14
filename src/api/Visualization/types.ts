@@ -15,7 +15,7 @@ import {
 } from '../graphItemTypes';
 import {AlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
-import {Styles} from '../displayTypes';
+import {RangeValues, SelectorType, Styles} from '../displayTypes';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
   id: number;
@@ -55,8 +55,6 @@ export interface VisualizationDesign {
 }
 
 export interface VisualizationGeo {
-  latitudeProperty?: string;
-  longitudeProperty?: string;
   layers: string[];
 }
 
@@ -98,19 +96,22 @@ export interface RadialAlgorithm extends RadialParameters {
   algorithm: LayoutAlgorithm.RADIAL;
 }
 
+export interface ItemSelector {
+  type: SelectorType;
+  itemType?: string;
+  input?: string[];
+  value?: string | number | boolean | Array<unknown> | RangeValues;
+}
+
 export interface VisualizationFilters {
-  // TODO type VisualizationFilters
+  node: ItemSelector[];
+  edge: ItemSelector[];
 }
 
 export interface VisualizationTimeline {
   node: GenericObject<string>;
   edge: GenericObject<string>;
-  range: {
-    '<='?: number;
-    '<'?: number;
-    '>'?: number;
-    '>='?: number;
-  };
+  range: RangeValues;
   zoomLevel: 'years' | 'months' | 'days' | 'hours' | 'minutes' | 'seconds';
 }
 
@@ -133,7 +134,7 @@ export interface Visualization extends PersistedItem {
   timeline: VisualizationTimeline;
   // TODO SERVER Add right to the sandbox and createViz
   right: VisualizationRight;
-  widgetKey?: string;
+  widgetKey?: string; // defined if the visualization has a widget
 }
 
 export interface ICreateVisualizationParams extends IDataSourceParams {
@@ -210,7 +211,7 @@ export type VisualizationTree = Tree<
     id: number;
     title: string;
     shareCount: number;
-    widgetKey?: string;
+    widgetKey?: string; // defined if the visualization has a widget
   },
   'visu'
 >;

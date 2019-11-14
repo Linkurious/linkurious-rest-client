@@ -18,9 +18,9 @@ export enum SamplingStatus {
 
 export interface GetSamplingStatusResponse {
   status: SamplingStatus;
-  progress?: string;
-  message?: string;
-  lastSampled?: string;
+  progress?: string; // defined if status='ongoing'
+  message?: string; // defined if status='ongoing' or status='error'
+  lastSampled?: string; // defined if it has run at least once
 }
 
 export interface SimpleSchema {

@@ -7,6 +7,7 @@
 import {IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {LkEdge, LkNode} from '../graphItemTypes';
+import {User} from '../User';
 
 export enum ColumnType {
   STRING = 'string',
@@ -42,12 +43,13 @@ export interface Alert extends PersistedItem {
     columnTitle: string;
   }>;
   cron: string;
-  lastRun?: string;
+  lastRun?: string; // defined if it has run at least once
   lastRunProblem?: {
+    // defined if last run had a problem
     error: string;
     partial: boolean;
   };
-  nextRun?: string;
+  nextRun?: string; // defined if enabled=true
 }
 
 export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
@@ -139,11 +141,7 @@ export type MatchActionType = 'confirm' | 'dismiss' | 'unconfirm' | 'open';
 
 export interface MatchAction extends PersistedItem {
   matchId: number;
-  user: {
-    id: number;
-    username: string;
-    email: string;
-  };
+  user: Pick<User, 'id' | 'username' | 'email'>;
   action: MatchActionType;
 }
 

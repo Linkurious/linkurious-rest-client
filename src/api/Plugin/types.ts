@@ -21,10 +21,10 @@ export enum PluginState {
 
 export interface InstalledPlugin {
   name: string;
-  version?: string;
-  basePath?: string;
+  version?: string; // defined except if state='error-manifest'
+  basePath?: string; // defined except if state='error-manifest'
   state: PluginState;
-  error?: string;
+  error?: string; // defined if state='error-runtime' or state='error-manifest'
 }
 
 export interface IPluginConfig extends GenericObject {

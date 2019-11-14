@@ -65,7 +65,7 @@ export interface GeoCoordinates {
 }
 
 export interface GeoData {
-  original?: GeoCoordinates;
+  original?: GeoCoordinates; // defined if geo coordinates were found in the node properties
   current?: GeoCoordinates;
 }
 
@@ -83,7 +83,7 @@ export interface LkEdgeDigestItem {
 
 export interface LkNodeStatistics {
   degree?: number;
-  supernode?: boolean;
+  supernode: boolean;
   supernodeDigest?: LkEdgeDigestItem[];
   supernodeDegree?: number;
   digest?: LkDigestItem[];
@@ -91,7 +91,7 @@ export interface LkNodeStatistics {
 
 export interface LkNodeData extends LkItemData {
   categories: string[];
-  statistics?: LkNodeStatistics;
+  statistics?: LkNodeStatistics; // defined if withDegree or withDigest was set to true in the graph request
   geo: GeoData;
 }
 
