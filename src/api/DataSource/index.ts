@@ -6,6 +6,7 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
+import {SelectedDataSourceConfig} from '../Config';
 
 import {
   IConnectDataSourceParams,
@@ -18,7 +19,6 @@ import {
   IDeleteSourceConfigParams,
   DataSourceAdminInfo
 } from './types';
-import {SelectedDataSourceConfig} from '../Config';
 
 export * from './types';
 
