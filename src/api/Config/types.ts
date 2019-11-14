@@ -8,6 +8,7 @@ import {TlsOptions} from 'tls';
 
 import {GenericObject} from '../commonTypes';
 import {IPluginConfig} from '../Plugin';
+import {OgmaNodeShape, OgmaEdgeShape} from '../displayTypes';
 
 // TODO review this file
 
@@ -393,12 +394,12 @@ export interface IOgmaConfig {
     styles: {
       node: {
         nodeRadius: number;
-        shape: 'circle';
-        text: TextOptions;
+        shape: OgmaNodeShape;
+        text: TextOptions & {nodePosition: 'right' | 'left' | 'top' | 'bottom' | 'center'};
       };
       edge: {
         edgeWidth: number;
-        shape: 'arrow';
+        shape: OgmaEdgeShape;
         text: TextOptions;
       };
     };
