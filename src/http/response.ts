@@ -16,10 +16,10 @@ export enum LkErrorKey {
   GUEST_DISABLED = 'guest_disabled',
   FORBIDDEN = 'forbidden',
   NOT_FOUND = 'not_found',
-  BAD_GRAPH_REQUEST = 'bad_graph_request', // TODO is payload ignored?
+  BAD_GRAPH_REQUEST = 'bad_graph_request', // TODO add payload of bad_graph_request
   GRAPH_REQUEST_TIMEOUT = 'graph_request_timeout',
-  CONSTRAINT_VIOLATION = 'constraint_violation', // TODO too generic?
-  USER_EXISTS = 'user_exists', // TODO too specific?
+  CONSTRAINT_VIOLATION = 'constraint_violation',
+  USER_EXISTS = 'user_exists',
   GROUP_EXISTS = 'group_exists',
   INVALID_PARAMETER = 'invalid_parameter',
 

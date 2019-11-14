@@ -14,11 +14,11 @@ export enum IndexationStatus {
   NEEDED = 'needed'
 }
 
-// TODO make camelCase for consistency
+// TODO SERVER, make indexingProgress and indexingStatus camelCase
 export interface GetIndexationStatusResponse {
   indexing: IndexationStatus;
-  indexing_progress?: string;
-  indexing_status: string;
+  indexingProgress?: string;
+  indexingStatus: string;
   node_count?: number;
   edge_count?: number;
   index_size?: number;

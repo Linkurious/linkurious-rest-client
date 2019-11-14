@@ -33,6 +33,7 @@ export enum VisualizationMode {
   NODE_LINK = 'nodelink',
   GEO = 'geo'
 }
+
 export interface CaptionConfig {
   displayName: boolean;
   properties: string[];
@@ -59,7 +60,7 @@ export interface VisualizationGeo {
   layers: string[];
 }
 
-// TODO make viz layout mandatory in the server
+// TODO SERVER make viz layout mandatory
 export type VisualizationLayout = ForceAlgorithm | HierarchicalAlgorithm | RadialAlgorithm;
 
 export type ForceLayoutMode = 'best' | 'fast';
@@ -80,7 +81,7 @@ export interface HierarchicalParameters {
   rootNode?: string;
 }
 
-// TODO make rootNode mandatory in the server
+// TODO SERVER make rootNode mandatory
 export interface RadialParameters {
   rootNode: string;
 }
@@ -98,7 +99,7 @@ export interface RadialAlgorithm extends RadialParameters {
 }
 
 export interface VisualizationFilters {
-  // TODO type this
+  // TODO type VisualizationFilters
 }
 
 export interface VisualizationTimeline {
@@ -130,7 +131,7 @@ export interface Visualization extends PersistedItem {
   layout: VisualizationLayout;
   geo: VisualizationGeo;
   timeline: VisualizationTimeline;
-  // TODO: Add right to the sandbox and createViz in server
+  // TODO SERVER Add right to the sandbox and createViz
   right: VisualizationRight;
   widgetKey?: string;
 }
@@ -165,7 +166,7 @@ export interface IDeleteVisualizationParams extends IDataSourceParams {
   id: number;
 }
 
-// TODO forceLock and doLayout camelCase in server
+// TODO SERVER forceLock and doLayout camelCase
 export interface IUpdateVisualizationParams extends IDataSourceParams {
   id: number;
   visualization: Partial<ICreateVisualizationParams>;
@@ -188,7 +189,7 @@ export interface ICreateVisualizationFolderParams extends IDataSourceParams {
   parent: number;
 }
 
-// TODO add createdAt updatedAt to server
+// TODO SERVER add createdAt updatedAt
 export interface VisualizationFolder extends PersistedItem {
   title: string;
   parent: number;
@@ -290,7 +291,7 @@ export interface IGetWidgetParams {
 
 export interface WidgetContent {
   graph: {nodes: WidgetNode[]; edges: WidgetEdge[]};
-  // TODO finish type WidgetContent
+  // TODO type WidgetContent
   legend: any;
   mapLayers: any;
   mode: VisualizationMode;

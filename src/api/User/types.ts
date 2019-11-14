@@ -18,7 +18,7 @@ export interface User extends PersistedItem {
   source: string;
   preferences: UserPreferences;
   groups: GroupName[];
-  // TODO type actions and accessRights once PKAR is merged
+  // TODO PKAR type on merge
   actions: any;
   accessRights: any;
 }
@@ -39,7 +39,7 @@ export interface ISearchUsersParams {
 
 export interface SearchUserResponse {
   found: number;
-  // TODO make server to exclude these properties
+  // TODO SERVER shouldn't return accessRights of user on search
   results: Array<Omit<User, 'accessRights'> & {visCount: number}>;
 }
 
@@ -90,7 +90,7 @@ export interface IGetGroupsParams extends IDataSourceParams {
 }
 
 export interface IGetGroupNamesParams extends IDataSourceParams {
-  // TODO type when we merge PKAR
+  // TODO PKAR type on merge
   action: string;
 }
 

@@ -142,7 +142,7 @@ export type VizEdge = LkEdge & VizEdgeInfo;
 // WidgetNode & WidgetEdge
 export interface WidgetNodeInfo {
   attributes: {
-    // TODO Type WidgetNodeInfo and WidgetEdgeInfo
+    // TODO type WidgetNodeInfo and WidgetEdgeInfo
     // color: attributes.color,
     // radius: attributes.radius || defaultRadius,
     // shape: attributes.shape || defaultShape,

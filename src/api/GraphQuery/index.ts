@@ -23,7 +23,7 @@ import {
 
 export * from './types';
 
-// TODO make sure data-source unavailable is thrown instead of graph_unreachable
+// TODO SERVER make sure data-source unavailable is thrown instead of graph_unreachable
 const {
   UNAUTHORIZED,
   DATA_SOURCE_UNAVAILABLE,
@@ -70,7 +70,7 @@ export class GraphQueryAPI extends Request {
   /**
    * Create a graph query for the current user.
    */
-  // TODO check invalid parameter
+  // TODO SERVER check invalid parameter on create/update query
   public createQuery(params: ICreateQueryParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, INVALID_PARAMETER).request<
       GraphQuery
