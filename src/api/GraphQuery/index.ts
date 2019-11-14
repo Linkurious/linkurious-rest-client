@@ -8,16 +8,16 @@ import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 
 import {
+  CheckQueryResponse,
+  GraphQuery,
+  ICheckQueryParams,
   ICreateQueryParams,
   IDeleteQueryParams,
-  IGetQueryParams,
   IGetQueriesParams,
-  IUpdateQueryParams,
+  IGetQueryParams,
   IRunQueryByContentParams,
   IRunQueryByIdParams,
-  CheckQueryResponse,
-  ICheckQueryParams,
-  GraphQuery,
+  IUpdateQueryParams,
   RunQueryResponse
 } from './types';
 
@@ -32,7 +32,8 @@ const {
   NOT_FOUND,
   BAD_GRAPH_REQUEST,
   GRAPH_REQUEST_TIMEOUT,
-  CONSTRAINT_VIOLATION
+  CONSTRAINT_VIOLATION,
+  INVALID_PARAMETER
 } = LkErrorKey;
 
 export class GraphQueryAPI extends Request {
@@ -69,9 +70,11 @@ export class GraphQueryAPI extends Request {
   /**
    * Create a graph query for the current user.
    */
-  // TODO throw invalid parameter
+  // TODO check invalid parameter
   public createQuery(params: ICreateQueryParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<GraphQuery>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, INVALID_PARAMETER).request<
+      GraphQuery
+    >({
       url: '/:sourceKey/graph/query',
       method: 'POST',
       params: params
@@ -82,9 +85,13 @@ export class GraphQueryAPI extends Request {
    * Update a graph query owned by the current user.
    */
   public updateQuery(params: IUpdateQueryParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
-      GraphQuery
-    >({
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND,
+      INVALID_PARAMETER
+    ).request<GraphQuery>({
       url: '/:sourceKey/graph/query/:id',
       method: 'PATCH',
       params: params
