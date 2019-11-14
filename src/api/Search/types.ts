@@ -39,7 +39,7 @@ export interface SearchResponse {
   type: EntityType;
   totalHits?: number;
   moreResults?: boolean;
-  results: LkNode[] | LkEdge[];
+  results: Array<LkNode | LkEdge>;
 }
 
 export interface ISearchFullParams extends IGetSubGraphParams, ISearchParams {}
