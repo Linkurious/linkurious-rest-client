@@ -96,16 +96,43 @@ export interface RadialAlgorithm extends RadialParameters {
   algorithm: LayoutAlgorithm.RADIAL;
 }
 
-export interface ItemSelector {
-  type: SelectorType;
-  itemType?: string;
-  input?: string[];
-  value?: string | number | boolean | Array<unknown> | RangeValues;
+export interface BaseFilter<T extends SelectorType> {
+  type: T;
+  itemType: string;
 }
 
+export interface NoValueFilter extends BaseFilter<SelectorType.NO_VALUE> {
+  input: string[]
+}
+
+export interface NaNFilter extends BaseFilter<SelectorType.NAN> {
+  input: string[];
+}
+
+export interface AnyFilter extends BaseFilter<SelectorType.ANY> {}
+
+export interface RangeValues {
+  '<='?: number
+  '>='?: number
+  '>'?: number
+  '<'?: number
+}
+
+interface RangeFilter extends BaseFilter<SelectorType.RANGE> {
+  input: string[];
+  value: RangeValues
+}
+
+interface IsFilter extends BaseFilter<SelectorType.IS> {
+  input: string[];
+  value: number | string | boolean
+}
+
+export type Filter = IsFilter | RangeFilter | AnyFilter | NaNFilter | NoValueFilter;
+
 export interface VisualizationFilters {
-  node: ItemSelector[];
-  edge: ItemSelector[];
+  node: Filter[];
+  edge: Filter[];
 }
 
 export interface VisualizationTimeline {
