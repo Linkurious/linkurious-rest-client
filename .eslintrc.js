@@ -25,9 +25,9 @@ module.exports = {
     '@typescript-eslint/no-empty-function': ['off'], // Allows empty functions
     'import/no-unresolved': ['off'], // Disable non working rule
     'import/order': ['error', {'newlines-between': 'always'}], // Orders imports by ['builtin', 'external', 'parent', 'sibling', 'index']
-    '@typescript-eslint/explicit-function-return-type': ['off'], // In the rest-client, all function return types are implicit to avoid duplicate code
 
     // Rest-client specific
+    '@typescript-eslint/explicit-function-return-type': ['off'], // All function return types are implicit to avoid duplicate code
     '@typescript-eslint/prefer-includes': ['off'] // Prefer indexOf
   }
 };
