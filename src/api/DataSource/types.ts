@@ -59,13 +59,13 @@ export interface ConnectedDataSourceSettings extends DataSourceSettings {
 export interface DataSource {
   name: string;
   connected: boolean;
-  key?: string;
+  key?: string; // defined if the data-source is connected
   configIndex: number;
   state: DataSourceState;
   reason: string;
   error?: string;
   features: DataSourceFeatures;
-  defaultStyles?: Styles;
+  defaultStyles?: Styles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
   defaultCaptions?: Captions;
   settings: DataSourceSettings | ConnectedDataSourceSettings;
 }
