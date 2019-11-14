@@ -104,16 +104,22 @@ export interface IDeleteSourceConfigParams {
   configIndex: number;
 }
 
+/**
+ * A DataSourceAdminInfo can represent:
+ * - a disconnected data-source configuration
+ * - a disconnected data-source state not configured anymore
+ * - a connected data-source (data-source configuration + state)
+ */
 export interface DataSourceAdminInfo {
-  name?: string;
-  configIndex?: number;
-  key?: string;
+  name?: string; // defined if name is configured by the user
+  configIndex?: number; // defined if it's a data-source config
+  key?: string; // defined if it's a data-source state
   state: DataSourceState;
-  lastSeen?: string;
-  lastIndexed?: string;
-  lastSampled?: string;
+  lastSeen?: string; // defined if it's a data-source state
+  lastIndexed?: string; // defined if the indexation has run at least once
+  lastSampled?: string; // defined if the sampling has run at least once
   host: string;
   port: string;
-  storeId?: string;
+  storeId?: string; // defined if it's a data-source state
   visualizationCount: number;
 }

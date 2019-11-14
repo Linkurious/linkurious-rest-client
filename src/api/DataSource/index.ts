@@ -106,9 +106,9 @@ export class DataSourceAPI extends Request {
 
   /**
    * Get the admin info of all the data-sources, including:
-   * - connected data-sources with a valid configuration
-   * - disconnected data-source configurations
-   * - disconnected data-source states not configured anymore
+   * - a disconnected data-source configuration
+   * - a disconnected data-source state not configured anymore
+   * - a connected data-source (data-source configuration + state)
    */
   public getDataSourcesAdminInfo() {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request<DataSourceAdminInfo[]>({
