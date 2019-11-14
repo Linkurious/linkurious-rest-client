@@ -377,13 +377,13 @@ export interface IWebGLConfig {
 }
 
 interface TextOptions {
-  maxTextLength: number;
-  minVisibleSize: number;
-  maxLineLength: number;
-  backgroundColor: string;
-  font: string;
-  color: string;
-  size: number;
+  maxTextLength?: number;
+  minVisibleSize?: number;
+  maxLineLength?: number;
+  backgroundColor?: string;
+  font?: string;
+  color?: string;
+  size?: number;
 }
 
 export interface IOgmaConfig {
@@ -391,29 +391,30 @@ export interface IOgmaConfig {
   webglOptions?: IWebGLConfig;
   imgCrossOrigin?: ImgCrossOrigin;
   options?: {
-    styles: {
-      node: {
-        nodeRadius: number;
-        shape: OgmaNodeShape;
-        text: TextOptions & {nodePosition: 'right' | 'left' | 'top' | 'bottom' | 'center'};
+    styles?: {
+      node?: {
+        nodeRadius?: number;
+        shape?: OgmaNodeShape;
+        text?: TextOptions & {nodePosition?: 'right' | 'left' | 'top' | 'bottom' | 'center'};
       };
-      edge: {
-        edgeWidth: number;
-        shape: OgmaEdgeShape;
-        text: TextOptions;
+      edge?: {
+        edgeWidth?: number;
+        shape?: OgmaEdgeShape;
+        text?: TextOptions;
       };
     };
-    interactions: {
-      zoom: {
+    interactions?: {
+      zoom?: {
         modifier?: number;
-      } & GenericObject;
-      pan: GenericObject;
-      rotation: {
-        enabled: false;
+      },
+      rotation?: {
+        enabled?: boolean;
       };
-      selection: GenericObject;
+      selection?: {
+        enabled?: boolean;
+      };
     };
-    backgroundColor: string;
+    backgroundColor?: string;
   };
 }
 

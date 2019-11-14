@@ -69,6 +69,7 @@ export class GraphQueryAPI extends Request {
   /**
    * Create a graph query for the current user.
    */
+  // TODO throw invalid parameter
   public createQuery(params: ICreateQueryParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<GraphQuery>({
       url: '/:sourceKey/graph/query',
