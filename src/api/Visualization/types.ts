@@ -15,7 +15,7 @@ import {
 } from '../graphItemTypes';
 import {AlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
-import {RangeValues, SelectorType, Styles} from '../displayTypes';
+import {ItemSelector, RangeValues, Styles} from '../displayTypes';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
   id: number;
@@ -96,43 +96,9 @@ export interface RadialAlgorithm extends RadialParameters {
   algorithm: LayoutAlgorithm.RADIAL;
 }
 
-export interface BaseFilter<T extends SelectorType> {
-  type: T;
-  itemType: string;
-}
-
-export interface NoValueFilter extends BaseFilter<SelectorType.NO_VALUE> {
-  input: string[]
-}
-
-export interface NaNFilter extends BaseFilter<SelectorType.NAN> {
-  input: string[];
-}
-
-export interface AnyFilter extends BaseFilter<SelectorType.ANY> {}
-
-export interface RangeValues {
-  '<='?: number
-  '>='?: number
-  '>'?: number
-  '<'?: number
-}
-
-interface RangeFilter extends BaseFilter<SelectorType.RANGE> {
-  input: string[];
-  value: RangeValues
-}
-
-interface IsFilter extends BaseFilter<SelectorType.IS> {
-  input: string[];
-  value: number | string | boolean
-}
-
-export type Filter = IsFilter | RangeFilter | AnyFilter | NaNFilter | NoValueFilter;
-
 export interface VisualizationFilters {
-  node: Filter[];
-  edge: Filter[];
+  node: ItemSelector[];
+  edge: ItemSelector[];
 }
 
 export interface VisualizationTimeline {

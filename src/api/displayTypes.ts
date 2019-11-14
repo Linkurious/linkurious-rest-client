@@ -6,7 +6,6 @@
  */
 
 import {GenericObject} from './commonTypes';
-import {ItemSelector} from './Visualization';
 
 export enum SelectorType {
   ANY = 'any',
@@ -15,6 +14,33 @@ export enum SelectorType {
   RANGE = 'range',
   IS = 'is'
 }
+
+export interface BaseSelector<T extends SelectorType> {
+  type: T;
+  itemType: string;
+}
+
+export interface SelectorNoValue extends BaseSelector<SelectorType.NO_VALUE> {
+  input: string[]
+}
+
+export interface SelectorNaN extends BaseSelector<SelectorType.NAN> {
+  input: string[];
+}
+
+export interface SelectorAny extends BaseSelector<SelectorType.ANY> {}
+
+export interface SelectorRange extends BaseSelector<SelectorType.RANGE> {
+  input: string[];
+  value: RangeValues
+}
+
+export interface SelectorIs extends BaseSelector<SelectorType.IS> {
+  input: string[];
+  value: number | string | boolean
+}
+
+export type ItemSelector = SelectorIs | SelectorRange | SelectorAny | SelectorNaN | SelectorNoValue;
 
 export interface RangeValues {
   '<='?: number;
@@ -83,10 +109,10 @@ export interface EdgeStyle {
   shape?: OgmaEdgeShape;
 }
 
-export interface IStyleRule<T extends NodeStyle | EdgeStyle> extends ItemSelector {
+export type IStyleRule<T extends NodeStyle | EdgeStyle> = {
   index: number;
   style: T;
-}
+} & ItemSelector;
 
 export interface Styles {
   node: Array<IStyleRule<NodeStyle>>;
