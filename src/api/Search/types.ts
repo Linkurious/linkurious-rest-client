@@ -37,7 +37,7 @@ export interface ISearchParams extends IDataSourceParams {
 
 export interface SearchResponse {
   type: EntityType;
-  totalHits?: number;
+  totalHits?: number; // one among totalHits and moreResults is defined
   moreResults?: boolean;
   results: Array<LkNode | LkEdge>;
 }

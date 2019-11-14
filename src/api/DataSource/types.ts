@@ -30,7 +30,7 @@ export interface DataSourceFeatures {
   canIndexEdges: boolean;
   searchHitsCount: boolean;
   alternativeIds: boolean;
-  maxNodeCategories?: number;
+  maxNodeCategories?: number; // defined only if the number of categories is limited
   externalIndex: boolean;
   canCount: boolean;
   dialects: GraphQueryDialect[];
@@ -44,7 +44,7 @@ export interface DataSourceSettings {
 }
 
 export interface AlternativeIdSettings {
-  node?: string;
+  node?: string; // defined only if alternative IDs are configured in the GraphDAO options
   edge?: string;
 }
 
@@ -52,7 +52,7 @@ export interface ConnectedDataSourceSettings extends DataSourceSettings {
   alternativeIds: AlternativeIdSettings;
   strictSchema: boolean;
   skipEdgeIndexation: boolean;
-  latitudeProperty?: string;
+  latitudeProperty?: string; // defined only if configured in the GraphDAO options
   longitudeProperty?: string;
 }
 

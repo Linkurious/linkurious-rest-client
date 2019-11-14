@@ -151,10 +151,10 @@ export interface GraphQuery extends PersistedItem {
   dialect: GraphQueryDialect;
   description: string;
   sharing: GraphQuerySharingMode;
-  sharedWithGroups?: number[];
+  sharedWithGroups?: number[]; // defined only if sharing='groups'
   write: boolean;
-  graphInput?: GraphQueryInputType;
-  templateFields?: AnyTemplate[];
+  graphInput?: GraphQueryInputType; // defined only if type='template'
+  templateFields?: AnyTemplate[]; // defined only if type='template'
   type: GraphQueryType;
   right: GraphQueryRight;
   builtin: boolean;
@@ -193,8 +193,8 @@ export interface ICheckQueryParams extends IDataSourceParams {
 export interface CheckQueryResponse {
   write: boolean;
   type: GraphQueryType;
-  graphInput?: GraphQueryInputType;
-  templateFields?: AnyTemplate[];
+  graphInput?: GraphQueryInputType; // defined only if type='template'
+  templateFields?: AnyTemplate[]; // defined only if type='template'
 }
 
 export interface IRunQueryParams extends IDataSourceParams {
