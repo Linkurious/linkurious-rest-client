@@ -290,7 +290,6 @@ export interface IAccessConfig {
   authRequired?: boolean;
   guestMode?: boolean;
   defaultPage?: DefaultPage;
-  // TODO type this ???
   defaultPageParams?: GenericObject;
   dataEdition?: boolean;
   widget?: boolean;

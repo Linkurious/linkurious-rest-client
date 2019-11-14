@@ -5,7 +5,14 @@
  */
 
 import {GenericObject, IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
-import {VizEdge, VizEdgeInfo, VizNode, VizNodeInfo} from '../graphItemTypes';
+import {
+  VizEdge,
+  VizEdgeInfo,
+  VizNode,
+  VizNodeInfo,
+  WidgetEdge,
+  WidgetNode
+} from '../graphItemTypes';
 import {AlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
 import {Styles} from '../displayTypes';
@@ -275,7 +282,12 @@ export interface IGetWidgetParams {
 }
 
 export interface WidgetContent {
-  // TODO type this
+  graph: {nodes: WidgetNode[]; edges: WidgetEdge[]};
+  // TODO finish type WidgetContent
+  legend: any;
+  mapLayers: any;
+  mode: VisualizationMode;
+  ui: any;
 }
 
 export interface Widget {

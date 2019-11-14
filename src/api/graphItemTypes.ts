@@ -138,3 +138,30 @@ export interface VizEdgeInfo {
 
 export type VizNode = LkNode & VizNodeInfo;
 export type VizEdge = LkEdge & VizEdgeInfo;
+
+// WidgetNode & WidgetEdge
+export interface WidgetNodeInfo {
+  attributes: {
+    // TODO Type WidgetNodeInfo and WidgetEdgeInfo
+    // color: attributes.color,
+    // radius: attributes.radius || defaultRadius,
+    // shape: attributes.shape || defaultShape,
+    // x: node.nodelink.x,
+    // y: node.nodelink.y,
+    // icon: attributes.icon,
+    // image: attributes.image,
+    // text: {content: label}
+  };
+}
+
+export interface WidgetEdgeInfo {
+  attributes: {
+    // color: Color,
+    // shape: attributes.shape || defaultShape,
+    // width: attributes.width || defaultWidth,
+    // text: {content: label}
+  };
+}
+
+export type WidgetNode = LkNode & WidgetNodeInfo;
+export type WidgetEdge = LkEdge & WidgetEdgeInfo;
