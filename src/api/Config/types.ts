@@ -376,7 +376,7 @@ export interface IWebGLConfig {
   fontSamplingSize?: number;
 }
 
-interface TextOptions {
+export interface TextOptions {
   maxTextLength?: number;
   minVisibleSize?: number;
   maxLineLength?: number;
@@ -406,11 +406,8 @@ export interface IOgmaConfig {
     interactions?: {
       zoom?: {
         modifier?: number;
-      },
-      rotation?: {
-        enabled?: boolean;
       };
-      selection?: {
+      rotation?: {
         enabled?: boolean;
       };
     };
