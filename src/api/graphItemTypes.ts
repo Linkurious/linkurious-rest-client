@@ -91,7 +91,7 @@ export interface LkNodeStatistics {
 
 export interface LkNodeData extends LkItemData {
   categories: string[];
-  statistics?: LkNodeStatistics; // defined if withDegree or withDigest was set to true in the graph request
+  statistics?: LkNodeStatistics; // defined if withDegree or withDigest was set to true in the request
   geo: GeoData;
 }
 
