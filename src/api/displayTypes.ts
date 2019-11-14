@@ -5,7 +5,7 @@
  * - Created on 2019-11-05.
  */
 
-import {GenericObject} from './commonTypes';
+import { GenericObject } from './commonTypes';
 
 export enum SelectorType {
   ANY = 'any',
@@ -44,6 +44,7 @@ export interface StyleColor {
   type: 'auto';
   input: string[];
   ignoreCase?: boolean;
+  paletteName?: string;
 }
 
 export interface StyleIcon {
