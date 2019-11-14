@@ -6,7 +6,6 @@
 
 import {IDataSourceParams, PersistedItem} from '../commonTypes';
 
-
 export interface UserPreferences {
   pinOnDrag: boolean;
   locale: string;
@@ -40,8 +39,8 @@ export interface ISearchUsersParams {
 
 export interface SearchUserResponse {
   found: number;
-  // TODO SearchUser can't return all properties of users
-  results: Array<User & {visCount: number}>;
+  // TODO make server to exclude these properties
+  results: Array<Omit<User, 'accessRights'> & {visCount: number}>;
 }
 
 export interface ICreateUserParams {
