@@ -15,7 +15,7 @@ import {
 } from '../graphItemTypes';
 import {AlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
-import {Styles} from '../displayTypes';
+import {RangeValues, SelectorType, Styles} from '../displayTypes';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
   id: number;
@@ -98,8 +98,16 @@ export interface RadialAlgorithm extends RadialParameters {
   algorithm: LayoutAlgorithm.RADIAL;
 }
 
+export interface ItemSelector {
+  type: SelectorType;
+  itemType?: string;
+  input?: string[];
+  value?: string | number | boolean | Array<unknown> | RangeValues;
+}
+
 export interface VisualizationFilters {
-  // TODO type VisualizationFilters
+  node: ItemSelector[];
+  edge: ItemSelector[];
 }
 
 export interface VisualizationTimeline {
