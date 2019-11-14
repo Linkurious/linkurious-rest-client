@@ -55,8 +55,6 @@ export interface VisualizationDesign {
 }
 
 export interface VisualizationGeo {
-  latitudeProperty?: string;
-  longitudeProperty?: string;
   layers: string[];
 }
 
@@ -113,12 +111,7 @@ export interface VisualizationFilters {
 export interface VisualizationTimeline {
   node: GenericObject<string>;
   edge: GenericObject<string>;
-  range: {
-    '<='?: number;
-    '<'?: number;
-    '>'?: number;
-    '>='?: number;
-  };
+  range: RangeValues;
   zoomLevel: 'years' | 'months' | 'days' | 'hours' | 'minutes' | 'seconds';
 }
 
@@ -141,7 +134,7 @@ export interface Visualization extends PersistedItem {
   timeline: VisualizationTimeline;
   // TODO SERVER Add right to the sandbox and createViz
   right: VisualizationRight;
-  widgetKey?: string;
+  widgetKey?: string; // defined if the visualization has a widget
 }
 
 export interface ICreateVisualizationParams extends IDataSourceParams {
@@ -218,7 +211,7 @@ export type VisualizationTree = Tree<
     id: number;
     title: string;
     shareCount: number;
-    widgetKey?: string;
+    widgetKey?: string; // defined if the visualization has a widget
   },
   'visu'
 >;
