@@ -33,9 +33,16 @@ export enum VisualizationMode {
   NODE_LINK = 'nodelink',
   GEO = 'geo'
 }
+export interface CaptionConfig {
+  displayName: boolean;
+  properties: string[];
+  active: boolean;
+}
+
+export type ItemFieldsCaptions = GenericObject<CaptionConfig>;
 
 export interface ItemFields {
-  captions: GenericObject<{displayName: boolean; properties: string[]; active: boolean}>;
+  captions: ItemFieldsCaptions;
   types: GenericObject<'string' | 'number' | 'date-timestamp'>;
 }
 
