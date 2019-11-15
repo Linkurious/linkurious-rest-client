@@ -4,7 +4,7 @@
  * - Created on 2019-08-19.
  */
 
-import {IDataSourceParams, PersistedItem} from '../commonTypes';
+import {Diff, IDataSourceParams, PersistedItem} from '../commonTypes';
 
 export enum CustomActionType {
   NON_GRAPH = 'non-graph',
@@ -13,6 +13,14 @@ export enum CustomActionType {
   NODESET = 'nodeset',
   EDGESET = 'edgeset'
 }
+
+export type CustomActionVariable =
+  | 'visualization'
+  | 'sourcekey'
+  | 'node'
+  | 'edge'
+  | 'nodeset'
+  | 'edgeset';
 
 export type CustomActionElement =
   | {
@@ -52,6 +60,43 @@ export enum CustomActionRight {
   OWNER = 'owner',
   READ = 'read'
 }
+
+export enum CustomActionParsingErrorKey {
+  UNCLOSED_EXPRESSION = 'unclosed-expression',
+  EMPTY_EXPRESSION = 'empty-expression',
+  INVALID_EXPRESSION_SYNTAX = 'invalid-expression-syntax',
+  INVALID_VARIABLE = 'invalid-variable',
+  INVALID_SEMANTIC = 'invalid-semantic',
+  UNKNOWN_NODE_CATEGORY = 'unknown-node-category',
+  UNKNOWN_EDGE_TYPE = 'unknown-edge-type',
+  NO_EXPRESSIONS = 'no-expressions',
+  INVALID_TEMPLATE_COMBINATION = 'invalid-template-combination'
+}
+
+export interface CommonCustomActionParsingError {
+  key: Diff<
+    CustomActionParsingErrorKey,
+    CustomActionParsingErrorKey.INVALID_SEMANTIC &
+      CustomActionParsingErrorKey.INVALID_TEMPLATE_COMBINATION
+  >;
+  start: number;
+  end: number;
+}
+
+export type InvalidTemplateCombinationError = CommonCustomActionParsingError & {
+  key: CustomActionParsingErrorKey.INVALID_TEMPLATE_COMBINATION;
+  variables: CustomActionVariable[];
+};
+
+export type InvalidSemanticError = CommonCustomActionParsingError & {
+  key: CustomActionParsingErrorKey.INVALID_SEMANTIC;
+  variable: CustomActionVariable;
+};
+
+export type CustomActionParsingError =
+  | CommonCustomActionParsingError
+  | InvalidTemplateCombinationError
+  | InvalidSemanticError;
 
 export interface CustomAction extends PersistedItem {
   sourceKey: string;

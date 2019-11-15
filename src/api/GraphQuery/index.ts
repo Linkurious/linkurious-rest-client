@@ -33,7 +33,7 @@ const {
   BAD_GRAPH_REQUEST,
   GRAPH_REQUEST_TIMEOUT,
   CONSTRAINT_VIOLATION,
-  INVALID_PARAMETER
+  MALFORMED_QUERY_TEMPLATE
 } = LkErrorKey;
 
 export class GraphQueryAPI extends Request {
@@ -70,11 +70,13 @@ export class GraphQueryAPI extends Request {
   /**
    * Create a graph query for the current user.
    */
-  // TODO SERVER check invalid parameter on create/update query
   public createQuery(params: ICreateQueryParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, INVALID_PARAMETER).request<
-      GraphQuery
-    >({
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      MALFORMED_QUERY_TEMPLATE
+    ).request<GraphQuery>({
       url: '/:sourceKey/graph/query',
       method: 'POST',
       params: params
@@ -90,7 +92,7 @@ export class GraphQueryAPI extends Request {
       DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
       NOT_FOUND,
-      INVALID_PARAMETER
+      MALFORMED_QUERY_TEMPLATE
     ).request<GraphQuery>({
       url: '/:sourceKey/graph/query/:id',
       method: 'PATCH',

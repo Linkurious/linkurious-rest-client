@@ -5,6 +5,7 @@
  */
 
 import {GenericObject} from '../api/commonTypes';
+import {CustomActionParsingError} from '../api/CustomAction';
 
 import {FetchConfig} from './types';
 
@@ -21,14 +22,14 @@ export enum LkErrorKey {
   CONSTRAINT_VIOLATION = 'constraint_violation',
   USER_EXISTS = 'user_exists',
   GROUP_EXISTS = 'group_exists',
-  INVALID_PARAMETER = 'invalid_parameter',
+  MALFORMED_CUSTOM_ACTION_TEMPLATE = 'malformed_custom_action_template',
+  MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
 
   // TODO use these errors in the rest-client when the method throws them
   ALREADY_EXIST = 'already_exists',
   CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed',
   CANNOT_READ = 'cannot_read',
   ILLEGAL_SOURCE_STATE = 'illegal_source_state',
-  MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
   NOT_OWNED = 'not_owned',
   WRITE_FORBIDDEN = 'write_forbidden'
 }
@@ -89,19 +90,22 @@ export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TI
 export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
 export interface UserExists extends LkError<LkErrorKey.USER_EXISTS> {}
 export interface GroupExists extends LkError<LkErrorKey.GROUP_EXISTS> {}
-export interface InvalidParameter extends LkError<LkErrorKey.INVALID_PARAMETER> {}
-
-export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
-export interface CannotDeleteNonEmptyFolder
-  extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
-export interface CannotRead extends LkError<LkErrorKey.CANNOT_READ> {}
-export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
+export interface MalformedCustomActionTemplate
+  extends LkError<LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE> {
+  errors: CustomActionParsingError[];
+}
 export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
   highlight: {
     offset: number;
     length?: number;
   };
 }
+
+export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
+export interface CannotDeleteNonEmptyFolder
+  extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
+export interface CannotRead extends LkError<LkErrorKey.CANNOT_READ> {}
+export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
 export interface NotOwned extends LkError<LkErrorKey.NOT_OWNED> {}
 export interface WriteForbidden extends LkError<LkErrorKey.WRITE_FORBIDDEN> {}
 
@@ -118,13 +122,13 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolation;
   [LkErrorKey.USER_EXISTS]: UserExists;
   [LkErrorKey.GROUP_EXISTS]: GroupExists;
-  [LkErrorKey.INVALID_PARAMETER]: InvalidParameter;
+  [LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE]: MalformedCustomActionTemplate;
+  [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplate;
 
   [LkErrorKey.ALREADY_EXIST]: AlreadyExists;
   [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
   [LkErrorKey.CANNOT_READ]: CannotRead;
   [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
-  [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplate;
   [LkErrorKey.NOT_OWNED]: NotOwned;
   [LkErrorKey.WRITE_FORBIDDEN]: WriteForbidden;
 };

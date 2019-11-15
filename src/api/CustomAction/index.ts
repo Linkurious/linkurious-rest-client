@@ -23,7 +23,7 @@ const {
   GUEST_DISABLED,
   FORBIDDEN,
   NOT_FOUND,
-  INVALID_PARAMETER
+  MALFORMED_CUSTOM_ACTION_TEMPLATE
 } = LkErrorKey;
 
 export class CustomActionAPI extends Request {
@@ -44,9 +44,12 @@ export class CustomActionAPI extends Request {
    * Create a new custom action for the current user.
    */
   public createCustomAction(params: ICreateCustomActionParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, INVALID_PARAMETER).request<
-      CustomAction
-    >({
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      MALFORMED_CUSTOM_ACTION_TEMPLATE
+    ).request<CustomAction>({
       url: '/:sourceKey/customAction',
       method: 'POST',
       params: params
@@ -62,7 +65,7 @@ export class CustomActionAPI extends Request {
       DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
       NOT_FOUND,
-      INVALID_PARAMETER
+      MALFORMED_CUSTOM_ACTION_TEMPLATE
     ).request<CustomAction>({
       url: '/:sourceKey/customAction/:id',
       method: 'PATCH',
