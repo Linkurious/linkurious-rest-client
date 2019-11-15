@@ -15,32 +15,12 @@ export enum SelectorType {
   IS = 'is'
 }
 
-export interface BaseSelector<T extends SelectorType> {
-  type: T;
+export interface ItemSelector {
+  type: SelectorType;
   itemType: string;
+  input?: string[];
+  value?: RangeValues | number | string | boolean;
 }
-
-export interface SelectorNoValue extends BaseSelector<SelectorType.NO_VALUE> {
-  input: string[]
-}
-
-export interface SelectorNaN extends BaseSelector<SelectorType.NAN> {
-  input: string[];
-}
-
-export interface SelectorAny extends BaseSelector<SelectorType.ANY> {}
-
-export interface SelectorRange extends BaseSelector<SelectorType.RANGE> {
-  input: string[];
-  value: RangeValues
-}
-
-export interface SelectorIs extends BaseSelector<SelectorType.IS> {
-  input: string[];
-  value: number | string | boolean
-}
-
-export type ItemSelector = SelectorIs | SelectorRange | SelectorAny | SelectorNaN | SelectorNoValue;
 
 export interface RangeValues {
   '<='?: number;
@@ -109,10 +89,10 @@ export interface EdgeStyle {
   shape?: OgmaEdgeShape;
 }
 
-export type IStyleRule<T extends NodeStyle | EdgeStyle> = {
+export interface IStyleRule<T extends NodeStyle | EdgeStyle> extends ItemSelector {
   index: number;
   style: T;
-} & ItemSelector;
+}
 
 export interface Styles {
   node: Array<IStyleRule<NodeStyle>>;
