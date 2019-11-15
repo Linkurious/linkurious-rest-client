@@ -14,15 +14,14 @@ export enum IndexationStatus {
   NEEDED = 'needed'
 }
 
-// TODO SERVER, make indexingProgress and indexingStatus camelCase
 export interface GetIndexationStatusResponse {
   indexing: IndexationStatus;
   indexingProgress?: string;
   indexingStatus: string;
-  node_count?: number;
-  edge_count?: number;
-  index_size?: number;
-  indexed_source: string;
+  nodeCount?: number;
+  edgeCount?: number;
+  indexSize?: number;
+  indexedSource: string;
 }
 
 export interface ISearchParams extends IDataSourceParams {
