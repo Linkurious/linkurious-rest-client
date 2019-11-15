@@ -38,7 +38,13 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND} = LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  GUEST_DISABLED,
+  NOT_FOUND,
+  CANNOT_DELETE_NON_EMPTY_FOLDER
+} = LkErrorKey;
 
 export class VisualizationAPI extends Request {
   /**
@@ -150,7 +156,12 @@ export class VisualizationAPI extends Request {
    * Delete a visualization folder.
    */
   public deleteVisualizationFolder(params: IDeleteVisualizationFolderParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request({
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      NOT_FOUND,
+      CANNOT_DELETE_NON_EMPTY_FOLDER
+    ).request({
       url: '/:sourceKey/visualizations/folder/:id',
       method: 'DELETE',
       params: params

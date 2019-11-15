@@ -26,10 +26,10 @@ export enum LkErrorKey {
   MALFORMED_CUSTOM_ACTION_TEMPLATE = 'malformed_custom_action_template',
   MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
   ILLEGAL_SOURCE_STATE = 'illegal_source_state',
+  CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed',
 
   // TODO use these errors in the rest-client when the method throws them
   ALREADY_EXIST = 'already_exists',
-  CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed',
   CANNOT_READ = 'cannot_read',
   WRITE_FORBIDDEN = 'write_forbidden'
 }
@@ -100,10 +100,10 @@ export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUE
   highlight: ErrorHighlight;
 }
 export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
-
-export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
 export interface CannotDeleteNonEmptyFolder
   extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
+
+export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
 export interface CannotRead extends LkError<LkErrorKey.CANNOT_READ> {}
 export interface WriteForbidden extends LkError<LkErrorKey.WRITE_FORBIDDEN> {}
 
@@ -123,9 +123,9 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE]: MalformedCustomActionTemplate;
   [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplate;
   [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
+  [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
 
   [LkErrorKey.ALREADY_EXIST]: AlreadyExists;
-  [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
   [LkErrorKey.CANNOT_READ]: CannotRead;
   [LkErrorKey.WRITE_FORBIDDEN]: WriteForbidden;
 };
