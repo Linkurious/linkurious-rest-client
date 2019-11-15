@@ -13,7 +13,7 @@ export * from './types';
 
 const {UNAUTHORIZED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
-export class ApplicationsAPI extends Request {
+export class ApplicationAPI extends Request {
   /**
    * Get all the API applications.
    */
