@@ -15,7 +15,7 @@ import {
 } from '../graphItemTypes';
 import {AlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
-import {RangeValues, SelectorType, Styles} from '../displayTypes';
+import {RangeValues, ItemSelector, Styles} from '../displayTypes';
 import {User} from '../User';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
@@ -95,13 +95,6 @@ export interface HierarchicalAlgorithm extends HierarchicalParameters {
 
 export interface RadialAlgorithm extends RadialParameters {
   algorithm: LayoutAlgorithm.RADIAL;
-}
-
-export interface ItemSelector {
-  type: SelectorType;
-  itemType?: string;
-  input?: string[];
-  value?: string | number | boolean | Array<unknown> | RangeValues;
 }
 
 export interface VisualizationFilters {
