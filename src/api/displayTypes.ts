@@ -15,6 +15,33 @@ export enum SelectorType {
   IS = 'is'
 }
 
+export interface SelectorNoValue extends ItemSelector {
+  type: SelectorType.NO_VALUE;
+  input: string[];
+}
+
+export interface SelectorNaN extends ItemSelector {
+  type: SelectorType.NAN;
+  input: string[];
+}
+
+export interface SelectorAny extends ItemSelector {
+  type: SelectorType.ANY;
+  input: undefined;
+}
+
+export interface SelectorRange extends ItemSelector {
+  type: SelectorType.RANGE;
+  input: string[];
+  value: RangeValues
+}
+
+export interface SelectorIs extends ItemSelector {
+  type: SelectorType.IS;
+  input: string[];
+  value: number | string | boolean
+}
+
 export interface ItemSelector {
   type: SelectorType;
   itemType: string;
