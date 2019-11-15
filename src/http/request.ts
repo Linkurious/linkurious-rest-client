@@ -5,6 +5,7 @@
  */
 
 import {Response as SuperAgentResponse} from 'superagent';
+import { UnexpectedServerResponse } from '../errorListener';
 
 import {RestClient} from '../index';
 import {GenericObject} from '../api/commonTypes';
@@ -161,7 +162,7 @@ export abstract class Request {
       throw new Error('Internal server error: ' + JSON.stringify(ex.response.body));
     }
 
-    if (response.body.key in requiredConfig.errors) {
+    if (requiredConfig.errors.indexOf(response.body.key) !== -1) {
       // 4.c) Dispatch server error if expected
       this.props.dispatchError(response.body.key, {
         serverError: response.body,
@@ -175,11 +176,11 @@ export abstract class Request {
       }) as ErrorResponses<EK>;
     } else if (response.body.key) {
       // 4.d) Throw error if unexpected
-      throw new Error('Unexpected error: ' + JSON.stringify(response.body));
+      throw new UnexpectedServerResponse('Unexpected error', response);
     }
 
     // 4.e) Throw error if unexpected status code
-    if ([200, 201, 204].indexOf(response.status) >= 0) {
+    if ([200, 201, 204].indexOf(response.status) === -1) {
       throw new Error(
         'Unexpected status code "' + response.status + '": ' + JSON.stringify(response.body)
       );
