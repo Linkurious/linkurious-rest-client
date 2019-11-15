@@ -16,6 +16,7 @@ import {
 import {AlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
 import {RangeValues, SelectorType, Styles} from '../displayTypes';
+import { User } from '../User';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
   id: number;
@@ -252,11 +253,7 @@ export interface IGetVisualizationSharesParams extends IDataSourceParams {
 }
 
 export interface GetVisualizationSharesResponse {
-  owner: {
-    id: number;
-    username: string;
-    email: string;
-  };
+  owner: Pick<User, 'id' | 'username' | 'email'>;
   shares: Array<{
     userId: number;
     visualizationId: number;
