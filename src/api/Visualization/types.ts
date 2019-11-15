@@ -167,7 +167,6 @@ export interface IDeleteVisualizationParams extends IDataSourceParams {
   id: number;
 }
 
-// TODO SERVER forceLock and doLayout camelCase
 export interface IUpdateVisualizationParams extends IDataSourceParams {
   id: number;
   visualization: Partial<ICreateVisualizationParams>;
