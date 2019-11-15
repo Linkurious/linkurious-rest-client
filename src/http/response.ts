@@ -6,6 +6,7 @@
 
 import {GenericObject} from '../api/commonTypes';
 import {CustomActionParsingError} from '../api/CustomAction';
+import {ErrorHighlight} from '../api/GraphQuery';
 
 import {FetchConfig} from './types';
 
@@ -17,7 +18,7 @@ export enum LkErrorKey {
   GUEST_DISABLED = 'guest_disabled',
   FORBIDDEN = 'forbidden',
   NOT_FOUND = 'not_found',
-  BAD_GRAPH_REQUEST = 'bad_graph_request', // TODO add payload of bad_graph_request
+  BAD_GRAPH_REQUEST = 'bad_graph_request',
   GRAPH_REQUEST_TIMEOUT = 'graph_request_timeout',
   CONSTRAINT_VIOLATION = 'constraint_violation',
   USER_EXISTS = 'user_exists',
@@ -85,7 +86,9 @@ export interface DataSourceUnavailable extends LkError<LkErrorKey.DATA_SOURCE_UN
 export interface GuestDisabled extends LkError<LkErrorKey.GUEST_DISABLED> {}
 export interface Forbidden extends LkError<LkErrorKey.FORBIDDEN> {}
 export interface NotFound extends LkError<LkErrorKey.NOT_FOUND> {}
-export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {}
+export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
+  offset?: number;
+}
 export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
 export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
 export interface UserExists extends LkError<LkErrorKey.USER_EXISTS> {}
@@ -95,10 +98,7 @@ export interface MalformedCustomActionTemplate
   errors: CustomActionParsingError[];
 }
 export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
-  highlight: {
-    offset: number;
-    length?: number;
-  };
+  highlight: ErrorHighlight;
 }
 
 export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
