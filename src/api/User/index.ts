@@ -29,7 +29,7 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, GROUP_EXISTS} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, ALREADY_EXISTS} = LkErrorKey;
 
 export class UserAPI extends Request {
   /**
@@ -124,7 +124,7 @@ export class UserAPI extends Request {
    * Add a new group.
    */
   public createGroup(params: ICreateGroupParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, GROUP_EXISTS).request<
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, ALREADY_EXISTS).request<
       Group
     >({
       url: '/admin/:sourceKey/groups',

@@ -11,27 +11,22 @@ import {ErrorHighlight} from '../api/GraphQuery';
 import {FetchConfig} from './types';
 
 export enum LkErrorKey {
-  // Not a server error
-  CONNECTION_REFUSED = 'connection_refused',
+  CONNECTION_REFUSED = 'connection_refused', // Not a server error
   UNAUTHORIZED = 'unauthorized',
   DATA_SOURCE_UNAVAILABLE = 'dataSource_unavailable',
   GUEST_DISABLED = 'guest_disabled',
+  // TODO SERVER throw forbidden instead of write_forbidden
   FORBIDDEN = 'forbidden',
   NOT_FOUND = 'not_found',
   BAD_GRAPH_REQUEST = 'bad_graph_request',
   GRAPH_REQUEST_TIMEOUT = 'graph_request_timeout',
   CONSTRAINT_VIOLATION = 'constraint_violation',
-  USER_EXISTS = 'user_exists',
-  GROUP_EXISTS = 'group_exists',
   MALFORMED_CUSTOM_ACTION_TEMPLATE = 'malformed_custom_action_template',
   MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
   ILLEGAL_SOURCE_STATE = 'illegal_source_state',
   CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed',
-
-  // TODO use these errors in the rest-client when the method throws them
-  ALREADY_EXIST = 'already_exists',
-  CANNOT_READ = 'cannot_read',
-  WRITE_FORBIDDEN = 'write_forbidden'
+  // TODO SERVER throw already exists instead of users and group exists
+  ALREADY_EXISTS = 'already_exists'
 }
 
 /**
@@ -90,8 +85,6 @@ export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
 }
 export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
 export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
-export interface UserExists extends LkError<LkErrorKey.USER_EXISTS> {}
-export interface GroupExists extends LkError<LkErrorKey.GROUP_EXISTS> {}
 export interface MalformedCustomActionTemplate
   extends LkError<LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE> {
   errors: CustomActionParsingError[];
@@ -102,10 +95,7 @@ export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUE
 export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
 export interface CannotDeleteNonEmptyFolder
   extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
-
-export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
-export interface CannotRead extends LkError<LkErrorKey.CANNOT_READ> {}
-export interface WriteForbidden extends LkError<LkErrorKey.WRITE_FORBIDDEN> {}
+export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXISTS> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
@@ -118,14 +108,9 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequest;
   [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeout;
   [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolation;
-  [LkErrorKey.USER_EXISTS]: UserExists;
-  [LkErrorKey.GROUP_EXISTS]: GroupExists;
   [LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE]: MalformedCustomActionTemplate;
   [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplate;
   [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
   [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
-
-  [LkErrorKey.ALREADY_EXIST]: AlreadyExists;
-  [LkErrorKey.CANNOT_READ]: CannotRead;
-  [LkErrorKey.WRITE_FORBIDDEN]: WriteForbidden;
+  [LkErrorKey.ALREADY_EXISTS]: AlreadyExists;
 };
