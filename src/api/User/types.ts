@@ -78,16 +78,11 @@ export interface Group extends PersistedItem {
   name: string;
   sourceKey: string;
   builtin: boolean;
-  // TODO create two types, one for getGroups and one for getGroup
-  userCount?: number;
-  accessRights?: AccessRight[];
+  userCount: number;
+  accessRights: AccessRight[];
 }
 
 export type GroupName = Pick<Group, 'id' | 'name'>;
-
-export interface IGetGroupsParams extends IDataSourceParams {
-  withAccessRights: boolean;
-}
 
 export interface IGetGroupNamesParams extends IDataSourceParams {
   // TODO PKAR type on merge
