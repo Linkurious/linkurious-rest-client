@@ -12,7 +12,7 @@ import {ILoginOAuth2Params, ILoginParams, IUpdateCurrentUserParams} from './type
 
 export * from './types';
 
-const {UNAUTHORIZED, GUEST_DISABLED, FORBIDDEN, USER_EXISTS} = LkErrorKey;
+const {UNAUTHORIZED, GUEST_DISABLED, FORBIDDEN, ALREADY_EXISTS} = LkErrorKey;
 
 export class AuthAPI extends Request {
   /**
@@ -73,7 +73,7 @@ export class AuthAPI extends Request {
    * Update the current user.
    */
   public async updateCurrentUser(params: IUpdateCurrentUserParams) {
-    const response = await this.handle(UNAUTHORIZED, FORBIDDEN, USER_EXISTS).request<User>({
+    const response = await this.handle(UNAUTHORIZED, FORBIDDEN, ALREADY_EXISTS).request<User>({
       url: '/auth/me',
       method: 'PATCH',
       params: params

@@ -216,3 +216,8 @@ export interface RunQueryResponse extends LkSubGraph {
 export interface IRunQueryByIdParams extends IGetSubGraphParams, IRunQueryParams {
   id: number;
 }
+
+export interface ErrorHighlight {
+  offset: number;
+  length?: number;
+}

@@ -39,7 +39,8 @@ const {
   NOT_FOUND,
   BAD_GRAPH_REQUEST,
   GRAPH_REQUEST_TIMEOUT,
-  CONSTRAINT_VIOLATION
+  CONSTRAINT_VIOLATION,
+  CANNOT_DELETE_NON_EMPTY_FOLDER
 } = LkErrorKey;
 
 export class AlertAPI extends Request {
@@ -106,7 +107,13 @@ export class AlertAPI extends Request {
    * Delete an alert folder.
    */
   public deleteAlertFolder(params: IDeleteAlertFolderParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND,
+      CANNOT_DELETE_NON_EMPTY_FOLDER
+    ).request({
       url: '/admin/:sourceKey/alerts/folder/:id',
       method: 'DELETE',
       params: params

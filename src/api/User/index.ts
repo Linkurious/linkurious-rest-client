@@ -6,6 +6,7 @@
 
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
+import {IDataSourceParams} from '../commonTypes';
 
 import {
   Group,
@@ -16,7 +17,6 @@ import {
   IDeleteUserParams,
   IGetGroupNamesParams,
   IGetGroupParams,
-  IGetGroupsParams,
   IGetUserParams,
   IMergeVisualizationsParams,
   ISearchUsersParams,
@@ -29,7 +29,7 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, GROUP_EXISTS} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, ALREADY_EXISTS} = LkErrorKey;
 
 export class UserAPI extends Request {
   /**
@@ -101,7 +101,7 @@ export class UserAPI extends Request {
   /**
    * Get all the groups within a data-source.
    */
-  public getGroups(params: IGetGroupsParams) {
+  public getGroups(params: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<Group[]>({
       url: '/admin/:sourceKey/groups',
       method: 'GET',
@@ -124,7 +124,7 @@ export class UserAPI extends Request {
    * Add a new group.
    */
   public createGroup(params: ICreateGroupParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, GROUP_EXISTS).request<
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, ALREADY_EXISTS).request<
       Group
     >({
       url: '/admin/:sourceKey/groups',

@@ -6,7 +6,6 @@
  */
 
 import {GenericObject} from './commonTypes';
-import {ItemSelector} from './Visualization';
 
 export enum SelectorType {
   ANY = 'any',
@@ -14,6 +13,45 @@ export enum SelectorType {
   NAN = 'nan',
   RANGE = 'range',
   IS = 'is'
+}
+
+export interface SelectorNoValue extends ItemSelector {
+  type: SelectorType.NO_VALUE;
+  itemType: string;
+  input: string[];
+}
+
+export interface SelectorNaN extends ItemSelector {
+  type: SelectorType.NAN;
+  itemType: string;
+  input: string[];
+}
+
+export interface SelectorAny extends ItemSelector {
+  type: SelectorType.ANY;
+  itemType?: undefined;
+  input: undefined;
+}
+
+export interface SelectorRange extends ItemSelector {
+  type: SelectorType.RANGE;
+  itemType: string;
+  input: string[];
+  value: RangeValues;
+}
+
+export interface SelectorIs extends ItemSelector {
+  type: SelectorType.IS;
+  itemType: string;
+  input: string[];
+  value: number | string | boolean;
+}
+
+export interface ItemSelector {
+  type: SelectorType;
+  itemType?: string; // optional only if type='any'
+  input?: string[];
+  value?: RangeValues | number | string | boolean;
 }
 
 export interface RangeValues {
