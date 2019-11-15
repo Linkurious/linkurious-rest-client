@@ -33,13 +33,13 @@ export interface SelectorAny extends ItemSelector {
 export interface SelectorRange extends ItemSelector {
   type: SelectorType.RANGE;
   input: string[];
-  value: RangeValues
+  value: RangeValues;
 }
 
 export interface SelectorIs extends ItemSelector {
   type: SelectorType.IS;
   input: string[];
-  value: number | string | boolean
+  value: number | string | boolean;
 }
 
 export interface ItemSelector {

@@ -15,7 +15,7 @@ import {
 } from '../graphItemTypes';
 import {AlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
-import {ItemSelector, RangeValues, Styles} from '../displayTypes';
+import {RangeValues, ItemSelector, Styles} from '../displayTypes';
 import {User} from '../User';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
