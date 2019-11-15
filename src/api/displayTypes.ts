@@ -17,34 +17,39 @@ export enum SelectorType {
 
 export interface SelectorNoValue extends ItemSelector {
   type: SelectorType.NO_VALUE;
+  itemType: string;
   input: string[];
 }
 
 export interface SelectorNaN extends ItemSelector {
   type: SelectorType.NAN;
+  itemType: string;
   input: string[];
 }
 
 export interface SelectorAny extends ItemSelector {
   type: SelectorType.ANY;
+  itemType?: undefined;
   input: undefined;
 }
 
 export interface SelectorRange extends ItemSelector {
   type: SelectorType.RANGE;
+  itemType: string;
   input: string[];
   value: RangeValues;
 }
 
 export interface SelectorIs extends ItemSelector {
   type: SelectorType.IS;
+  itemType: string;
   input: string[];
   value: number | string | boolean;
 }
 
 export interface ItemSelector {
   type: SelectorType;
-  itemType: string;
+  itemType?: string; // optional only if type='any'
   input?: string[];
   value?: RangeValues | number | string | boolean;
 }
