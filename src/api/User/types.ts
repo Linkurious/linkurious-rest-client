@@ -19,8 +19,8 @@ export interface User extends PersistedItem {
   preferences: UserPreferences;
   groups: GroupName[];
   // TODO PKAR type on merge
-  actions: any;
-  accessRights: any;
+  actions: string[];
+  accessRights: AccessRight[];
 }
 
 export interface IGetUserParams {
