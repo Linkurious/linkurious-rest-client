@@ -25,13 +25,12 @@ export enum LkErrorKey {
   GROUP_EXISTS = 'group_exists',
   MALFORMED_CUSTOM_ACTION_TEMPLATE = 'malformed_custom_action_template',
   MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
+  ILLEGAL_SOURCE_STATE = 'illegal_source_state',
 
   // TODO use these errors in the rest-client when the method throws them
   ALREADY_EXIST = 'already_exists',
   CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed',
   CANNOT_READ = 'cannot_read',
-  ILLEGAL_SOURCE_STATE = 'illegal_source_state',
-  NOT_OWNED = 'not_owned',
   WRITE_FORBIDDEN = 'write_forbidden'
 }
 
@@ -100,13 +99,12 @@ export interface MalformedCustomActionTemplate
 export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
   highlight: ErrorHighlight;
 }
+export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
 
 export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXIST> {}
 export interface CannotDeleteNonEmptyFolder
   extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
 export interface CannotRead extends LkError<LkErrorKey.CANNOT_READ> {}
-export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
-export interface NotOwned extends LkError<LkErrorKey.NOT_OWNED> {}
 export interface WriteForbidden extends LkError<LkErrorKey.WRITE_FORBIDDEN> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
@@ -124,11 +122,10 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.GROUP_EXISTS]: GroupExists;
   [LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE]: MalformedCustomActionTemplate;
   [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplate;
+  [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
 
   [LkErrorKey.ALREADY_EXIST]: AlreadyExists;
   [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
   [LkErrorKey.CANNOT_READ]: CannotRead;
-  [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
-  [LkErrorKey.NOT_OWNED]: NotOwned;
   [LkErrorKey.WRITE_FORBIDDEN]: WriteForbidden;
 };
