@@ -32,7 +32,7 @@ export class GraphNodeAPI extends Request {
       LkSubGraph
     >({
       url: '/:sourceKey/graph/nodes/:id',
-      method: 'GET',
+      method: 'POST',
       params: params
     });
   }

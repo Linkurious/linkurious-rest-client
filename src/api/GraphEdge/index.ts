@@ -25,7 +25,7 @@ export class GraphEdgeAPI extends Request {
       LkSubGraph
     >({
       url: '/:sourceKey/graph/edges/:id',
-      method: 'GET',
+      method: 'POST',
       params: params
     });
   }
