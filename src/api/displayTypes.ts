@@ -6,7 +6,6 @@
  */
 
 import {GenericObject} from './commonTypes';
-import {ItemSelector} from './Visualization';
 
 export enum SelectorType {
   ANY = 'any',
