@@ -5,6 +5,7 @@
  */
 import {GenericObject} from './commonTypes';
 import {PropertyTypeName, PropertyType} from './GraphSchema';
+import {OgmaEdgeShape, OgmaNodeShape, StyleIcon, StyleImage} from './displayTypes';
 
 export interface LkDate {
   type: 'date';
@@ -142,24 +143,23 @@ export type VizEdge = LkEdge & VizEdgeInfo;
 // WidgetNode & WidgetEdge
 export interface WidgetNodeInfo {
   attributes: {
-    // TODO type WidgetNodeInfo and WidgetEdgeInfo
-    // color: attributes.color,
-    // radius: attributes.radius || defaultRadius,
-    // shape: attributes.shape || defaultShape,
-    // x: node.nodelink.x,
-    // y: node.nodelink.y,
-    // icon: attributes.icon,
-    // image: attributes.image,
-    // text: {content: label}
+    x: number;
+    y: number;
+    color?: string[];
+    radius?: number;
+    shape?: OgmaNodeShape;
+    icon?: StyleIcon;
+    image?: StyleImage;
+    text: {content: string};
   };
 }
 
 export interface WidgetEdgeInfo {
   attributes: {
-    // color: Color,
-    // shape: attributes.shape || defaultShape,
-    // width: attributes.width || defaultWidth,
-    // text: {content: label}
+    color?: string;
+    shape?: OgmaEdgeShape;
+    width?: number;
+    text: {content: string};
   };
 }
 

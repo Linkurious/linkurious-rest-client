@@ -281,11 +281,10 @@ export interface IGetWidgetParams {
 
 export interface WidgetContent {
   graph: {nodes: WidgetNode[]; edges: WidgetEdge[]};
-  // TODO type WidgetContent
-  legend: any;
-  mapLayers: any;
+  legend: boolean;
+  mapLayers: boolean;
   mode: VisualizationMode;
-  ui: any;
+  ui: boolean;
 }
 
 export interface Widget {
