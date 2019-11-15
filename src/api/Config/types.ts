@@ -10,17 +10,15 @@ import {GenericObject} from '../commonTypes';
 import {IPluginConfig} from '../Plugin';
 import {OgmaNodeShape, OgmaEdgeShape} from '../displayTypes';
 
-// TODO review this file
-
 export interface IGetConfigParams {
-  sourceIndex: number;
+  sourceIndex?: number;
 }
 
 export interface Configuration {
   // available to not authenticated user
   ogma: IOgmaConfig;
   domain: string;
-  ssoProvider?: string;
+  ssoProvider?: 'oauth2' | 'saml2';
   url: string;
 
   // partially available to not authenticated user
@@ -39,17 +37,12 @@ export interface Configuration {
   auditTrail?: IAuditTrailConfig;
   defaultPreferences?: IUserPreferenceConfig;
   guestPreferences?: IGuestPreferenceConfig;
+  plugins?: IPluginConfig;
   dataSource?: SelectedDataSourceConfig;
   needRestart?: boolean;
-  plugins?: IPluginConfig;
 }
 
-export type IUpdateConfigParams<T = unknown> =
-  | IResetConfigParams
-  | IDataSourceConfigParams
-  | IConfigurationParams<T>;
-
-export interface DatabaseOptions {
+export interface IDatabaseOptions {
   dialect: 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
   storage?: string;
   host?: string;
@@ -61,7 +54,7 @@ export interface IDatabaseConfig {
   username?: string;
   password?: string;
   connectionRetries?: number;
-  options?: DatabaseOptions;
+  options?: IDatabaseOptions;
 }
 
 export interface IHttpServerConfig {
@@ -310,7 +303,7 @@ export interface IMSActiveDirectoryConfig {
   baseDN?: string;
   domain?: string;
   netbiosDomain?: string;
-  tls?: TlsOptions; //In progress here
+  tls?: TlsOptions;
 }
 
 export interface ILDAPConfig {
@@ -414,7 +407,6 @@ export interface IOgmaConfig {
   };
 }
 
-// UpdateConfigParams
 export interface IConfigurationParams<T> {
   path?: string;
   configuration: T;
@@ -430,3 +422,8 @@ export interface IDataSourceConfigParams extends IConfigurationParams<SelectedDa
   sourceIndex: number;
   path: 'dataSource';
 }
+
+export type IUpdateConfigParams<T = unknown> =
+  | IResetConfigParams
+  | IDataSourceConfigParams
+  | IConfigurationParams<T>;
