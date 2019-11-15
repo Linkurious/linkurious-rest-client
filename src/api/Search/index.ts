@@ -18,7 +18,13 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN} = LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  GUEST_DISABLED,
+  FORBIDDEN,
+  ILLEGAL_SOURCE_STATE
+} = LkErrorKey;
 
 export class SearchAPI extends Request {
   /**
@@ -26,7 +32,12 @@ export class SearchAPI extends Request {
    * The API doesn't wait for the indexation to finish.
    */
   public startIndexation(params: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request({
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      ILLEGAL_SOURCE_STATE
+    ).request({
       url: '/:sourceKey/search/index',
       method: 'POST',
       params: params
