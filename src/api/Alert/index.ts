@@ -42,7 +42,7 @@ const {
   CONSTRAINT_VIOLATION
 } = LkErrorKey;
 
-export class AlertsAPI extends Request {
+export class AlertAPI extends Request {
   /**
    * Create a new alert. If `matchTTL` is set to 0, unconfirmed matches
    * will disappear when they stop matching the alert query.

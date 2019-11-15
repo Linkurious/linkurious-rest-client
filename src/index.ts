@@ -9,8 +9,8 @@ import * as request from 'superagent';
 import {ClientState, ModuleProps} from './http/types';
 import {LkErrorKey, LkErrorKeyToInterface} from './http/response';
 import {ErrorListener} from './errorListener';
-import {AlertsAPI} from './api/Alerts';
-import {ApplicationsAPI} from './api/Applications';
+import {AlertAPI} from './api/Alert';
+import {ApplicationAPI} from './api/Application';
 import {AuthAPI} from './api/Auth';
 import {ConfigAPI} from './api/Config';
 import {CustomActionAPI} from './api/CustomAction';
@@ -29,8 +29,8 @@ export class RestClient extends ErrorListener {
   private readonly clientState: ClientState;
   private readonly moduleProps: ModuleProps;
 
-  public readonly alerts: AlertsAPI;
-  public readonly applications: ApplicationsAPI;
+  public readonly alert: AlertAPI;
+  public readonly application: ApplicationAPI;
   public readonly auth: AuthAPI;
   public readonly config: ConfigAPI;
   public readonly customAction: CustomActionAPI;
@@ -61,8 +61,8 @@ export class RestClient extends ErrorListener {
         this.dispatchError(key, payload)
     };
 
-    this.alerts = new AlertsAPI(this.moduleProps);
-    this.applications = new ApplicationsAPI(this.moduleProps);
+    this.alert = new AlertAPI(this.moduleProps);
+    this.application = new ApplicationAPI(this.moduleProps);
     this.auth = new AuthAPI(this.moduleProps);
     this.config = new ConfigAPI(this.moduleProps);
     this.customAction = new CustomActionAPI(this.moduleProps);

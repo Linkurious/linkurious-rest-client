@@ -5,8 +5,8 @@
  */
 
 export * from './src/index';
-export * from './src/api/Alerts';
-export * from './src/api/Applications';
+export * from './src/api/Alert';
+export * from './src/api/Application';
 export * from './src/api/Auth';
 export * from './src/api/Config';
 export * from './src/api/CustomAction';
