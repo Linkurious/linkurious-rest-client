@@ -31,7 +31,8 @@ module.exports = {
 
     // Rest-client specific
     '@typescript-eslint/explicit-function-return-type': ['off'], // All function return types are implicit to avoid duplicate code
-    '@typescript-eslint/prefer-includes': ['off'], // Prefer indexOf (es6 methods are not allowed)
+    '@typescript-eslint/prefer-includes': ['off'], // es6 methods are not allowed
+    '@typescript-eslint/prefer-string-starts-ends-with': ['off'], // es6 methods are not allowed
     'es5/no-es6-methods': ['error'],
     'es5/no-es6-static-methods': ['error']
   }
