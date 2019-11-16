@@ -1,5 +1,8 @@
 module.exports = {
   'parser': '@typescript-eslint/parser',
+  'plugins': [
+    'es5'
+  ],
   'extends': [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -28,6 +31,8 @@ module.exports = {
 
     // Rest-client specific
     '@typescript-eslint/explicit-function-return-type': ['off'], // All function return types are implicit to avoid duplicate code
-    '@typescript-eslint/prefer-includes': ['off'] // Prefer indexOf
+    '@typescript-eslint/prefer-includes': ['off'], // Prefer indexOf (es6 methods are not allowed)
+    'es5/no-es6-methods': ['error'],
+    'es5/no-es6-static-methods': ['error']
   }
 };

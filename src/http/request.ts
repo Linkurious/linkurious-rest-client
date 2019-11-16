@@ -5,8 +5,8 @@
  */
 
 import {Response as SuperAgentResponse} from 'superagent';
-import { UnexpectedServerResponse } from '../errorListener';
 
+import {UnexpectedServerResponse} from '../errorListener';
 import {RestClient} from '../index';
 import {GenericObject} from '../api/commonTypes';
 
