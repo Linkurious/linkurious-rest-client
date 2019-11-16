@@ -21,7 +21,8 @@
     "build": "tsc",
     "tsc": "tsc",
     "lint": "eslint --fix --ext .ts .",
-    "watch": "tsc -w | tee"
+    "watch": "tsc -w | tee",
+    "clean": "rm -rf node_modules; rm -rf package-lock.json; rm -rf dist"
   },
   "devDependencies": {
     "@types/superagent": "4.1.4",
