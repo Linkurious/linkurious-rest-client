@@ -6,8 +6,10 @@
 
 import {Response as SuperAgentResponse} from 'superagent';
 
+import {UnexpectedServerError} from '../errorListener';
 import {RestClient} from '../index';
 import {GenericObject} from '../api/commonTypes';
+import {includes} from '../utils';
 
 import {ConnectionRefused, ErrorResponses, LkErrorKey, Response} from './response';
 import {ModuleProps, RawFetchConfig, FetchConfig} from './types';
@@ -111,7 +113,7 @@ export abstract class Request {
     };
 
     // 2) Split params into `body` and `query` depending on the method
-    if (['GET', 'DELETE'].indexOf(config.method) >= 0) {
+    if (includes(['GET', 'DELETE'], config.method)) {
       query = {...query, ...config.params};
     } else {
       body = config.params;
@@ -161,7 +163,7 @@ export abstract class Request {
       throw new Error('Internal server error: ' + JSON.stringify(ex.response.body));
     }
 
-    if (response.body.key in requiredConfig.errors) {
+    if (includes(requiredConfig.errors, response.body.key)) {
       // 4.c) Dispatch server error if expected
       this.props.dispatchError(response.body.key, {
         serverError: response.body,
@@ -175,11 +177,11 @@ export abstract class Request {
       }) as ErrorResponses<EK>;
     } else if (response.body.key) {
       // 4.d) Throw error if unexpected
-      throw new Error('Unexpected error: ' + JSON.stringify(response.body));
+      throw new UnexpectedServerError(response);
     }
 
     // 4.e) Throw error if unexpected status code
-    if ([200, 201, 204].indexOf(response.status) >= 0) {
+    if (!includes([200, 201, 204], response.status)) {
       throw new Error(
         'Unexpected status code "' + response.status + '": ' + JSON.stringify(response.body)
       );

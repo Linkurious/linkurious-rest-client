@@ -27,3 +27,4 @@ export * from './src/http/request';
 export * from './src/http/response';
 export * from './src/http/types';
 export * from './src/index';
+export * from './src/errorListener';
