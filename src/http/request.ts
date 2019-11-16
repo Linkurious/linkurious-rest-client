@@ -6,7 +6,7 @@
 
 import {Response as SuperAgentResponse} from 'superagent';
 
-import {UnexpectedServerResponse} from '../errorListener';
+import {UnexpectedServerError} from '../errorListener';
 import {RestClient} from '../index';
 import {GenericObject} from '../api/commonTypes';
 
@@ -112,7 +112,7 @@ export abstract class Request {
     };
 
     // 2) Split params into `body` and `query` depending on the method
-    if (['GET', 'DELETE'].indexOf(config.method) >= 0) {
+    if (['GET', 'DELETE'].indexOf(config.method) !== -1) {
       query = {...query, ...config.params};
     } else {
       body = config.params;
@@ -176,7 +176,7 @@ export abstract class Request {
       }) as ErrorResponses<EK>;
     } else if (response.body.key) {
       // 4.d) Throw error if unexpected
-      throw new UnexpectedServerResponse('Unexpected error', response);
+      throw new UnexpectedServerError(response);
     }
 
     // 4.e) Throw error if unexpected status code
