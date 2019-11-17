@@ -7,6 +7,7 @@
 // TS2019-DONE
 
 import {GenericObject} from './Model';
+import { IPluginConfig } from './Plugins';
 
 export interface IConfigurationParams<T> {
   path?: string;
@@ -396,4 +397,5 @@ export interface IGetApplicationConfigResponse {
   domain: string;
   ssoProvider?: string;
   url: string;
+  plugins: IPluginConfig
 }
