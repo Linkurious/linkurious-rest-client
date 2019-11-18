@@ -13,7 +13,14 @@ import {ICreateEdgeParams, IDeleteEdgeParams, IGetEdgeParams, IUpdateEdgeParams}
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  GUEST_DISABLED,
+  FORBIDDEN,
+  NOT_FOUND,
+  EDIT_CONFLICT
+} = LkErrorKey;
 
 export class GraphEdgeAPI extends Request {
   /**
@@ -46,13 +53,17 @@ export class GraphEdgeAPI extends Request {
    * It's not possible to update the type of an edge.
    */
   public updateEdge(params: IUpdateEdgeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<LkEdge>(
-      {
-        url: '/:sourceKey/graph/edges/:id',
-        method: 'PATCH',
-        params: params
-      }
-    );
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND,
+      EDIT_CONFLICT
+    ).request<LkEdge>({
+      url: '/:sourceKey/graph/edges/:id',
+      method: 'PATCH',
+      params: params
+    });
   }
 
   /**
