@@ -5,6 +5,7 @@
  */
 
 import {IDataSourceParams, PersistedItem} from '../commonTypes';
+import {AccessRight, AnyAction} from '../AccessRight';
 
 export interface UserPreferences {
   pinOnDrag: boolean;
@@ -18,8 +19,8 @@ export interface User extends PersistedItem {
   source: string;
   preferences: UserPreferences;
   groups: GroupName[];
-  // TODO PKAR type on merge
-  actions: string[];
+  // TODO PKAR remove Any prefix from any interface
+  actions: AnyAction[];
   accessRights: AccessRight[];
 }
 
@@ -39,7 +40,7 @@ export interface ISearchUsersParams {
 
 export interface SearchUserResponse {
   found: number;
-  // TODO SERVER shouldn't return accessRights of user on search
+  // TODO PKAR shouldn't return accessRights of user on search
   results: Array<Omit<User, 'accessRights'> & {visCount: number}>;
 }
 
@@ -68,12 +69,6 @@ export interface IGetGroupParams extends IDataSourceParams {
   id: number;
 }
 
-export interface AccessRight {
-  type: 'read' | 'write' | 'none' | 'do';
-  targetType: string;
-  targetName: string;
-}
-
 export interface Group extends PersistedItem {
   name: string;
   sourceKey: string;
@@ -85,8 +80,7 @@ export interface Group extends PersistedItem {
 export type GroupName = Pick<Group, 'id' | 'name'>;
 
 export interface IGetGroupNamesParams extends IDataSourceParams {
-  // TODO PKAR type on merge
-  action: string;
+  action: AnyAction;
 }
 
 export interface ICreateGroupParams extends IDataSourceParams {
@@ -100,11 +94,6 @@ export interface IUpdateGroupParams extends IDataSourceParams {
 
 export interface IDeleteGroupParams extends IDataSourceParams {
   id: number;
-}
-
-export interface ISetAccessRightsParams extends IDataSourceParams {
-  id: number;
-  accessRights: Array<AccessRight>;
 }
 
 export interface IMergeVisualizationsParams {

@@ -26,7 +26,11 @@ export enum LkErrorKey {
   ILLEGAL_SOURCE_STATE = 'illegal_source_state',
   CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed',
   // TODO SERVER throw already exists instead of users and group exists
-  ALREADY_EXISTS = 'already_exists'
+  ALREADY_EXISTS = 'already_exists',
+  // TODO PKAR name too long
+  PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA = 'property_key_access_rights_requires_strict_schema',
+  PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED = 'property_key_access_rights_required',
+  INVALID_PROPERTY_KEY_ACCESS_LEVEL = 'invalid_property_key_access_level'
 }
 
 /**
@@ -96,6 +100,12 @@ export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_ST
 export interface CannotDeleteNonEmptyFolder
   extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
 export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXISTS> {}
+export interface PropertyKeyAccessRightsRequiresStrictSchema
+  extends LkError<LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA> {}
+export interface PropertyKeyAccessRightsRequired
+  extends LkError<LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED> {}
+export interface InvalidPropertyKeyAccessLevel
+  extends LkError<LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
@@ -113,4 +123,7 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
   [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
   [LkErrorKey.ALREADY_EXISTS]: AlreadyExists;
+  [LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA]: PropertyKeyAccessRightsRequiresStrictSchema;
+  [LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED]: PropertyKeyAccessRightsRequired;
+  [LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL]: InvalidPropertyKeyAccessLevel;
 };

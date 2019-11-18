@@ -11,7 +11,7 @@ export interface Application extends PersistedItem {
   apiKey: string;
   enabled: boolean;
   groups: number[];
-  // TODO PKAR type on merge
+  // TODO PKAR move Application rights from Server to RC
   rights: string[];
 }
 

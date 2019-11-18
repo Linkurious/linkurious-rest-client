@@ -9,6 +9,7 @@ import * as request from 'superagent';
 import {ClientState, ModuleProps} from './http/types';
 import {LkErrorKey, LkErrorKeyToInterface} from './http/response';
 import {ErrorListener} from './errorListener';
+import {AccessRightAPI} from './api/AccessRight';
 import {AlertAPI} from './api/Alert';
 import {ApplicationAPI} from './api/Application';
 import {AuthAPI} from './api/Auth';
@@ -30,6 +31,7 @@ export class RestClient extends ErrorListener {
   private readonly clientState: ClientState;
   private readonly moduleProps: ModuleProps;
 
+  public readonly accessRight: AccessRightAPI;
   public readonly alert: AlertAPI;
   public readonly application: ApplicationAPI;
   public readonly auth: AuthAPI;
@@ -62,6 +64,7 @@ export class RestClient extends ErrorListener {
         this.dispatchError(key, payload)
     };
 
+    this.accessRight = new AccessRightAPI(this.moduleProps);
     this.alert = new AlertAPI(this.moduleProps);
     this.application = new ApplicationAPI(this.moduleProps);
     this.auth = new AuthAPI(this.moduleProps);

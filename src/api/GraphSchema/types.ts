@@ -5,6 +5,7 @@
  */
 
 import {IDataSourceParams} from '../commonTypes';
+import {ItemTypeAccessRightType, PropertyAccessRightType} from '../AccessRight';
 
 export interface IStartSchemaSamplingParams extends IDataSourceParams {
   reset?: boolean;
@@ -51,7 +52,7 @@ export enum DataVisibility {
 
 export interface ICreateTypeParams extends IDataSourceParams {
   entityType: EntityType;
-  label: string;
+  itemType: string;
   visibility?: DataVisibility; // default is searchable
 }
 
@@ -118,7 +119,7 @@ export type PropertyType = ISimpleType | IStringType | IDateType | IDateTimeType
 
 export interface ICreatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
-  label: string;
+  itemType: string;
   propertyKey: string;
   propertyType: PropertyType;
   required?: boolean;
@@ -127,7 +128,7 @@ export interface ICreatePropertyParams extends IDataSourceParams {
 
 export interface IUpdatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
-  label: string;
+  itemType: string;
   propertyKey: string;
   propertyType?: PropertyType;
   required?: boolean;
@@ -141,8 +142,12 @@ export interface GraphSchemaProperty {
   propertyType: PropertyType;
 }
 
+export interface GraphSchemaPropertyWithAccess extends GraphSchemaProperty {
+  access: PropertyAccessRightType;
+}
+
 export interface GraphSchemaType {
-  label: string;
+  itemType: string;
   properties: GraphSchemaProperty[];
   visibility: DataVisibility;
 }
@@ -155,20 +160,15 @@ export interface GraphSchema {
   results: GraphSchemaType[];
 }
 
-export enum AccessLevel {
-  READABLE = 'readable',
-  EDITABLE = 'editable',
-  WRITABLE = 'writable',
-  NONE = 'none'
-}
-
 export interface GraphSchemaTypeWithAccess extends GraphSchemaType {
-  access: AccessLevel;
+  access: ItemTypeAccessRightType;
+  // GraphSchemaPropertyWithAccess[] if property key access rights is enabled
+  properties: GraphSchemaProperty[] | GraphSchemaPropertyWithAccess[];
 }
 
 export interface GraphSchemaWithAccess extends GraphSchema {
   any: {
-    access: AccessLevel;
+    access: ItemTypeAccessRightType;
   };
   results: GraphSchemaTypeWithAccess[];
 }

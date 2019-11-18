@@ -50,6 +50,7 @@ export interface AlternativeIdSettings {
 
 export interface ConnectedDataSourceSettings extends DataSourceSettings {
   alternativeIds: AlternativeIdSettings;
+  propertyKeyAccessRights: boolean;
   strictSchema: boolean;
   skipEdgeIndexation: boolean;
   latitudeProperty?: string; // defined only if configured in the GraphDAO options

@@ -9,25 +9,32 @@ import {LkErrorKey} from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
 
 import {
+  GetSamplingStatusResponse,
+  GraphSchema,
+  GraphSchemaProperty,
+  GraphSchemaType,
+  GraphSchemaWithAccess,
   ICreatePropertyParams,
   ICreateTypeParams,
-  GetSamplingStatusResponse,
+  IGetTypesParams,
   ISetNonIndexedPropertiesParams,
   IStartSchemaSamplingParams,
   IUpdatePropertyParams,
   IUpdateSchemaSettingsParams,
   IUpdateTypeParams,
-  SimpleSchema,
-  GraphSchemaType,
-  GraphSchemaProperty,
-  IGetTypesParams,
-  GraphSchemaWithAccess,
-  GraphSchema
+  SimpleSchema
 } from './types';
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  GUEST_DISABLED,
+  FORBIDDEN,
+  NOT_FOUND,
+  PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA
+} = LkErrorKey;
 
 export class GraphSchemaAPI extends Request {
   /**
@@ -83,7 +90,12 @@ export class GraphSchemaAPI extends Request {
    * Update the strict schema settings of the data-source.
    */
   public updateSchemaSettings(params: IUpdateSchemaSettingsParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request({
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA
+    ).request({
       url: '/admin/:sourceKey/graph/schema/settings',
       method: 'PATCH',
       params: params

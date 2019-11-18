@@ -20,7 +20,6 @@ import {
   IGetUserParams,
   IMergeVisualizationsParams,
   ISearchUsersParams,
-  ISetAccessRightsParams,
   IUpdateGroupParams,
   IUpdateUserParams,
   SearchUserResponse,
@@ -151,17 +150,6 @@ export class UserAPI extends Request {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
       url: '/admin/:sourceKey/groups/:id',
       method: 'DELETE',
-      params: params
-    });
-  }
-
-  /**
-   * Set access rights on a group. The access rights will be checked to be of node categories or edge types in the schema.
-   */
-  public setAccessRights(params: ISetAccessRightsParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
-      url: '/admin/:sourceKey/groups/:id/access_rights',
-      method: 'PUT',
       params: params
     });
   }
