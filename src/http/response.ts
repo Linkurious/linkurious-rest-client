@@ -26,7 +26,8 @@ export enum LkErrorKey {
   ILLEGAL_SOURCE_STATE = 'illegal_source_state',
   CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed',
   // TODO SERVER throw already exists instead of users and group exists
-  ALREADY_EXISTS = 'already_exists'
+  ALREADY_EXISTS = 'already_exists',
+  EDIT_CONFLICT = 'edit_conflict'
 }
 
 /**
@@ -96,6 +97,7 @@ export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_ST
 export interface CannotDeleteNonEmptyFolder
   extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
 export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXISTS> {}
+export interface EditConflict extends LkError<LkErrorKey.EDIT_CONFLICT> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
@@ -113,4 +115,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
   [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
   [LkErrorKey.ALREADY_EXISTS]: AlreadyExists;
+  [LkErrorKey.EDIT_CONFLICT]: EditConflict;
 };

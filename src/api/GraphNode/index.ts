@@ -20,7 +20,14 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND} = LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  GUEST_DISABLED,
+  FORBIDDEN,
+  NOT_FOUND,
+  EDIT_CONFLICT
+} = LkErrorKey;
 
 export class GraphNodeAPI extends Request {
   /**
@@ -53,13 +60,17 @@ export class GraphNodeAPI extends Request {
    * Keep every other property and category of the node unchanged.
    */
   public updateNode(params: IUpdateNodeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<LkNode>(
-      {
-        url: '/:sourceKey/graph/nodes/:id',
-        method: 'PATCH',
-        params: params
-      }
-    );
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND,
+      EDIT_CONFLICT
+    ).request<LkNode>({
+      url: '/:sourceKey/graph/nodes/:id',
+      method: 'PATCH',
+      params: params
+    });
   }
 
   /**
