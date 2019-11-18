@@ -83,7 +83,6 @@ export interface StyleColor {
   type: 'auto';
   input: string[];
   ignoreCase?: boolean;
-  paletteName?: string;
 }
 
 export interface StyleIcon {
