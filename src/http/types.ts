@@ -4,7 +4,7 @@
  * - Created on 2019-10-01.
  */
 
-import {SuperAgentStatic} from 'superagent';
+import {SuperAgentStatic, Response} from 'superagent';
 
 import {User} from '../api/User';
 import {DataSource} from '../api/DataSource';
@@ -43,3 +43,5 @@ export interface ModuleProps {
   clientState: ClientState;
   dispatchError: ErrorListener['dispatchError'];
 }
+
+export type SuperAgentResponse = Omit<Response, 'body'> & {body: GenericObject<unknown> | undefined};

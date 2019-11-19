@@ -4,15 +4,13 @@
  * - Created on 2019-09-26.
  */
 
-import {Response as SuperAgentResponse} from 'superagent';
-
 import {UnexpectedServerError} from '../errorListener';
 import {RestClient} from '../index';
 import {GenericObject} from '../api/commonTypes';
 import {includes} from '../utils';
 
-import {ConnectionRefused, ErrorResponses, LkErrorKey, Response} from './response';
-import {ModuleProps, RawFetchConfig, FetchConfig} from './types';
+import {ConnectionRefused, ErrorResponses, LkErrorKey, LkErrorKeyToInterface, Response} from './response';
+import {ModuleProps, RawFetchConfig, FetchConfig, SuperAgentResponse} from './types';
 
 export abstract class Request {
   constructor(protected readonly props: ModuleProps) {}
@@ -163,19 +161,16 @@ export abstract class Request {
       throw new Error('Internal server error: ' + JSON.stringify(ex.response.body));
     }
 
-    if (includes(requiredConfig.errors, response.body.key)) {
+    if (response.body && includes(requiredConfig.errors, response.body.key)) {
       // 4.c) Dispatch server error if expected
-      this.props.dispatchError(response.body.key, {
-        serverError: response.body,
-        fetchConfig: fetchConfig
-      });
+      this.props.dispatchError(response.body.key as LkErrorKey, response.body as unknown as LkErrorKeyToInterface[LkErrorKey]);
 
       return new Response({
         status: response.status,
         header: response.header,
-        body: response.body
+        body: response.body as unknown
       }) as ErrorResponses<EK>;
-    } else if (response.body.key) {
+    } else if (response.body?.key) {
       // 4.d) Throw error if unexpected
       throw new UnexpectedServerError(response);
     }
@@ -191,7 +186,7 @@ export abstract class Request {
     return new Response({
       status: response.status,
       header: response.header,
-      body: response.body
+      body: response.body as unknown as S
     }) as Response<S>;
   }
 }
