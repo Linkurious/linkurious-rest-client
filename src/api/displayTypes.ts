@@ -86,7 +86,7 @@ export interface StyleColor {
 }
 
 export interface StyleIcon {
-  content?: string | number;
+  content?: string | number | null;
   font?: string;
   color?: string | StyleColor;
   scale?: number;
