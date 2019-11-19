@@ -9,7 +9,13 @@ import {RestClient} from '../index';
 import {GenericObject} from '../api/commonTypes';
 import {includes} from '../utils';
 
-import {ConnectionRefused, ErrorResponses, LkErrorKey, LkErrorKeyToInterface, Response} from './response';
+import {
+  ConnectionRefused,
+  ErrorResponses,
+  LkErrorKey,
+  LkErrorKeyToInterface,
+  Response
+} from './response';
 import {ModuleProps, RawFetchConfig, FetchConfig, SuperAgentResponse} from './types';
 
 export abstract class Request {
@@ -163,12 +169,15 @@ export abstract class Request {
 
     if (response.body && includes(requiredConfig.errors, response.body.key)) {
       // 4.c) Dispatch server error if expected
-      this.props.dispatchError(response.body.key as LkErrorKey, response.body as unknown as LkErrorKeyToInterface[LkErrorKey]);
+      this.props.dispatchError(
+        response.body.key as LkErrorKey,
+        (response.body as unknown) as LkErrorKeyToInterface[LkErrorKey]
+      );
 
       return new Response({
         status: response.status,
         header: response.header,
-        body: response.body as unknown
+        body: (response.body as unknown) as LkErrorKeyToInterface[LkErrorKey]
       }) as ErrorResponses<EK>;
     } else if (response.body?.key) {
       // 4.d) Throw error if unexpected
@@ -186,7 +195,7 @@ export abstract class Request {
     return new Response({
       status: response.status,
       header: response.header,
-      body: response.body as unknown as S
-    }) as Response<S>;
+      body: (response.body as unknown) as S
+    });
   }
 }

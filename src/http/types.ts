@@ -44,4 +44,7 @@ export interface ModuleProps {
   dispatchError: ErrorListener['dispatchError'];
 }
 
-export type SuperAgentResponse = Omit<Response, 'body'> & {body: GenericObject<unknown> | undefined};
+// We define our own type because Response declares body as any
+export type SuperAgentResponse = Omit<Response, 'body'> & {
+  body: GenericObject<unknown> | undefined;
+};
