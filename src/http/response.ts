@@ -98,7 +98,7 @@ export interface MalformedCustomActionTemplate
   errors: CustomActionParsingError[];
 }
 export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
-  highlight: ErrorHighlight;
+  highlight?: ErrorHighlight;
 }
 export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
 export interface CannotDeleteNonEmptyFolder
