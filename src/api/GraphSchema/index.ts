@@ -127,7 +127,7 @@ export class GraphSchemaAPI extends Request {
   /**
    * Set the list of edge properties that are not indexed for the given data-source.
    */
-  public setNotIndexedEdgeProperties(params: ISetNonIndexedPropertiesParams) {
+  public setNonIndexedEdgeProperties(params: ISetNonIndexedPropertiesParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
       url: '/admin/source/:sourceKey/noIndex/edgeProperties',
       method: 'PUT',
@@ -138,7 +138,7 @@ export class GraphSchemaAPI extends Request {
   /**
    * Set the list of node properties that are not indexed for the given data-source.
    */
-  public setNotIndexedNodeProperties(params: ISetNonIndexedPropertiesParams) {
+  public setNonIndexedNodeProperties(params: ISetNonIndexedPropertiesParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
       url: '/admin/source/:sourceKey/noIndex/nodeProperties',
       method: 'PUT',

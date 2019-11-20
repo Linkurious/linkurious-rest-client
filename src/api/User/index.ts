@@ -100,7 +100,7 @@ export class UserAPI extends Request {
   /**
    * Get all the groups within a data-source.
    */
-  public getGroups(params: IDataSourceParams) {
+  public getGroups(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<Group[]>({
       url: '/admin/:sourceKey/groups',
       method: 'GET',

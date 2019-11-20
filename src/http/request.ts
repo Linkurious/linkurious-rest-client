@@ -5,9 +5,8 @@
  */
 
 import {UnexpectedServerError} from '../errorListener';
-import {RestClient} from '../index';
 import {GenericObject} from '../api/commonTypes';
-import {includes} from '../utils';
+import {hasValue, includes} from '../utils';
 
 import {
   ConnectionRefused,
@@ -47,21 +46,16 @@ export abstract class Request {
     let match;
     while ((match = regexp.exec(renderedURL)) !== null) {
       const key = match[0];
-      let paramValue;
+      let paramValue: string | undefined;
 
       // 2) Get `sourceKey` value from the ClientState or from the local storage
       if (key === 'sourceKey') {
-        paramValue =
-          (moduleProps.clientState.currentSource && moduleProps.clientState.currentSource.key) ||
-          RestClient.getCurrentSource(
-            moduleProps.clientState.sources || [],
-            moduleProps.clientState.user && {userId: moduleProps.clientState.user.id}
-          ).key;
+        paramValue = moduleProps.clientState.currentSource?.key;
       }
 
       // 3) Get other param values using `configParams`
       // @ts-ignore
-      if (configParams[key] !== undefined) {
+      if (hasValue(configParams[key])) {
         // @ts-ignore
         paramValue = configParams[key];
         // @ts-ignore
@@ -69,8 +63,8 @@ export abstract class Request {
       }
 
       // 4) Replace the value in the url
-      if (paramValue !== undefined) {
-        renderedURL = renderedURL.replace(':' + key, encodeURIComponent(paramValue as string));
+      if (hasValue(paramValue)) {
+        renderedURL = renderedURL.replace(':' + key, encodeURIComponent(paramValue));
       } else {
         throw new Error(
           `Request::renderURL - You need to set "${key}" to fetch this API (${renderedURL}).`
