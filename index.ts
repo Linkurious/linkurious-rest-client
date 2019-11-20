@@ -5,6 +5,7 @@
  */
 
 export * from './src/index';
+export * from './src/api/AccessRight';
 export * from './src/api/Alert';
 export * from './src/api/Application';
 export * from './src/api/Auth';
