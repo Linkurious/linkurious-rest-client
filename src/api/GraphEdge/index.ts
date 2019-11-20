@@ -49,7 +49,8 @@ export class GraphEdgeAPI extends Request {
   }
 
   /**
-   * Update a subset of properties of an edge. Keep every other property of the edge unchanged.
+   * Update a subset of properties of an edge.
+   * Keep every other property of the edge unchanged.
    * It's not possible to update the type of an edge.
    */
   public updateEdge(params: IUpdateEdgeParams) {

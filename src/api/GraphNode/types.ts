@@ -34,10 +34,16 @@ export interface IGetStatisticsParams extends IDataSourceParams {
   withDegree?: boolean;
 }
 
+export enum LimitType {
+  ID = 'id',
+  HIGHEST_DEGREE = 'highestDegree',
+  LOWEST_DEGREE = 'lowestDegree'
+}
+
 export interface IGetAdjacentNodesParams extends IGetSubGraphParams {
   ids: string[];
   limit?: number;
-  limitType?: 'id' | 'highestDegree' | 'lowestDegree';
+  limitType?: LimitType;
   nodeCategories?: string[];
   edgeTypes?: string[];
 }
