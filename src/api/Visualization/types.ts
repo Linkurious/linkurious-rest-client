@@ -238,7 +238,6 @@ export interface IUpdateSandboxParams extends IDataSourceParams {
   nodeFields?: ItemFields;
   edgeFields?: ItemFields;
   geo?: VisualizationGeo;
-  layout?: VisualizationLayout;
 }
 
 export interface IGetVisualizationSharesParams extends IDataSourceParams {
