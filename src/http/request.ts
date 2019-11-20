@@ -52,11 +52,7 @@ export abstract class Request {
       // 2) Get `sourceKey` value from the ClientState or from the local storage
       if (key === 'sourceKey') {
         paramValue =
-          (moduleProps.clientState.currentSource && moduleProps.clientState.currentSource.key) ||
-          RestClient.getCurrentSource(
-            moduleProps.clientState.sources || [],
-            moduleProps.clientState.user && {userId: moduleProps.clientState.user.id}
-          ).key;
+          moduleProps.clientState.currentSource && moduleProps.clientState.currentSource.key;
       }
 
       // 3) Get other param values using `configParams`
