@@ -84,7 +84,10 @@ export interface Unauthorized extends LkError<LkErrorKey.UNAUTHORIZED> {}
 export interface DataSourceUnavailable extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
 export interface GuestDisabled extends LkError<LkErrorKey.GUEST_DISABLED> {}
 export interface Forbidden extends LkError<LkErrorKey.FORBIDDEN> {}
-export interface NotFound extends LkError<LkErrorKey.NOT_FOUND> {}
+export interface NotFound extends LkError<LkErrorKey.NOT_FOUND> {
+  type: string;
+  id: string;
+}
 export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
   offset?: number;
 }
