@@ -60,6 +60,7 @@ export interface IDatabaseConfig {
 export interface IHttpServerConfig {
   listenPort: number;
   clientFolder: string;
+  cookieHttpOnly?: string;
   cookieSecret?: string;
   allowOrigin?: string | string[];
   domain?: string;
