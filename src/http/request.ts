@@ -5,7 +5,6 @@
  */
 
 import {UnexpectedServerError} from '../errorListener';
-import {RestClient} from '../index';
 import {GenericObject} from '../api/commonTypes';
 import {includes} from '../utils';
 
