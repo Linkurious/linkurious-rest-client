@@ -46,12 +46,13 @@ export abstract class Request {
     let match;
     while ((match = regexp.exec(renderedURL)) !== null) {
       const key = match[0];
-      let paramValue;
+      let paramValue: string | undefined;
 
       // 2) Get `sourceKey` value from the ClientState or from the local storage
       if (key === 'sourceKey') {
         paramValue =
-          moduleProps.clientState.currentSource && moduleProps.clientState.currentSource.key;
+          (moduleProps.clientState.currentSource && moduleProps.clientState.currentSource.key) ||
+          undefined;
       }
 
       // 3) Get other param values using `configParams`
@@ -65,7 +66,7 @@ export abstract class Request {
 
       // 4) Replace the value in the url
       if (paramValue !== undefined) {
-        renderedURL = renderedURL.replace(':' + key, encodeURIComponent(paramValue as string));
+        renderedURL = renderedURL.replace(':' + key, encodeURIComponent(paramValue));
       } else {
         throw new Error(
           `Request::renderURL - You need to set "${key}" to fetch this API (${renderedURL}).`
