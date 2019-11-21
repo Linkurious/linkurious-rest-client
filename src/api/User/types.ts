@@ -19,7 +19,6 @@ export interface User extends PersistedItem {
   source: string;
   preferences: UserPreferences;
   groups: GroupName[];
-  // TODO PKAR remove Any prefix from any interface
   actions: AnyAction[];
   accessRights: AccessRight[];
 }
