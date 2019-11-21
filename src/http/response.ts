@@ -31,7 +31,11 @@ export enum LkErrorKey {
   PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA = 'property_key_access_rights_requires_strict_schema',
   PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED = 'property_key_access_rights_required',
   INVALID_PROPERTY_KEY_ACCESS_LEVEL = 'invalid_property_key_access_level',
-  EDIT_CONFLICT = 'edit_conflict'
+  EDIT_CONFLICT = 'edit_conflict',
+
+  // Supposedly not returned by the rest-client
+  INVALID_PARAMETER = 'invalid_parameter',
+  BUG = 'bug'
 }
 
 /**
@@ -111,6 +115,8 @@ export interface PropertyKeyAccessRightsRequired
 export interface InvalidPropertyKeyAccessLevel
   extends LkError<LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL> {}
 export interface EditConflict extends LkError<LkErrorKey.EDIT_CONFLICT> {}
+export interface InvalidParameter extends LkError<LkErrorKey.INVALID_PARAMETER> {}
+export interface Bug extends LkError<LkErrorKey.BUG> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
@@ -132,4 +138,6 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED]: PropertyKeyAccessRightsRequired;
   [LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL]: InvalidPropertyKeyAccessLevel;
   [LkErrorKey.EDIT_CONFLICT]: EditConflict;
+  [LkErrorKey.INVALID_PARAMETER]: InvalidParameter;
+  [LkErrorKey.BUG]: Bug;
 };
