@@ -88,7 +88,11 @@ export interface IGetMatchParams extends IDataSourceParams {
   matchId: number;
 }
 
-export type MatchStatus = 'unconfirmed' | 'confirmed' | 'dismissed';
+export enum MatchStatus {
+  UNCONFIRMED = 'unconfirmed',
+  CONFIRMED = 'confirmed',
+  DISMISSED = 'dismissed'
+}
 
 export interface Match extends PersistedItem {
   sourceKey: string;
@@ -116,12 +120,26 @@ export interface GetMatchesResponse {
   matches: Match[];
 }
 
+export enum GetMatchesSortDirection {
+  ASC = 'asc',
+  DESC = 'desc'
+}
+
+export enum GetMatchesSortBy {
+  DATE = 'date',
+  ZERO = '0',
+  ONE = '1',
+  TWO = '2',
+  THREE = '3',
+  FOUR = '4'
+}
+
 export interface IGetMatchesParams extends IDataSourceParams {
   alertId: number;
   offset?: number;
   limit?: number;
-  sortDirection?: 'asc' | 'desc';
-  sortBy?: 'date' | '0' | '1' | '2' | '3' | '4';
+  sortDirection?: GetMatchesSortDirection;
+  sortBy?: GetMatchesSortBy;
   status?: MatchStatus;
 }
 
@@ -130,7 +148,12 @@ export interface IGetMatchActionsParams extends IDataSourceParams {
   matchId: number;
 }
 
-export type MatchActionType = 'confirm' | 'dismiss' | 'unconfirm' | 'open';
+export enum MatchActionType {
+  CONFIRM = 'confirm',
+  DISMIS = 'dismiss',
+  UNCONFIRM = 'unconfirm',
+  OPEN = 'open'
+}
 
 export interface MatchAction extends PersistedItem {
   matchId: number;
