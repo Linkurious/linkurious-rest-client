@@ -26,8 +26,6 @@ export interface ICreateAlertParams extends IDataSourceParams {
     columnTitle: string;
   }>;
   cron: string;
-  matchTTL?: number;
-  maxMatches?: number;
 }
 
 export interface Alert extends PersistedItem {
