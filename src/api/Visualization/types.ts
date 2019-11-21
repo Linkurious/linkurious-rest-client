@@ -45,7 +45,7 @@ export type ItemFieldsCaptions = GenericObject<CaptionConfig>;
 
 export interface ItemFields {
   captions: ItemFieldsCaptions;
-  types: GenericObject<GenericObject<'string' | 'number'>>;
+  types: GenericObject<GenericObject<{type: 'string' | 'number'}>>;
 }
 
 export interface VisualizationDesign {
