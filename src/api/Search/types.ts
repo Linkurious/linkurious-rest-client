@@ -21,7 +21,7 @@ export interface GetIndexationStatusResponse {
   nodeCount?: number;
   edgeCount?: number;
   indexSize?: number;
-  indexedSource: string;
+  indexedSource?: string;
 }
 
 export interface ISearchParams extends IDataSourceParams {
