@@ -105,7 +105,6 @@ export interface Match extends PersistedItem {
   nodes: string[];
   edges: string[];
   columns: string[];
-  expirationDate: string;
 }
 
 export interface GetMatchesResponse {
