@@ -23,7 +23,8 @@ const {
   DATA_SOURCE_UNAVAILABLE,
   GUEST_DISABLED,
   FORBIDDEN,
-  ILLEGAL_SOURCE_STATE
+  ILLEGAL_SOURCE_STATE,
+  SOURCE_ACTION_NEEDED
 } = LkErrorKey;
 
 export class SearchAPI extends Request {
@@ -36,7 +37,8 @@ export class SearchAPI extends Request {
       UNAUTHORIZED,
       DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
-      ILLEGAL_SOURCE_STATE
+      ILLEGAL_SOURCE_STATE,
+      SOURCE_ACTION_NEEDED
     ).request({
       url: '/:sourceKey/search/index',
       method: 'POST',

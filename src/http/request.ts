@@ -9,7 +9,7 @@ import {GenericObject} from '../api/commonTypes';
 import {hasValue, includes} from '../utils';
 
 import {
-  ConnectionRefused,
+  ConnectionRefusedError,
   ErrorResponses,
   LkErrorKey,
   LkErrorKeyToInterface,
@@ -148,7 +148,7 @@ export abstract class Request {
     } catch (ex) {
       // 4.a) Return error when there is no connection
       if (!ex.response) {
-        const error: ConnectionRefused = {
+        const error: ConnectionRefusedError = {
           key: LkErrorKey.CONNECTION_REFUSED,
           message: 'offline',
           fetchConfig: fetchConfig

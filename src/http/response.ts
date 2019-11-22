@@ -33,6 +33,7 @@ export enum LkErrorKey {
   INVALID_PROPERTY_KEY_ACCESS_LEVEL = 'invalid_property_key_access_level',
   EDIT_CONFLICT = 'edit_conflict',
   NOT_SUPPORTED = 'not_supported',
+  SOURCE_ACTION_NEEDED = 'source_action_needed',
 
   // Supposedly not returned by the rest-client
   INVALID_PARAMETER = 'invalid_parameter',
@@ -75,7 +76,7 @@ export class Response<B> {
 /**
  * This is a trick so that:
  * in `const name = ErrorResponses<LkErrorKey.FORBIDDEN, LkErrorKey.UNAUTHORIZED>`
- * the type of name is evaluated to `Response<Forbidden> | Response<Unauthorized>`
+ * the type of name is evaluated to `Response<ForbiddenError> | Response<UnauthorizedError>`
  */
 export type ErrorResponses<T extends LkErrorKey> = T extends unknown
   ? Response<LkErrorKeyToInterface[T]>
@@ -84,90 +85,93 @@ export type ErrorResponses<T extends LkErrorKey> = T extends unknown
 /**
  * Every error can carry some payload
  */
-export interface ConnectionRefused extends LkError<LkErrorKey.CONNECTION_REFUSED> {
+export interface ConnectionRefusedError extends LkError<LkErrorKey.CONNECTION_REFUSED> {
   fetchConfig: FetchConfig;
 }
 
-export interface FeatureDisabled extends LkError<LkErrorKey.FEATURE_DISABLED> {}
+export interface FeatureDisabledError extends LkError<LkErrorKey.FEATURE_DISABLED> {}
 
-export interface Unauthorized extends LkError<LkErrorKey.UNAUTHORIZED> {}
+export interface UnauthorizedError extends LkError<LkErrorKey.UNAUTHORIZED> {}
 
-export interface DataSourceUnavailable extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
+export interface DataSourceUnavailableError extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
 
-export interface GuestDisabled extends LkError<LkErrorKey.GUEST_DISABLED> {}
+export interface GuestDisabledError extends LkError<LkErrorKey.GUEST_DISABLED> {}
 
-export interface Forbidden extends LkError<LkErrorKey.FORBIDDEN> {}
+export interface ForbiddenError extends LkError<LkErrorKey.FORBIDDEN> {}
 
-export interface NotFound extends LkError<LkErrorKey.NOT_FOUND> {
+export interface NotFoundError extends LkError<LkErrorKey.NOT_FOUND> {
   type?: string;
   id?: string;
 }
 
-export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
-  // TODO SERVER wrap errorHighlight for BadGraphRequest
+export interface BadGraphRequestErrorError extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
+  // TODO SERVER wrap errorHighlight for BadGraphRequestErrorError
   highlight?: ErrorHighlight;
 }
 
-export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
+export interface GraphRequestTimeoutError extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
 
-export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
+export interface ConstraintViolationError extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
 
-export interface MalformedCustomActionTemplate
+export interface MalformedCustomActionTemplateError
   extends LkError<LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE> {
   errors: CustomActionParsingError[];
 }
 
-export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
+export interface MalformedQueryTemplateError extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
   highlight?: ErrorHighlight;
 }
 
-export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
+export interface IllegalSourceStateError extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
 
-export interface FolderDeletionFailed extends LkError<LkErrorKey.FOLDER_DELETION_FAILED> {}
+export interface FolderDeletionFailedError extends LkError<LkErrorKey.FOLDER_DELETION_FAILED> {}
 
-export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXISTS> {}
+export interface AlreadyExistsError extends LkError<LkErrorKey.ALREADY_EXISTS> {}
 
-export interface StrictSchemaRequired extends LkError<LkErrorKey.STRICT_SCHEMA_REQUIRED> {}
+export interface StrictSchemaRequiredError extends LkError<LkErrorKey.STRICT_SCHEMA_REQUIRED> {}
 
-export interface PropertyKeyAccessRightsRequired
+export interface PropertyKeyAccessRightsRequiredError
   extends LkError<LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED> {}
 
-export interface InvalidPropertyKeyAccessLevel
+export interface InvalidPropertyKeyAccessLevelError
   extends LkError<LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL> {}
 
-export interface EditConflict extends LkError<LkErrorKey.EDIT_CONFLICT> {}
+export interface EditConflictError extends LkError<LkErrorKey.EDIT_CONFLICT> {}
 
-export interface NotSupported extends LkError<LkErrorKey.NOT_SUPPORTED> {}
+export interface NotSupportedError extends LkError<LkErrorKey.NOT_SUPPORTED> {}
 
-export interface InvalidParameter extends LkError<LkErrorKey.INVALID_PARAMETER> {}
+export interface SourceActionNeededError extends LkError<LkErrorKey.INVALID_PARAMETER> {}
 
-export interface Critical extends LkError<LkErrorKey.CRITICAL> {}
+export interface InvalidParameterError extends LkError<LkErrorKey.INVALID_PARAMETER> {}
+
+export interface CriticalError extends LkError<LkErrorKey.CRITICAL> {}
 
 export interface Bug extends LkError<LkErrorKey.BUG> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
-  [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefused;
-  [LkErrorKey.FEATURE_DISABLED]: FeatureDisabled;
-  [LkErrorKey.UNAUTHORIZED]: Unauthorized;
-  [LkErrorKey.DATA_SOURCE_UNAVAILABLE]: DataSourceUnavailable;
-  [LkErrorKey.GUEST_DISABLED]: GuestDisabled;
-  [LkErrorKey.FORBIDDEN]: Forbidden;
-  [LkErrorKey.NOT_FOUND]: NotFound;
-  [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequest;
-  [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeout;
-  [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolation;
-  [LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE]: MalformedCustomActionTemplate;
-  [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplate;
-  [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
-  [LkErrorKey.FOLDER_DELETION_FAILED]: FolderDeletionFailed;
-  [LkErrorKey.ALREADY_EXISTS]: AlreadyExists;
-  [LkErrorKey.STRICT_SCHEMA_REQUIRED]: StrictSchemaRequired;
-  [LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED]: PropertyKeyAccessRightsRequired;
-  [LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL]: InvalidPropertyKeyAccessLevel;
-  [LkErrorKey.EDIT_CONFLICT]: EditConflict;
-  [LkErrorKey.NOT_SUPPORTED]: NotSupported;
-  [LkErrorKey.INVALID_PARAMETER]: InvalidParameter;
-  [LkErrorKey.CRITICAL]: Critical;
+  [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
+  [LkErrorKey.FEATURE_DISABLED]: FeatureDisabledError;
+  [LkErrorKey.UNAUTHORIZED]: UnauthorizedError;
+  [LkErrorKey.DATA_SOURCE_UNAVAILABLE]: DataSourceUnavailableError;
+  [LkErrorKey.GUEST_DISABLED]: GuestDisabledError;
+  [LkErrorKey.FORBIDDEN]: ForbiddenError;
+  [LkErrorKey.NOT_FOUND]: NotFoundError;
+  [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequestErrorError;
+  [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeoutError;
+  [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolationError;
+  [LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE]: MalformedCustomActionTemplateError;
+  [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplateError;
+  [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceStateError;
+  [LkErrorKey.FOLDER_DELETION_FAILED]: FolderDeletionFailedError;
+  [LkErrorKey.ALREADY_EXISTS]: AlreadyExistsError;
+  [LkErrorKey.STRICT_SCHEMA_REQUIRED]: StrictSchemaRequiredError;
+  [LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED]: PropertyKeyAccessRightsRequiredError;
+  [LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL]: InvalidPropertyKeyAccessLevelError;
+  [LkErrorKey.EDIT_CONFLICT]: EditConflictError;
+  [LkErrorKey.NOT_SUPPORTED]: NotSupportedError;
+  [LkErrorKey.SOURCE_ACTION_NEEDED]: SourceActionNeededError;
+  [LkErrorKey.INVALID_PARAMETER]: InvalidParameterError;
+  [LkErrorKey.CRITICAL]: CriticalError;
   [LkErrorKey.BUG]: Bug;
 };
