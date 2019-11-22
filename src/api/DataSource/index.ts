@@ -22,7 +22,13 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN} = LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  GUEST_DISABLED,
+  FORBIDDEN,
+  ILLEGAL_SOURCE_STATE
+} = LkErrorKey;
 
 export class DataSourceAPI extends Request {
   /**
@@ -97,7 +103,7 @@ export class DataSourceAPI extends Request {
    * Delete a data-source configuration that has currently no connected data-source.
    */
   public deleteSourceConfig(params: IDeleteSourceConfigParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, ILLEGAL_SOURCE_STATE).request({
       url: '/admin/sources/config/:configIndex',
       method: 'POST',
       params: params

@@ -43,7 +43,8 @@ const {
   DATA_SOURCE_UNAVAILABLE,
   GUEST_DISABLED,
   NOT_FOUND,
-  FOLDER_DELETION_FAILED
+  FOLDER_DELETION_FAILED,
+  ALREADY_EXISTS
 } = LkErrorKey;
 
 export class VisualizationAPI extends Request {
@@ -132,7 +133,9 @@ export class VisualizationAPI extends Request {
    * Create a visualization folder.
    */
   public createVisualizationFolder(params: ICreateVisualizationFolderParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<VisualizationFolder>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS).request<
+      VisualizationFolder
+    >({
       url: '/:sourceKey/visualizations/folder',
       method: 'POST',
       params: params
@@ -143,7 +146,7 @@ export class VisualizationAPI extends Request {
    * Update a visualization folder.
    */
   public updateVisualizationFolder(params: IUpdateVisualizationFolderParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, ALREADY_EXISTS).request<
       VisualizationFolder
     >({
       url: '/:sourceKey/visualizations/folder/:id',

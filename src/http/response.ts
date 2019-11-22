@@ -98,7 +98,7 @@ export interface GuestDisabledError extends LkError<LkErrorKey.GUEST_DISABLED> {
 export interface ForbiddenError extends LkError<LkErrorKey.FORBIDDEN> {}
 
 export interface NotFoundError extends LkError<LkErrorKey.NOT_FOUND> {
-  type?: string;
+  item?: string;
   id?: string;
 }
 

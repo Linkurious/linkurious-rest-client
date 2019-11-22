@@ -41,7 +41,8 @@ const {
   BAD_GRAPH_REQUEST,
   GRAPH_REQUEST_TIMEOUT,
   CONSTRAINT_VIOLATION,
-  FOLDER_DELETION_FAILED
+  FOLDER_DELETION_FAILED,
+  ALREADY_EXISTS
 } = LkErrorKey;
 
 export class AlertAPI extends Request {
@@ -98,9 +99,13 @@ export class AlertAPI extends Request {
    * Create an alert folder.
    */
   public createAlertFolder(params: ICreateAlertFolderParams) {
-    return this.handle(FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
-      AlertFolder
-    >({
+    return this.handle(
+      FEATURE_DISABLED,
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      ALREADY_EXISTS
+    ).request<AlertFolder>({
       url: '/admin/:sourceKey/alerts/folder',
       method: 'POST',
       params: params
@@ -116,7 +121,8 @@ export class AlertAPI extends Request {
       UNAUTHORIZED,
       DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
-      NOT_FOUND
+      NOT_FOUND,
+      ALREADY_EXISTS
     ).request<AlertFolder>({
       url: '/admin/:sourceKey/alerts/folder/:id',
       method: 'PATCH',
