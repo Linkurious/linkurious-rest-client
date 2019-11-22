@@ -40,7 +40,8 @@ export enum LkErrorKey {
   INVALID_PARAMETER = 'invalid_parameter',
   CRITICAL = 'critical',
   BUG = 'bug',
-  SOCKET_ERROR = 'socket_error'
+  SOCKET_ERROR = 'socket_error',
+  API_NOT_FOUND = 'api_not_found'
 }
 
 /**
@@ -151,6 +152,8 @@ export interface Bug extends LkError<LkErrorKey.BUG> {}
 
 export interface SocketError extends LkError<LkErrorKey.SOCKET_ERROR> {}
 
+export interface ApiNotFoundError extends LkError<LkErrorKey.API_NOT_FOUND> {}
+
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
@@ -178,4 +181,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.CRITICAL]: CriticalError;
   [LkErrorKey.BUG]: Bug;
   [LkErrorKey.SOCKET_ERROR]: SocketError;
+  [LkErrorKey.API_NOT_FOUND]: ApiNotFoundError;
 };
