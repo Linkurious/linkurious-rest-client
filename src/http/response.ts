@@ -103,7 +103,6 @@ export interface NotFoundError extends LkError<LkErrorKey.NOT_FOUND> {
 }
 
 export interface BadGraphRequestErrorError extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
-  // TODO SERVER wrap errorHighlight for BadGraphRequestErrorError
   highlight?: ErrorHighlight;
 }
 
