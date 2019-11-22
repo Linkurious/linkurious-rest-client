@@ -11,7 +11,10 @@ import {ErrorHighlight} from '../api/GraphQuery';
 import {FetchConfig} from './types';
 
 export enum LkErrorKey {
-  CONNECTION_REFUSED = 'connection_refused', // Not a server error
+  // Not a server error, thrown internally by the rest-client
+  CONNECTION_REFUSED = 'connection_refused',
+
+  // Business and access errors
   FEATURE_DISABLED = 'feature_disabled',
   UNAUTHORIZED = 'unauthorized',
   DATA_SOURCE_UNAVAILABLE = 'dataSource_unavailable',
@@ -36,7 +39,8 @@ export enum LkErrorKey {
   // Supposedly not returned by the rest-client
   INVALID_PARAMETER = 'invalid_parameter',
   CRITICAL = 'critical',
-  BUG = 'bug'
+  BUG = 'bug',
+  SOCKET_ERROR = 'socket_error'
 }
 
 /**
@@ -145,6 +149,8 @@ export interface CriticalError extends LkError<LkErrorKey.CRITICAL> {}
 
 export interface Bug extends LkError<LkErrorKey.BUG> {}
 
+export interface SocketError extends LkError<LkErrorKey.SOCKET_ERROR> {}
+
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
@@ -171,4 +177,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.INVALID_PARAMETER]: InvalidParameterError;
   [LkErrorKey.CRITICAL]: CriticalError;
   [LkErrorKey.BUG]: Bug;
+  [LkErrorKey.SOCKET_ERROR]: SocketError;
 };
