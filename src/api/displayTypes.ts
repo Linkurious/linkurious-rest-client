@@ -87,9 +87,9 @@ export interface StyleColor {
 }
 
 export interface StyleIcon {
-  content?: string | number | null;
+  content?: string | number;
   font?: string;
-  color?: string | undefined | null;
+  color?: string;
   scale?: number;
   minVisibleSize?: number;
 }
