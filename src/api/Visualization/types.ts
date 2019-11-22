@@ -27,7 +27,9 @@ export interface IGetVisualizationParams extends IDataSourceParams {
 export enum VisualizationRight {
   READ = 'read',
   WRITE = 'write',
-  OWNER = 'owner'
+  WRITE_FILTERED = 'write-filtered',
+  OWNER = 'owner',
+  OWNER_FILTERED = 'owner-filtered'
 }
 
 export enum VisualizationMode {
