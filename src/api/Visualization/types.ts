@@ -183,7 +183,6 @@ export interface ICreateVisualizationFolderParams extends IDataSourceParams {
   parent: number;
 }
 
-// TODO SERVER add createdAt updatedAt to vizFolder
 export interface VisualizationFolder extends PersistedItem {
   title: string;
   parent: number;

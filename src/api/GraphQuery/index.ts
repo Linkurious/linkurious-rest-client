@@ -23,7 +23,6 @@ import {
 
 export * from './types';
 
-// TODO SERVER make sure data-source unavailable is thrown instead of graph_unreachable
 const {
   UNAUTHORIZED,
   DATA_SOURCE_UNAVAILABLE,
