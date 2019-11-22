@@ -4,11 +4,11 @@
  * - Created on 2019-10-01.
  */
 
-import { GenericObject } from '../api/commonTypes';
-import { CustomActionParsingError } from '../api/CustomAction';
-import { ErrorHighlight } from '../api/GraphQuery';
+import {GenericObject} from '../api/commonTypes';
+import {CustomActionParsingError} from '../api/CustomAction';
+import {ErrorHighlight} from '../api/GraphQuery';
 
-import { FetchConfig } from './types';
+import {FetchConfig} from './types';
 
 export enum LkErrorKey {
   CONNECTION_REFUSED = 'connection_refused', // Not a server error
@@ -43,7 +43,7 @@ export class Response<B> {
   status: number;
   header: GenericObject;
 
-  constructor(options: { body: B; status?: number; header?: GenericObject }) {
+  constructor(options: {body: B; status?: number; header?: GenericObject}) {
     this.body = options.body;
     this.status = options.status || 0;
     this.header = options.header || {};
@@ -78,30 +78,23 @@ export interface ConnectionRefused extends LkError<LkErrorKey.CONNECTION_REFUSED
   fetchConfig: FetchConfig;
 }
 
-export interface Unauthorized extends LkError<LkErrorKey.UNAUTHORIZED> {
-}
+export interface Unauthorized extends LkError<LkErrorKey.UNAUTHORIZED> {}
 
-export interface DataSourceUnavailable extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {
-}
+export interface DataSourceUnavailable extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
 
-export interface GuestDisabled extends LkError<LkErrorKey.GUEST_DISABLED> {
-}
+export interface GuestDisabled extends LkError<LkErrorKey.GUEST_DISABLED> {}
 
-export interface Forbidden extends LkError<LkErrorKey.FORBIDDEN> {
-}
+export interface Forbidden extends LkError<LkErrorKey.FORBIDDEN> {}
 
-export interface NotFound extends LkError<LkErrorKey.NOT_FOUND> {
-}
+export interface NotFound extends LkError<LkErrorKey.NOT_FOUND> {}
 
 export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
   highlight: ErrorHighlight;
 }
 
-export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {
-}
+export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
 
-export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {
-}
+export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
 
 export interface MalformedCustomActionTemplate
   extends LkError<LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE> {
@@ -112,18 +105,14 @@ export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUE
   highlight: ErrorHighlight;
 }
 
-export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {
-}
+export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
 
 export interface CannotDeleteNonEmptyFolder
-  extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {
-}
+  extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
 
-export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXISTS> {
-}
+export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXISTS> {}
 
-export interface EditConflict extends LkError<LkErrorKey.EDIT_CONFLICT> {
-}
+export interface EditConflict extends LkError<LkErrorKey.EDIT_CONFLICT> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
