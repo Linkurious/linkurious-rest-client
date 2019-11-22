@@ -25,7 +25,6 @@ export enum LkErrorKey {
   MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
   ILLEGAL_SOURCE_STATE = 'illegal_source_state',
   FOLDER_DELETION_FAILED = 'folder_deletion_failed',
-  // TODO SERVER throw already exists instead of users and group exists
   ALREADY_EXISTS = 'already_exists',
   STRICT_SCHEMA_REQUIRED = 'strict_schema_required',
   PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED = 'property_key_access_rights_required',
