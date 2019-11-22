@@ -183,7 +183,7 @@ export class VisualizationAPI extends Request {
    * Get the visualization sandbox of the current user for a given data-source.
    */
   public getSandbox(params?: IGetSandboxParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
       Visualization
     >({
       url: '/:sourceKey/sandbox',

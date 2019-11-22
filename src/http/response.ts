@@ -51,6 +51,7 @@ export class Response<B> {
   body: B;
   status: number;
   header: GenericObject;
+
   constructor(options: {body: B; status?: number; header?: GenericObject}) {
     this.body = options.body;
     this.status = options.status || 0;
@@ -85,39 +86,58 @@ export type ErrorResponses<T extends LkErrorKey> = T extends unknown
 export interface ConnectionRefused extends LkError<LkErrorKey.CONNECTION_REFUSED> {
   fetchConfig: FetchConfig;
 }
+
 export interface Unauthorized extends LkError<LkErrorKey.UNAUTHORIZED> {}
+
 export interface DataSourceUnavailable extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
+
 export interface GuestDisabled extends LkError<LkErrorKey.GUEST_DISABLED> {}
+
 export interface Forbidden extends LkError<LkErrorKey.FORBIDDEN> {}
+
 export interface NotFound extends LkError<LkErrorKey.NOT_FOUND> {
   type: string;
   id: string;
 }
 export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
-  offset?: number;
+  highlight: ErrorHighlight;
 }
+
 export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
+
 export interface ConstraintViolation extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
+
 export interface MalformedCustomActionTemplate
   extends LkError<LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE> {
   errors: CustomActionParsingError[];
 }
+
 export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
   highlight?: ErrorHighlight;
 }
+
 export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
+
 export interface CannotDeleteNonEmptyFolder
   extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
+
 export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXISTS> {}
+
 export interface PropertyKeyAccessRightsRequiresStrictSchema
   extends LkError<LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA> {}
+
 export interface PropertyKeyAccessRightsRequired
   extends LkError<LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED> {}
+
 export interface InvalidPropertyKeyAccessLevel
   extends LkError<LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL> {}
+
 export interface EditConflict extends LkError<LkErrorKey.EDIT_CONFLICT> {}
+
 export interface FeatureDisabled extends LkError<LkErrorKey.FEATURE_DISABLED> {}
+
 export interface InvalidParameter extends LkError<LkErrorKey.INVALID_PARAMETER> {}
+
 export interface Bug extends LkError<LkErrorKey.BUG> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`

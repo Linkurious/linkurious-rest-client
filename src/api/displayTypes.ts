@@ -15,44 +15,45 @@ export enum SelectorType {
   IS = 'is'
 }
 
-export interface SelectorNoValue extends ItemSelector {
+export interface BaseSelector {
+  type: SelectorType;
+  input?: string[];
+  value?: RangeValues | number | string | boolean;
+}
+
+export interface SelectorNoValue extends BaseSelector {
   type: SelectorType.NO_VALUE;
   itemType: string;
   input: string[];
 }
 
-export interface SelectorNaN extends ItemSelector {
+export interface SelectorNaN extends BaseSelector {
   type: SelectorType.NAN;
   itemType: string;
   input: string[];
 }
 
-export interface SelectorAny extends ItemSelector {
+export interface SelectorAny extends BaseSelector {
   type: SelectorType.ANY;
-  itemType?: undefined;
+  itemType?: string; // optional only if type='any'
   input: undefined;
 }
 
-export interface SelectorRange extends ItemSelector {
+export interface SelectorRange extends BaseSelector {
   type: SelectorType.RANGE;
   itemType: string;
   input: string[];
   value: RangeValues;
 }
 
-export interface SelectorIs extends ItemSelector {
+export interface SelectorIs extends BaseSelector {
   type: SelectorType.IS;
   itemType: string;
   input: string[];
   value: number | string | boolean;
 }
 
-export interface ItemSelector {
-  type: SelectorType;
-  itemType?: string; // optional only if type='any'
-  input?: string[];
-  value?: RangeValues | number | string | boolean;
-}
+export type ItemSelector = SelectorAny | SelectorIs | SelectorNoValue | SelectorNaN | SelectorRange;
 
 export interface RangeValues {
   '<='?: number;
@@ -88,7 +89,7 @@ export interface StyleColor {
 export interface StyleIcon {
   content?: string | number;
   font?: string;
-  color?: string | StyleColor;
+  color?: string;
   scale?: number;
   minVisibleSize?: number;
 }
@@ -120,8 +121,9 @@ export interface EdgeStyle {
   shape?: OgmaEdgeShape;
 }
 
-export interface IStyleRule<T extends NodeStyle | EdgeStyle> extends ItemSelector {
+export interface IStyleRule<T extends NodeStyle | EdgeStyle> extends BaseSelector {
   index: number;
+  itemType?: string;
   style: T;
 }
 
