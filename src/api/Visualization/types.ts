@@ -121,7 +121,8 @@ export interface Visualization extends PersistedItem {
   design: VisualizationDesign;
   filters: VisualizationFilters;
   sourceKey: string;
-  userId: number;
+  // TODO SERVER Add owner to the visualization object
+  owner: Pick<User, 'id' | 'username' | 'email'>;
   sandbox: boolean;
   alternativeIds: AlternativeIdSettings;
   mode: VisualizationMode;
