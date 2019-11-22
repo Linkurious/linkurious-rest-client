@@ -106,7 +106,7 @@ export interface BooleanTemplate extends TemplateField<TemplateFieldType.BOOLEAN
   };
 }
 
-export type AnyTemplate =
+export type Template =
   | NumberTemplate
   | StringTemplate
   | EnumTemplate
@@ -154,7 +154,7 @@ export interface GraphQuery extends PersistedItem {
   sharedWithGroups?: number[]; // defined only if sharing='groups'
   write: boolean;
   graphInput?: GraphQueryInputType; // defined only if type='template'
-  templateFields?: AnyTemplate[]; // defined only if type='template'
+  templateFields?: Template[]; // defined only if type='template'
   type: GraphQueryType;
   right: GraphQueryRight;
   builtin: boolean;
@@ -194,7 +194,7 @@ export interface CheckQueryResponse {
   write: boolean;
   type: GraphQueryType;
   graphInput?: GraphQueryInputType; // defined only if type='template'
-  templateFields?: AnyTemplate[]; // defined only if type='template'
+  templateFields?: Template[]; // defined only if type='template'
 }
 
 export interface IRunQueryParams extends IDataSourceParams {
