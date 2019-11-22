@@ -12,10 +12,10 @@ import {IDataSourceParams} from '../commonTypes';
 import {
   ICreateNodeParams,
   IDeleteNodeParams,
-  IGetNodeParams,
-  IUpdateNodeParams,
   IGetAdjacentNodesParams,
-  IGetStatisticsParams
+  IGetNodeParams,
+  IGetStatisticsParams,
+  IUpdateNodeParams
 } from './types';
 
 export * from './types';
@@ -26,7 +26,8 @@ const {
   GUEST_DISABLED,
   FORBIDDEN,
   NOT_FOUND,
-  EDIT_CONFLICT
+  EDIT_CONFLICT,
+  NOT_SUPPORTED
 } = LkErrorKey;
 
 export class GraphNodeAPI extends Request {
@@ -65,7 +66,8 @@ export class GraphNodeAPI extends Request {
       DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
       NOT_FOUND,
-      EDIT_CONFLICT
+      EDIT_CONFLICT,
+      NOT_SUPPORTED
     ).request<LkNode>({
       url: '/:sourceKey/graph/nodes/:id',
       method: 'PATCH',

@@ -32,6 +32,7 @@ export enum LkErrorKey {
   PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED = 'property_key_access_rights_required',
   INVALID_PROPERTY_KEY_ACCESS_LEVEL = 'invalid_property_key_access_level',
   EDIT_CONFLICT = 'edit_conflict',
+  NOT_SUPPORTED = 'not_supported',
 
   // Supposedly not returned by the rest-client
   INVALID_PARAMETER = 'invalid_parameter',
@@ -136,6 +137,8 @@ export interface InvalidPropertyKeyAccessLevel
 
 export interface EditConflict extends LkError<LkErrorKey.EDIT_CONFLICT> {}
 
+export interface NotSupported extends LkError<LkErrorKey.NOT_SUPPORTED> {}
+
 export interface InvalidParameter extends LkError<LkErrorKey.INVALID_PARAMETER> {}
 
 export interface Critical extends LkError<LkErrorKey.CRITICAL> {}
@@ -163,6 +166,7 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED]: PropertyKeyAccessRightsRequired;
   [LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL]: InvalidPropertyKeyAccessLevel;
   [LkErrorKey.EDIT_CONFLICT]: EditConflict;
+  [LkErrorKey.NOT_SUPPORTED]: NotSupported;
   [LkErrorKey.INVALID_PARAMETER]: InvalidParameter;
   [LkErrorKey.CRITICAL]: Critical;
   [LkErrorKey.BUG]: Bug;
