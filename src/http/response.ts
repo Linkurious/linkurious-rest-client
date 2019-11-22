@@ -89,7 +89,7 @@ export interface Forbidden extends LkError<LkErrorKey.FORBIDDEN> {}
 export interface NotFound extends LkError<LkErrorKey.NOT_FOUND> {}
 
 export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
-  highlight: ErrorHighlight;
+  highlight?: ErrorHighlight;
 }
 
 export interface GraphRequestTimeout extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
@@ -102,7 +102,7 @@ export interface MalformedCustomActionTemplate
 }
 
 export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
-  highlight: ErrorHighlight;
+  highlight?: ErrorHighlight;
 }
 
 export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
