@@ -39,8 +39,8 @@ export interface ISearchUsersParams {
 
 export interface SearchUserResponse {
   found: number;
-  // TODO PKAR shouldn't return accessRights of user on search
-  results: Array<Omit<User, 'accessRights'> & {visCount: number}>;
+  // TODO we shouldn't return the access-rights of a user on search, everyone can run this API
+  results: Array<User & {visCount: number}>;
 }
 
 export interface ICreateUserParams {
