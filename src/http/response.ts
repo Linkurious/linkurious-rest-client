@@ -116,7 +116,7 @@ export interface MalformedCustomActionTemplateError
 }
 
 export interface MalformedQueryTemplateError extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
-  highlight?: ErrorHighlight;
+  highlight: ErrorHighlight;
 }
 
 export interface IllegalSourceStateError extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
