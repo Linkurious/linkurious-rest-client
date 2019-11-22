@@ -33,6 +33,7 @@ import {
 export * from './types';
 
 const {
+  FEATURE_DISABLED,
   UNAUTHORIZED,
   DATA_SOURCE_UNAVAILABLE,
   FORBIDDEN,
@@ -40,7 +41,7 @@ const {
   BAD_GRAPH_REQUEST,
   GRAPH_REQUEST_TIMEOUT,
   CONSTRAINT_VIOLATION,
-  CANNOT_DELETE_NON_EMPTY_FOLDER
+  FOLDER_DELETION_FAILED
 } = LkErrorKey;
 
 export class AlertAPI extends Request {
@@ -49,7 +50,9 @@ export class AlertAPI extends Request {
    * will disappear when they stop matching the alert query.
    */
   public createAlert(params: ICreateAlertParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<Alert>({
+    return this.handle(FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
+      Alert
+    >({
       url: '/admin/:sourceKey/alerts',
       method: 'POST',
       params: params
@@ -61,7 +64,13 @@ export class AlertAPI extends Request {
    * Updating an alert query will results in all the previous detected matches deleted.
    */
   public updateAlert(params: IUpdateAlertParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<Alert>({
+    return this.handle(
+      FEATURE_DISABLED,
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND
+    ).request<Alert>({
       url: '/admin/:sourceKey/alerts/:id',
       method: 'PATCH',
       params: params
@@ -72,7 +81,13 @@ export class AlertAPI extends Request {
    * Delete the alert by id and all its matches.
    */
   public deleteAlert(params: IDeleteAlertParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
+    return this.handle(
+      FEATURE_DISABLED,
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND
+    ).request({
       url: '/admin/:sourceKey/alerts/:id',
       method: 'DELETE',
       params: params
@@ -83,7 +98,9 @@ export class AlertAPI extends Request {
    * Create an alert folder.
    */
   public createAlertFolder(params: ICreateAlertFolderParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<AlertFolder>({
+    return this.handle(FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
+      AlertFolder
+    >({
       url: '/admin/:sourceKey/alerts/folder',
       method: 'POST',
       params: params
@@ -94,9 +111,13 @@ export class AlertAPI extends Request {
    * Update an alert folder.
    */
   public updateAlertFolder(params: IUpdateAlertFolderParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
-      AlertFolder
-    >({
+    return this.handle(
+      FEATURE_DISABLED,
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND
+    ).request<AlertFolder>({
       url: '/admin/:sourceKey/alerts/folder/:id',
       method: 'PATCH',
       params: params
@@ -108,11 +129,12 @@ export class AlertAPI extends Request {
    */
   public deleteAlertFolder(params: IDeleteAlertFolderParams) {
     return this.handle(
+      FEATURE_DISABLED,
       UNAUTHORIZED,
       DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
       NOT_FOUND,
-      CANNOT_DELETE_NON_EMPTY_FOLDER
+      FOLDER_DELETION_FAILED
     ).request({
       url: '/admin/:sourceKey/alerts/folder/:id',
       method: 'DELETE',
@@ -124,7 +146,9 @@ export class AlertAPI extends Request {
    * Get the alerts and the alert folders in a tree structure.
    */
   public getAlertTree(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<AlertTree>({
+    return this.handle(FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
+      AlertTree
+    >({
       url: '/:sourceKey/alerts/tree',
       method: 'GET',
       params: params
@@ -135,7 +159,13 @@ export class AlertAPI extends Request {
    * Get an alert by id.
    */
   public getAlert(params: IGetAlertParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<Alert>({
+    return this.handle(
+      FEATURE_DISABLED,
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND
+    ).request<Alert>({
       url: '/:sourceKey/alerts/:id',
       method: 'GET',
       params: params
@@ -146,7 +176,13 @@ export class AlertAPI extends Request {
    * Get a match by id.
    */
   public getMatch(params: IGetMatchParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<Match>({
+    return this.handle(
+      FEATURE_DISABLED,
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND
+    ).request<Match>({
       url: '/:sourceKey/alerts/:alertId/matches/:matchId',
       method: 'GET',
       params: params
@@ -157,9 +193,13 @@ export class AlertAPI extends Request {
    * Get all the matches of an alert.
    */
   public getMatches(params: IGetMatchesParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
-      GetMatchesResponse
-    >({
+    return this.handle(
+      FEATURE_DISABLED,
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND
+    ).request<GetMatchesResponse>({
       url: '/:sourceKey/alerts/:alertId/matches',
       method: 'GET',
       params: params
@@ -170,9 +210,13 @@ export class AlertAPI extends Request {
    * Get all the actions of a match ordered by creation date.
    */
   public getMatchActions(params: IGetMatchActionsParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<
-      MatchAction[]
-    >({
+    return this.handle(
+      FEATURE_DISABLED,
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND
+    ).request<MatchAction[]>({
       url: '/:sourceKey/alerts/:alertId/matches/:matchId/actions',
       method: 'GET',
       params: params
@@ -183,7 +227,13 @@ export class AlertAPI extends Request {
    * Do an action (open, dismiss, confirm, unconfirm) on a match.
    */
   public doMatchAction(params: IDoMatchActionParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
+    return this.handle(
+      FEATURE_DISABLED,
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      FORBIDDEN,
+      NOT_FOUND
+    ).request({
       url: '/:sourceKey/alerts/:alertId/matches/:matchId/action',
       method: 'POST',
       params: params
@@ -196,6 +246,7 @@ export class AlertAPI extends Request {
    */
   public alertPreview(params: IAlertPreviewParams) {
     return this.handle(
+      FEATURE_DISABLED,
       UNAUTHORIZED,
       DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,

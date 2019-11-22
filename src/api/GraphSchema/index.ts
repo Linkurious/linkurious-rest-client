@@ -33,7 +33,7 @@ const {
   GUEST_DISABLED,
   FORBIDDEN,
   NOT_FOUND,
-  PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA
+  STRICT_SCHEMA_REQUIRED
 } = LkErrorKey;
 
 export class GraphSchemaAPI extends Request {
@@ -94,7 +94,7 @@ export class GraphSchemaAPI extends Request {
       UNAUTHORIZED,
       DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
-      PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA
+      STRICT_SCHEMA_REQUIRED
     ).request({
       url: '/admin/:sourceKey/graph/schema/settings',
       method: 'PATCH',

@@ -43,7 +43,7 @@ const {
   DATA_SOURCE_UNAVAILABLE,
   GUEST_DISABLED,
   NOT_FOUND,
-  CANNOT_DELETE_NON_EMPTY_FOLDER
+  FOLDER_DELETION_FAILED
 } = LkErrorKey;
 
 export class VisualizationAPI extends Request {
@@ -160,7 +160,7 @@ export class VisualizationAPI extends Request {
       UNAUTHORIZED,
       DATA_SOURCE_UNAVAILABLE,
       NOT_FOUND,
-      CANNOT_DELETE_NON_EMPTY_FOLDER
+      FOLDER_DELETION_FAILED
     ).request({
       url: '/:sourceKey/visualizations/folder/:id',
       method: 'DELETE',

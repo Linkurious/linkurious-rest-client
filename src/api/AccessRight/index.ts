@@ -18,7 +18,7 @@ const {
   NOT_FOUND,
   PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED,
   INVALID_PROPERTY_KEY_ACCESS_LEVEL,
-  PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA
+  STRICT_SCHEMA_REQUIRED
 } = LkErrorKey;
 
 export class AccessRightAPI extends Request {
@@ -48,7 +48,7 @@ export class AccessRightAPI extends Request {
       UNAUTHORIZED,
       DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
-      PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA
+      STRICT_SCHEMA_REQUIRED
     ).request({
       url: '/admin/:sourceKey/accessRights/settings',
       method: 'PATCH',

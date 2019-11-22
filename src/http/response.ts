@@ -12,6 +12,7 @@ import {FetchConfig} from './types';
 
 export enum LkErrorKey {
   CONNECTION_REFUSED = 'connection_refused', // Not a server error
+  FEATURE_DISABLED = 'feature_disabled',
   UNAUTHORIZED = 'unauthorized',
   DATA_SOURCE_UNAVAILABLE = 'dataSource_unavailable',
   GUEST_DISABLED = 'guest_disabled',
@@ -24,18 +25,17 @@ export enum LkErrorKey {
   MALFORMED_CUSTOM_ACTION_TEMPLATE = 'malformed_custom_action_template',
   MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
   ILLEGAL_SOURCE_STATE = 'illegal_source_state',
-  CANNOT_DELETE_NON_EMPTY_FOLDER = 'folder_deletion_failed',
+  FOLDER_DELETION_FAILED = 'folder_deletion_failed',
   // TODO SERVER throw already exists instead of users and group exists
   ALREADY_EXISTS = 'already_exists',
-  // TODO PKAR name too long
-  PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA = 'property_key_access_rights_requires_strict_schema',
+  STRICT_SCHEMA_REQUIRED = 'strict_schema_required',
   PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED = 'property_key_access_rights_required',
   INVALID_PROPERTY_KEY_ACCESS_LEVEL = 'invalid_property_key_access_level',
   EDIT_CONFLICT = 'edit_conflict',
-  FEATURE_DISABLED = 'feature_disabled',
 
   // Supposedly not returned by the rest-client
   INVALID_PARAMETER = 'invalid_parameter',
+  CRITICAL = 'critical',
   BUG = 'bug'
 }
 
@@ -87,6 +87,8 @@ export interface ConnectionRefused extends LkError<LkErrorKey.CONNECTION_REFUSED
   fetchConfig: FetchConfig;
 }
 
+export interface FeatureDisabled extends LkError<LkErrorKey.FEATURE_DISABLED> {}
+
 export interface Unauthorized extends LkError<LkErrorKey.UNAUTHORIZED> {}
 
 export interface DataSourceUnavailable extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
@@ -96,9 +98,10 @@ export interface GuestDisabled extends LkError<LkErrorKey.GUEST_DISABLED> {}
 export interface Forbidden extends LkError<LkErrorKey.FORBIDDEN> {}
 
 export interface NotFound extends LkError<LkErrorKey.NOT_FOUND> {
-  type: string;
-  id: string;
+  type?: string;
+  id?: string;
 }
+
 export interface BadGraphRequest extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
   // TODO SERVER wrap errorHighlight for BadGraphRequest
   highlight?: ErrorHighlight;
@@ -119,13 +122,11 @@ export interface MalformedQueryTemplate extends LkError<LkErrorKey.MALFORMED_QUE
 
 export interface IllegalSourceState extends LkError<LkErrorKey.ILLEGAL_SOURCE_STATE> {}
 
-export interface CannotDeleteNonEmptyFolder
-  extends LkError<LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER> {}
+export interface FolderDeletionFailed extends LkError<LkErrorKey.FOLDER_DELETION_FAILED> {}
 
 export interface AlreadyExists extends LkError<LkErrorKey.ALREADY_EXISTS> {}
 
-export interface PropertyKeyAccessRightsRequiresStrictSchema
-  extends LkError<LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA> {}
+export interface StrictSchemaRequired extends LkError<LkErrorKey.STRICT_SCHEMA_REQUIRED> {}
 
 export interface PropertyKeyAccessRightsRequired
   extends LkError<LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED> {}
@@ -135,15 +136,16 @@ export interface InvalidPropertyKeyAccessLevel
 
 export interface EditConflict extends LkError<LkErrorKey.EDIT_CONFLICT> {}
 
-export interface FeatureDisabled extends LkError<LkErrorKey.FEATURE_DISABLED> {}
-
 export interface InvalidParameter extends LkError<LkErrorKey.INVALID_PARAMETER> {}
+
+export interface Critical extends LkError<LkErrorKey.CRITICAL> {}
 
 export interface Bug extends LkError<LkErrorKey.BUG> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefused;
+  [LkErrorKey.FEATURE_DISABLED]: FeatureDisabled;
   [LkErrorKey.UNAUTHORIZED]: Unauthorized;
   [LkErrorKey.DATA_SOURCE_UNAVAILABLE]: DataSourceUnavailable;
   [LkErrorKey.GUEST_DISABLED]: GuestDisabled;
@@ -155,13 +157,13 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE]: MalformedCustomActionTemplate;
   [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplate;
   [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceState;
-  [LkErrorKey.CANNOT_DELETE_NON_EMPTY_FOLDER]: CannotDeleteNonEmptyFolder;
+  [LkErrorKey.FOLDER_DELETION_FAILED]: FolderDeletionFailed;
   [LkErrorKey.ALREADY_EXISTS]: AlreadyExists;
-  [LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRES_STRICT_SCHEMA]: PropertyKeyAccessRightsRequiresStrictSchema;
+  [LkErrorKey.STRICT_SCHEMA_REQUIRED]: StrictSchemaRequired;
   [LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED]: PropertyKeyAccessRightsRequired;
   [LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL]: InvalidPropertyKeyAccessLevel;
   [LkErrorKey.EDIT_CONFLICT]: EditConflict;
-  [LkErrorKey.FEATURE_DISABLED]: FeatureDisabled;
   [LkErrorKey.INVALID_PARAMETER]: InvalidParameter;
+  [LkErrorKey.CRITICAL]: Critical;
   [LkErrorKey.BUG]: Bug;
 };
