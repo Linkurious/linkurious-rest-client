@@ -44,7 +44,8 @@ const {
   GUEST_DISABLED,
   NOT_FOUND,
   FOLDER_DELETION_FAILED,
-  ALREADY_EXISTS
+  ALREADY_EXISTS,
+  VISUALIZATION_LOCKED
 } = LkErrorKey;
 
 export class VisualizationAPI extends Request {
@@ -109,7 +110,12 @@ export class VisualizationAPI extends Request {
    * Update the visualization selected by id.
    */
   public updateVisualization(params: IUpdateVisualizationParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request({
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      NOT_FOUND,
+      VISUALIZATION_LOCKED
+    ).request({
       url: '/:sourceKey/visualizations/:id',
       method: 'PATCH',
       params: params

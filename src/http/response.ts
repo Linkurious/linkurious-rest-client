@@ -33,6 +33,7 @@ export enum LkErrorKey {
   PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED = 'property_key_access_rights_required',
   INVALID_PROPERTY_KEY_ACCESS_LEVEL = 'invalid_property_key_access_level',
   EDIT_CONFLICT = 'edit_conflict',
+  VISUALIZATION_LOCKED = 'visualization_locked',
   NOT_SUPPORTED = 'not_supported',
   SOURCE_ACTION_NEEDED = 'source_action_needed',
 
@@ -140,6 +141,8 @@ export interface InvalidPropertyKeyAccessLevelError
 
 export interface EditConflictError extends LkError<LkErrorKey.EDIT_CONFLICT> {}
 
+export interface VisualizationLockedError extends LkError<LkErrorKey.VISUALIZATION_LOCKED> {}
+
 export interface NotSupportedError extends LkError<LkErrorKey.NOT_SUPPORTED> {}
 
 export interface SourceActionNeededError extends LkError<LkErrorKey.INVALID_PARAMETER> {}
@@ -175,6 +178,7 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED]: PropertyKeyAccessRightsRequiredError;
   [LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL]: InvalidPropertyKeyAccessLevelError;
   [LkErrorKey.EDIT_CONFLICT]: EditConflictError;
+  [LkErrorKey.VISUALIZATION_LOCKED]: VisualizationLockedError;
   [LkErrorKey.NOT_SUPPORTED]: NotSupportedError;
   [LkErrorKey.SOURCE_ACTION_NEEDED]: SourceActionNeededError;
   [LkErrorKey.INVALID_PARAMETER]: InvalidParameterError;
