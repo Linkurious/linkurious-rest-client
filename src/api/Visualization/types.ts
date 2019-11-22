@@ -126,7 +126,6 @@ export interface Visualization extends PersistedItem {
   layout: VisualizationLayout;
   geo: VisualizationGeo;
   timeline: VisualizationTimeline;
-  // TODO SERVER Add right to the sandbox and createViz
   right: VisualizationRight;
   widgetKey?: string; // defined if the visualization has a widget
 }

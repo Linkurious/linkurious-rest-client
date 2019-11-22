@@ -39,7 +39,6 @@ export interface ISearchUsersParams {
 
 export interface SearchUserResponse {
   found: number;
-  // TODO we shouldn't return the access-rights of a user on search, everyone can run this API
   results: Array<User & {visCount: number}>;
 }
 
