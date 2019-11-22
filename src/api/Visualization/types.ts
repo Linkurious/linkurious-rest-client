@@ -61,7 +61,6 @@ export interface VisualizationGeo {
   layers: string[];
 }
 
-// TODO SERVER make viz layout mandatory
 export type VisualizationLayout = ForceAlgorithm | HierarchicalAlgorithm | RadialAlgorithm;
 
 export type ForceLayoutMode = 'best' | 'fast';
@@ -82,7 +81,6 @@ export interface HierarchicalParameters {
   rootNode?: string;
 }
 
-// TODO SERVER make rootNode mandatory
 export interface RadialParameters {
   rootNode: string;
 }

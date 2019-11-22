@@ -16,7 +16,6 @@ export enum LkErrorKey {
   UNAUTHORIZED = 'unauthorized',
   DATA_SOURCE_UNAVAILABLE = 'dataSource_unavailable',
   GUEST_DISABLED = 'guest_disabled',
-  // TODO SERVER throw forbidden instead of write_forbidden
   FORBIDDEN = 'forbidden',
   NOT_FOUND = 'not_found',
   BAD_GRAPH_REQUEST = 'bad_graph_request',
