@@ -4,8 +4,7 @@
  * - Created on 2019-03-13.
  */
 
-import {Response as SuperAgentResponse} from 'superagent';
-
+import {SuperAgentResponse} from './http/types';
 import {LkErrorKey, LkErrorKeyToInterface} from './http/response';
 
 type SimpleCallback<A = unknown, B = unknown> = (payload: A) => B;

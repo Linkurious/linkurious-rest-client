@@ -31,7 +31,7 @@ export class SearchAPI extends Request {
    * Start the indexation.
    * The API doesn't wait for the indexation to finish.
    */
-  public startIndexation(params: IDataSourceParams) {
+  public startIndexation(params?: IDataSourceParams) {
     return this.handle(
       UNAUTHORIZED,
       DATA_SOURCE_UNAVAILABLE,
@@ -47,7 +47,7 @@ export class SearchAPI extends Request {
   /**
    * Get the indexation status for a given data-source.
    */
-  public getIndexationStatus(params: IDataSourceParams) {
+  public getIndexationStatus(params?: IDataSourceParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, GUEST_DISABLED).request<
       GetIndexationStatusResponse
     >({

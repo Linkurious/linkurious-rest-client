@@ -45,7 +45,7 @@ export type ItemFieldsCaptions = GenericObject<CaptionConfig>;
 
 export interface ItemFields {
   captions: ItemFieldsCaptions;
-  types: GenericObject<'string' | 'number' | 'date-timestamp'>;
+  types: GenericObject<GenericObject<{type: 'string' | 'number'}>>;
 }
 
 export interface VisualizationDesign {
@@ -226,7 +226,7 @@ export interface IGetSandboxParams extends IDataSourceParams {
   matchId?: number;
   searchQuery?: string;
   searchFuzziness?: number;
-  patternQuery?: boolean;
+  patternQuery?: string;
   patternDialect?: GraphQueryDialect;
   doLayout?: boolean;
   withDigest?: boolean;
@@ -238,7 +238,6 @@ export interface IUpdateSandboxParams extends IDataSourceParams {
   nodeFields?: ItemFields;
   edgeFields?: ItemFields;
   geo?: VisualizationGeo;
-  layout?: VisualizationLayout;
 }
 
 export interface IGetVisualizationSharesParams extends IDataSourceParams {
