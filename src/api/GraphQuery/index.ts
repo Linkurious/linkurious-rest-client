@@ -121,7 +121,8 @@ export class GraphQueryAPI extends Request {
       FORBIDDEN,
       BAD_GRAPH_REQUEST,
       GRAPH_REQUEST_TIMEOUT,
-      CONSTRAINT_VIOLATION
+      CONSTRAINT_VIOLATION,
+      MALFORMED_QUERY_TEMPLATE
     ).request<CheckQueryResponse>({
       url: '/:sourceKey/graph/check/query',
       method: 'POST',
@@ -140,7 +141,8 @@ export class GraphQueryAPI extends Request {
       FORBIDDEN,
       BAD_GRAPH_REQUEST,
       GRAPH_REQUEST_TIMEOUT,
-      CONSTRAINT_VIOLATION
+      CONSTRAINT_VIOLATION,
+      MALFORMED_QUERY_TEMPLATE
     ).request<RunQueryResponse>({
       url: '/:sourceKey/graph/run/query',
       method: 'POST',
