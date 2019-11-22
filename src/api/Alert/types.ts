@@ -9,7 +9,7 @@ import {GraphQueryDialect} from '../GraphQuery';
 import {LkEdge, LkNode} from '../graphItemTypes';
 import {User} from '../User';
 
-export enum ColumnType {
+export enum AlertColumnType {
   STRING = 'string',
   NUMBER = 'number'
 }
@@ -21,7 +21,7 @@ export interface ICreateAlertParams extends IDataSourceParams {
   folder?: number;
   enabled: boolean;
   columns: Array<{
-    type: ColumnType;
+    type: AlertColumnType;
     columnName: string;
     columnTitle: string;
   }>;
@@ -36,7 +36,7 @@ export interface Alert extends PersistedItem {
   folder: number;
   enabled: boolean;
   columns: Array<{
-    type: ColumnType;
+    type: AlertColumnType;
     columnName: string;
     columnTitle: string;
   }>;
@@ -170,7 +170,7 @@ export interface IDoMatchActionParams extends IDataSourceParams {
 export interface IAlertPreviewParams extends IDataSourceParams {
   query: string;
   dialect?: GraphQueryDialect;
-  columns?: Array<{columnName: string; columnTitle?: string; type: ColumnType}>;
+  columns?: Array<{columnName: string; columnTitle?: string; type: AlertColumnType}>;
   limit?: number;
   timeout?: number;
 }
