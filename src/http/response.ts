@@ -103,10 +103,7 @@ export interface GuestDisabledError extends LkError<LkErrorKey.GUEST_DISABLED> {
 
 export interface ForbiddenError extends LkError<LkErrorKey.FORBIDDEN> {}
 
-export interface NotFoundError extends LkError<LkErrorKey.NOT_FOUND> {
-  item?: string;
-  id?: string;
-}
+export interface NotFoundError extends LkError<LkErrorKey.NOT_FOUND> {}
 
 export interface BadGraphRequestErrorError extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
   highlight?: ErrorHighlight;
