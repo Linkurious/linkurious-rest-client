@@ -4,7 +4,7 @@
  * - Created on 2019-10-29.
  */
 
-import {GenericObject, IDataSourceParams, IGetSubGraphParams, PersistedItem} from '../commonTypes';
+import {GenericObject, IDataSourceParams, IGetSubGraphParams} from '../commonTypes';
 import {LkSubGraph} from '../graphItemTypes';
 
 export enum TemplateFieldType {
@@ -144,7 +144,8 @@ export enum GraphQueryType {
   TEMPLATE = 'template'
 }
 
-export interface GraphQuery extends PersistedItem {
+export interface GraphQuery {
+  id: number;
   sourceKey: string;
   name: string;
   content: string;
@@ -158,6 +159,8 @@ export interface GraphQuery extends PersistedItem {
   type: GraphQueryType;
   right: GraphQueryRight;
   builtin: boolean;
+  createdAt?: string; // defined only if builtin=false
+  updatedAt?: string; // defined only if builtin=false
 }
 
 export interface IGetQueryParams extends IDataSourceParams {
@@ -172,7 +175,7 @@ export interface ICreateQueryParams extends IDataSourceParams {
   name: string;
   content: string;
   dialect?: GraphQueryDialect;
-  description: string;
+  description?: string;
   sharing: GraphQuerySharingMode;
   sharedWithGroups?: number[];
 }

@@ -111,7 +111,7 @@ export interface CustomAction extends PersistedItem {
 export interface ICreateCustomActionParams extends IDataSourceParams {
   name: string;
   urlTemplate: string;
-  description: string;
+  description?: string;
   sharing: CustomActionSharingMode;
 }
 
