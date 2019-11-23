@@ -19,7 +19,7 @@ export class AuthAPI extends Request {
    * Log a user in by e-mail or username and password and return it.
    */
   public async login(params: ILoginParams) {
-    this.props.clientState = {};
+    delete this.props.clientState.user;
     const response = await this.handle(UNAUTHORIZED).request<User>({
       url: '/auth/login',
       method: 'POST',
@@ -50,7 +50,7 @@ export class AuthAPI extends Request {
       url: '/auth/logout',
       method: 'GET'
     });
-    this.props.clientState = {};
+    delete this.props.clientState.user;
     return response;
   }
 
