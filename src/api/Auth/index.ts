@@ -53,7 +53,10 @@ export class AuthAPI extends Request {
       url: '/auth/logout',
       method: 'GET'
     });
-    this.props.clientState = {};
+    delete this.props.clientState.currentSource;
+    delete this.props.clientState.guestMode;
+    delete this.props.clientState.sources;
+    delete this.props.clientState.user;
     return response;
   }
 
