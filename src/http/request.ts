@@ -15,10 +15,10 @@ import {
   LkErrorKeyToInterface,
   Response
 } from './response';
-import {ModuleProps, RawFetchConfig, FetchConfig, SuperAgentResponse} from './types';
+import {FetchConfig, ModuleProps, RawFetchConfig, SuperAgentResponse} from './types';
 
 export abstract class Request {
-  constructor(protected readonly props: ModuleProps) {}
+  constructor(public readonly props: ModuleProps) {}
 
   /*
     In `request<S, E extends LkErrorKey>(...)` we want S to be explicit and E to be inferred,
@@ -49,8 +49,15 @@ export abstract class Request {
       let paramValue: string | undefined;
 
       // 2) Get `sourceKey` value from the ClientState or from the local storage
-      if (key === 'sourceKey') {
-        paramValue = moduleProps.clientState.currentSource?.key;
+      if (key === 'sourceKey' && moduleProps.clientState.currentSource) {
+        if (moduleProps.clientState.currentSource.key) {
+          paramValue = moduleProps.clientState.currentSource.key;
+        } else {
+          throw {
+            key: LkErrorKey.DATA_SOURCE_UNAVAILABLE,
+            message: `Current source "${moduleProps.clientState.currentSource.name}" is not ready.`
+          };
+        }
       }
 
       // 3) Get other param values using `configParams`
@@ -130,7 +137,19 @@ export abstract class Request {
     rawFetchConfig: RawFetchConfig
   ) {
     // 1) Render URL template using params
-    const requiredConfig = Request.renderURL(rawFetchConfig, this.props);
+    let requiredConfig: Required<RawFetchConfig>;
+    try {
+      requiredConfig = Request.renderURL(rawFetchConfig, this.props);
+    } catch (error) {
+      if (error.key === LkErrorKey.DATA_SOURCE_UNAVAILABLE) {
+        // 1.a) Return this when currentSource is not connected without performing an HTTP request
+        this.props.dispatchError(error.key, error);
+        return new Response({body: error}) as ErrorResponses<EK>;
+      } else {
+        // 1.b) Throw an exception when path params are missing
+        throw error;
+      }
+    }
 
     // 2) Sort remaining params into body and query
     const fetchConfig = Request.splitParams(requiredConfig, this.props);

@@ -19,6 +19,9 @@ export class AuthAPI extends Request {
    * Log a user in by e-mail or username and password and return it.
    */
   public async login(params: ILoginParams) {
+    delete this.props.clientState.currentSource;
+    delete this.props.clientState.guestMode;
+    delete this.props.clientState.sources;
     delete this.props.clientState.user;
     const response = await this.handle(UNAUTHORIZED).request<User>({
       url: '/auth/login',
@@ -50,6 +53,9 @@ export class AuthAPI extends Request {
       url: '/auth/logout',
       method: 'GET'
     });
+    delete this.props.clientState.currentSource;
+    delete this.props.clientState.guestMode;
+    delete this.props.clientState.sources;
     delete this.props.clientState.user;
     return response;
   }

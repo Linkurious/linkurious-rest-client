@@ -38,10 +38,10 @@ export interface ClientState {
 }
 
 export interface ModuleProps {
-  baseUrl: string;
-  agent: SuperAgentStatic;
-  clientState: ClientState;
-  dispatchError: ErrorListener['dispatchError'];
+  readonly baseUrl: string;
+  readonly agent: SuperAgentStatic;
+  readonly clientState: ClientState;
+  readonly dispatchError: ErrorListener['dispatchError'];
 }
 
 // We define our own type because Response declares body as any
