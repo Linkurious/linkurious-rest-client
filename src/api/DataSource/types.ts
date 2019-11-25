@@ -48,13 +48,16 @@ export interface AlternativeIdSettings {
   edge?: string;
 }
 
-export interface ConnectedDataSourceSettings extends DataSourceSettings {
+export interface GeoSettings {
+  latitudeProperty?: string; // defined only if configured in the GraphDAO options
+  longitudeProperty?: string;
+}
+
+export interface ConnectedDataSourceSettings extends DataSourceSettings, GeoSettings {
   alternativeIds: AlternativeIdSettings;
   propertyKeyAccessRights: boolean;
   strictSchema: boolean;
   skipEdgeIndexation: boolean;
-  latitudeProperty?: string; // defined only if configured in the GraphDAO options
-  longitudeProperty?: string;
 }
 
 export interface DataSource {
