@@ -60,7 +60,7 @@ export interface ConnectedDataSourceSettings extends DataSourceSettings, GeoSett
   skipEdgeIndexation: boolean;
 }
 
-export interface DataSource {
+export interface DataSourceUserInfo {
   name: string;
   connected: boolean;
   key?: string; // defined if the data-source is connected

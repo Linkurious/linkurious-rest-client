@@ -13,7 +13,7 @@ import {
   IGetDataSourcesStatusParams,
   IResetSourceStylesParams,
   ISetDefaultSourceStylesParams,
-  DataSource,
+  DataSourceUserInfo,
   IDeleteSourceDataParams,
   DeleteSourceDataResponse,
   IDeleteSourceConfigParams,
@@ -38,7 +38,7 @@ export class DataSourceAPI extends Request {
    * data-sources.
    */
   public async getDataSources(params: IGetDataSourcesStatusParams) {
-    const response = await this.handle(UNAUTHORIZED, GUEST_DISABLED).request<DataSource[]>({
+    const response = await this.handle(UNAUTHORIZED, GUEST_DISABLED).request<DataSourceUserInfo[]>({
       url: '/dataSources',
       method: 'GET',
       params: params

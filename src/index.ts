@@ -15,7 +15,7 @@ import {ApplicationAPI} from './api/Application';
 import {AuthAPI} from './api/Auth';
 import {ConfigAPI} from './api/Config';
 import {CustomActionAPI} from './api/CustomAction';
-import {DataSourceAPI, DataSource} from './api/DataSource';
+import {DataSourceAPI, DataSourceUserInfo} from './api/DataSource';
 import {GraphEdgeAPI} from './api/GraphEdge';
 import {GraphNodeAPI} from './api/GraphNode';
 import {GraphQueryAPI} from './api/GraphQuery';
@@ -97,7 +97,7 @@ export class RestClient extends ErrorListener {
     this.clientState.guestMode = guestMode;
   }
 
-  public setCurrentSource(dataSource: DataSource) {
+  public setCurrentSource(dataSource: DataSourceUserInfo) {
     this.clientState.currentSource = dataSource;
     try {
       if (dataSource.key && this.clientState.user) {
@@ -109,15 +109,15 @@ export class RestClient extends ErrorListener {
   }
 
   public static getCurrentSource(
-    dataSources: DataSource[],
+    dataSources: DataSourceUserInfo[],
     by?: {userId: number} | {sourceKey: string} | {configIndex: number}
-  ): DataSource {
+  ): DataSourceUserInfo {
     if (!dataSources.length) {
       throw new Error('RestClient::getCurrentSource - dataSources cannot be empty.');
     }
 
     if (by) {
-      let source: DataSource | undefined;
+      let source: DataSourceUserInfo | undefined;
       if ('userId' in by) {
         // Return the last seen data-source by the current user if the data-source is connected
         try {
