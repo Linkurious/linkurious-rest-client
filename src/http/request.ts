@@ -10,7 +10,6 @@ import {includes} from '../utils';
 
 import {
   ConnectionRefused,
-  DataSourceUnavailable,
   ErrorResponses,
   LkErrorKey,
   LkErrorKeyToInterface,
