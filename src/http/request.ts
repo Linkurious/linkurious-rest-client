@@ -143,10 +143,11 @@ export abstract class Request {
       requiredConfig = Request.renderURL(rawFetchConfig, this.props);
     } catch (error) {
       if (error.key === LkErrorKey.DATA_SOURCE_UNAVAILABLE) {
-        return new Response({
-          body: error as DataSourceUnavailable
-        }) as ErrorResponses<EK>;
+        // 1.1) Return this when currentSource is not connected, and without performing HTTP request
+        this.props.dispatchError(error.key, error);
+        return new Response({body: error}) as ErrorResponses<EK>;
       } else {
+        // 1.2) Throws an exception when path params are missing
         throw error;
       }
     }
