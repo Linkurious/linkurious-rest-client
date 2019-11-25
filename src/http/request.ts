@@ -10,12 +10,13 @@ import {includes} from '../utils';
 
 import {
   ConnectionRefused,
+  DataSourceUnavailable,
   ErrorResponses,
   LkErrorKey,
   LkErrorKeyToInterface,
   Response
 } from './response';
-import {ModuleProps, RawFetchConfig, FetchConfig, SuperAgentResponse} from './types';
+import {FetchConfig, ModuleProps, RawFetchConfig, SuperAgentResponse} from './types';
 
 export abstract class Request {
   constructor(public readonly props: ModuleProps) {}
@@ -49,10 +50,15 @@ export abstract class Request {
       let paramValue: string | undefined;
 
       // 2) Get `sourceKey` value from the ClientState or from the local storage
-      if (key === 'sourceKey') {
-        paramValue =
-          (moduleProps.clientState.currentSource && moduleProps.clientState.currentSource.key) ||
-          undefined;
+      if (key === 'sourceKey' && moduleProps.clientState.currentSource) {
+        if (moduleProps.clientState.currentSource.key) {
+          paramValue = moduleProps.clientState.currentSource.key;
+        } else {
+          throw {
+            key: LkErrorKey.DATA_SOURCE_UNAVAILABLE,
+            message: `Current source "${moduleProps.clientState.currentSource.name}" is not ready`
+          };
+        }
       }
 
       // 3) Get other param values using `configParams`
@@ -132,8 +138,18 @@ export abstract class Request {
     rawFetchConfig: RawFetchConfig
   ) {
     // 1) Render URL template using params
-    const requiredConfig = Request.renderURL(rawFetchConfig, this.props);
-    console.log({requiredConfig: requiredConfig});
+    let requiredConfig: Required<RawFetchConfig>;
+    try {
+      requiredConfig = Request.renderURL(rawFetchConfig, this.props);
+    } catch (error) {
+      if (error.key === LkErrorKey.DATA_SOURCE_UNAVAILABLE) {
+        return new Response({
+          body: error as DataSourceUnavailable
+        }) as ErrorResponses<EK>;
+      } else {
+        throw error;
+      }
+    }
 
     // 2) Sort remaining params into body and query
     const fetchConfig = Request.splitParams(requiredConfig, this.props);
