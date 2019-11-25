@@ -27,8 +27,8 @@ import {VisualizationAPI} from './api/Visualization';
 import {endsWith, find} from './utils';
 
 export class RestClient extends ErrorListener {
-  private readonly clientState: ClientState;
-  private readonly moduleProps: ModuleProps;
+  public readonly clientState: ClientState;
+  public readonly moduleProps: ModuleProps;
 
   public readonly alert: AlertAPI;
   public readonly application: ApplicationAPI;

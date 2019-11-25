@@ -18,7 +18,7 @@ import {
 import {ModuleProps, RawFetchConfig, FetchConfig, SuperAgentResponse} from './types';
 
 export abstract class Request {
-  constructor(protected readonly props: ModuleProps) {}
+  constructor(public readonly props: ModuleProps) {}
 
   /*
     In `request<S, E extends LkErrorKey>(...)` we want S to be explicit and E to be inferred,
@@ -133,6 +133,7 @@ export abstract class Request {
   ) {
     // 1) Render URL template using params
     const requiredConfig = Request.renderURL(rawFetchConfig, this.props);
+    console.log({requiredConfig: requiredConfig});
 
     // 2) Sort remaining params into body and query
     const fetchConfig = Request.splitParams(requiredConfig, this.props);
