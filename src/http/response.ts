@@ -142,7 +142,7 @@ export interface VisualizationLockedError extends LkError<LkErrorKey.VISUALIZATI
 
 export interface NotSupportedError extends LkError<LkErrorKey.NOT_SUPPORTED> {}
 
-export interface SourceActionNeededError extends LkError<LkErrorKey.INVALID_PARAMETER> {}
+export interface SourceActionNeededError extends LkError<LkErrorKey.SOURCE_ACTION_NEEDED> {}
 
 export interface InvalidParameterError extends LkError<LkErrorKey.INVALID_PARAMETER> {}
 
