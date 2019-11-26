@@ -44,7 +44,7 @@ export abstract class Request {
     let renderedURL = config.url;
     const regexp = /(?<=:)[^/]+/g;
     let match;
-    while ((match = regexp.exec(renderedURL)) !== null) {
+    while ((match = regexp.exec(config.url)) !== null) {
       const key = match[0];
       let paramValue: string | undefined;
 

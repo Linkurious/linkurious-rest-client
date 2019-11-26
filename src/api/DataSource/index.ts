@@ -80,7 +80,7 @@ export class DataSourceAPI extends Request {
    */
   public connectDataSource(params: IConnectDataSourceParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request({
-      url: '/admin/source/:dataSourceIndex/connect',
+      url: '/admin/source/:sourceIndex/connect',
       method: 'POST',
       params: params
     });
