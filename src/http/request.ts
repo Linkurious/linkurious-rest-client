@@ -8,9 +8,14 @@ import {UnexpectedServerError} from '../errorListener';
 import {GenericObject} from '../api/commonTypes';
 import {includes} from '../utils';
 
-import {ConnectionRefused, ErrorResponses, LkErrorKey, LkErrorKeyToInterface, Response} from './response';
+import {
+  ConnectionRefused,
+  ErrorResponses,
+  LkErrorKey,
+  LkErrorKeyToInterface,
+  Response
+} from './response';
 import {FetchConfig, ModuleProps, RawFetchConfig, SuperAgentResponse} from './types';
-import {DataSourceState} from "../api/DataSource";
 
 export abstract class Request {
   constructor(public readonly props: ModuleProps) {}
@@ -45,10 +50,7 @@ export abstract class Request {
 
       // 2) Get `sourceKey` value from the ClientState or from the local storage
       if (key === 'sourceKey' && moduleProps.clientState.currentSource) {
-        if (
-          moduleProps.clientState.currentSource.key &&
-          moduleProps.clientState.currentSource.state === DataSourceState.READY
-        ) {
+        if (moduleProps.clientState.currentSource.key) {
           paramValue = moduleProps.clientState.currentSource.key;
         } else {
           throw {
