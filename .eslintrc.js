@@ -20,6 +20,7 @@ module.exports = {
   },
   'rules': {
     'eqeqeq': ['error'], // Requires === or !== in place of == or !=
+    '@typescript-eslint/no-explicit-any': ['error'], // Don't allow any usage of 'any'
     '@typescript-eslint/no-empty-interface': ['off'], // Allows empty interfaces
     'object-shorthand': ['error', 'never'], // Disallows shorthand object literal
     '@typescript-eslint/ban-ts-ignore': ['off'], // Allows @ts-ignore
