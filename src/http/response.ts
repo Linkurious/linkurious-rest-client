@@ -105,7 +105,7 @@ export interface ForbiddenError extends LkError<LkErrorKey.FORBIDDEN> {}
 
 export interface NotFoundError extends LkError<LkErrorKey.NOT_FOUND> {}
 
-export interface BadGraphRequestErrorError extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
+export interface BadGraphRequestError extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
   highlight?: ErrorHighlight;
 }
 
@@ -163,7 +163,7 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.GUEST_DISABLED]: GuestDisabledError;
   [LkErrorKey.FORBIDDEN]: ForbiddenError;
   [LkErrorKey.NOT_FOUND]: NotFoundError;
-  [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequestErrorError;
+  [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequestError;
   [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeoutError;
   [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolationError;
   [LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE]: MalformedCustomActionTemplateError;
