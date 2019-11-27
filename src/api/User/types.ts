@@ -75,7 +75,7 @@ export interface Group extends PersistedItem {
   accessRights: AccessRight[];
 }
 
-export type GroupName = Pick<Group, 'id' | 'name'>;
+export type GroupName = Pick<Group, 'id' | 'name' | 'sourceKey'>;
 
 export interface IGetGroupNamesParams extends IDataSourceParams {
   action: AnyAction;
