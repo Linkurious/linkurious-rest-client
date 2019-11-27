@@ -86,7 +86,7 @@ export interface ICreateGroupParams extends IDataSourceParams {
 }
 
 export interface IUpdateGroupParams extends IDataSourceParams {
-  id: string;
+  id: number;
   name: string;
 }
 
