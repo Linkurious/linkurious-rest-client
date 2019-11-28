@@ -50,7 +50,7 @@ export class SearchAPI extends Request {
    * Get the indexation status for a given data-source.
    */
   public getIndexationStatus(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, GUEST_DISABLED).request<
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
       GetIndexationStatusResponse
     >({
       url: '/:sourceKey/search/status',

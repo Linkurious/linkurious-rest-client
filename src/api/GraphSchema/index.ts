@@ -207,7 +207,7 @@ export class GraphSchemaAPI extends Request {
    * List all the readable types and properties of a data-source.
    */
   public getTypesWithAccess(params: IGetTypesParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, GUEST_DISABLED).request<
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
       GraphSchemaWithAccess
     >({
       url: '/:sourceKey/graph/schema/:entityType/types',
