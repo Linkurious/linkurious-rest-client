@@ -9,6 +9,7 @@ import {CustomActionParsingError} from '../api/CustomAction';
 import {ErrorHighlight} from '../api/GraphQuery';
 
 import {FetchConfig} from './types';
+import {hasValue} from "../utils";
 
 export enum LkErrorKey {
   // Not a server error, thrown internally by the rest-client
@@ -65,15 +66,15 @@ export class Response<B> {
   }
 
   public isSuccess(): this is Exclude<this, Response<LkError>> {
-    return (
-      this.status >= 200 &&
-      this.status < 300 &&
-      !(((this.body as unknown) as LkError).key in LkErrorKey)
-    );
+    if (this.status >= 200 && this.status < 300) {
+      return !(hasValue(this.body) && ((this.body as unknown) as LkError).key in LkErrorKey);
+    } else {
+      return false;
+    }
   }
 
   public isError<E extends LkErrorKey>(key: E): this is Response<LkError<E>> {
-    return ((this.body as unknown) as LkError).key === key;
+    return hasValue(this.body) && ((this.body as unknown) as LkError).key === key;
   }
 }
 
