@@ -94,7 +94,7 @@ export class DataSourceAPI extends Request {
   public deleteSourceData(params: IDeleteSourceDataParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN).request<DeleteSourceDataResponse>({
       url: '/admin/sources/data/:sourceKey',
-      method: 'POST',
+      method: 'DELETE',
       params: params
     });
   }
@@ -105,7 +105,7 @@ export class DataSourceAPI extends Request {
   public deleteSourceConfig(params: IDeleteSourceConfigParams) {
     return this.handle(UNAUTHORIZED, FORBIDDEN, ILLEGAL_SOURCE_STATE).request({
       url: '/admin/sources/config/:configIndex',
-      method: 'POST',
+      method: 'DELETE',
       params: params
     });
   }
