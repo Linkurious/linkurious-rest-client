@@ -7,9 +7,9 @@
 import {GenericObject} from '../api/commonTypes';
 import {CustomActionParsingError} from '../api/CustomAction';
 import {ErrorHighlight} from '../api/GraphQuery';
+import {hasValue} from '../utils';
 
 import {FetchConfig} from './types';
-import {hasValue} from "../utils";
 
 export enum LkErrorKey {
   // Not a server error, thrown internally by the rest-client
