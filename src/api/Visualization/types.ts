@@ -203,6 +203,8 @@ export type VisualizationTree = Tree<
     title: string;
     shareCount: number;
     widgetKey?: string; // defined if the visualization has a widget
+    createdAt: string;
+    updatedAt: string;
   },
   'visu'
 >;
@@ -263,8 +265,8 @@ export interface VisualizationShare {
   userId: number;
   right: VisualizationRight;
   visualizationId: number;
-  updatedAt: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface IUnshareVisualizationParams extends IDataSourceParams {
