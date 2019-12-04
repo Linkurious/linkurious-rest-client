@@ -33,7 +33,8 @@ import {
   VisualizationShare,
   Visualization,
   VisualizationFolder,
-  Widget
+  Widget,
+  PopulatedVisualization
 } from './types';
 
 export * from './types';
@@ -64,7 +65,9 @@ export class VisualizationAPI extends Request {
    * Get a visualization by id.
    */
   public getVisualization(params: IGetVisualizationParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<Visualization>({
+    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
+      PopulatedVisualization
+    >({
       url: '/:sourceKey/visualizations/:id',
       method: 'GET',
       params: params
@@ -193,7 +196,7 @@ export class VisualizationAPI extends Request {
    */
   public getSandbox(params?: IGetSandboxParams) {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
-      Visualization
+      PopulatedVisualization
     >({
       url: '/:sourceKey/sandbox',
       method: 'GET',

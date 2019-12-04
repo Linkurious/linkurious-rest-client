@@ -112,8 +112,8 @@ export interface VisualizationTimeline {
 export interface Visualization extends PersistedItem {
   title: string;
   folder: number;
-  nodes: VizNode[];
-  edges: VizEdge[];
+  nodes: VizNodeInfo[];
+  edges: VizEdgeInfo[];
   nodeFields: ItemFields;
   edgeFields: ItemFields;
   design: VisualizationDesign;
@@ -128,6 +128,11 @@ export interface Visualization extends PersistedItem {
   timeline: VisualizationTimeline;
   right: VisualizationRight;
   widgetKey?: string; // defined if the visualization has a widget
+}
+
+export interface PopulatedVisualization extends Visualization {
+  nodes: VizNode[];
+  edges: VizEdge[];
 }
 
 export interface ICreateVisualizationParams extends IDataSourceParams {
