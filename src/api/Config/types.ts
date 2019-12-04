@@ -35,8 +35,8 @@ export interface Configuration {
   db?: IDatabaseConfig;
   server?: IHttpServerConfig;
   auditTrail?: IAuditTrailConfig;
-  defaultPreferences?: IUserPreferenceConfig;
-  guestPreferences?: IGuestPreferenceConfig;
+  defaultPreferences?: IUserPreferencesConfig;
+  guestPreferences?: IGuestPreferencesConfig;
   plugins?: IPluginConfig;
   dataSource?: SelectedDataSourceConfig;
   needRestart?: boolean;
@@ -86,13 +86,13 @@ export interface IAuditTrailConfig {
   mode?: 'r' | 'w' | 'rw';
 }
 
-export interface IUserPreferenceConfig {
+export interface IUserPreferencesConfig {
   locale: string;
   pinOnDrag: boolean;
   incrementalLayout: boolean;
 }
 
-export interface IGuestPreferenceConfig {
+export interface IGuestPreferencesConfig {
   locale: string;
   uiWorkspaceSearch: boolean;
   uiExport: boolean;
