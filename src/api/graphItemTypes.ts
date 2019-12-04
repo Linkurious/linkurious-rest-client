@@ -123,7 +123,7 @@ export interface VizNodeInfo {
     x: number;
     y: number;
     layoutable: boolean;
-    selected: boolean;
+    selected?: boolean; // in expand, we have to pass VizNode to ogma without selected attribute
   };
   data: {
     geo: GeoData;
@@ -133,7 +133,7 @@ export interface VizNodeInfo {
 export interface VizEdgeInfo {
   id: string;
   attributes: {
-    selected: boolean;
+    selected?: boolean; // in expand, we have to pass VizEdge to ogma without selected attribute
   };
 }
 
