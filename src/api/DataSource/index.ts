@@ -37,7 +37,7 @@ export class DataSourceAPI extends Request {
    * If a user has the "admin.connect" access right, it can also see all the disconnected
    * data-sources.
    */
-  public async getDataSources(params: IGetDataSourcesStatusParams) {
+  public async getDataSources(params?: IGetDataSourcesStatusParams) {
     const response = await this.handle(UNAUTHORIZED, GUEST_DISABLED).request<DataSourceUserInfo[]>({
       url: '/dataSources',
       method: 'GET',
