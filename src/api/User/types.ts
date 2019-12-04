@@ -6,6 +6,7 @@
 
 import {IDataSourceParams, PersistedItem} from '../commonTypes';
 import {AccessRight, AnyAction} from '../AccessRight';
+import {IGuestPreferenceConfig} from '../Config';
 
 export interface UserPreferences {
   pinOnDrag: boolean;
@@ -17,7 +18,7 @@ export interface User extends PersistedItem {
   username: string;
   email: string;
   source: string;
-  preferences: UserPreferences;
+  preferences: UserPreferences | IGuestPreferenceConfig;
   groups: GroupName[];
   actions: AnyAction[];
   accessRights: AccessRight[];
