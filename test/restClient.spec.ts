@@ -48,7 +48,9 @@ describe('Rest Client', () => {
       ['lk-lastSeenSourceKey-3', 's3']
     ]);
 
-    const getSourceKey = (key: string) => sourceByUserId.get(key) || null;
+    const getLocalStorage = () => ({
+      getItem: (key: string) => sourceByUserId.get(key) || null
+    });
 
     const sources = [
       {key: 's1', connected: false},
@@ -58,25 +60,25 @@ describe('Rest Client', () => {
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources
-      RestClient.getCurrentSource(sources, {userId: 1}, getSourceKey),
+      RestClient.getCurrentSource(sources, {userId: 1}, getLocalStorage),
       sources[1]
     );
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources
-      RestClient.getCurrentSource(sources, {userId: 2}, getSourceKey),
+      RestClient.getCurrentSource(sources, {userId: 2}, getLocalStorage),
       sources[1]
     );
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources
-      RestClient.getCurrentSource(sources, {userId: 3}, getSourceKey),
+      RestClient.getCurrentSource(sources, {userId: 3}, getLocalStorage),
       sources[2]
     );
 
     assert.deepEqual(
       //@ts-ignore partial interface for tests
-      RestClient.getCurrentSource(sources, {userId: 5}, getSourceKey),
+      RestClient.getCurrentSource(sources, {userId: 5}, getLocalStorage),
       sources[1]
     );
   });
