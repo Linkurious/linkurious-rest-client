@@ -10,8 +10,8 @@ export function includes<T>(array: Array<T>, element: T): boolean {
 }
 
 export function find<T>(array: T[], predicate: (e: T) => boolean): T | undefined {
-  for (let i = 0; i !== length; i++) {
-    if (predicate.call(array, array[i])) {
+  for (let i = 0; i < array.length; i++) {
+    if (predicate(array[i])) {
       return array[i];
     }
   }
