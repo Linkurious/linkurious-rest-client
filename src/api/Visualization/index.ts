@@ -235,7 +235,7 @@ export class VisualizationAPI extends Request {
     return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
       VisualizationShare
     >({
-      url: `/:sourceKey/visualizations/:visualizationId/share/:userId`,
+      url: `/:sourceKey/visualizations/:id/share/:userId`,
       method: 'PUT',
       params: params
     });

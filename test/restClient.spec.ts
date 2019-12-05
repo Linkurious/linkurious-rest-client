@@ -8,6 +8,7 @@ import {describe, it} from 'mocha';
 import {assert} from 'chai';
 
 import {RestClient} from '../src';
+import {Request} from '../src/http/request';
 
 describe('Rest Client', () => {
   it('Should find the correct data-source by index', () => {
@@ -113,6 +114,20 @@ describe('Rest Client', () => {
       //@ts-ignore partial interface for sources
       RestClient.getCurrentSource(sources, {sourceKey: 's5'}),
       sources[1]
+    );
+  });
+
+  it('Should render URL correctly', () => {
+    assert.deepEqual(
+      // @ts-ignore private method and incomplete params
+      Request.renderURL({
+        url: '/visualizations/:visualizationId/share/:userId',
+        params: {
+          visualizationId: 1,
+          userId: 2
+        }
+      }).url,
+      '/visualizations/1/share/2'
     );
   });
 });

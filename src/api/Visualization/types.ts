@@ -261,7 +261,7 @@ export interface GetVisualizationSharesResponse {
 }
 
 export interface IShareVisualizationParams extends IDataSourceParams {
-  visualizationId: number;
+  id: number;
   userId: number;
   right: 'read' | 'write';
 }
