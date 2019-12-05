@@ -84,7 +84,7 @@ describe('Rest Client', () => {
     );
   });
 
-  it('Should find the correct data-source by sourceKey', function() {
+  it('Should find the correct data-source by sourceKey', () => {
     const sources = [
       {key: 's1', connected: false},
       {key: 's2', connected: true},
