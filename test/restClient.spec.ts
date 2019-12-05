@@ -18,25 +18,25 @@ describe('Rest Client', () => {
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources, local storage not used in this test
-      RestClient.getCurrentSource(sources, {configIndex: 0}, null),
+      RestClient.getCurrentSource(sources, {configIndex: 0}),
       sources[0]
     );
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources, local storage not used in this test
-      RestClient.getCurrentSource(sources, {configIndex: 1}, null),
+      RestClient.getCurrentSource(sources, {configIndex: 1}),
       sources[1]
     );
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources, local storage not used in this test
-      RestClient.getCurrentSource(sources, {configIndex: 3}, null),
+      RestClient.getCurrentSource(sources, {configIndex: 3}),
       sources[2]
     );
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources, local storage not used in this test
-      RestClient.getCurrentSource(sources, {configIndex: 5}, null),
+      RestClient.getCurrentSource(sources, {configIndex: 5}),
       sources[1]
     );
   });
@@ -48,9 +48,9 @@ describe('Rest Client', () => {
       ['lk-lastSeenSourceKey-3', 's3']
     ]);
 
-    const getLocalStorage = () => ({
+    const storage = {
       getItem: (key: string) => sourceByUserId.get(key) || null
-    });
+    };
 
     const sources = [
       {key: 's1', connected: false},
@@ -60,25 +60,25 @@ describe('Rest Client', () => {
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources
-      RestClient.getCurrentSource(sources, {userId: 1}, getLocalStorage),
+      RestClient.getCurrentSource(sources, {userId: 1}, storage),
       sources[1]
     );
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources
-      RestClient.getCurrentSource(sources, {userId: 2}, getLocalStorage),
+      RestClient.getCurrentSource(sources, {userId: 2}, storage),
       sources[1]
     );
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources
-      RestClient.getCurrentSource(sources, {userId: 3}, getLocalStorage),
+      RestClient.getCurrentSource(sources, {userId: 3}, storage),
       sources[2]
     );
 
     assert.deepEqual(
       //@ts-ignore partial interface for tests
-      RestClient.getCurrentSource(sources, {userId: 5}, getLocalStorage),
+      RestClient.getCurrentSource(sources, {userId: 5}, storage),
       sources[1]
     );
   });
@@ -92,25 +92,25 @@ describe('Rest Client', () => {
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources, local storage not used in this test
-      RestClient.getCurrentSource(sources, {sourceKey: 's1'}, null),
+      RestClient.getCurrentSource(sources, {sourceKey: 's1'}),
       sources[0]
     );
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources, local storage not used in this test
-      RestClient.getCurrentSource(sources, {sourceKey: 's2'}, null),
+      RestClient.getCurrentSource(sources, {sourceKey: 's2'}),
       sources[1]
     );
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources, local storage not used in this test
-      RestClient.getCurrentSource(sources, {sourceKey: 's3'}, null),
+      RestClient.getCurrentSource(sources, {sourceKey: 's3'}),
       sources[2]
     );
 
     assert.deepEqual(
       //@ts-ignore partial interface for sources, local storage not used in this test
-      RestClient.getCurrentSource(sources, {sourceKey: 's5'}, null),
+      RestClient.getCurrentSource(sources, {sourceKey: 's5'}),
       sources[1]
     );
   });

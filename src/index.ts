@@ -111,7 +111,7 @@ export class RestClient extends ErrorListener {
   public static getCurrentSource(
     dataSources: DataSourceUserInfo[],
     by?: {userId: number} | {sourceKey: string} | {configIndex: number},
-    getLocalStorage: () => Storage = () => localStorage
+    storage?: Storage
   ): DataSourceUserInfo {
     if (dataSources.length === 0) {
       throw new Error('RestClient::getCurrentSource - dataSources cannot be empty.');
@@ -122,7 +122,7 @@ export class RestClient extends ErrorListener {
       if ('userId' in by) {
         // Return the last seen data-source by the current user if the data-source is connected
         try {
-          const sourceKey = getLocalStorage().getItem('lk-lastSeenSourceKey-' + by.userId);
+          const sourceKey = (storage || localStorage).getItem('lk-lastSeenSourceKey-' + by.userId);
           source = find(dataSources, s => s.connected && s.key === sourceKey);
         } catch (_) {
           source = undefined;
