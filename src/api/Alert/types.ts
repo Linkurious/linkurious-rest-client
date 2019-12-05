@@ -150,7 +150,7 @@ export interface IGetMatchActionsParams extends IDataSourceParams {
 
 export enum MatchActionType {
   CONFIRM = 'confirm',
-  DISMIS = 'dismiss',
+  DISMISS = 'dismiss',
   UNCONFIRM = 'unconfirm',
   OPEN = 'open'
 }
