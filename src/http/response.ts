@@ -96,7 +96,15 @@ export interface ConnectionRefusedError extends LkError<LkErrorKey.CONNECTION_RE
 
 export interface FeatureDisabledError extends LkError<LkErrorKey.FEATURE_DISABLED> {}
 
-export interface UnauthorizedError extends LkError<LkErrorKey.UNAUTHORIZED> {}
+export enum UnauthorizedErrorReason {
+  SESSION_EXPIRED = 'session_expired',
+  SESSION_EVICTED = 'session_evicted',
+  SERVER_FULL = 'server_full'
+}
+
+export interface UnauthorizedError extends LkError<LkErrorKey.UNAUTHORIZED> {
+  reason?: UnauthorizedErrorReason;
+}
 
 export interface DataSourceUnavailableError extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
 
