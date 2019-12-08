@@ -5,7 +5,7 @@
  */
 
 import {IDataSourceParams, PersistedItem} from '../commonTypes';
-import {AccessRight, AnyAction} from '../AccessRight';
+import {AccessRight, Action, AnyAction} from '../AccessRight';
 import {IGuestPreferencesConfig} from '../Config';
 
 export interface UserPreferences {
@@ -28,14 +28,28 @@ export interface IGetUserParams {
   id: number;
 }
 
+export enum SearchUsersSortDirection {
+  ASC = 'asc',
+  DESC = 'desc'
+}
+
+export enum SearchUsersSortBy {
+  DATE = 'date',
+  ZERO = '0',
+  ONE = '1',
+  TWO = '2',
+  THREE = '3',
+  FOUR = '4'
+}
+
 export interface ISearchUsersParams {
   startsWith?: string;
   contains?: string;
   groupId?: number;
   offset?: number;
   limit?: number;
-  sortBy?: 'id' | 'username' | 'email';
-  sortDirection?: 'asc' | 'desc';
+  sortBy?: SearchUsersSortBy;
+  sortDirection?: SearchUsersSortDirection;
 }
 
 export interface SearchUserResponse {
@@ -79,7 +93,7 @@ export interface Group extends PersistedItem {
 export type GroupName = Pick<Group, 'id' | 'name' | 'sourceKey'>;
 
 export interface IGetGroupNamesParams extends IDataSourceParams {
-  action: AnyAction;
+  action: Action;
 }
 
 export interface ICreateGroupParams extends IDataSourceParams {
