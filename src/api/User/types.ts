@@ -34,12 +34,9 @@ export enum SearchUsersSortDirection {
 }
 
 export enum SearchUsersSortBy {
-  DATE = 'date',
-  ZERO = '0',
-  ONE = '1',
-  TWO = '2',
-  THREE = '3',
-  FOUR = '4'
+  ID = 'id',
+  USERNAME = 'username',
+  EMAIL = 'email'
 }
 
 export interface ISearchUsersParams {
