@@ -4,7 +4,7 @@
  * - Created on 2019-08-19.
  */
 
-import {Diff, IDataSourceParams, PersistedItem} from '../commonTypes';
+import {IDataSourceParams, PersistedItem} from '../commonTypes';
 
 export enum CustomActionType {
   NON_GRAPH = 'non-graph',
@@ -74,7 +74,7 @@ export enum CustomActionParsingErrorKey {
 }
 
 export interface CommonCustomActionParsingError {
-  key: Diff<
+  key: Exclude<
     CustomActionParsingErrorKey,
     CustomActionParsingErrorKey.INVALID_SEMANTIC &
       CustomActionParsingErrorKey.INVALID_TEMPLATE_COMBINATION
