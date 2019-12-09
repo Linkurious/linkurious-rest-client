@@ -4,9 +4,6 @@
  * - Created on 2019-09-30.
  */
 
-export type Diff<T extends string, U extends string> = ({[P in T]: P} &
-  {[P in U]: never} & {[x: string]: never})[T];
-
 export interface GenericObject<T = unknown> {
   [key: string]: T;
 }
