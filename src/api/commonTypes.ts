@@ -40,7 +40,7 @@ export interface Tree<T, N extends string> {
   children: FolderChildren<T, N>;
 }
 
-/*
-  Set as required the properties K in T
+/**
+ * Set as required the properties K in T
  */
-export type RequireSome<T, K extends keyof T> = T & {[P in K]-?: T[P]};
+export type RequiredProps<T, K extends keyof T> = T & {[P in K]-?: T[P]};
