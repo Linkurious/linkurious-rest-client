@@ -12,8 +12,6 @@ export interface IDataSourceParams {
   sourceKey?: string;
 }
 
-type fdsa = undefined extends IDataSourceParams['sourceKey'] ? true : false;
-
 export interface IGetSubGraphParams extends IDataSourceParams {
   edgesTo?: string[];
   withDigest?: boolean;
@@ -21,10 +19,9 @@ export interface IGetSubGraphParams extends IDataSourceParams {
 }
 
 export interface PersistedItem {
-  id7: number;
-  id?: number;
-  createdAt?: string;
-  updatedAt?: string;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type FolderChildren<T, N extends string> = Array<Folder<T, N> | (T & {type: N})>;
