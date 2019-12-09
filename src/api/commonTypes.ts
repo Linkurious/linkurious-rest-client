@@ -15,6 +15,8 @@ export interface IDataSourceParams {
   sourceKey?: string;
 }
 
+type fdsa = undefined extends IDataSourceParams['sourceKey'] ? true : false;
+
 export interface IGetSubGraphParams extends IDataSourceParams {
   edgesTo?: string[];
   withDigest?: boolean;
@@ -22,9 +24,10 @@ export interface IGetSubGraphParams extends IDataSourceParams {
 }
 
 export interface PersistedItem {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
+  id7: number;
+  id?: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type FolderChildren<T, N extends string> = Array<Folder<T, N> | (T & {type: N})>;
@@ -43,7 +46,14 @@ export interface Tree<T, N extends string> {
   children: FolderChildren<T, N>;
 }
 
+/*
+  Removes '&' from T
+  input: DummyCopy<{a:A; b?:B; c:C} & {d?: D}>
+  output: {a:A; b?:B; c:C; d?: D}
+ */
+export type DummyCopy<T> = {[K in keyof T]: T[K]};
+
 /**
  * Set as required the properties K in T
  */
-export type RequiredProps<T, K extends keyof T> = T & {[P in K]-?: T[P]};
+export type RequiredProps<T, K extends keyof T> = DummyCopy<T & {[P in K]-?: T[P]}>;
