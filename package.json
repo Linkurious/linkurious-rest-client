@@ -1,7 +1,7 @@
 {
   "name": "@linkurious/rest-client",
-  "version": "2.9.0-plugins-7",
-  "description": "A TypeScript lib to interact with Linkurious REST API",
+  "version": "2.9.0",
+  "description": "A library to interact with Linkurious APIs",
   "files": [
     "dist"
   ],
@@ -18,52 +18,32 @@
   },
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
   "scripts": {
-    "compileTests": "tsc --project fetcher_spec.json",
-    "test": "./test/runTests.sh",
-    "posttest": "rm -rf tempTests",
-    "clean": "rm -rf ./dist-es6 && rm -rf ./typings && rm -rf ./node_modules && rm -rf ./coverage",
-    "bundling": "browserify dist-es6/index.js -s Linkurious --outfile bundle.js",
-    "compile": "babel bundle.js --out-file linkurious-rest-client-es5.js",
+    "prepare": "tsc",
     "build": "tsc",
-    "doc": "typedoc --ignoreCompilerErrors --target ES6 --out ./docs index.ts",
-    "prepublishOnly": "tsc -p ./tsconfig.json",
-    "minor": "tsc -p ./tsconfig.json && npm version minor && git push --tags && npm publish",
-    "patch": "tsc -p ./tsconfig.json && npm version patch && git push --tags && npm publish",
-    "prerelease": "tsc -p ./tsconfig.json && npm version prerelease && git push && npm publish --tag next",
-    "lint": "eslint --fix --ext .ts .",
     "tsc": "tsc",
-    "watch": "tsc -w | tee"
+    "lint": "eslint --fix --ext .ts .",
+    "watch": "tsc -w | tee",
+    "clean": "rm -rf node_modules; rm -rf package-lock.json; rm -rf dist"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "2.0.0",
-    "@typescript-eslint/parser": "2.0.0",
-    "@types/mocha": "^5.2.5",
-    "@types/superagent": "^3.5.2",
-    "babel-preset-es2015": "^6.24.1",
-    "chai": "^4.1.2",
-    "@types/chai": "^4.1.7",
-    "eslint": "6.2.1",
-    "eslint-config-prettier": "6.1.0",
-    "eslint-plugin-import": "2.18.2",
-    "eslint-plugin-prettier": "3.1.0",
-    "fs-extra": "^0.30.0",
-    "karma": "^4.0.0",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-mocha": "^1.3.0",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-typescript": "^4.0.0",
-    "karma-typescript-es6-transform": "^4.0.0",
-    "mocha": "^5.2.0",
-    "path": "^0.12.7",
-    "prettier": "1.18.2",
-    "request": "^2.87.0",
-    "rxjs": "^6.3.3",
-    "rxjs-compat": "^6.0.0-rc.0",
-    "typescript": "3.5.3"
+    "@types/chai": "4.2.6",
+    "@types/mocha": "5.2.7",
+    "@types/superagent": "4.1.4",
+    "@typescript-eslint/eslint-plugin": "2.11.0",
+    "@typescript-eslint/parser": "2.11.0",
+    "chai": "4.2.0",
+    "eslint": "6.7.2",
+    "eslint-config-prettier": "6.7.0",
+    "eslint-plugin-es5": "1.4.1",
+    "eslint-plugin-import": "2.19.1",
+    "eslint-plugin-prettier": "3.1.1",
+    "mocha": "6.2.2",
+    "prettier": "1.19.1",
+    "ts-node": "8.5.4",
+    "typescript": "3.7.3"
   },
   "dependencies": {
-    "superagent": "^3.5.2",
-    "valcheck": "^1.1.0"
+    "superagent": "5.1.2"
   },
   "publishConfig": {
     "access": "public"

@@ -12,14 +12,10 @@ pipeline {
         }
       }
     }
-    stage('Pre-release') {
+    stage('Compile') {
       steps {
         dir('linkurious-rest-client') {
-          withCredentials([file(credentialsId: 'apikey', variable: 'API_KEY')]) {
-            sh 'echo \'{"apiKey":"\'`cat $API_KEY`\'","owner":"Linkurious"}\' > scripts/github/static_info.json'
-          }
           sh './node_modules/.bin/tsc'
-          sh 'node ./scripts/pushBranch.js'
         }
       }
     }
