@@ -152,7 +152,8 @@ export class GraphModule extends Module {
       query: data.query,
       limit: data.limit,
       timeout: data.timeout,
-      templateData: data.templateData
+      templateData: data.templateData,
+      edgesTo: data.edgesTo
     };
     const query: any = {
       withDigest: data.withDigest,
