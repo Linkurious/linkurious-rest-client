@@ -21,7 +21,15 @@ export interface User extends PersistedItem {
   preferences: UserPreferences | IGuestPreferencesConfig;
   groups: GroupName[];
   actions: GenericObject<AnyAction[]>;
-  accessRights: GenericObject<AccessRight[]>;
+  // TODO : access-rights are indexed by dataSource and by nodes, edges, alerts...
+  /**
+   * '*' : {
+   *    alerts: {read: [...]},
+   *    edges: {edit: [], write: []},
+   *    nodes: {edit: [], write: []}
+   * }
+   */
+  accessRights: GenericObject<GenericObject<GenericObject<AccessRight[]>>>;
 }
 
 export interface IGetUserParams {
