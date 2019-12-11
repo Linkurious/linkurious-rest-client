@@ -4,7 +4,7 @@
  * - Created on 2019-08-19.
  */
 
-import {IDataSourceParams, PersistedItem} from '../commonTypes';
+import {GenericObject, IDataSourceParams, PersistedItem} from '../commonTypes';
 import {AccessRight, Action, AnyAction} from '../AccessRight';
 import {IGuestPreferencesConfig} from '../Config';
 
@@ -20,8 +20,8 @@ export interface User extends PersistedItem {
   source: string;
   preferences: UserPreferences | IGuestPreferencesConfig;
   groups: GroupName[];
-  actions: AnyAction[];
-  accessRights: AccessRight[];
+  actions: GenericObject<AnyAction[]>;
+  accessRights: GenericObject<AccessRight[]>;
 }
 
 export interface IGetUserParams {
