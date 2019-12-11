@@ -135,6 +135,7 @@ export class GraphQueryAPI extends Request {
    */
   public runQuery(params: IRunQueryByContentParams) {
     return this.handle(
+      NOT_FOUND,
       UNAUTHORIZED,
       DATA_SOURCE_UNAVAILABLE,
       FORBIDDEN,
