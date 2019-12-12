@@ -180,6 +180,7 @@ export abstract class Request {
       throw new Error('Internal server error: ' + JSON.stringify(ex.response.body));
     }
 
+    // From here we only deal with responses with status code lower than 500
     if (response.body && includes(requiredConfig.errors, response.body.key)) {
       // 4.c) Dispatch server error if expected
       this.props.dispatchError(
@@ -192,7 +193,7 @@ export abstract class Request {
         header: response.header,
         body: (response.body as unknown) as LkErrorKeyToInterface[LkErrorKey]
       }) as ErrorResponses<EK>;
-    } else if (response.body?.key) {
+    } else if (response.status < 200 && response.status >= 300 && response.body?.key) {
       // 4.d) Throw error if unexpected
       throw new UnexpectedServerError(response);
     }
