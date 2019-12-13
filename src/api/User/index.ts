@@ -28,7 +28,7 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, ALREADY_EXISTS} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, ALREADY_EXISTS, INVALID_PARAMETER} = LkErrorKey;
 
 export class UserAPI extends Request {
   /**
@@ -68,7 +68,7 @@ export class UserAPI extends Request {
    * Update a user.
    */
   public updateUser(params: IUpdateUserParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<User>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND, INVALID_PARAMETER).request<User>({
       url: '/admin/users/:id',
       method: 'PATCH',
       params: params
