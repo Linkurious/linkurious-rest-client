@@ -193,7 +193,7 @@ export abstract class Request {
         header: response.header,
         body: (response.body as unknown) as LkErrorKeyToInterface[LkErrorKey]
       }) as ErrorResponses<EK>;
-    } else if (response.status < 200 && response.status >= 300 && response.body?.key) {
+    } else if ((response.status < 200 || response.status >= 300) && response.body?.key) {
       // 4.d) Throw error if unexpected
       throw new UnexpectedServerError(response);
     }
