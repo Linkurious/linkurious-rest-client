@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
   "scripts": {
+    "prepare": "tsc",
     "compileTests": "tsc --project fetcher_spec.json",
     "test": "./test/runTests.sh",
     "posttest": "rm -rf tempTests",
