@@ -7,3 +7,4 @@ between the Linkurious frontend and the Linkurious server.
 
 ## License
 [MIT](https://opensource.org/licenses/MIT)
+
