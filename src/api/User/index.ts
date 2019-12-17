@@ -28,7 +28,14 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, ALREADY_EXISTS, INVALID_PARAMETER} = LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  FORBIDDEN,
+  NOT_FOUND,
+  ALREADY_EXISTS,
+  INVALID_PARAMETER
+} = LkErrorKey;
 
 export class UserAPI extends Request {
   /**

@@ -44,7 +44,7 @@ export enum LkErrorKey {
   BUG = 'bug',
   SOCKET_ERROR = 'socket_error',
   API_NOT_FOUND = 'api_not_found',
-  PLUGIN_NOT_READY = "plugin_not_ready"
+  PLUGIN_NOT_READY = 'plugin_not_ready'
 }
 
 /**
