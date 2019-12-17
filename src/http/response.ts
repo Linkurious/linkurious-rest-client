@@ -67,11 +67,7 @@ export class Response<B> {
   }
 
   public isSuccess(): this is Exclude<this, Response<LkError>> {
-    if (this.status >= 200 && this.status < 300) {
-      return !(hasValue(this.body) && ((this.body as unknown) as LkError).key in LkErrorKey);
-    } else {
-      return false;
-    }
+    return this.status >= 200 && this.status < 300;
   }
 
   public isError<E extends LkErrorKey>(key: E): this is Response<LkError<E>> {
