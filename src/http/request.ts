@@ -42,10 +42,10 @@ export abstract class Request {
     // 1) Iterate over path params in route-like format `/:id/`
     const configParams = config.params ? {...config.params} : {};
     let renderedURL = config.url;
-    const regexp = /(?<=:)[^/]+/g;
+    const regexp = /:[^/]+/g;
     let match;
     while ((match = regexp.exec(config.url)) !== null) {
-      const key = match[0];
+      const key = match[0].substring(1);
       let paramValue: string | undefined;
 
       // 2) Get `sourceKey` value from the ClientState or from the local storage
@@ -95,7 +95,6 @@ export abstract class Request {
     for (const key in obj) {
       const fixedKey = key
         .replace(/(^[A-Z])/, first => first.toLowerCase())
-        .replace(/(?<=_)([A-Z])/g, letter => letter.toLowerCase())
         .replace(/([A-Z])/g, letter => `_${letter.toLowerCase()}`);
       result[fixedKey] = obj[key];
     }
