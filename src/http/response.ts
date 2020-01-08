@@ -8,6 +8,7 @@ import {GenericObject} from '../api/commonTypes';
 import {CustomActionParsingError} from '../api/CustomAction';
 import {ErrorHighlight} from '../api/GraphQuery';
 import {hasValue} from '../utils';
+import {SearchSyntaxError} from '../api/Search';
 
 import {FetchConfig} from './types';
 
@@ -27,6 +28,7 @@ export enum LkErrorKey {
   CONSTRAINT_VIOLATION = 'constraint_violation',
   MALFORMED_CUSTOM_ACTION_TEMPLATE = 'malformed_custom_action_template',
   MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
+  MALFORMED_SEARCH_SYNTAX = 'malformed_search_syntax',
   ILLEGAL_SOURCE_STATE = 'illegal_source_state',
   FOLDER_DELETION_FAILED = 'folder_deletion_failed',
   ALREADY_EXISTS = 'already_exists',
@@ -124,6 +126,10 @@ export interface MalformedCustomActionTemplateError
   errors: CustomActionParsingError[];
 }
 
+export interface MalformedSearchSyntaxError extends LkError<LkErrorKey.MALFORMED_SEARCH_SYNTAX> {
+  error: SearchSyntaxError;
+}
+
 export interface MalformedQueryTemplateError extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
   highlight: ErrorHighlight;
 }
@@ -176,6 +182,7 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolationError;
   [LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE]: MalformedCustomActionTemplateError;
   [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplateError;
+  [LkErrorKey.MALFORMED_SEARCH_SYNTAX]: MalformedSearchSyntaxError;
   [LkErrorKey.ILLEGAL_SOURCE_STATE]: IllegalSourceStateError;
   [LkErrorKey.FOLDER_DELETION_FAILED]: FolderDeletionFailedError;
   [LkErrorKey.ALREADY_EXISTS]: AlreadyExistsError;

@@ -24,7 +24,8 @@ const {
   GUEST_DISABLED,
   FORBIDDEN,
   ILLEGAL_SOURCE_STATE,
-  SOURCE_ACTION_NEEDED
+  SOURCE_ACTION_NEEDED,
+  MALFORMED_SEARCH_SYNTAX
 } = LkErrorKey;
 
 export class SearchAPI extends Request {
@@ -64,9 +65,12 @@ export class SearchAPI extends Request {
    * The list of items that matched the search query is returned.
    */
   public search(params: ISearchParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
-      SearchResponse
-    >({
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      GUEST_DISABLED,
+      MALFORMED_SEARCH_SYNTAX
+    ).request<SearchResponse>({
       url: '/:sourceKey/search/:type',
       method: 'POST',
       params: params
@@ -78,7 +82,12 @@ export class SearchAPI extends Request {
    * A subgraph made of the items that matched the search query and the edges between them is returned.
    */
   public searchFull(params: ISearchFullParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<LkSubGraph>({
+    return this.handle(
+      UNAUTHORIZED,
+      DATA_SOURCE_UNAVAILABLE,
+      GUEST_DISABLED,
+      MALFORMED_SEARCH_SYNTAX
+    ).request<LkSubGraph>({
       url: '/:sourceKey/search/:type/full',
       method: 'POST',
       params: params
