@@ -120,15 +120,15 @@ export type SearchSyntaxError = {
     }
   | {
       errorKey: SearchSyntaxErrorKey.COMPARATOR_TYPE_MISMATCH;
-      filterType: 'numerical' | 'date'; // added this
+      filterType: 'numerical' | 'date';
       propertyKey: string;
       propertyType: string;
-      entityType: EntityType; // added this
+      entityType: EntityType;
       itemType: string;
     }
   | {
       errorKey: SearchSyntaxErrorKey.COMPARATOR_WITH_STRING;
-      filterType: 'numerical' | 'date'; // added this
+      filterType: 'numerical' | 'date';
       propertyValue: string;
     }
   | {
@@ -148,7 +148,7 @@ export type SearchSyntaxError = {
         | SearchSyntaxErrorKey.PROPERTY_NOT_FOUND
         | SearchSyntaxErrorKey.PROPERTY_NOT_SEARCHABLE;
       propertyKey: string;
-      entityType: EntityType; // added this
+      entityType: EntityType;
       itemType: string;
     }
 );
