@@ -45,7 +45,7 @@ export interface ISearchFullParams extends IGetSubGraphParams, ISearchParams {}
 
 export enum SearchSyntaxErrorKey {
   /**
-   * 1. Error to check looping over the raw statements
+   * 1. Detectable errors by checking one statement
    */
 
   // Common to all statements:
@@ -56,15 +56,15 @@ export enum SearchSyntaxErrorKey {
   // When fuzzy value is not an integer between 1 and 100
   INVALID_FUZZINESS = 'invalid-fuzziness',
   // When there are more than two fuzzy statements /
-  SEVERAL_FUZZINESS = 'several_fuzziness',
+  SEVERAL_FUZZINESS = 'several-fuzziness',
 
   // Scope-statement:
   // When scope value is not in SearchQueryScope
-  INVALID_SCOPE = 'invalid_scope',
+  INVALID_SCOPE = 'invalid-scope',
   // When scope value already exists and is different
-  CONFLICTING_SCOPES = 'conflicting_scopes',
-  // When either nodes or edges
-  EDGES_NOT_SEARCHABLE = 'edges_not_searchable',
+  CONFLICTING_SCOPES = 'conflicting-scopes',
+  // When either nodes or edges are not searchable
+  EDGES_NOT_SEARCHABLE = 'edges-not-searchable',
 
   // Type-statement:
   // When type value is comparator, range or parentheses
@@ -73,11 +73,11 @@ export enum SearchSyntaxErrorKey {
   INCOMPATIBLE_TYPE_STATEMENTS = 'incompatible-type-statements',
 
   // Property-statement's value
-  // Unsupported operator (more of an unsupported filter)
-  UNSUPPORTED_OPERATOR = 'unsupported-operator', // Not thrown in validator but in vendor
+  // Unsupported operator (not thrown in validator but in vendor)
+  UNSUPPORTED_OPERATOR = 'unsupported-operator',
 
   /**
-   * 2. Errors to check after all the statements have been validated, because they depend on other statement
+   * 2. Detectable errors by checking two statements
    */
 
   // Type-statement's value (depends on scope-statement)
@@ -85,9 +85,9 @@ export enum SearchSyntaxErrorKey {
   NODE_TYPE_NOT_FOUND = 'node-type-not-found',
   // When node category is not searchable
   NODE_TYPE_NOT_SEARCHABLE = 'node-type-not-searchable',
-  // edge type does not exist in schema
+  // When edge type does not exist in schema
   EDGE_TYPE_NOT_FOUND = 'edge-type-not-found',
-  // When node category is not searchable
+  // When edge type is not searchable
   EDGE_TYPE_NOT_SEARCHABLE = 'edge-type-not-searchable',
 
   // Property-statement (depends on scope-statement and type-statement)
@@ -101,14 +101,14 @@ export enum SearchSyntaxErrorKey {
   COMPARATOR_WITH_STRING = 'comparator-with-string',
 
   // SearchQuery
-  // When there is no term or phrase, and there's at least other statement
+  // When there is no term or phrase, and there's at least another statement
   EMPTY_SEARCH = 'empty-search',
 
   /**
    * 3. Any other error
    */
   // When the grammar is invalid or any other unexpected error
-  SYNTAX_ERROR = 'syntax_error'
+  SYNTAX_ERROR = 'syntax-error'
 }
 
 export type SearchSyntaxError = {

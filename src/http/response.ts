@@ -127,7 +127,7 @@ export interface MalformedCustomActionTemplateError
 }
 
 export interface MalformedSearchSyntaxError extends LkError<LkErrorKey.MALFORMED_SEARCH_SYNTAX> {
-  error: SearchSyntaxError;
+  details: SearchSyntaxError;
 }
 
 export interface MalformedQueryTemplateError extends LkError<LkErrorKey.MALFORMED_QUERY_TEMPLATE> {
