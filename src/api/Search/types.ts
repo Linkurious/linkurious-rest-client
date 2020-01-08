@@ -48,10 +48,6 @@ export enum SearchSyntaxErrorKey {
    * 1. Detectable errors by checking one statement
    */
 
-  // Common to all statements:
-  // When there is no value part in the statement
-  EMPTY_STATEMENT = 'empty-statement',
-
   // Fuzzy-statement:
   // When fuzzy value is not an integer between 1 and 100
   INVALID_FUZZINESS = 'invalid-fuzziness',
@@ -67,8 +63,6 @@ export enum SearchSyntaxErrorKey {
   EDGES_NOT_SEARCHABLE = 'edges-not-searchable',
 
   // Type-statement:
-  // When type value is comparator, range or parentheses
-  INVALID_TYPE = 'invalid-type',
   // When type value already exists and is different
   INCOMPATIBLE_TYPE_STATEMENTS = 'incompatible-type-statements',
 
@@ -81,12 +75,12 @@ export enum SearchSyntaxErrorKey {
    */
 
   // Type-statement's value (depends on scope-statement)
-  // When node category does not exist in schema
+  // When node category does not exist in schema, or when type value is comparator, range or parentheses
   NODE_TYPE_NOT_FOUND = 'node-type-not-found',
+  // When edge type does not exist in schema, or when type value is comparator, range or parentheses
+  EDGE_TYPE_NOT_FOUND = 'edge-type-not-found',
   // When node category is not searchable
   NODE_TYPE_NOT_SEARCHABLE = 'node-type-not-searchable',
-  // When edge type does not exist in schema
-  EDGE_TYPE_NOT_FOUND = 'edge-type-not-found',
   // When edge type is not searchable
   EDGE_TYPE_NOT_SEARCHABLE = 'edge-type-not-searchable',
 
@@ -112,6 +106,49 @@ export enum SearchSyntaxErrorKey {
 }
 
 export type SearchSyntaxError = {
-  errorKey: SearchSyntaxErrorKey;
   offset: [number, number]; // start and end index to highlight
-};
+} & (
+  | {
+      errorKey:
+        | SearchSyntaxErrorKey.SEVERAL_FUZZINESS
+        | SearchSyntaxErrorKey.CONFLICTING_SCOPES
+        | SearchSyntaxErrorKey.EDGES_NOT_SEARCHABLE
+        | SearchSyntaxErrorKey.INCOMPATIBLE_TYPE_STATEMENTS
+        | SearchSyntaxErrorKey.UNSUPPORTED_OPERATOR
+        | SearchSyntaxErrorKey.EMPTY_SEARCH
+        | SearchSyntaxErrorKey.SYNTAX_ERROR;
+    }
+  | {
+      errorKey: SearchSyntaxErrorKey.COMPARATOR_TYPE_MISMATCH;
+      filterType: 'numerical' | 'date'; // added this
+      propertyKey: string;
+      propertyType: string;
+      entityType: EntityType; // added this
+      itemType: string;
+    }
+  | {
+      errorKey: SearchSyntaxErrorKey.COMPARATOR_WITH_STRING;
+      filterType: 'numerical' | 'date'; // added this
+      propertyValue: string;
+    }
+  | {
+      errorKey:
+        | SearchSyntaxErrorKey.EDGE_TYPE_NOT_FOUND
+        | SearchSyntaxErrorKey.EDGE_TYPE_NOT_SEARCHABLE
+        | SearchSyntaxErrorKey.NODE_TYPE_NOT_FOUND
+        | SearchSyntaxErrorKey.NODE_TYPE_NOT_SEARCHABLE;
+      itemType: string;
+    }
+  | {
+      errorKey: SearchSyntaxErrorKey.INVALID_FUZZINESS | SearchSyntaxErrorKey.INVALID_SCOPE;
+      propertyValue: string;
+    }
+  | {
+      errorKey:
+        | SearchSyntaxErrorKey.PROPERTY_NOT_FOUND
+        | SearchSyntaxErrorKey.PROPERTY_NOT_SEARCHABLE;
+      propertyKey: string;
+      entityType: EntityType; // added this
+      itemType: string;
+    }
+);
