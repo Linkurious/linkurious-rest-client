@@ -71,7 +71,7 @@ export class SearchAPI extends Request {
       GUEST_DISABLED,
       MALFORMED_SEARCH_SYNTAX
     ).request<SearchResponse>({
-      url: '/:sourceKey/search/:type',
+      url: '/:sourceKey/search',
       method: 'POST',
       params: params
     });
@@ -88,7 +88,7 @@ export class SearchAPI extends Request {
       GUEST_DISABLED,
       MALFORMED_SEARCH_SYNTAX
     ).request<LkSubGraph>({
-      url: '/:sourceKey/search/:type/full',
+      url: '/:sourceKey/search/full',
       method: 'POST',
       params: params
     });

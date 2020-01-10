@@ -25,7 +25,7 @@ export interface GetIndexationStatusResponse {
 }
 
 export interface ISearchParams extends IDataSourceParams {
-  type: EntityType;
+  type?: EntityType;
   q: string;
   fuzziness?: number;
   size?: number;
