@@ -84,7 +84,7 @@ export interface LkEdgeDigestItem {
 
 export interface LkNodeStatistics {
   degree?: number;
-  supernode: boolean;
+  supernode?: boolean;
   supernodeDigest?: LkEdgeDigestItem[];
   supernodeDegree?: number;
   digest?: LkDigestItem[];
