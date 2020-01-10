@@ -35,6 +35,7 @@ export interface ISearchParams extends IDataSourceParams {
 }
 
 export interface SearchResponse {
+  searchQuery: SearchQuery;
   type: EntityType;
   totalHits?: number; // one among totalHits and moreResults is defined
   moreResults?: boolean;
@@ -152,3 +153,39 @@ export type SearchSyntaxError = {
       itemType: string;
     }
 );
+
+export type FilterStatement =
+  | {
+      key: string;
+      min: string | number; // `string` for dates
+      max: string | number; // `string` for dates
+    }
+  | {
+      key: string;
+      min: string | number;
+    }
+  | {
+      key: string;
+      max: string | number;
+    };
+
+export interface TermsStatement {
+  key?: string;
+  terms: string[];
+  prefix: boolean;
+}
+
+export interface PhraseStatement {
+  key?: string;
+  phrase: string;
+  prefix: boolean;
+}
+
+export interface SearchQuery {
+  itemType?: string;
+  fuzziness: number;
+  entityType: EntityType;
+  terms: TermsStatement[];
+  phrases: PhraseStatement[];
+  filters: FilterStatement[];
+}
