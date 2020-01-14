@@ -154,20 +154,11 @@ export type SearchSyntaxError = {
     }
 );
 
-export type FilterStatement =
-  | {
-      key: string;
-      min: string | number; // `string` for dates
-      max: string | number; // `string` for dates
-    }
-  | {
-      key: string;
-      min: string | number;
-    }
-  | {
-      key: string;
-      max: string | number;
-    };
+export interface FilterStatement {
+  key: string;
+  min?: string | number; // `string` for dates
+  max?: string | number; // `string` for dates
+}
 
 export interface TermStatement {
   key?: string;
