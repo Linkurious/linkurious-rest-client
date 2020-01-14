@@ -169,9 +169,9 @@ export type FilterStatement =
       max: string | number;
     };
 
-export interface TermsStatement {
+export interface TermStatement {
   key?: string;
-  terms: string[];
+  term: string;
   prefix: boolean;
 }
 
@@ -185,7 +185,7 @@ export interface SearchQuery {
   itemType?: string;
   fuzziness: number;
   entityType: EntityType;
-  terms: TermsStatement[];
+  term: TermStatement[];
   phrases: PhraseStatement[];
   filters: FilterStatement[];
 }
