@@ -185,7 +185,7 @@ export interface SearchQuery {
   itemType?: string;
   fuzziness: number;
   entityType: EntityType;
-  term: TermStatement[];
+  terms: TermStatement[];
   phrases: PhraseStatement[];
   filters: FilterStatement[];
 }
