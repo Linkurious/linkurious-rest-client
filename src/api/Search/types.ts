@@ -4,7 +4,7 @@
  * - Created on 2019-10-30.
  */
 
-import {IDataSourceParams, IGetSubGraphParams} from '../commonTypes';
+import {GenericObject, IDataSourceParams, IGetSubGraphParams} from '../commonTypes';
 import {LkEdge, LkNode} from '../graphItemTypes';
 import {EntityType} from '../GraphSchema';
 
@@ -170,22 +170,23 @@ export type FilterStatement =
     };
 
 export interface TermStatement {
-  key?: string;
+  keys: string[]; // combined by OR
   term: string;
   prefix: boolean;
 }
 
 export interface PhraseStatement {
-  key?: string;
+  keys: string[]; // combined by OR
   phrase: string;
   prefix: boolean;
 }
 
 export interface SearchQuery {
-  itemType?: string;
   fuzziness: number;
   entityType: EntityType;
-  terms: TermStatement[];
-  phrases: PhraseStatement[];
-  filters: FilterStatement[];
+  itemTypes: GenericObject<{
+    terms: TermStatement[];
+    phrases: PhraseStatement[];
+    filters: FilterStatement[];
+  }>;
 }
