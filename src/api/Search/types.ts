@@ -170,13 +170,13 @@ export type FilterStatement =
     };
 
 export interface TermStatement {
-  keys: string[]; // combined by OR
+  key?: string;
   term: string;
   prefix: boolean;
 }
 
 export interface PhraseStatement {
-  keys: string[]; // combined by OR
+  key?: string;
   phrase: string;
   prefix: boolean;
 }
@@ -185,6 +185,7 @@ export interface SearchQuery {
   fuzziness: number;
   entityType: EntityType;
   itemTypes: GenericObject<{
+    properties: string[];
     terms: TermStatement[];
     phrases: PhraseStatement[];
     filters: FilterStatement[];
