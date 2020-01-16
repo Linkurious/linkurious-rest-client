@@ -181,13 +181,15 @@ export interface PhraseStatement {
   prefix: boolean;
 }
 
+export interface SearchClause {
+  properties: string[];
+  terms: TermStatement[];
+  phrases: PhraseStatement[];
+  filters: FilterStatement[];
+}
+
 export interface SearchQuery {
   fuzziness: number;
   entityType: EntityType;
-  itemTypes: GenericObject<{
-    properties: string[];
-    terms: TermStatement[];
-    phrases: PhraseStatement[];
-    filters: FilterStatement[];
-  }>;
+  itemTypes: GenericObject<SearchClause>;
 }
