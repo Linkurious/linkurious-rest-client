@@ -184,10 +184,8 @@ export interface PhraseStatement {
 export interface SearchQuery {
   fuzziness: number;
   entityType: EntityType;
-  itemTypes: GenericObject<{
-    properties: string[];
-    terms: TermStatement[];
-    phrases: PhraseStatement[];
-    filters: FilterStatement[];
-  }>;
+  itemTypes: GenericObject<string[]>;
+  terms: TermStatement[];
+  phrases: PhraseStatement[];
+  filters: FilterStatement[];
 }
