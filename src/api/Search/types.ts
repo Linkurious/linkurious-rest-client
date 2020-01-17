@@ -86,10 +86,8 @@ export enum SearchSyntaxErrorKey {
   EDGE_TYPE_NOT_SEARCHABLE = 'edge-type-not-searchable',
 
   // Property-statement (depends on scope-statement and type-statement)
-  // When property is not in schema with/without itemType
-  PROPERTY_NOT_FOUND = 'property-not-found',
-  // When property is not searchable with/without itemType
-  PROPERTY_NOT_SEARCHABLE = 'property-not-searchable',
+  // When property is not searchable or visible in schema with/without itemType
+  PROPERTIES_NOT_SEARCHABLE = 'property-not-found',
   // When comparison operator is used with a property that is not a number (or date, and same for ranges)
   COMPARATOR_TYPE_MISMATCH = 'comparator-type-mismatch',
   // When comparison operator with invalid number (or date, and same for ranges)
@@ -124,8 +122,7 @@ export type SearchSyntaxError = {
       filterType: 'numerical' | 'date';
       propertyKey: string;
       propertyType: string;
-      entityType: EntityType;
-      itemType: string;
+      itemType?: string;
     }
   | {
       errorKey: SearchSyntaxErrorKey.COMPARATOR_WITH_STRING;
@@ -145,12 +142,9 @@ export type SearchSyntaxError = {
       propertyValue: string;
     }
   | {
-      errorKey:
-        | SearchSyntaxErrorKey.PROPERTY_NOT_FOUND
-        | SearchSyntaxErrorKey.PROPERTY_NOT_SEARCHABLE;
-      propertyKey: string;
-      entityType: EntityType;
-      itemType: string;
+      errorKey: SearchSyntaxErrorKey.PROPERTIES_NOT_SEARCHABLE;
+      propertyKey: string[];
+      itemType?: string;
     }
 );
 
