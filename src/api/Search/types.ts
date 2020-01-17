@@ -76,10 +76,6 @@ export enum SearchSyntaxErrorKey {
    */
 
   // Type-statement's value (depends on scope-statement)
-  // When node category does not exist in schema, or when type value is comparator, range or parentheses
-  NODE_TYPE_NOT_FOUND = 'node-type-not-found',
-  // When edge type does not exist in schema, or when type value is comparator, range or parentheses
-  EDGE_TYPE_NOT_FOUND = 'edge-type-not-found',
   // When node category is not searchable
   NODE_TYPE_NOT_SEARCHABLE = 'node-type-not-searchable',
   // When edge type is not searchable
@@ -131,9 +127,7 @@ export type SearchSyntaxError = {
     }
   | {
       errorKey:
-        | SearchSyntaxErrorKey.EDGE_TYPE_NOT_FOUND
         | SearchSyntaxErrorKey.EDGE_TYPE_NOT_SEARCHABLE
-        | SearchSyntaxErrorKey.NODE_TYPE_NOT_FOUND
         | SearchSyntaxErrorKey.NODE_TYPE_NOT_SEARCHABLE;
       itemType: string;
     }
