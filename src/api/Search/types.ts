@@ -87,7 +87,7 @@ export enum SearchSyntaxErrorKey {
 
   // Property-statement (depends on scope-statement and type-statement)
   // When property is not searchable or visible in schema with/without itemType
-  PROPERTIES_NOT_SEARCHABLE = 'property-not-found',
+  PROPERTIES_NOT_SEARCHABLE = 'properties-not-searchable',
   // When comparison operator is used with a property that is not a number (or date, and same for ranges)
   COMPARATOR_TYPE_MISMATCH = 'comparator-type-mismatch',
   // When comparison operator with invalid number (or date, and same for ranges)
