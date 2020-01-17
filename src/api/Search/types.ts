@@ -143,7 +143,7 @@ export type SearchSyntaxError = {
     }
   | {
       errorKey: SearchSyntaxErrorKey.PROPERTIES_NOT_SEARCHABLE;
-      propertyKey: string[];
+      propertyKeys: string[];
       itemType?: string;
     }
 );
