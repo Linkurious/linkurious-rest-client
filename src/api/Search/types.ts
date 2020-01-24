@@ -145,21 +145,22 @@ export type SearchSyntaxError = {
 export type FilterStatement =
   | {
       key: string;
-      min: string | number; // `string` for dates
-      max: string | number; // `string` for dates
+      min: string;
+      max: string;
     }
   | {
       key: string;
-      min: string | number;
+      min: string;
     }
   | {
       key: string;
-      max: string | number;
+      max: string;
     };
 
 export interface TermStatement {
   key?: string;
   term: string;
+  type: 'text' | 'number' | 'date';
   prefix: boolean;
 }
 
@@ -172,7 +173,11 @@ export interface PhraseStatement {
 export interface SearchQuery {
   fuzziness: number;
   entityType: EntityType;
-  itemTypes: GenericObject<string[]>;
+  propertiesPerTypes: GenericObject<{
+    text: string[];
+    number: string[];
+    date: string[];
+  }>;
   terms: TermStatement[];
   phrases: PhraseStatement[];
   filters: FilterStatement[];
