@@ -86,10 +86,12 @@ export type CustomActionParsingError = {
   | {
       key: CustomActionParsingErrorKey.INVALID_SEMANTIC;
       variable: CustomActionVariable;
+      unsupportedRestriction: 'type' | 'property';
     }
   | {
       key: CustomActionParsingErrorKey.INCOMPATIBLE_RESTRICTIONS;
       variable: CustomActionVariable.NODE | CustomActionVariable.EDGE;
+      restrictionType: 'category' | 'type';
     }
   | {
       key: CustomActionParsingErrorKey.INVALID_TEMPLATE_COMBINATION;
