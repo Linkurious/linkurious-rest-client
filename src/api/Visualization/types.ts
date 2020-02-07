@@ -119,13 +119,14 @@ export interface Visualization extends PersistedItem {
   design: VisualizationDesign;
   filters: VisualizationFilters;
   sourceKey: string;
-  user: Pick<User, 'id' | 'username' | 'email'>;
   sandbox: boolean;
   alternativeIds: AlternativeIdSettings;
   mode: VisualizationMode;
   layout: VisualizationLayout;
   geo: VisualizationGeo;
   timeline: VisualizationTimeline;
+  // TODO viz.user and viz.right are defined only on getVisualization
+  user: Pick<User, 'id' | 'username' | 'email'>;
   right: VisualizationRight;
   widgetKey?: string; // defined if the visualization has a widget
 }
