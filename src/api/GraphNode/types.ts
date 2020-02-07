@@ -12,6 +12,7 @@ export interface IGetNodeParams extends IGetSubGraphParams {
 
 export interface ICreateNodeParams extends IDataSourceParams {
   categories: string[];
+  // TODO type it as LkProperties
   properties?: GenericObject;
 }
 
