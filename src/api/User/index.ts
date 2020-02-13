@@ -64,7 +64,7 @@ export class UserAPI extends Request {
    * Add a new user.
    */
   public createUser(params: ICreateUserParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<User>({
+    return this.handle(UNAUTHORIZED, FORBIDDEN, ALREADY_EXISTS).request<User>({
       url: '/admin/users',
       method: 'POST',
       params: params
