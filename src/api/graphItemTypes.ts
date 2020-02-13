@@ -19,6 +19,7 @@ export interface LkDateTime {
   timezone?: string; // e.g. "-08:00"
 }
 
+// TODO return PropertyType for Conflict and Missing for consistency
 export interface ConflictValue {
   type: PropertyTypeName;
   status: 'conflict';
