@@ -160,7 +160,7 @@ export type FilterStatement =
 export interface TermStatement {
   key?: string;
   term: string;
-  type: 'text' | 'number' | 'date';
+  type: 'text' | 'number' | 'date' | 'boolean';
   prefix: boolean;
 }
 
@@ -177,6 +177,7 @@ export interface SearchQuery {
     text: string[];
     number: string[];
     date: string[];
+    boolean: string[];
   }>;
   terms: TermStatement[];
   phrases: PhraseStatement[];
