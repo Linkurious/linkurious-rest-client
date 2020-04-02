@@ -102,6 +102,15 @@ export interface VisualizationFilters {
   edge: ItemSelector[];
 }
 
+export enum ZoomLevel {
+  YEARS = 'years',
+  MONTHS = 'months',
+  DAYS = 'days',
+  HOURS = 'hours',
+  MINUTES = 'minutes',
+  SECONDS = 'seconds'
+}
+
 export interface VisualizationTimeline {
   node: GenericObject<string>;
   edge: GenericObject<string>;
