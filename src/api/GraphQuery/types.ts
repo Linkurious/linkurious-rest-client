@@ -126,6 +126,8 @@ export type Template =
   | EnumTemplate
   | NodeTemplate
   | NodesetTemplate
+  | EdgeTemplate
+  | EdgesetTemplate
   | DateTemplate
   | DatetimeTemplate
   | BooleanTemplate;
