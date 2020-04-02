@@ -49,16 +49,13 @@ export class DataSourceAPI extends Request {
     if (response.isSuccess()) {
       this.props.clientState.sources = response.body;
 
-      if (
-        this.props.clientState.sources.length > 0 &&
-        !hasValue(this.props.clientState.currentSource)
-      ) {
-        const currentSource = RestClient.getCurrentSource(
-          this.props.clientState.sources || [],
-          this.props.clientState.user && {userId: this.props.clientState.user.id}
-        );
-        this.props.clientState.currentSource = currentSource;
+      if (!hasValue(this.props.clientState.currentSource)) {
         try {
+          const currentSource = RestClient.getCurrentSource(
+            this.props.clientState.sources || [],
+            this.props.clientState.user && {userId: this.props.clientState.user.id}
+          );
+          this.props.clientState.currentSource = currentSource;
           if (hasValue(currentSource.key) && hasValue(this.props.clientState.user)) {
             localStorage.setItem(
               'lk-lastSeenSourceKey-' + this.props.clientState.user.id,
@@ -66,7 +63,7 @@ export class DataSourceAPI extends Request {
             );
           }
         } catch (_) {
-          // Silently fail if localStorage is not supported
+          // Silently fail if localStorage is not supported or if there are no sources configured
         }
       }
     }
