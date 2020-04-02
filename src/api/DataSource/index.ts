@@ -49,7 +49,6 @@ export class DataSourceAPI extends Request {
     if (response.isSuccess()) {
       this.props.clientState.sources = response.body;
 
-      // If there is /:sourceKey in the url, sources in the state, and no current source
       if (
         this.props.clientState.sources.length > 0 &&
         !hasValue(this.props.clientState.currentSource)
