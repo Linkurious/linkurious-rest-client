@@ -72,7 +72,12 @@ export class Response<B> {
     return this.status >= 200 && this.status < 300;
   }
 
-  public isError<E extends LkErrorKey>(key: E): this is Response<LkError<E>> {
+  public isError<E extends LkErrorKey, Anything, R extends Response<Anything>>(
+    this: R,
+    key: E
+  ): this is LkErrorKeyToInterface[E] extends PossibleBodies<R>
+    ? Response<LkErrorKeyToInterface[E]>
+    : never {
     return hasValue(this.body) && ((this.body as unknown) as LkError).key === key;
   }
 }
@@ -85,6 +90,16 @@ export class Response<B> {
 export type ErrorResponses<T extends LkErrorKey> = T extends unknown
   ? Response<LkErrorKeyToInterface[T]>
   : Response<LkErrorKeyToInterface[T]>;
+
+/**
+ * Input:
+ *    Response<A | B | C> | Response<A> | Response<D> | Response<E>
+ * Output:
+ *    A | B | C | E
+ */
+export type PossibleBodies<R extends {body: unknown}> = R extends {body: infer Bodies}
+  ? Bodies
+  : never;
 
 /**
  * Every error can carry some payload
