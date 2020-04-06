@@ -95,7 +95,7 @@ export type ErrorResponses<T extends LkErrorKey> = T extends unknown
  * Input:
  *    Response<A | B | C> | Response<A> | Response<D> | Response<E>
  * Output:
- *    A | B | C | E
+ *    A | B | C | D | E
  */
 export type PossibleBodies<R extends {body: unknown}> = R extends {body: infer Bodies}
   ? Bodies
