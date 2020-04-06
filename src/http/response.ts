@@ -72,13 +72,13 @@ export class Response<B> {
     return this.status >= 200 && this.status < 300;
   }
 
-  public isError<E extends LkErrorKey, Anything, R extends Response<Anything>>(
+  public isError<E extends LkErrorKey, R extends Response<unknown>>(
     this: R,
     key: E
   ): this is LkErrorKeyToInterface[E] extends PossibleBodies<R>
     ? Response<LkErrorKeyToInterface[E]>
     : never {
-    return hasValue(this.body) && ((this.body as unknown) as LkError).key === key;
+    return hasValue(this.body) && (this.body as LkError).key === key;
   }
 }
 
