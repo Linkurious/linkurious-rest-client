@@ -72,33 +72,45 @@ export class Response<B> {
     return this.status >= 200 && this.status < 300;
   }
 
-  public isError<E extends LkErrorKey, R extends Response<unknown>>(
+  public isError<R extends Response<unknown>, E extends AsLkErrorKey<PossibleErrorKeys<R>>>(
     this: R,
     key: E
-  ): this is LkErrorKeyToInterface[E] extends PossibleBodies<R>
-    ? Response<LkErrorKeyToInterface[E]>
-    : never {
+  ): this is PossibleErrorKeys<R> extends E ? never : Response<LkErrorKeyToInterface[E]> {
     return hasValue(this.body) && (this.body as LkError).key === key;
   }
 }
 
 /**
- * This is a trick so that:
- * in `const name = ErrorResponses<LkErrorKey.FORBIDDEN, LkErrorKey.UNAUTHORIZED>`
- * the type of name is evaluated to `Response<ForbiddenError> | Response<UnauthorizedError>`
+ * Input:
+ *    ErrorResponses<LkErrorKey.FORBIDDEN, LkErrorKey.UNAUTHORIZED>
+ * Output:
+ *    Response<ForbiddenError> | Response<UnauthorizedError>
  */
 export type ErrorResponses<T extends LkErrorKey> = T extends unknown
   ? Response<LkErrorKeyToInterface[T]>
   : Response<LkErrorKeyToInterface[T]>;
 
 /**
- * Input:
- *    Response<A | B | C> | Response<A> | Response<D> | Response<E>
- * Output:
- *    A | B | C | D | E
+ * Two reasons for this type, which is used in Response.isError():
+ *    1) "E extends PossibleErrorKeys<R>>" does not make E extend LkErrorKey, so "LkErrorKeyToInterface[E]" is an error,
+ *    but if you do "E extends AsLkErrorKey<PossibleErrorKeys<R>>" then E extends LkErrorKey
+ *    (this could be done inside PossibleErrorKeys, but it's done outside because of next reason)
+ *    2) If parameter `key: E` is not one of the expected LkErrorKey, E is resolved as union type of all expected LkErrorKey,
+ *    but if you do "E extends AsLkErrorKey<PossibleErrorKeys<R>>" then `key` is resolved properly as the LkErrorKey passed
+ *    as parameter, only if it's one of the expected expected LkErrorKey otherwise still is resolved as the union type of all expected ones
  */
-export type PossibleBodies<R extends {body: unknown}> = R extends {body: infer Bodies}
-  ? Bodies
+export type AsLkErrorKey<T> = T extends LkErrorKey ? T : never;
+
+/**
+ * Input:
+ *    Response<AlreadyExistsError> | Response<CustomAction[]> | Response<EditConflictError>
+ * Output:
+ *    LkErrorKey.ALREADY_EXISTS_ERROR | LkErrorKey.EDIT_CONFLICT_ERROR
+ */
+export type PossibleErrorKeys<R> = R extends {
+  body: {key: infer ErrorKeys};
+}
+  ? ErrorKeys
   : never;
 
 /**
