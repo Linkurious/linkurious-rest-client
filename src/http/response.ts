@@ -72,10 +72,11 @@ export class Response<B> {
     return this.status >= 200 && this.status < 300;
   }
 
-  public isError<R extends Response<unknown>, E extends AsLkErrorKey<PossibleErrorKeys<R>>>(
+  public isError<R extends Response<unknown>, E extends LkErrorKey>(
     this: R,
-    key: E
-  ): this is PossibleErrorKeys<R> extends E ? never : Response<LkErrorKeyToInterface[E]> {
+    // I found out that extending in the params like this surprisingly works as a highlighter
+    key: E extends PossibleErrorKeys<R> ? E : PossibleErrorKeys<R>
+  ): this is E extends PossibleErrorKeys<R> ? Response<LkErrorKeyToInterface[E]> : never {
     return hasValue(this.body) && (this.body as LkError).key === key;
   }
 }
@@ -89,17 +90,6 @@ export class Response<B> {
 export type ErrorResponses<T extends LkErrorKey> = T extends unknown
   ? Response<LkErrorKeyToInterface[T]>
   : Response<LkErrorKeyToInterface[T]>;
-
-/**
- * Two reasons for this type, which is used in Response.isError():
- *    1) "E extends PossibleErrorKeys<R>>" does not make E extend LkErrorKey, so "LkErrorKeyToInterface[E]" is an error,
- *    but if you do "E extends AsLkErrorKey<PossibleErrorKeys<R>>" then E extends LkErrorKey
- *    (this could be done inside PossibleErrorKeys, but it's done outside because of next reason)
- *    2) If parameter `key: E` is not one of the expected LkErrorKey, E is resolved as union type of all expected LkErrorKey,
- *    but if you do "E extends AsLkErrorKey<PossibleErrorKeys<R>>" then `key` is resolved properly as the LkErrorKey passed
- *    as parameter, only if it's one of the expected expected LkErrorKey otherwise still is resolved as the union type of all expected ones
- */
-export type AsLkErrorKey<T> = T extends LkErrorKey ? T : never;
 
 /**
  * Input:
