@@ -17,6 +17,7 @@ export interface UserPreferences {
 export interface User extends PersistedItem {
   username: string;
   email: string;
+  lastActiveDate?: string; // undefined if the user has never logged in
   source: string;
   preferences: UserPreferences | IGuestPreferencesConfig;
   groups: GroupName[];
