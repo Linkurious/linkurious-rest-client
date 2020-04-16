@@ -102,11 +102,20 @@ export interface VisualizationFilters {
   edge: ItemSelector[];
 }
 
+export enum ZoomLevel {
+  YEARS = 'years',
+  MONTHS = 'months',
+  DAYS = 'days',
+  HOURS = 'hours',
+  MINUTES = 'minutes',
+  SECONDS = 'seconds'
+}
+
 export interface VisualizationTimeline {
   node: GenericObject<string>;
   edge: GenericObject<string>;
   range?: RangeValues;
-  zoomLevel?: 'years' | 'months' | 'days' | 'hours' | 'minutes' | 'seconds';
+  zoomLevel?: ZoomLevel;
 }
 
 export interface Visualization extends PersistedItem {
