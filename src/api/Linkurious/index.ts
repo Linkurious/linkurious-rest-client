@@ -25,8 +25,8 @@ export class LinkuriousAPI extends Request {
   /**
    * Get the status of the Linkurious server.
    */
-  public getStatus() {
-    return this.request<ServerStatus>({
+  public getStatus(this: Request<ServerStatus>) {
+    return this.request({
       url: '/status',
       method: 'GET'
     });
@@ -35,8 +35,8 @@ export class LinkuriousAPI extends Request {
   /**
    * Get Linkurious current version information.
    */
-  public getVersion() {
-    return this.request<ServerVersion>({
+  public getVersion(this: Request<ServerVersion>) {
+    return this.request({
       url: '/version',
       method: 'GET'
     });

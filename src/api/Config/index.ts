@@ -17,8 +17,8 @@ export class ConfigAPI extends Request {
   /**
    * Get the configuration of Linkurious.
    */
-  public getConfiguration(params?: IGetConfigParams) {
-    return this.request<Configuration>({
+  public getConfiguration(this: Request<Configuration>, params?: IGetConfigParams) {
+    return this.request({
       url: '/config',
       method: 'GET',
       params: params

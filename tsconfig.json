@@ -15,5 +15,8 @@
     "noFallthroughCasesInSwitch": true,
     "allowUnreachableCode": false,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "include": [
+    "src/**/*"
+  ]
 }
