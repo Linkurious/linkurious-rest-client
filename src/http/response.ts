@@ -47,7 +47,8 @@ export enum LkErrorKey {
   BUG = 'bug',
   SOCKET_ERROR = 'socket_error',
   API_NOT_FOUND = 'api_not_found',
-  PLUGIN_NOT_READY = 'plugin_not_ready'
+  PLUGIN_NOT_READY = 'plugin_not_ready',
+  PLUGIN_SERVICE_NOT_READY = 'plugin_service_not_ready'
 }
 
 /**
@@ -203,6 +204,8 @@ export interface ApiNotFoundError extends LkError<LkErrorKey.API_NOT_FOUND> {}
 
 export interface PluginNotReadyError extends LkError<LkErrorKey.PLUGIN_NOT_READY> {}
 
+export interface PluginServiceNotReadyError extends LkError<LkErrorKey.PLUGIN_SERVICE_NOT_READY> {}
+
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
@@ -234,4 +237,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.SOCKET_ERROR]: SocketError;
   [LkErrorKey.API_NOT_FOUND]: ApiNotFoundError;
   [LkErrorKey.PLUGIN_NOT_READY]: PluginNotReadyError;
+  [LkErrorKey.PLUGIN_SERVICE_NOT_READY]: PluginServiceNotReadyError;
 };
