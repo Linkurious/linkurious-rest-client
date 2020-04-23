@@ -11,6 +11,7 @@ import {hasValue} from '../utils';
 import {SearchSyntaxError} from '../api/Search';
 
 import {FetchConfig} from './types';
+import {Visualization} from "../api/Visualization";
 
 export enum LkErrorKey {
   // Not a server error, thrown internally by the rest-client
@@ -72,9 +73,26 @@ export class Response<B> {
     return this.status >= 200 && this.status < 300;
   }
 
+  /**
+   * The result of the narrowed down type in type guards works this way
+   * type TypeGuard<UnionType, Assertion> = Assertion extends UnionType ? Assertion : (Assertion & UnionType);
+   * type t1 = TypeGuard<Response<number> | Response<string>, Response<boolean>>;
+   * `t1` equal to `(Response<number> | Response<string>) & Response<boolean>`
+   *
+   * 1) However, we want `isError()` to narrow down to `never` instead of the `UnionType & Assertion`
+   *
+   * 2) Why `E` does not extends `PossibleErrorKeys<R>` in the generics?
+   * Because having `key : E` in the parameters makes `E` to be equal to `PossibleErrorKeys<R>`
+   * instead of the actual type we pass
+   *
+   * 3) A ternary operator in a parameter works a second checker of the assignment
+   * In `key` parameter, `E extends PossibleErrorKeys<R> ? E : never` makes TS to check `E`
+   * against `PossibleErrorKeys<R>` and throw a TS error if it's false.
+   * `E extends PossibleErrorKeys<R> ? E : PossibleErrorKeys<R>` makes that when it's false, the TS error mentions
+   * `PossibleErrorKeys<R>`
+   */
   public isError<R extends Response<unknown>, E extends LkErrorKey>(
     this: R,
-    // I found out that extending in the params like this surprisingly works as a highlighter
     key: E extends PossibleErrorKeys<R> ? E : PossibleErrorKeys<R>
   ): this is E extends PossibleErrorKeys<R> ? Response<LkErrorKeyToInterface[E]> : never {
     return hasValue(this.body) && (this.body as LkError).key === key;
