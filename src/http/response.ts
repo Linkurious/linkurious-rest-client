@@ -11,7 +11,6 @@ import {hasValue} from '../utils';
 import {SearchSyntaxError} from '../api/Search';
 
 import {FetchConfig} from './types';
-import {Visualization} from "../api/Visualization";
 
 export enum LkErrorKey {
   // Not a server error, thrown internally by the rest-client
