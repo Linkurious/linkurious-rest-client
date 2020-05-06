@@ -127,6 +127,7 @@ export interface Visualization extends PersistedItem {
   edgeFields: ItemFields;
   design: VisualizationDesign;
   filters: VisualizationFilters;
+  edgeGrouping: GenericObject<boolean>;
   sourceKey: string;
   sandbox: boolean;
   alternativeIds: AlternativeIdSettings;
@@ -156,6 +157,7 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   nodeFields?: ItemFields;
   edgeFields?: ItemFields;
   filters?: VisualizationFilters;
+  edgeGrouping?: GenericObject<boolean>;
   timeline?: VisualizationTimeline;
   layout?: VisualizationLayout;
   geo?: VisualizationGeo;
