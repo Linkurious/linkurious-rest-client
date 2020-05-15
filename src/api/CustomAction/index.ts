@@ -30,10 +30,9 @@ export class CustomActionAPI extends Request {
   /**
    * Get all the custom actions owned by the current user or shared with them.
    */
-  public getCustomActions(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN).request<
-      CustomAction[]
-    >({
+  public getCustomActions(this: Request<CustomAction[]>, params?: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN],
       url: '/:sourceKey/customAction',
       method: 'GET',
       params: params
@@ -43,13 +42,9 @@ export class CustomActionAPI extends Request {
   /**
    * Create a new custom action for the current user.
    */
-  public createCustomAction(params: ICreateCustomActionParams) {
-    return this.handle(
-      UNAUTHORIZED,
-      DATA_SOURCE_UNAVAILABLE,
-      FORBIDDEN,
-      MALFORMED_CUSTOM_ACTION_TEMPLATE
-    ).request<CustomAction>({
+  public createCustomAction(this: Request<CustomAction>, params: ICreateCustomActionParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, MALFORMED_CUSTOM_ACTION_TEMPLATE],
       url: '/:sourceKey/customAction',
       method: 'POST',
       params: params
@@ -59,14 +54,15 @@ export class CustomActionAPI extends Request {
   /**
    * Update a custom action owned by the current user.
    */
-  public updateCustomAction(params: IUpdateCustomActionParams) {
-    return this.handle(
-      UNAUTHORIZED,
-      DATA_SOURCE_UNAVAILABLE,
-      FORBIDDEN,
-      NOT_FOUND,
-      MALFORMED_CUSTOM_ACTION_TEMPLATE
-    ).request<CustomAction>({
+  public updateCustomAction(this: Request<CustomAction>, params: IUpdateCustomActionParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        NOT_FOUND,
+        MALFORMED_CUSTOM_ACTION_TEMPLATE
+      ],
       url: '/:sourceKey/customAction/:id',
       method: 'PATCH',
       params: params
@@ -77,7 +73,8 @@ export class CustomActionAPI extends Request {
    * Delete a custom action owned by the current user.
    */
   public deleteCustomAction(params: IDeleteCustomActionParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/customAction/:id',
       method: 'DELETE',
       params: params
