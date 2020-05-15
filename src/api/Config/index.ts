@@ -29,7 +29,8 @@ export class ConfigAPI extends Request {
    * Update Linkurious configuration.
    */
   public updateConfiguration(params: IUpdateConfigParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/config',
       method: 'POST',
       params: params

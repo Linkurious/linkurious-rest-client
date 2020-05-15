@@ -49,7 +49,8 @@ export class AuthAPI extends Request {
    * Log the current user out.
    */
   public async logout() {
-    const response = await this.handle(UNAUTHORIZED).request({
+    const response = await this.request({
+      errors: [UNAUTHORIZED],
       url: '/auth/logout',
       method: 'GET'
     });
@@ -63,8 +64,9 @@ export class AuthAPI extends Request {
   /**
    * Get the profile of the current user.
    */
-  public async getCurrentUser() {
-    const response = await this.handle(UNAUTHORIZED, GUEST_DISABLED).request<User>({
+  public async getCurrentUser(this: Request<User>) {
+    const response = await this.request({
+      errors: [UNAUTHORIZED, GUEST_DISABLED],
       url: '/auth/me',
       method: 'GET'
     });
@@ -78,8 +80,9 @@ export class AuthAPI extends Request {
   /**
    * Update the current user.
    */
-  public async updateCurrentUser(params: IUpdateCurrentUserParams) {
-    const response = await this.handle(UNAUTHORIZED, FORBIDDEN, ALREADY_EXISTS).request<User>({
+  public async updateCurrentUser(this: Request<User>, params: IUpdateCurrentUserParams) {
+    const response = await this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, ALREADY_EXISTS],
       url: '/auth/me',
       method: 'PATCH',
       params: params
