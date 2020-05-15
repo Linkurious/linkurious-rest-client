@@ -27,10 +27,9 @@ export class GraphEdgeAPI extends Request {
    * Get an edge of the graph.
    * A subgraph made of the edge and its extremities is returned.
    */
-  public getEdge(params: IGetEdgeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
-      LkSubGraph
-    >({
+  public getEdge(this: Request<LkSubGraph>, params: IGetEdgeParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND],
       url: '/:sourceKey/graph/edges/:id',
       method: 'POST',
       params: params
@@ -40,8 +39,9 @@ export class GraphEdgeAPI extends Request {
   /**
    * Add an edge to the graph.
    */
-  public createEdge(params: ICreateEdgeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<LkEdge>({
+  public createEdge(this: Request<LkEdge>, params: ICreateEdgeParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
       url: '/:sourceKey/graph/edges',
       method: 'POST',
       params: params
@@ -53,14 +53,9 @@ export class GraphEdgeAPI extends Request {
    * Keep every other property of the edge unchanged.
    * It's not possible to update the type of an edge.
    */
-  public updateEdge(params: IUpdateEdgeParams) {
-    return this.handle(
-      UNAUTHORIZED,
-      DATA_SOURCE_UNAVAILABLE,
-      FORBIDDEN,
-      NOT_FOUND,
-      EDIT_CONFLICT
-    ).request<LkEdge>({
+  public updateEdge(this: Request<LkEdge>, params: IUpdateEdgeParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, EDIT_CONFLICT],
       url: '/:sourceKey/graph/edges/:id',
       method: 'PATCH',
       params: params
@@ -71,7 +66,8 @@ export class GraphEdgeAPI extends Request {
    * Delete an edge from the graph.
    */
   public deleteEdge(params: IDeleteEdgeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/graph/edges/:id',
       method: 'DELETE',
       params: params
@@ -81,8 +77,9 @@ export class GraphEdgeAPI extends Request {
   /**
    * Get the number of edges in the graph.
    */
-  public getEdgeCount(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<number>({
+  public getEdgeCount(this: Request<number>, params?: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED],
       url: '/:sourceKey/graph/edges/count',
       method: 'GET',
       params: params
