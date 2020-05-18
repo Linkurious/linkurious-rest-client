@@ -132,7 +132,8 @@ export class DataSourceAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/sources',
-      method: 'GET'});
+      method: 'GET'
+    });
   }
 
   /**

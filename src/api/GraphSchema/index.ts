@@ -41,7 +41,8 @@ export class GraphSchemaAPI extends Request {
    * Start the schema sampling.
    */
   public startSchemaSampling(params?: IStartSchemaSamplingParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
       url: '/admin/:sourceKey/schema/sampling/start',
       method: 'POST',
       params: params
@@ -51,10 +52,9 @@ export class GraphSchemaAPI extends Request {
   /**
    * Get the schema sampling status.
    */
-  public getSamplingStatus(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
-      GetSamplingStatusResponse
-    >({
+  public getSamplingStatus(this: Request<GetSamplingStatusResponse>, params?: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED],
       url: '/:sourceKey/schema/sampling/status',
       method: 'GET',
       params: params
@@ -65,7 +65,8 @@ export class GraphSchemaAPI extends Request {
    * Stop the schema sampling.
    */
   public stopSchemaSampling(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/admin/:sourceKey/schema/sampling/stop',
       method: 'POST',
       params: params
@@ -76,26 +77,21 @@ export class GraphSchemaAPI extends Request {
    * List all `edgeTypes`, `nodeCategories`, `edgeProperties`, `nodeProperties`
    * that exist in the graph database.
    */
-  public getSimpleSchema(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<SimpleSchema>(
-      {
-        url: '/:sourceKey/graph/schema/simple',
-        method: 'GET',
-        params: params
-      }
-    );
+  public getSimpleSchema(this: Request<SimpleSchema>, params?: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED],
+      url: '/:sourceKey/graph/schema/simple',
+      method: 'GET',
+      params: params
+    });
   }
 
   /**
    * Update the strict schema settings of the data-source.
    */
   public updateSchemaSettings(params: IUpdateSchemaSettingsParams) {
-    return this.handle(
-      UNAUTHORIZED,
-      DATA_SOURCE_UNAVAILABLE,
-      FORBIDDEN,
-      STRICT_SCHEMA_REQUIRED
-    ).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, STRICT_SCHEMA_REQUIRED],
       url: '/admin/:sourceKey/graph/schema/settings',
       method: 'PATCH',
       params: params
@@ -105,8 +101,9 @@ export class GraphSchemaAPI extends Request {
   /**
    * Get the list of edge properties that are not indexed for the given data-source.
    */
-  public getNonIndexedEdgeProperties(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<string[]>({
+  public getNonIndexedEdgeProperties(this: Request<string>, params?: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/admin/source/:sourceKey/noIndex/edgeProperties',
       method: 'GET',
       params: params
@@ -116,8 +113,9 @@ export class GraphSchemaAPI extends Request {
   /**
    * Get the list of node properties that are not indexed for the given data-source.
    */
-  public getNonIndexedNodeProperties(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request<string[]>({
+  public getNonIndexedNodeProperties(this: Request<string>, params?: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/admin/source/:sourceKey/noIndex/nodeProperties',
       method: 'GET',
       params: params
@@ -128,7 +126,8 @@ export class GraphSchemaAPI extends Request {
    * Set the list of edge properties that are not indexed for the given data-source.
    */
   public setNonIndexedEdgeProperties(params: ISetNonIndexedPropertiesParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/admin/source/:sourceKey/noIndex/edgeProperties',
       method: 'PUT',
       params: params
@@ -139,7 +138,8 @@ export class GraphSchemaAPI extends Request {
    * Set the list of node properties that are not indexed for the given data-source.
    */
   public setNonIndexedNodeProperties(params: ISetNonIndexedPropertiesParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE).request({
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/admin/source/:sourceKey/noIndex/nodeProperties',
       method: 'PUT',
       params: params
@@ -149,8 +149,9 @@ export class GraphSchemaAPI extends Request {
   /**
    * Add a new type to the graph schema.
    */
-  public createType(params: ICreateTypeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<GraphSchemaType>({
+  public createType(this: Request<GraphSchemaType>, params: ICreateTypeParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'POST',
       params: params
@@ -161,7 +162,8 @@ export class GraphSchemaAPI extends Request {
    * Update an existing graph schema type.
    */
   public updateType(params: IUpdateTypeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'PATCH',
       params: params
@@ -171,10 +173,9 @@ export class GraphSchemaAPI extends Request {
   /**
    * Add a new property for a type on the graph schema.
    */
-  public createProperty(params: ICreatePropertyParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<
-      GraphSchemaProperty
-    >({
+  public createProperty(this: Request<GraphSchemaProperty>, params: ICreatePropertyParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
       method: 'POST',
       params: params
@@ -185,7 +186,8 @@ export class GraphSchemaAPI extends Request {
    * Update an existing graph schema property.
    */
   public updateProperty(params: IUpdatePropertyParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
       method: 'PATCH',
       params: params
@@ -195,8 +197,9 @@ export class GraphSchemaAPI extends Request {
   /**
    * List all the types and properties of a data-source.
    */
-  public getTypes(params: IGetTypesParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<GraphSchema>({
+  public getTypes(this: Request<GraphSchema>, params: IGetTypesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'GET',
       params: params
@@ -206,10 +209,9 @@ export class GraphSchemaAPI extends Request {
   /**
    * List all the readable types and properties of a data-source.
    */
-  public getTypesWithAccess(params: IGetTypesParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<
-      GraphSchemaWithAccess
-    >({
+  public getTypesWithAccess(this: Request<GraphSchemaWithAccess>, params: IGetTypesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED],
       url: '/:sourceKey/graph/schema/:entityType/types',
       method: 'GET',
       params: params

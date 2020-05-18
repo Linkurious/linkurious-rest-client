@@ -35,10 +35,9 @@ export class GraphNodeAPI extends Request {
    * Get a node of the graph.
    * A subgraph made of the single node is returned.
    */
-  public getNode(params: IGetNodeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
-      LkSubGraph
-    >({
+  public getNode(this: Request<LkSubGraph>, params: IGetNodeParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND],
       url: '/:sourceKey/graph/nodes/:id',
       method: 'POST',
       params: params
@@ -48,8 +47,9 @@ export class GraphNodeAPI extends Request {
   /**
    * Add a node to the graph.
    */
-  public createNode(params: ICreateNodeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<LkNode>({
+  public createNode(this: Request<LkNode>, params: ICreateNodeParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
       url: '/:sourceKey/graph/nodes',
       method: 'POST',
       params: params
@@ -60,15 +60,16 @@ export class GraphNodeAPI extends Request {
    * Update a subset of properties and categories of a node.
    * Keep every other property and category of the node unchanged.
    */
-  public updateNode(params: IUpdateNodeParams) {
-    return this.handle(
-      UNAUTHORIZED,
-      DATA_SOURCE_UNAVAILABLE,
-      FORBIDDEN,
-      NOT_FOUND,
-      EDIT_CONFLICT,
-      NOT_SUPPORTED
-    ).request<LkNode>({
+  public updateNode(this: Request<LkNode>, params: IUpdateNodeParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        NOT_FOUND,
+        EDIT_CONFLICT,
+        NOT_SUPPORTED
+      ],
       url: '/:sourceKey/graph/nodes/:id',
       method: 'PATCH',
       params: params
@@ -79,7 +80,8 @@ export class GraphNodeAPI extends Request {
    * Delete a node and its adjacent edges from the graph.
    */
   public deleteNode(params: IDeleteNodeParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/graph/nodes/:id',
       method: 'DELETE',
       params: params
@@ -89,8 +91,9 @@ export class GraphNodeAPI extends Request {
   /**
    * Get the number of nodes in the graph.
    */
-  public getNodeCount(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<number>({
+  public getNodeCount(this: Request<number>, params?: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED],
       url: '/:sourceKey/graph/nodes/count',
       method: 'GET',
       params: params
@@ -103,10 +106,9 @@ export class GraphNodeAPI extends Request {
    * You can't get aggregated statistics of a subset of nodes containing one or more supernodes.
    * To get the statistics of a supernode invoke the API with only its node ID.
    */
-  public getStatistics(params: IGetStatisticsParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
-      LkNodeStatistics
-    >({
+  public getStatistics(this: Request<LkNodeStatistics>, params: IGetStatisticsParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND],
       url: '/:sourceKey/graph/neighborhood/statistics',
       method: 'POST',
       params: params
@@ -117,10 +119,9 @@ export class GraphNodeAPI extends Request {
    * Get all the adjacent nodes and edges to one or more source nodes.
    * A subgraph made of the items that matched the expand query and the edges between them is returned.
    */
-  public getAdjacentNodes(params: IGetAdjacentNodesParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
-      LkSubGraph
-    >({
+  public getAdjacentNodes(this: Request<LkSubGraph>, params: IGetAdjacentNodesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND],
       url: '/:sourceKey/graph/nodes/expand',
       method: 'POST',
       params: params
