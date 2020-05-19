@@ -57,7 +57,8 @@ export class LinkuriousAPI extends Request {
    * Collect all the analytics and log files in a compressed tarball and return it.
    */
   public getReport(params?: IGetReportParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/report',
       method: 'GET',
       params: params
@@ -67,18 +68,16 @@ export class LinkuriousAPI extends Request {
   /**
    * Restart Linkurious. Return the URL of Linkurious after the restart.
    */
-  public restartLinkurious() {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<RestartLinkuriousResponse>({
-      url: '/admin/restart',
-      method: 'POST'
-    });
+  public restartLinkurious(this: Request<RestartLinkuriousResponse>) {
+    return this.request({errors: [UNAUTHORIZED, FORBIDDEN], url: '/admin/restart', method: 'POST'});
   }
 
   /**
    * List all custom files in the specified root directory.
    */
-  public getCustomFiles(params?: IGetCustomFilesParams) {
-    return this.handle(UNAUTHORIZED).request<CustomFile[]>({
+  public getCustomFiles(this: Request<CustomFile[]>, params?: IGetCustomFilesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED],
       url: '/customFiles',
       method: 'GET',
       params: params

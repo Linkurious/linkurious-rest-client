@@ -41,8 +41,9 @@ export class UserAPI extends Request {
   /**
    * Get a user by id.
    */
-  public getUser(params: IGetUserParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<User>({
+  public getUser(this: Request<User>, params: IGetUserParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
       url: '/admin/users/:id',
       method: 'GET',
       params: params
@@ -52,19 +53,16 @@ export class UserAPI extends Request {
   /**
    * Get all the users or filter them by username, e-mail or group id.
    */
-  public searchUsers(params: ISearchUsersParams) {
-    return this.handle(UNAUTHORIZED).request<SearchUserResponse>({
-      url: '/users',
-      method: 'GET',
-      params: params
-    });
+  public searchUsers(this: Request<SearchUserResponse>, params: ISearchUsersParams) {
+    return this.request({errors: [UNAUTHORIZED], url: '/users', method: 'GET', params: params});
   }
 
   /**
    * Add a new user.
    */
-  public createUser(params: ICreateUserParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, ALREADY_EXISTS).request<User>({
+  public createUser(this: Request<User>, params: ICreateUserParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, ALREADY_EXISTS],
       url: '/admin/users',
       method: 'POST',
       params: params
@@ -74,8 +72,9 @@ export class UserAPI extends Request {
   /**
    * Update a user.
    */
-  public updateUser(params: IUpdateUserParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND, INVALID_PARAMETER).request<User>({
+  public updateUser(this: Request<User>, params: IUpdateUserParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND, INVALID_PARAMETER],
       url: '/admin/users/:id',
       method: 'PATCH',
       params: params
@@ -86,7 +85,8 @@ export class UserAPI extends Request {
    * Delete a user.
    */
   public deleteUser(params: IDeleteUserParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request({
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
       url: '/admin/users/:id',
       method: 'DELETE',
       params: params
@@ -96,8 +96,9 @@ export class UserAPI extends Request {
   /**
    * Get a group.
    */
-  public getGroup(params: IGetGroupParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<Group>({
+  public getGroup(this: Request<Group>, params: IGetGroupParams) {
+    return this.request({
+      errors: [DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/admin/:sourceKey/groups/:id',
       method: 'PATCH',
       params: params
@@ -107,8 +108,9 @@ export class UserAPI extends Request {
   /**
    * Get all the groups within a data-source.
    */
-  public getGroups(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request<Group[]>({
+  public getGroups(this: Request<Group[]>, params?: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
       url: '/admin/:sourceKey/groups',
       method: 'GET',
       params: params
@@ -118,8 +120,9 @@ export class UserAPI extends Request {
   /**
    * Get the names of groups that can perform a given action on the data-source.
    */
-  public getGroupNames(params: IGetGroupNamesParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<GroupName[]>({
+  public getGroupNames(this: Request<GroupName[]>, params: IGetGroupNamesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/groups',
       method: 'GET',
       params: params
@@ -129,10 +132,9 @@ export class UserAPI extends Request {
   /**
    * Add a new group.
    */
-  public createGroup(params: ICreateGroupParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, ALREADY_EXISTS).request<
-      Group
-    >({
+  public createGroup(this: Request<Group>, params: ICreateGroupParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, ALREADY_EXISTS],
       url: '/admin/:sourceKey/groups',
       method: 'POST',
       params: params
@@ -142,8 +144,9 @@ export class UserAPI extends Request {
   /**
    * Rename a group.
    */
-  public updateGroup(params: IUpdateGroupParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request<Group>({
+  public updateGroup(this: Request<Group>, params: IUpdateGroupParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/admin/:sourceKey/groups/:id',
       method: 'PATCH',
       params: params
@@ -154,7 +157,8 @@ export class UserAPI extends Request {
    * Delete a group.
    */
   public deleteGroup(params: IDeleteGroupParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/admin/:sourceKey/groups/:id',
       method: 'DELETE',
       params: params
@@ -165,7 +169,8 @@ export class UserAPI extends Request {
    * Transfer all the visualizations from a source user to a target user.
    */
   public mergeVisualizations(params: IMergeVisualizationsParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/users/mergeVisualizations',
       method: 'POST',
       params: params
