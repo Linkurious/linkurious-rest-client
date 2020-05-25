@@ -17,8 +17,8 @@ export class ConfigAPI extends Request {
   /**
    * Get the configuration of Linkurious.
    */
-  public getConfiguration(params?: IGetConfigParams) {
-    return this.request<Configuration>({
+  public getConfiguration(this: Request<Configuration>, params?: IGetConfigParams) {
+    return this.request({
       url: '/config',
       method: 'GET',
       params: params
@@ -29,7 +29,8 @@ export class ConfigAPI extends Request {
    * Update Linkurious configuration.
    */
   public updateConfiguration(params: IUpdateConfigParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/config',
       method: 'POST',
       params: params
