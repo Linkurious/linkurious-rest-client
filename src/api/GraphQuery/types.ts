@@ -13,6 +13,8 @@ export enum TemplateFieldType {
   ENUM = 'enum',
   NODE = 'node',
   NODE_SET = 'nodeset',
+  EDGE = 'edge',
+  EDGE_SET = 'edgeset',
   DATE = 'date',
   DATE_TIME = 'datetime',
   BOOLEAN = 'boolean'
@@ -64,6 +66,18 @@ export interface NodesetTemplate extends TemplateField<TemplateFieldType.NODE_SE
   };
 }
 
+export interface EdgeTemplate extends TemplateField<TemplateFieldType.EDGE> {
+  options?: {
+    types?: string[];
+  };
+}
+
+export interface EdgesetTemplate extends TemplateField<TemplateFieldType.EDGE_SET> {
+  options?: {
+    types?: string[];
+  };
+}
+
 export enum DateTemplateFormat {
   TIMESTAMP = 'timestamp',
   TIMESTAMP_MS = 'timestamp-ms',
@@ -112,6 +126,8 @@ export type Template =
   | EnumTemplate
   | NodeTemplate
   | NodesetTemplate
+  | EdgeTemplate
+  | EdgesetTemplate
   | DateTemplate
   | DatetimeTemplate
   | BooleanTemplate;
@@ -119,8 +135,10 @@ export type Template =
 export enum GraphQueryInputType {
   NONE = 'none',
   _1_NODE = '1-node',
+  _1_EDGE = '1-edge',
   _2_NODES = '2-nodes',
-  NODESET = 'nodeset'
+  NODESET = 'nodeset',
+  EDGESET = 'edgeset'
 }
 
 export enum GraphQueryDialect {
