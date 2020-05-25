@@ -43,6 +43,7 @@
     "typescript": "3.8.3"
   },
   "dependencies": {
+    "@types/express": "4.17.3",
     "superagent": "5.2.2"
   },
   "publishConfig": {
