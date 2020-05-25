@@ -7,6 +7,8 @@
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 import {SelectedDataSourceConfig} from '../Config';
+import {hasValue} from '../../utils';
+import {RestClient} from '../../index';
 
 import {
   IConnectDataSourceParams,
@@ -50,6 +52,24 @@ export class DataSourceAPI extends Request {
 
     if (response.isSuccess()) {
       this.props.clientState.sources = response.body;
+
+      if (!hasValue(this.props.clientState.currentSource)) {
+        try {
+          const currentSource = RestClient.getCurrentSource(
+            this.props.clientState.sources || [],
+            this.props.clientState.user && {userId: this.props.clientState.user.id}
+          );
+          this.props.clientState.currentSource = currentSource;
+          if (hasValue(currentSource.key) && hasValue(this.props.clientState.user)) {
+            localStorage.setItem(
+              'lk-lastSeenSourceKey-' + this.props.clientState.user.id,
+              currentSource.key
+            );
+          }
+        } catch (_) {
+          // Silently fail if localStorage is not supported or if there are no sources configured
+        }
+      }
     }
 
     return response;

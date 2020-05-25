@@ -4,6 +4,9 @@
  * - Created on 2019-09-17.
  */
 
+import * as express from 'express';
+
+import {RestClient} from '../../index';
 import {GenericObject} from '../commonTypes';
 
 export enum PluginRequestHeader {
@@ -30,4 +33,17 @@ export interface InstalledPlugin {
 export interface IPluginConfig extends GenericObject {
   basePath?: string;
   debugPort?: number;
+}
+
+export interface PluginConfig extends GenericObject {
+  // LKE will always pass the basePath to the plugin
+  // https://github.com/Linkurious/linkurious-server/issues/2214
+  basePath: string;
+  debugPort?: string;
+}
+
+export interface PluginRouteOptions<C extends PluginConfig = PluginConfig> {
+  router: express.Router;
+  configuration: C;
+  getRestClient: (req: express.Request) => RestClient;
 }
