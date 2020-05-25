@@ -101,7 +101,7 @@ export class GraphSchemaAPI extends Request {
   /**
    * Get the list of edge properties that are not indexed for the given data-source.
    */
-  public getNonIndexedEdgeProperties(this: Request<string>, params?: IDataSourceParams) {
+  public getNonIndexedEdgeProperties(this: Request<string[]>, params?: IDataSourceParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/admin/source/:sourceKey/noIndex/edgeProperties',
@@ -113,7 +113,7 @@ export class GraphSchemaAPI extends Request {
   /**
    * Get the list of node properties that are not indexed for the given data-source.
    */
-  public getNonIndexedNodeProperties(this: Request<string>, params?: IDataSourceParams) {
+  public getNonIndexedNodeProperties(this: Request<string[]>, params?: IDataSourceParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/admin/source/:sourceKey/noIndex/nodeProperties',

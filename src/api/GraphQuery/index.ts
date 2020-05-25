@@ -51,7 +51,7 @@ export class GraphQueryAPI extends Request {
   /**
    * Get all the graph queries owned by the current user or shared with it.
    */
-  public getQueries(this: Request<GraphQuery>, params: IGetQueriesParams) {
+  public getQueries(this: Request<GraphQuery[]>, params: IGetQueriesParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN],
       url: '/:sourceKey/graph/query',

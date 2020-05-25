@@ -17,7 +17,7 @@ export class ApplicationAPI extends Request {
   /**
    * Get all the API applications.
    */
-  public getApplications(this: Request<Application>) {
+  public getApplications(this: Request<Application[]>) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/applications',

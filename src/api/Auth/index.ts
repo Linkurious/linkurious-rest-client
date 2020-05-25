@@ -18,12 +18,13 @@ export class AuthAPI extends Request {
   /**
    * Log a user in by e-mail or username and password and return it.
    */
-  public async login(params: ILoginParams) {
+  public async login(this: Request<User>, params: ILoginParams) {
     delete this.props.clientState.currentSource;
     delete this.props.clientState.guestMode;
     delete this.props.clientState.sources;
     delete this.props.clientState.user;
-    const response = await this.handle(UNAUTHORIZED).request<User>({
+    const response = await this.request({
+      errors: [UNAUTHORIZED],
       url: '/auth/login',
       method: 'POST',
       params: params

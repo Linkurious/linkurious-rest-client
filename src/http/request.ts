@@ -20,21 +20,6 @@ import {FetchConfig, ModuleProps, RawFetchConfig, SuperAgentResponse} from './ty
 export abstract class Request<S = undefined> {
   constructor(public readonly props: ModuleProps) {}
 
-  // TODO remove `handle()` after migrating to the new format
-  /*
-    In `request<S, E extends LkErrorKey>(...)` we want S to be explicit and E to be inferred,
-    to do so in TS is not possible today, so `handle` is a workaround for this issue.
-    There is an issue and a PR about it: https://github.com/microsoft/TypeScript/issues/10571
-   */
-  public handle<E extends LkErrorKey = never>(...errors: E[]) {
-    return {
-      // This was changed to make the transition smooth
-      // This makes it retro-compatible, except for `this.request<T>()`
-      request: <S2 = S>(raw: RawFetchConfig<E>) =>
-        ((this as unknown) as Request<S2>).request<E>({errors: errors, ...raw})
-    };
-  }
-
   /**
    * Render `config.url` using `config.params`
    * and subtract the params used from `config.params`.

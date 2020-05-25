@@ -148,7 +148,7 @@ export class DataSourceAPI extends Request {
    * - a disconnected data-source state not configured anymore
    * - a connected data-source (data-source configuration + state)
    */
-  public getDataSourcesAdminInfo(this: Request<DataSourceAdminInfo>) {
+  public getDataSourcesAdminInfo(this: Request<DataSourceAdminInfo[]>) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/sources',
