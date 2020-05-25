@@ -16,8 +16,8 @@ import {LkErrorKey} from './response';
 /**
  * Interfaces for Request class
  */
-export interface RawFetchConfig<P extends {} = {}> {
-  errors?: LkErrorKey[];
+export interface RawFetchConfig<E extends LkErrorKey = LkErrorKey, P extends {} = {}> {
+  errors?: E[];
   url: string;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
   params?: P;

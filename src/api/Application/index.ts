@@ -17,8 +17,9 @@ export class ApplicationAPI extends Request {
   /**
    * Get all the API applications.
    */
-  public getApplications() {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<Application[]>({
+  public getApplications(this: Request<Application[]>) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/applications',
       method: 'GET'
     });
@@ -27,8 +28,9 @@ export class ApplicationAPI extends Request {
   /**
    * Add a new API application.
    */
-  public createApplication(params: ICreateApplicationParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<Application>({
+  public createApplication(this: Request<Application>, params: ICreateApplicationParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
       url: '/admin/applications',
       method: 'POST',
       params: params
@@ -38,8 +40,9 @@ export class ApplicationAPI extends Request {
   /**
    * Update an API application.
    */
-  public updateApplication(params: IUpdateApplicationParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, NOT_FOUND).request<Application>({
+  public updateApplication(this: Request<Application>, params: IUpdateApplicationParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
       url: '/admin/applications/:id',
       method: 'PATCH',
       params: params
