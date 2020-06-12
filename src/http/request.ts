@@ -94,8 +94,8 @@ export abstract class Request {
     const result: GenericObject = {};
     for (const key in obj) {
       const fixedKey = key
-        .replace(/(^[A-Z])/, first => first.toLowerCase())
-        .replace(/([A-Z])/g, letter => `_${letter.toLowerCase()}`);
+        .replace(/(^[A-Z])/, (first) => first.toLowerCase())
+        .replace(/([A-Z])/g, (letter) => `_${letter.toLowerCase()}`);
       result[fixedKey] = obj[key];
     }
     return result;
@@ -159,7 +159,7 @@ export abstract class Request {
       response = await this.props.agent[
         fetchConfig.method.toLowerCase() as 'get' | 'delete' | 'post' | 'put' | 'patch'
       ](fetchConfig.url)
-        .ok(res => res.status < 500)
+        .ok((res) => res.status < 500)
         .withCredentials()
         .send(fetchConfig.body)
         .query(fetchConfig.query);

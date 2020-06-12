@@ -123,16 +123,16 @@ export class RestClient extends ErrorListener {
         // Return the last seen data-source by the current user if the data-source is connected
         try {
           const sourceKey = (storage || localStorage).getItem('lk-lastSeenSourceKey-' + by.userId);
-          source = find(dataSources, s => s.connected && s.key === sourceKey);
+          source = find(dataSources, (s) => s.connected && s.key === sourceKey);
         } catch (_) {
           source = undefined;
         }
       } else if ('sourceKey' in by) {
         // Return the data-source whose sourceKey matches sourceKey in input
-        source = find(dataSources, s => s.key === by.sourceKey);
+        source = find(dataSources, (s) => s.key === by.sourceKey);
       } else {
         // Return the data-source whose configIndex matches configIndex in input
-        source = find(dataSources, s => s.configIndex === by.configIndex);
+        source = find(dataSources, (s) => s.configIndex === by.configIndex);
       }
 
       if (source) {

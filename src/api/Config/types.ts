@@ -27,6 +27,9 @@ export interface Configuration {
   // available to authenticated users
   advanced?: IAdvancedConfig;
   leaflet?: ILeafletConfig[];
+  license?: {
+    expired: boolean;
+  };
 
   // partially available to authenticated user
   alerts?: IAlertsConfig;
