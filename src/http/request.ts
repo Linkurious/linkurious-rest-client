@@ -17,19 +17,8 @@ import {
 } from './response';
 import {FetchConfig, ModuleProps, RawFetchConfig, SuperAgentResponse} from './types';
 
-export abstract class Request {
+export abstract class Request<S = undefined> {
   constructor(public readonly props: ModuleProps) {}
-
-  /*
-    In `request<S, E extends LkErrorKey>(...)` we want S to be explicit and E to be inferred,
-    to do so in TS is not possible today, so `handle` is a workaround for this issue.
-    There is an issue and a PR about it: https://github.com/microsoft/TypeScript/issues/10571
-   */
-  protected handle<E extends LkErrorKey>(...errors: E[]) {
-    return {
-      request: <S = void>(raw: RawFetchConfig) => this.request<S, E>({errors: errors, ...raw})
-    };
-  }
 
   /**
    * Render `config.url` using `config.params`
@@ -132,9 +121,7 @@ export abstract class Request {
     };
   }
 
-  protected async request<S = void, EK extends LkErrorKey = LkErrorKey.CONNECTION_REFUSED>(
-    rawFetchConfig: RawFetchConfig
-  ) {
+  public async request<EK extends LkErrorKey = never>(rawFetchConfig: RawFetchConfig<EK>) {
     // 1) Render URL template using params
     let requiredConfig: Required<RawFetchConfig>;
     try {

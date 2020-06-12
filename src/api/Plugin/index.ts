@@ -17,18 +17,16 @@ export class PluginAPI extends Request {
   /**
    * Get the list of installed plugins.
    */
-  public getPlugins() {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<InstalledPlugin[]>({
-      url: '/admin/plugins',
-      method: 'GET'
-    });
+  public getPlugins(this: Request<InstalledPlugin[]>) {
+    return this.request({errors: [UNAUTHORIZED, FORBIDDEN], url: '/admin/plugins', method: 'GET'});
   }
 
   /**
    * Restart all plugins.
    */
   public restartAll() {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/plugins/restart-all',
       method: 'POST'
     });

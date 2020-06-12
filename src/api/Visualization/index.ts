@@ -53,8 +53,9 @@ export class VisualizationAPI extends Request {
   /**
    * Get the number of visualizations for the current user in this data-source.
    */
-  public getVisualizationCount(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED).request<number>({
+  public getVisualizationCount(this: Request<number>, params?: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED],
       url: '/:sourceKey/visualizations/count',
       method: 'GET',
       params: params
@@ -64,10 +65,9 @@ export class VisualizationAPI extends Request {
   /**
    * Get a visualization by id.
    */
-  public getVisualization(params: IGetVisualizationParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
-      PopulatedVisualization
-    >({
+  public getVisualization(this: Request<PopulatedVisualization>, params: IGetVisualizationParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/visualizations/:id',
       method: 'GET',
       params: params
@@ -77,8 +77,9 @@ export class VisualizationAPI extends Request {
   /**
    * Create a new visualization.
    */
-  public createVisualization(params: ICreateVisualizationParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<Visualization>({
+  public createVisualization(this: Request<Visualization>, params: ICreateVisualizationParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/visualizations',
       method: 'POST',
       params: params
@@ -88,10 +89,12 @@ export class VisualizationAPI extends Request {
   /**
    * Duplicate a visualization. Return the id of the copy.
    */
-  public duplicateVisualization(params: IDuplicateVisualizationParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
-      DuplicateVisualizationResponse
-    >({
+  public duplicateVisualization(
+    this: Request<DuplicateVisualizationResponse>,
+    params: IDuplicateVisualizationParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/visualizations/:id/duplicate',
       method: 'POST',
       params: params
@@ -102,7 +105,8 @@ export class VisualizationAPI extends Request {
    * Delete the visualization selected by id.
    */
   public deleteVisualization(params: IDeleteVisualizationParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/visualizations/:id',
       method: 'DELETE',
       params: params
@@ -113,12 +117,8 @@ export class VisualizationAPI extends Request {
    * Update the visualization selected by id.
    */
   public updateVisualization(params: IUpdateVisualizationParams) {
-    return this.handle(
-      UNAUTHORIZED,
-      DATA_SOURCE_UNAVAILABLE,
-      NOT_FOUND,
-      VISUALIZATION_LOCKED
-    ).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, VISUALIZATION_LOCKED],
       url: '/:sourceKey/visualizations/:id',
       method: 'PATCH',
       params: params
@@ -128,10 +128,12 @@ export class VisualizationAPI extends Request {
   /**
    * Get all visualizations shared with the current user.
    */
-  public getSharedVisualizations(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<
-      GetSharedVisualizationsResponse
-    >({
+  public getSharedVisualizations(
+    this: Request<GetSharedVisualizationsResponse>,
+    params?: IDataSourceParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/visualizations/shared',
       method: 'GET',
       params: params
@@ -141,10 +143,12 @@ export class VisualizationAPI extends Request {
   /**
    * Create a visualization folder.
    */
-  public createVisualizationFolder(params: ICreateVisualizationFolderParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS).request<
-      VisualizationFolder
-    >({
+  public createVisualizationFolder(
+    this: Request<VisualizationFolder>,
+    params: ICreateVisualizationFolderParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS],
       url: '/:sourceKey/visualizations/folder',
       method: 'POST',
       params: params
@@ -154,10 +158,12 @@ export class VisualizationAPI extends Request {
   /**
    * Update a visualization folder.
    */
-  public updateVisualizationFolder(params: IUpdateVisualizationFolderParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, ALREADY_EXISTS).request<
-      VisualizationFolder
-    >({
+  public updateVisualizationFolder(
+    this: Request<VisualizationFolder>,
+    params: IUpdateVisualizationFolderParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, ALREADY_EXISTS],
       url: '/:sourceKey/visualizations/folder/:id',
       method: 'PATCH',
       params: params
@@ -168,12 +174,8 @@ export class VisualizationAPI extends Request {
    * Delete a visualization folder.
    */
   public deleteVisualizationFolder(params: IDeleteVisualizationFolderParams) {
-    return this.handle(
-      UNAUTHORIZED,
-      DATA_SOURCE_UNAVAILABLE,
-      NOT_FOUND,
-      FOLDER_DELETION_FAILED
-    ).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, FOLDER_DELETION_FAILED],
       url: '/:sourceKey/visualizations/folder/:id',
       method: 'DELETE',
       params: params
@@ -183,8 +185,9 @@ export class VisualizationAPI extends Request {
   /**
    * Get the visualizations and the visualization folders in a tree structure.
    */
-  public getVisualizationTree(params?: IDataSourceParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<VisualizationTree>({
+  public getVisualizationTree(this: Request<VisualizationTree>, params?: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/visualizations/tree',
       method: 'GET',
       params: params
@@ -194,10 +197,9 @@ export class VisualizationAPI extends Request {
   /**
    * Get the visualization sandbox of the current user for a given data-source.
    */
-  public getSandbox(params?: IGetSandboxParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND).request<
-      PopulatedVisualization
-    >({
+  public getSandbox(this: Request<PopulatedVisualization>, params?: IGetSandboxParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, NOT_FOUND],
       url: '/:sourceKey/sandbox',
       method: 'GET',
       params: params
@@ -208,7 +210,8 @@ export class VisualizationAPI extends Request {
    * Update the sandbox of the current user for a given data-source.
    */
   public updateSandbox(params: IUpdateSandboxParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/sandbox',
       method: 'PATCH',
       params: params
@@ -218,10 +221,12 @@ export class VisualizationAPI extends Request {
   /**
    * Get all share rights on a visualization.
    */
-  public getVisualizationShares(params: IGetVisualizationSharesParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
-      GetVisualizationSharesResponse
-    >({
+  public getVisualizationShares(
+    this: Request<GetVisualizationSharesResponse>,
+    params: IGetVisualizationSharesParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/visualizations/:id/shares',
       method: 'GET',
       params: params
@@ -231,10 +236,9 @@ export class VisualizationAPI extends Request {
   /**
    * Set the share right of a user on a visualization.
    */
-  public shareVisualization(params: IShareVisualizationParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<
-      VisualizationShare
-    >({
+  public shareVisualization(this: Request<VisualizationShare>, params: IShareVisualizationParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: `/:sourceKey/visualizations/:id/share/:userId`,
       method: 'PUT',
       params: params
@@ -245,7 +249,8 @@ export class VisualizationAPI extends Request {
    * Remove a share right of a user on a visualization.
    */
   public unshareVisualization(params: IUnshareVisualizationParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: `/:sourceKey/visualizations/:id/share/:userId`,
       method: 'DELETE',
       params: params
@@ -255,8 +260,9 @@ export class VisualizationAPI extends Request {
   /**
    * Get a visualization widget's data by key.
    */
-  public getWidget(params: IGetWidgetParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<Widget>({
+  public getWidget(this: Request<Widget>, params: IGetWidgetParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/widget/:widgetKey',
       method: 'GET',
       params: params
@@ -266,8 +272,9 @@ export class VisualizationAPI extends Request {
   /**
    * Create a widget for a visualization. Return the widget key.
    */
-  public createWidget(params: ICreateWidgetParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE).request<string>({
+  public createWidget(this: Request<string>, params: ICreateWidgetParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/widget',
       method: 'POST',
       params: params
@@ -277,8 +284,9 @@ export class VisualizationAPI extends Request {
   /**
    * Update the widget of a visualization. Return the widget key.
    */
-  public updateWidget(params: IUpdateWidgetParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request<string>({
+  public updateWidget(this: Request<string>, params: IUpdateWidgetParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/widget',
       method: 'PUT',
       params: params
@@ -289,7 +297,8 @@ export class VisualizationAPI extends Request {
    * Delete the widget of a visualization.
    */
   public deleteWidget(params: IDeleteWidgetParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/widget/:widgetKey',
       method: 'DELETE',
       params: params
