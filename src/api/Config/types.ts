@@ -101,6 +101,7 @@ export interface IGuestPreferencesConfig {
   uiExport: boolean;
   uiLayout: 'regular' | 'simple' | 'none';
   uiDesign: boolean;
+  uiEdgeGrouping: boolean;
   uiFilter: boolean;
 }
 
