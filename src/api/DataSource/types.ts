@@ -4,7 +4,7 @@
  * - Created on 2019-10-25.
  */
 
-import {Captions, Styles} from '../displayTypes';
+import {Captions, IStyles} from '../displayTypes';
 import {IDataSourceParams} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 
@@ -43,7 +43,7 @@ export interface DataSourceSettings {
   readOnly: boolean;
 }
 
-export interface AlternativeIdSettings {
+export interface IAlternativeIdSettings {
   node?: string; // defined only if alternative IDs are configured in the GraphDAO options
   edge?: string;
 }
@@ -54,7 +54,7 @@ export interface GeoSettings {
 }
 
 export interface ConnectedDataSourceSettings extends DataSourceSettings, GeoSettings {
-  alternativeIds: AlternativeIdSettings;
+  alternativeIds: IAlternativeIdSettings;
   propertyKeyAccessRights: boolean;
   strictSchema: boolean;
   skipEdgeIndexation: boolean;
@@ -69,13 +69,13 @@ export interface DataSourceUserInfo {
   reason: string;
   error?: string;
   features: DataSourceFeatures;
-  defaultStyles?: Styles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
+  defaultStyles?: IStyles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
   defaultCaptions?: Captions;
   settings: DataSourceSettings | ConnectedDataSourceSettings;
 }
 
 export interface ISetDefaultSourceStylesParams extends IDataSourceParams {
-  styles?: Styles;
+  styles?: IStyles;
   captions?: Captions;
 }
 

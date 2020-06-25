@@ -7,15 +7,15 @@
 import {GenericObject, IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
 import {
   VizEdge,
-  VizEdgeInfo,
+  IVizEdgeInfo,
   VizNode,
-  VizNodeInfo,
+  IVizNodeInfo,
   WidgetEdge,
   WidgetNode
 } from '../graphItemTypes';
-import {AlternativeIdSettings} from '../DataSource';
+import {IAlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
-import {RangeValues, ItemSelector, Styles} from '../displayTypes';
+import {IRangeValues, ItemSelector, IStyles} from '../displayTypes';
 import {User} from '../User';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
@@ -37,24 +37,24 @@ export enum VisualizationMode {
   GEO = 'geo'
 }
 
-export interface CaptionConfig {
+export interface ICaptionConfig {
   displayName: boolean;
   properties: string[];
   active: boolean;
 }
 
-export type ItemFieldsCaptions = GenericObject<CaptionConfig>;
+export type ItemFieldsCaptions = GenericObject<ICaptionConfig>;
 
-export interface ItemFields {
+export interface IItemFields {
   captions: ItemFieldsCaptions;
   types: GenericObject<GenericObject<{type: 'string' | 'number'}>>;
 }
 
-export interface VisualizationDesign {
+export interface IVisualizationDesign {
   palette: {
     default: string[];
   };
-  styles: Styles;
+  styles: IStyles;
 }
 
 export interface VisualizationGeo {
@@ -97,7 +97,7 @@ export interface RadialAlgorithm extends RadialParameters {
   algorithm: LayoutAlgorithm.RADIAL;
 }
 
-export interface VisualizationFilters {
+export interface IVisualizationFilters {
   node: ItemSelector[];
   edge: ItemSelector[];
 }
@@ -114,23 +114,23 @@ export enum ZoomLevel {
 export interface VisualizationTimeline {
   node: GenericObject<string>;
   edge: GenericObject<string>;
-  range?: RangeValues;
+  range?: IRangeValues;
   zoomLevel?: ZoomLevel;
 }
 
 export interface Visualization extends PersistedItem {
   title: string;
   folder: number;
-  nodes: VizNodeInfo[];
-  edges: VizEdgeInfo[];
-  nodeFields: ItemFields;
-  edgeFields: ItemFields;
-  design: VisualizationDesign;
-  filters: VisualizationFilters;
+  nodes: IVizNodeInfo[];
+  edges: IVizEdgeInfo[];
+  nodeFields: IItemFields;
+  edgeFields: IItemFields;
+  design: IVisualizationDesign;
+  filters: IVisualizationFilters;
   edgeGrouping: GenericObject<boolean>;
   sourceKey: string;
   sandbox: boolean;
-  alternativeIds: AlternativeIdSettings;
+  alternativeIds: IAlternativeIdSettings;
   mode: VisualizationMode;
   layout: VisualizationLayout;
   geo: VisualizationGeo;
@@ -149,14 +149,14 @@ export interface PopulatedVisualization extends Visualization {
 export interface ICreateVisualizationParams extends IDataSourceParams {
   title: string;
   folder?: number;
-  nodes: VizNodeInfo[];
-  edges: VizEdgeInfo[];
-  alternativeIds?: AlternativeIdSettings;
+  nodes: IVizNodeInfo[];
+  edges: IVizEdgeInfo[];
+  alternativeIds?: IAlternativeIdSettings;
   mode?: string;
-  design?: VisualizationDesign;
-  nodeFields?: ItemFields;
-  edgeFields?: ItemFields;
-  filters?: VisualizationFilters;
+  design?: IVisualizationDesign;
+  nodeFields?: IItemFields;
+  edgeFields?: IItemFields;
+  filters?: IVisualizationFilters;
   edgeGrouping?: GenericObject<boolean>;
   timeline?: VisualizationTimeline;
   layout?: VisualizationLayout;
@@ -251,9 +251,9 @@ export interface IGetSandboxParams extends IDataSourceParams {
 }
 
 export interface IUpdateSandboxParams extends IDataSourceParams {
-  design?: VisualizationDesign;
-  nodeFields?: ItemFields;
-  edgeFields?: ItemFields;
+  design?: IVisualizationDesign;
+  nodeFields?: IItemFields;
+  edgeFields?: IItemFields;
   geo?: VisualizationGeo;
 }
 

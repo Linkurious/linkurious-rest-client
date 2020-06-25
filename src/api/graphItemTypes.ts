@@ -5,7 +5,7 @@
  */
 import {GenericObject} from './commonTypes';
 import {PropertyTypeName, PropertyType} from './GraphSchema';
-import {OgmaEdgeShape, OgmaNodeShape, StyleIcon, StyleImage} from './displayTypes';
+import {OgmaEdgeShape, OgmaNodeShape, IStyleIcon, IStyleImage} from './displayTypes';
 
 export interface LkDate {
   type: 'date';
@@ -61,14 +61,14 @@ export interface LkItem {
 }
 
 // LkNode
-export interface GeoCoordinates {
+export interface IGeoCoordinates {
   latitude: number;
   longitude: number;
 }
 
-export interface GeoData {
-  original?: GeoCoordinates; // defined if geo coordinates were found in the node properties
-  current?: GeoCoordinates;
+export interface IGeoData {
+  original?: IGeoCoordinates; // defined if geo coordinates were found in the node properties
+  current?: IGeoCoordinates;
 }
 
 export interface LkDigestItem {
@@ -94,7 +94,7 @@ export interface LkNodeStatistics {
 export interface LkNodeData extends LkItemData {
   categories: string[];
   statistics?: LkNodeStatistics; // defined if withDegree or withDigest was set to true in the request
-  geo: GeoData;
+  geo: IGeoData;
 }
 
 export interface LkNode extends LkItem {
@@ -118,7 +118,7 @@ export interface LkSubGraph {
 }
 
 // VizNode & VizEdge
-export interface VizNodeInfo {
+export interface IVizNodeInfo {
   id: string;
   attributes: {
     x: number;
@@ -127,19 +127,19 @@ export interface VizNodeInfo {
     selected?: boolean; // in expand, frontend has to pass VizNode to ogma without selected attribute
   };
   data: {
-    geo: GeoData;
+    geo: IGeoData;
   };
 }
 
-export interface VizEdgeInfo {
+export interface IVizEdgeInfo {
   id: string;
   attributes: {
     selected?: boolean; // in expand, frontend has to pass VizEdge to ogma without selected attribute
   };
 }
 
-export type VizNode = LkNode & VizNodeInfo;
-export type VizEdge = LkEdge & VizEdgeInfo;
+export type VizNode = LkNode & IVizNodeInfo;
+export type VizEdge = LkEdge & IVizEdgeInfo;
 
 // WidgetNode & WidgetEdge
 export interface WidgetNodeInfo {
@@ -149,8 +149,8 @@ export interface WidgetNodeInfo {
     color?: string[];
     radius?: number;
     shape?: OgmaNodeShape;
-    icon?: StyleIcon;
-    image?: StyleImage;
+    icon?: IStyleIcon;
+    image?: IStyleImage;
     text: {content: string};
   };
 }
