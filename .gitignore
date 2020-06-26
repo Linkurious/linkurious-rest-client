@@ -3,6 +3,11 @@ node_modules
 
 # IDEA config
 .idea
+*.swp
 
 # Compiled code
 dist
+
+# nyc test coverage
+.nyc_output
+reports
