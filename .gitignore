@@ -3,6 +3,7 @@ node_modules
 
 # IDEA config
 .idea
+# vim
 *.swp
 
 # Compiled code
