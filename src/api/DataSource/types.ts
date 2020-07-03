@@ -99,8 +99,10 @@ export interface DeleteSourceDataResponse {
     folders: number;
     groups: number;
     alerts: number;
+    alertFolders: number;
     matches: number;
     graphQueries: number;
+    customActions: number;
   };
 }
 
