@@ -132,6 +132,10 @@ export interface Styles {
   edge: Array<IStyleRule<EdgeStyle>>;
 }
 
+export interface DefaultStyles extends Styles {
+  edgeGroup: EdgeStyle;
+}
+
 export interface Caption {
   active: boolean;
   displayName: boolean;
