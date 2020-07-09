@@ -132,7 +132,7 @@ export interface Styles {
   edge: Array<IStyleRule<EdgeStyle>>;
 }
 
-export interface DefaultStyles extends Styles {
+export interface DataSourceDefaultStyles extends Styles {
   edgeGroup: EdgeStyle;
 }
 
