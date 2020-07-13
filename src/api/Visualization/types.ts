@@ -13,10 +13,10 @@ import {
   WidgetEdge,
   WidgetNode
 } from '../graphItemTypes';
-import {IAlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
 import {IRangeValues, ItemSelector, IStyles} from '../displayTypes';
 import {User} from '../User';
+import {IAlternativeIdSettings} from '../DataSource';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
   id: number;
@@ -57,14 +57,14 @@ export interface IVisualizationDesign {
   styles: IStyles;
 }
 
-export interface VisualizationGeo {
+export interface IVisualizationGeo {
   layers: string[];
 }
 
-export type VisualizationLayout = ForceAlgorithm | HierarchicalAlgorithm | RadialAlgorithm;
+export type VisualizationLayout = IForceAlgorithm | IHierarchicalAlgorithm | IRadialAlgorithm;
 
-export type ForceLayoutMode = 'best' | 'fast';
-export type HierarchicalLayoutMode = 'LR' | 'RL' | 'TB' | 'BT';
+export type IForceLayoutMode = 'best' | 'fast';
+export type IHierarchicalLayoutMode = 'LR' | 'RL' | 'TB' | 'BT';
 
 export enum LayoutAlgorithm {
   FORCE = 'force',
@@ -72,28 +72,28 @@ export enum LayoutAlgorithm {
   RADIAL = 'radial'
 }
 
-export interface ForceParameters {
-  mode: ForceLayoutMode;
+export interface IForceParameters {
+  mode: IForceLayoutMode;
 }
 
-export interface HierarchicalParameters {
-  mode: HierarchicalLayoutMode;
+export interface IHierarchicalParameters {
+  mode: IHierarchicalLayoutMode;
   rootNode?: string;
 }
 
-export interface RadialParameters {
+export interface IRadialParameters {
   rootNode: string;
 }
 
-export interface ForceAlgorithm extends ForceParameters {
+export interface IForceAlgorithm extends IForceParameters {
   algorithm: LayoutAlgorithm.FORCE;
 }
 
-export interface HierarchicalAlgorithm extends HierarchicalParameters {
+export interface IHierarchicalAlgorithm extends IHierarchicalParameters {
   algorithm: LayoutAlgorithm.HIERARCHICAL;
 }
 
-export interface RadialAlgorithm extends RadialParameters {
+export interface IRadialAlgorithm extends IRadialParameters {
   algorithm: LayoutAlgorithm.RADIAL;
 }
 
@@ -111,7 +111,7 @@ export enum ZoomLevel {
   SECONDS = 'seconds'
 }
 
-export interface VisualizationTimeline {
+export interface IVisualizationTimeline {
   node: GenericObject<string>;
   edge: GenericObject<string>;
   range?: IRangeValues;
@@ -133,8 +133,8 @@ export interface Visualization extends PersistedItem {
   alternativeIds: IAlternativeIdSettings;
   mode: VisualizationMode;
   layout: VisualizationLayout;
-  geo: VisualizationGeo;
-  timeline: VisualizationTimeline;
+  geo: IVisualizationGeo;
+  timeline: IVisualizationTimeline;
   // TODO viz.user and viz.right are defined only on getVisualization
   user: Pick<User, 'id' | 'username' | 'email'>;
   right: VisualizationRight;
@@ -158,9 +158,9 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   edgeFields?: IItemFields;
   filters?: IVisualizationFilters;
   edgeGrouping?: GenericObject<boolean>;
-  timeline?: VisualizationTimeline;
+  timeline?: IVisualizationTimeline;
   layout?: VisualizationLayout;
-  geo?: VisualizationGeo;
+  geo?: IVisualizationGeo;
 }
 
 export interface IDuplicateVisualizationParams extends IDataSourceParams {
@@ -254,7 +254,7 @@ export interface IUpdateSandboxParams extends IDataSourceParams {
   design?: IVisualizationDesign;
   nodeFields?: IItemFields;
   edgeFields?: IItemFields;
-  geo?: VisualizationGeo;
+  geo?: IVisualizationGeo;
 }
 
 export interface IGetVisualizationSharesParams extends IDataSourceParams {
