@@ -183,7 +183,6 @@ export interface IJanusGraphForComposeConfig extends IJanusGraphConfig {
 export interface INeo4jSearchConfig extends IVendorConfig {
   initialization?: boolean;
   indexEdges?: boolean;
-  simplifiedSearch?: boolean;
 }
 
 export type InternalIndexConfig = IElasticSearchConfig | IElasticSearch2Config;
@@ -214,12 +213,9 @@ export interface IElasticSearch2Config extends IVendorConfig {
   analyzer?: string;
   skipEdgeIndexation?: boolean;
   caCert?: string;
-  simplifiedSearch?: boolean;
 }
 
-export interface INeo2esConfig extends IVendorConfig {
-  simplifiedSearch?: boolean;
-}
+export interface INeo2esConfig extends IVendorConfig {}
 
 export interface IJanusGraphSearchConfig extends IVendorConfig {
   create?: boolean;

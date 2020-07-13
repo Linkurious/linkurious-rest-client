@@ -7,6 +7,8 @@
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 import {SelectedDataSourceConfig} from '../Config';
+import {hasValue} from '../../utils';
+import {RestClient} from '../../index';
 
 import {
   IConnectDataSourceParams,
@@ -37,8 +39,12 @@ export class DataSourceAPI extends Request {
    * If a user has the "admin.connect" access right, it can also see all the disconnected
    * data-sources.
    */
-  public async getDataSources(params?: IGetDataSourcesStatusParams) {
-    const response = await this.handle(UNAUTHORIZED, GUEST_DISABLED).request<DataSourceUserInfo[]>({
+  public async getDataSources(
+    this: Request<DataSourceUserInfo[]>,
+    params?: IGetDataSourcesStatusParams
+  ) {
+    const response = await this.request({
+      errors: [UNAUTHORIZED, GUEST_DISABLED],
       url: '/dataSources',
       method: 'GET',
       params: params
@@ -46,6 +52,24 @@ export class DataSourceAPI extends Request {
 
     if (response.isSuccess()) {
       this.props.clientState.sources = response.body;
+
+      if (!hasValue(this.props.clientState.currentSource)) {
+        try {
+          const currentSource = RestClient.getCurrentSource(
+            this.props.clientState.sources || [],
+            this.props.clientState.user && {userId: this.props.clientState.user.id}
+          );
+          this.props.clientState.currentSource = currentSource;
+          if (hasValue(currentSource.key) && hasValue(this.props.clientState.user)) {
+            localStorage.setItem(
+              'lk-lastSeenSourceKey-' + this.props.clientState.user.id,
+              currentSource.key
+            );
+          }
+        } catch (_) {
+          // Silently fail if localStorage is not supported or if there are no sources configured
+        }
+      }
     }
 
     return response;
@@ -55,7 +79,8 @@ export class DataSourceAPI extends Request {
    * Set default design styles and/or captions for the given data-source.
    */
   public setDefaultSourceStyles(params: ISetDefaultSourceStylesParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
       url: '/admin/source/:sourceKey/setDefaults',
       method: 'POST',
       params: params
@@ -68,7 +93,8 @@ export class DataSourceAPI extends Request {
    * If `captions` is true, set `nodeFields.captions` and `edgeFields.captions` to current `defaultCaptions.nodes` and `defaultCaptions.edges` of the data-source.
    */
   public resetSourceStyles(params: IResetSourceStylesParams) {
-    return this.handle(UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN).request({
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
       url: '/admin/source/:sourceKey/resetDefaults',
       method: 'POST',
       params: params
@@ -79,7 +105,8 @@ export class DataSourceAPI extends Request {
    * Connect a disconnected data-source.
    */
   public connectDataSource(params: IConnectDataSourceParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request({
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/source/:sourceIndex/connect',
       method: 'POST',
       params: params
@@ -91,8 +118,12 @@ export class DataSourceAPI extends Request {
    * Optionally merge visualizations and widgets into another data-source instead of deleting them.
    * Warning: when merging into another data-source, visualizations may break if node and edge IDs are not the same in the target data-source.
    */
-  public deleteSourceData(params: IDeleteSourceDataParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<DeleteSourceDataResponse>({
+  public deleteSourceData(
+    this: Request<DeleteSourceDataResponse>,
+    params: IDeleteSourceDataParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/sources/data/:sourceKey',
       method: 'DELETE',
       params: params
@@ -103,7 +134,8 @@ export class DataSourceAPI extends Request {
    * Delete a data-source configuration that has currently no connected data-source.
    */
   public deleteSourceConfig(params: IDeleteSourceConfigParams) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN, ILLEGAL_SOURCE_STATE).request({
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, ILLEGAL_SOURCE_STATE],
       url: '/admin/sources/config/:configIndex',
       method: 'DELETE',
       params: params
@@ -116,8 +148,9 @@ export class DataSourceAPI extends Request {
    * - a disconnected data-source state not configured anymore
    * - a connected data-source (data-source configuration + state)
    */
-  public getDataSourcesAdminInfo() {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<DataSourceAdminInfo[]>({
+  public getDataSourcesAdminInfo(this: Request<DataSourceAdminInfo[]>) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/sources',
       method: 'GET'
     });
@@ -127,8 +160,9 @@ export class DataSourceAPI extends Request {
    * Create a new data-source configuration made of a graph database configuration
    * and an index configuration. Return the configuration index of the new data-source.
    */
-  public createSourceConfig(params: SelectedDataSourceConfig) {
-    return this.handle(UNAUTHORIZED, FORBIDDEN).request<number>({
+  public createSourceConfig(this: Request<number>, params: SelectedDataSourceConfig) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/sources/config',
       method: 'POST',
       params: params
