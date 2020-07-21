@@ -4,7 +4,7 @@
  * - Created on 2019-10-25.
  */
 
-import {Captions, IStyles} from '../displayTypes';
+import {Captions, DataSourceDefaultStyles} from '../displayTypes';
 import {IDataSourceParams} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 
@@ -69,13 +69,13 @@ export interface DataSourceUserInfo {
   reason: string;
   error?: string;
   features: DataSourceFeatures;
-  defaultStyles?: IStyles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
+  defaultStyles?: DataSourceDefaultStyles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
   defaultCaptions?: Captions;
   settings: DataSourceSettings | ConnectedDataSourceSettings;
 }
 
 export interface ISetDefaultSourceStylesParams extends IDataSourceParams {
-  styles?: IStyles;
+  styles?: DataSourceDefaultStyles;
   captions?: Captions;
 }
 
@@ -99,8 +99,10 @@ export interface DeleteSourceDataResponse {
     folders: number;
     groups: number;
     alerts: number;
+    alertFolders: number;
     matches: number;
     graphQueries: number;
+    customActions: number;
   };
 }
 
