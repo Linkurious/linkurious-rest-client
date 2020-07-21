@@ -137,8 +137,8 @@ export interface IStyles {
   edge: Array<IStyleRule<IEdgeStyle>>;
 }
 
-export interface DataSourceDefaultStyles extends Styles {
-  edgeGroup: EdgeStyle;
+export interface IDataSourceDefaultStyles extends IStyles {
+  edgeGroup: IEdgeStyle;
 }
 
 export interface Caption {

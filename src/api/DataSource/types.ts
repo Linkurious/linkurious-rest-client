@@ -4,7 +4,7 @@
  * - Created on 2019-10-25.
  */
 
-import {Captions, DataSourceDefaultStyles} from '../displayTypes';
+import {Captions, IDataSourceDefaultStyles} from '../displayTypes';
 import {IDataSourceParams} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 
@@ -69,13 +69,13 @@ export interface DataSourceUserInfo {
   reason: string;
   error?: string;
   features: DataSourceFeatures;
-  defaultStyles?: DataSourceDefaultStyles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
+  defaultStyles?: IDataSourceDefaultStyles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
   defaultCaptions?: Captions;
   settings: DataSourceSettings | ConnectedDataSourceSettings;
 }
 
 export interface ISetDefaultSourceStylesParams extends IDataSourceParams {
-  styles?: DataSourceDefaultStyles;
+  styles?: IDataSourceDefaultStyles;
   captions?: Captions;
 }
 
