@@ -43,7 +43,7 @@ export interface DataSourceSettings {
   readOnly: boolean;
 }
 
-export interface AlternativeIdSettings {
+export interface IAlternativeIdSettings {
   node?: string; // defined only if alternative IDs are configured in the GraphDAO options
   edge?: string;
 }
@@ -54,7 +54,7 @@ export interface GeoSettings {
 }
 
 export interface ConnectedDataSourceSettings extends DataSourceSettings, GeoSettings {
-  alternativeIds: AlternativeIdSettings;
+  alternativeIds: IAlternativeIdSettings;
   propertyKeyAccessRights: boolean;
   strictSchema: boolean;
   skipEdgeIndexation: boolean;
