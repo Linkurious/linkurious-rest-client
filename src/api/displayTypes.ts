@@ -126,6 +126,10 @@ export interface IEdgeStyle {
   shape?: OgmaEdgeShape;
 }
 
+export interface IEdgeGroupStyle extends IEdgeStyle {
+  color?: string;
+}
+
 export interface IStyleRule<T extends INodeStyle | IEdgeStyle> extends IBaseSelector {
   index: number;
   itemType?: string;
@@ -138,7 +142,7 @@ export interface IStyles {
 }
 
 export interface IDataSourceDefaultStyles extends IStyles {
-  edgeGroup: IEdgeStyle;
+  edgeGroup: IEdgeGroupStyle;
 }
 
 export interface Caption {
