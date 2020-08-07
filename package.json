@@ -1,6 +1,6 @@
 {
   "name": "@linkurious/rest-client",
-  "version": "2.9.3",
+  "version": "2.9.4",
   "description": "A library to interact with Linkurious APIs",
   "files": [
     "dist"
