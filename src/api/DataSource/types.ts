@@ -75,7 +75,6 @@ export interface DataSourceUserInfo {
 }
 
 export interface ISetDefaultSourceStylesParams extends IDataSourceParams {
-  styles?: DataSourceDefaultStyles;
   styles?: IDataSourceDefaultStyles;
   captions?: ICaptions;
 }
