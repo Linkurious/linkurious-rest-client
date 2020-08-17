@@ -203,8 +203,7 @@ export interface ICommonElasticSearchConfig extends IVendorConfig {
 }
 
 export interface IElasticSearchConfig extends ICommonElasticSearchConfig {
-  dateDetection?: boolean;
-  indexName?: string;
+  indexName?: string; // Deprecated option to be removed, kept here for backward compatibility
 }
 
 export interface IElasticSearch2Config extends ICommonElasticSearchConfig {
