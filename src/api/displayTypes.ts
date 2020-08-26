@@ -12,6 +12,7 @@ export enum SelectorType {
   NO_VALUE = 'novalue',
   NAN = 'nan',
   RANGE = 'range',
+  AUTO_RANGE = 'automaticRange',
   IS = 'is'
 }
 
@@ -44,6 +45,13 @@ export interface ISelectorRange extends IBaseSelector {
   itemType: string;
   input: string[];
   value: IRangeValues;
+}
+
+export interface ISelectorAutoRange extends IBaseSelector {
+  type: SelectorType.AUTO_RANGE;
+  itemType: string;
+  input: string[];
+  value: undefined;
 }
 
 export interface ISelectorIs extends IBaseSelector {
