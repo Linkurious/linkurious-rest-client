@@ -83,9 +83,10 @@ export interface DateTemplate extends TemplateField<TemplateFieldType.DATE> {
     format: DateTemplateFormat;
   };
 }
+
 export enum EnvTemplateValues {
-  EMAIL= 'email'
-};
+  EMAIL = 'email'
+}
 
 export interface EnvTemplate extends TemplateField<TemplateFieldType.ENV> {
   options: {
