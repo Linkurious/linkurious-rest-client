@@ -15,7 +15,8 @@ export enum TemplateFieldType {
   NODE_SET = 'nodeset',
   DATE = 'date',
   DATE_TIME = 'datetime',
-  BOOLEAN = 'boolean'
+  BOOLEAN = 'boolean',
+  ENV = 'env'
 }
 
 export interface TemplateField<T extends TemplateFieldType = TemplateFieldType> {
@@ -82,6 +83,15 @@ export interface DateTemplate extends TemplateField<TemplateFieldType.DATE> {
     format: DateTemplateFormat;
   };
 }
+export enum EnvTemplateValues {
+  EMAIL= 'email'
+};
+
+export interface EnvTemplate extends TemplateField<TemplateFieldType.ENV> {
+  options: {
+    value: EnvTemplateValues;
+  };
+}
 
 export enum DatetimeTemplateFormat {
   TIMESTAMP = 'timestamp',
@@ -114,7 +124,8 @@ export type Template =
   | NodesetTemplate
   | DateTemplate
   | DatetimeTemplate
-  | BooleanTemplate;
+  | BooleanTemplate
+  | EnvTemplate;
 
 export enum GraphQueryInputType {
   NONE = 'none',
