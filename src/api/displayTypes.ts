@@ -153,13 +153,13 @@ export interface IDataSourceDefaultStyles extends IStyles {
   edgeGroup: IEdgeGroupStyle;
 }
 
-export interface Caption {
+export interface ICaption {
   active: boolean;
   displayName: boolean;
   properties: string[];
 }
 
-export interface Captions {
-  nodes: GenericObject<Caption>;
-  edges: GenericObject<Caption>;
+export interface ICaptions {
+  nodes: GenericObject<ICaption>;
+  edges: GenericObject<ICaption>;
 }
