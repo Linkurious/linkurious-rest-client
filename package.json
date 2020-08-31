@@ -27,7 +27,10 @@
     "lint": "eslint --fix --ext .ts .",
     "lint:ci": "eslint -f checkstyle -o reports/checkstyle.xml --ext .ts .",
     "watch": "tsc -w | tee",
-    "clean": "rm -rf node_modules; rm -rf package-lock.json; rm -rf dist"
+    "clean": "rm -rf node_modules; rm -rf package-lock.json; rm -rf dist",
+    "bump:patch": "bump2version patch && npm version --no-git-tag-version patch",
+    "bump:minor": "bump2version minor && npm version --no-git-tag-version minor",
+    "bump:major": "bump2version major && npm version --no-git-tag-version major"
   },
   "devDependencies": {
     "@types/chai": "4.2.11",
