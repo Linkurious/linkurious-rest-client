@@ -247,6 +247,7 @@ export interface IAdvancedConfig {
   searchAddAllThreshold: number;
   minSearchQueryLength: number;
   rawQueryTimeout: number;
+  maxConnectionTimeout?: number;
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
   defaultTimeZone: string;
