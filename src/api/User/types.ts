@@ -115,7 +115,7 @@ export interface IDeleteGroupParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IMergeVisualizationsParams {
+export interface IMergeUsersParams {
   from: number;
   to: number;
 }

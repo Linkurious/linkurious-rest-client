@@ -18,7 +18,7 @@ import {
   IGetGroupNamesParams,
   IGetGroupParams,
   IGetUserParams,
-  IMergeVisualizationsParams,
+  IMergeUsersParams,
   ISearchUsersParams,
   IUpdateGroupParams,
   IUpdateUserParams,
@@ -166,12 +166,12 @@ export class UserAPI extends Request {
   }
 
   /**
-   * Transfer all the visualizations from a source user to a target user.
+   * Transfer all the visualizations, queries and custom actions from a source user to a target user.
    */
-  public mergeVisualizations(params: IMergeVisualizationsParams) {
+  public mergeUsers(params: IMergeUsersParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN],
-      url: '/admin/users/mergeVisualizations',
+      url: '/admin/users/mergeUsers',
       method: 'POST',
       params: params
     });
