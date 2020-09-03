@@ -121,7 +121,7 @@ export interface IStyleImage {
 }
 
 export interface INodeStyle {
-  size?: string | number;
+  size?: string | number | {min: number; max: number}; // the last one only used in frontend
   color?: string | IStyleColor;
   icon?: string | number | IStyleIcon;
   image?: string | IStyleImage;
@@ -130,7 +130,7 @@ export interface INodeStyle {
 
 export interface IEdgeStyle {
   color?: string | IStyleColor;
-  width?: string | number;
+  width?: string | number | {min: number; max: number}; // the last one only used in frontend
   shape?: OgmaEdgeShape;
 }
 
