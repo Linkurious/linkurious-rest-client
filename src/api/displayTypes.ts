@@ -66,7 +66,8 @@ export type ItemSelector =
   | ISelectorIs
   | ISelectorNoValue
   | ISelectorNaN
-  | ISelectorRange;
+  | ISelectorRange
+  | ISelectorAutoRange;
 
 export interface IRangeValues {
   '<='?: number;
