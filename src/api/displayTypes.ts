@@ -12,7 +12,6 @@ export enum SelectorType {
   NO_VALUE = 'novalue',
   NAN = 'nan',
   RANGE = 'range',
-  AUTO_RANGE = 'automaticRange',
   IS = 'is'
 }
 
@@ -45,13 +44,6 @@ export interface ISelectorRange extends IBaseSelector {
   itemType: string;
   input: string[];
   value: IRangeValues;
-}
-
-export interface ISelectorAutoRange extends IBaseSelector {
-  type: SelectorType.AUTO_RANGE;
-  itemType: string;
-  input: string[];
-  value: undefined;
 }
 
 export interface ISelectorIs extends IBaseSelector {
@@ -99,6 +91,12 @@ export interface IStyleColor {
   ignoreCase?: boolean;
 }
 
+export interface IStyleAutoRange {
+  type: 'autoRange';
+  input: string[];
+  ignoreCase?: boolean;
+}
+
 export interface IStyleIcon {
   content?: string | number;
   font?: string;
@@ -121,7 +119,7 @@ export interface IStyleImage {
 }
 
 export interface INodeStyle {
-  size?: string | number | {min: number; max: number}; // the last one only used in frontend
+  size?: string | number | IStyleAutoRange | {min: number; max: number}; // the last one only used in frontend
   color?: string | IStyleColor;
   icon?: string | number | IStyleIcon;
   image?: string | IStyleImage;
