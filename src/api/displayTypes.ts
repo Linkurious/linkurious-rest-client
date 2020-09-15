@@ -94,7 +94,8 @@ export interface IStyleColor {
 export interface IStyleAutoRange {
   type: 'autoRange';
   input: string[];
-  ignoreCase?: boolean;
+  min?: number; // min and max are one only used in frontend
+  max?: number;
 }
 
 export interface IStyleIcon {
@@ -119,7 +120,7 @@ export interface IStyleImage {
 }
 
 export interface INodeStyle {
-  size?: string | number | IStyleAutoRange | {min: number; max: number}; // the last one only used in frontend
+  size?: string | number | IStyleAutoRange;
   color?: string | IStyleColor;
   icon?: string | number | IStyleIcon;
   image?: string | IStyleImage;
@@ -128,7 +129,7 @@ export interface INodeStyle {
 
 export interface IEdgeStyle {
   color?: string | IStyleColor;
-  width?: string | number | {min: number; max: number}; // the last one only used in frontend
+  width?: string | number | IStyleAutoRange;
   shape?: OgmaEdgeShape;
 }
 
