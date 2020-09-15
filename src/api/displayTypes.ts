@@ -58,8 +58,7 @@ export type ItemSelector =
   | ISelectorIs
   | ISelectorNoValue
   | ISelectorNaN
-  | ISelectorRange
-  | ISelectorAutoRange;
+  | ISelectorRange;
 
 export interface IRangeValues {
   '<='?: number;
