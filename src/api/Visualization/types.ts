@@ -63,8 +63,17 @@ export interface IVisualizationGeo {
 
 export type VisualizationLayout = IForceAlgorithm | IHierarchicalAlgorithm | IRadialAlgorithm;
 
-export type ForceLayoutMode = 'best' | 'fast';
-export type HierarchicalLayoutMode = 'LR' | 'RL' | 'TB' | 'BT';
+export enum ForceLayoutMode {
+  BEST = 'best',
+  FAST = 'fast'
+}
+
+export enum HierarchicalLayoutMode {
+  LR = 'LR',
+  RL = 'RL',
+  TB = 'TB',
+  BT = 'BT'
+}
 
 export enum LayoutAlgorithm {
   FORCE = 'force',
