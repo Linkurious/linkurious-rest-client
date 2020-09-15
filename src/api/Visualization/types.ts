@@ -152,7 +152,7 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   nodes: IVizNodeInfo[];
   edges: IVizEdgeInfo[];
   alternativeIds?: IAlternativeIdSettings;
-  mode?: string;
+  mode?: VisualizationMode;
   design?: IVisualizationDesign;
   nodeFields?: IItemFields;
   edgeFields?: IItemFields;
