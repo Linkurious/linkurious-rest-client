@@ -167,7 +167,7 @@ export interface ICosmosDbConfig extends IGraphVendorConfig {
   database: string;
   collection: string;
   primaryKey: string;
-  '.NET SDK URI'?: string;
+  '.NET SDK URI': string;
 }
 
 export interface IJanusGraphForComposeConfig extends IJanusGraphConfig {
