@@ -1,0 +1,23 @@
+pipeline {
+  agent any
+  options {
+    skipDefaultCheckout true
+  }
+  stages {
+    stage('Install') {
+      steps {
+        dir('linkurious-rest-client') {
+          checkout scm
+          sh 'npm install'
+        }
+      }
+    }
+    stage('Compile') {
+      steps {
+        dir('linkurious-rest-client') {
+          sh './node_modules/.bin/tsc'
+        }
+      }
+    }
+  }
+}
