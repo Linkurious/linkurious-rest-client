@@ -119,7 +119,7 @@ export type SelectedDataSourceConfig =
 export interface IDataSourceConfig<G = IGraphVendorConfig, I = IVendorConfig> {
   name?: string;
   manualSourceKey?: string;
-  readonly?: boolean;
+  readOnly?: boolean;
   graphdb: G;
   index: I;
 }
