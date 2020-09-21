@@ -99,7 +99,7 @@ export interface Match extends PersistedItem {
   alertId: number;
   hash: string;
   status: MatchStatus;
-  user: Pick<User, 'id' | 'username' | 'email'>;
+  user?: Pick<User, 'id' | 'username' | 'email'>; // undefined if the match status was never updated
   viewers: Array<{
     id: number;
     username: string;
