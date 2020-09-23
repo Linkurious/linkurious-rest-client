@@ -101,6 +101,7 @@ export interface IGuestPreferencesConfig {
   uiExport: boolean;
   uiLayout: 'regular' | 'simple' | 'none';
   uiDesign: boolean;
+  uiEdgeGrouping: boolean;
   uiFilter: boolean;
 }
 
@@ -187,31 +188,26 @@ export interface INeo4jSearchConfig extends IVendorConfig {
 
 export type InternalIndexConfig = IElasticSearchConfig | IElasticSearch2Config;
 
-export interface IElasticSearchConfig extends IVendorConfig {
+export interface ICommonElasticSearchConfig extends IVendorConfig {
   host: string;
   port: number;
+  https?: boolean;
+  user?: string;
+  password?: string;
   forceReindex?: boolean;
   skipEdgeIndexation?: boolean;
   dynamicMapping?: boolean;
-  dateDetection?: boolean;
-  https?: boolean;
-  indexName?: string;
   analyzer?: string;
-  user?: string;
-  password?: string;
+  incrementalIndexation?: boolean;
+  timestampPropertyName?: string;
 }
 
-export interface IElasticSearch2Config extends IVendorConfig {
-  host: string;
-  port: number;
-  forceReindex?: boolean;
-  https?: boolean;
-  user?: string;
-  password?: string;
-  dynamicMapping?: boolean;
+export interface IElasticSearchConfig extends ICommonElasticSearchConfig {
+  indexName?: string; // Deprecated option to be removed, kept here for backward compatibility
+}
+
+export interface IElasticSearch2Config extends ICommonElasticSearchConfig {
   forceStringMapping?: string[];
-  analyzer?: string;
-  skipEdgeIndexation?: boolean;
   caCert?: string;
 }
 
