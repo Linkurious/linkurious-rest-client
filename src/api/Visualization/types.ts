@@ -248,7 +248,7 @@ export enum PopulateType {
 
 export interface IGetSandboxParams extends IDataSourceParams {
   populate?: PopulateType;
-  itemId?: number;
+  itemId?: string;
   matchId?: number;
   searchQuery?: string;
   searchFuzziness?: number;
