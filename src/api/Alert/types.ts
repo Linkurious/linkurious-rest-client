@@ -109,7 +109,7 @@ export interface Match extends PersistedItem {
   }>;
   nodes: string[];
   edges: string[];
-  columns: string[];
+  columns: (string | number | null)[]; // An empty column field is filled with null
 }
 
 export interface GetMatchesResponse {
