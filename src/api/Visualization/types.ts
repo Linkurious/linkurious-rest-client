@@ -32,6 +32,12 @@ export enum VisualizationRight {
   OWNER_FILTERED = 'owner-filtered'
 }
 
+export enum ShareVisualizationRight {
+  READ = 'read',
+  WRITE = 'write',
+  OWNER = 'owner'
+}
+
 export enum VisualizationMode {
   NODE_LINK = 'nodelink',
   GEO = 'geo'
@@ -284,7 +290,7 @@ export interface GetVisualizationSharesResponse {
 export interface IShareVisualizationParams extends IDataSourceParams {
   id: number;
   userId: number;
-  right: 'read' | 'write' | 'owner';
+  right: ShareVisualizationRight;
 }
 
 export interface VisualizationShare {
