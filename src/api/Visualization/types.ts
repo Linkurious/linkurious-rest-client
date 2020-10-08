@@ -89,6 +89,7 @@ export enum LayoutAlgorithm {
 
 export interface IForceParameters {
   mode: ForceLayoutMode;
+  incremental?: boolean;
 }
 
 export interface IHierarchicalParameters {
