@@ -167,6 +167,7 @@ export interface ICosmosDbConfig extends IGraphVendorConfig {
   database: string;
   collection: string;
   primaryKey: string;
+  partitionKey: string;
   '.NET SDK URI': string;
 }
 
