@@ -8,28 +8,35 @@ import {GenericObject, IDataSourceParams, PersistedItem} from '../commonTypes';
 import {AccessRight, Action, AnyAction} from '../AccessRight';
 import {IGuestPreferencesConfig} from '../Config';
 
-export interface UserPreferences {
+export interface IUserPreferences {
   pinOnDrag: boolean;
   locale: string;
   incrementalLayout: boolean;
 }
 
+export interface SourceAccessRights {
+  alerts: {
+    read: string[];
+  };
+  nodes: {
+    edit: string[];
+    write: string[];
+  };
+  edges: {
+    edit: string[];
+    write: string[];
+  };
+}
+
 export interface User extends PersistedItem {
   username: string;
   email: string;
+  lastActiveDate?: string; // undefined if the user has never logged in
   source: string;
-  preferences: UserPreferences | IGuestPreferencesConfig;
+  preferences: IUserPreferences | IGuestPreferencesConfig;
   groups: GroupName[];
   actions: GenericObject<AnyAction[]>;
-  // TODO access-rights are indexed by dataSource and by nodes, edges, alerts...
-  /**
-   * '*' : {
-   *    alerts: {read: [...]},
-   *    edges: {edit: [], write: []},
-   *    nodes: {edit: [], write: []}
-   * }
-   */
-  accessRights: GenericObject<GenericObject<GenericObject<AccessRight[]>>>;
+  accessRights: GenericObject<SourceAccessRights>;
 }
 
 export interface IGetUserParams {
@@ -74,7 +81,7 @@ export interface IUpdateUserParams {
   username?: string;
   email?: string;
   password?: string;
-  preferences?: Partial<UserPreferences>;
+  preferences?: Partial<IUserPreferences>;
   addedGroups?: number[];
   removedGroups?: number[];
 }
