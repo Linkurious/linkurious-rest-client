@@ -141,6 +141,7 @@ export interface INeo4jConfig extends IGraphVendorConfig {
   password?: string;
   alternativeNodeId?: string;
   alternativeEdgeId?: string;
+  allowVirtualEntities?: boolean;
 }
 
 export interface IGremlinSessionConfig extends IGraphVendorConfig {
