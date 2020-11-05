@@ -139,6 +139,7 @@ export interface INeo4jConfig extends IGraphVendorConfig {
   writeURL?: string;
   user?: string;
   password?: string;
+  databaseName?: string;
   alternativeNodeId?: string;
   alternativeEdgeId?: string;
   allowVirtualEntities?: boolean;
