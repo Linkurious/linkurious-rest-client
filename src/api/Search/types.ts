@@ -40,7 +40,7 @@ export interface SearchResponse {
   totalHits?: number; // one among totalHits and moreResults is defined
   moreResults?: boolean;
   results: Array<LkNode | LkEdge>;
-  categoriesCount: GenericObject<number>;
+  countPerItemType?: GenericObject<number>;
 }
 
 export interface ISearchFullParams extends IGetSubGraphParams, ISearchParams {}
