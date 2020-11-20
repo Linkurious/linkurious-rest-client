@@ -48,7 +48,7 @@ export class RestClient extends ErrorListener {
   public readonly user: UserAPI;
   public readonly visualization: VisualizationAPI;
 
-  constructor(options?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
+  constructor(options?: {baseUrl?: string; agent?: request.SuperAgentStatic, userAgent?: string}) {
     super();
 
     this.clientState = {};
@@ -59,6 +59,7 @@ export class RestClient extends ErrorListener {
           : options.baseUrl + '/api'
         : '/api',
       agent: (options && options.agent) || request.agent(),
+      userAgent: (options && options.userAgent) || 'rest-client',
       clientState: this.clientState,
       dispatchError: <T extends LkErrorKey>(key: T, payload: LkErrorKeyToInterface[T]): void =>
         this.dispatchError(key, payload)

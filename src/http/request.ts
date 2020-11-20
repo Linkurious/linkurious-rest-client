@@ -148,6 +148,7 @@ export abstract class Request<S = undefined> {
       ](fetchConfig.url)
         .ok((res) => res.status < 500)
         .withCredentials()
+        .set('User-Agent-Linkurious', this.props.userAgent)
         .send(fetchConfig.body)
         .query(fetchConfig.query);
     } catch (ex) {

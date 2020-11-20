@@ -40,6 +40,7 @@ export interface ClientState {
 export interface ModuleProps {
   readonly baseUrl: string;
   readonly agent: SuperAgentStatic;
+  readonly userAgent: string;
   readonly clientState: ClientState;
   readonly dispatchError: ErrorListener['dispatchError'];
 }
