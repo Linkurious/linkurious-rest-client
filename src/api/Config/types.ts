@@ -258,7 +258,7 @@ export interface IAdvancedConfig {
   extraCertificateAuthorities?: string;
   obfuscation?: boolean;
   edgesBetweenSupernodes?: boolean;
-  itemTypeCountLimit?: number
+  itemTypeCountLimit?: number;
 }
 
 export interface ILeafletConfig {
