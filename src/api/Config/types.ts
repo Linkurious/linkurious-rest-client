@@ -4,11 +4,11 @@
  * - Created on 2019-08-19.
  */
 
-import { TlsOptions } from 'tls';
+import {TlsOptions} from 'tls';
 
-import { GenericObject } from '../commonTypes';
-import { IPluginConfig } from '../Plugin';
-import { OgmaNodeShape, OgmaEdgeShape } from '../displayTypes';
+import {GenericObject} from '../commonTypes';
+import {IPluginConfig} from '../Plugin';
+import {OgmaNodeShape, OgmaEdgeShape} from '../displayTypes';
 
 export interface IGetConfigParams {
   sourceIndex?: number;
@@ -214,8 +214,7 @@ export interface IElasticSearch2Config extends ICommonElasticSearchConfig {
   caCert?: string;
 }
 
-export interface INeo2esConfig extends IVendorConfig {
-}
+export interface INeo2esConfig extends IVendorConfig {}
 
 export interface IJanusGraphSearchConfig extends IVendorConfig {
   create?: boolean;
@@ -259,7 +258,7 @@ export interface IAdvancedConfig {
   extraCertificateAuthorities?: string;
   obfuscation?: boolean;
   edgesBetweenSupernodes?: boolean;
-  itemTypeCountLimit?: number;
+  itemTypeCountLimit?: number
 }
 
 export interface ILeafletConfig {
@@ -389,7 +388,7 @@ export interface IOgmaConfig {
       node?: {
         nodeRadius?: number;
         shape?: OgmaNodeShape;
-        text?: TextOptions & { nodePosition?: 'right' | 'left' | 'top' | 'bottom' | 'center' };
+        text?: TextOptions & {nodePosition?: 'right' | 'left' | 'top' | 'bottom' | 'center'};
       };
       edge?: {
         edgeWidth?: number;
