@@ -5,7 +5,16 @@
  */
 
 import {Request} from '../../http/request';
-import {LkErrorKey} from '../../http/response';
+import {
+  ConnectionRefusedError,
+  DataSourceUnavailableError,
+  FeatureDisabledError,
+  ForbiddenError,
+  LkErrorKey,
+  NotFoundError,
+  UnauthorizedError,
+  Response
+} from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
 
 import {
@@ -197,12 +206,25 @@ export class AlertAPI extends Request {
   /**
    * Get the last created action of a match if any.
    */
-  public getLastMatchAction(this: Request<MatchAction | null>, params: IGetMatchActionsParams) {
-    return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/:alertId/matches/:matchId/actions',
-      method: 'GET',
-      params: {...params, last: 1}
+  public async getLastMatchAction(
+    params: IGetMatchActionsParams
+  ): Promise<
+    | Response<MatchAction | null>
+    | Response<FeatureDisabledError>
+    | Response<UnauthorizedError>
+    | Response<DataSourceUnavailableError>
+    | Response<ForbiddenError>
+    | Response<NotFoundError>
+    | Response<ConnectionRefusedError>
+  > {
+    const matchActions = await this.getMatchActions(params);
+    if (!matchActions.isSuccess()) {
+      return matchActions;
+    }
+    return new Response({
+      status: matchActions.status,
+      header: matchActions.header,
+      body: matchActions.body[0] as MatchAction | null
     });
   }
 
