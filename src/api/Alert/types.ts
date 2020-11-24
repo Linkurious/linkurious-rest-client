@@ -160,12 +160,14 @@ export interface MatchAction extends PersistedItem {
   matchId: number;
   user: Pick<User, 'id' | 'username' | 'email'>;
   action: MatchActionType;
+  comment: string;
 }
 
 export interface IDoMatchActionParams extends IDataSourceParams {
   alertId: number;
   matchId: number;
   action: MatchActionType;
+  comment: string;
 }
 
 export interface IAlertPreviewParams extends IDataSourceParams {
