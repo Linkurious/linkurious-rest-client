@@ -195,6 +195,18 @@ export class AlertAPI extends Request {
   }
 
   /**
+   * Get the last created action of a match if any.
+   */
+  public getLastMatchAction(this: Request<MatchAction | null>, params: IGetMatchActionsParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/matches/:matchId/actions',
+      method: 'GET',
+      params: {...params, last: 1}
+    });
+  }
+
+  /**
    * Do an action (open, dismiss, confirm, unconfirm) on a match.
    */
   public doMatchAction(params: IDoMatchActionParams) {
