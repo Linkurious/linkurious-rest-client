@@ -140,8 +140,10 @@ export interface INeo4jConfig extends IGraphVendorConfig {
   writeURL?: string;
   user?: string;
   password?: string;
+  databaseName?: string;
   alternativeNodeId?: string;
   alternativeEdgeId?: string;
+  allowVirtualEntities?: boolean;
 }
 
 export interface IGremlinSessionConfig extends IGraphVendorConfig {
@@ -256,6 +258,7 @@ export interface IAdvancedConfig {
   extraCertificateAuthorities?: string;
   obfuscation?: boolean;
   edgesBetweenSupernodes?: boolean;
+  itemTypeCountLimit?: number;
 }
 
 export interface ILeafletConfig {
