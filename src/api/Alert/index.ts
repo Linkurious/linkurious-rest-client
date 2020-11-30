@@ -236,7 +236,7 @@ export class AlertAPI extends Request {
   /**
    * Do an action (open, dismiss, confirm, unconfirm) on a match.
    */
-  public doMatchAction(params: IDoMatchActionParams) {
+  public doMatchAction(this: Request<MatchAction>, params: IDoMatchActionParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/matches/:matchId/action',
