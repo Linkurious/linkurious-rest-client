@@ -208,7 +208,7 @@ export class AlertAPI extends Request {
    * Get the last created action of a match if any.
    */
   public async getLastMatchAction(
-    params: IGetMatchActionsParams
+    params: Pick<IGetMatchActionsParams, 'alertId' | 'matchId' | 'sourceKey'>
   ): Promise<
     | Response<MatchAction | null>
     | Response<FeatureDisabledError>
@@ -218,7 +218,11 @@ export class AlertAPI extends Request {
     | Response<NotFoundError>
     | Response<ConnectionRefusedError>
   > {
-    const matchActions = await this.getMatchActions(params);
+    const matchActions = await this.getMatchActions({
+      ...params,
+      offset: 0,
+      limit: 1
+    });
     if (!matchActions.isSuccess()) {
       return matchActions;
     }
