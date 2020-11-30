@@ -199,7 +199,7 @@ export class AlertAPI extends Request {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/matches/:matchId/actions',
-      method: 'POST',
+      method: 'GET',
       params: params
     });
   }
