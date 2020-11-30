@@ -192,7 +192,8 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Get all the actions of a match ordered by creation date.
+   * Get all the actions of a match ordered by creation date. Recent ones first.
+   * The offset defaults to 0 and the limit defaults to 10.
    */
   public getMatchActions(this: Request<MatchAction[]>, params: IGetMatchActionsParams) {
     return this.request({

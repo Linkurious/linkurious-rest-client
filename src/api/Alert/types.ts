@@ -147,6 +147,8 @@ export interface IGetMatchesParams extends IDataSourceParams {
 export interface IGetMatchActionsParams extends IDataSourceParams {
   alertId: number;
   matchId: number;
+  offset?: number;
+  limit?: number;
 }
 
 export enum MatchActionType {
