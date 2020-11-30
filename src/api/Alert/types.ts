@@ -152,6 +152,11 @@ export interface IGetMatchActionsParams extends IDataSourceParams {
   action?: MatchActionType[];
 }
 
+export interface IGetMatchActionsResponse {
+  total: number;
+  matchActions: MatchAction[];
+}
+
 export enum MatchActionType {
   CONFIRM = 'confirm',
   DISMISS = 'dismiss',

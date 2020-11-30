@@ -36,7 +36,8 @@ import {
   AlertFolder,
   MatchAction,
   Match,
-  GetMatchesResponse
+  GetMatchesResponse,
+  IGetMatchActionsResponse
 } from './types';
 
 export * from './types';
@@ -195,7 +196,7 @@ export class AlertAPI extends Request {
    * Get all the actions of a match ordered by creation date. Recent ones first.
    * The offset defaults to 0 and the limit defaults to 10.
    */
-  public getMatchActions(this: Request<MatchAction[]>, params: IGetMatchActionsParams) {
+  public getMatchActions(this: Request<IGetMatchActionsResponse>, params: IGetMatchActionsParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/matches/:matchId/actions',
