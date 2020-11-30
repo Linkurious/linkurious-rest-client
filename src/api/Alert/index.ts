@@ -230,7 +230,7 @@ export class AlertAPI extends Request {
     return new Response({
       status: matchActions.status,
       header: matchActions.header,
-      body: matchActions.body[0] as MatchAction | null
+      body: matchActions.body.matchActions[0] as MatchAction | null
     });
   }
 
