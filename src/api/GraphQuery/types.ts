@@ -18,8 +18,7 @@ export enum TemplateFieldType {
   DATE = 'date',
   DATE_TIME = 'datetime',
   BOOLEAN = 'boolean',
-  ENV = 'env',
-  MULTI_SELECT = 'multiselect'
+  ENV = 'env'
 }
 
 export interface TemplateField<T extends TemplateFieldType = TemplateFieldType> {
@@ -47,13 +46,6 @@ export type EnumValue = string | number | boolean;
 export type EnumChoices = Array<{
   label: string;
   value: EnumValue;
-}>;
-
-export type MultiSelectValue = string | number;
-
-export type MultiSelectChoices = Array<{
-  label: string;
-  value: MultiSelectValue;
 }>;
 
 export interface EnumTemplate extends TemplateField<TemplateFieldType.ENUM> {
@@ -84,13 +76,6 @@ export interface EdgeTemplate extends TemplateField<TemplateFieldType.EDGE> {
 export interface EdgesetTemplate extends TemplateField<TemplateFieldType.EDGE_SET> {
   options?: {
     types?: string[];
-  };
-}
-
-export interface MultiSelectTemplate extends TemplateField<TemplateFieldType.MULTI_SELECT> {
-  options: {
-    default?: MultiSelectValue;
-    list: MultiSelectChoices;
   };
 }
 
@@ -157,8 +142,7 @@ export type Template =
   | DateTemplate
   | DatetimeTemplate
   | BooleanTemplate
-  | EnvTemplate
-  | MultiSelectTemplate;
+  | EnvTemplate;
 
 export enum GraphQueryInputType {
   NONE = 'none',
