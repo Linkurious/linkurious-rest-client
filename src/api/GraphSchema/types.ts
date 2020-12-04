@@ -24,19 +24,8 @@ export interface GetSamplingStatusResponse {
   lastSampled?: string; // defined if it has run at least once
 }
 
-export interface SimpleSchema {
-  nodeCategories: string[];
-  edgeTypes: string[];
-  nodeProperties: string[];
-  edgeProperties: string[];
-}
-
 export interface IUpdateSchemaSettingsParams extends IDataSourceParams {
   strictSchema: boolean;
-}
-
-export interface ISetNonIndexedPropertiesParams extends IDataSourceParams {
-  properties: string[];
 }
 
 export enum EntityType {
