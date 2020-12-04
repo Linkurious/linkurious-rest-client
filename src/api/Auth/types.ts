@@ -16,7 +16,6 @@ export interface ILoginOAuth2Params {
 }
 
 export interface IUpdateCurrentUserParams {
-  id: number;
   username?: string;
   email?: string;
   password?: string;
