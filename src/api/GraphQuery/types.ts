@@ -89,7 +89,7 @@ export interface EdgesetTemplate extends TemplateField<TemplateFieldType.EDGE_SE
 
 export interface ListTemplate extends TemplateField<TemplateFieldType.LIST> {
   options: {
-    default?: ListValue | ListValue[];
+    default?: ListValue[];
     values: ListChoices;
   };
 }
