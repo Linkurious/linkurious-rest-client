@@ -163,6 +163,7 @@ export enum MatchActivityKind {
   VIEW = 'VIEW'
 }
 interface MatchActivity {
+  id: number;
   createdAt: string;
   user: Pick<User, 'id' | 'username' | 'email'>;
 }
