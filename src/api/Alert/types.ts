@@ -157,6 +157,40 @@ export interface IGetMatchActionsResponse {
   matchActions: MatchAction[];
 }
 
+export enum MatchActivityType {
+  STATUS_CHANGE = 'STATUS_CHANGE',
+  COMMENT = 'COMMENT',
+  VIEW = 'VIEW'
+}
+interface MatchActivity {
+  createdAt: string;
+  user: Pick<User, 'id' | 'username' | 'email'>;
+}
+export interface MatchView extends MatchActivity {
+  kind: MatchActivityType.VIEW;
+}
+export interface MatchComment extends MatchActivity {
+  kind: MatchActivityType.COMMENT;
+  comment: string;
+}
+export interface MatchStatusChange extends MatchActivity {
+  kind: MatchActivityType.STATUS_CHANGE;
+  previousStatus: MatchStatus;
+  status: MatchStatus;
+  comment: string;
+}
+export interface IGetMatchActivityResponse {
+  total: number;
+  activity: (MatchView | MatchComment | MatchStatusChange)[];
+}
+export interface IGetMatchActivityParams {
+  alertId: number;
+  matchId: number;
+  offset?: number;
+  limit?: number;
+  action?: MatchActionType[];
+}
+
 export enum MatchActionType {
   CONFIRM = 'confirm',
   DISMISS = 'dismiss',

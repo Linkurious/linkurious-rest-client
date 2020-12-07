@@ -37,7 +37,9 @@ import {
   MatchAction,
   Match,
   GetMatchesResponse,
-  IGetMatchActionsResponse
+  IGetMatchActionsResponse,
+  IGetMatchActivityParams,
+  IGetMatchActivityResponse
 } from './types';
 
 export * from './types';
@@ -200,6 +202,22 @@ export class AlertAPI extends Request {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/matches/:matchId/actions',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get all the activity of a match ordered by creation date. Recent ones first.
+   * The offset defaults to 0 and the limit defaults to 10.
+   */
+  public getMatchActivity(
+    this: Request<IGetMatchActivityParams>,
+    params: IGetMatchActivityResponse
+  ) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/matches/:matchId/activity',
       method: 'GET',
       params: params
     });
