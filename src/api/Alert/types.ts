@@ -157,7 +157,7 @@ export interface IGetMatchActionsResponse {
   matchActions: MatchAction[];
 }
 
-export enum MatchActivityType {
+export enum MatchActivityKind {
   STATUS_CHANGE = 'STATUS_CHANGE',
   COMMENT = 'COMMENT',
   VIEW = 'VIEW'
@@ -167,14 +167,14 @@ interface MatchActivity {
   user: Pick<User, 'id' | 'username' | 'email'>;
 }
 export interface MatchView extends MatchActivity {
-  kind: MatchActivityType.VIEW;
+  kind: MatchActivityKind.VIEW;
 }
 export interface MatchComment extends MatchActivity {
-  kind: MatchActivityType.COMMENT;
+  kind: MatchActivityKind.COMMENT;
   comment: string;
 }
 export interface MatchStatusChange extends MatchActivity {
-  kind: MatchActivityType.STATUS_CHANGE;
+  kind: MatchActivityKind.STATUS_CHANGE;
   previousStatus: MatchStatus;
   status: MatchStatus;
   comment: string;
