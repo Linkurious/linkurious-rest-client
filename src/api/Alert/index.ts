@@ -40,9 +40,9 @@ import {
   IGetMatchActionsResponse,
   IGetMatchActivityParams,
   IGetMatchActivityResponse,
-  IUpdateMatchComment,
   IUpdateMatchCommentParams,
-  MatchComment, IDeleteMatchCommentParams
+  MatchComment,
+  IDeleteMatchCommentParams
 } from './types';
 
 export * from './types';
