@@ -39,7 +39,10 @@ import {
   GetMatchesResponse,
   IGetMatchActionsResponse,
   IGetMatchActivityParams,
-  IGetMatchActivityResponse
+  IGetMatchActivityResponse,
+  IUpdateMatchComment,
+  IUpdateMatchCommentParams,
+  MatchComment, IDeleteMatchCommentParams
 } from './types';
 
 export * from './types';
@@ -212,13 +215,37 @@ export class AlertAPI extends Request {
    * The offset defaults to 0 and the limit defaults to 10.
    */
   public getMatchActivity(
-    this: Request<IGetMatchActivityParams>,
-    params: IGetMatchActivityResponse
+    this: Request<IGetMatchActivityResponse>,
+    params: IGetMatchActivityParams
   ) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/:alertId/matches/:matchId/activity',
+      url: '/:sourceKey/alert/match/:matchId/activity',
       method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Update a comment on a match if the user that triggered the update is the author
+   */
+  public editMatchComment(this: Request<MatchComment>, params: IUpdateMatchCommentParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alert/match/comment/:commentId',
+      method: 'PATCH',
+      params: params
+    });
+  }
+
+  /**
+   * Delete a comment on a match if the user that triggered the update is the author
+   */
+  public deleteMatchComment(params: IDeleteMatchCommentParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alert/match/comment/:commentId',
+      method: 'DELETE',
       params: params
     });
   }

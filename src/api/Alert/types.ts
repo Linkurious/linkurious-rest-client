@@ -191,6 +191,13 @@ export interface IGetMatchActivityParams {
   limit?: number;
   action?: MatchActionType[];
 }
+export interface IUpdateMatchCommentParams {
+  id: number;
+  comment: string;
+}
+export interface IDeleteMatchCommentParams {
+  id: number;
+}
 
 export enum MatchActionType {
   CONFIRM = 'confirm',
