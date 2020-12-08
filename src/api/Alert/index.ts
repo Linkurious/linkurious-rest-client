@@ -38,10 +38,7 @@ import {
   Match,
   GetMatchesResponse,
   IGetMatchActionsResponse,
-  IGetMatchActivityParams,
-  IGetMatchActivityResponse,
   IUpdateMatchCommentParams,
-  MatchComment,
   IDeleteMatchCommentParams
 } from './types';
 
@@ -211,28 +208,12 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Get all the activity of a match ordered by creation date. Recent ones first.
-   * The offset defaults to 0 and the limit defaults to 10.
-   */
-  public getMatchActivity(
-    this: Request<IGetMatchActivityResponse>,
-    params: IGetMatchActivityParams
-  ) {
-    return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alert/match/:matchId/activity',
-      method: 'GET',
-      params: params
-    });
-  }
-
-  /**
    * Update a comment on a match if the user that triggered the update is the author
    */
-  public editMatchComment(this: Request<MatchComment>, params: IUpdateMatchCommentParams) {
+  public editMatchComment(this: Request<MatchAction>, params: IUpdateMatchCommentParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alert/match/comment/:commentId',
+      url: '/:sourceKey/alerts/:alertId/matches/:matchId/action',
       method: 'PATCH',
       params: params
     });
@@ -244,7 +225,7 @@ export class AlertAPI extends Request {
   public deleteMatchComment(params: IDeleteMatchCommentParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alert/match/comment/:commentId',
+      url: '/:sourceKey/alerts/:alertId/matches/:matchId/action',
       method: 'DELETE',
       params: params
     });
@@ -280,7 +261,7 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Do an action (open, dismiss, confirm, unconfirm) on a match.
+   * Do an action (open, dismiss, confirm, unconfirm, comment) on a match.
    */
   public doMatchAction(this: Request<MatchAction>, params: IDoMatchActionParams) {
     return this.request({

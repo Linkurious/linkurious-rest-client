@@ -152,58 +152,28 @@ export interface IGetMatchActionsParams extends IDataSourceParams {
   action?: MatchActionType[];
 }
 
+export interface IUpdateMatchCommentParams extends IDataSourceParams {
+  alertId: number;
+  matchId: number;
+  comment: string;
+}
+
+export interface IDeleteMatchCommentParams extends IDataSourceParams {
+  alertId: number;
+  matchId: number;
+}
+
 export interface IGetMatchActionsResponse {
   total: number;
   matchActions: MatchAction[];
-}
-
-export enum MatchActivityKind {
-  STATUS_CHANGE = 'STATUS_CHANGE',
-  COMMENT = 'COMMENT',
-  VIEW = 'VIEW'
-}
-interface MatchActivity {
-  id: number;
-  createdAt: string;
-  user: Pick<User, 'id' | 'username' | 'email'>;
-}
-export interface MatchView extends MatchActivity {
-  kind: MatchActivityKind.VIEW;
-}
-export interface MatchComment extends MatchActivity {
-  kind: MatchActivityKind.COMMENT;
-  comment: string;
-}
-export interface MatchStatusChange extends MatchActivity {
-  kind: MatchActivityKind.STATUS_CHANGE;
-  previousStatus: MatchStatus;
-  status: MatchStatus;
-  comment: string;
-}
-export interface IGetMatchActivityResponse {
-  total: number;
-  activity: (MatchView | MatchComment | MatchStatusChange)[];
-}
-export interface IGetMatchActivityParams {
-  alertId: number;
-  matchId: number;
-  offset?: number;
-  limit?: number;
-  action?: MatchActionType[];
-}
-export interface IUpdateMatchCommentParams {
-  id: number;
-  comment: string;
-}
-export interface IDeleteMatchCommentParams {
-  id: number;
 }
 
 export enum MatchActionType {
   CONFIRM = 'confirm',
   DISMISS = 'dismiss',
   UNCONFIRM = 'unconfirm',
-  OPEN = 'open'
+  OPEN = 'open',
+  COMMENT = 'comment'
 }
 
 export interface MatchAction extends PersistedItem {
