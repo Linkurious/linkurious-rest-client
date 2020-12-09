@@ -57,7 +57,6 @@
     "superagent": "5.2.2"
   },
   "publishConfig": {
-    "access": "public",
-    "registry": "https://nexus3.vpc.prod.scw-par1.linkurious.net/repository/npm-linkurious/"
+    "access": "public"
   }
 }
