@@ -1,6 +1,6 @@
 {
   "name": "@linkurious/rest-client",
-  "version": "2.10.2",
+  "version": "2.10.3",
   "description": "A library to interact with Linkurious APIs",
   "files": [
     "dist"
@@ -57,6 +57,7 @@
     "superagent": "5.2.2"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://nexus3.vpc.prod.scw-par1.linkurious.net/repository/npm-linkurious/"
   }
 }

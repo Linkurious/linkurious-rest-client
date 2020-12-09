@@ -17,12 +17,10 @@ import {
   ICreatePropertyParams,
   ICreateTypeParams,
   IGetTypesParams,
-  ISetNonIndexedPropertiesParams,
   IStartSchemaSamplingParams,
   IUpdatePropertyParams,
   IUpdateSchemaSettingsParams,
-  IUpdateTypeParams,
-  SimpleSchema
+  IUpdateTypeParams
 } from './types';
 
 export * from './types';
@@ -74,19 +72,6 @@ export class GraphSchemaAPI extends Request {
   }
 
   /**
-   * List all `edgeTypes`, `nodeCategories`, `edgeProperties`, `nodeProperties`
-   * that exist in the graph database.
-   */
-  public getSimpleSchema(this: Request<SimpleSchema>, params?: IDataSourceParams) {
-    return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED],
-      url: '/:sourceKey/graph/schema/simple',
-      method: 'GET',
-      params: params
-    });
-  }
-
-  /**
    * Update the strict schema settings of the data-source.
    */
   public updateSchemaSettings(params: IUpdateSchemaSettingsParams) {
@@ -94,54 +79,6 @@ export class GraphSchemaAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, STRICT_SCHEMA_REQUIRED],
       url: '/admin/:sourceKey/graph/schema/settings',
       method: 'PATCH',
-      params: params
-    });
-  }
-
-  /**
-   * Get the list of edge properties that are not indexed for the given data-source.
-   */
-  public getNonIndexedEdgeProperties(this: Request<string[]>, params?: IDataSourceParams) {
-    return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
-      url: '/admin/source/:sourceKey/noIndex/edgeProperties',
-      method: 'GET',
-      params: params
-    });
-  }
-
-  /**
-   * Get the list of node properties that are not indexed for the given data-source.
-   */
-  public getNonIndexedNodeProperties(this: Request<string[]>, params?: IDataSourceParams) {
-    return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
-      url: '/admin/source/:sourceKey/noIndex/nodeProperties',
-      method: 'GET',
-      params: params
-    });
-  }
-
-  /**
-   * Set the list of edge properties that are not indexed for the given data-source.
-   */
-  public setNonIndexedEdgeProperties(params: ISetNonIndexedPropertiesParams) {
-    return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
-      url: '/admin/source/:sourceKey/noIndex/edgeProperties',
-      method: 'PUT',
-      params: params
-    });
-  }
-
-  /**
-   * Set the list of node properties that are not indexed for the given data-source.
-   */
-  public setNonIndexedNodeProperties(params: ISetNonIndexedPropertiesParams) {
-    return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
-      url: '/admin/source/:sourceKey/noIndex/nodeProperties',
-      method: 'PUT',
       params: params
     });
   }
