@@ -152,12 +152,12 @@ export interface IGetMatchActionsParams extends IDataSourceParams {
   action?: MatchActionType[];
 }
 
-export interface IUpdateMatchCommentParams {
+export interface IUpdateMatchCommentParams extends IDataSourceParams {
   comment: string;
   commentId: number;
 }
 
-export interface IDeleteMatchCommentParams {
+export interface IDeleteMatchCommentParams extends IDataSourceParams {
   commentId: number;
 }
 

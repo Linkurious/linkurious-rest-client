@@ -213,7 +213,7 @@ export class AlertAPI extends Request {
   public editMatchComment(this: Request<MatchAction>, params: IUpdateMatchCommentParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/alert/match/comment/:commentId',
+      url: '/:sourceKey/alert/match/comment/:commentId',
       method: 'PATCH',
       params: params
     });
@@ -225,7 +225,7 @@ export class AlertAPI extends Request {
   public deleteMatchComment(params: IDeleteMatchCommentParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/alert/match/comment/:commentId',
+      url: '/:sourceKey/alert/match/comment/:commentId',
       method: 'DELETE',
       params: params
     });
