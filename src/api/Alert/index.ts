@@ -220,7 +220,7 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Delete a comment on a match if the user that triggered the update is the author
+   * Delete a comment on a match if the user that triggered the deletion is the author
    */
   public deleteMatchComment(params: IDeleteMatchCommentParams) {
     return this.request({
