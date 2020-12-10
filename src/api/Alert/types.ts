@@ -152,15 +152,13 @@ export interface IGetMatchActionsParams extends IDataSourceParams {
   action?: MatchActionType[];
 }
 
-export interface IUpdateMatchCommentParams extends IDataSourceParams {
-  alertId: number;
-  matchId: number;
+export interface IUpdateMatchCommentParams {
   comment: string;
+  commentId: number;
 }
 
-export interface IDeleteMatchCommentParams extends IDataSourceParams {
-  alertId: number;
-  matchId: number;
+export interface IDeleteMatchCommentParams {
+  commentId: number;
 }
 
 export interface IGetMatchActionsResponse {
