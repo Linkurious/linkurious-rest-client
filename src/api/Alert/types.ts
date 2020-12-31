@@ -83,24 +83,24 @@ export interface IGetAlertParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IGetMatchParams extends IDataSourceParams {
+export interface IGetCaseParams extends IDataSourceParams {
   alertId: number;
-  matchId: number;
+  caseId: number;
 }
 
-export enum MatchStatus {
+export enum CaseStatus {
   UNCONFIRMED = 'unconfirmed',
   CONFIRMED = 'confirmed',
   DISMISSED = 'dismissed'
 }
 
-export interface Match extends PersistedItem {
+export interface Case extends PersistedItem {
   sourceKey: string;
   alertId: number;
   hash: string;
-  status: MatchStatus;
-  statusUpdateDate?: string; // undefined if the match status was never updated
-  user?: Pick<User, 'id' | 'username' | 'email'>; // undefined if the match status was never updated
+  status: CaseStatus;
+  statusUpdateDate?: string; // undefined if the case status was never updated
+  user?: Pick<User, 'id' | 'username' | 'email'>; // undefined if the case status was never updated
   viewers: Array<{
     id: number;
     username: string;
@@ -112,21 +112,21 @@ export interface Match extends PersistedItem {
   columns: (string | number | null)[]; // An empty column field is filled with null
 }
 
-export interface GetMatchesResponse {
+export interface GetCasesResponse {
   counts: {
     unconfirmed: number;
     confirmed: number;
     dismissed: number;
   };
-  matches: Match[];
+  cases: Case[];
 }
 
-export enum GetMatchesSortDirection {
+export enum GetCasesSortDirection {
   ASC = 'asc',
   DESC = 'desc'
 }
 
-export enum GetMatchesSortBy {
+export enum GetCasesSortBy {
   DATE = 'date',
   ZERO = '0',
   ONE = '1',
@@ -135,37 +135,37 @@ export enum GetMatchesSortBy {
   FOUR = '4'
 }
 
-export interface IGetMatchesParams extends IDataSourceParams {
+export interface IGetCasesParams extends IDataSourceParams {
   alertId: number;
   offset?: number;
   limit?: number;
-  sortDirection?: GetMatchesSortDirection;
-  sortBy?: GetMatchesSortBy;
-  status?: MatchStatus;
+  sortDirection?: GetCasesSortDirection;
+  sortBy?: GetCasesSortBy;
+  status?: CaseStatus;
 }
 
-export interface IGetMatchActionsParams extends IDataSourceParams {
+export interface IGetCaseActionsParams extends IDataSourceParams {
   alertId: number;
-  matchId: number;
+  caseId: number;
 }
 
-export enum MatchActionType {
+export enum CaseActionType {
   CONFIRM = 'confirm',
   DISMISS = 'dismiss',
   UNCONFIRM = 'unconfirm',
   OPEN = 'open'
 }
 
-export interface MatchAction extends PersistedItem {
-  matchId: number;
+export interface CaseAction extends PersistedItem {
+  caseId: number;
   user: Pick<User, 'id' | 'username' | 'email'>;
-  action: MatchActionType;
+  action: CaseActionType;
 }
 
-export interface IDoMatchActionParams extends IDataSourceParams {
+export interface IDoCaseActionParams extends IDataSourceParams {
   alertId: number;
-  matchId: number;
-  action: MatchActionType;
+  caseId: number;
+  action: CaseActionType;
 }
 
 export interface IAlertPreviewParams extends IDataSourceParams {
