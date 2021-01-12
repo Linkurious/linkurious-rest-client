@@ -147,25 +147,45 @@ export interface IGetMatchesParams extends IDataSourceParams {
 export interface IGetMatchActionsParams extends IDataSourceParams {
   alertId: number;
   matchId: number;
+  offset?: number;
+  limit?: number;
+  action?: MatchActionType[];
+}
+
+export interface IUpdateMatchCommentParams extends IDataSourceParams {
+  comment: string;
+  commentId: number;
+}
+
+export interface IDeleteMatchCommentParams extends IDataSourceParams {
+  commentId: number;
+}
+
+export interface IGetMatchActionsResponse {
+  total: number;
+  matchActions: MatchAction[];
 }
 
 export enum MatchActionType {
   CONFIRM = 'confirm',
   DISMISS = 'dismiss',
   UNCONFIRM = 'unconfirm',
-  OPEN = 'open'
+  OPEN = 'open',
+  COMMENT = 'comment'
 }
 
 export interface MatchAction extends PersistedItem {
   matchId: number;
   user: Pick<User, 'id' | 'username' | 'email'>;
   action: MatchActionType;
+  comment: string;
 }
 
 export interface IDoMatchActionParams extends IDataSourceParams {
   alertId: number;
   matchId: number;
   action: MatchActionType;
+  comment: string;
 }
 
 export interface IAlertPreviewParams extends IDataSourceParams {

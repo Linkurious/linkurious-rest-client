@@ -5,7 +5,16 @@
  */
 
 import {Request} from '../../http/request';
-import {LkErrorKey} from '../../http/response';
+import {
+  ConnectionRefusedError,
+  DataSourceUnavailableError,
+  FeatureDisabledError,
+  ForbiddenError,
+  LkErrorKey,
+  NotFoundError,
+  UnauthorizedError,
+  Response
+} from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
 
 import {
@@ -27,7 +36,10 @@ import {
   AlertFolder,
   MatchAction,
   Match,
-  GetMatchesResponse
+  GetMatchesResponse,
+  IGetMatchActionsResponse,
+  IUpdateMatchCommentParams,
+  IDeleteMatchCommentParams
 } from './types';
 
 export * from './types';
@@ -183,9 +195,10 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Get all the actions of a match ordered by creation date.
+   * Get all the actions of a match ordered by creation date. Recent ones first.
+   * The offset defaults to 0 and the limit defaults to 10.
    */
-  public getMatchActions(this: Request<MatchAction[]>, params: IGetMatchActionsParams) {
+  public getMatchActions(this: Request<IGetMatchActionsResponse>, params: IGetMatchActionsParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/matches/:matchId/actions',
@@ -195,9 +208,62 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Do an action (open, dismiss, confirm, unconfirm) on a match.
+   * Update a comment on a match if the user that triggered the update is the author
    */
-  public doMatchAction(params: IDoMatchActionParams) {
+  public editMatchComment(this: Request<MatchAction>, params: IUpdateMatchCommentParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alert/match/comment/:commentId',
+      method: 'PATCH',
+      params: params
+    });
+  }
+
+  /**
+   * Delete a comment on a match if the user that triggered the deletion is the author
+   */
+  public deleteMatchComment(params: IDeleteMatchCommentParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alert/match/comment/:commentId',
+      method: 'DELETE',
+      params: params
+    });
+  }
+
+  /**
+   * Get the last created action of a match if any.
+   */
+  public async getLastMatchAction(
+    params: Pick<IGetMatchActionsParams, 'alertId' | 'matchId' | 'sourceKey'>
+  ): Promise<
+    | Response<MatchAction | null>
+    | Response<FeatureDisabledError>
+    | Response<UnauthorizedError>
+    | Response<DataSourceUnavailableError>
+    | Response<ForbiddenError>
+    | Response<NotFoundError>
+    | Response<ConnectionRefusedError>
+  > {
+    const matchActions = await this.getMatchActions({
+      ...params,
+      offset: 0,
+      limit: 1
+    });
+    if (!matchActions.isSuccess()) {
+      return matchActions;
+    }
+    return new Response({
+      status: matchActions.status,
+      header: matchActions.header,
+      body: matchActions.body.matchActions[0] as MatchAction | null
+    });
+  }
+
+  /**
+   * Do an action (open, dismiss, confirm, unconfirm, comment) on a match.
+   */
+  public doMatchAction(this: Request<MatchAction>, params: IDoMatchActionParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/matches/:matchId/action',
