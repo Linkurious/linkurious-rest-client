@@ -12,34 +12,35 @@ import {
   ForbiddenError,
   LkErrorKey,
   NotFoundError,
-  UnauthorizedError,
-  Response
+  Response,
+  UnauthorizedError
 } from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
 
 import {
+  Alert,
+  AlertFolder,
+  AlertPreview,
   AlertTree,
+  GetMatchesResponse,
+  IAlertPreviewParams,
   ICreateAlertFolderParams,
   ICreateAlertParams,
   IDeleteAlertFolderParams,
   IDeleteAlertParams,
+  IDeleteMatchCommentParams,
   IDoMatchActionParams,
   IGetAlertParams,
   IGetMatchActionsParams,
+  IGetMatchActionsResponse,
   IGetMatchesParams,
   IGetMatchParams,
   IUpdateAlertFolderParams,
   IUpdateAlertParams,
-  AlertPreview,
-  IAlertPreviewParams,
-  Alert,
-  AlertFolder,
-  MatchAction,
-  Match,
-  GetMatchesResponse,
-  IGetMatchActionsResponse,
   IUpdateMatchCommentParams,
-  IDeleteMatchCommentParams
+  Match,
+  MatchAction,
+  MatchActionType
 } from './types';
 
 export * from './types';
@@ -208,7 +209,7 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Update a comment on a match if the user that triggered the update is the author
+   * Update a comment on a match if the user that triggered the update is the author.
    */
   public editMatchComment(this: Request<MatchAction>, params: IUpdateMatchCommentParams) {
     return this.request({
@@ -220,7 +221,7 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Delete a comment on a match if the user that triggered the deletion is the author
+   * Delete a comment on a match if the user that triggered the deletion is the author.
    */
   public deleteMatchComment(params: IDeleteMatchCommentParams) {
     return this.request({
@@ -228,35 +229,6 @@ export class AlertAPI extends Request {
       url: '/:sourceKey/alert/match/comment/:commentId',
       method: 'DELETE',
       params: params
-    });
-  }
-
-  /**
-   * Get the last created action of a match if any.
-   */
-  public async getLastMatchAction(
-    params: Pick<IGetMatchActionsParams, 'alertId' | 'matchId' | 'sourceKey'>
-  ): Promise<
-    | Response<MatchAction | null>
-    | Response<FeatureDisabledError>
-    | Response<UnauthorizedError>
-    | Response<DataSourceUnavailableError>
-    | Response<ForbiddenError>
-    | Response<NotFoundError>
-    | Response<ConnectionRefusedError>
-  > {
-    const matchActions = await this.getMatchActions({
-      ...params,
-      offset: 0,
-      limit: 1
-    });
-    if (!matchActions.isSuccess()) {
-      return matchActions;
-    }
-    return new Response({
-      status: matchActions.status,
-      header: matchActions.header,
-      body: matchActions.body.matchActions[0] as MatchAction | null
     });
   }
 
