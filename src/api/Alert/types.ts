@@ -185,7 +185,7 @@ export interface IDoMatchActionParams extends IDataSourceParams {
   alertId: number;
   matchId: number;
   action: MatchActionType;
-  comment: string;
+  comment?: string;
 }
 
 export interface IAlertPreviewParams extends IDataSourceParams {
