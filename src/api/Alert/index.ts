@@ -5,16 +5,7 @@
  */
 
 import {Request} from '../../http/request';
-import {
-  ConnectionRefusedError,
-  DataSourceUnavailableError,
-  FeatureDisabledError,
-  ForbiddenError,
-  LkErrorKey,
-  NotFoundError,
-  Response,
-  UnauthorizedError
-} from '../../http/response';
+import {LkErrorKey} from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
 
 import {
@@ -39,8 +30,7 @@ import {
   IUpdateAlertParams,
   IUpdateMatchCommentParams,
   Match,
-  MatchAction,
-  MatchActionType
+  MatchAction
 } from './types';
 
 export * from './types';
