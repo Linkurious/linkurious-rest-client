@@ -90,6 +90,7 @@ export interface IConnectDataSourceParams {
 
 export interface IDeleteSourceDataParams extends IDataSourceParams {
   mergeInto?: string;
+  mergeReplace?: boolean;
 }
 
 export interface DeleteSourceDataResponse {
@@ -101,6 +102,11 @@ export interface DeleteSourceDataResponse {
     alerts: number;
     matches: number;
     graphQueries: number;
+    edgeTypes: number;
+    edgeProperties: number;
+    nodeTypes: number;
+    nodeProperties: number;
+    accessRights: number;
   };
 }
 
