@@ -100,6 +100,7 @@ export interface DeleteSourceDataResponse {
     folders: number;
     groups: number;
     alerts: number;
+    alertFolders: number;
     matches: number;
     graphQueries: number;
     edgeTypes: number;
@@ -107,6 +108,7 @@ export interface DeleteSourceDataResponse {
     nodeTypes: number;
     nodeProperties: number;
     accessRights: number;
+    customActions: number;
   };
 }
 
