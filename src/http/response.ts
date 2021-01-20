@@ -1,7 +1,7 @@
 /**
  * Copyright Linkurious SAS 2012 - 2019
  *
- * - Created on 2019-10-01.
+ * - Created on 2019-10-01
  */
 
 import {GenericObject} from '../api/commonTypes';
