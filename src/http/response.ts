@@ -47,7 +47,8 @@ export enum LkErrorKey {
   SOCKET_ERROR = 'socket_error',
   API_NOT_FOUND = 'api_not_found',
   PLUGIN_NOT_READY = 'plugin_not_ready',
-  PLUGIN_SERVICE_NOT_READY = 'plugin_service_not_ready'
+  PLUGIN_SERVICE_NOT_READY = 'plugin_service_not_ready',
+  INVALID_CONFIGURATION = 'invalid_configuration'
 }
 
 /**
