@@ -14,6 +14,20 @@ export interface UserPreferences {
   incrementalLayout: boolean;
 }
 
+export interface SourceAccessRights {
+  alerts: {
+    read: string[];
+  };
+  nodes: {
+    edit: string[];
+    write: string[];
+  };
+  edges: {
+    edit: string[];
+    write: string[];
+  };
+}
+
 export interface User extends PersistedItem {
   username: string;
   email: string;
@@ -21,15 +35,7 @@ export interface User extends PersistedItem {
   preferences: UserPreferences | IGuestPreferencesConfig;
   groups: GroupName[];
   actions: GenericObject<AnyAction[]>;
-  // TODO access-rights are indexed by dataSource and by nodes, edges, alerts...
-  /**
-   * '*' : {
-   *    alerts: {read: [...]},
-   *    edges: {edit: [], write: []},
-   *    nodes: {edit: [], write: []}
-   * }
-   */
-  accessRights: GenericObject<GenericObject<GenericObject<AccessRight[]>>>;
+  accessRights: GenericObject<SourceAccessRights>;
 }
 
 export interface IGetUserParams {
