@@ -90,7 +90,6 @@ export interface IConnectDataSourceParams {
 
 export interface IDeleteSourceDataParams extends IDataSourceParams {
   mergeInto?: string;
-  mergeReplace?: boolean;
 }
 
 export interface DeleteSourceDataResponse {
@@ -103,11 +102,6 @@ export interface DeleteSourceDataResponse {
     alertFolders: number;
     matches: number;
     graphQueries: number;
-    edgeTypes: number;
-    edgeProperties: number;
-    nodeTypes: number;
-    nodeProperties: number;
-    accessRights: number;
     customActions: number;
   };
 }
@@ -117,7 +111,6 @@ export interface IDeleteSourceConfigParams {
 }
 
 /**
- *
  * A DataSourceAdminInfo can represent:
  * - a disconnected data-source configuration
  * - a disconnected data-source state not configured anymore
