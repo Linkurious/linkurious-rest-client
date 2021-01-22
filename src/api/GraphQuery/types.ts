@@ -66,6 +66,7 @@ export interface EnumTemplate extends TemplateField<TemplateFieldType.ENUM> {
 export interface NodeTemplate extends TemplateField<TemplateFieldType.NODE> {
   options?: {
     categories?: string[];
+    serialize?: string;
   };
 }
 
