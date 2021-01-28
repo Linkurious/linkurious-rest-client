@@ -47,7 +47,7 @@ export class LinkuriousAPI extends Request {
    */
   public sendAnalytics(params: ISendAnalyticsParams) {
     return this.request({
-      url: '/analytics',
+      url: '/tm',
       method: 'POST',
       params: params
     });
