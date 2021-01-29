@@ -1,7 +1,7 @@
 /**
  * Copyright Linkurious SAS 2012 - 2019
  *
- * - Created on 2019-10-01.
+ * - Created on 2019-10-01
  */
 
 import {GenericObject} from '../api/commonTypes';
@@ -47,7 +47,8 @@ export enum LkErrorKey {
   SOCKET_ERROR = 'socket_error',
   API_NOT_FOUND = 'api_not_found',
   PLUGIN_NOT_READY = 'plugin_not_ready',
-  PLUGIN_SERVICE_NOT_READY = 'plugin_service_not_ready'
+  PLUGIN_SERVICE_NOT_READY = 'plugin_service_not_ready',
+  INVALID_CONFIGURATION = 'invalid_configuration'
 }
 
 /**
@@ -205,6 +206,8 @@ export interface PluginNotReadyError extends LkError<LkErrorKey.PLUGIN_NOT_READY
 
 export interface PluginServiceNotReadyError extends LkError<LkErrorKey.PLUGIN_SERVICE_NOT_READY> {}
 
+export interface InvalidConfigurationError extends LkError<LkErrorKey.INVALID_CONFIGURATION> {}
+
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
@@ -237,4 +240,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.API_NOT_FOUND]: ApiNotFoundError;
   [LkErrorKey.PLUGIN_NOT_READY]: PluginNotReadyError;
   [LkErrorKey.PLUGIN_SERVICE_NOT_READY]: PluginServiceNotReadyError;
+  [LkErrorKey.INVALID_CONFIGURATION]: InvalidConfigurationError;
 };
