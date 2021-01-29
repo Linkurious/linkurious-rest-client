@@ -7,6 +7,7 @@
 import {GenericObject, IDataSourceParams, IGetSubGraphParams} from '../commonTypes';
 import {LkSubGraph} from '../graphItemTypes';
 
+
 export enum TemplateFieldType {
   NUMBER = 'number',
   STRING = 'string',
