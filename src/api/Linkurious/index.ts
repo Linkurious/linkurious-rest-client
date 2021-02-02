@@ -30,6 +30,7 @@ export class LinkuriousAPI extends Request {
       url: '/status',
       method: 'GET'
     });
+
   }
 
   /**
