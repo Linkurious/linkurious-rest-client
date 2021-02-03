@@ -27,7 +27,10 @@ import {
   AlertFolder,
   CaseAction,
   Case,
-  GetCasesResponse
+  GetCasesResponse,
+  IDeleteCaseCommentParams,
+  IGetCaseActionsResponse,
+  IUpdateCaseCommentParams
 } from './types';
 
 export * from './types';
@@ -183,9 +186,10 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Get all the actions of a case ordered by creation date.
+   * Get all the actions of a case ordered by creation date. Recent ones first.
+   * The offset defaults to 0 and the limit defaults to 10.
    */
-  public getCaseActions(this: Request<CaseAction[]>, params: IGetCaseActionsParams) {
+  public getCaseActions(this: Request<IGetCaseActionsResponse>, params: IGetCaseActionsParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/:caseId/actions',
@@ -195,9 +199,33 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Do an action (open, dismiss, confirm, unconfirm) on a case.
+   * Update a comment on a case if the user that triggered the update is the author.
    */
-  public doCaseAction(params: IDoCaseActionParams) {
+  public editCaseComment(this: Request<CaseAction>, params: IUpdateCaseCommentParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alert/case/comment/:commentId',
+      method: 'PATCH',
+      params: params
+    });
+  }
+
+  /**
+   * Delete a comment on a case if the user that triggered the deletion is the author.
+   */
+  public deleteCaseComment(params: IDeleteCaseCommentParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alert/case/comment/:commentId',
+      method: 'DELETE',
+      params: params
+    });
+  }
+
+  /**
+   * Do an action (open, dismiss, confirm, unconfirm, comment) on a case.
+   */
+  public doCaseAction(this: Request<CaseAction>, params: IDoCaseActionParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/:caseId/action',

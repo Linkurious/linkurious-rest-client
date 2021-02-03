@@ -147,25 +147,45 @@ export interface IGetCasesParams extends IDataSourceParams {
 export interface IGetCaseActionsParams extends IDataSourceParams {
   alertId: number;
   caseId: number;
+  offset?: number;
+  limit?: number;
+  action?: CaseActionType[];
+}
+
+export interface IUpdateCaseCommentParams extends IDataSourceParams {
+  comment: string;
+  commentId: number;
+}
+
+export interface IDeleteCaseCommentParams extends IDataSourceParams {
+  commentId: number;
+}
+
+export interface IGetCaseActionsResponse {
+  total: number;
+  matchActions: CaseAction[];
 }
 
 export enum CaseActionType {
   CONFIRM = 'confirm',
   DISMISS = 'dismiss',
   UNCONFIRM = 'unconfirm',
-  OPEN = 'open'
+  OPEN = 'open',
+  COMMENT = 'comment'
 }
 
 export interface CaseAction extends PersistedItem {
   caseId: number;
   user: Pick<User, 'id' | 'username' | 'email'>;
   action: CaseActionType;
+  comment?: string;
 }
 
 export interface IDoCaseActionParams extends IDataSourceParams {
   alertId: number;
   caseId: number;
   action: CaseActionType;
+  comment?: string;
 }
 
 export interface IAlertPreviewParams extends IDataSourceParams {
