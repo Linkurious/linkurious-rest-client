@@ -163,7 +163,7 @@ export interface IDeleteCaseCommentParams extends IDataSourceParams {
 
 export interface IGetCaseActionsResponse {
   total: number;
-  matchActions: CaseAction[];
+  caseActions: CaseAction[];
 }
 
 export enum CaseActionType {
