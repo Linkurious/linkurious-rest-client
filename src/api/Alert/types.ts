@@ -32,8 +32,6 @@ export interface ICaseVisualization {
   design: IVisualizationDesign;
   filters: IVisualizationFilters;
   edgeGrouping: GenericObject<boolean>;
-  sourceKey: string;
-  sandbox: boolean;
   alternativeIds: IAlternativeIdSettings;
   mode: VisualizationMode;
   layout: VisualizationLayout;
