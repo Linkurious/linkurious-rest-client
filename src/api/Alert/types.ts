@@ -24,7 +24,7 @@ export enum AlertColumnType {
   NUMBER = 'number'
 }
 
-export interface ICaseVisualizationParams {
+export interface ICaseVisualization {
   nodes: IVizNodeInfo[];
   edges: IVizEdgeInfo[];
   nodeFields: IItemFields;
@@ -40,10 +40,11 @@ export interface ICaseVisualizationParams {
   geo: IVisualizationGeo;
   timeline: IVisualizationTimeline;
 }
+
 export interface IUpdateCaseParams extends IDataSourceParams {
   alertId: number;
   caseId: number;
-  visualization: ICaseVisualizationParams;
+  visualization: ICaseVisualization;
 }
 
 export interface ICreateAlertParams extends IDataSourceParams {
@@ -142,6 +143,7 @@ export interface Case extends PersistedItem {
   nodes: string[];
   edges: string[];
   columns: (string | number | null)[]; // An empty column field is filled with null
+  visualization?: ICaseVisualization
 }
 
 export interface GetCasesResponse {

@@ -30,7 +30,8 @@ import {
   GetCasesResponse,
   IDeleteCaseCommentParams,
   IGetCaseActionsResponse,
-  IUpdateCaseCommentParams
+  IUpdateCaseCommentParams,
+  IUpdateCaseParams
 } from './types';
 
 export * from './types';
@@ -169,6 +170,18 @@ export class AlertAPI extends Request {
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/:caseId',
       method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Update a case.
+   */
+  public updateCase(this: Request<Case>, params: IUpdateCaseParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/cases/:caseId',
+      method: 'PATCH',
       params: params
     });
   }
