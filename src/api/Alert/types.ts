@@ -4,14 +4,44 @@
  * - Created on 2019-10-30.
  */
 
-import {IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
+import { GenericObject, IDataSourceParams, PersistedItem, Tree } from '../commonTypes';
+import { IAlternativeIdSettings } from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
-import {LkEdge, LkNode} from '../graphItemTypes';
+import { IVizEdgeInfo, IVizNodeInfo, LkEdge, LkNode } from '../graphItemTypes';
 import {User} from '../User';
+import {
+  IItemFields,
+  IVisualizationDesign,
+  IVisualizationFilters, IVisualizationGeo, IVisualizationTimeline,
+  VisualizationLayout,
+  VisualizationMode
+} from '../Visualization';
 
 export enum AlertColumnType {
   STRING = 'string',
   NUMBER = 'number'
+}
+
+export interface ICaseVisualizationParams {
+  nodes: IVizNodeInfo[];
+  edges: IVizEdgeInfo[];
+  nodeFields: IItemFields;
+  edgeFields: IItemFields;
+  design: IVisualizationDesign;
+  filters: IVisualizationFilters;
+  edgeGrouping: GenericObject<boolean>;
+  sourceKey: string;
+  sandbox: boolean;
+  alternativeIds: IAlternativeIdSettings;
+  mode: VisualizationMode;
+  layout: VisualizationLayout;
+  geo: IVisualizationGeo;
+  timeline: IVisualizationTimeline;
+}
+export interface IUpdateCaseParams extends IDataSourceParams {
+  alertId: number;
+  caseId: number;
+  visualization: ICaseVisualizationParams
 }
 
 export interface ICreateAlertParams extends IDataSourceParams {
