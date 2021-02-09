@@ -198,9 +198,9 @@ export interface GraphQuery {
   dialect: GraphQueryDialect;
   description: string;
   sharing: GraphQuerySharingMode;
-  owner?:{
-    id: number,
-    name: string
+  owner?: {
+    id: number;
+    name: string;
   };
   sharedWithGroups?: number[]; // defined only if sharing='groups'
   write: boolean;
