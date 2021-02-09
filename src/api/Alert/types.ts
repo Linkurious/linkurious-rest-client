@@ -4,15 +4,17 @@
  * - Created on 2019-10-30.
  */
 
-import { GenericObject, IDataSourceParams, PersistedItem, Tree } from '../commonTypes';
-import { IAlternativeIdSettings } from '../DataSource';
+import {GenericObject, IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
+import {IAlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
-import { IVizEdgeInfo, IVizNodeInfo, LkEdge, LkNode } from '../graphItemTypes';
+import {IVizEdgeInfo, IVizNodeInfo, LkEdge, LkNode} from '../graphItemTypes';
 import {User} from '../User';
 import {
   IItemFields,
   IVisualizationDesign,
-  IVisualizationFilters, IVisualizationGeo, IVisualizationTimeline,
+  IVisualizationFilters,
+  IVisualizationGeo,
+  IVisualizationTimeline,
   VisualizationLayout,
   VisualizationMode
 } from '../Visualization';
@@ -41,7 +43,7 @@ export interface ICaseVisualizationParams {
 export interface IUpdateCaseParams extends IDataSourceParams {
   alertId: number;
   caseId: number;
-  visualization: ICaseVisualizationParams
+  visualization: ICaseVisualizationParams;
 }
 
 export interface ICreateAlertParams extends IDataSourceParams {
