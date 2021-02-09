@@ -7,7 +7,7 @@
 import {GenericObject, IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
 import {IAlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
-import {IVizEdgeInfo, IVizNodeInfo, LkEdge, LkNode} from '../graphItemTypes';
+import { IVizEdgeInfo, IVizNodeInfo, LkEdge, LkNode, VizEdge, VizNode } from '../graphItemTypes';
 import {User} from '../User';
 import {
   IItemFields,
@@ -22,6 +22,11 @@ import {
 export enum AlertColumnType {
   STRING = 'string',
   NUMBER = 'number'
+}
+
+export interface IPopulatedCaseVisualization extends ICaseVisualization {
+  nodes: VizNode[],
+  edges: VizEdge[]
 }
 
 export interface ICaseVisualization {
