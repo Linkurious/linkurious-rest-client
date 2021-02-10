@@ -136,6 +136,10 @@ export enum CaseStatus {
   DISMISSED = 'dismissed'
 }
 
+export interface PopulatedCase extends Case {
+  visualization: IPopulatedCaseVisualization;
+}
+
 export interface Case extends PersistedItem {
   sourceKey: string;
   alertId: number;
@@ -152,7 +156,6 @@ export interface Case extends PersistedItem {
   nodes: string[];
   edges: string[];
   columns: (string | number | null)[]; // An empty column field is filled with null
-  visualization: ICaseVisualization;
 }
 
 export interface GetCasesResponse {
