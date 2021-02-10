@@ -36,12 +36,12 @@ export interface ICaseVisualization {
   edgeFields: IItemFields;
   design: IVisualizationDesign;
   filters: IVisualizationFilters;
-  edgeGrouping: GenericObject<boolean>;
+  edgeGrouping?: GenericObject<boolean>;
   alternativeIds: IAlternativeIdSettings;
   mode: VisualizationMode;
   layout: VisualizationLayout;
   geo: IVisualizationGeo;
-  timeline: IVisualizationTimeline;
+  timeline?: IVisualizationTimeline;
 }
 
 export interface IUpdateCaseParams extends IDataSourceParams {
