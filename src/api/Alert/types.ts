@@ -4,7 +4,13 @@
  * - Created on 2019-10-30.
  */
 
-import {GenericObject, IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
+import {
+  GenericObject,
+  IDataSourceParams,
+  IGetSubGraphParams,
+  PersistedItem,
+  Tree
+} from '../commonTypes';
 import {IAlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
 import {IVizEdgeInfo, IVizNodeInfo, LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
@@ -119,7 +125,7 @@ export interface IGetAlertParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IGetCaseParams extends IDataSourceParams {
+export interface IGetCaseParams extends IGetSubGraphParams {
   alertId: number;
   caseId: number;
 }
@@ -146,7 +152,7 @@ export interface Case extends PersistedItem {
   nodes: string[];
   edges: string[];
   columns: (string | number | null)[]; // An empty column field is filled with null
-  visualization?: ICaseVisualization;
+  visualization: ICaseVisualization;
 }
 
 export interface GetCasesResponse {
