@@ -177,7 +177,7 @@ export class AlertAPI extends Request {
   /**
    * Update a case.
    */
-  public updateCase(this: Request<Case>, params: IUpdateCaseParams) {
+  public updateCase(params: IUpdateCaseParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/:caseId',
