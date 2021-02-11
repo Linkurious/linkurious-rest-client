@@ -4,14 +4,56 @@
  * - Created on 2019-10-30.
  */
 
-import {IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
+import {
+  GenericObject,
+  IDataSourceParams,
+  IGetSubGraphParams,
+  PersistedItem,
+  Tree
+} from '../commonTypes';
+import {IAlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
-import {LkEdge, LkNode} from '../graphItemTypes';
+import {IVizEdgeInfo, IVizNodeInfo, LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
 import {User} from '../User';
+import {
+  IItemFields,
+  IVisualizationDesign,
+  IVisualizationFilters,
+  IVisualizationGeo,
+  IVisualizationTimeline,
+  VisualizationLayout,
+  VisualizationMode
+} from '../Visualization';
 
 export enum AlertColumnType {
   STRING = 'string',
   NUMBER = 'number'
+}
+
+export interface IPopulatedCaseVisualization extends ICaseVisualization {
+  nodes: VizNode[];
+  edges: VizEdge[];
+}
+
+export interface ICaseVisualization {
+  nodes: IVizNodeInfo[];
+  edges: IVizEdgeInfo[];
+  nodeFields: IItemFields;
+  edgeFields: IItemFields;
+  design: IVisualizationDesign;
+  filters: IVisualizationFilters;
+  edgeGrouping?: GenericObject<boolean>;
+  alternativeIds: IAlternativeIdSettings;
+  mode: VisualizationMode;
+  layout: VisualizationLayout;
+  geo: IVisualizationGeo;
+  timeline?: IVisualizationTimeline;
+}
+
+export interface IUpdateCaseParams extends IDataSourceParams {
+  alertId: number;
+  caseId: number;
+  visualization: ICaseVisualization;
 }
 
 export interface ICreateAlertParams extends IDataSourceParams {
@@ -83,7 +125,7 @@ export interface IGetAlertParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IGetCaseParams extends IDataSourceParams {
+export interface IGetCaseParams extends IGetSubGraphParams {
   alertId: number;
   caseId: number;
 }
@@ -92,6 +134,10 @@ export enum CaseStatus {
   UNCONFIRMED = 'unconfirmed',
   CONFIRMED = 'confirmed',
   DISMISSED = 'dismissed'
+}
+
+export interface PopulatedCase extends Case {
+  visualization: IPopulatedCaseVisualization;
 }
 
 export interface Case extends PersistedItem {

@@ -26,11 +26,12 @@ import {
   Alert,
   AlertFolder,
   CaseAction,
-  Case,
   GetCasesResponse,
   IDeleteCaseCommentParams,
   IGetCaseActionsResponse,
-  IUpdateCaseCommentParams
+  IUpdateCaseCommentParams,
+  IUpdateCaseParams,
+  PopulatedCase
 } from './types';
 
 export * from './types';
@@ -164,11 +165,23 @@ export class AlertAPI extends Request {
   /**
    * Get a case by id.
    */
-  public getCase(this: Request<Case>, params: IGetCaseParams) {
+  public getCase(this: Request<PopulatedCase>, params: IGetCaseParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/:caseId',
       method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Update a case.
+   */
+  public updateCase(params: IUpdateCaseParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/cases/:caseId',
+      method: 'PATCH',
       params: params
     });
   }
