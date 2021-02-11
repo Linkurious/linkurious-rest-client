@@ -66,12 +66,14 @@ export interface EnumTemplate extends TemplateField<TemplateFieldType.ENUM> {
 export interface NodeTemplate extends TemplateField<TemplateFieldType.NODE> {
   options?: {
     categories?: string[];
+    serialize?: string;
   };
 }
 
 export interface NodesetTemplate extends TemplateField<TemplateFieldType.NODE_SET> {
   options?: {
     categories?: string[];
+    serialize?: string;
   };
 }
 
