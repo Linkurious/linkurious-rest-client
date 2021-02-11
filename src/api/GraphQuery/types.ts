@@ -199,8 +199,8 @@ export interface GraphQuery {
   description: string;
   sharing: GraphQuerySharingMode;
   owner?: {
-    id: number;
     name: string;
+    email: string;
   };
   sharedWithGroups?: number[]; // defined only if sharing='groups'
   write: boolean;
