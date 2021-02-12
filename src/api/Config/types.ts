@@ -249,7 +249,6 @@ export interface IAdvancedConfig {
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
   defaultTimeZone: string;
-  timeline: boolean;
   connectionRetries?: number;
   pollInterval?: number;
   indexationChunkSize?: number;
