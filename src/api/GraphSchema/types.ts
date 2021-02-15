@@ -140,7 +140,7 @@ export interface GraphSchemaType {
   itemType: string;
   properties: GraphSchemaProperty[];
   visibility: DataVisibility;
-  indexed: boolean;
+  indexed: boolean | null;
 }
 
 export interface IGetTypesParams extends IDataSourceParams {
