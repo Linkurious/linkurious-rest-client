@@ -134,7 +134,6 @@ export interface GraphSchemaProperty {
 
 export interface GraphSchemaPropertyWithAccess extends GraphSchemaProperty {
   access: PropertyAccessRightType;
-  
 }
 
 export interface GraphSchemaType {
