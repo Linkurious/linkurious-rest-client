@@ -37,6 +37,8 @@ export interface DataSourceFeatures {
   alerts: boolean;
   canDryRun: boolean;
   supportNativeDate: boolean;
+  searchEnabled: boolean;
+  isConsistent: boolean;
 }
 
 export interface DataSourceSettings {
