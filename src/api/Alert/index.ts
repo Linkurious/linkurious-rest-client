@@ -9,26 +9,26 @@ import {LkErrorKey} from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
 
 import {
+  Alert,
+  AlertFolder,
+  AlertPreview,
   AlertTree,
+  CaseAction,
+  GetCasesResponse,
+  IAlertPreviewParams,
   ICreateAlertFolderParams,
   ICreateAlertParams,
   IDeleteAlertFolderParams,
   IDeleteAlertParams,
+  IDeleteCaseCommentParams,
   IDoCaseActionParams,
   IGetAlertParams,
   IGetCaseActionsParams,
-  IGetCasesParams,
+  IGetCaseActionsResponse,
   IGetCaseParams,
+  IGetCasesParams,
   IUpdateAlertFolderParams,
   IUpdateAlertParams,
-  AlertPreview,
-  IAlertPreviewParams,
-  Alert,
-  AlertFolder,
-  CaseAction,
-  GetCasesResponse,
-  IDeleteCaseCommentParams,
-  IGetCaseActionsResponse,
   IUpdateCaseCommentParams,
   IUpdateCaseParams,
   PopulatedCase
@@ -37,6 +37,7 @@ import {
 export * from './types';
 
 const {
+  INVALID_PARAMETER,
   FEATURE_DISABLED,
   UNAUTHORIZED,
   DATA_SOURCE_UNAVAILABLE,
@@ -254,6 +255,7 @@ export class AlertAPI extends Request {
   public alertPreview(this: Request<AlertPreview>, params: IAlertPreviewParams) {
     return this.request({
       errors: [
+        INVALID_PARAMETER,
         FEATURE_DISABLED,
         UNAUTHORIZED,
         DATA_SOURCE_UNAVAILABLE,
