@@ -143,6 +143,7 @@ export interface GraphSchemaType {
   properties: GraphSchemaProperty[];
   visibility: DataVisibility;
   // indexed can be null in case a user updates from 2.10.4 or earlier versions
+
   indexed?: boolean;
 }
 
