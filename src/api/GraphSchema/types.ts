@@ -164,5 +164,6 @@ export interface GraphSchemaWithAccess extends GraphSchema {
   any: {
     access: ItemTypeAccessRightType;
   };
+
   results: GraphSchemaTypeWithAccess[];
 }
