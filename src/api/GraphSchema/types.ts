@@ -9,7 +9,7 @@ import {ItemTypeAccessRightType, PropertyAccessRightType} from '../AccessRight';
 
 export interface IStartSchemaSamplingParams extends IDataSourceParams {
   reset?: boolean;
-  defaultVisibility: DataVisibility;
+  defaultVisibility?: DataVisibility;
 }
 
 export enum SamplingStatus {
@@ -130,7 +130,8 @@ export interface GraphSchemaProperty {
   required: boolean;
   visibility: DataVisibility;
   propertyType: PropertyType;
-  indexed: boolean | null;
+  // indexed can be null in case a user updates from 2.10.4 or earlier versions
+  indexed?: boolean;
 }
 
 export interface GraphSchemaPropertyWithAccess extends GraphSchemaProperty {
@@ -141,7 +142,8 @@ export interface GraphSchemaType {
   itemType: string;
   properties: GraphSchemaProperty[];
   visibility: DataVisibility;
-  indexed: boolean | null;
+  // indexed can be null in case a user updates from 2.10.4 or earlier versions
+  indexed?: boolean;
 }
 
 export interface IGetTypesParams extends IDataSourceParams {
