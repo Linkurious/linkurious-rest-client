@@ -131,7 +131,7 @@ export interface GraphSchemaProperty {
   visibility: DataVisibility;
   propertyType: PropertyType;
   // indexed can be null in case a user updates from 2.10.4 or earlier versions
-  indexed?: boolean;
+  indexed?: boolean | null;
 }
 
 export interface GraphSchemaPropertyWithAccess extends GraphSchemaProperty {
@@ -143,7 +143,7 @@ export interface GraphSchemaType {
   properties: GraphSchemaProperty[];
   visibility: DataVisibility;
   // indexed can be null in case a user updates from 2.10.4 or earlier versions
-  indexed?: boolean;
+  indexed?: boolean | null;
 }
 
 export interface IGetTypesParams extends IDataSourceParams {
