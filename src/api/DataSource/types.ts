@@ -24,11 +24,10 @@ export enum DataSourceState {
   CONNECTING = 'connecting'
 }
 
-export enum IndexState {
-  SEARCH_DISABLED = 'searchDisabled',
-  SEARCH_ENABLED = 'searchEnabled',
-  INDEX_INCONSISTENT = 'indexInconsistent',
-  INDEX_NOT_OPTIMIZED = 'indexNotOptimized'
+export interface IndexState {
+  searchEnabled: boolean;
+  indexConsistent: boolean;
+  indexOptimized: boolean;
 }
 
 export interface DataSourceFeatures {
