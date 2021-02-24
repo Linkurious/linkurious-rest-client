@@ -9,28 +9,29 @@ import {LkErrorKey} from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
 
 import {
-  Alert,
-  AlertFolder,
-  AlertPreview,
   AlertTree,
-  GetMatchesResponse,
-  IAlertPreviewParams,
   ICreateAlertFolderParams,
   ICreateAlertParams,
   IDeleteAlertFolderParams,
   IDeleteAlertParams,
-  IDeleteMatchCommentParams,
-  IDoMatchActionParams,
+  IDoCaseActionParams,
   IGetAlertParams,
-  IGetMatchActionsParams,
-  IGetMatchActionsResponse,
-  IGetMatchesParams,
-  IGetMatchParams,
+  IGetCaseActionsParams,
+  IGetCasesParams,
+  IGetCaseParams,
   IUpdateAlertFolderParams,
   IUpdateAlertParams,
-  IUpdateMatchCommentParams,
-  Match,
-  MatchAction
+  AlertPreview,
+  IAlertPreviewParams,
+  Alert,
+  AlertFolder,
+  CaseAction,
+  GetCasesResponse,
+  IDeleteCaseCommentParams,
+  IGetCaseActionsResponse,
+  IUpdateCaseCommentParams,
+  IUpdateCaseParams,
+  PopulatedCase
 } from './types';
 
 export * from './types';
@@ -50,7 +51,7 @@ const {
 
 export class AlertAPI extends Request {
   /**
-   * Create a new alert. If `matchTTL` is set to 0, unconfirmed matches
+   * Create a new alert. If `caseTTL` is set to 0, unconfirmed cases
    * will disappear when they stop matching the alert query.
    */
   public createAlert(this: Request<Alert>, params: ICreateAlertParams) {
@@ -64,7 +65,7 @@ export class AlertAPI extends Request {
 
   /**
    * Update the alert selected by id.
-   * Updating an alert query will results in all the previous detected matches deleted.
+   * Updating an alert query will results in all the previous detected cases deleted.
    */
   public updateAlert(this: Request<Alert>, params: IUpdateAlertParams) {
     return this.request({
@@ -76,7 +77,7 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Delete the alert by id and all its matches.
+   * Delete the alert by id and all its cases.
    */
   public deleteAlert(params: IDeleteAlertParams) {
     return this.request({
@@ -162,73 +163,85 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Get a match by id.
+   * Get a case by id.
    */
-  public getMatch(this: Request<Match>, params: IGetMatchParams) {
+  public getCase(this: Request<PopulatedCase>, params: IGetCaseParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/:alertId/matches/:matchId',
+      url: '/:sourceKey/alerts/:alertId/cases/:caseId',
       method: 'GET',
       params: params
     });
   }
 
   /**
-   * Get all the matches of an alert.
+   * Update a case.
    */
-  public getMatches(this: Request<GetMatchesResponse>, params: IGetMatchesParams) {
+  public updateCase(params: IUpdateCaseParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/:alertId/matches',
-      method: 'GET',
-      params: params
-    });
-  }
-
-  /**
-   * Get all the actions of a match ordered by creation date. Recent ones first.
-   * The offset defaults to 0 and the limit defaults to 10.
-   */
-  public getMatchActions(this: Request<IGetMatchActionsResponse>, params: IGetMatchActionsParams) {
-    return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/:alertId/matches/:matchId/actions',
-      method: 'GET',
-      params: params
-    });
-  }
-
-  /**
-   * Update a comment on a match if the user that triggered the update is the author.
-   */
-  public editMatchComment(this: Request<MatchAction>, params: IUpdateMatchCommentParams) {
-    return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alert/match/comment/:commentId',
+      url: '/:sourceKey/alerts/:alertId/cases/:caseId',
       method: 'PATCH',
       params: params
     });
   }
 
   /**
-   * Delete a comment on a match if the user that triggered the deletion is the author.
+   * Get all the cases of an alert.
    */
-  public deleteMatchComment(params: IDeleteMatchCommentParams) {
+  public getCases(this: Request<GetCasesResponse>, params: IGetCasesParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alert/match/comment/:commentId',
+      url: '/:sourceKey/alerts/:alertId/cases',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get all the actions of a case ordered by creation date. Recent ones first.
+   * The offset defaults to 0 and the limit defaults to 10.
+   */
+  public getCaseActions(this: Request<IGetCaseActionsResponse>, params: IGetCaseActionsParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/cases/:caseId/actions',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Update a comment on a case if the user that triggered the update is the author.
+   */
+  public editCaseComment(this: Request<CaseAction>, params: IUpdateCaseCommentParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alert/case/comment/:commentId',
+      method: 'PATCH',
+      params: params
+    });
+  }
+
+  /**
+   * Delete a comment on a case if the user that triggered the deletion is the author.
+   */
+  public deleteCaseComment(params: IDeleteCaseCommentParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alert/case/comment/:commentId',
       method: 'DELETE',
       params: params
     });
   }
 
   /**
-   * Do an action (open, dismiss, confirm, unconfirm, comment) on a match.
+   * Do an action (open, dismiss, confirm, unconfirm, comment) on a case.
    */
-  public doMatchAction(this: Request<MatchAction>, params: IDoMatchActionParams) {
+  public doCaseAction(this: Request<CaseAction>, params: IDoCaseActionParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/:alertId/matches/:matchId/action',
+      url: '/:sourceKey/alerts/:alertId/cases/:caseId/action',
       method: 'POST',
       params: params
     });
