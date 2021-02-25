@@ -91,7 +91,7 @@ export interface Alert extends PersistedItem {
     partial: boolean;
   };
   nextRun?: string; // defined if enabled=true
-  target: string | null; // null when the alert was created before CM
+  target: string; // we assume alerts always have target
 }
 
 export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
