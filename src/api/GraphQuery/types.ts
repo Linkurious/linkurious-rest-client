@@ -66,12 +66,14 @@ export interface EnumTemplate extends TemplateField<TemplateFieldType.ENUM> {
 export interface NodeTemplate extends TemplateField<TemplateFieldType.NODE> {
   options?: {
     categories?: string[];
+    serialize?: string;
   };
 }
 
 export interface NodesetTemplate extends TemplateField<TemplateFieldType.NODE_SET> {
   options?: {
     categories?: string[];
+    serialize?: string;
   };
 }
 
@@ -198,6 +200,10 @@ export interface GraphQuery {
   dialect: GraphQueryDialect;
   description: string;
   sharing: GraphQuerySharingMode;
+  owner?: {
+    name: string;
+    email: string;
+  };
   sharedWithGroups?: number[]; // defined only if sharing='groups'
   write: boolean;
   graphInput?: GraphQueryInputType; // defined only if type='template'
