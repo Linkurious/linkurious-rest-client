@@ -70,7 +70,13 @@ export class SearchAPI extends Request {
    */
   public search(this: Request<SearchResponse>, params: ISearchParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, MALFORMED_SEARCH_SYNTAX, MISSING_SEARCH_ENTITIES],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        GUEST_DISABLED,
+        MALFORMED_SEARCH_SYNTAX,
+        MISSING_SEARCH_ENTITIES
+      ],
       url: '/:sourceKey/search/:type',
       method: 'POST',
       params: params
