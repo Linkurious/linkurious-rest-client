@@ -1,4 +1,4 @@
-@Library('linkurious-shared@feature/JSL-50')_
+@Library('linkurious-shared')_
 
 lkeSubReleaseJob {
   // General
