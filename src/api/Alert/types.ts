@@ -215,7 +215,6 @@ export interface IGetCaseActionsResponse {
 export enum CaseActionType {
   CONFIRM = 'confirm',
   DISMISS = 'dismiss',
-  UNCONFIRM = 'unconfirm',
   OPEN = 'open',
   COMMENT = 'comment'
 }
