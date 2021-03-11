@@ -1,0 +1,6 @@
+@Library('linkurious-shared@feature/JSL-50')_
+
+lkeSubReleaseJob {
+  // General
+  projectName = "linkurious/rest-client"
+}
