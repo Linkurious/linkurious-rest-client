@@ -24,6 +24,12 @@ export enum DataSourceState {
   CONNECTING = 'connecting'
 }
 
+export interface IndexState {
+  searchEnabled: boolean;
+  // indexConsistent: boolean;
+  // indexOptimized: boolean;
+}
+
 export interface DataSourceFeatures {
   immutableNodeCategories: boolean;
   canCountBeforeIndexation: boolean;
@@ -72,6 +78,7 @@ export interface DataSourceUserInfo {
   defaultStyles?: IDataSourceDefaultStyles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
   defaultCaptions?: ICaptions;
   settings: DataSourceSettings | ConnectedDataSourceSettings;
+  indexState: IndexState;
 }
 
 export interface ISetDefaultSourceStylesParams extends IDataSourceParams {
