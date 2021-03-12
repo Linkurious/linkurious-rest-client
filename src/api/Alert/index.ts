@@ -47,7 +47,9 @@ const {
   GRAPH_REQUEST_TIMEOUT,
   CONSTRAINT_VIOLATION,
   FOLDER_DELETION_FAILED,
-  ALREADY_EXISTS
+  ALREADY_EXISTS,
+  INVALID_ALERT_QUERY,
+  INVALID_ALERT_TARGET
 } = LkErrorKey;
 
 export class AlertAPI extends Request {
@@ -262,7 +264,9 @@ export class AlertAPI extends Request {
         FORBIDDEN,
         BAD_GRAPH_REQUEST,
         GRAPH_REQUEST_TIMEOUT,
-        CONSTRAINT_VIOLATION
+        CONSTRAINT_VIOLATION,
+        INVALID_ALERT_QUERY,
+        INVALID_ALERT_TARGET
       ],
       url: '/:sourceKey/graph/alertPreview',
       method: 'POST',
