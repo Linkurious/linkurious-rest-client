@@ -78,7 +78,6 @@ export interface DataSourceUserInfo {
   defaultStyles?: IDataSourceDefaultStyles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
   defaultCaptions?: ICaptions;
   settings: DataSourceSettings | ConnectedDataSourceSettings;
-  
   indexState?: IndexState;
 }
 
