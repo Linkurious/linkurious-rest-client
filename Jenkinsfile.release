@@ -1,12 +1,6 @@
 @Library('linkurious-shared')_
 
-nodeJob {
+lkeSubReleaseJob {
   // General
   projectName = "linkurious/rest-client"
-
-  runBookeeping = true
-
-  createGitTag = true
-
-  runNpmPublish = true
 }
