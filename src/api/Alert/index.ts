@@ -37,6 +37,7 @@ import {
 export * from './types';
 
 const {
+  INVALID_PARAMETER,
   FEATURE_DISABLED,
   UNAUTHORIZED,
   DATA_SOURCE_UNAVAILABLE,
@@ -46,7 +47,9 @@ const {
   GRAPH_REQUEST_TIMEOUT,
   CONSTRAINT_VIOLATION,
   FOLDER_DELETION_FAILED,
-  ALREADY_EXISTS
+  ALREADY_EXISTS,
+  INVALID_ALERT_QUERY,
+  INVALID_ALERT_TARGET
 } = LkErrorKey;
 
 export class AlertAPI extends Request {
@@ -254,13 +257,16 @@ export class AlertAPI extends Request {
   public alertPreview(this: Request<AlertPreview>, params: IAlertPreviewParams) {
     return this.request({
       errors: [
+        INVALID_PARAMETER,
         FEATURE_DISABLED,
         UNAUTHORIZED,
         DATA_SOURCE_UNAVAILABLE,
         FORBIDDEN,
         BAD_GRAPH_REQUEST,
         GRAPH_REQUEST_TIMEOUT,
-        CONSTRAINT_VIOLATION
+        CONSTRAINT_VIOLATION,
+        INVALID_ALERT_QUERY,
+        INVALID_ALERT_TARGET
       ],
       url: '/:sourceKey/graph/alertPreview',
       method: 'POST',

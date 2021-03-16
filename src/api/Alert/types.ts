@@ -68,6 +68,7 @@ export interface ICreateAlertParams extends IDataSourceParams {
     columnTitle: string;
   }>;
   cron: string;
+  target: string;
 }
 
 export interface Alert extends PersistedItem {
@@ -90,6 +91,7 @@ export interface Alert extends PersistedItem {
     partial: boolean;
   };
   nextRun?: string; // defined if enabled=true
+  target: string; // we assume alerts always have target
 }
 
 export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
@@ -240,6 +242,7 @@ export interface IAlertPreviewParams extends IDataSourceParams {
   columns?: Array<{columnName: string; columnTitle?: string; type: AlertColumnType}>;
   limit?: number;
   timeout?: number;
+  target: string;
 }
 
 export type AlertPreview = Array<{
