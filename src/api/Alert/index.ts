@@ -239,7 +239,7 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Do an action (open, dismiss, confirm, unconfirm, comment) on a case.
+   * Do an action (open, dismiss, confirm, comment) on a case.
    */
   public doCaseAction(this: Request<CaseAction>, params: IDoCaseActionParams) {
     return this.request({
