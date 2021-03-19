@@ -130,7 +130,6 @@ export interface GraphSchemaProperty {
   required: boolean;
   visibility: DataVisibility;
   propertyType: PropertyType;
-  indexed: boolean;
 }
 
 export interface GraphSchemaPropertyWithAccess extends GraphSchemaProperty {
@@ -141,7 +140,6 @@ export interface GraphSchemaType {
   itemType: string;
   properties: GraphSchemaProperty[];
   visibility: DataVisibility;
-  indexed: boolean;
 }
 
 export interface IGetTypesParams extends IDataSourceParams {
