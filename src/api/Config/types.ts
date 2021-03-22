@@ -104,8 +104,6 @@ export interface IUserPreferencesConfig {
   incrementalLayout: boolean;
 }
 
-export type UILayout = 'regular' | 'simple' | 'none';
-
 export interface IGuestPreferencesConfig {
   locale: string;
   uiWorkspaceSearch: boolean;
@@ -115,6 +113,8 @@ export interface IGuestPreferencesConfig {
   uiEdgeGrouping: boolean;
   uiFilter: boolean;
 }
+
+export type UILayout = 'regular' | 'simple' | 'none';
 
 export type SelectedDataSourceConfig =
   | IDataSourceConfig<INeo4jConfig, INeo4jSearchConfig>
