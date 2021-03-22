@@ -82,10 +82,14 @@ export interface IHttpServerConfig {
   certificateKeyFile?: string;
   certificatePassphrase?: string;
   tlsCipherList?: string;
-  customHTTPHeaders: GenericObject;
+  customHTTPHeaders?: GenericObject;
 }
 
-export type AuditTrailMode = 'r' | 'w' | 'rw';
+export enum AuditTrailMode {
+  READ = 'r',
+  WRITE = 'w',
+  READ_WRITE = 'rw'
+}
 
 export interface IAuditTrailConfig {
   enabled?: boolean;
@@ -114,7 +118,11 @@ export interface IGuestPreferencesConfig {
   uiFilter: boolean;
 }
 
-export type UILayout = 'regular' | 'simple' | 'none';
+export enum UILayout {
+  REGULAR = 'regular',
+  SIMPLE = 'simple',
+  NONE = 'none'
+}
 
 export type SelectedDataSourceConfig =
   | IDataSourceConfig<INeo4jConfig, INeo4jSearchConfig>
