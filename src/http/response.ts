@@ -250,3 +250,4 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.INVALID_CONFIGURATION]: InvalidConfigurationError;
   [LkErrorKey.SEARCH_DISABLED]: SearchDisabledError;
 };
+
