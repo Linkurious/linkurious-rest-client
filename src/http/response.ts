@@ -212,7 +212,7 @@ export interface PluginServiceNotReadyError extends LkError<LkErrorKey.PLUGIN_SE
 
 export interface InvalidConfigurationError extends LkError<LkErrorKey.INVALID_CONFIGURATION> {}
 
-export interface SearchDisabledError extends LkError<LkErrorKey.SEARCH_DISABLED>{}
+export interface SearchDisabledError extends LkError<LkErrorKey.SEARCH_DISABLED> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
