@@ -48,3 +48,4 @@ export interface ModuleProps {
 export type SuperAgentResponse = Omit<Response, 'body'> & {
   body: GenericObject<unknown> | undefined;
 };
+
