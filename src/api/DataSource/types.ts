@@ -19,7 +19,7 @@ export enum DataSourceState {
   NEED_FIRST_INDEX = 'needFirstIndex',
   NEED_CONFIG = 'needConfig',
   INDEXING = 'indexing',
-  DICOVERING_SCHEMA = 'discoveringSchema',
+  DISCOVERING_SCHEMA = 'discoveringSchema',
   OFFLINE = 'offline',
   CONNECTING = 'connecting'
 }
