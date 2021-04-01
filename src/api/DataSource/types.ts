@@ -15,11 +15,10 @@ export interface IGetDataSourcesStatusParams {
 
 export enum DataSourceState {
   READY = 'ready',
-  NEED_REINDEX = 'needReindex',
-  NEED_FIRST_INDEX = 'needFirstIndex',
+  NEED_INDEX = 'needIndex',
   NEED_CONFIG = 'needConfig',
   INDEXING = 'indexing',
-  DICOVERING_SCHEMA = 'discoveringSchema',
+  DISCOVERING_SCHEMA = 'discoveringSchema',
   OFFLINE = 'offline',
   CONNECTING = 'connecting'
 }
