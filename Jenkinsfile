@@ -4,9 +4,10 @@ nodeJob {
   // General
   projectName = "linkurious/rest-client"
 
-  runBookeeping = true
 
   createGitTag = true
+  gitTagPrefix = 'v'
+  runBookeeping = true
 
   runNpmPublish = true
 }
