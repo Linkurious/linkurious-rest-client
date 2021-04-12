@@ -179,6 +179,8 @@ export interface SearchQuery {
     number: string[];
     date: string[];
     boolean: string[];
+    nativeDate: string[];
+    nativeDateTime: string[];
   }>;
   terms: TermStatement[];
   phrases: PhraseStatement[];
