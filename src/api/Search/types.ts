@@ -181,6 +181,7 @@ export interface SearchQuery {
     boolean: string[];
     nativeDate: string[];
     nativeDateTime: string[];
+    nativeLocalDateTime: string[];
   }>;
   terms: TermStatement[];
   phrases: PhraseStatement[];
