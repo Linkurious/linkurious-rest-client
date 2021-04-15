@@ -29,7 +29,6 @@ import {
   GetCasesResponse,
   IDeleteCaseCommentParams,
   IGetCaseActionsResponse,
-  IUpdateCaseCommentParams,
   IUpdateCaseParams,
   PopulatedCase
 } from './types';
@@ -210,18 +209,6 @@ export class AlertAPI extends Request {
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/:caseId/actions',
       method: 'GET',
-      params: params
-    });
-  }
-
-  /**
-   * Update a comment on a case if the user that triggered the update is the author.
-   */
-  public editCaseComment(this: Request<CaseAction>, params: IUpdateCaseCommentParams) {
-    return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alert/case/comment/:commentId',
-      method: 'PATCH',
       params: params
     });
   }

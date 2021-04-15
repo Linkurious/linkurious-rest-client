@@ -42,6 +42,7 @@ export enum LkErrorKey {
   NOT_SUPPORTED = 'not_supported',
   SOURCE_ACTION_NEEDED = 'source_action_needed',
   MISSING_SEARCH_ENTITIES = 'missing_search_entities',
+  SEARCH_DISABLED = 'search_disabled',
 
   // Supposedly not returned by the rest-client
   INVALID_PARAMETER = 'invalid_parameter',
@@ -217,6 +218,8 @@ export interface PluginServiceNotReadyError extends LkError<LkErrorKey.PLUGIN_SE
 
 export interface InvalidConfigurationError extends LkError<LkErrorKey.INVALID_CONFIGURATION> {}
 
+export interface SearchDisabledError extends LkError<LkErrorKey.SEARCH_DISABLED> {}
+
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
@@ -253,4 +256,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.PLUGIN_NOT_READY]: PluginNotReadyError;
   [LkErrorKey.PLUGIN_SERVICE_NOT_READY]: PluginServiceNotReadyError;
   [LkErrorKey.INVALID_CONFIGURATION]: InvalidConfigurationError;
+  [LkErrorKey.SEARCH_DISABLED]: SearchDisabledError;
 };

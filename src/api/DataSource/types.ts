@@ -15,13 +15,18 @@ export interface IGetDataSourcesStatusParams {
 
 export enum DataSourceState {
   READY = 'ready',
-  NEED_REINDEX = 'needReindex',
-  NEED_FIRST_INDEX = 'needFirstIndex',
+  NEED_INDEX = 'needIndex',
   NEED_CONFIG = 'needConfig',
   INDEXING = 'indexing',
-  DICOVERING_SCHEMA = 'discoveringSchema',
+  DISCOVERING_SCHEMA = 'discoveringSchema',
   OFFLINE = 'offline',
   CONNECTING = 'connecting'
+}
+
+export interface IndexState {
+  searchEnabled: boolean;
+  indexConsistent: boolean;
+  indexOptimized: boolean;
 }
 
 export interface DataSourceFeatures {
@@ -72,6 +77,8 @@ export interface DataSourceUserInfo {
   defaultStyles?: IDataSourceDefaultStyles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
   defaultCaptions?: ICaptions;
   settings: DataSourceSettings | ConnectedDataSourceSettings;
+  // indexState is undefined for data-sources with a state other than Ready
+  indexState?: IndexState;
 }
 
 export interface ISetDefaultSourceStylesParams extends IDataSourceParams {

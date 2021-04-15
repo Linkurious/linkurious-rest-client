@@ -200,11 +200,6 @@ export interface IGetCaseActionsParams extends IDataSourceParams {
   action?: CaseActionType[];
 }
 
-export interface IUpdateCaseCommentParams extends IDataSourceParams {
-  comment: string;
-  commentId: number;
-}
-
 export interface IDeleteCaseCommentParams extends IDataSourceParams {
   commentId: number;
 }
