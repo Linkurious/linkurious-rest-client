@@ -121,8 +121,9 @@ export interface LkSubGraph {
 export interface IVizNodeInfo {
   id: string;
   attributes: {
-    x: number;
-    y: number;
+    // The coordinates can be set to null when a layout was never applied to the node.
+    x: number | null;
+    y: number | null;
     layoutable: boolean;
     selected?: boolean; // in expand, frontend has to pass VizNode to ogma without selected attribute
   };
