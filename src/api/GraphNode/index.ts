@@ -27,7 +27,9 @@ const {
   FORBIDDEN,
   NOT_FOUND,
   EDIT_CONFLICT,
-  NOT_SUPPORTED
+  NOT_SUPPORTED,
+  INVALID_PARAMETER,
+  CONSTRAINT_VIOLATION
 } = LkErrorKey;
 
 export class GraphNodeAPI extends Request {
@@ -49,7 +51,13 @@ export class GraphNodeAPI extends Request {
    */
   public createNode(this: Request<LkNode>, params: ICreateNodeParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        INVALID_PARAMETER,
+        CONSTRAINT_VIOLATION
+      ],
       url: '/:sourceKey/graph/nodes',
       method: 'POST',
       params: params
@@ -68,7 +76,9 @@ export class GraphNodeAPI extends Request {
         FORBIDDEN,
         NOT_FOUND,
         EDIT_CONFLICT,
-        NOT_SUPPORTED
+        NOT_SUPPORTED,
+        INVALID_PARAMETER,
+        CONSTRAINT_VIOLATION
       ],
       url: '/:sourceKey/graph/nodes/:id',
       method: 'PATCH',

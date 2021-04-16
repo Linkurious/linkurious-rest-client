@@ -25,7 +25,9 @@ const {
   FORBIDDEN,
   ILLEGAL_SOURCE_STATE,
   SOURCE_ACTION_NEEDED,
-  MALFORMED_SEARCH_SYNTAX
+  MALFORMED_SEARCH_SYNTAX,
+  MISSING_SEARCH_ENTITIES,
+  SEARCH_DISABLED
 } = LkErrorKey;
 
 export class SearchAPI extends Request {
@@ -69,7 +71,14 @@ export class SearchAPI extends Request {
    */
   public search(this: Request<SearchResponse>, params: ISearchParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, MALFORMED_SEARCH_SYNTAX],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        GUEST_DISABLED,
+        MALFORMED_SEARCH_SYNTAX,
+        MISSING_SEARCH_ENTITIES,
+        SEARCH_DISABLED
+      ],
       url: '/:sourceKey/search/:type',
       method: 'POST',
       params: params
@@ -82,7 +91,13 @@ export class SearchAPI extends Request {
    */
   public searchFull(this: Request<LkSubGraph>, params: ISearchFullParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, MALFORMED_SEARCH_SYNTAX],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        GUEST_DISABLED,
+        MALFORMED_SEARCH_SYNTAX,
+        SEARCH_DISABLED
+      ],
       url: '/:sourceKey/search/:type/full',
       method: 'POST',
       params: params

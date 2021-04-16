@@ -29,6 +29,8 @@ export enum LkErrorKey {
   MALFORMED_CUSTOM_ACTION_TEMPLATE = 'malformed_custom_action_template',
   MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
   MALFORMED_SEARCH_SYNTAX = 'malformed_search_syntax',
+  INVALID_ALERT_QUERY = 'invalid_alert_query',
+  INVALID_ALERT_TARGET = 'invalid_alert_target',
   ILLEGAL_SOURCE_STATE = 'illegal_source_state',
   FOLDER_DELETION_FAILED = 'folder_deletion_failed',
   ALREADY_EXISTS = 'already_exists',
@@ -39,6 +41,8 @@ export enum LkErrorKey {
   VISUALIZATION_LOCKED = 'visualization_locked',
   NOT_SUPPORTED = 'not_supported',
   SOURCE_ACTION_NEEDED = 'source_action_needed',
+  MISSING_SEARCH_ENTITIES = 'missing_search_entities',
+  SEARCH_DISABLED = 'search_disabled',
 
   // Supposedly not returned by the rest-client
   INVALID_PARAMETER = 'invalid_parameter',
@@ -157,6 +161,10 @@ export interface GraphRequestTimeoutError extends LkError<LkErrorKey.GRAPH_REQUE
 
 export interface ConstraintViolationError extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
 
+export interface InvalidAlertQueryError extends LkError<LkErrorKey.INVALID_ALERT_QUERY> {}
+
+export interface InvalidAlertTargetError extends LkError<LkErrorKey.INVALID_ALERT_TARGET> {}
+
 export interface MalformedCustomActionTemplateError
   extends LkError<LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE> {
   errors: CustomActionParsingError[];
@@ -192,6 +200,8 @@ export interface NotSupportedError extends LkError<LkErrorKey.NOT_SUPPORTED> {}
 
 export interface SourceActionNeededError extends LkError<LkErrorKey.SOURCE_ACTION_NEEDED> {}
 
+export interface MissingSearchEntitiesError extends LkError<LkErrorKey.MISSING_SEARCH_ENTITIES> {}
+
 export interface InvalidParameterError extends LkError<LkErrorKey.INVALID_PARAMETER> {}
 
 export interface CriticalError extends LkError<LkErrorKey.CRITICAL> {}
@@ -208,6 +218,8 @@ export interface PluginServiceNotReadyError extends LkError<LkErrorKey.PLUGIN_SE
 
 export interface InvalidConfigurationError extends LkError<LkErrorKey.INVALID_CONFIGURATION> {}
 
+export interface SearchDisabledError extends LkError<LkErrorKey.SEARCH_DISABLED> {}
+
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
@@ -220,6 +232,8 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequestError;
   [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeoutError;
   [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolationError;
+  [LkErrorKey.INVALID_ALERT_QUERY]: InvalidAlertQueryError;
+  [LkErrorKey.INVALID_ALERT_TARGET]: InvalidAlertTargetError;
   [LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE]: MalformedCustomActionTemplateError;
   [LkErrorKey.MALFORMED_QUERY_TEMPLATE]: MalformedQueryTemplateError;
   [LkErrorKey.MALFORMED_SEARCH_SYNTAX]: MalformedSearchSyntaxError;
@@ -233,6 +247,7 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.VISUALIZATION_LOCKED]: VisualizationLockedError;
   [LkErrorKey.NOT_SUPPORTED]: NotSupportedError;
   [LkErrorKey.SOURCE_ACTION_NEEDED]: SourceActionNeededError;
+  [LkErrorKey.MISSING_SEARCH_ENTITIES]: MissingSearchEntitiesError;
   [LkErrorKey.INVALID_PARAMETER]: InvalidParameterError;
   [LkErrorKey.CRITICAL]: CriticalError;
   [LkErrorKey.BUG]: Bug;
@@ -241,4 +256,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.PLUGIN_NOT_READY]: PluginNotReadyError;
   [LkErrorKey.PLUGIN_SERVICE_NOT_READY]: PluginServiceNotReadyError;
   [LkErrorKey.INVALID_CONFIGURATION]: InvalidConfigurationError;
+  [LkErrorKey.SEARCH_DISABLED]: SearchDisabledError;
 };
