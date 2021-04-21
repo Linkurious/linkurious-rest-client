@@ -45,8 +45,10 @@ export interface Configuration {
   needRestart?: boolean;
 }
 
+export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
+
 export interface IDatabaseOptions {
-  dialect: 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
+  dialect: DatabaseDialect;
   storage?: string;
   host?: string;
   port?: string;
@@ -63,9 +65,10 @@ export interface IDatabaseConfig {
 export interface IHttpServerConfig {
   listenPort: number;
   clientFolder: string;
-  cookieHttpOnly?: string;
+  cookieHttpOnly?: boolean;
   cookieSecret?: string;
   allowOrigin?: string | string[];
+  allowFraming?: boolean;
   domain?: string;
   baseFolder?: string;
   publicPortHttp?: number;
@@ -78,6 +81,14 @@ export interface IHttpServerConfig {
   certificateFile?: string;
   certificateKeyFile?: string;
   certificatePassphrase?: string;
+  tlsCipherList?: string;
+  customHTTPHeaders?: GenericObject;
+}
+
+export enum AuditTrailMode {
+  READ = 'r',
+  WRITE = 'w',
+  READ_WRITE = 'rw'
 }
 
 export interface IAuditTrailConfig {
@@ -86,7 +97,9 @@ export interface IAuditTrailConfig {
   fileSizeLimit?: number;
   strictMode?: boolean;
   logResult?: boolean;
-  mode?: 'r' | 'w' | 'rw';
+  mode?: AuditTrailMode;
+  logFulltextSearch?: boolean;
+  logPlugins?: boolean;
 }
 
 export interface IUserPreferencesConfig {
@@ -99,10 +112,16 @@ export interface IGuestPreferencesConfig {
   locale: string;
   uiWorkspaceSearch: boolean;
   uiExport: boolean;
-  uiLayout: 'regular' | 'simple' | 'none';
+  uiLayout: UILayout;
   uiDesign: boolean;
   uiEdgeGrouping: boolean;
   uiFilter: boolean;
+}
+
+export enum UILayout {
+  REGULAR = 'regular',
+  SIMPLE = 'simple',
+  NONE = 'none'
 }
 
 export type SelectedDataSourceConfig =
@@ -245,10 +264,14 @@ export interface IAdvancedConfig {
   searchAddAllThreshold: number;
   minSearchQueryLength: number;
   rawQueryTimeout: number;
+  searchPrefixExpansion: boolean;
+  showBuiltinQueries?: boolean;
+  slowQueryThreshold?: number;
+  searchRetryMultiplier?: number;
   maxConnectionTimeout?: number;
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
-  defaultTimeZone: string;
+  defaultTimezone: string;
   connectionRetries?: number;
   pollInterval?: number;
   indexationChunkSize?: number;
@@ -343,6 +366,7 @@ export interface IOAuth2Config {
   tokenURL: string;
   clientID: string;
   clientSecret: string;
+  resource?: string;
   openidconnect?: IOpenIDConnectConfig;
   azure?: IAzureOAuthConfig;
 }
