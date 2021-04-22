@@ -4,8 +4,8 @@
  * - Created on 2019-08-19.
  */
 
-import {LkErrorKey} from '../../http/response';
-import {Request} from '../../http/request';
+import { LkErrorKey } from '../../http/response';
+import { Request } from '../../http/request';
 
 import {
   IGetCustomFilesParams,
@@ -47,6 +47,7 @@ export class LinkuriousAPI extends Request {
    */
   public sendAnalytics(params: ISendAnalyticsParams) {
     return this.request({
+      errors: [UNAUTHORIZED],
       url: '/tm',
       method: 'POST',
       params: params
