@@ -2,7 +2,7 @@
 
 **A JavaScript library to interact with the Linkurious server.**
 
-This library is used by Linkurious SAS in Linkurious Enterprise for all the communication
+This library is used by Linkurious  SAS in Linkurious Enterprise for all the communication
 between the Linkurious frontend and the Linkurious server.
 
 ## License
