@@ -136,7 +136,7 @@ export enum CaseStatus {
   UNCONFIRMED = 'unconfirmed',
   CONFIRMED = 'confirmed',
   DISMISSED = 'dismissed',
-  IN_PROGRESS = 'in_progress'
+  IN_PROGRESS = 'in-progress'
 }
 
 export interface PopulatedCase extends Case {
@@ -215,7 +215,7 @@ export enum CaseActionType {
   DISMISS = 'dismiss',
   OPEN = 'open',
   COMMENT = 'comment',
-  IN_PROGRESS = 'in_progress'
+  IN_PROGRESS = 'in-progress'
 }
 
 export interface CaseAction extends PersistedItem {
