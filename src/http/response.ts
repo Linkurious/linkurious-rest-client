@@ -43,7 +43,7 @@ export enum LkErrorKey {
   SOURCE_ACTION_NEEDED = 'source_action_needed',
   MISSING_SEARCH_ENTITIES = 'missing_search_entities',
   SEARCH_DISABLED = 'search_disabled',
-
+  REDUNDANT_ACTION = 'redundant_action',
   // Supposedly not returned by the rest-client
   INVALID_PARAMETER = 'invalid_parameter',
   CRITICAL = 'critical',
