@@ -218,6 +218,8 @@ export interface PluginServiceNotReadyError extends LkError<LkErrorKey.PLUGIN_SE
 
 export interface InvalidConfigurationError extends LkError<LkErrorKey.INVALID_CONFIGURATION> {}
 
+export interface RedundantActionError extends LkError<LkErrorKey.REDUNDANT_ACTION> {}
+
 export interface SearchDisabledError extends LkError<LkErrorKey.SEARCH_DISABLED> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
@@ -257,4 +259,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.PLUGIN_SERVICE_NOT_READY]: PluginServiceNotReadyError;
   [LkErrorKey.INVALID_CONFIGURATION]: InvalidConfigurationError;
   [LkErrorKey.SEARCH_DISABLED]: SearchDisabledError;
+  [LkErrorKey.REDUNDANT_ACTION]: RedundantActionError;
 };
