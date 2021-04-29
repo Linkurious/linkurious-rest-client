@@ -211,7 +211,6 @@ export interface INeo4jSearchConfig extends IVendorConfig {
 export type InternalIndexConfig = IElasticSearchConfig;
 
 export interface IElasticSearchConfig extends IVendorConfig {
-  url?: string;
   host: string;
   port: number;
   https?: boolean;
