@@ -42,7 +42,7 @@ export interface DataSourceFeatures {
   alerts: boolean;
   canDryRun: boolean;
   supportNativeDate: boolean;
-  canSearchOnNumericValues: boolean;
+  canSearchOnNonTextualValues: boolean;
 }
 
 export interface DataSourceSettings {
