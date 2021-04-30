@@ -13,10 +13,13 @@ export enum TemplateFieldType {
   ENUM = 'enum',
   NODE = 'node',
   NODE_SET = 'nodeset',
+  EDGE = 'edge',
+  EDGE_SET = 'edgeset',
   DATE = 'date',
   DATE_TIME = 'datetime',
   BOOLEAN = 'boolean',
-  ENV = 'env'
+  ENV = 'env',
+  LIST = 'list'
 }
 
 export interface TemplateField<T extends TemplateFieldType = TemplateFieldType> {
@@ -46,6 +49,13 @@ export type EnumChoices = Array<{
   value: EnumValue;
 }>;
 
+export type ListValue = string | number;
+
+export type ListChoices = Array<{
+  label: string;
+  value: ListValue;
+}>;
+
 export interface EnumTemplate extends TemplateField<TemplateFieldType.ENUM> {
   options: {
     default?: string;
@@ -56,12 +66,33 @@ export interface EnumTemplate extends TemplateField<TemplateFieldType.ENUM> {
 export interface NodeTemplate extends TemplateField<TemplateFieldType.NODE> {
   options?: {
     categories?: string[];
+    serialize?: string;
   };
 }
 
 export interface NodesetTemplate extends TemplateField<TemplateFieldType.NODE_SET> {
   options?: {
     categories?: string[];
+    serialize?: string;
+  };
+}
+
+export interface EdgeTemplate extends TemplateField<TemplateFieldType.EDGE> {
+  options?: {
+    types?: string[];
+  };
+}
+
+export interface EdgesetTemplate extends TemplateField<TemplateFieldType.EDGE_SET> {
+  options?: {
+    types?: string[];
+  };
+}
+
+export interface ListTemplate extends TemplateField<TemplateFieldType.LIST> {
+  options: {
+    default?: ListValue[];
+    values: ListChoices;
   };
 }
 
@@ -123,16 +154,21 @@ export type Template =
   | EnumTemplate
   | NodeTemplate
   | NodesetTemplate
+  | EdgeTemplate
+  | EdgesetTemplate
   | DateTemplate
   | DatetimeTemplate
   | BooleanTemplate
-  | EnvTemplate;
+  | EnvTemplate
+  | ListTemplate;
 
 export enum GraphQueryInputType {
   NONE = 'none',
   _1_NODE = '1-node',
+  _1_EDGE = '1-edge',
   _2_NODES = '2-nodes',
-  NODESET = 'nodeset'
+  NODESET = 'nodeset',
+  EDGESET = 'edgeset'
 }
 
 export enum GraphQueryDialect {
@@ -164,6 +200,10 @@ export interface GraphQuery {
   dialect: GraphQueryDialect;
   description: string;
   sharing: GraphQuerySharingMode;
+  owner?: {
+    name: string;
+    email: string;
+  };
   sharedWithGroups?: number[]; // defined only if sharing='groups'
   write: boolean;
   graphInput?: GraphQueryInputType; // defined only if type='template'

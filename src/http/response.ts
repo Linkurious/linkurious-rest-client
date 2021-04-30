@@ -1,7 +1,7 @@
 /**
  * Copyright Linkurious SAS 2012 - 2019
  *
- * - Created on 2019-10-01.
+ * - Created on 2019-10-01
  */
 
 import {GenericObject} from '../api/commonTypes';
@@ -39,6 +39,8 @@ export enum LkErrorKey {
   VISUALIZATION_LOCKED = 'visualization_locked',
   NOT_SUPPORTED = 'not_supported',
   SOURCE_ACTION_NEEDED = 'source_action_needed',
+  MISSING_SEARCH_ENTITIES = 'missing_search_entities',
+  SEARCH_DISABLED = 'search_disabled',
 
   // Supposedly not returned by the rest-client
   INVALID_PARAMETER = 'invalid_parameter',
@@ -47,7 +49,8 @@ export enum LkErrorKey {
   SOCKET_ERROR = 'socket_error',
   API_NOT_FOUND = 'api_not_found',
   PLUGIN_NOT_READY = 'plugin_not_ready',
-  PLUGIN_SERVICE_NOT_READY = 'plugin_service_not_ready'
+  PLUGIN_SERVICE_NOT_READY = 'plugin_service_not_ready',
+  INVALID_CONFIGURATION = 'invalid_configuration'
 }
 
 /**
@@ -191,6 +194,8 @@ export interface NotSupportedError extends LkError<LkErrorKey.NOT_SUPPORTED> {}
 
 export interface SourceActionNeededError extends LkError<LkErrorKey.SOURCE_ACTION_NEEDED> {}
 
+export interface MissingSearchEntitiesError extends LkError<LkErrorKey.MISSING_SEARCH_ENTITIES> {}
+
 export interface InvalidParameterError extends LkError<LkErrorKey.INVALID_PARAMETER> {}
 
 export interface CriticalError extends LkError<LkErrorKey.CRITICAL> {}
@@ -204,6 +209,10 @@ export interface ApiNotFoundError extends LkError<LkErrorKey.API_NOT_FOUND> {}
 export interface PluginNotReadyError extends LkError<LkErrorKey.PLUGIN_NOT_READY> {}
 
 export interface PluginServiceNotReadyError extends LkError<LkErrorKey.PLUGIN_SERVICE_NOT_READY> {}
+
+export interface InvalidConfigurationError extends LkError<LkErrorKey.INVALID_CONFIGURATION> {}
+
+export interface SearchDisabledError extends LkError<LkErrorKey.SEARCH_DISABLED> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
@@ -230,6 +239,7 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.VISUALIZATION_LOCKED]: VisualizationLockedError;
   [LkErrorKey.NOT_SUPPORTED]: NotSupportedError;
   [LkErrorKey.SOURCE_ACTION_NEEDED]: SourceActionNeededError;
+  [LkErrorKey.MISSING_SEARCH_ENTITIES]: MissingSearchEntitiesError;
   [LkErrorKey.INVALID_PARAMETER]: InvalidParameterError;
   [LkErrorKey.CRITICAL]: CriticalError;
   [LkErrorKey.BUG]: Bug;
@@ -237,4 +247,6 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.API_NOT_FOUND]: ApiNotFoundError;
   [LkErrorKey.PLUGIN_NOT_READY]: PluginNotReadyError;
   [LkErrorKey.PLUGIN_SERVICE_NOT_READY]: PluginServiceNotReadyError;
+  [LkErrorKey.INVALID_CONFIGURATION]: InvalidConfigurationError;
+  [LkErrorKey.SEARCH_DISABLED]: SearchDisabledError;
 };

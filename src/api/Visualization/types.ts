@@ -7,16 +7,16 @@
 import {GenericObject, IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
 import {
   VizEdge,
-  VizEdgeInfo,
+  IVizEdgeInfo,
   VizNode,
-  VizNodeInfo,
+  IVizNodeInfo,
   WidgetEdge,
   WidgetNode
 } from '../graphItemTypes';
-import {AlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
-import {RangeValues, ItemSelector, Styles} from '../displayTypes';
+import {IRangeValues, ItemSelector, IStyles} from '../displayTypes';
 import {User} from '../User';
+import {IAlternativeIdSettings} from '../DataSource';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
   id: number;
@@ -32,39 +32,54 @@ export enum VisualizationRight {
   OWNER_FILTERED = 'owner-filtered'
 }
 
+export enum ShareVisualizationRight {
+  READ = 'read',
+  WRITE = 'write',
+  OWNER = 'owner'
+}
+
 export enum VisualizationMode {
   NODE_LINK = 'nodelink',
   GEO = 'geo'
 }
 
-export interface CaptionConfig {
+export interface ICaptionConfig {
   displayName: boolean;
   properties: string[];
   active: boolean;
 }
 
-export type ItemFieldsCaptions = GenericObject<CaptionConfig>;
+export type ItemFieldsCaptions = GenericObject<ICaptionConfig>;
 
-export interface ItemFields {
+export interface IItemFields {
   captions: ItemFieldsCaptions;
   types: GenericObject<GenericObject<{type: 'string' | 'number'}>>;
 }
 
-export interface VisualizationDesign {
+export interface IVisualizationDesign {
   palette: {
     default: string[];
   };
-  styles: Styles;
+  styles: IStyles;
 }
 
-export interface VisualizationGeo {
+export interface IVisualizationGeo {
   layers: string[];
 }
 
-export type VisualizationLayout = ForceAlgorithm | HierarchicalAlgorithm | RadialAlgorithm;
+export type VisualizationLayout = IForceAlgorithm | IHierarchicalAlgorithm | IRadialAlgorithm;
 
-export type ForceLayoutMode = 'best' | 'fast';
-export type HierarchicalLayoutMode = 'LR' | 'RL' | 'TB' | 'BT';
+export enum ForceLayoutMode {
+  BEST = 'best',
+  FAST = 'fast'
+}
+
+export enum HierarchicalLayoutMode {
+  LR = 'LR',
+  RL = 'RL',
+  TB = 'TB',
+  BT = 'BT'
+}
 
 export enum LayoutAlgorithm {
   FORCE = 'force',
@@ -72,32 +87,32 @@ export enum LayoutAlgorithm {
   RADIAL = 'radial'
 }
 
-export interface ForceParameters {
+export interface IForceParameters {
   mode: ForceLayoutMode;
 }
 
-export interface HierarchicalParameters {
+export interface IHierarchicalParameters {
   mode: HierarchicalLayoutMode;
   rootNode?: string;
 }
 
-export interface RadialParameters {
+export interface IRadialParameters {
   rootNode: string;
 }
 
-export interface ForceAlgorithm extends ForceParameters {
+export interface IForceAlgorithm extends IForceParameters {
   algorithm: LayoutAlgorithm.FORCE;
 }
 
-export interface HierarchicalAlgorithm extends HierarchicalParameters {
+export interface IHierarchicalAlgorithm extends IHierarchicalParameters {
   algorithm: LayoutAlgorithm.HIERARCHICAL;
 }
 
-export interface RadialAlgorithm extends RadialParameters {
+export interface IRadialAlgorithm extends IRadialParameters {
   algorithm: LayoutAlgorithm.RADIAL;
 }
 
-export interface VisualizationFilters {
+export interface IVisualizationFilters {
   node: ItemSelector[];
   edge: ItemSelector[];
 }
@@ -111,29 +126,30 @@ export enum ZoomLevel {
   SECONDS = 'seconds'
 }
 
-export interface VisualizationTimeline {
+export interface IVisualizationTimeline {
   node: GenericObject<string>;
   edge: GenericObject<string>;
-  range?: RangeValues;
+  range?: IRangeValues;
   zoomLevel?: ZoomLevel;
 }
 
 export interface Visualization extends PersistedItem {
   title: string;
   folder: number;
-  nodes: VizNodeInfo[];
-  edges: VizEdgeInfo[];
-  nodeFields: ItemFields;
-  edgeFields: ItemFields;
-  design: VisualizationDesign;
-  filters: VisualizationFilters;
+  nodes: IVizNodeInfo[];
+  edges: IVizEdgeInfo[];
+  nodeFields: IItemFields;
+  edgeFields: IItemFields;
+  design: IVisualizationDesign;
+  filters: IVisualizationFilters;
+  edgeGrouping: GenericObject<boolean>;
   sourceKey: string;
   sandbox: boolean;
-  alternativeIds: AlternativeIdSettings;
+  alternativeIds: IAlternativeIdSettings;
   mode: VisualizationMode;
   layout: VisualizationLayout;
-  geo: VisualizationGeo;
-  timeline: VisualizationTimeline;
+  geo: IVisualizationGeo;
+  timeline: IVisualizationTimeline;
   // TODO viz.user and viz.right are defined only on getVisualization
   user: Pick<User, 'id' | 'username' | 'email'>;
   right: VisualizationRight;
@@ -148,17 +164,18 @@ export interface PopulatedVisualization extends Visualization {
 export interface ICreateVisualizationParams extends IDataSourceParams {
   title: string;
   folder?: number;
-  nodes: VizNodeInfo[];
-  edges: VizEdgeInfo[];
-  alternativeIds?: AlternativeIdSettings;
-  mode?: string;
-  design?: VisualizationDesign;
-  nodeFields?: ItemFields;
-  edgeFields?: ItemFields;
-  filters?: VisualizationFilters;
-  timeline?: VisualizationTimeline;
+  nodes: IVizNodeInfo[];
+  edges: IVizEdgeInfo[];
+  alternativeIds?: IAlternativeIdSettings;
+  mode?: VisualizationMode;
+  design?: IVisualizationDesign;
+  nodeFields?: IItemFields;
+  edgeFields?: IItemFields;
+  filters?: IVisualizationFilters;
+  edgeGrouping?: GenericObject<boolean>;
+  timeline?: IVisualizationTimeline;
   layout?: VisualizationLayout;
-  geo?: VisualizationGeo;
+  geo?: IVisualizationGeo;
 }
 
 export interface IDuplicateVisualizationParams extends IDataSourceParams {
@@ -237,7 +254,7 @@ export enum PopulateType {
 
 export interface IGetSandboxParams extends IDataSourceParams {
   populate?: PopulateType;
-  itemId?: number;
+  itemId?: string;
   matchId?: number;
   searchQuery?: string;
   searchFuzziness?: number;
@@ -249,10 +266,10 @@ export interface IGetSandboxParams extends IDataSourceParams {
 }
 
 export interface IUpdateSandboxParams extends IDataSourceParams {
-  design?: VisualizationDesign;
-  nodeFields?: ItemFields;
-  edgeFields?: ItemFields;
-  geo?: VisualizationGeo;
+  design?: IVisualizationDesign;
+  nodeFields?: IItemFields;
+  edgeFields?: IItemFields;
+  geo?: IVisualizationGeo;
 }
 
 export interface IGetVisualizationSharesParams extends IDataSourceParams {
@@ -273,7 +290,7 @@ export interface GetVisualizationSharesResponse {
 export interface IShareVisualizationParams extends IDataSourceParams {
   id: number;
   userId: number;
-  right: 'read' | 'write';
+  right: ShareVisualizationRight;
 }
 
 export interface VisualizationShare {

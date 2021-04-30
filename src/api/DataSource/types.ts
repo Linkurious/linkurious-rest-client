@@ -4,7 +4,7 @@
  * - Created on 2019-10-25.
  */
 
-import {Captions, Styles} from '../displayTypes';
+import {ICaptions, IDataSourceDefaultStyles} from '../displayTypes';
 import {IDataSourceParams} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 
@@ -15,13 +15,18 @@ export interface IGetDataSourcesStatusParams {
 
 export enum DataSourceState {
   READY = 'ready',
-  NEED_REINDEX = 'needReindex',
-  NEED_FIRST_INDEX = 'needFirstIndex',
+  NEED_INDEX = 'needIndex',
   NEED_CONFIG = 'needConfig',
   INDEXING = 'indexing',
-  DICOVERING_SCHEMA = 'discoveringSchema',
+  DISCOVERING_SCHEMA = 'discoveringSchema',
   OFFLINE = 'offline',
   CONNECTING = 'connecting'
+}
+
+export interface IndexState {
+  searchEnabled: boolean;
+  indexConsistent: boolean;
+  indexOptimized: boolean;
 }
 
 export interface DataSourceFeatures {
@@ -43,7 +48,7 @@ export interface DataSourceSettings {
   readOnly: boolean;
 }
 
-export interface AlternativeIdSettings {
+export interface IAlternativeIdSettings {
   node?: string; // defined only if alternative IDs are configured in the GraphDAO options
   edge?: string;
 }
@@ -54,7 +59,7 @@ export interface GeoSettings {
 }
 
 export interface ConnectedDataSourceSettings extends DataSourceSettings, GeoSettings {
-  alternativeIds: AlternativeIdSettings;
+  alternativeIds: IAlternativeIdSettings;
   propertyKeyAccessRights: boolean;
   strictSchema: boolean;
   skipEdgeIndexation: boolean;
@@ -69,14 +74,16 @@ export interface DataSourceUserInfo {
   reason: string;
   error?: string;
   features: DataSourceFeatures;
-  defaultStyles?: Styles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
-  defaultCaptions?: Captions;
+  defaultStyles?: IDataSourceDefaultStyles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
+  defaultCaptions?: ICaptions;
   settings: DataSourceSettings | ConnectedDataSourceSettings;
+  // indexState is undefined for data-sources with a state other than Ready
+  indexState?: IndexState;
 }
 
 export interface ISetDefaultSourceStylesParams extends IDataSourceParams {
-  styles?: Styles;
-  captions?: Captions;
+  styles?: IDataSourceDefaultStyles;
+  captions?: ICaptions;
 }
 
 export interface IResetSourceStylesParams extends IDataSourceParams {

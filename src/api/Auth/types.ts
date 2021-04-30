@@ -3,7 +3,7 @@
  *
  * - Created on 2019-08-19.
  */
-import {UserPreferences} from '../User';
+import {IUserPreferences} from '../User';
 
 export interface ILoginParams {
   usernameOrEmail: string;
@@ -19,5 +19,5 @@ export interface IUpdateCurrentUserParams {
   username?: string;
   email?: string;
   password?: string;
-  preferences?: Partial<UserPreferences>;
+  preferences?: Partial<IUserPreferences>;
 }

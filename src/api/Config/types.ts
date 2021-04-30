@@ -101,6 +101,7 @@ export interface IGuestPreferencesConfig {
   uiExport: boolean;
   uiLayout: 'regular' | 'simple' | 'none';
   uiDesign: boolean;
+  uiEdgeGrouping: boolean;
   uiFilter: boolean;
 }
 
@@ -118,7 +119,7 @@ export type SelectedDataSourceConfig =
 export interface IDataSourceConfig<G = IGraphVendorConfig, I = IVendorConfig> {
   name?: string;
   manualSourceKey?: string;
-  readonly?: boolean;
+  readOnly?: boolean;
   graphdb: G;
   index: I;
 }
@@ -168,7 +169,8 @@ export interface ICosmosDbConfig extends IGraphVendorConfig {
   database: string;
   collection: string;
   primaryKey: string;
-  '.NET SDK URI'?: string;
+  partitionKey: string;
+  '.NET SDK URI': string;
 }
 
 export interface IJanusGraphForComposeConfig extends IJanusGraphConfig {
@@ -189,31 +191,26 @@ export interface INeo4jSearchConfig extends IVendorConfig {
 
 export type InternalIndexConfig = IElasticSearchConfig | IElasticSearch2Config;
 
-export interface IElasticSearchConfig extends IVendorConfig {
+export interface ICommonElasticSearchConfig extends IVendorConfig {
   host: string;
   port: number;
+  https?: boolean;
+  user?: string;
+  password?: string;
   forceReindex?: boolean;
   skipEdgeIndexation?: boolean;
   dynamicMapping?: boolean;
-  dateDetection?: boolean;
-  https?: boolean;
-  indexName?: string;
   analyzer?: string;
-  user?: string;
-  password?: string;
+  incrementalIndexation?: boolean;
+  timestampPropertyName?: string;
 }
 
-export interface IElasticSearch2Config extends IVendorConfig {
-  host: string;
-  port: number;
-  forceReindex?: boolean;
-  https?: boolean;
-  user?: string;
-  password?: string;
-  dynamicMapping?: boolean;
+export interface IElasticSearchConfig extends ICommonElasticSearchConfig {
+  indexName?: string; // Deprecated option to be removed, kept here for backward compatibility
+}
+
+export interface IElasticSearch2Config extends ICommonElasticSearchConfig {
   forceStringMapping?: string[];
-  analyzer?: string;
-  skipEdgeIndexation?: boolean;
   caCert?: string;
 }
 
@@ -252,7 +249,6 @@ export interface IAdvancedConfig {
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
   defaultTimeZone: string;
-  timeline: boolean;
   connectionRetries?: number;
   pollInterval?: number;
   indexationChunkSize?: number;
@@ -261,6 +257,7 @@ export interface IAdvancedConfig {
   extraCertificateAuthorities?: string;
   obfuscation?: boolean;
   edgesBetweenSupernodes?: boolean;
+  itemTypeCountLimit?: number;
 }
 
 export interface ILeafletConfig {
