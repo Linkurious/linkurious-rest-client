@@ -166,6 +166,7 @@ export interface GetCasesResponse {
     unconfirmed: number;
     confirmed: number;
     dismissed: number;
+    in_progress: number;
   };
   cases: Case[];
 }
@@ -213,6 +214,7 @@ export interface IGetCaseActionsResponse {
 export enum CaseActionType {
   CONFIRM = 'confirm',
   DISMISS = 'dismiss',
+  UNCONFIRM = 'unconfirm',
   OPEN = 'open',
   COMMENT = 'comment',
   IN_PROGRESS = 'in-progress'
