@@ -166,6 +166,7 @@ export interface GetCasesResponse {
     unconfirmed: number;
     confirmed: number;
     dismissed: number;
+    in_progress: number;
   };
   cases: Case[];
 }
