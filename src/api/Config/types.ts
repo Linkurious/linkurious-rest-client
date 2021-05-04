@@ -248,7 +248,7 @@ export interface IAdvancedConfig {
   maxConnectionTimeout?: number;
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
-  defaultTimeZone: string;
+  defaultTimezone: string;
   connectionRetries?: number;
   pollInterval?: number;
   indexationChunkSize?: number;
