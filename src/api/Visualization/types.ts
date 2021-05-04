@@ -249,13 +249,13 @@ export enum PopulateType {
   SEARCH_NODE = 'searchNodes',
   SEARCH_EDGE = 'searchEdges',
   PATTERN = 'pattern',
-  MATCH_ID = 'matchId'
+  CASE_ID = 'caseId'
 }
 
 export interface IGetSandboxParams extends IDataSourceParams {
   populate?: PopulateType;
   itemId?: string;
-  matchId?: number;
+  caseId?: number;
   searchQuery?: string;
   searchFuzziness?: number;
   patternQuery?: string;
