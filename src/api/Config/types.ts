@@ -128,12 +128,8 @@ export type SelectedDataSourceConfig =
   | IDataSourceConfig<INeo4jConfig, INeo4jSearchConfig>
   | IDataSourceConfig<INeo4jConfig, InternalIndexConfig>
   | IDataSourceConfig<INeo4jConfig, INeo2esConfig>
-  | IDataSourceConfig<IJanusGraphConfig, IJanusGraphSearchConfig>
-  | IDataSourceConfig<IJanusGraphConfig, InternalIndexConfig>
   | IDataSourceConfig<ICosmosDbConfig, IAzureSearchConfig>
-  | IDataSourceConfig<ICosmosDbConfig, InternalIndexConfig>
-  | IDataSourceConfig<IJanusGraphForComposeConfig, IJanusGraphSearchConfig>
-  | IDataSourceConfig<IJanusGraphForComposeConfig, InternalIndexConfig>;
+  | IDataSourceConfig<ICosmosDbConfig, InternalIndexConfig>;
 
 export interface IDataSourceConfig<G = IGraphVendorConfig, I = IVendorConfig> {
   name?: string;
@@ -165,24 +161,6 @@ export interface INeo4jConfig extends IGraphVendorConfig {
   allowVirtualEntities?: boolean;
 }
 
-export interface IGremlinSessionConfig extends IGraphVendorConfig {
-  maxStale?: number;
-  sessionPool?: number;
-}
-
-export interface IJanusGraphConfig extends IGremlinSessionConfig {
-  url: string;
-  graphAlias?: string;
-  traversalSourceAlias?: string;
-  configurationPath?: string;
-  configuration?: object;
-  user?: string;
-  password?: string;
-  alternativeNodeId?: string;
-  alternativeEdgeId?: string;
-  disableIndexExistCheck?: boolean;
-}
-
 export interface ICosmosDbConfig extends IGraphVendorConfig {
   url: string;
   database: string;
@@ -190,17 +168,6 @@ export interface ICosmosDbConfig extends IGraphVendorConfig {
   primaryKey: string;
   partitionKey: string;
   '.NET SDK URI': string;
-}
-
-export interface IJanusGraphForComposeConfig extends IJanusGraphConfig {
-  url: string;
-  graphName: string;
-  create?: boolean;
-  user?: string;
-  password?: string;
-  alternativeNodeId?: string;
-  alternativeEdgeId?: string;
-  disableIndexExistCheck?: boolean;
 }
 
 export interface INeo4jSearchConfig extends IVendorConfig {
@@ -234,13 +201,6 @@ export interface IElasticSearch2Config extends ICommonElasticSearchConfig {
 }
 
 export interface INeo2esConfig extends IVendorConfig {}
-
-export interface IJanusGraphSearchConfig extends IVendorConfig {
-  create?: boolean;
-  indexEdges?: boolean;
-  nodeIndexName?: string;
-  edgeIndexName?: string;
-}
 
 export interface IAzureSearchConfig extends IVendorConfig {
   url: string;
