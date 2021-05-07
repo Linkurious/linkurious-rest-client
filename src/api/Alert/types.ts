@@ -135,7 +135,8 @@ export interface IGetCaseParams extends IGetSubGraphParams {
 export enum CaseStatus {
   UNCONFIRMED = 'unconfirmed',
   CONFIRMED = 'confirmed',
-  DISMISSED = 'dismissed'
+  DISMISSED = 'dismissed',
+  IN_PROGRESS = 'in-progress'
 }
 
 export interface PopulatedCase extends Case {
@@ -165,6 +166,7 @@ export interface GetCasesResponse {
     unconfirmed: number;
     confirmed: number;
     dismissed: number;
+    'in-progress': number;
   };
   cases: Case[];
 }
@@ -212,8 +214,10 @@ export interface IGetCaseActionsResponse {
 export enum CaseActionType {
   CONFIRM = 'confirm',
   DISMISS = 'dismiss',
+  UNCONFIRM = 'unconfirm',
   OPEN = 'open',
-  COMMENT = 'comment'
+  COMMENT = 'comment',
+  IN_PROGRESS = 'in-progress'
 }
 
 export interface CaseAction extends PersistedItem {
