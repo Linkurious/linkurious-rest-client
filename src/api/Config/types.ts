@@ -175,29 +175,23 @@ export interface INeo4jSearchConfig extends IVendorConfig {
   indexEdges?: boolean;
 }
 
-export type InternalIndexConfig = IElasticSearchConfig | IElasticSearch2Config;
+export type InternalIndexConfig = IElasticSearchConfig;
 
-export interface ICommonElasticSearchConfig extends IVendorConfig {
+export interface IElasticSearchConfig extends IVendorConfig {
   host: string;
   port: number;
   https?: boolean;
   user?: string;
   password?: string;
-  forceReindex?: boolean;
-  skipEdgeIndexation?: boolean;
+  mapping?: string;
   dynamicMapping?: boolean;
+  forceStringMapping?: string[];
   analyzer?: string;
   incrementalIndexation?: boolean;
   timestampPropertyName?: string;
-}
-
-export interface IElasticSearchConfig extends ICommonElasticSearchConfig {
-  indexName?: string; // Deprecated option to be removed, kept here for backward compatibility
-}
-
-export interface IElasticSearch2Config extends ICommonElasticSearchConfig {
-  forceStringMapping?: string[];
-  caCert?: string;
+  incrementalIndexationCron?: string;
+  forceReindex?: boolean;
+  skipEdgeIndexation?: boolean;
 }
 
 export interface INeo2esConfig extends IVendorConfig {}
