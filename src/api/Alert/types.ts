@@ -21,6 +21,7 @@ import {
   IVisualizationFilters,
   IVisualizationGeo,
   IVisualizationTimeline,
+  Visualization,
   VisualizationLayout,
   VisualizationMode
 } from '../Visualization';
@@ -35,7 +36,7 @@ export interface IPopulatedCaseVisualization extends ICaseVisualization {
   edges: VizEdge[];
 }
 
-export interface ICaseVisualization {
+export interface ICaseVisualization extends Partial<Visualization> {
   nodes: IVizNodeInfo[];
   edges: IVizEdgeInfo[];
   nodeFields: IItemFields;
