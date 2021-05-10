@@ -5,56 +5,30 @@
  */
 
 import {
-  GenericObject,
   IDataSourceParams,
   IGetSubGraphParams,
   PersistedItem,
   Tree
 } from '../commonTypes';
-import {IAlternativeIdSettings} from '../DataSource';
 import {GraphQueryDialect} from '../GraphQuery';
-import {IVizEdgeInfo, IVizNodeInfo, LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
+import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
 import {User} from '../User';
-import {
-  IItemFields,
-  IVisualizationDesign,
-  IVisualizationFilters,
-  IVisualizationGeo,
-  IVisualizationTimeline,
-  Visualization,
-  VisualizationLayout,
-  VisualizationMode
-} from '../Visualization';
+import {BaseVisualization} from '../Visualization';
 
 export enum AlertColumnType {
   STRING = 'string',
   NUMBER = 'number'
 }
 
-export interface IPopulatedCaseVisualization extends ICaseVisualization {
+export interface IPopulatedCaseVisualization extends BaseVisualization {
   nodes: VizNode[];
   edges: VizEdge[];
-}
-
-export interface ICaseVisualization extends Partial<Visualization> {
-  nodes: IVizNodeInfo[];
-  edges: IVizEdgeInfo[];
-  nodeFields: IItemFields;
-  edgeFields: IItemFields;
-  design: IVisualizationDesign;
-  filters: IVisualizationFilters;
-  edgeGrouping?: GenericObject<boolean>;
-  alternativeIds: IAlternativeIdSettings;
-  mode: VisualizationMode;
-  layout: VisualizationLayout;
-  geo: IVisualizationGeo;
-  timeline?: IVisualizationTimeline;
 }
 
 export interface IUpdateCaseParams extends IDataSourceParams {
   alertId: number;
   caseId: number;
-  visualization: ICaseVisualization;
+  visualization: BaseVisualization;
 }
 
 export interface ICreateAlertParams extends IDataSourceParams {
