@@ -4,12 +4,7 @@
  * - Created on 2019-10-30.
  */
 
-import {
-  IDataSourceParams,
-  IGetSubGraphParams,
-  PersistedItem,
-  Tree
-} from '../commonTypes';
+import {IDataSourceParams, IGetSubGraphParams, PersistedItem, Tree} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
 import {User} from '../User';
