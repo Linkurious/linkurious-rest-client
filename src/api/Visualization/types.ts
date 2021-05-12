@@ -133,7 +133,22 @@ export interface IVisualizationTimeline {
   zoomLevel?: ZoomLevel;
 }
 
-export interface Visualization extends PersistedItem {
+export interface BaseVisualization {
+  nodes: IVizNodeInfo[];
+  edges: IVizEdgeInfo[];
+  nodeFields: IItemFields;
+  edgeFields: IItemFields;
+  design: IVisualizationDesign;
+  filters: IVisualizationFilters;
+  edgeGrouping?: GenericObject<boolean>;
+  alternativeIds: IAlternativeIdSettings;
+  mode: VisualizationMode;
+  layout: VisualizationLayout;
+  geo: IVisualizationGeo;
+  timeline?: IVisualizationTimeline;
+}
+
+export interface Visualization extends BaseVisualization, PersistedItem {
   title: string;
   folder: number;
   nodes: IVizNodeInfo[];
