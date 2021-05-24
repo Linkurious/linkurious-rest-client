@@ -267,7 +267,7 @@ export interface IAccessConfig {
   loginTimeout?: number;
   externalUsersAllowedGroups?: Array<string | number>;
   externalUserDefaultGroupId?: number | number[];
-  externalUsersGroupMapping?: GenericObject<number | number[]>;
+  externalUsersGroupMapping?: GenericObject<number | string | Array<number | string>>;
   autoRefreshGroupMapping?: boolean;
   msActiveDirectory?: IMSActiveDirectoryConfig;
   ldap?: ILDAPConfig;
