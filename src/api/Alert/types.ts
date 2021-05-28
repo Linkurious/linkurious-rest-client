@@ -4,14 +4,26 @@
  * - Created on 2019-10-30.
  */
 
-import {IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
+import {IDataSourceParams, IGetSubGraphParams, PersistedItem, Tree} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
-import {LkEdge, LkNode} from '../graphItemTypes';
+import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
 import {User} from '../User';
+import {BaseVisualization} from '../Visualization';
 
 export enum AlertColumnType {
   STRING = 'string',
   NUMBER = 'number'
+}
+
+export interface IPopulatedCaseVisualization extends BaseVisualization {
+  nodes: VizNode[];
+  edges: VizEdge[];
+}
+
+export interface IUpdateCaseParams extends IDataSourceParams {
+  alertId: number;
+  caseId: number;
+  visualization: BaseVisualization;
 }
 
 export interface ICreateAlertParams extends IDataSourceParams {
@@ -26,6 +38,7 @@ export interface ICreateAlertParams extends IDataSourceParams {
     columnTitle: string;
   }>;
   cron: string;
+  target: string;
 }
 
 export interface Alert extends PersistedItem {
@@ -48,6 +61,7 @@ export interface Alert extends PersistedItem {
     partial: boolean;
   };
   nextRun?: string; // defined if enabled=true
+  target: string; // we assume alerts always have target
 }
 
 export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
@@ -83,24 +97,29 @@ export interface IGetAlertParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IGetMatchParams extends IDataSourceParams {
+export interface IGetCaseParams extends IGetSubGraphParams {
   alertId: number;
-  matchId: number;
+  caseId: number;
 }
 
-export enum MatchStatus {
+export enum CaseStatus {
   UNCONFIRMED = 'unconfirmed',
   CONFIRMED = 'confirmed',
-  DISMISSED = 'dismissed'
+  DISMISSED = 'dismissed',
+  IN_PROGRESS = 'in-progress'
 }
 
-export interface Match extends PersistedItem {
+export interface PopulatedCase extends Case {
+  visualization: IPopulatedCaseVisualization;
+}
+
+export interface Case extends PersistedItem {
   sourceKey: string;
   alertId: number;
   hash: string;
-  status: MatchStatus;
-  statusUpdateDate?: string; // undefined if the match status was never updated
-  user?: Pick<User, 'id' | 'username' | 'email'>; // undefined if the match status was never updated
+  status: CaseStatus;
+  statusUpdateDate?: string; // undefined if the case status was never updated
+  user?: Pick<User, 'id' | 'username' | 'email'>; // undefined if the case status was never updated
   viewers: Array<{
     id: number;
     username: string;
@@ -112,21 +131,22 @@ export interface Match extends PersistedItem {
   columns: (string | number | null)[]; // An empty column field is filled with null
 }
 
-export interface GetMatchesResponse {
+export interface GetCasesResponse {
   counts: {
     unconfirmed: number;
     confirmed: number;
     dismissed: number;
+    'in-progress': number;
   };
-  matches: Match[];
+  cases: Case[];
 }
 
-export enum GetMatchesSortDirection {
+export enum GetCasesSortDirection {
   ASC = 'asc',
   DESC = 'desc'
 }
 
-export enum GetMatchesSortBy {
+export enum GetCasesSortBy {
   DATE = 'date',
   ZERO = '0',
   ONE = '1',
@@ -135,37 +155,53 @@ export enum GetMatchesSortBy {
   FOUR = '4'
 }
 
-export interface IGetMatchesParams extends IDataSourceParams {
+export interface IGetCasesParams extends IDataSourceParams {
   alertId: number;
   offset?: number;
   limit?: number;
-  sortDirection?: GetMatchesSortDirection;
-  sortBy?: GetMatchesSortBy;
-  status?: MatchStatus;
+  sortDirection?: GetCasesSortDirection;
+  sortBy?: GetCasesSortBy;
+  status?: CaseStatus;
 }
 
-export interface IGetMatchActionsParams extends IDataSourceParams {
+export interface IGetCaseActionsParams extends IDataSourceParams {
   alertId: number;
-  matchId: number;
+  caseId: number;
+  offset?: number;
+  limit?: number;
+  action?: CaseActionType[];
 }
 
-export enum MatchActionType {
+export interface IDeleteCaseCommentParams extends IDataSourceParams {
+  commentId: number;
+}
+
+export interface IGetCaseActionsResponse {
+  total: number;
+  caseActions: CaseAction[];
+}
+
+export enum CaseActionType {
   CONFIRM = 'confirm',
   DISMISS = 'dismiss',
   UNCONFIRM = 'unconfirm',
-  OPEN = 'open'
+  OPEN = 'open',
+  COMMENT = 'comment',
+  IN_PROGRESS = 'in-progress'
 }
 
-export interface MatchAction extends PersistedItem {
-  matchId: number;
+export interface CaseAction extends PersistedItem {
+  caseId: number;
   user: Pick<User, 'id' | 'username' | 'email'>;
-  action: MatchActionType;
+  action: CaseActionType;
+  comment?: string;
 }
 
-export interface IDoMatchActionParams extends IDataSourceParams {
+export interface IDoCaseActionParams extends IDataSourceParams {
   alertId: number;
-  matchId: number;
-  action: MatchActionType;
+  caseId: number;
+  action: CaseActionType;
+  comment?: string;
 }
 
 export interface IAlertPreviewParams extends IDataSourceParams {
@@ -174,6 +210,7 @@ export interface IAlertPreviewParams extends IDataSourceParams {
   columns?: Array<{columnName: string; columnTitle?: string; type: AlertColumnType}>;
   limit?: number;
   timeout?: number;
+  target: string;
 }
 
 export type AlertPreview = Array<{
