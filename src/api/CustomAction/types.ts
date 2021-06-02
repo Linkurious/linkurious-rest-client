@@ -58,7 +58,8 @@ export interface ParsedCustomAction {
 
 export enum CustomActionSharingMode {
   PRIVATE = 'private',
-  SOURCE = 'source'
+  SOURCE = 'source',
+  GROUPS = 'groups'
 }
 
 export enum CustomActionRight {
@@ -113,6 +114,7 @@ export interface CustomAction extends PersistedItem {
   urlTemplate: string;
   description: string;
   sharing: CustomActionSharingMode;
+  sharedWithGroups?: number[]; // defined only if sharing='groups'
   parsedTemplate: ParsedCustomAction;
   right: CustomActionRight;
 }
@@ -122,6 +124,7 @@ export interface ICreateCustomActionParams extends IDataSourceParams {
   urlTemplate: string;
   description?: string;
   sharing: CustomActionSharingMode;
+  sharedWithGroups?: number[]; // defined only if sharing='groups'
 }
 
 export interface IDeleteCustomActionParams extends IDataSourceParams {
