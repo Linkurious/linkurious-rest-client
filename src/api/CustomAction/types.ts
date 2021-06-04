@@ -4,7 +4,7 @@
  * - Created on 2019-08-19.
  */
 
-import {IDataSourceParams, PersistedItem} from '../commonTypes';
+import {IDataSourceParams, PersistedItem, SharingOptions} from '../commonTypes';
 
 export enum CustomActionType {
   NON_GRAPH = 'non-graph',
@@ -56,12 +56,6 @@ export interface ParsedCustomAction {
   elements: CustomActionElement[];
 }
 
-export enum CustomActionSharingMode {
-  PRIVATE = 'private',
-  SOURCE = 'source',
-  GROUPS = 'groups'
-}
-
 export enum CustomActionRight {
   OWNER = 'owner',
   READ = 'read'
@@ -108,23 +102,19 @@ export type CustomActionParsingError = {
     }
 );
 
-export interface CustomAction extends PersistedItem {
+export interface CustomAction extends PersistedItem, SharingOptions {
   sourceKey: string;
   name: string;
   urlTemplate: string;
   description: string;
-  sharing: CustomActionSharingMode;
-  sharedWithGroups?: number[]; // defined only if sharing='groups'
   parsedTemplate: ParsedCustomAction;
   right: CustomActionRight;
 }
 
-export interface ICreateCustomActionParams extends IDataSourceParams {
+export interface ICreateCustomActionParams extends IDataSourceParams, SharingOptions {
   name: string;
   urlTemplate: string;
   description?: string;
-  sharing: CustomActionSharingMode;
-  sharedWithGroups?: number[]; // defined only if sharing='groups'
 }
 
 export interface IDeleteCustomActionParams extends IDataSourceParams {

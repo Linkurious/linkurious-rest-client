@@ -18,6 +18,17 @@ export interface IGetSubGraphParams extends IDataSourceParams {
   withDegree?: boolean;
 }
 
+export enum SharingMode {
+  PRIVATE = 'private',
+  SOURCE = 'source',
+  GROUPS = 'groups'
+}
+
+export interface SharingOptions {
+  sharing: SharingMode;
+  sharedWithGroups?: number[]; // defined only if sharing='groups'
+}
+
 export interface PersistedItem {
   id: number;
   createdAt: string;
