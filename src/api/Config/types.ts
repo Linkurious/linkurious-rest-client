@@ -245,11 +245,9 @@ export interface IAdvancedConfig {
   searchAddAllThreshold: number;
   minSearchQueryLength: number;
   rawQueryTimeout: number;
-  maxConnectionTimeout?: number;
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
   defaultTimezone: string;
-  connectionRetries?: number;
   pollInterval?: number;
   indexationChunkSize?: number;
   layoutWorkers?: number;
@@ -258,6 +256,8 @@ export interface IAdvancedConfig {
   obfuscation?: boolean;
   edgesBetweenSupernodes?: boolean;
   itemTypeCountLimit?: number;
+  dataSourceConnectionTimeout?: number;
+  dataSourceAutoReconnectInterval?: number;
 }
 
 export interface ILeafletConfig {
