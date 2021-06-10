@@ -225,7 +225,6 @@ export interface IAdvancedConfig {
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
   defaultTimezone: string;
-  connectionRetries?: number;
   pollInterval?: number;
   indexationChunkSize?: number;
   layoutWorkers?: number;
