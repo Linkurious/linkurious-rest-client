@@ -4,7 +4,7 @@
  * - Created on 2019-10-29.
  */
 
-import {GenericObject, IDataSourceParams, IGetSubGraphParams} from '../commonTypes';
+import {GenericObject, IDataSourceParams, IGetSubGraphParams, SharingOptions} from '../commonTypes';
 import {LkSubGraph} from '../graphItemTypes';
 
 export enum TemplateFieldType {
@@ -176,12 +176,6 @@ export enum GraphQueryDialect {
   GREMLIN = 'gremlin'
 }
 
-export enum GraphQuerySharingMode {
-  PRIVATE = 'private',
-  SOURCE = 'source',
-  GROUPS = 'groups'
-}
-
 export enum GraphQueryRight {
   OWNER = 'owner',
   READ = 'read'
@@ -192,19 +186,17 @@ export enum GraphQueryType {
   TEMPLATE = 'template'
 }
 
-export interface GraphQuery {
+export interface GraphQuery extends SharingOptions {
   id: number;
   sourceKey: string;
   name: string;
   content: string;
   dialect: GraphQueryDialect;
   description: string;
-  sharing: GraphQuerySharingMode;
   owner?: {
     name: string;
     email: string;
   };
-  sharedWithGroups?: number[]; // defined only if sharing='groups'
   write: boolean;
   graphInput?: GraphQueryInputType; // defined only if type='template'
   templateFields?: Template[]; // defined only if type='template'
@@ -223,13 +215,11 @@ export interface IGetQueriesParams extends IDataSourceParams {
   type: GraphQueryType;
 }
 
-export interface ICreateQueryParams extends IDataSourceParams {
+export interface ICreateQueryParams extends IDataSourceParams, SharingOptions {
   name: string;
   content: string;
   dialect?: GraphQueryDialect;
   description?: string;
-  sharing: GraphQuerySharingMode;
-  sharedWithGroups?: number[];
 }
 
 export interface IUpdateQueryParams extends Partial<ICreateQueryParams> {
