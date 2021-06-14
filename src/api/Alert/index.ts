@@ -48,7 +48,8 @@ const {
   FOLDER_DELETION_FAILED,
   ALREADY_EXISTS,
   INVALID_ALERT_QUERY,
-  INVALID_ALERT_TARGET
+  INVALID_ALERT_TARGET,
+  REDUNDANT_ACTION
 } = LkErrorKey;
 
 export class AlertAPI extends Request {
@@ -230,7 +231,14 @@ export class AlertAPI extends Request {
    */
   public doCaseAction(this: Request<CaseAction>, params: IDoCaseActionParams) {
     return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      errors: [
+        FEATURE_DISABLED,
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        NOT_FOUND,
+        REDUNDANT_ACTION
+      ],
       url: '/:sourceKey/alerts/:alertId/cases/:caseId/action',
       method: 'POST',
       params: params
