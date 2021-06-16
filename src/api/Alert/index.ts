@@ -29,7 +29,7 @@ import {
   GetCasesResponse,
   IDeleteCaseCommentParams,
   IGetCaseActionsResponse,
-  IUpdateCaseParams,
+  IUpdateCasesParams,
   PopulatedCase,
   IAssignCasesParams
 } from './types';
@@ -181,7 +181,7 @@ export class AlertAPI extends Request {
   /**
    * Update a case.
    */
-  public updateCase(params: IUpdateCaseParams) {
+  public updateCase(params: IUpdateCasesParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/:caseId',
