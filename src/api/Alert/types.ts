@@ -20,6 +20,12 @@ export interface IPopulatedCaseVisualization extends BaseVisualization {
   edges: VizEdge[];
 }
 
+export interface IAssignCasesParams extends IDataSourceParams {
+  alertId: number;
+  caseIds: number[];
+  userId: number | null;
+}
+
 export interface IUpdateCaseParams extends IDataSourceParams {
   alertId: number;
   caseId: number;
