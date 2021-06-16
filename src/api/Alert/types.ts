@@ -26,7 +26,7 @@ export interface IAssignCasesParams extends IDataSourceParams {
   userId: number | null;
 }
 
-export interface IUpdateCasesParams extends IDataSourceParams {
+export interface IUpdateCaseParams extends IDataSourceParams {
   alertId: number;
   caseId: number;
   visualization: BaseVisualization;
