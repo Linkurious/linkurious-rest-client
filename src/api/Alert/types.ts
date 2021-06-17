@@ -126,6 +126,7 @@ export interface Case extends PersistedItem {
   status: CaseStatus;
   statusUpdateDate?: string; // undefined if the case status was never updated
   user?: Pick<User, 'id' | 'username' | 'email'>; // undefined if the case status was never updated
+  assignedUser?: Pick<User, 'id' | 'username' | 'email'>; // undefined if the case is currently not assigned to any user
   viewers: Array<{
     id: number;
     username: string;
