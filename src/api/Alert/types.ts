@@ -7,8 +7,13 @@
 import {IDataSourceParams, IGetSubGraphParams, PersistedItem, Tree} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
-import {User} from '../User';
+import { ISearchUsersParams, User } from '../User';
 import {BaseVisualization} from '../Visualization';
+
+export interface IAlertUserInfo extends Pick<User, 'id' | 'username' | 'email'> {
+  hasAssignedCases: boolean;
+}
+
 
 export enum AlertColumnType {
   STRING = 'string',
@@ -24,6 +29,15 @@ export interface IAssignCasesParams extends IDataSourceParams {
   alertId: number;
   caseIds: number[];
   userId: number | null;
+}
+
+export interface ISearchAlertUsersParams extends ISearchUsersParams {
+  alertId: number;
+}
+
+export interface ISearchAlertUsersResponse {
+  found: number;
+  results: IAlertUserInfo[];
 }
 
 export interface IUpdateCaseParams extends IDataSourceParams {

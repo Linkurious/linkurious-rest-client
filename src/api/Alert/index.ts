@@ -31,7 +31,9 @@ import {
   IGetCaseActionsResponse,
   IUpdateCaseParams,
   PopulatedCase,
-  IAssignCasesParams
+  IAssignCasesParams,
+  ISearchAlertUsersParams,
+  ISearchAlertUsersResponse
 } from './types';
 
 export * from './types';
@@ -198,6 +200,18 @@ export class AlertAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/assignments',
       method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Search and filter all the users that can process a given alert.
+   */
+  public searchAlertUsersParams(this: Request<ISearchAlertUsersResponse>, params: ISearchAlertUsersParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/users',
+      method: 'GET',
       params: params
     });
   }
