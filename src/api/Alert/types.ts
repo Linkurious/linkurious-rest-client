@@ -7,7 +7,7 @@
 import {IDataSourceParams, IGetSubGraphParams, PersistedItem, Tree} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
-import {ISearchUsersParams, User} from '../User';
+import {User} from '../User';
 import {BaseVisualization} from '../Visualization';
 
 export interface IAlertUserInfo extends Pick<User, 'id' | 'username' | 'email'> {
@@ -30,11 +30,11 @@ export interface IAssignCasesParams extends IDataSourceParams {
   userId: number | null;
 }
 
-export interface ISearchAlertUsersParams extends ISearchUsersParams, IDataSourceParams {
+export interface IGetAlertUsersParams extends IDataSourceParams {
   alertId: number;
 }
 
-export interface ISearchAlertUsersResponse {
+export interface IGetAlertUsersResponse {
   found: number;
   results: IAlertUserInfo[];
 }
