@@ -34,11 +34,6 @@ export interface IGetAlertUsersParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IGetAlertUsersResponse {
-  found: number;
-  results: IAlertUserInfo[];
-}
-
 export interface IUpdateCaseParams extends IDataSourceParams {
   alertId: number;
   caseId: number;

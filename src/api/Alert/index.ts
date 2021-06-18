@@ -32,8 +32,7 @@ import {
   IUpdateCaseParams,
   PopulatedCase,
   IAssignCasesParams,
-  IGetAlertUsersResponse,
-  IGetAlertUsersParams
+  IGetAlertUsersParams, IAlertUserInfo
 } from './types';
 
 export * from './types';
@@ -207,7 +206,7 @@ export class AlertAPI extends Request {
   /**
    * Find all the users that can process a given alert.
    */
-  public getAlertUsers(this: Request<IGetAlertUsersResponse>, params: IGetAlertUsersParams) {
+  public getAlertUsers(this: Request<IAlertUserInfo[]>, params: IGetAlertUsersParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:id/users',
