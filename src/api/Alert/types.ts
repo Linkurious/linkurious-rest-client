@@ -23,7 +23,7 @@ export interface IPopulatedCaseVisualization extends BaseVisualization {
 export interface IAssignCasesParams extends IDataSourceParams {
   alertId: number;
   caseIds: number[];
-  userId: number | null;
+  userId: number;
 }
 
 export interface IUpdateCaseParams extends IDataSourceParams {
