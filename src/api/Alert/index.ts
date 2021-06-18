@@ -210,7 +210,7 @@ export class AlertAPI extends Request {
   public getAlertUsers(this: Request<IGetAlertUsersResponse>, params: IGetAlertUsersParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/:alertId/users',
+      url: '/:sourceKey/alerts/:id/users',
       method: 'GET',
       params: params
     });
