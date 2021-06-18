@@ -207,7 +207,7 @@ export class AlertAPI extends Request {
   /**
    * Search and filter all the users that can process a given alert.
    */
-  public searchAlertUsersParams(
+  public searchAlertUsers(
     this: Request<ISearchAlertUsersResponse>,
     params: ISearchAlertUsersParams
   ) {
