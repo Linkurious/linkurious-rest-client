@@ -162,12 +162,6 @@ export enum GetCasesSortBy {
   FOUR = '4'
 }
 
-export enum AssigneeFilteringOptions {
-  ALL,
-  ME,
-  UNASSIGNED
-}
-
 export interface IGetCasesParams extends IDataSourceParams {
   alertId: number;
   offset?: number;
