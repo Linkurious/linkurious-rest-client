@@ -30,7 +30,7 @@ export interface IAssignCasesParams extends IDataSourceParams {
   userId: number | null;
 }
 
-export interface ISearchAlertUsersParams extends ISearchUsersParams {
+export interface ISearchAlertUsersParams extends ISearchUsersParams, IDataSourceParams {
   alertId: number;
 }
 
