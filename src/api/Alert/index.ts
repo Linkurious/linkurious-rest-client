@@ -32,7 +32,8 @@ import {
   IUpdateCaseParams,
   PopulatedCase,
   IAssignCasesParams,
-  IGetAlertUsersParams, IAlertUserInfo
+  IGetAlertUsersParams,
+  IAlertUserInfo
 } from './types';
 
 export * from './types';
