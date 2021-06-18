@@ -175,7 +175,7 @@ export interface IGetCasesParams extends IDataSourceParams {
   sortDirection?: GetCasesSortDirection;
   sortBy?: GetCasesSortBy;
   status?: CaseStatus;
-  assignedUserId?: number | null;
+  assignedUserId?: number;
 }
 
 export interface IGetCaseActionsParams extends IDataSourceParams {
