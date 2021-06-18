@@ -207,7 +207,10 @@ export class AlertAPI extends Request {
   /**
    * Search and filter all the users that can process a given alert.
    */
-  public searchAlertUsersParams(this: Request<ISearchAlertUsersResponse>, params: ISearchAlertUsersParams) {
+  public searchAlertUsersParams(
+    this: Request<ISearchAlertUsersResponse>,
+    params: ISearchAlertUsersParams
+  ) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/users',
