@@ -27,7 +27,7 @@ export interface IPopulatedCaseVisualization extends BaseVisualization {
 export interface IAssignCasesParams extends IDataSourceParams {
   alertId: number;
   caseIds: number[];
-  userId: number | null;
+  userId: number;
 }
 
 export interface IGetAlertUsersParams extends IDataSourceParams {
@@ -177,6 +177,7 @@ export interface IGetCasesParams extends IDataSourceParams {
   sortDirection?: GetCasesSortDirection;
   sortBy?: GetCasesSortBy;
   status?: CaseStatus;
+  assignedUserId?: number;
 }
 
 export interface IGetCaseActionsParams extends IDataSourceParams {
