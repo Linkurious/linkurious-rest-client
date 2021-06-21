@@ -10,6 +10,10 @@ import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
 import {User} from '../User';
 import {BaseVisualization} from '../Visualization';
 
+export interface IAlertUserInfo extends Pick<User, 'id' | 'username' | 'email'> {
+  hasAssignedCases: boolean;
+}
+
 export enum AlertColumnType {
   STRING = 'string',
   NUMBER = 'number'
@@ -18,6 +22,16 @@ export enum AlertColumnType {
 export interface IPopulatedCaseVisualization extends BaseVisualization {
   nodes: VizNode[];
   edges: VizEdge[];
+}
+
+export interface IAssignCasesParams extends IDataSourceParams {
+  alertId: number;
+  caseIds: number[];
+  userId: number | null;
+}
+
+export interface IGetAlertUsersParams extends IDataSourceParams {
+  id: number;
 }
 
 export interface IUpdateCaseParams extends IDataSourceParams {
@@ -120,6 +134,7 @@ export interface Case extends PersistedItem {
   status: CaseStatus;
   statusUpdateDate?: string; // undefined if the case status was never updated
   user?: Pick<User, 'id' | 'username' | 'email'>; // undefined if the case status was never updated
+  assignedUser?: Pick<User, 'id' | 'username' | 'email'>; // undefined if the case is currently not assigned to any user
   viewers: Array<{
     id: number;
     username: string;
