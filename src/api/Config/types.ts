@@ -77,7 +77,7 @@ export interface IHttpServerConfig {
   listenPortHttps?: number;
   useHttps?: boolean;
   forceHttps?: boolean;
-  forcePublicHttps: boolean;
+  forcePublicHttps?: boolean;
   certificateFile?: string;
   certificateKeyFile?: string;
   certificatePassphrase?: string;
