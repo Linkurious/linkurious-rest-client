@@ -31,7 +31,7 @@ export interface IAssignCasesParams extends IDataSourceParams {
 }
 
 export interface IGetAlertUsersParams extends IDataSourceParams {
-  id: number;
+  alertId: number;
 }
 
 export interface IUpdateCaseParams extends IDataSourceParams {
