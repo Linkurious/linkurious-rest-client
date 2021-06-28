@@ -31,7 +31,9 @@ import {
   IGetCaseActionsResponse,
   IUpdateCaseParams,
   PopulatedCase,
-  IAssignCasesParams
+  IAssignCasesParams,
+  IGetAlertUsersParams,
+  IAlertUserInfo
 } from './types';
 
 export * from './types';
@@ -198,6 +200,18 @@ export class AlertAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/assignments',
       method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Find all the users that can process a given alert.
+   */
+  public getAlertUsers(this: Request<IAlertUserInfo[]>, params: IGetAlertUsersParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/users',
+      method: 'GET',
       params: params
     });
   }

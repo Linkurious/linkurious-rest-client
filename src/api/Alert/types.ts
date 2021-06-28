@@ -10,6 +10,10 @@ import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
 import {User} from '../User';
 import {BaseVisualization} from '../Visualization';
 
+export interface IAlertUserInfo extends Pick<User, 'id' | 'username' | 'email'> {
+  hasAssignedCases: boolean;
+}
+
 export enum AlertColumnType {
   STRING = 'string',
   NUMBER = 'number'
@@ -24,6 +28,10 @@ export interface IAssignCasesParams extends IDataSourceParams {
   alertId: number;
   caseIds: number[];
   userId: number | null;
+}
+
+export interface IGetAlertUsersParams extends IDataSourceParams {
+  alertId: number;
 }
 
 export interface IUpdateCaseParams extends IDataSourceParams {
