@@ -30,7 +30,10 @@ import {
   IDeleteCaseCommentParams,
   IGetCaseActionsResponse,
   IUpdateCaseParams,
-  PopulatedCase
+  PopulatedCase,
+  IAssignCasesParams,
+  IGetAlertUsersParams,
+  IAlertUserInfo
 } from './types';
 
 export * from './types';
@@ -185,6 +188,30 @@ export class AlertAPI extends Request {
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/:caseId',
       method: 'PATCH',
+      params: params
+    });
+  }
+
+  /**
+   * Assign one or more cases to a user.
+   */
+  public assignCases(params: IAssignCasesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/cases/assignments',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Find all the users that can process a given alert.
+   */
+  public getAlertUsers(this: Request<IAlertUserInfo[]>, params: IGetAlertUsersParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/users',
+      method: 'GET',
       params: params
     });
   }
