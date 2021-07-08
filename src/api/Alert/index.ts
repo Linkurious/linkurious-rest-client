@@ -14,25 +14,32 @@ import {
   ICreateAlertParams,
   IDeleteAlertFolderParams,
   IDeleteAlertParams,
-  IDoMatchActionParams,
+  IDoCaseActionParams,
   IGetAlertParams,
-  IGetMatchActionsParams,
-  IGetMatchesParams,
-  IGetMatchParams,
+  IGetCaseActionsParams,
+  IGetCasesParams,
+  IGetCaseParams,
   IUpdateAlertFolderParams,
   IUpdateAlertParams,
   AlertPreview,
   IAlertPreviewParams,
   Alert,
   AlertFolder,
-  MatchAction,
-  Match,
-  GetMatchesResponse
+  CaseAction,
+  GetCasesResponse,
+  IDeleteCaseCommentParams,
+  IGetCaseActionsResponse,
+  IUpdateCaseParams,
+  PopulatedCase,
+  IAssignCasesParams,
+  IGetAlertUsersParams,
+  IAlertUserInfo
 } from './types';
 
 export * from './types';
 
 const {
+  INVALID_PARAMETER,
   FEATURE_DISABLED,
   UNAUTHORIZED,
   DATA_SOURCE_UNAVAILABLE,
@@ -42,12 +49,15 @@ const {
   GRAPH_REQUEST_TIMEOUT,
   CONSTRAINT_VIOLATION,
   FOLDER_DELETION_FAILED,
-  ALREADY_EXISTS
+  ALREADY_EXISTS,
+  INVALID_ALERT_QUERY,
+  INVALID_ALERT_TARGET,
+  REDUNDANT_ACTION
 } = LkErrorKey;
 
 export class AlertAPI extends Request {
   /**
-   * Create a new alert. If `matchTTL` is set to 0, unconfirmed matches
+   * Create a new alert. If `caseTTL` is set to 0, unconfirmed cases
    * will disappear when they stop matching the alert query.
    */
   public createAlert(this: Request<Alert>, params: ICreateAlertParams) {
@@ -61,7 +71,7 @@ export class AlertAPI extends Request {
 
   /**
    * Update the alert selected by id.
-   * Updating an alert query will results in all the previous detected matches deleted.
+   * Updating an alert query will results in all the previous detected cases deleted.
    */
   public updateAlert(this: Request<Alert>, params: IUpdateAlertParams) {
     return this.request({
@@ -73,7 +83,7 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Delete the alert by id and all its matches.
+   * Delete the alert by id and all its cases.
    */
   public deleteAlert(params: IDeleteAlertParams) {
     return this.request({
@@ -159,48 +169,104 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Get a match by id.
+   * Get a case by id.
    */
-  public getMatch(this: Request<Match>, params: IGetMatchParams) {
+  public getCase(this: Request<PopulatedCase>, params: IGetCaseParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/:alertId/matches/:matchId',
+      url: '/:sourceKey/alerts/:alertId/cases/:caseId',
       method: 'GET',
       params: params
     });
   }
 
   /**
-   * Get all the matches of an alert.
+   * Update a case.
    */
-  public getMatches(this: Request<GetMatchesResponse>, params: IGetMatchesParams) {
+  public updateCase(params: IUpdateCaseParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/:alertId/matches',
+      url: '/:sourceKey/alerts/:alertId/cases/:caseId',
+      method: 'PATCH',
+      params: params
+    });
+  }
+
+  /**
+   * Assign one or more cases to a user.
+   */
+  public assignCases(params: IAssignCasesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/cases/assignments',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Find all the users that can process a given alert.
+   */
+  public getAlertUsers(this: Request<IAlertUserInfo[]>, params: IGetAlertUsersParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/users',
       method: 'GET',
       params: params
     });
   }
 
   /**
-   * Get all the actions of a match ordered by creation date.
+   * Get all the cases of an alert.
    */
-  public getMatchActions(this: Request<MatchAction[]>, params: IGetMatchActionsParams) {
+  public getCases(this: Request<GetCasesResponse>, params: IGetCasesParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/:alertId/matches/:matchId/actions',
+      url: '/:sourceKey/alerts/:alertId/cases',
       method: 'GET',
       params: params
     });
   }
 
   /**
-   * Do an action (open, dismiss, confirm, unconfirm) on a match.
+   * Get all the actions of a case ordered by creation date. Recent ones first.
+   * The offset defaults to 0 and the limit defaults to 10.
    */
-  public doMatchAction(params: IDoMatchActionParams) {
+  public getCaseActions(this: Request<IGetCaseActionsResponse>, params: IGetCaseActionsParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/:alertId/matches/:matchId/action',
+      url: '/:sourceKey/alerts/:alertId/cases/:caseId/actions',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Delete a comment on a case if the user that triggered the deletion is the author.
+   */
+  public deleteCaseComment(params: IDeleteCaseCommentParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alert/case/comment/:commentId',
+      method: 'DELETE',
+      params: params
+    });
+  }
+
+  /**
+   * Do an action (open, dismiss, confirm, comment) on a case.
+   */
+  public doCaseAction(this: Request<CaseAction>, params: IDoCaseActionParams) {
+    return this.request({
+      errors: [
+        FEATURE_DISABLED,
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        NOT_FOUND,
+        REDUNDANT_ACTION
+      ],
+      url: '/:sourceKey/alerts/:alertId/cases/:caseId/action',
       method: 'POST',
       params: params
     });
@@ -213,13 +279,16 @@ export class AlertAPI extends Request {
   public alertPreview(this: Request<AlertPreview>, params: IAlertPreviewParams) {
     return this.request({
       errors: [
+        INVALID_PARAMETER,
         FEATURE_DISABLED,
         UNAUTHORIZED,
         DATA_SOURCE_UNAVAILABLE,
         FORBIDDEN,
         BAD_GRAPH_REQUEST,
         GRAPH_REQUEST_TIMEOUT,
-        CONSTRAINT_VIOLATION
+        CONSTRAINT_VIOLATION,
+        INVALID_ALERT_QUERY,
+        INVALID_ALERT_TARGET
       ],
       url: '/:sourceKey/graph/alertPreview',
       method: 'POST',

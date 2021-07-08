@@ -109,7 +109,7 @@ export interface DeleteSourceDataResponse {
     groups: number;
     alerts: number;
     alertFolders: number;
-    matches: number;
+    cases: number;
     graphQueries: number;
     edgeTypes: number;
     edgeProperties: number;
