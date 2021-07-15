@@ -31,7 +31,8 @@ const {
   GUEST_DISABLED,
   FORBIDDEN,
   NOT_FOUND,
-  STRICT_SCHEMA_REQUIRED
+  STRICT_SCHEMA_REQUIRED,
+  ALREADY_EXISTS
 } = LkErrorKey;
 
 export class GraphSchemaAPI extends Request {
@@ -88,7 +89,7 @@ export class GraphSchemaAPI extends Request {
    */
   public createType(this: Request<GraphSchemaType>, params: ICreateTypeParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, ALREADY_EXISTS],
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
       method: 'POST',
       params: params
@@ -112,7 +113,7 @@ export class GraphSchemaAPI extends Request {
    */
   public createProperty(this: Request<GraphSchemaProperty>, params: ICreatePropertyParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, ALREADY_EXISTS],
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
       method: 'POST',
       params: params
