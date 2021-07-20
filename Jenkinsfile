@@ -1,4 +1,4 @@
-@Library('linkurious-shared:feature/JSL-67')_
+@Library('linkurious-shared@feature/JSL-67')_
 
 nodeJob {
   // General
