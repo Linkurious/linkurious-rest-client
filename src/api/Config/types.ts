@@ -77,7 +77,7 @@ export interface IHttpServerConfig {
   listenPortHttps?: number;
   useHttps?: boolean;
   forceHttps?: boolean;
-  forcePublicHttps: boolean;
+  forcePublicHttps?: boolean;
   certificateFile?: string;
   certificateKeyFile?: string;
   certificatePassphrase?: string;
@@ -225,7 +225,6 @@ export interface IAdvancedConfig {
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
   defaultTimezone: string;
-  connectionRetries?: number;
   pollInterval?: number;
   indexationChunkSize?: number;
   layoutWorkers?: number;
@@ -267,7 +266,7 @@ export interface IAccessConfig {
   loginTimeout?: number;
   externalUsersAllowedGroups?: Array<string | number>;
   externalUserDefaultGroupId?: number | number[];
-  externalUsersGroupMapping?: GenericObject<number | number[]>;
+  externalUsersGroupMapping?: GenericObject<number | string | Array<number | string>>;
   autoRefreshGroupMapping?: boolean;
   msActiveDirectory?: IMSActiveDirectoryConfig;
   ldap?: ILDAPConfig;
