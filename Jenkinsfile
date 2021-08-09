@@ -10,4 +10,6 @@ nodeJob {
   runBookeeping = true
 
   runNpmPublish = true
+
+  runForwardMerge = true
 }
