@@ -4,7 +4,7 @@
  * - Created on 2019-10-30.
  */
 
-import {IDataSourceParams, IGetSubGraphParams, PersistedItem, Tree} from '../commonTypes';
+import {IDataSourceParams, IGetSubGraphParams, PersistedItem, SharingOptions, Tree} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
 import {User} from '../User';
@@ -40,24 +40,12 @@ export interface IUpdateCaseParams extends IDataSourceParams {
   visualization: BaseVisualization;
 }
 
-export interface ICreateAlertParams extends IDataSourceParams {
-  title: string;
-  query: string;
-  dialect: GraphQueryDialect;
+export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder'> {
   folder?: number;
-  enabled: boolean;
-  columns: Array<{
-    type: AlertColumnType;
-    columnName: string;
-    columnTitle: string;
-  }>;
-  cron: string;
-  target: string;
 }
 
-export interface Alert extends PersistedItem {
+export interface IBaseAlert extends IDataSourceParams, SharingOptions {
   title: string;
-  sourceKey: string;
   query: string;
   dialect: GraphQueryDialect;
   folder: number;
@@ -68,6 +56,10 @@ export interface Alert extends PersistedItem {
     columnTitle: string;
   }>;
   cron: string;
+  target: string; // we assume alerts always have target
+}
+
+export interface Alert extends IBaseAlert, PersistedItem {
   lastRun?: string; // defined if it has run at least once
   lastRunProblem?: {
     // defined if last run had a problem
@@ -75,7 +67,6 @@ export interface Alert extends PersistedItem {
     partial: boolean;
   };
   nextRun?: string; // defined if enabled=true
-  target: string; // we assume alerts always have target
 }
 
 export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
