@@ -4,6 +4,7 @@ nodeJob {
   // General
   projectName = "linkurious/rest-client"
 
+  runForwardMerge = true
 
   createGitTag = true
   gitTagPrefix = 'v'
