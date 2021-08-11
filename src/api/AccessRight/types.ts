@@ -53,6 +53,11 @@ export enum ActionAccessRightType {
   NONE = 'none'
 }
 
+export enum AlertAccessRightType {
+  READ = 'read',
+  NONE = 'none'
+}
+
 export enum TargetType {
   NODE_CATEGORY = 'nodeCategory',
   EDGE_TYPE = 'edgeType',
@@ -70,6 +75,7 @@ export interface ISetAccessRightsParams extends IDataSourceParams {
     | INodePropertyAccessRight
     | IEdgePropertyAccessRight
     | IActionAccessRight
+    | IAlertAccessRight
   >;
 }
 
@@ -90,6 +96,10 @@ export interface IEdgeTypeAccessRight extends IGenericAccessRight<TargetType.EDG
 export interface IActionAccessRight extends IGenericAccessRight<TargetType.ACTION> {
   type: ActionAccessRightType;
   targetName: Action;
+}
+
+export interface IAlertAccessRight extends IGenericAccessRight<TargetType.ALERT> {
+  type: AlertAccessRightType;
 }
 
 export interface INodePropertyAccessRight
@@ -114,6 +124,7 @@ export type AccessRight =
   | IEdgeTypeAccessRight
   | IActionAccessRight
   | IBuiltinOnlyActionAccessRight
+  | IAlertAccessRight
   | INodePropertyAccessRight
   | IEdgePropertyAccessRight;
 
