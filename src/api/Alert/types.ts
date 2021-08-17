@@ -51,7 +51,6 @@ export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder'> {
 }
 
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
-  sourceKey: string;
   title: string;
   query: string;
   dialect: GraphQueryDialect;
@@ -67,6 +66,7 @@ export interface IBaseAlert extends IDataSourceParams, SharingOptions {
 }
 
 export interface Alert extends IBaseAlert, PersistedItem {
+  sourceKey: string;
   lastRun?: string; // defined if it has run at least once
   lastRunProblem?: {
     // defined if last run had a problem
