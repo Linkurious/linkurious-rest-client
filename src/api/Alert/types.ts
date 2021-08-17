@@ -51,6 +51,7 @@ export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder'> {
 }
 
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
+  sourceKey: string;
   title: string;
   query: string;
   dialect: GraphQueryDialect;
