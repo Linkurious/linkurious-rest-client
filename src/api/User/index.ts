@@ -54,7 +54,12 @@ export class UserAPI extends Request {
    * Get all the users or filter them by username, e-mail or group id.
    */
   public searchUsers(this: Request<SearchUserResponse>, params: ISearchUsersParams) {
-    return this.request({errors: [UNAUTHORIZED], url: '/users', method: 'GET', params: params});
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN],
+      url: '/users',
+      method: 'GET',
+      params: params
+    });
   }
 
   /**
