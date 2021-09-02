@@ -54,7 +54,7 @@ export enum SearchUsersSortBy {
   EMAIL = 'email'
 }
 
-export interface ISearchUsersParams {
+export interface ISearchUsersParams extends IDataSourceParams {
   startsWith?: string;
   contains?: string;
   groupId?: number;
