@@ -109,6 +109,10 @@ export interface CustomAction extends PersistedItem, SharingOptions {
   description: string;
   parsedTemplate: ParsedCustomAction;
   right: CustomActionRight;
+  owner?: {
+    name: string;
+    email: string;
+  };
 }
 
 export interface ICreateCustomActionParams extends IDataSourceParams, SharingOptions {
