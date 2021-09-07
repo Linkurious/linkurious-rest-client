@@ -109,7 +109,7 @@ export interface CustomAction extends PersistedItem, SharingOptions {
   description: string;
   parsedTemplate: ParsedCustomAction;
   right: CustomActionRight;
-  owner?: {
+  owner: {
     name: string;
     email: string;
   };
