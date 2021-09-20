@@ -33,7 +33,8 @@ import {
   PopulatedCase,
   IAssignCasesParams,
   IGetAlertUsersParams,
-  IAlertUserInfo
+  IAlertUserInfo,
+  IRunAlertParams
 } from './types';
 
 export * from './types';
@@ -56,6 +57,18 @@ const {
 } = LkErrorKey;
 
 export class AlertAPI extends Request {
+  /**
+   * Execute an existing alert.
+   */
+  public runAlert(this: Request<Alert>, params: IRunAlertParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
+      url: '/admin/:sourceKey/alerts/:id/run',
+      method: 'POST',
+      params: params
+    });
+  }
+
   /**
    * Create a new alert. If `caseTTL` is set to 0, unconfirmed cases
    * will disappear when they stop matching the alert query.
