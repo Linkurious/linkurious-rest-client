@@ -76,6 +76,10 @@ export interface Alert extends IBaseAlert, PersistedItem {
   nextRun?: string; // defined if enabled=true
 }
 
+export interface IRunAlertParams extends IDataSourceParams {
+  id: number;
+}
+
 export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
   id: number;
 }
