@@ -62,7 +62,7 @@ export class AlertAPI extends Request {
    */
   public runAlert(params: IRunAlertParams) {
     return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/admin/:sourceKey/alerts/:id/run',
       method: 'POST',
       params: params
