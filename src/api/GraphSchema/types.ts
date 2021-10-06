@@ -131,6 +131,7 @@ export interface GraphSchemaProperty {
   visibility: DataVisibility;
   propertyType: PropertyType;
   indexed: boolean;
+  indexedAs: PropertyType;
 }
 
 export interface GraphSchemaPropertyWithAccess extends GraphSchemaProperty {
