@@ -131,8 +131,7 @@ export interface GraphSchemaProperty {
   visibility: DataVisibility;
   propertyType: PropertyType;
   indexed: boolean;
-  // undefined for instance of schema property created before 3.0.0
-  indexedAs?: PropertyType;
+  propertyTypeConsistent: boolean;
 }
 
 export interface GraphSchemaPropertyWithAccess extends GraphSchemaProperty {
