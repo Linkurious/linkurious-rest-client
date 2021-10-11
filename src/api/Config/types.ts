@@ -222,7 +222,6 @@ export interface IAdvancedConfig {
   searchRetryMultiplier?: number;
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
-  defaultTimezone: string;
   pollInterval?: number;
   indexationChunkSize?: number;
   layoutWorkers?: number;
