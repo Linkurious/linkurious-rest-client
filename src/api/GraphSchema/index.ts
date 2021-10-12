@@ -123,7 +123,7 @@ export class GraphSchemaAPI extends Request {
   /**
    * Update an existing graph schema property.
    */
-  public updateProperty(params: IUpdatePropertyParams) {
+  public updateProperty(this: Request<AdminGraphSchemaProperty>, params: IUpdatePropertyParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
