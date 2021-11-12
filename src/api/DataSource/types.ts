@@ -25,7 +25,8 @@ export enum DataSourceState {
 
 export interface IndexState {
   searchEnabled: boolean;
-  indexConsistent: boolean;
+  visibilityConsistent: boolean;
+  propertyTypeConsistent: boolean;
   indexOptimized: boolean;
 }
 

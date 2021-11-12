@@ -184,8 +184,6 @@ export interface IElasticSearchConfig extends IVendorConfig {
   user?: string;
   password?: string;
   mapping?: string;
-  dynamicMapping?: boolean;
-  forceStringMapping?: string[];
   analyzer?: string;
   incrementalIndexation?: boolean;
   timestampPropertyName?: string;
@@ -224,7 +222,6 @@ export interface IAdvancedConfig {
   searchRetryMultiplier?: number;
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
-  defaultTimezone: string;
   pollInterval?: number;
   indexationChunkSize?: number;
   layoutWorkers?: number;

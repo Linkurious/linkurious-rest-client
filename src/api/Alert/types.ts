@@ -52,6 +52,7 @@ export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder'> {
 
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
   title: string;
+  description?: string;
   query: string;
   dialect: GraphQueryDialect;
   folder: number;
@@ -74,6 +75,10 @@ export interface Alert extends IBaseAlert, PersistedItem {
     partial: boolean;
   };
   nextRun?: string; // defined if enabled=true
+}
+
+export interface IRunAlertParams extends IDataSourceParams {
+  id: number;
 }
 
 export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
