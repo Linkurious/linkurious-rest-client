@@ -4,7 +4,7 @@
  * - Created on 2019-10-25.
  */
 
-import { ICaptions, IDataSourceDefaultStyles, IPropertiesOrder } from '../displayTypes';
+import {ICaptions, IDataSourceDefaultStyles, IPropertiesOrder} from '../displayTypes';
 import {IDataSourceParams} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 

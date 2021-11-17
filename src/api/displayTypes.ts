@@ -164,6 +164,6 @@ export interface ICaptions {
 }
 
 export interface IPropertiesOrder {
-  nodes: GenericObject<string[]>,
-  edges: GenericObject<string[]>
+  nodes: GenericObject<string[]>;
+  edges: GenericObject<string[]>;
 }
