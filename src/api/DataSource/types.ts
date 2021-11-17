@@ -4,7 +4,7 @@
  * - Created on 2019-10-25.
  */
 
-import {ICaptions, IDataSourceDefaultStyles} from '../displayTypes';
+import { ICaptions, IDataSourceDefaultStyles, IPropertiesOrder } from '../displayTypes';
 import {IDataSourceParams} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 
@@ -78,6 +78,7 @@ export interface DataSourceUserInfo {
   features: DataSourceFeatures;
   defaultStyles?: IDataSourceDefaultStyles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
   defaultCaptions?: ICaptions;
+  defaultPropertiesOrder?: IPropertiesOrder;
   settings: DataSourceSettings | ConnectedDataSourceSettings;
   // indexState is undefined for data-sources with a state other than Ready
   indexState?: IndexState;
