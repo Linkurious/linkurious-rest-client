@@ -131,10 +131,8 @@ export interface GraphSchemaProperty {
   visibility: DataVisibility;
   propertyType: PropertyType;
   indexed: boolean;
-}
-
-export interface GraphSchemaPropertyWithAccess extends GraphSchemaProperty {
-  access: PropertyAccessRightType;
+  // undefined for instance of schema property created before 3.0.0
+  indexedAs?: PropertyType;
 }
 
 export interface GraphSchemaType {
@@ -144,18 +142,30 @@ export interface GraphSchemaType {
   indexed: boolean;
 }
 
-export interface IGetTypesParams extends IDataSourceParams {
-  entityType: EntityType;
-}
-
 export interface GraphSchema {
   results: GraphSchemaType[];
+}
+
+export interface AdminGraphSchemaProperty extends Omit<GraphSchemaProperty, 'indexedAs'> {
+  propertyTypeConsistent: boolean;
+}
+
+export interface AdminGraphSchemaType extends GraphSchemaType {
+  properties: AdminGraphSchemaProperty[];
+}
+
+export interface AdminGraphSchema {
+  results: AdminGraphSchemaType[];
+}
+
+export interface GraphSchemaPropertyWithAccess extends Omit<GraphSchemaProperty, 'indexedAs'> {
+  access: PropertyAccessRightType;
 }
 
 export interface GraphSchemaTypeWithAccess extends GraphSchemaType {
   access: ItemTypeAccessRightType;
   // GraphSchemaPropertyWithAccess[] if property key access rights is enabled
-  properties: GraphSchemaProperty[] | GraphSchemaPropertyWithAccess[];
+  properties: Omit<GraphSchemaProperty, 'indexedAs'>[] | GraphSchemaPropertyWithAccess[];
 }
 
 export interface GraphSchemaWithAccess extends GraphSchema {
@@ -163,4 +173,8 @@ export interface GraphSchemaWithAccess extends GraphSchema {
     access: ItemTypeAccessRightType;
   };
   results: GraphSchemaTypeWithAccess[];
+}
+
+export interface IGetTypesParams extends IDataSourceParams {
+  entityType: EntityType;
 }
