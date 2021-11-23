@@ -206,7 +206,8 @@ export enum CaseActionType {
   UNCONFIRM = 'unconfirm',
   OPEN = 'open',
   COMMENT = 'comment',
-  IN_PROGRESS = 'in-progress'
+  IN_PROGRESS = 'in-progress',
+  ASSIGN = 'assign'
 }
 
 export interface CaseAction extends PersistedItem {
