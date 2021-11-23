@@ -215,7 +215,7 @@ export interface CaseAction extends PersistedItem {
   user: Pick<User, 'id' | 'username' | 'email'>;
   action: CaseActionType;
   comment?: string;
-  assignedUser?: Pick<User, 'id' | 'username' | 'email'>
+  assignedUser?: Pick<User, 'id' | 'username' | 'email'>;
 }
 
 export interface IDoCaseActionParams extends IDataSourceParams {
