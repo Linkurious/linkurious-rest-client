@@ -265,8 +265,8 @@ export interface IAccessConfig {
   externalUserDefaultGroupId?: number | number[];
   externalUsersGroupMapping?: GenericObject<number | string | Array<number | string>>;
   autoRefreshGroupMapping?: boolean;
-  msActiveDirectory?: IMSActiveDirectoryConfig;
-  ldap?: ILDAPConfig;
+  msActiveDirectory?: Array<IMSActiveDirectoryConfig> | IMSActiveDirectoryConfig;
+  ldap?: Array<ILDAPConfig> | ILDAPConfig;
   saml2?: ISaml2Config;
   oauth2?: IOAuth2Config;
 }
