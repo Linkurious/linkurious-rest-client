@@ -188,7 +188,7 @@ export class AlertAPI extends Request {
   public extractCaseListInfo(params: IExtractCaseListInfoParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/:alertId/case/extract',
+      url: '/:sourceKey/alert/:alertId/cases/extract',
       method: 'GET',
       params: params
     });
