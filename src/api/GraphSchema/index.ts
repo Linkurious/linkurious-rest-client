@@ -9,10 +9,10 @@ import {LkErrorKey} from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
 
 import {
+  AdminGraphSchemaProperty,
+  AdminGraphSchemaType,
   GetSamplingStatusResponse,
-  GraphSchema,
-  GraphSchemaProperty,
-  GraphSchemaType,
+  AdminGraphSchema,
   GraphSchemaWithAccess,
   ICreatePropertyParams,
   ICreateTypeParams,
@@ -87,7 +87,7 @@ export class GraphSchemaAPI extends Request {
   /**
    * Add a new type to the graph schema.
    */
-  public createType(this: Request<GraphSchemaType>, params: ICreateTypeParams) {
+  public createType(this: Request<AdminGraphSchemaType>, params: ICreateTypeParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, ALREADY_EXISTS],
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
@@ -111,7 +111,7 @@ export class GraphSchemaAPI extends Request {
   /**
    * Add a new property for a type on the graph schema.
    */
-  public createProperty(this: Request<GraphSchemaProperty>, params: ICreatePropertyParams) {
+  public createProperty(this: Request<AdminGraphSchemaProperty>, params: ICreatePropertyParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, ALREADY_EXISTS],
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
@@ -123,7 +123,7 @@ export class GraphSchemaAPI extends Request {
   /**
    * Update an existing graph schema property.
    */
-  public updateProperty(params: IUpdatePropertyParams) {
+  public updateProperty(this: Request<AdminGraphSchemaProperty>, params: IUpdatePropertyParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/admin/:sourceKey/graph/schema/:entityType/properties',
@@ -135,7 +135,7 @@ export class GraphSchemaAPI extends Request {
   /**
    * List all the types and properties of a data-source.
    */
-  public getTypes(this: Request<GraphSchema>, params: IGetTypesParams) {
+  public getTypes(this: Request<AdminGraphSchema>, params: IGetTypesParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
       url: '/admin/:sourceKey/graph/schema/:entityType/types',
