@@ -173,6 +173,10 @@ export enum GetCasesSortBy {
   FOUR = '4'
 }
 
+export interface IExtractCaseListInfoParams extends IDataSourceParams {
+  alertId: number;
+}
+
 export interface IGetCasesParams extends IDataSourceParams {
   alertId: number;
   offset?: number;
