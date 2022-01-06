@@ -75,6 +75,7 @@ export interface Alert extends IBaseAlert, PersistedItem {
     partial: boolean;
   };
   nextRun?: string; // defined if enabled=true
+  openAndUnAssignedCasesCount?:number
 }
 
 export interface IRunAlertParams extends IDataSourceParams {
