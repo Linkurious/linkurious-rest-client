@@ -26,6 +26,7 @@ export enum AlertColumnType {
 }
 
 export interface IPopulatedCaseVisualization extends BaseVisualization {
+  sourceKey: string;
   nodes: VizNode[];
   edges: VizEdge[];
 }
