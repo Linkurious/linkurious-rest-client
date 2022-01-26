@@ -15,47 +15,52 @@ export enum SelectorType {
   IS = 'is'
 }
 
-export interface BaseSelector {
+export interface IBaseSelector {
   type: SelectorType;
   input?: string[];
-  value?: RangeValues | number | string | boolean;
+  value?: IRangeValues | number | string | boolean;
 }
 
-export interface SelectorNoValue extends BaseSelector {
+export interface ISelectorNoValue extends IBaseSelector {
   type: SelectorType.NO_VALUE;
   itemType: string;
   input: string[];
 }
 
-export interface SelectorNaN extends BaseSelector {
+export interface ISelectorNaN extends IBaseSelector {
   type: SelectorType.NAN;
   itemType: string;
   input: string[];
 }
 
-export interface SelectorAny extends BaseSelector {
+export interface ISelectorAny extends IBaseSelector {
   type: SelectorType.ANY;
   itemType?: string; // optional only if type='any'
   input: undefined;
 }
 
-export interface SelectorRange extends BaseSelector {
+export interface ISelectorRange extends IBaseSelector {
   type: SelectorType.RANGE;
   itemType: string;
   input: string[];
-  value: RangeValues;
+  value: IRangeValues;
 }
 
-export interface SelectorIs extends BaseSelector {
+export interface ISelectorIs extends IBaseSelector {
   type: SelectorType.IS;
   itemType: string;
   input: string[];
   value: number | string | boolean;
 }
 
-export type ItemSelector = SelectorAny | SelectorIs | SelectorNoValue | SelectorNaN | SelectorRange;
+export type ItemSelector =
+  | ISelectorAny
+  | ISelectorIs
+  | ISelectorNoValue
+  | ISelectorNaN
+  | ISelectorRange;
 
-export interface RangeValues {
+export interface IRangeValues {
   '<='?: number;
   '<'?: number;
   '>'?: number;
@@ -80,13 +85,20 @@ export enum OgmaEdgeShape {
   DOTTED = 'dotted'
 }
 
-export interface StyleColor {
+export interface IStyleColor {
   type: 'auto';
   input: string[];
   ignoreCase?: boolean;
 }
 
-export interface StyleIcon {
+export interface IStyleAutoRange {
+  type: 'autoRange';
+  input: string[];
+  min?: number; // min and max are one only used in frontend
+  max?: number;
+}
+
+export interface IStyleIcon {
   content?: string | number;
   font?: string;
   color?: string;
@@ -94,51 +106,59 @@ export interface StyleIcon {
   minVisibleSize?: number;
 }
 
-export interface ImageDataValue {
+export interface IImageDataValue {
   type: 'data';
   path: string[];
 }
 
-export interface StyleImage {
-  url?: string | ImageDataValue;
+export interface IStyleImage {
+  url?: string | IImageDataValue;
   scale?: number;
   fit?: boolean;
   tile?: boolean;
   minVisibleSize?: number;
 }
 
-export interface NodeStyle {
-  size?: string | number;
-  color?: string | StyleColor;
-  icon?: string | number | StyleIcon;
-  image?: string | StyleImage;
+export interface INodeStyle {
+  size?: string | number | IStyleAutoRange;
+  color?: string | IStyleColor;
+  icon?: string | number | IStyleIcon;
+  image?: string | IStyleImage;
   shape?: OgmaNodeShape;
 }
 
-export interface EdgeStyle {
-  color?: string | StyleColor;
-  width?: string | number;
+export interface IEdgeStyle {
+  color?: string | IStyleColor;
+  width?: string | number | IStyleAutoRange;
   shape?: OgmaEdgeShape;
 }
 
-export interface IStyleRule<T extends NodeStyle | EdgeStyle> extends BaseSelector {
+export interface IEdgeGroupStyle extends IEdgeStyle {
+  color?: string;
+}
+
+export interface IStyleRule<T extends INodeStyle | IEdgeStyle> extends IBaseSelector {
   index: number;
   itemType?: string;
   style: T;
 }
 
-export interface Styles {
-  node: Array<IStyleRule<NodeStyle>>;
-  edge: Array<IStyleRule<EdgeStyle>>;
+export interface IStyles {
+  node: Array<IStyleRule<INodeStyle>>;
+  edge: Array<IStyleRule<IEdgeStyle>>;
 }
 
-export interface Caption {
+export interface IDataSourceDefaultStyles extends IStyles {
+  edgeGroup: IEdgeGroupStyle;
+}
+
+export interface ICaption {
   active: boolean;
   displayName: boolean;
   properties: string[];
 }
 
-export interface Captions {
-  nodes: GenericObject<Caption>;
-  edges: GenericObject<Caption>;
+export interface ICaptions {
+  nodes: GenericObject<ICaption>;
+  edges: GenericObject<ICaption>;
 }
