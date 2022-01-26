@@ -45,8 +45,10 @@ export interface Configuration {
   needRestart?: boolean;
 }
 
+export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
+
 export interface IDatabaseOptions {
-  dialect: 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
+  dialect: DatabaseDialect;
   storage?: string;
   host?: string;
   port?: string;
@@ -63,9 +65,10 @@ export interface IDatabaseConfig {
 export interface IHttpServerConfig {
   listenPort: number;
   clientFolder: string;
-  cookieHttpOnly?: string;
+  cookieHttpOnly?: boolean;
   cookieSecret?: string;
   allowOrigin?: string | string[];
+  allowFraming?: boolean;
   domain?: string;
   baseFolder?: string;
   publicPortHttp?: number;
@@ -74,10 +77,18 @@ export interface IHttpServerConfig {
   listenPortHttps?: number;
   useHttps?: boolean;
   forceHttps?: boolean;
-  forcePublicHttps: boolean;
+  forcePublicHttps?: boolean;
   certificateFile?: string;
   certificateKeyFile?: string;
   certificatePassphrase?: string;
+  tlsCipherList?: string;
+  customHTTPHeaders?: GenericObject;
+}
+
+export enum AuditTrailMode {
+  READ = 'r',
+  WRITE = 'w',
+  READ_WRITE = 'rw'
 }
 
 export interface IAuditTrailConfig {
@@ -86,7 +97,9 @@ export interface IAuditTrailConfig {
   fileSizeLimit?: number;
   strictMode?: boolean;
   logResult?: boolean;
-  mode?: 'r' | 'w' | 'rw';
+  mode?: AuditTrailMode;
+  logFulltextSearch?: boolean;
+  logPlugins?: boolean;
 }
 
 export interface IUserPreferencesConfig {
@@ -99,22 +112,24 @@ export interface IGuestPreferencesConfig {
   locale: string;
   uiWorkspaceSearch: boolean;
   uiExport: boolean;
-  uiLayout: 'regular' | 'simple' | 'none';
+  uiLayout: UILayout;
   uiDesign: boolean;
   uiEdgeGrouping: boolean;
   uiFilter: boolean;
+}
+
+export enum UILayout {
+  REGULAR = 'regular',
+  SIMPLE = 'simple',
+  NONE = 'none'
 }
 
 export type SelectedDataSourceConfig =
   | IDataSourceConfig<INeo4jConfig, INeo4jSearchConfig>
   | IDataSourceConfig<INeo4jConfig, InternalIndexConfig>
   | IDataSourceConfig<INeo4jConfig, INeo2esConfig>
-  | IDataSourceConfig<IJanusGraphConfig, IJanusGraphSearchConfig>
-  | IDataSourceConfig<IJanusGraphConfig, InternalIndexConfig>
   | IDataSourceConfig<ICosmosDbConfig, IAzureSearchConfig>
-  | IDataSourceConfig<ICosmosDbConfig, InternalIndexConfig>
-  | IDataSourceConfig<IJanusGraphForComposeConfig, IJanusGraphSearchConfig>
-  | IDataSourceConfig<IJanusGraphForComposeConfig, InternalIndexConfig>;
+  | IDataSourceConfig<ICosmosDbConfig, InternalIndexConfig>;
 
 export interface IDataSourceConfig<G = IGraphVendorConfig, I = IVendorConfig> {
   name?: string;
@@ -146,24 +161,6 @@ export interface INeo4jConfig extends IGraphVendorConfig {
   allowVirtualEntities?: boolean;
 }
 
-export interface IGremlinSessionConfig extends IGraphVendorConfig {
-  maxStale?: number;
-  sessionPool?: number;
-}
-
-export interface IJanusGraphConfig extends IGremlinSessionConfig {
-  url: string;
-  graphAlias?: string;
-  traversalSourceAlias?: string;
-  configurationPath?: string;
-  configuration?: object;
-  user?: string;
-  password?: string;
-  alternativeNodeId?: string;
-  alternativeEdgeId?: string;
-  disableIndexExistCheck?: boolean;
-}
-
 export interface ICosmosDbConfig extends IGraphVendorConfig {
   url: string;
   database: string;
@@ -173,55 +170,29 @@ export interface ICosmosDbConfig extends IGraphVendorConfig {
   '.NET SDK URI': string;
 }
 
-export interface IJanusGraphForComposeConfig extends IJanusGraphConfig {
-  url: string;
-  graphName: string;
-  create?: boolean;
-  user?: string;
-  password?: string;
-  alternativeNodeId?: string;
-  alternativeEdgeId?: string;
-  disableIndexExistCheck?: boolean;
-}
-
 export interface INeo4jSearchConfig extends IVendorConfig {
   initialization?: boolean;
   indexEdges?: boolean;
 }
 
-export type InternalIndexConfig = IElasticSearchConfig | IElasticSearch2Config;
+export type InternalIndexConfig = IElasticSearchConfig;
 
-export interface ICommonElasticSearchConfig extends IVendorConfig {
+export interface IElasticSearchConfig extends IVendorConfig {
   host: string;
   port: number;
   https?: boolean;
   user?: string;
   password?: string;
-  forceReindex?: boolean;
-  skipEdgeIndexation?: boolean;
-  dynamicMapping?: boolean;
+  mapping?: string;
   analyzer?: string;
   incrementalIndexation?: boolean;
   timestampPropertyName?: string;
-}
-
-export interface IElasticSearchConfig extends ICommonElasticSearchConfig {
-  indexName?: string; // Deprecated option to be removed, kept here for backward compatibility
-}
-
-export interface IElasticSearch2Config extends ICommonElasticSearchConfig {
-  forceStringMapping?: string[];
-  caCert?: string;
+  incrementalIndexationCron?: string;
+  forceReindex?: boolean;
+  skipEdgeIndexation?: boolean;
 }
 
 export interface INeo2esConfig extends IVendorConfig {}
-
-export interface IJanusGraphSearchConfig extends IVendorConfig {
-  create?: boolean;
-  indexEdges?: boolean;
-  nodeIndexName?: string;
-  edgeIndexName?: string;
-}
 
 export interface IAzureSearchConfig extends IVendorConfig {
   url: string;
@@ -232,8 +203,8 @@ export interface IAzureSearchConfig extends IVendorConfig {
 
 export interface IAlertsConfig {
   enabled?: boolean;
-  maxMatchTTL?: number;
-  maxMatchesLimit?: number;
+  maxCaseTTL?: number;
+  maxCasesLimit?: number;
   maxRuntimeLimit?: number;
   maxConcurrency?: number;
 }
@@ -245,9 +216,12 @@ export interface IAdvancedConfig {
   searchAddAllThreshold: number;
   minSearchQueryLength: number;
   rawQueryTimeout: number;
+  searchPrefixExpansion: boolean;
+  showBuiltinQueries?: boolean;
+  slowQueryThreshold?: number;
+  searchRetryMultiplier?: number;
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
-  defaultTimezone: string;
   pollInterval?: number;
   indexationChunkSize?: number;
   layoutWorkers?: number;
@@ -291,8 +265,8 @@ export interface IAccessConfig {
   externalUserDefaultGroupId?: number | number[];
   externalUsersGroupMapping?: GenericObject<number | string | Array<number | string>>;
   autoRefreshGroupMapping?: boolean;
-  msActiveDirectory?: IMSActiveDirectoryConfig;
-  ldap?: ILDAPConfig;
+  msActiveDirectory?: Array<IMSActiveDirectoryConfig> | IMSActiveDirectoryConfig;
+  ldap?: Array<ILDAPConfig> | ILDAPConfig;
   saml2?: ISaml2Config;
   oauth2?: IOAuth2Config;
 }
@@ -343,6 +317,7 @@ export interface IOAuth2Config {
   tokenURL: string;
   clientID: string;
   clientSecret: string;
+  resource?: string;
   openidconnect?: IOpenIDConnectConfig;
   azure?: IAzureOAuthConfig;
 }
