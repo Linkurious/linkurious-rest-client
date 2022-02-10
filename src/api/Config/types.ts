@@ -407,6 +407,8 @@ export interface IAbstractMailerConfig {
   type: string;
 }
 
+export type mailerType = 'smtp';
+
 export interface IMailerConfig extends IAbstractMailerConfig {
   type: 'smtp';
   auth?: ISMTPAuthConfig;
