@@ -402,3 +402,28 @@ export type IUpdateConfigParams<T = unknown> =
   | IResetConfigParams
   | IDataSourceConfigParams
   | IConfigurationParams<T>;
+
+export interface IAbstractMailerConfig {
+  type: string;
+}
+
+export interface IMailerConfig extends IAbstractMailerConfig {
+  type: 'smtp';
+  auth?: ISMTPAuthConfig;
+  host: string;
+  port: number;
+  ssl: boolean;
+  allowSelfSigned?: boolean;
+}
+
+export interface ISMTPAuthConfig {
+  user: string;
+  password: string;
+}
+
+export interface IEmailNotificationsConfig {
+  alertNotifications: boolean;
+  notificationFrequency: string;
+  mailer: IMailerConfig;
+  fromEmail: string;
+}
