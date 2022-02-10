@@ -410,7 +410,7 @@ export interface IAbstractMailerConfig {
 export type mailerType = 'smtp';
 
 export interface IMailerConfig extends IAbstractMailerConfig {
-  type: 'smtp';
+  type: mailerType;
   auth?: ISMTPAuthConfig;
   host: string;
   port: number;
