@@ -1,7 +1,7 @@
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 
-const {UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
+const {UNAUTHORIZED, FORBIDDEN, CRITICAL} = LkErrorKey;
 
 export class TestMailerConfigAPI extends Request {
   /**
@@ -9,7 +9,7 @@ export class TestMailerConfigAPI extends Request {
    */
   public testMailerConfig() {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN],
+      errors: [UNAUTHORIZED, FORBIDDEN, CRITICAL],
       url: '/notifications/email/test',
       method: 'POST'
     });
