@@ -34,7 +34,8 @@ const {
   FORBIDDEN,
   NOT_FOUND,
   ALREADY_EXISTS,
-  INVALID_PARAMETER
+  INVALID_PARAMETER,
+  EMAIL_FORMAT
 } = LkErrorKey;
 
 export class UserAPI extends Request {
@@ -67,7 +68,7 @@ export class UserAPI extends Request {
    */
   public createUser(this: Request<User>, params: ICreateUserParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, ALREADY_EXISTS],
+      errors: [UNAUTHORIZED, FORBIDDEN, ALREADY_EXISTS, EMAIL_FORMAT],
       url: '/admin/users',
       method: 'POST',
       params: params
@@ -79,7 +80,7 @@ export class UserAPI extends Request {
    */
   public updateUser(this: Request<User>, params: IUpdateUserParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND, INVALID_PARAMETER],
+      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND, INVALID_PARAMETER, EMAIL_FORMAT],
       url: '/admin/users/:id',
       method: 'PATCH',
       params: params
