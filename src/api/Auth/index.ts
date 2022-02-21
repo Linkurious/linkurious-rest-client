@@ -8,7 +8,12 @@ import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 import {User} from '../User';
 
-import {ILoginOAuth2Params, ILoginParams, IUpdateCurrentUserParams} from './types';
+import {
+  ICreateCurrentUserParams,
+  ILoginOAuth2Params,
+  ILoginParams,
+  IUpdateCurrentUserParams
+} from './types';
 
 export * from './types';
 
@@ -75,6 +80,22 @@ export class AuthAPI extends Request {
       this.props.clientState.user = response.body;
     }
 
+    return response;
+  }
+
+  /**
+   * Create the current user (in order to setup authentication).
+   */
+  public async createCurrentUser(this: Request<User>, params: ICreateCurrentUserParams) {
+    const response = await this.request({
+      errors: [FORBIDDEN],
+      url: '/auth/me',
+      method: 'POST',
+      params: params
+    });
+    if (response.isSuccess()) {
+      this.props.clientState.user = response.body;
+    }
     return response;
   }
 
