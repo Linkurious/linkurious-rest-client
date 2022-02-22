@@ -26,7 +26,7 @@ import {SearchAPI} from './api/Search';
 import {UserAPI} from './api/User';
 import {VisualizationAPI} from './api/Visualization';
 import {endsWith, find} from './utils';
-import {TestMailerConfigAPI} from './api/testMailerConfig';
+import {TestMailerConfigAPI} from './api/mailer';
 
 export class RestClient extends ErrorListener {
   public readonly clientState: ClientState;

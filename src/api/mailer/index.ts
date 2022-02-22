@@ -7,10 +7,10 @@ export class TestMailerConfigAPI extends Request {
   /**
    * Test the mailer SMTP config
    */
-  public testMailerConfig() {
+  public checkEmailConfiguration() {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, CRITICAL],
-      url: '/notifications/email/test',
+      url: '/admin/notifications/email/checkEmailConfiguration',
       method: 'POST'
     });
   }
