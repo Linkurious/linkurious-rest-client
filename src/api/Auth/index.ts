@@ -9,9 +9,9 @@ import {Request} from '../../http/request';
 import {User} from '../User';
 
 import {
-  ICreateCurrentUserParams,
   ILoginOAuth2Params,
   ILoginParams,
+  ISetupAuthenticationParams,
   IUpdateCurrentUserParams
 } from './types';
 
@@ -84,9 +84,9 @@ export class AuthAPI extends Request {
   }
 
   /**
-   * Create the current user (in order to setup authentication).
+   * Create and connect first user in order to setup authentication.
    */
-  public async createCurrentUser(this: Request<User>, params: ICreateCurrentUserParams) {
+  public async setupAuthentication(this: Request<User>, params: ISetupAuthenticationParams) {
     const response = await this.request({
       errors: [FORBIDDEN],
       url: '/auth/me',

@@ -15,7 +15,7 @@ export interface ILoginOAuth2Params {
   state: string;
 }
 
-export interface ICreateCurrentUserParams {
+export interface ISetupAuthenticationParams {
   username: string;
   email: string;
   password: string;
