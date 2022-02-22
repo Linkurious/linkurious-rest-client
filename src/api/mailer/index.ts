@@ -3,7 +3,7 @@ import {LkErrorKey} from '../../http/response';
 
 const {UNAUTHORIZED, FORBIDDEN, CRITICAL} = LkErrorKey;
 
-export class TestMailerConfigAPI extends Request {
+export class MailerAPI extends Request {
   /**
    * Test the mailer SMTP config
    */
