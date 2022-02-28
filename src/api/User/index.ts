@@ -15,6 +15,7 @@ import {
   ICreateUserParams,
   IDeleteGroupParams,
   IDeleteUserParams,
+  IGetAssetTransferEligibleUsers,
   IGetGroupNamesParams,
   IGetGroupParams,
   IGetUserParams,
@@ -178,6 +179,18 @@ export class UserAPI extends Request {
       errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/users/mergeUsers',
       method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get list of the users who have equivalent access rights to a given user
+   */
+  public getAssetTransferEligibleUsers(params: IGetAssetTransferEligibleUsers) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
+      url: '/admin/users/:id/sharedAssets/eligibleUsers',
+      method: 'GET',
       params: params
     });
   }
