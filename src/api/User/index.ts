@@ -11,6 +11,7 @@ import {IDataSourceParams} from '../commonTypes';
 import {
   Group,
   GroupName,
+  ICountSharedUserAssetsParams,
   ICreateGroupParams,
   ICreateUserParams,
   IDeleteGroupParams,
@@ -178,6 +179,16 @@ export class UserAPI extends Request {
       errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/users/mergeUsers',
       method: 'POST',
+      params: params
+    });
+  }
+
+  // Get the counts of shared assets by the user
+  public countSharedUserAssets(params: ICountSharedUserAssetsParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
+      url: '/admin/users/:id/sharedAssets',
+      method: 'GET',
       params: params
     });
   }

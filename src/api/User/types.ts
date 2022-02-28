@@ -125,3 +125,7 @@ export interface IMergeUsersParams {
   from: number;
   to: number;
 }
+
+export interface ICountSharedUserAssetsParams {
+  id: number;
+}
