@@ -4,7 +4,7 @@
  * - Created on 2019-10-25.
  */
 
-import {ICaptions, IDataSourceDefaultStyles} from '../displayTypes';
+import {ICaptions, IDataSourceDefaultStyles, IPropertiesOrder} from '../displayTypes';
 import {IDataSourceParams} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 
@@ -25,7 +25,8 @@ export enum DataSourceState {
 
 export interface IndexState {
   searchEnabled: boolean;
-  indexConsistent: boolean;
+  visibilityConsistent: boolean;
+  propertyTypeConsistent: boolean;
   indexOptimized: boolean;
 }
 
@@ -77,6 +78,7 @@ export interface DataSourceUserInfo {
   features: DataSourceFeatures;
   defaultStyles?: IDataSourceDefaultStyles; // defined if withStyles or withCaptions was set to true in the request and the data-source is connected
   defaultCaptions?: ICaptions;
+  defaultPropertiesOrder: IPropertiesOrder; // The default properties order is always defined and will be an empty object if it has not been set by an admin
   settings: DataSourceSettings | ConnectedDataSourceSettings;
   // indexState is undefined for data-sources with a state other than Ready
   indexState?: IndexState;
@@ -85,6 +87,7 @@ export interface DataSourceUserInfo {
 export interface ISetDefaultSourceStylesParams extends IDataSourceParams {
   styles?: IDataSourceDefaultStyles;
   captions?: ICaptions;
+  propertiesOrder?: IPropertiesOrder;
 }
 
 export interface IResetSourceStylesParams extends IDataSourceParams {
@@ -109,7 +112,7 @@ export interface DeleteSourceDataResponse {
     groups: number;
     alerts: number;
     alertFolders: number;
-    matches: number;
+    cases: number;
     graphQueries: number;
     edgeTypes: number;
     edgeProperties: number;
