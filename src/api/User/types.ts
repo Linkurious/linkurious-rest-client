@@ -126,6 +126,6 @@ export interface IMergeUsersParams {
   to: number;
 }
 
-export interface IGetAssetTransferEligibleUsers {
+export interface IGetAssetTransferEligibleUsersParams {
   id: number;
 }
