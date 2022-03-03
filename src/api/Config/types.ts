@@ -20,6 +20,7 @@ export interface Configuration {
   domain: string;
   ssoProvider?: 'oauth2' | 'saml2';
   url: string;
+  setupAuthentication: boolean;
 
   // partially available to not authenticated user
   access?: IAccessConfig;
@@ -133,7 +134,7 @@ export type SelectedDataSourceConfig =
 
 export interface IDataSourceConfig<G = IGraphVendorConfig, I = IVendorConfig> {
   name?: string;
-  manualSourceKey?: string;
+  sourceKey?: string;
   readOnly?: boolean;
   graphdb: G;
   index: I;

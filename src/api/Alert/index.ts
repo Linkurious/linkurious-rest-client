@@ -34,7 +34,8 @@ import {
   IAssignCasesParams,
   IGetAlertUsersParams,
   IAlertUserInfo,
-  IRunAlertParams
+  IRunAlertParams,
+  IExtractCaseListInfoParams
 } from './types';
 
 export * from './types';
@@ -176,6 +177,18 @@ export class AlertAPI extends Request {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:id',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get extract file from a given alert by id.
+   */
+  public getCaseListInfoExtract(params: IExtractCaseListInfoParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/cases/extract',
       method: 'GET',
       params: params
     });
