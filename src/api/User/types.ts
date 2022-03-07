@@ -88,6 +88,7 @@ export interface IUpdateUserParams {
 
 export interface IDeleteUserParams {
   id: number;
+  migrateAssetsTo?: number;
 }
 
 export interface IGetGroupParams extends IDataSourceParams {
