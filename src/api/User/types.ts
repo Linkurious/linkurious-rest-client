@@ -129,3 +129,7 @@ export interface IMergeUsersParams {
 export interface ICountSharedUserAssetsParams {
   id: number;
 }
+
+export interface IGetAssetTransferEligibleUsersParams {
+  id: number;
+}
