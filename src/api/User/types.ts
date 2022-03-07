@@ -133,3 +133,11 @@ export interface ICountSharedUserAssetsParams {
 export interface IGetAssetTransferEligibleUsersParams {
   id: number;
 }
+
+export interface ICountSharedAssets {
+  count: number;
+  user: {
+    id: number | null;
+    email: number | null;
+  };
+}

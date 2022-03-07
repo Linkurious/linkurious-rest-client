@@ -11,6 +11,7 @@ import {IDataSourceParams} from '../commonTypes';
 import {
   Group,
   GroupName,
+  ICountSharedAssets,
   ICountSharedUserAssetsParams,
   ICreateGroupParams,
   ICreateUserParams,
@@ -187,7 +188,10 @@ export class UserAPI extends Request {
   /**
    * Get list of the users who have equivalent access rights to a given user
    */
-  public getAssetTransferEligibleUsers(params: IGetAssetTransferEligibleUsersParams) {
+  public getAssetTransferEligibleUsers(
+    this: Request<User[]>,
+    params: IGetAssetTransferEligibleUsersParams
+  ) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
       url: '/admin/users/:id/sharedAssets/eligibleUsers',
@@ -197,7 +201,10 @@ export class UserAPI extends Request {
   }
 
   // Get the counts of shared assets by the user
-  public countSharedUserAssets(params: ICountSharedUserAssetsParams) {
+  public countSharedUserAssets(
+    this: Request<ICountSharedAssets>,
+    params: ICountSharedUserAssetsParams
+  ) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
       url: '/admin/users/:id/sharedAssets',
