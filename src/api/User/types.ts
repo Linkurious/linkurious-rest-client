@@ -139,6 +139,7 @@ export interface ICountSharedAssets {
   count: number;
   user: {
     id: number | null;
-    email: number | null;
+    name: number | null;
+    count: number | null;
   };
 }
