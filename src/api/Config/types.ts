@@ -20,6 +20,7 @@ export interface Configuration {
   domain: string;
   ssoProvider?: 'oauth2' | 'saml2';
   url: string;
+  setupAuthentication: boolean;
 
   // partially available to not authenticated user
   access?: IAccessConfig;
