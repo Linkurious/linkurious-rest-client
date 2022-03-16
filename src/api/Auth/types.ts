@@ -19,6 +19,7 @@ export interface ISetupAuthenticationParams {
   username: string;
   email: string;
   password: string;
+  license: string;
 }
 
 export interface IUpdateCurrentUserParams {

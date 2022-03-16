@@ -29,6 +29,7 @@ export enum LkErrorKey {
   MALFORMED_CUSTOM_ACTION_TEMPLATE = 'malformed_custom_action_template',
   MALFORMED_QUERY_TEMPLATE = 'malformed_query_template',
   MALFORMED_SEARCH_SYNTAX = 'malformed_search_syntax',
+  INVALID_LICENSE = 'invalid_license',
   INVALID_ALERT_QUERY = 'invalid_alert_query',
   INVALID_ALERT_TARGET = 'invalid_alert_target',
   ILLEGAL_SOURCE_STATE = 'illegal_source_state',
@@ -162,6 +163,8 @@ export interface GraphRequestTimeoutError extends LkError<LkErrorKey.GRAPH_REQUE
 
 export interface ConstraintViolationError extends LkError<LkErrorKey.CONSTRAINT_VIOLATION> {}
 
+export interface InvalidLicenseError extends LkError<LkErrorKey.INVALID_LICENSE> {}
+
 export interface InvalidAlertQueryError extends LkError<LkErrorKey.INVALID_ALERT_QUERY> {}
 
 export interface InvalidAlertTargetError extends LkError<LkErrorKey.INVALID_ALERT_TARGET> {}
@@ -237,6 +240,7 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequestError;
   [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeoutError;
   [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolationError;
+  [LkErrorKey.INVALID_LICENSE]: InvalidLicenseError;
   [LkErrorKey.INVALID_ALERT_QUERY]: InvalidAlertQueryError;
   [LkErrorKey.INVALID_ALERT_TARGET]: InvalidAlertTargetError;
   [LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE]: MalformedCustomActionTemplateError;

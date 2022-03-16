@@ -21,6 +21,9 @@ export interface Configuration {
   ssoProvider?: 'oauth2' | 'saml2';
   url: string;
   setupAuthentication: boolean;
+  license?: {
+    state: 'valid' | 'expired' | 'missing';
+  };
 
   // partially available to not authenticated user
   access?: IAccessConfig;
@@ -28,9 +31,6 @@ export interface Configuration {
   // available to authenticated users
   advanced?: IAdvancedConfig;
   leaflet?: ILeafletConfig[];
-  license?: {
-    expired: boolean;
-  };
 
   // partially available to authenticated user
   alerts?: IAlertsConfig;
