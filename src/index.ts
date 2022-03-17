@@ -20,6 +20,7 @@ import {GraphEdgeAPI} from './api/GraphEdge';
 import {GraphNodeAPI} from './api/GraphNode';
 import {GraphQueryAPI} from './api/GraphQuery';
 import {GraphSchemaAPI} from './api/GraphSchema';
+import {LicenseAPI} from './api/License';
 import {LinkuriousAPI} from './api/Linkurious';
 import {PluginAPI} from './api/Plugin';
 import {SearchAPI} from './api/Search';
@@ -43,6 +44,7 @@ export class RestClient extends ErrorListener {
   public readonly graphNode: GraphNodeAPI;
   public readonly graphQuery: GraphQueryAPI;
   public readonly graphSchema: GraphSchemaAPI;
+  public readonly license: LicenseAPI;
   public readonly linkurious: LinkuriousAPI;
   public readonly plugin: PluginAPI;
   public readonly search: SearchAPI;
@@ -77,6 +79,7 @@ export class RestClient extends ErrorListener {
     this.graphNode = new GraphNodeAPI(this.moduleProps);
     this.graphQuery = new GraphQueryAPI(this.moduleProps);
     this.graphSchema = new GraphSchemaAPI(this.moduleProps);
+    this.license = new LicenseAPI(this.moduleProps);
     this.linkurious = new LinkuriousAPI(this.moduleProps);
     this.plugin = new PluginAPI(this.moduleProps);
     this.search = new SearchAPI(this.moduleProps);
