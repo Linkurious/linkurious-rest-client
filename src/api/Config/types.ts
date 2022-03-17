@@ -7,6 +7,7 @@
 import {TlsOptions} from 'tls';
 
 import {GenericObject} from '../commonTypes';
+import {LicenseState} from '../License';
 import {IPluginConfig} from '../Plugin';
 import {OgmaNodeShape, OgmaEdgeShape} from '../displayTypes';
 
@@ -22,7 +23,7 @@ export interface Configuration {
   url: string;
   setupAuthentication: boolean;
   license?: {
-    state: 'valid' | 'expired' | 'missing';
+    state: LicenseState;
   };
 
   // partially available to not authenticated user

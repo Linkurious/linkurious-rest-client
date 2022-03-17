@@ -6,7 +6,7 @@
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 
-import {ISubmitLicenseParams, LicenseState} from './types';
+import {ISubmitLicenseParams, SubmitLicenseResponse} from './types';
 
 export * from './types';
 
@@ -16,7 +16,7 @@ export class LicenseAPI extends Request {
   /**
    * Verify the supplied license and save it if it’s valid and there is no saved license yet.
    */
-  public submitLicense(this: Request<LicenseState>, params: ISubmitLicenseParams) {
+  public submitLicense(this: Request<SubmitLicenseResponse>, params: ISubmitLicenseParams) {
     return this.request({
       errors: [INVALID_LICENSE],
       url: '/license',

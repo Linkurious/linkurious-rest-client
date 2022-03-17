@@ -7,6 +7,12 @@ export interface ISubmitLicenseParams {
   license: string;
 }
 
-export interface LicenseState {
-  state: 'valid' | 'expired';
+export enum LicenseState {
+  VALID = 'valid',
+  EXPIRED = 'expired',
+  MISSING = 'missing'
+}
+
+export interface SubmitLicenseResponse {
+  state: LicenseState.VALID | LicenseState.EXPIRED;
 }
