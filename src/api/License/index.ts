@@ -8,6 +8,8 @@ import {LkErrorKey} from '../../http/response';
 
 import {ISubmitLicenseParams, LicenseState} from './types';
 
+export * from './types';
+
 const {INVALID_LICENSE} = LkErrorKey;
 
 export class LicenseAPI extends Request {
