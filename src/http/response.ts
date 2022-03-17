@@ -138,6 +138,7 @@ export interface ConnectionRefusedError extends LkError<LkErrorKey.CONNECTION_RE
 export interface FeatureDisabledError extends LkError<LkErrorKey.FEATURE_DISABLED> {}
 
 export enum UnauthorizedErrorReason {
+  LICENSE_MISSING = 'license_missing',
   SESSION_EXPIRED = 'session_expired',
   SESSION_EVICTED = 'session_evicted',
   SERVER_FULL = 'server_full'
