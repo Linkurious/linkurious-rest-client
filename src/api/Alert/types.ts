@@ -75,6 +75,7 @@ export interface Alert extends IBaseAlert, PersistedItem {
     partial: boolean;
   };
   nextRun?: string; // defined if enabled=true
+  openAndUnAssignedCasesCount: number;
 }
 
 export interface IRunAlertParams extends IDataSourceParams {
@@ -171,6 +172,10 @@ export enum GetCasesSortBy {
   TWO = '2',
   THREE = '3',
   FOUR = '4'
+}
+
+export interface IExtractCaseListInfoParams extends IDataSourceParams {
+  alertId: number;
 }
 
 export interface IGetCasesParams extends IDataSourceParams {

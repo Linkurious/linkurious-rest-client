@@ -20,6 +20,7 @@ export interface Configuration {
   domain: string;
   ssoProvider?: 'oauth2' | 'saml2';
   url: string;
+  setupAuthentication: boolean;
 
   // partially available to not authenticated user
   access?: IAccessConfig;
@@ -133,7 +134,7 @@ export type SelectedDataSourceConfig =
 
 export interface IDataSourceConfig<G = IGraphVendorConfig, I = IVendorConfig> {
   name?: string;
-  manualSourceKey?: string;
+  sourceKey?: string;
   readOnly?: boolean;
   graphdb: G;
   index: I;
@@ -402,3 +403,30 @@ export type IUpdateConfigParams<T = unknown> =
   | IResetConfigParams
   | IDataSourceConfigParams
   | IConfigurationParams<T>;
+
+export interface IAbstractMailerConfig {
+  type: string;
+}
+
+export type MailerType = 'smtp';
+
+export interface IMailerConfig extends IAbstractMailerConfig {
+  type: MailerType;
+  auth?: ISMTPAuthConfig;
+  host: string;
+  port: number;
+  ssl: boolean;
+  allowSelfSigned?: boolean;
+}
+
+export interface ISMTPAuthConfig {
+  user: string;
+  password: string;
+}
+
+export interface IEmailNotificationsConfig {
+  alertNotifications: boolean;
+  notificationFrequency: string;
+  mailer: IMailerConfig;
+  fromEmail: string;
+}
