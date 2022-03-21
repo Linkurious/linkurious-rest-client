@@ -54,7 +54,8 @@ export enum LkErrorKey {
   PLUGIN_SERVICE_NOT_READY = 'plugin_service_not_ready',
   INVALID_CONFIGURATION = 'invalid_configuration',
   EMAIL_FORMAT = 'email_format',
-  NOT_IMPLEMENTED = 'not_implemented'
+  NOT_IMPLEMENTED = 'not_implemented',
+  SEND_MAIL_FAILED = 'send_mail_failed'
 }
 
 /**
@@ -228,6 +229,8 @@ export interface EmailFormatError extends LkError<LkErrorKey.EMAIL_FORMAT> {}
 
 export interface NotImplementedError extends LkError<LkErrorKey.NOT_IMPLEMENTED> {}
 
+export interface SendMailFailed extends LkError<LkErrorKey.SEND_MAIL_FAILED> {}
+
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
@@ -268,4 +271,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.REDUNDANT_ACTION]: RedundantActionError;
   [LkErrorKey.EMAIL_FORMAT]: EmailFormatError;
   [LkErrorKey.NOT_IMPLEMENTED]: NotImplementedError;
+  [LkErrorKey.SEND_MAIL_FAILED]: SendMailFailed;
 };
