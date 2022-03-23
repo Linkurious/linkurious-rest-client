@@ -20,7 +20,8 @@ export enum DataSourceState {
   INDEXING = 'indexing',
   DISCOVERING_SCHEMA = 'discoveringSchema',
   OFFLINE = 'offline',
-  CONNECTING = 'connecting'
+  CONNECTING = 'connecting',
+  STORE_ID_CHANGED = 'storeIdChanged'
 }
 
 export interface IndexState {
@@ -97,6 +98,7 @@ export interface IResetSourceStylesParams extends IDataSourceParams {
 
 export interface IConnectDataSourceParams {
   sourceIndex: number;
+  ignoreStoreIdChange: boolean;
 }
 
 export interface IDeleteSourceDataParams extends IDataSourceParams {
