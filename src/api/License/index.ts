@@ -16,7 +16,10 @@ export class LicenseAPI extends Request {
   /**
    * Verify the submitted license and save it if it’s valid and there is no saved license yet.
    */
-  public saveLicenseIfMissing(this: Request<SaveLicenseIfMissingResponse>, params: ISaveLicenseIfMissingParams) {
+  public saveLicenseIfMissing(
+    this: Request<SaveLicenseIfMissingResponse>,
+    params: ISaveLicenseIfMissingParams
+  ) {
     return this.request({
       errors: [INVALID_LICENSE],
       url: '/license',
