@@ -3,7 +3,7 @@
  *
  * - Created on 2022-03-16.
  */
-export interface ISubmitLicenseParams {
+export interface ISaveLicenseIfMissingParams {
   license: string;
 }
 
@@ -13,6 +13,6 @@ export enum LicenseState {
   MISSING = 'missing'
 }
 
-export interface SubmitLicenseResponse {
+export interface SaveLicenseIfMissingResponse {
   state: LicenseState;
 }
