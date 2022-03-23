@@ -14,5 +14,5 @@ export enum LicenseState {
 }
 
 export interface SubmitLicenseResponse {
-  state: LicenseState.VALID | LicenseState.EXPIRED;
+  state: LicenseState;
 }
