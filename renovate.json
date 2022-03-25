@@ -2,7 +2,5 @@
   "extends": [
     "config:base"
   ],
-  "constraints": {
-    "node": "< 15.0.0"
-  }
+  "labels": ["dependencies"]
 }
