@@ -2,7 +2,7 @@
   "extends": [
     "config:base"
   ],
-  "baseBranches": "develop-stable",
+  "baseBranches": ["develop-stable"],
   "labels": ["dependencies"],
   "schedule": "every weekend",
   "vulnerabilityAlerts": {
