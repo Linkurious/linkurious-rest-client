@@ -3,5 +3,8 @@
     "config:base"
   ],
   "labels": ["dependencies"],
-  "schedule": "every weekend"
+  "schedule": "every weekend",
+  "vulnerabilityAlerts": {
+    "labels": ["type:security"]
+  }
 }
