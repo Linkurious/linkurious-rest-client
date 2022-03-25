@@ -2,9 +2,7 @@
   "extends": [
     "config:base"
   ],
-  "node": {
-    "supportPolicy": [
-      "lts_active"
-    ]
+  "constraints": {
+    "node": "< 15.0.0"
   }
 }
