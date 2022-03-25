@@ -6,6 +6,7 @@
   "labels": ["dependencies"],
   "schedule": "every weekend",
   "vulnerabilityAlerts": {
-    "labels": ["type:security"]
+    "labels": ["type:security"],
+    "baseBranches": ["develop-maintenance"]
   }
 }
