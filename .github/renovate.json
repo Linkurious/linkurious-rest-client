@@ -4,7 +4,7 @@
   ],
   "baseBranches": ["develop-stable"],
   "labels": ["dependencies"],
-  "prConcurrentLimit": 10,
+  "prConcurrentLimit": 2,
   "schedule": "every weekend",
   "vulnerabilityAlerts": {
     "labels": ["type:security"]
