@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "baseBranches": ["develop-stable"],
+  "labels": ["dependencies"],
+  "prConcurrentLimit": 2,
+  "schedule": "every weekend",
+  "vulnerabilityAlerts": {
+    "labels": ["type:security"]
+  }
+}
