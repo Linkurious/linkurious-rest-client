@@ -17,7 +17,7 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, GUEST_DISABLED, FORBIDDEN, ALREADY_EXISTS} = LkErrorKey;
+const {UNAUTHORIZED, GUEST_DISABLED, FORBIDDEN, INVALID_LICENSE, ALREADY_EXISTS} = LkErrorKey;
 
 export class AuthAPI extends Request {
   /**
@@ -88,7 +88,7 @@ export class AuthAPI extends Request {
    */
   public async setupAuthentication(this: Request<User>, params: ISetupAuthenticationParams) {
     const response = await this.request({
-      errors: [FORBIDDEN],
+      errors: [FORBIDDEN, INVALID_LICENSE],
       url: '/auth/me',
       method: 'POST',
       params: params
