@@ -244,3 +244,39 @@ export type AlertPreview = Array<{
   edges: LkEdge[];
   columns: Array<string | number>;
 }>;
+
+export interface ICaseColumns {
+  type: AlertColumnType;
+  columnValue: string | number;
+  columnTitle: string;
+}
+
+export enum FullCaseListSortBy {
+  CASE_ID = 'id',
+  ALERT_NAME = 'alertName',
+  ALERT_FOLDER = 'alertFolder',
+  CREATION_DATE = 'creationDate',
+  STATUS = 'status',
+  STATUS_CHANGED_BY = 'statusChangeUser',
+  STATUS_CHANGED_ON = 'statusUpdateDate',
+  ASSIGNEE = 'assignedUser'
+}
+
+export interface IFullCase {
+  alertName: string;
+  alertFolder: string;
+  alertDescription: string;
+  creationDate: Date;
+  status: CaseStatus;
+  statusChangedBy: Pick<User, 'id' | 'username' | 'email'> | null;
+  statusChangedOn: Date | null;
+  assignee: Pick<User, 'id' | 'username' | 'email'> | null;
+  attributes: ICaseColumns;
+}
+
+export interface IGetFullCaseListParams extends IDataSourceParams {
+  offset?: number;
+  limit?: number;
+  sortDirection?: GetCasesSortDirection;
+  sortBy?: FullCaseListSortBy[];
+}

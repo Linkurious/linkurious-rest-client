@@ -35,7 +35,9 @@ import {
   IGetAlertUsersParams,
   IAlertUserInfo,
   IRunAlertParams,
-  IExtractCaseListInfoParams
+  IExtractCaseListInfoParams,
+  IFullCase,
+  IGetFullCaseListParams
 } from './types';
 
 export * from './types';
@@ -318,6 +320,15 @@ export class AlertAPI extends Request {
       ],
       url: '/:sourceKey/graph/alertPreview',
       method: 'POST',
+      params: params
+    });
+  }
+
+  public getFullCaseList(this: Request<IFullCase[]>, params: IGetFullCaseListParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases',
+      method: 'GET',
       params: params
     });
   }
