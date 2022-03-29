@@ -271,7 +271,7 @@ export interface IFullCase {
   statusChangedBy: Pick<User, 'id' | 'username' | 'email'> | null;
   statusChangedOn: Date | null;
   assignee: Pick<User, 'id' | 'username' | 'email'> | null;
-  attributes: ICaseColumns;
+  attributes: ICaseColumns[];
 }
 
 export interface IGetFullCaseListParams extends IDataSourceParams {
