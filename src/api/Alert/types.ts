@@ -276,7 +276,7 @@ export interface IFullCase {
 
 export interface IFullCaseListResponse {
   totalCasesCount: number;
-  fullCaseList: IFullCase[]
+  fullCaseList: IFullCase[];
 }
 
 export type fullCaseListSortBy = [FullCaseListSortProperties, GetCasesSortDirection];

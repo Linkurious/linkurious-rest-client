@@ -36,8 +36,8 @@ import {
   IAlertUserInfo,
   IRunAlertParams,
   IExtractCaseListInfoParams,
-  IFullCase,
-  IGetFullCaseListParams, IFullCaseListResponse
+  IGetFullCaseListParams,
+  IFullCaseListResponse
 } from './types';
 
 export * from './types';
