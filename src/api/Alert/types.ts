@@ -263,6 +263,7 @@ export enum FullCaseListSortProperties {
 }
 
 export interface IFullCase {
+  id: number;
   alertName: string;
   alertFolder: string;
   alertDescription: string;
