@@ -37,7 +37,7 @@ import {
   IRunAlertParams,
   IExtractCaseListInfoParams,
   IFullCase,
-  IGetFullCaseListParams
+  IGetFullCaseListParams, IFullCaseListResponse
 } from './types';
 
 export * from './types';
@@ -324,7 +324,7 @@ export class AlertAPI extends Request {
     });
   }
 
-  public getFullCaseList(this: Request<IFullCase[]>, params: IGetFullCaseListParams) {
+  public getFullCaseList(this: Request<IFullCaseListResponse>, params: IGetFullCaseListParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/cases',

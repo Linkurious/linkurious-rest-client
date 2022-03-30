@@ -274,6 +274,11 @@ export interface IFullCase {
   attributes: ICaseColumn[];
 }
 
+export interface IFullCaseListResponse {
+  totalCasesCount: number;
+  fullCaseList: IFullCase[]
+}
+
 export type fullCaseListSortBy = [FullCaseListSortProperties, GetCasesSortDirection];
 
 export interface IGetFullCaseListParams extends IDataSourceParams {
