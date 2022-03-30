@@ -274,10 +274,10 @@ export interface IFullCase {
   attributes: ICaseColumn[];
 }
 
-export type fullCaseListSortBy = [[FullCaseListSortProperties, GetCasesSortDirection]];
+export type fullCaseListSortBy = [FullCaseListSortProperties, GetCasesSortDirection];
 
 export interface IGetFullCaseListParams extends IDataSourceParams {
   offset?: number;
   limit?: number;
-  sortBy?: fullCaseListSortBy;
+  sortBy?: fullCaseListSortBy[];
 }
