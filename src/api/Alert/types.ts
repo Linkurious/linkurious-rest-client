@@ -245,17 +245,17 @@ export type AlertPreview = Array<{
   columns: Array<string | number>;
 }>;
 
-export interface ICaseColumns {
+export interface ICaseColumn {
   type: AlertColumnType;
   columnValue: string | number;
   columnTitle: string;
 }
 
-export enum FullCaseListSortBy {
+export enum FullCaseListSortProperties {
   CASE_ID = 'id',
   ALERT_NAME = 'alertName',
   ALERT_FOLDER = 'alertFolder',
-  CREATION_DATE = 'creationDate',
+  CREATION_DATE = 'createdAt',
   STATUS = 'status',
   STATUS_CHANGED_BY = 'statusChangeUser',
   STATUS_CHANGED_ON = 'statusUpdateDate',
@@ -271,12 +271,13 @@ export interface IFullCase {
   statusChangedBy: Pick<User, 'id' | 'username' | 'email'> | null;
   statusChangedOn: Date | null;
   assignee: Pick<User, 'id' | 'username' | 'email'> | null;
-  attributes: ICaseColumns[];
+  attributes: ICaseColumn[];
 }
+
+export type fullCaseListSortBy = [[FullCaseListSortProperties, GetCasesSortDirection]];
 
 export interface IGetFullCaseListParams extends IDataSourceParams {
   offset?: number;
   limit?: number;
-  sortDirection?: GetCasesSortDirection;
-  sortBy?: FullCaseListSortBy[];
+  sortBy?: fullCaseListSortBy[];
 }
