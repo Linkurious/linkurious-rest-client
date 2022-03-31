@@ -98,7 +98,7 @@ export interface IResetSourceStylesParams extends IDataSourceParams {
 
 export interface IConnectDataSourceParams {
   sourceIndex: number;
-  ignoreStoreIdChange: boolean;
+  ignoreStoreIdChange?: boolean;
 }
 
 export interface IDeleteSourceDataParams extends IDataSourceParams {
