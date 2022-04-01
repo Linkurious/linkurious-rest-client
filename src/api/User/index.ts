@@ -11,10 +11,13 @@ import {IDataSourceParams} from '../commonTypes';
 import {
   Group,
   GroupName,
+  ICountSharedAssets,
+  ICountSharedUserAssetsParams,
   ICreateGroupParams,
   ICreateUserParams,
   IDeleteGroupParams,
   IDeleteUserParams,
+  IGetAssetTransferEligibleUsersParams,
   IGetGroupNamesParams,
   IGetGroupParams,
   IGetUserParams,
@@ -178,6 +181,34 @@ export class UserAPI extends Request {
       errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/users/mergeUsers',
       method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get list of the users who have equivalent access rights to a given user
+   */
+  public getAssetTransferEligibleUsers(
+    this: Request<User[]>,
+    params: IGetAssetTransferEligibleUsersParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
+      url: '/admin/users/:id/sharedAssets/eligibleUsers',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  // Get the counts of shared assets by the user
+  public countSharedUserAssets(
+    this: Request<ICountSharedAssets>,
+    params: ICountSharedUserAssetsParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
+      url: '/admin/users/:id/sharedAssets',
+      method: 'GET',
       params: params
     });
   }

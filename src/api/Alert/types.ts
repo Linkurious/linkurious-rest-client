@@ -75,6 +75,7 @@ export interface Alert extends IBaseAlert, PersistedItem {
     partial: boolean;
   };
   nextRun?: string; // defined if enabled=true
+  openAndUnAssignedCasesCount: number;
 }
 
 export interface IRunAlertParams extends IDataSourceParams {
@@ -173,6 +174,10 @@ export enum GetCasesSortBy {
   FOUR = '4'
 }
 
+export interface IExtractCaseListInfoParams extends IDataSourceParams {
+  alertId: number;
+}
+
 export interface IGetCasesParams extends IDataSourceParams {
   alertId: number;
   offset?: number;
@@ -206,7 +211,8 @@ export enum CaseActionType {
   UNCONFIRM = 'unconfirm',
   OPEN = 'open',
   COMMENT = 'comment',
-  IN_PROGRESS = 'in-progress'
+  IN_PROGRESS = 'in-progress',
+  ASSIGN = 'assign'
 }
 
 export interface CaseAction extends PersistedItem {
@@ -214,6 +220,7 @@ export interface CaseAction extends PersistedItem {
   user: Pick<User, 'id' | 'username' | 'email'>;
   action: CaseActionType;
   comment?: string;
+  assignedUser?: Pick<User, 'id' | 'username' | 'email'>;
 }
 
 export interface IDoCaseActionParams extends IDataSourceParams {
