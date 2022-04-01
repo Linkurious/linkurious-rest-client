@@ -265,8 +265,8 @@ export enum FullCaseListSortProperties {
 export interface IFullCase {
   id: number;
   alertName: string;
-  alertFolder: string;
-  alertDescription: string;
+  alertFolder: string | null;
+  alertDescription: string | null;
   creationDate: Date;
   status: CaseStatus;
   statusChangedBy: Pick<User, 'id' | 'username' | 'email'> | null;
