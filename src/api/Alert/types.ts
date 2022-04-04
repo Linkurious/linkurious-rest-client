@@ -251,14 +251,14 @@ export interface ICaseColumn {
   columnTitle: string;
 }
 
-export enum FullCaseListSortProperties {
+export enum FullCaseListProperties {
   CASE_ID = 'id',
   ALERT_NAME = 'alertName',
   ALERT_FOLDER = 'alertFolder',
-  CREATION_DATE = 'createdAt',
+  CREATION_DATE = 'creationDate',
   STATUS = 'status',
-  STATUS_CHANGED_BY = 'statusChangeUser',
-  STATUS_CHANGED_ON = 'statusUpdateDate',
+  STATUS_CHANGED_BY = 'statusChangedBy',
+  STATUS_CHANGED_ON = 'statusChangedOn',
   ASSIGNEE = 'assignedUser'
 }
 
@@ -271,7 +271,7 @@ export interface IFullCase {
   status: CaseStatus;
   statusChangedBy: Pick<User, 'id' | 'username' | 'email'> | null;
   statusChangedOn: Date | null;
-  assignee: Pick<User, 'id' | 'username' | 'email'> | null;
+  assignedUser: Pick<User, 'id' | 'username' | 'email'> | null;
   attributes: ICaseColumn[];
 }
 
@@ -280,7 +280,7 @@ export interface IFullCaseListResponse {
   fullCaseList: IFullCase[];
 }
 
-export type fullCaseListSortBy = [FullCaseListSortProperties, GetCasesSortDirection];
+export type fullCaseListSortBy = {by: FullCaseListProperties; direction: GetCasesSortDirection};
 
 export interface IGetFullCaseListParams extends IDataSourceParams {
   offset?: number;
