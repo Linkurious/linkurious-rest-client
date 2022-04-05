@@ -255,7 +255,7 @@ export enum FullCaseListSortProperties {
   CASE_ID = 'id',
   ALERT_NAME = 'alertName',
   ALERT_FOLDER = 'alertFolder',
-  CREATION_DATE = 'creationDate',
+  CREATION_DATE = 'createdAt',
   STATUS = 'status',
   STATUS_CHANGED_BY = 'statusChangedBy',
   STATUS_CHANGED_ON = 'statusChangedOn',
@@ -267,7 +267,7 @@ export interface IFullCase {
   alertName: string;
   alertFolder: string | null;
   alertDescription: string | null;
-  creationDate: Date;
+  createdAt: Date;
   status: CaseStatus;
   statusChangedBy: Pick<User, 'id' | 'username' | 'email'> | null;
   statusChangedOn: Date | null;
