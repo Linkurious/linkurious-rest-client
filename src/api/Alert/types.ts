@@ -285,5 +285,5 @@ export type fullCaseListSortBy = {by: FullCaseListSortProperties; direction: Get
 export interface IGetFullCaseListParams extends IDataSourceParams {
   offset?: number;
   limit?: number;
-  sortBy?: fullCaseListSortBy[];
+  sortBy: fullCaseListSortBy[];
 }
