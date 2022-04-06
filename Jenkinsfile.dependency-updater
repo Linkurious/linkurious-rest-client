@@ -2,7 +2,7 @@
 
 lkeSubReleaseJob {
   // General
-  projectName = "linkurious/rest-client"
+  projectName = "linkurious/linkurious-rest-client"
 
   releasing = false
 
