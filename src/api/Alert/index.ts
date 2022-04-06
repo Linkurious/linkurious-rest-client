@@ -324,6 +324,9 @@ export class AlertAPI extends Request {
     });
   }
 
+  /**
+   * Get all cases from alerts that a user has access to.
+   */
   public getFullCaseList(this: Request<IFullCaseListResponse>, params: IGetFullCaseListParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
