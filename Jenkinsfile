@@ -2,7 +2,7 @@
 
 nodeJob {
   // General
-  projectName = "linkurious/rest-client"
+  projectName = "linkurious/linkurious-rest-client"
   podTemplateNames = ['jnlp-agent-node']
 
   runForwardMerge = true
