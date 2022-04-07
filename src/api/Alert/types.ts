@@ -280,10 +280,10 @@ export interface IFullCaseListResponse {
   fullCaseList: IFullCase[];
 }
 
-export type fullCaseListSortBy = {by: FullCaseListSortProperties; direction: GetCasesSortDirection};
+export type FullCaseListSortBy = {by: FullCaseListSortProperties; direction: GetCasesSortDirection};
 
 export interface IGetFullCaseListParams extends IDataSourceParams {
   offset?: number;
   limit?: number;
-  sortBy: fullCaseListSortBy[];
+  sortBy: FullCaseListSortBy[];
 }
