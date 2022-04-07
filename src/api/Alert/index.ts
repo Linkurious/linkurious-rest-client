@@ -328,12 +328,12 @@ export class AlertAPI extends Request {
    * Get all cases from alerts that a user has access to.
    */
   public getFullCaseList(this: Request<IFullCaseListResponse>, params: IGetFullCaseListParams) {
-    const encodedSortByParam = encodeURIComponent(JSON.stringify(params.sortBy));
+    const sortByParamToString = JSON.stringify(params.sortBy);
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/cases/list',
       method: 'GET',
-      params: {...params, sortBy: encodedSortByParam}
+      params: {...params, sortBy: sortByParamToString}
     });
   }
 }
