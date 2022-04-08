@@ -35,7 +35,9 @@ import {
   IGetAlertUsersParams,
   IAlertUserInfo,
   IRunAlertParams,
-  IExtractCaseListInfoParams
+  IExtractCaseListInfoParams,
+  IGetFullCaseListParams,
+  IFullCaseListResponse
 } from './types';
 
 export * from './types';
@@ -319,6 +321,19 @@ export class AlertAPI extends Request {
       url: '/:sourceKey/graph/alertPreview',
       method: 'POST',
       params: params
+    });
+  }
+
+  /**
+   * Get all cases from alerts that a user has access to.
+   */
+  public getFullCaseList(this: Request<IFullCaseListResponse>, params: IGetFullCaseListParams) {
+    const sortByParamToString = JSON.stringify(params.sortBy);
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/list',
+      method: 'GET',
+      params: {...params, sortBy: sortByParamToString}
     });
   }
 }
