@@ -11,10 +11,13 @@ import {IDataSourceParams} from '../commonTypes';
 import {
   Group,
   GroupName,
+  ICountSharedAssets,
+  ICountSharedUserAssetsParams,
   ICreateGroupParams,
   ICreateUserParams,
   IDeleteGroupParams,
   IDeleteUserParams,
+  IGetAssetTransferEligibleUsersParams,
   IGetGroupNamesParams,
   IGetGroupParams,
   IGetUserParams,
@@ -32,9 +35,11 @@ const {
   UNAUTHORIZED,
   DATA_SOURCE_UNAVAILABLE,
   FORBIDDEN,
+  NOT_IMPLEMENTED,
   NOT_FOUND,
   ALREADY_EXISTS,
-  INVALID_PARAMETER
+  INVALID_PARAMETER,
+  EMAIL_FORMAT
 } = LkErrorKey;
 
 export class UserAPI extends Request {
@@ -67,7 +72,7 @@ export class UserAPI extends Request {
    */
   public createUser(this: Request<User>, params: ICreateUserParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, ALREADY_EXISTS],
+      errors: [UNAUTHORIZED, FORBIDDEN, ALREADY_EXISTS, EMAIL_FORMAT],
       url: '/admin/users',
       method: 'POST',
       params: params
@@ -79,7 +84,14 @@ export class UserAPI extends Request {
    */
   public updateUser(this: Request<User>, params: IUpdateUserParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND, INVALID_PARAMETER],
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        NOT_IMPLEMENTED,
+        NOT_FOUND,
+        INVALID_PARAMETER,
+        EMAIL_FORMAT
+      ],
       url: '/admin/users/:id',
       method: 'PATCH',
       params: params
@@ -178,6 +190,34 @@ export class UserAPI extends Request {
       errors: [UNAUTHORIZED, FORBIDDEN],
       url: '/admin/users/mergeUsers',
       method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get list of the users who have equivalent access rights to a given user
+   */
+  public getAssetTransferEligibleUsers(
+    this: Request<User[]>,
+    params: IGetAssetTransferEligibleUsersParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
+      url: '/admin/users/:id/sharedAssets/eligibleUsers',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  // Get the counts of shared assets by the user
+  public countSharedUserAssets(
+    this: Request<ICountSharedAssets>,
+    params: ICountSharedUserAssetsParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
+      url: '/admin/users/:id/sharedAssets',
+      method: 'GET',
       params: params
     });
   }

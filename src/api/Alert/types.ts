@@ -75,6 +75,7 @@ export interface Alert extends IBaseAlert, PersistedItem {
     partial: boolean;
   };
   nextRun?: string; // defined if enabled=true
+  openAndUnAssignedCasesCount: number;
 }
 
 export interface IRunAlertParams extends IDataSourceParams {
@@ -173,6 +174,10 @@ export enum GetCasesSortBy {
   FOUR = '4'
 }
 
+export interface IExtractCaseListInfoParams extends IDataSourceParams {
+  alertId: number;
+}
+
 export interface IGetCasesParams extends IDataSourceParams {
   alertId: number;
   offset?: number;
@@ -239,3 +244,46 @@ export type AlertPreview = Array<{
   edges: LkEdge[];
   columns: Array<string | number>;
 }>;
+
+export interface ICaseColumn {
+  type: AlertColumnType;
+  columnValue: string | number;
+  columnTitle: string;
+}
+
+export enum FullCaseListSortProperties {
+  CASE_ID = 'id',
+  ALERT_NAME = 'alertName',
+  ALERT_FOLDER = 'alertFolder',
+  CREATED_AT = 'createdAt',
+  STATUS = 'status',
+  STATUS_CHANGED_BY = 'statusChangedBy',
+  STATUS_CHANGED_ON = 'statusChangedOn',
+  ASSIGNEE = 'assignedUser'
+}
+
+export interface IFullCase {
+  id: number;
+  alertName: string;
+  alertFolder: string | null;
+  alertDescription: string | null;
+  createdAt: Date;
+  status: CaseStatus;
+  statusChangedBy: Pick<User, 'id' | 'username' | 'email'> | null;
+  statusChangedOn: Date | null;
+  assignedUser: Pick<User, 'id' | 'username' | 'email'> | null;
+  attributes: ICaseColumn[];
+}
+
+export interface IFullCaseListResponse {
+  totalCasesCount: number;
+  fullCaseList: IFullCase[];
+}
+
+export type FullCaseListSortBy = {by: FullCaseListSortProperties; direction: GetCasesSortDirection};
+
+export interface IGetFullCaseListParams extends IDataSourceParams {
+  offset?: number;
+  limit?: number;
+  sortBy: FullCaseListSortBy[];
+}

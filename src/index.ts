@@ -20,12 +20,14 @@ import {GraphEdgeAPI} from './api/GraphEdge';
 import {GraphNodeAPI} from './api/GraphNode';
 import {GraphQueryAPI} from './api/GraphQuery';
 import {GraphSchemaAPI} from './api/GraphSchema';
+import {LicenseAPI} from './api/License';
 import {LinkuriousAPI} from './api/Linkurious';
 import {PluginAPI} from './api/Plugin';
 import {SearchAPI} from './api/Search';
 import {UserAPI} from './api/User';
 import {VisualizationAPI} from './api/Visualization';
 import {endsWith, find} from './utils';
+import {MailerAPI} from './api/mailer';
 
 export class RestClient extends ErrorListener {
   public readonly clientState: ClientState;
@@ -42,9 +44,11 @@ export class RestClient extends ErrorListener {
   public readonly graphNode: GraphNodeAPI;
   public readonly graphQuery: GraphQueryAPI;
   public readonly graphSchema: GraphSchemaAPI;
+  public readonly license: LicenseAPI;
   public readonly linkurious: LinkuriousAPI;
   public readonly plugin: PluginAPI;
   public readonly search: SearchAPI;
+  public readonly mailer: MailerAPI;
   public readonly user: UserAPI;
   public readonly visualization: VisualizationAPI;
 
@@ -75,9 +79,11 @@ export class RestClient extends ErrorListener {
     this.graphNode = new GraphNodeAPI(this.moduleProps);
     this.graphQuery = new GraphQueryAPI(this.moduleProps);
     this.graphSchema = new GraphSchemaAPI(this.moduleProps);
+    this.license = new LicenseAPI(this.moduleProps);
     this.linkurious = new LinkuriousAPI(this.moduleProps);
     this.plugin = new PluginAPI(this.moduleProps);
     this.search = new SearchAPI(this.moduleProps);
+    this.mailer = new MailerAPI(this.moduleProps);
     this.user = new UserAPI(this.moduleProps);
     this.visualization = new VisualizationAPI(this.moduleProps);
   }
