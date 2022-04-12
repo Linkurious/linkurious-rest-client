@@ -96,6 +96,7 @@ export interface IStyleAutoRange {
   input: string[];
   min?: number; // min and max are one only used in frontend
   max?: number;
+  scale?: 'linear' | 'logarithmic';
 }
 
 export interface IStyleIcon {
