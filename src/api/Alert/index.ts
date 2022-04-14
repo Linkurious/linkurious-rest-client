@@ -332,6 +332,7 @@ export class AlertAPI extends Request {
     const sortByParamToString = JSON.stringify(params.sortBy);
     const alertIdsFilter = JSON.stringify(params.alertIdsFilter);
     const assignedUserIdsFilter = JSON.stringify(params.assignedUserIdsFilter);
+    const caseStatusesFilter = JSON.stringify(params.caseStatusesFilter);
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/cases/list',
@@ -340,7 +341,8 @@ export class AlertAPI extends Request {
         ...params,
         sortBy: sortByParamToString,
         alertIdsFilter: alertIdsFilter,
-        assignedUserIdsFilter: assignedUserIdsFilter
+        assignedUserIdsFilter: assignedUserIdsFilter,
+        caseStatusesFilter: caseStatusesFilter
       }
     });
   }
