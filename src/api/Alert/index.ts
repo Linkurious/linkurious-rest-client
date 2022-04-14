@@ -37,7 +37,8 @@ import {
   IRunAlertParams,
   IExtractCaseListInfoParams,
   IGetFullCaseListParams,
-  IFullCaseListResponse
+  IFullCaseListResponse,
+  AlertUser
 } from './types';
 
 export * from './types';
@@ -329,11 +330,30 @@ export class AlertAPI extends Request {
    */
   public getFullCaseList(this: Request<IFullCaseListResponse>, params: IGetFullCaseListParams) {
     const sortByParamToString = JSON.stringify(params.sortBy);
+    const alertIdsFilter = JSON.stringify(params.alertIdsFilter);
+    const assignedUserIdsFilter = JSON.stringify(params.assignedUserIdsFilter);
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/cases/list',
       method: 'GET',
-      params: {...params, sortBy: sortByParamToString}
+      params: {
+        ...params,
+        sortBy: sortByParamToString,
+        alertIdsFilter: alertIdsFilter,
+        assignedUserIdsFilter: assignedUserIdsFilter
+      }
+    });
+  }
+
+  /**
+   * Find all the users that can process the alerts that the current user has access to
+   */
+  public getAllAlertsUsers(this: Request<AlertUser[]>, params: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/users',
+      method: 'GET',
+      params: params
     });
   }
 }

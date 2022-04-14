@@ -20,6 +20,8 @@ export interface IAlertUserInfo extends Pick<User, 'id' | 'username' | 'email'> 
   hasAssignedCases: boolean;
 }
 
+export type AlertUser = Omit<IAlertUserInfo, 'hasAssignedCases'>;
+
 export enum AlertColumnType {
   STRING = 'string',
   NUMBER = 'number'
@@ -265,6 +267,7 @@ export enum FullCaseListSortProperties {
 export interface IFullCase {
   id: number;
   alertName: string;
+  alertId: number;
   alertFolder: string | null;
   alertDescription: string | null;
   createdAt: Date;
@@ -285,5 +288,8 @@ export type FullCaseListSortBy = {by: FullCaseListSortProperties; direction: Get
 export interface IGetFullCaseListParams extends IDataSourceParams {
   offset?: number;
   limit?: number;
+  alertIdsFilter?: number[];
+  caseStatusesFilter?: CaseStatus[];
+  assignedUserIdsFilter?: number[];
   sortBy: FullCaseListSortBy[];
 }
