@@ -348,7 +348,7 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Find all the users that can process the alerts that the current user has access to
+   * Find all the users that can process the alerts which are accessible to the current user
    */
   public getAllAlertsUsers(this: Request<IAlertUser[]>, params: IDataSourceParams) {
     return this.request({
