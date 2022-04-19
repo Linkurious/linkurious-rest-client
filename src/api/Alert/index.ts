@@ -353,7 +353,7 @@ export class AlertAPI extends Request {
   public getAllAlertsUsers(this: Request<IAlertUser[]>, params: IDataSourceParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/users',
+      url: '/:sourceKey/alerts/users/list',
       method: 'GET',
       params: params
     });
