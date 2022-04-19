@@ -38,7 +38,7 @@ import {
   IExtractCaseListInfoParams,
   IGetFullCaseListParams,
   IFullCaseListResponse,
-  AlertUser
+  IAlertUser
 } from './types';
 
 export * from './types';
@@ -350,7 +350,7 @@ export class AlertAPI extends Request {
   /**
    * Find all the users that can process the alerts that the current user has access to
    */
-  public getAllAlertsUsers(this: Request<AlertUser[]>, params: IDataSourceParams) {
+  public getAllAlertsUsers(this: Request<IAlertUser[]>, params: IDataSourceParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/users',

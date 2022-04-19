@@ -20,7 +20,7 @@ export interface IAlertUserInfo extends Pick<User, 'id' | 'username' | 'email'> 
   hasAssignedCases: boolean;
 }
 
-export type AlertUser = Omit<IAlertUserInfo, 'hasAssignedCases'>;
+export type IAlertUser = Omit<IAlertUserInfo, 'hasAssignedCases'>;
 
 export enum AlertColumnType {
   STRING = 'string',
