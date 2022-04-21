@@ -336,7 +336,7 @@ export class AlertAPI extends Request {
       params: {
         ...params,
         sortBy: JSON.stringify(params.sortBy),
-        alertIdsFilter: params.assignedUserIdsFilter?.join(','),
+        alertIdsFilter: params.alertIdsFilter?.join(','),
         assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
         caseStatusesFilter: params.caseStatusesFilter?.join(',')
       }
