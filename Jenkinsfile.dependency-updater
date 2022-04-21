@@ -5,7 +5,7 @@ lkeSubReleaseJob {
   projectName = "linkurious/linkurious-rest-client"
 
   releasing = false
-  buildCron = 'H 4 1-31/2 * *'
+  buildCron = 'H 4 * * *'
 
   nextReleaseJobs = ["linkurious-shared"]
 }
