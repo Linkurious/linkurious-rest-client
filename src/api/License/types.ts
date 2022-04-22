@@ -3,16 +3,21 @@
  *
  * - Created on 2022-03-16.
  */
-export interface ISaveLicenseIfMissingParams {
-  license: string;
-}
-
 export enum LicenseState {
   VALID = 'valid',
   EXPIRED = 'expired',
   MISSING = 'missing'
 }
 
-export interface SaveLicenseIfMissingResponse {
+export interface LicenseInfo {
+  state: LicenseState;
+  endDate: number;
+}
+
+export interface ISaveLicenseParams {
+  license: string;
+}
+
+export interface SaveLicenseResponse {
   state: LicenseState;
 }
