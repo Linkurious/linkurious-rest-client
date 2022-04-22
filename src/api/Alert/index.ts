@@ -329,20 +329,16 @@ export class AlertAPI extends Request {
    * Get all cases from alerts that a user has access to.
    */
   public getFullCaseList(this: Request<IFullCaseListResponse>, params: IGetFullCaseListParams) {
-    const sortByParamToString = JSON.stringify(params.sortBy);
-    const alertIdsFilter = JSON.stringify(params.alertIdsFilter);
-    const assignedUserIdsFilter = JSON.stringify(params.assignedUserIdsFilter);
-    const caseStatusesFilter = JSON.stringify(params.caseStatusesFilter);
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/cases/list',
       method: 'GET',
       params: {
         ...params,
-        sortBy: sortByParamToString,
-        alertIdsFilter: alertIdsFilter,
-        assignedUserIdsFilter: assignedUserIdsFilter,
-        caseStatusesFilter: caseStatusesFilter
+        sortBy: JSON.stringify(params.sortBy),
+        alertIdsFilter: params.alertIdsFilter?.join(','),
+        assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
+        caseStatusesFilter: params.caseStatusesFilter?.join(',')
       }
     });
   }
@@ -353,7 +349,7 @@ export class AlertAPI extends Request {
   public getAllAlertsUsers(this: Request<IAlertUser[]>, params?: IDataSourceParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/users/list',
+      url: '/:sourceKey/alerts/users',
       method: 'GET',
       params: params
     });
