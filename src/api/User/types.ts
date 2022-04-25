@@ -64,6 +64,17 @@ export interface ISearchUsersParams extends IDataSourceParams {
   sortDirection?: SearchUsersSortDirection;
 }
 
+export interface IGetUserListParams extends IDataSourceParams {
+  contains: string;
+  offset?: number;
+  limit?: number;
+}
+
+export interface GetUserListResponse {
+  found: number;
+  results: Array<Pick<User, 'id' | 'username' | 'email'>>;
+}
+
 export interface SearchUserResponse {
   found: number;
   results: Array<User & {visCount: number}>;

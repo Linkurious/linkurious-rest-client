@@ -21,11 +21,13 @@ import {
   IGetGroupNamesParams,
   IGetGroupParams,
   IGetUserParams,
+  IGetUserListParams,
   IMergeUsersParams,
   ISearchUsersParams,
   IUpdateGroupParams,
   IUpdateUserParams,
   SearchUserResponse,
+  GetUserListResponse,
   User
 } from './types';
 
@@ -61,7 +63,19 @@ export class UserAPI extends Request {
   public searchUsers(this: Request<SearchUserResponse>, params: ISearchUsersParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
-      url: '/users',
+      url: '/admin/users',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get all the users or filter them by username, e-mail or group id.
+   */
+  public getUserList(this: Request<GetUserListResponse>, params: IGetUserListParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
+      url: '/:sourceKey/users',
       method: 'GET',
       params: params
     });
