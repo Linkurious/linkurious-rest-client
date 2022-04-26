@@ -10,7 +10,9 @@ import {hasValue, includes} from '../utils';
 
 import {
   ConnectionRefusedError,
+  DataSourceUnavailableError,
   ErrorResponses,
+  LkError,
   LkErrorKey,
   LkErrorKeyToInterface,
   Response
@@ -127,7 +129,7 @@ export abstract class Request<S = undefined> {
     try {
       requiredConfig = Request.renderURL(rawFetchConfig, this.props);
     } catch (error) {
-      if (error.key === LkErrorKey.DATA_SOURCE_UNAVAILABLE) {
+      if (this.isDataSourceUnavailableError(error)) {
         // 1.a) Return this when currentSource is not connected without performing an HTTP request
         this.props.dispatchError(error.key, error);
         return new Response({body: error}) as ErrorResponses<EK>;
@@ -152,7 +154,7 @@ export abstract class Request<S = undefined> {
         .query(fetchConfig.query);
     } catch (ex) {
       // 4.a) Return error when there is no connection
-      if (!ex.response) {
+      if (!this.hasResponse(ex)) {
         const error: ConnectionRefusedError = {
           key: LkErrorKey.CONNECTION_REFUSED,
           message: 'offline',
@@ -197,5 +199,16 @@ export abstract class Request<S = undefined> {
       header: response.header,
       body: (response.body as unknown) as S
     });
+  }
+
+  private isDataSourceUnavailableError(error: unknown): error is DataSourceUnavailableError {
+    return (
+      (error as LkError).key !== undefined &&
+      (error as LkError).key === LkErrorKey.DATA_SOURCE_UNAVAILABLE
+    );
+  }
+
+  private hasResponse<B>(error: unknown): error is {response: Response<B>} {
+    return (error as {response: Response<B>}).response !== undefined;
   }
 }
