@@ -249,7 +249,7 @@ export type AlertPreview = Array<{
 
 export interface ICaseColumn {
   type: AlertColumnType;
-  columnValue: string | number;
+  columnValue: string | number | null;
   columnTitle: string;
 }
 
