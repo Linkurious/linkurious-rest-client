@@ -17,7 +17,3 @@ export interface LicenseInfo {
 export interface ISaveLicenseParams {
   license: string;
 }
-
-export interface SaveLicenseResponse {
-  state: LicenseState;
-}

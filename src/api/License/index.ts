@@ -6,7 +6,7 @@
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 
-import {SaveLicenseResponse, ISaveLicenseParams, LicenseInfo} from './types';
+import {ISaveLicenseParams, LicenseInfo} from './types';
 
 export * from './types';
 
@@ -27,7 +27,7 @@ export class LicenseAPI extends Request {
   /**
    * Verify the submitted license and save it if it's valid and there is no saved license yet.
    */
-  public saveLicenseIfMissing(this: Request<SaveLicenseResponse>, params: ISaveLicenseParams) {
+  public saveLicenseIfMissing(this: Request<LicenseInfo>, params: ISaveLicenseParams) {
     return this.request({
       errors: [INVALID_LICENSE, UNAUTHORIZED],
       url: '/license',
@@ -39,7 +39,7 @@ export class LicenseAPI extends Request {
   /**
    * Replace the saved license with the submitted one. Fails if submitted license is invalid.
    */
-  public updateLicense(this: Request<SaveLicenseResponse>, params: ISaveLicenseParams) {
+  public updateLicense(this: Request<LicenseInfo>, params: ISaveLicenseParams) {
     return this.request({
       errors: [INVALID_LICENSE, FORBIDDEN, UNAUTHORIZED],
       url: '/license',
