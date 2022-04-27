@@ -275,7 +275,6 @@ export interface IFullCase {
   statusChangedBy: Pick<User, 'id' | 'username' | 'email'> | null;
   statusChangedOn: Date | null;
   assignedUser: Pick<User, 'id' | 'username' | 'email'> | null;
-  attributes: ICaseColumn[];
 }
 
 export interface IFullCaseListResponse {
@@ -292,4 +291,10 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   caseStatusesFilter?: CaseStatus[];
   assignedUserIdsFilter?: number[];
   sortBy: FullCaseListSortBy[];
+}
+
+export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statusChangedBy'> {
+  attributes: ICaseColumn[];
+  commentsCount: number;
+  lastCommentDate: Date;
 }
