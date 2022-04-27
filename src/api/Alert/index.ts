@@ -34,7 +34,10 @@ import {
   IAssignCasesParams,
   IGetAlertUsersParams,
   IAlertUserInfo,
-  IRunAlertParams
+  IRunAlertParams,
+  IExtractCaseListInfoParams,
+  IGetFullCaseListParams,
+  IFullCaseListResponse
 } from './types';
 
 export * from './types';
@@ -182,6 +185,18 @@ export class AlertAPI extends Request {
   }
 
   /**
+   * Get extract file from a given alert by id.
+   */
+  public getCaseListInfoExtract(params: IExtractCaseListInfoParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/cases/extract',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
    * Get a case by id.
    */
   public getCase(this: Request<PopulatedCase>, params: IGetCaseParams) {
@@ -306,6 +321,19 @@ export class AlertAPI extends Request {
       url: '/:sourceKey/graph/alertPreview',
       method: 'POST',
       params: params
+    });
+  }
+
+  /**
+   * Get all cases from alerts that a user has access to.
+   */
+  public getFullCaseList(this: Request<IFullCaseListResponse>, params: IGetFullCaseListParams) {
+    const sortByParamToString = JSON.stringify(params.sortBy);
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/list',
+      method: 'GET',
+      params: {...params, sortBy: sortByParamToString}
     });
   }
 }
