@@ -295,6 +295,6 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
 
 export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statusChangedBy'> {
   attributes: ICaseColumn[];
-  commentsCount: number;
-  lastCommentDate: Date;
+  commentsCount: number | null;
+  lastCommentDate: Date | null;
 }
