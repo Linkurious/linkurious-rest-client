@@ -5,7 +5,7 @@ nodeJob {
   projectName = "linkurious/linkurious-rest-client"
   podTemplateNames = ['jnlp-agent-node']
 
-  runForwardMerge = false
+  runForwardMerge = true
 
   createGitTag = true
   gitTagPrefix = 'v'
