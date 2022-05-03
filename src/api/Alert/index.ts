@@ -347,7 +347,7 @@ export class AlertAPI extends Request {
   /**
    * Find all the users that can process the alerts which are accessible to the current user
    */
-  public getAllAlertsUsers(this: Request<IBasicUser[]>, params: IDataSourceParams) {
+  public getAllAlertsUsers(this: Request<IBasicUser[]>, params?: IDataSourceParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/users',
