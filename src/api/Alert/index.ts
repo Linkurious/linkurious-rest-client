@@ -39,7 +39,7 @@ import {
   IGetFullCaseListParams,
   IFullCaseListResponse,
   IBasicUser,
-  ICasePreview
+  ICasePreview, IGetAllAlertUsersParams
 } from './types';
 
 export * from './types';
@@ -346,8 +346,10 @@ export class AlertAPI extends Request {
 
   /**
    * Find all the users that can process the alerts which are accessible to the current user
+   * If the accessibleAlertIds filter is specified in the params then we return only the users
+   * That can access all the alerts provided in the filter list
    */
-  public getAllAlertsUsers(this: Request<IBasicUser[]>, params?: IDataSourceParams) {
+  public getAllAlertsUsers(this: Request<IBasicUser[]>, params: IGetAllAlertUsersParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/users',
