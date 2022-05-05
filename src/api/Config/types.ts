@@ -45,6 +45,7 @@ export interface Configuration {
   plugins?: IPluginConfig;
   dataSource?: SelectedDataSourceConfig;
   needRestart?: boolean;
+  emailNotifications: IEmailNotificationsConfig;
 }
 
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
