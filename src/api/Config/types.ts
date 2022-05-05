@@ -45,9 +45,27 @@ export interface Configuration {
   plugins?: IPluginConfig;
   dataSource?: SelectedDataSourceConfig;
   needRestart?: boolean;
+  emailNotifications: EmailNotifications;
 }
 
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
+
+export interface EmailNotifications {
+  alertNotifications: boolean;
+  fromEmail: string;
+  notificationFrequency: string;
+  mailer: {
+    allowSelfSigned: boolean;
+    auth: {
+      user: string;
+      password: string;
+    };
+    host: string;
+    port: number;
+    ssl: boolean;
+    type: string;
+  }
+}
 
 export interface IDatabaseOptions {
   dialect: DatabaseDialect;
