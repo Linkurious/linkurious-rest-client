@@ -130,7 +130,6 @@ export enum UILayout {
 export type SelectedDataSourceConfig =
   | IDataSourceConfig<INeo4jConfig, INeo4jSearchConfig>
   | IDataSourceConfig<INeo4jConfig, InternalIndexConfig>
-  | IDataSourceConfig<INeo4jConfig, INeo2esConfig>
   | IDataSourceConfig<ICosmosDbConfig, IAzureSearchConfig>
   | IDataSourceConfig<ICosmosDbConfig, InternalIndexConfig>;
 
@@ -194,8 +193,6 @@ export interface IElasticSearchConfig extends IVendorConfig {
   forceReindex?: boolean;
   skipEdgeIndexation?: boolean;
 }
-
-export interface INeo2esConfig extends IVendorConfig {}
 
 export interface IAzureSearchConfig extends IVendorConfig {
   url: string;
