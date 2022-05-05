@@ -64,7 +64,7 @@ export interface EmailNotifications {
     port: number;
     ssl: boolean;
     type: string;
-  }
+  };
 }
 
 export interface IDatabaseOptions {
