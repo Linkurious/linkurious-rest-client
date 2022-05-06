@@ -38,7 +38,8 @@ import {
   IExtractCaseListInfoParams,
   IGetFullCaseListParams,
   IFullCaseListResponse,
-  IBasicUser
+  IBasicUser,
+  ICasePreview
 } from './types';
 
 export * from './types';
@@ -346,10 +347,22 @@ export class AlertAPI extends Request {
   /**
    * Find all the users that can process the alerts which are accessible to the current user
    */
-  public getAllAlertsUsers(this: Request<IBasicUser[]>, params: IDataSourceParams) {
+  public getAllAlertsUsers(this: Request<IBasicUser[]>, params?: IDataSourceParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/users',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get a case preview by case id.
+   */
+  public getCasePreview(this: Request<ICasePreview>, params: IGetCaseParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/cases/:caseId/preview',
       method: 'GET',
       params: params
     });
