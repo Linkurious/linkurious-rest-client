@@ -299,6 +299,6 @@ export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statu
   lastCommentDate: Date | null;
 }
 
-export interface IGetAllAlertUsersParams extends IDataSourceParams{
+export interface IGetAllAlertUsersParams extends IDataSourceParams {
   accessibleALertIds?: number[];
 }
