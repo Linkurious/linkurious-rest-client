@@ -347,7 +347,7 @@ export class AlertAPI extends Request {
 
   /**
    * Find all the users that can process the alerts which are accessible to the current user
-   * If the accessibleAlertIds filter is specified in the params then we return only the users
+   * If the mutualAlertIds filter is specified in the params then we return only the users
    * That can access all the alerts provided in the filter list
    */
   public getAllAlertsUsers(this: Request<IBasicUser[]>, params?: IGetAllAlertUsersParams) {
@@ -355,7 +355,7 @@ export class AlertAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/users',
       method: 'GET',
-      params: {...params, accessibleAlertIdsFilter: params?.accessibleAlertIds?.join(',')}
+      params: {...params, accessibleAlertIdsFilter: params?.mutualAlertIds?.join(',')}
     });
   }
 

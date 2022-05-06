@@ -300,5 +300,5 @@ export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statu
 }
 
 export interface IGetAllAlertUsersParams extends IDataSourceParams {
-  accessibleAlertIds?: number[];
+  mutualAlertIds?: number[];
 }
