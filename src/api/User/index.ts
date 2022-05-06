@@ -22,10 +22,12 @@ import {
   IGetGroupParams,
   IGetUserParams,
   IMergeUsersParams,
-  ISearchUsersParams,
+  ISearchUsersFullParams,
+  ISearchUsersSimpleParams,
   IUpdateGroupParams,
   IUpdateUserParams,
-  SearchUserResponse,
+  SearchUsersFullResponse,
+  SearchUsersSimpleResponse,
   User
 } from './types';
 
@@ -58,10 +60,25 @@ export class UserAPI extends Request {
   /**
    * Get all the users or filter them by username, e-mail or group id.
    */
-  public searchUsers(this: Request<SearchUserResponse>, params: ISearchUsersParams) {
+  public searchUsersFull(this: Request<SearchUsersFullResponse>, params: ISearchUsersFullParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
-      url: '/users',
+      url: '/admin/users',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get all the users or filter them by username, e-mail or group id.
+   */
+  public searchUsersSimple(
+    this: Request<SearchUsersSimpleResponse>,
+    params: ISearchUsersSimpleParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
+      url: '/:sourceKey/users',
       method: 'GET',
       params: params
     });
