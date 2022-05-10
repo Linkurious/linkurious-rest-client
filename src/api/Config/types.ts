@@ -154,7 +154,6 @@ export interface IVendorConfig {
 export interface INeo4jConfig extends IGraphVendorConfig {
   url: string;
   proxy?: string;
-  writeURL?: string;
   user?: string;
   password?: string;
   databaseName?: string;
