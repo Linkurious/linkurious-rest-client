@@ -134,7 +134,7 @@ export class UserAPI extends Request {
     return this.request({
       errors: [DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/admin/:sourceKey/groups/:id',
-      method: 'PATCH',
+      method: 'GET',
       params: params
     });
   }
