@@ -298,3 +298,7 @@ export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statu
   commentsCount: number | null;
   lastCommentDate: Date | null;
 }
+
+export interface IGetAllAlertUsersParams extends IDataSourceParams {
+  mutualAlertIds?: number[];
+}
