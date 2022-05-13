@@ -54,7 +54,7 @@ export enum SearchUsersSortBy {
   EMAIL = 'email'
 }
 
-export interface ISearchUsersParams extends IDataSourceParams {
+export interface ISearchUsersFullParams extends IDataSourceParams {
   startsWith?: string;
   contains?: string;
   groupId?: number;
@@ -64,7 +64,18 @@ export interface ISearchUsersParams extends IDataSourceParams {
   sortDirection?: SearchUsersSortDirection;
 }
 
-export interface SearchUserResponse {
+export interface ISearchUsersSimpleParams extends IDataSourceParams {
+  contains?: string;
+  offset?: number;
+  limit?: number;
+}
+
+export interface SearchUsersSimpleResponse {
+  found: number;
+  results: Array<Pick<User, 'id' | 'username' | 'email'>>;
+}
+
+export interface SearchUsersFullResponse {
   found: number;
   results: Array<User & {visCount: number}>;
 }
