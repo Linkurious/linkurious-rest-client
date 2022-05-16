@@ -146,6 +146,7 @@ export interface BaseVisualization {
   layout: VisualizationLayout;
   geo: IVisualizationGeo;
   timeline?: IVisualizationTimeline;
+  sandbox?: boolean; // optional on base visualization
 }
 
 export interface Visualization extends BaseVisualization, PersistedItem {
@@ -159,7 +160,7 @@ export interface Visualization extends BaseVisualization, PersistedItem {
   filters: IVisualizationFilters;
   edgeGrouping: GenericObject<boolean>;
   sourceKey: string;
-  sandbox: boolean;
+  sandbox: boolean; // mandatory on visualization
   alternativeIds: IAlternativeIdSettings;
   mode: VisualizationMode;
   layout: VisualizationLayout;
