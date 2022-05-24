@@ -7,6 +7,7 @@
 import {TlsOptions} from 'tls';
 
 import {GenericObject} from '../commonTypes';
+import {LicenseState} from '../License';
 import {IPluginConfig} from '../Plugin';
 import {OgmaNodeShape, OgmaEdgeShape} from '../displayTypes';
 
@@ -20,6 +21,10 @@ export interface Configuration {
   domain: string;
   ssoProvider?: 'oauth2' | 'saml2';
   url: string;
+  setupAuthentication: boolean;
+  license: {
+    state: LicenseState;
+  };
 
   // partially available to not authenticated user
   access?: IAccessConfig;
@@ -27,9 +32,6 @@ export interface Configuration {
   // available to authenticated users
   advanced?: IAdvancedConfig;
   leaflet?: ILeafletConfig[];
-  license?: {
-    expired: boolean;
-  };
 
   // partially available to authenticated user
   alerts?: IAlertsConfig;
@@ -43,6 +45,7 @@ export interface Configuration {
   plugins?: IPluginConfig;
   dataSource?: SelectedDataSourceConfig;
   needRestart?: boolean;
+  emailNotifications: IEmailNotificationsConfig;
 }
 
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
@@ -133,7 +136,7 @@ export type SelectedDataSourceConfig =
 
 export interface IDataSourceConfig<G = IGraphVendorConfig, I = IVendorConfig> {
   name?: string;
-  manualSourceKey?: string;
+  sourceKey?: string;
   readOnly?: boolean;
   graphdb: G;
   index: I;
@@ -402,3 +405,30 @@ export type IUpdateConfigParams<T = unknown> =
   | IResetConfigParams
   | IDataSourceConfigParams
   | IConfigurationParams<T>;
+
+export interface IAbstractMailerConfig {
+  type: string;
+}
+
+export type MailerType = 'smtp';
+
+export interface IMailerConfig extends IAbstractMailerConfig {
+  type: MailerType;
+  auth?: ISMTPAuthConfig;
+  host: string;
+  port: number;
+  ssl: boolean;
+  allowSelfSigned?: boolean;
+}
+
+export interface ISMTPAuthConfig {
+  user: string;
+  password: string;
+}
+
+export interface IEmailNotificationsConfig {
+  alertNotifications: boolean;
+  notificationFrequency: string;
+  mailer: IMailerConfig;
+  fromEmail: string;
+}
