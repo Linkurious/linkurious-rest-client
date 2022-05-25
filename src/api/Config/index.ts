@@ -11,7 +11,7 @@ import {IGetConfigParams, Configuration, IUpdateConfigParams} from './types';
 
 export * from './types';
 
-const {UNAUTHORIZED, FORBIDDEN} = LkErrorKey;
+const {UNAUTHORIZED, FORBIDDEN, INVALID_PARAMETER} = LkErrorKey;
 
 export class ConfigAPI extends Request {
   /**
@@ -30,7 +30,7 @@ export class ConfigAPI extends Request {
    */
   public updateConfiguration(params: IUpdateConfigParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN],
+      errors: [UNAUTHORIZED, FORBIDDEN, INVALID_PARAMETER],
       url: '/config',
       method: 'POST',
       params: params
