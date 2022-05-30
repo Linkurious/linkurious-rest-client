@@ -332,7 +332,7 @@ export class AlertAPI extends Request {
    */
   public getFullCaseList(this: Request<IFullCaseListResponse>, params: IGetFullCaseListParams) {
     return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/alerts/cases/list',
       method: 'GET',
       params: {
