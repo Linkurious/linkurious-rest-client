@@ -428,8 +428,7 @@ export interface ISMTPAuthConfig {
 
 export interface IEmailNotificationsConfig {
   alertNotifications: boolean;
-  newCasesDigestFrequency: string;
-  caseAssignmentNotificationFrequency: string
+  notificationFrequency: string;
   mailer: IMailerConfig;
   fromEmail: string;
 }
