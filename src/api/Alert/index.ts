@@ -41,7 +41,7 @@ import {
   IBasicUser,
   ICasePreview,
   IGetAllAlertUsersParams,
-  casesBulkAssignmentParams
+  ICasesBulkAssignmentParams
 } from './types';
 
 export * from './types';
@@ -375,7 +375,7 @@ export class AlertAPI extends Request {
   /**
    * Assign cases from different alerts in bulk to a given user.
    */
-  public fullCasesBulkAssign(params: casesBulkAssignmentParams) {
+  public fullCasesBulkAssign(params: ICasesBulkAssignmentParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/cases/assignments',
