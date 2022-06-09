@@ -304,7 +304,7 @@ export interface IGetAllAlertUsersParams extends IDataSourceParams {
   mutualAlertIds?: number[];
 }
 
-export interface IFullCasesBulkAssignmentParams extends IDataSourceParams {
+export interface casesBulkAssignmentParams extends IDataSourceParams {
   casesPerAlert: GenericObject<number[]>;
   assignedUserId: number;
 }
