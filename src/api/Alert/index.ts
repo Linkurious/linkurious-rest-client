@@ -40,7 +40,8 @@ import {
   IFullCaseListResponse,
   IBasicUser,
   ICasePreview,
-  IGetAllAlertUsersParams
+  IGetAllAlertUsersParams,
+  IFullCasesBulkAssignmentParams
 } from './types';
 
 export * from './types';
@@ -367,6 +368,18 @@ export class AlertAPI extends Request {
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/:caseId/preview',
       method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Assign full cases in bulk.
+   */
+  public fullCasesBulkAssign(params: IFullCasesBulkAssignmentParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/assignments',
+      method: 'POST',
       params: params
     });
   }

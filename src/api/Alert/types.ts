@@ -302,3 +302,8 @@ export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statu
 export interface IGetAllAlertUsersParams extends IDataSourceParams {
   mutualAlertIds?: number[];
 }
+
+export interface IFullCasesBulkAssignmentParams extends IDataSourceParams {
+  casesPerAlert: Map<number, number[]>;
+  assignedUserId: number;
+}
