@@ -5,6 +5,7 @@
  */
 
 import {
+  GenericObject,
   IDataSourceParams,
   IGetSubGraphParams,
   PersistedItem,
@@ -304,6 +305,6 @@ export interface IGetAllAlertUsersParams extends IDataSourceParams {
 }
 
 export interface IFullCasesBulkAssignmentParams extends IDataSourceParams {
-  casesPerAlert: Map<number, number[]>;
+  casesPerAlert: GenericObject<number[]>;
   assignedUserId: number;
 }
