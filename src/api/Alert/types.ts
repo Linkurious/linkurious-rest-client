@@ -38,12 +38,12 @@ export interface IAssignCasesParams extends IDataSourceParams {
   userId: number;
 }
 
+export type ICasesPerAlertAssignmentParam = Pick<IAssignCasesParams, 'alertId' | 'caseIds'>;
+
 export interface IBulkAssignCasesParams extends IDataSourceParams {
-  casesPerAlert: ICasesPerAlertAssignmentParam;
+  casesPerAlert: ICasesPerAlertAssignmentParam[];
   assignedUserId: number;
 }
-
-export type ICasesPerAlertAssignmentParam = {alertId: number; caseIds: number[]}[];
 
 export interface IGetAlertUsersParams extends IDataSourceParams {
   alertId: number;
