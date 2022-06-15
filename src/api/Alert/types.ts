@@ -5,7 +5,6 @@
  */
 
 import {
-  GenericObject,
   IDataSourceParams,
   IGetSubGraphParams,
   PersistedItem,
