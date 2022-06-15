@@ -39,6 +39,13 @@ export interface IAssignCasesParams extends IDataSourceParams {
   userId: number;
 }
 
+export interface IBulkAssignCasesParams extends IDataSourceParams {
+  casesPerAlert: ICasesPerAlertAssignmentParam;
+  assignedUserId: number;
+}
+
+export type ICasesPerAlertAssignmentParam = {alertId: number; caseIds: number[]}[];
+
 export interface IGetAlertUsersParams extends IDataSourceParams {
   alertId: number;
 }
@@ -302,9 +309,4 @@ export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statu
 
 export interface IGetAllAlertUsersParams extends IDataSourceParams {
   mutualAlertIds?: number[];
-}
-
-export interface IBulkAssignCasesParams extends IDataSourceParams {
-  casesPerAlert: GenericObject<number[]>;
-  assignedUserId: number;
 }
