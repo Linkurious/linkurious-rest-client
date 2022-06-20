@@ -42,6 +42,7 @@ export type CustomActionElement =
       type: 'ca-expression';
       variable: CustomActionVariable.NODE_SET | CustomActionVariable.EDGE_SET;
       itemType?: string;
+      property?: string;
     }
   | {
       value: string;
