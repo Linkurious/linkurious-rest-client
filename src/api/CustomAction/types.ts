@@ -40,14 +40,11 @@ export type CustomActionElement =
   | {
       value: string;
       type: 'ca-expression';
-      variable: CustomActionVariable.NODE_SET | CustomActionVariable.EDGE_SET;
-      itemType?: string;
-      property?: string;
-    }
-  | {
-      value: string;
-      type: 'ca-expression';
-      variable: CustomActionVariable.NODE | CustomActionVariable.EDGE;
+      variable:
+        | CustomActionVariable.NODE_SET
+        | CustomActionVariable.EDGE_SET
+        | CustomActionVariable.NODE
+        | CustomActionVariable.EDGE;
       itemType?: string;
       property?: string;
     };
