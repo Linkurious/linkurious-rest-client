@@ -40,7 +40,8 @@ import {
   IFullCaseListResponse,
   IBasicUser,
   ICasePreview,
-  IGetAllAlertUsersParams
+  IGetAllAlertUsersParams,
+  IBulkAssignCasesParams
 } from './types';
 
 export * from './types';
@@ -230,6 +231,18 @@ export class AlertAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/assignments',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Assign cases from different alerts in bulk to a given user.
+   */
+  public bulkAssignCases(params: IBulkAssignCasesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/assignments',
       method: 'POST',
       params: params
     });
