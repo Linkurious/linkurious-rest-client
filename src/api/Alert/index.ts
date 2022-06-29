@@ -60,7 +60,8 @@ const {
   ALREADY_EXISTS,
   INVALID_ALERT_QUERY,
   INVALID_ALERT_TARGET,
-  REDUNDANT_ACTION
+  REDUNDANT_ACTION,
+  CASES_EXTRACT_LIMIT_EXCEEDED
 } = LkErrorKey;
 
 export class AlertAPI extends Request {
@@ -381,6 +382,31 @@ export class AlertAPI extends Request {
       url: '/:sourceKey/alerts/:alertId/cases/:caseId/preview',
       method: 'GET',
       params: params
+    });
+  }
+
+  /**
+   * Get extract file from alerts accessible to the current user.
+   */
+  public getFullCaseListExtract(params: IGetFullCaseListParams) {
+    return this.request({
+      errors: [
+        FEATURE_DISABLED,
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        NOT_FOUND,
+        CASES_EXTRACT_LIMIT_EXCEEDED
+      ],
+      url: '/:sourceKey/alerts/cases/extract',
+      method: 'GET',
+      params: {
+        params: params,
+        sortBy: JSON.stringify(params.sortBy),
+        alertIdsFilter: params.alertIdsFilter?.join(','),
+        assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
+        caseStatusesFilter: params.caseStatusesFilter?.join(',')
+      }
     });
   }
 }
