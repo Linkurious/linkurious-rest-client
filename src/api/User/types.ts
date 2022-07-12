@@ -9,16 +9,18 @@ import {AccessRight, Action, AnyAction} from '../AccessRight';
 import {IGuestPreferencesConfig} from '../Config';
 import {CaseStatus, FullCaseListSortBy} from '../Alert';
 
+export interface IUnifiedCaseListPreferences {
+  alertIdsFilter?: number[];
+  caseStatusesFilter: CaseStatus[];
+  assignedUserIdsFilter?: number[];
+  sortBy: FullCaseListSortBy[];
+}
+
 export interface IUserPreferences {
   pinOnDrag: boolean;
   locale: string;
   incrementalLayout: boolean;
-  unifiedCaseListPreferences: {
-    alertIdsFilter?: number[];
-    caseStatusesFilter: CaseStatus[];
-    assignedUserIdsFilter?: number[];
-    sortBy: FullCaseListSortBy[];
-  };
+  unifiedCaseListPreferences: IUnifiedCaseListPreferences;
 }
 
 export interface SourceAccessRights {
