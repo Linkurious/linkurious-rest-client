@@ -7,11 +7,18 @@
 import {GenericObject, IDataSourceParams, PersistedItem} from '../commonTypes';
 import {AccessRight, Action, AnyAction} from '../AccessRight';
 import {IGuestPreferencesConfig} from '../Config';
+import {CaseStatus, FullCaseListSortBy} from '../Alert';
 
 export interface IUserPreferences {
   pinOnDrag: boolean;
   locale: string;
   incrementalLayout: boolean;
+  unifiedCaseListPreferences: {
+    alertIdsFilter?: number[];
+    caseStatusesFilter: CaseStatus[];
+    assignedUserIdsFilter?: number[];
+    sortBy: FullCaseListSortBy[];
+  };
 }
 
 export interface SourceAccessRights {
