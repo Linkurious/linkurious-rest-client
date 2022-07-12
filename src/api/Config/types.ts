@@ -10,6 +10,7 @@ import {GenericObject} from '../commonTypes';
 import {LicenseState} from '../License';
 import {IPluginConfig} from '../Plugin';
 import {OgmaNodeShape, OgmaEdgeShape} from '../displayTypes';
+import {CaseStatus, FullCaseListSortBy} from '../Alert';
 
 export interface IGetConfigParams {
   sourceIndex?: number;
@@ -105,10 +106,18 @@ export interface IAuditTrailConfig {
   logPlugins?: boolean;
 }
 
+export interface IUnifiedCaseListPreferencesConfig {
+  alertIdsFilter?: number[];
+  caseStatusesFilter: CaseStatus[];
+  assignedUserIdsFilter?: number[];
+  sortBy: FullCaseListSortBy[];
+}
+
 export interface IUserPreferencesConfig {
   locale: string;
   pinOnDrag: boolean;
   incrementalLayout: boolean;
+  unifiedCaseListPreferences: IUnifiedCaseListPreferencesConfig;
 }
 
 export interface IGuestPreferencesConfig {
