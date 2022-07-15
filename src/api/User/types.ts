@@ -11,7 +11,7 @@ import {CaseStatus, FullCaseListSortBy} from '../Alert';
 
 export interface IUnifiedCaseListPreferences {
   alertIdsFilter?: number[];
-  caseStatusesFilter: CaseStatus[];
+  caseStatusesFilter?: CaseStatus[];
   assignedUserIdsFilter?: number[];
   sortBy: FullCaseListSortBy[];
   alertFoldersFilter?: number[];
