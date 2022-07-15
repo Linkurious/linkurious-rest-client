@@ -14,7 +14,7 @@ export interface IUnifiedCaseListPreferences {
   caseStatusesFilter?: CaseStatus[];
   assignedUserIdsFilter?: number[];
   sortBy: FullCaseListSortBy[];
-  alertFoldersFilter?: number[];
+  alertFolderIdsFilter?: number[];
 }
 
 export interface IUserPreferences {
