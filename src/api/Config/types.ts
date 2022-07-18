@@ -263,7 +263,7 @@ export interface IAccessConfig {
   defaultPageParams?: GenericObject;
   dataEdition?: boolean;
   widget?: boolean;
-  visualisationExport: boolean;
+  visualizationExport: boolean;
   loginTimeout?: number;
   externalUsersAllowedGroups?: Array<string | number>;
   externalUserDefaultGroupId?: number | number[];
