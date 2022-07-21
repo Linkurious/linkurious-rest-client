@@ -41,7 +41,9 @@ import {
   IBasicUser,
   ICasePreview,
   IGetAllAlertUsersParams,
-  IBulkAssignCasesParams
+  IBulkAssignCasesParams,
+  IUnifiedCaseListPreferences,
+  ISetUCLPreferencesParams
 } from './types';
 
 export * from './types';
@@ -380,6 +382,33 @@ export class AlertAPI extends Request {
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/:caseId/preview',
       method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get UCL preferences of current user for a given data source.
+   */
+  public getUnifiedCaseListPreferences(
+    this: Request<IUnifiedCaseListPreferences>,
+    params: IDataSourceParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/list/preferences',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Set UCL preferences of current user for a given data source.
+   */
+  public setUnifiedCaseListPreferences(params: ISetUCLPreferencesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/list/preferences',
+      method: 'PUT',
       params: params
     });
   }
