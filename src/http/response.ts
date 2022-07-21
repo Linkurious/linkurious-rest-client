@@ -56,7 +56,8 @@ export enum LkErrorKey {
   INVALID_CONFIGURATION = 'invalid_configuration',
   EMAIL_FORMAT = 'email_format',
   NOT_IMPLEMENTED = 'not_implemented',
-  SEND_MAIL_FAILED = 'send_mail_failed'
+  SEND_MAIL_FAILED = 'send_mail_failed',
+  CASES_EXTRACT_LIMIT_EXCEEDED = 'cases_extract_limit_exceeded'
 }
 
 /**
@@ -235,6 +236,9 @@ export interface NotImplementedError extends LkError<LkErrorKey.NOT_IMPLEMENTED>
 
 export interface SendMailFailed extends LkError<LkErrorKey.SEND_MAIL_FAILED> {}
 
+export interface CasesExtractLimitExceeded
+  extends LkError<LkErrorKey.CASES_EXTRACT_LIMIT_EXCEEDED> {}
+
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
@@ -277,4 +281,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.EMAIL_FORMAT]: EmailFormatError;
   [LkErrorKey.NOT_IMPLEMENTED]: NotImplementedError;
   [LkErrorKey.SEND_MAIL_FAILED]: SendMailFailed;
+  [LkErrorKey.CASES_EXTRACT_LIMIT_EXCEEDED]: CasesExtractLimitExceeded;
 };
