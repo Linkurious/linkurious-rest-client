@@ -20,6 +20,8 @@ export interface IAlertUserInfo extends Pick<User, 'id' | 'username' | 'email'> 
   hasAssignedCases: boolean;
 }
 
+export type IBasicUser = Omit<IAlertUserInfo, 'hasAssignedCases'>;
+
 export enum AlertColumnType {
   STRING = 'string',
   NUMBER = 'number'
@@ -34,6 +36,13 @@ export interface IAssignCasesParams extends IDataSourceParams {
   alertId: number;
   caseIds: number[];
   userId: number;
+}
+
+export type ICasesPerAlertAssignmentParam = Pick<IAssignCasesParams, 'alertId' | 'caseIds'>;
+
+export interface IBulkAssignCasesParams extends IDataSourceParams {
+  casesPerAlert: ICasesPerAlertAssignmentParam[];
+  assignedUserId: number;
 }
 
 export interface IGetAlertUsersParams extends IDataSourceParams {
@@ -247,7 +256,7 @@ export type AlertPreview = Array<{
 
 export interface ICaseColumn {
   type: AlertColumnType;
-  columnValue: string | number;
+  columnValue: string | number | null;
   columnTitle: string;
 }
 
@@ -265,6 +274,7 @@ export enum FullCaseListSortProperties {
 export interface IFullCase {
   id: number;
   alertName: string;
+  alertId: number;
   alertFolder: string | null;
   alertDescription: string | null;
   createdAt: Date;
@@ -272,7 +282,6 @@ export interface IFullCase {
   statusChangedBy: Pick<User, 'id' | 'username' | 'email'> | null;
   statusChangedOn: Date | null;
   assignedUser: Pick<User, 'id' | 'username' | 'email'> | null;
-  attributes: ICaseColumn[];
 }
 
 export interface IFullCaseListResponse {
@@ -285,5 +294,18 @@ export type FullCaseListSortBy = {by: FullCaseListSortProperties; direction: Get
 export interface IGetFullCaseListParams extends IDataSourceParams {
   offset?: number;
   limit?: number;
+  alertIdsFilter?: number[];
+  caseStatusesFilter?: CaseStatus[];
+  assignedUserIdsFilter?: number[];
   sortBy: FullCaseListSortBy[];
+}
+
+export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statusChangedBy'> {
+  attributes: ICaseColumn[];
+  commentsCount: number | null;
+  lastCommentDate: Date | null;
+}
+
+export interface IGetAllAlertUsersParams extends IDataSourceParams {
+  mutualAlertIds?: number[];
 }

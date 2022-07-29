@@ -55,7 +55,7 @@ export abstract class Request<S = undefined> {
       // @ts-ignore
       if (hasValue(configParams[key])) {
         // @ts-ignore
-        paramValue = configParams[key];
+        paramValue = configParams[key] as string;
         // @ts-ignore
         delete configParams[key];
       }
@@ -178,7 +178,7 @@ export abstract class Request<S = undefined> {
 
       return new Response({
         status: response.status,
-        header: response.header,
+        header: (response.header as unknown) as GenericObject | undefined,
         body: (response.body as unknown) as LkErrorKeyToInterface[LkErrorKey]
       }) as ErrorResponses<EK>;
     } else if ((response.status < 200 || response.status >= 300) && response.body?.key) {
@@ -189,14 +189,14 @@ export abstract class Request<S = undefined> {
     // 4.e) Throw error if unexpected status code
     if (!includes([200, 201, 204], response.status)) {
       throw new Error(
-        'Unexpected status code "' + response.status + '": ' + JSON.stringify(response.body)
+        `Unexpected status code "${response.status}": ${JSON.stringify(response.body)}`
       );
     }
 
     // 4.f) Return the success
     return new Response({
       status: response.status,
-      header: response.header,
+      header: (response.header as unknown) as GenericObject | undefined,
       body: (response.body as unknown) as S
     });
   }

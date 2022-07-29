@@ -37,7 +37,11 @@ import {
   IRunAlertParams,
   IExtractCaseListInfoParams,
   IGetFullCaseListParams,
-  IFullCaseListResponse
+  IFullCaseListResponse,
+  IBasicUser,
+  ICasePreview,
+  IGetAllAlertUsersParams,
+  IBulkAssignCasesParams
 } from './types';
 
 export * from './types';
@@ -233,6 +237,18 @@ export class AlertAPI extends Request {
   }
 
   /**
+   * Assign cases from different alerts in bulk to a given user.
+   */
+  public bulkAssignCases(params: IBulkAssignCasesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/assignments',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
    * Find all the users that can process a given alert.
    */
   public getAlertUsers(this: Request<IAlertUserInfo[]>, params: IGetAlertUsersParams) {
@@ -328,12 +344,43 @@ export class AlertAPI extends Request {
    * Get all cases from alerts that a user has access to.
    */
   public getFullCaseList(this: Request<IFullCaseListResponse>, params: IGetFullCaseListParams) {
-    const sortByParamToString = JSON.stringify(params.sortBy);
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/cases/list',
       method: 'GET',
-      params: {...params, sortBy: sortByParamToString}
+      params: {
+        ...params,
+        sortBy: JSON.stringify(params.sortBy),
+        alertIdsFilter: params.alertIdsFilter?.join(','),
+        assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
+        caseStatusesFilter: params.caseStatusesFilter?.join(',')
+      }
+    });
+  }
+
+  /**
+   * Find all the users that can process the alerts which are accessible to the current user
+   * If the mutualAlertIds filter is specified in the params then we return only the users
+   * That can access all the alerts provided in the filter list
+   */
+  public getAllAlertsUsers(this: Request<IBasicUser[]>, params?: IGetAllAlertUsersParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/users',
+      method: 'GET',
+      params: {...params, mutualAlertIds: params?.mutualAlertIds?.join(',')}
+    });
+  }
+
+  /**
+   * Get a case preview by case id.
+   */
+  public getCasePreview(this: Request<ICasePreview>, params: IGetCaseParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/cases/:caseId/preview',
+      method: 'GET',
+      params: params
     });
   }
 }
