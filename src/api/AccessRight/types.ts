@@ -4,7 +4,7 @@
  * - Created on 2019-09-27.
  */
 
-import {IDataSourceParams} from '../commonTypes';
+import { IDataSourceParams } from '../commonTypes';
 
 /**
  * Available to custom groups.
@@ -17,6 +17,7 @@ export enum Action {
   ADMIN_ALERTS = 'admin.alerts', // Manage the alerts in the data-source
   ADMIN_REPORT = 'admin.report', // Generate analytics report
   ADMIN_STYLES = 'admin.styles', // Edit styles and captions of all sandboxes of the data-source
+  ADMIN_SPACES = "admin.spaces", // Edit, update and delete a space
   RUN_QUERY = 'runQuery', // Execute a saved query
   RAW_READ_QUERY = 'rawReadQuery', // Create a read query
   RAW_WRITE_QUERY = 'rawWriteQuery', // Create a read/write query
@@ -69,14 +70,12 @@ export enum TargetType {
 
 export interface ISetAccessRightsParams extends IDataSourceParams {
   id: number;
-  accessRights: Array<
-    | INodeCategoryAccessRight
+  accessRights: Array<| INodeCategoryAccessRight
     | IEdgeTypeAccessRight
     | INodePropertyAccessRight
     | IEdgePropertyAccessRight
     | IActionAccessRight
-    | IAlertAccessRight
-  >;
+    | IAlertAccessRight>;
 }
 
 export interface IGenericAccessRight<TT extends TargetType> {
