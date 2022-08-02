@@ -42,8 +42,8 @@ import {
   ICasePreview,
   IGetAllAlertUsersParams,
   IBulkAssignCasesParams,
-  IUnifiedCaseListPreferences,
-  ISetUCLPreferencesParams
+  IFullCaseListPreferences,
+  ISetFullCaseListPreferencesParams
 } from './types';
 
 export * from './types';
@@ -389,8 +389,8 @@ export class AlertAPI extends Request {
   /**
    * Get UCL preferences of current user for a given data source.
    */
-  public getUnifiedCaseListPreferences(
-    this: Request<IUnifiedCaseListPreferences>,
+  public getFullCaseListPreferences(
+    this: Request<IFullCaseListPreferences>,
     params: IDataSourceParams
   ) {
     return this.request({
@@ -404,7 +404,7 @@ export class AlertAPI extends Request {
   /**
    * Set UCL preferences of current user for a given data source.
    */
-  public setUnifiedCaseListPreferences(params: ISetUCLPreferencesParams) {
+  public setFullCaseListPreferences(params: ISetFullCaseListPreferencesParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/cases/list/preferences',

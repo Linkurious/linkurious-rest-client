@@ -310,20 +310,20 @@ export interface IGetAllAlertUsersParams extends IDataSourceParams {
   mutualAlertIds?: number[];
 }
 
-export interface IUnifiedCaseListFilters {
+export interface IFullCaseListFilters {
   alertIds?: number[];
   caseStatuses?: CaseStatus[];
   assignedUserIds?: number[];
   alertFolderIds?: number[];
 }
 
-export interface IUnifiedCaseListPreferences {
+export interface IFullCaseListPreferences {
   userId: number;
   sourceKey: string;
-  filters: IUnifiedCaseListFilters;
+  filters: IFullCaseListFilters;
   sortBy: FullCaseListSortBy[];
 }
 
-export interface ISetUCLPreferencesParams extends IDataSourceParams {
-  preferences: Omit<IUnifiedCaseListPreferences, 'userId' | 'sourceKey'>;
+export interface ISetFullCaseListPreferencesParams extends IDataSourceParams {
+  preferences: Omit<IFullCaseListPreferences, 'userId' | 'sourceKey'>;
 }
