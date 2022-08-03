@@ -318,12 +318,15 @@ export interface IFullCaseListFilters {
 }
 
 export interface IFullCaseListPreferences {
-  userId: number;
-  sourceKey: string;
   filters: IFullCaseListFilters;
   sortBy: FullCaseListSortBy[];
 }
 
-export interface ISetFullCaseListPreferencesParams extends IDataSourceParams {
-  preferences: Omit<IFullCaseListPreferences, 'userId' | 'sourceKey'>;
+export interface IGetFullCaseListPreferencesResponse extends IFullCaseListPreferences {
+  userId: number;
+  sourceKey: string;
 }
+
+export interface ISetFullCaseListPreferencesParams
+  extends IDataSourceParams,
+    IFullCaseListPreferences {}

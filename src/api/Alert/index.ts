@@ -42,8 +42,8 @@ import {
   ICasePreview,
   IGetAllAlertUsersParams,
   IBulkAssignCasesParams,
-  IFullCaseListPreferences,
-  ISetFullCaseListPreferencesParams
+  ISetFullCaseListPreferencesParams,
+  IGetFullCaseListPreferencesResponse
 } from './types';
 
 export * from './types';
@@ -390,7 +390,7 @@ export class AlertAPI extends Request {
    * Get UCL preferences of current user for a given data source.
    */
   public getFullCaseListPreferences(
-    this: Request<IFullCaseListPreferences>,
+    this: Request<IGetFullCaseListPreferencesResponse>,
     params: IDataSourceParams
   ) {
     return this.request({
