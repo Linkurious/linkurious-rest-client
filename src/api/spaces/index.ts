@@ -14,7 +14,7 @@ export class SpacesAPI extends Request {
   public createSpace(this: Request<ISpace>, params: ICreateSpaceParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, INVALID_PARAMETER],
-      url: '/spaces',
+      url: '/:sourceKey/spaces',
       method: 'POST',
       params: params
     });
