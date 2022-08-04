@@ -1,4 +1,4 @@
-import { SharingOptions } from '../commonTypes';
+import {SharingOptions} from '../commonTypes';
 
 export interface ICreateSpaceParams extends SharingOptions {
   title: string;

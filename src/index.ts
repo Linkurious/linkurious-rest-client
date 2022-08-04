@@ -6,29 +6,29 @@
 
 import * as request from 'superagent';
 
-import { ClientState, ModuleProps } from './http/types';
-import { LkErrorKey, LkErrorKeyToInterface } from './http/response';
-import { ErrorListener } from './errorListener';
-import { AccessRightAPI } from './api/AccessRight';
-import { AlertAPI } from './api/Alert';
-import { ApplicationAPI } from './api/Application';
-import { AuthAPI } from './api/Auth';
-import { ConfigAPI } from './api/Config';
-import { CustomActionAPI } from './api/CustomAction';
-import { DataSourceAPI, DataSourceUserInfo } from './api/DataSource';
-import { GraphEdgeAPI } from './api/GraphEdge';
-import { GraphNodeAPI } from './api/GraphNode';
-import { GraphQueryAPI } from './api/GraphQuery';
-import { GraphSchemaAPI } from './api/GraphSchema';
-import { LicenseAPI } from './api/License';
-import { LinkuriousAPI } from './api/Linkurious';
-import { PluginAPI } from './api/Plugin';
-import { SearchAPI } from './api/Search';
-import { UserAPI } from './api/User';
-import { VisualizationAPI } from './api/Visualization';
-import { endsWith, find } from './utils';
-import { MailerAPI } from './api/mailer';
-import { SpacesAPI } from './api/spaces';
+import {ClientState, ModuleProps} from './http/types';
+import {LkErrorKey, LkErrorKeyToInterface} from './http/response';
+import {ErrorListener} from './errorListener';
+import {AccessRightAPI} from './api/AccessRight';
+import {AlertAPI} from './api/Alert';
+import {ApplicationAPI} from './api/Application';
+import {AuthAPI} from './api/Auth';
+import {ConfigAPI} from './api/Config';
+import {CustomActionAPI} from './api/CustomAction';
+import {DataSourceAPI, DataSourceUserInfo} from './api/DataSource';
+import {GraphEdgeAPI} from './api/GraphEdge';
+import {GraphNodeAPI} from './api/GraphNode';
+import {GraphQueryAPI} from './api/GraphQuery';
+import {GraphSchemaAPI} from './api/GraphSchema';
+import {LicenseAPI} from './api/License';
+import {LinkuriousAPI} from './api/Linkurious';
+import {PluginAPI} from './api/Plugin';
+import {SearchAPI} from './api/Search';
+import {UserAPI} from './api/User';
+import {VisualizationAPI} from './api/Visualization';
+import {endsWith, find} from './utils';
+import {MailerAPI} from './api/mailer';
+import {SpacesAPI} from './api/spaces';
 
 export class RestClient extends ErrorListener {
   public readonly clientState: ClientState;
@@ -54,7 +54,7 @@ export class RestClient extends ErrorListener {
   public readonly visualization: VisualizationAPI;
   public readonly spaces: SpacesAPI;
 
-  constructor(options?: { baseUrl?: string; agent?: request.SuperAgentStatic }) {
+  constructor(options?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();
 
     this.clientState = {};
@@ -94,7 +94,7 @@ export class RestClient extends ErrorListener {
   /**
    * Login a user and populate the client state with the list of the data-sources.
    */
-  public async init(data: { usernameOrEmail: string; password: string }): Promise<void> {
+  public async init(data: {usernameOrEmail: string; password: string}): Promise<void> {
     await this.auth.login(data);
     await this.dataSource.getDataSources({
       withCaptions: true,
@@ -119,7 +119,7 @@ export class RestClient extends ErrorListener {
 
   public static getCurrentSource(
     dataSources: DataSourceUserInfo[],
-    by?: { userId: number } | { sourceKey: string } | { configIndex: number },
+    by?: {userId: number} | {sourceKey: string} | {configIndex: number},
     storage?: Storage
   ): DataSourceUserInfo {
     if (dataSources.length === 0) {
