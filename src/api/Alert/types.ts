@@ -20,6 +20,8 @@ export interface IAlertUserInfo extends Pick<User, 'id' | 'username' | 'email'> 
   hasAssignedCases: boolean;
 }
 
+export type IBasicUser = Omit<IAlertUserInfo, 'hasAssignedCases'>;
+
 export enum AlertColumnType {
   STRING = 'string',
   NUMBER = 'number'
@@ -34,6 +36,13 @@ export interface IAssignCasesParams extends IDataSourceParams {
   alertId: number;
   caseIds: number[];
   userId: number;
+}
+
+export type ICasesPerAlertAssignmentParam = Pick<IAssignCasesParams, 'alertId' | 'caseIds'>;
+
+export interface IBulkAssignCasesParams extends IDataSourceParams {
+  casesPerAlert: ICasesPerAlertAssignmentParam[];
+  assignedUserId: number;
 }
 
 export interface IGetAlertUsersParams extends IDataSourceParams {
@@ -75,6 +84,7 @@ export interface Alert extends IBaseAlert, PersistedItem {
     partial: boolean;
   };
   nextRun?: string; // defined if enabled=true
+  openAndUnAssignedCasesCount: number;
 }
 
 export interface IRunAlertParams extends IDataSourceParams {
@@ -173,6 +183,10 @@ export enum GetCasesSortBy {
   FOUR = '4'
 }
 
+export interface IExtractCaseListInfoParams extends IDataSourceParams {
+  alertId: number;
+}
+
 export interface IGetCasesParams extends IDataSourceParams {
   alertId: number;
   offset?: number;
@@ -239,3 +253,59 @@ export type AlertPreview = Array<{
   edges: LkEdge[];
   columns: Array<string | number>;
 }>;
+
+export interface ICaseColumn {
+  type: AlertColumnType;
+  columnValue: string | number | null;
+  columnTitle: string;
+}
+
+export enum FullCaseListSortProperties {
+  CASE_ID = 'id',
+  ALERT_NAME = 'alertName',
+  ALERT_FOLDER = 'alertFolder',
+  CREATED_AT = 'createdAt',
+  STATUS = 'status',
+  STATUS_CHANGED_BY = 'statusChangedBy',
+  STATUS_CHANGED_ON = 'statusChangedOn',
+  ASSIGNEE = 'assignedUser'
+}
+
+export interface IFullCase {
+  id: number;
+  alertName: string;
+  alertId: number;
+  alertFolder: string | null;
+  alertDescription: string | null;
+  createdAt: Date;
+  status: CaseStatus;
+  statusChangedBy: Pick<User, 'id' | 'username' | 'email'> | null;
+  statusChangedOn: Date | null;
+  assignedUser: Pick<User, 'id' | 'username' | 'email'> | null;
+}
+
+export interface IFullCaseListResponse {
+  totalCasesCount: number;
+  fullCaseList: IFullCase[];
+}
+
+export type FullCaseListSortBy = {by: FullCaseListSortProperties; direction: GetCasesSortDirection};
+
+export interface IGetFullCaseListParams extends IDataSourceParams {
+  offset?: number;
+  limit?: number;
+  alertIdsFilter?: number[];
+  caseStatusesFilter?: CaseStatus[];
+  assignedUserIdsFilter?: number[];
+  sortBy: FullCaseListSortBy[];
+}
+
+export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statusChangedBy'> {
+  attributes: ICaseColumn[];
+  commentsCount: number | null;
+  lastCommentDate: Date | null;
+}
+
+export interface IGetAllAlertUsersParams extends IDataSourceParams {
+  mutualAlertIds?: number[];
+}
