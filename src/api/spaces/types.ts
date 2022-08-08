@@ -1,8 +1,9 @@
-import {IDataSourceParams, SharingOptions} from '../commonTypes';
+import {IDataSourceParams} from '../commonTypes';
 
-export interface ICreateSpaceParams extends SharingOptions, IDataSourceParams {
+export interface ICreateSpaceParams extends IDataSourceParams {
   title: string;
   description: string;
+  sharedWithGroups: number[];
 }
 
 export interface ISpace extends ICreateSpaceParams {
