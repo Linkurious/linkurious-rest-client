@@ -91,11 +91,17 @@ export interface IStyleColor {
   ignoreCase?: boolean;
 }
 
+export enum AutoRangeScale {
+  LINEAR = 'linear',
+  LOGARITHMIC = 'logarithmic'
+}
+
 export interface IStyleAutoRange {
   type: 'autoRange';
   input: string[];
   min?: number; // min and max are one only used in frontend
   max?: number;
+  scale?: AutoRangeScale;
 }
 
 export interface IStyleIcon {
