@@ -1,14 +1,13 @@
-import { LkErrorKey } from '../../http/response';
-import { Request } from '../../http/request';
+import {LkErrorKey} from '../../http/response';
+import {Request} from '../../http/request';
 
-import { ICreateSpaceParams, ISpace } from './types';
+import {ICreateSpaceParams, ISpace} from './types';
 
 export * from './types';
 
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, INVALID_PARAMETER} = LkErrorKey;
 
 export class SpacesAPI extends Request {
-
   /**
    * Create a new space.
    */
