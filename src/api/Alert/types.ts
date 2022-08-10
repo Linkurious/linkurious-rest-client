@@ -309,3 +309,24 @@ export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statu
 export interface IGetAllAlertUsersParams extends IDataSourceParams {
   mutualAlertIds?: number[];
 }
+
+export interface IFullCaseListFilters {
+  alertIds?: number[];
+  caseStatuses?: CaseStatus[];
+  assignedUserIds?: number[];
+  alertFolderIds?: number[];
+}
+
+export interface IFullCaseListPreferences {
+  filters: IFullCaseListFilters;
+  sortBy: FullCaseListSortBy[];
+}
+
+export interface IGetFullCaseListPreferencesResponse extends IFullCaseListPreferences {
+  userId: number;
+  sourceKey: string;
+}
+
+export interface ISetFullCaseListPreferencesParams
+  extends IDataSourceParams,
+    IFullCaseListPreferences {}
