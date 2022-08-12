@@ -3,7 +3,7 @@
   "extends": [
     "config:base"
   ],
-  "baseBranches": ["develop-stable", "develop"],
+  "baseBranches": ["develop-maintenance", "develop-stable", "develop"],
   "labels": ["dependencies"],
   "prConcurrentLimit": 2,
   "respectLatest": true,
@@ -25,7 +25,7 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["major"],
-      "matchBaseBranches": ["develop-stable"],
+      "matchBaseBranches": ["develop-maintenance", "develop-stable"],
       "enabled": false
     }
   ],
