@@ -34,7 +34,16 @@ import {
   IAssignCasesParams,
   IGetAlertUsersParams,
   IAlertUserInfo,
-  IRunAlertParams
+  IRunAlertParams,
+  IExtractCaseListInfoParams,
+  IGetFullCaseListParams,
+  IFullCaseListResponse,
+  IBasicUser,
+  ICasePreview,
+  IGetAllAlertUsersParams,
+  IBulkAssignCasesParams,
+  ISetFullCaseListPreferencesParams,
+  IGetFullCaseListPreferencesResponse
 } from './types';
 
 export * from './types';
@@ -182,6 +191,18 @@ export class AlertAPI extends Request {
   }
 
   /**
+   * Get extract file from a given alert by id.
+   */
+  public getCaseListInfoExtract(params: IExtractCaseListInfoParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/cases/extract',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
    * Get a case by id.
    */
   public getCase(this: Request<PopulatedCase>, params: IGetCaseParams) {
@@ -212,6 +233,18 @@ export class AlertAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/assignments',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Assign cases from different alerts in bulk to a given user.
+   */
+  public bulkAssignCases(params: IBulkAssignCasesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/assignments',
       method: 'POST',
       params: params
     });
@@ -305,6 +338,77 @@ export class AlertAPI extends Request {
       ],
       url: '/:sourceKey/graph/alertPreview',
       method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get all cases from alerts that a user has access to.
+   */
+  public getFullCaseList(this: Request<IFullCaseListResponse>, params: IGetFullCaseListParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/list',
+      method: 'GET',
+      params: {
+        ...params,
+        sortBy: JSON.stringify(params.sortBy),
+        alertIdsFilter: params.alertIdsFilter?.join(','),
+        assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
+        caseStatusesFilter: params.caseStatusesFilter?.join(',')
+      }
+    });
+  }
+
+  /**
+   * Find all the users that can process the alerts which are accessible to the current user
+   * If the mutualAlertIds filter is specified in the params then we return only the users
+   * That can access all the alerts provided in the filter list
+   */
+  public getAllAlertsUsers(this: Request<IBasicUser[]>, params?: IGetAllAlertUsersParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/users',
+      method: 'GET',
+      params: {...params, mutualAlertIds: params?.mutualAlertIds?.join(',')}
+    });
+  }
+
+  /**
+   * Get a case preview by case id.
+   */
+  public getCasePreview(this: Request<ICasePreview>, params: IGetCaseParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/cases/:caseId/preview',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get UCL preferences of current user for a given data source.
+   */
+  public getFullCaseListPreferences(
+    this: Request<IGetFullCaseListPreferencesResponse>,
+    params: IDataSourceParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/list/preferences',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Set UCL preferences of current user for a given data source.
+   */
+  public setFullCaseListPreferences(params: ISetFullCaseListPreferencesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/list/preferences',
+      method: 'PUT',
       params: params
     });
   }
