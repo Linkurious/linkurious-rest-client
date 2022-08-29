@@ -54,7 +54,8 @@ export enum PropertyTypeName {
   DATE = 'date',
   DATETIME = 'datetime',
   NUMBER = 'number',
-  STRING = 'string'
+  STRING = 'string',
+  CURRENCY = 'currency'
 }
 
 export interface ISimpleType {
@@ -105,7 +106,23 @@ export interface IDateTimeType {
   options: IDatetimeOptions;
 }
 
-export type PropertyType = ISimpleType | IStringType | IDateType | IDateTimeType;
+export enum CurrencyFormat {
+  SYMBOL_COMMAS_DOT = '[Symbol] #,###.##',
+  DOTS_COMMA_SYMBOL = '#.###,## [Symbol]',
+  SPACES_COMMA_DOT = '# ###,## [Symbol]'
+}
+
+export interface ICurrencyOptions {
+  symbol: string;
+  format: CurrencyFormat;
+}
+
+export interface ICurrencyType {
+  name: PropertyTypeName.CURRENCY,
+  options: ICurrencyOptions
+}
+
+export type PropertyType = ISimpleType | IStringType | IDateType | IDateTimeType | ICurrencyType;
 
 export interface ICreatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
