@@ -4,7 +4,7 @@
  * - Created on 2019-10-21.
  */
 import {GenericObject} from './commonTypes';
-import { PropertyTypeName, PropertyType, ICurrencyOptions } from './GraphSchema';
+import {PropertyTypeName, PropertyType, ICurrencyOptions} from './GraphSchema';
 import {OgmaEdgeShape, OgmaNodeShape, IStyleIcon, IStyleImage} from './displayTypes';
 
 export interface LkDate {
@@ -22,7 +22,7 @@ export interface LkDateTime {
 export interface LkCurrency {
   type: PropertyTypeName.CURRENCY;
   value: number;
-  options: ICurrencyOptions
+  options: ICurrencyOptions;
 }
 
 // TODO return PropertyType for Conflict and Missing for consistency

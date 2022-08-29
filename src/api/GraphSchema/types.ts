@@ -118,8 +118,8 @@ export interface ICurrencyOptions {
 }
 
 export interface ICurrencyType {
-  name: PropertyTypeName.CURRENCY,
-  options: ICurrencyOptions
+  name: PropertyTypeName.CURRENCY;
+  options: ICurrencyOptions;
 }
 
 export type PropertyType = ISimpleType | IStringType | IDateType | IDateTimeType | ICurrencyType;
