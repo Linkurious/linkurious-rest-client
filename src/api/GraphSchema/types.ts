@@ -55,7 +55,7 @@ export enum PropertyTypeName {
   DATE = 'date',
   DATETIME = 'datetime',
   NUMBER = 'number',
-  STRING = 'string',
+  STRING = 'string'
 }
 
 export interface ISimpleType {
