@@ -4,7 +4,7 @@
  * - Created on 2019-10-21.
  */
 import {GenericObject} from './commonTypes';
-import {PropertyTypeName, PropertyType, ICurrencyOptions} from './GraphSchema';
+import {PropertyTypeName, PropertyType} from './GraphSchema';
 import {OgmaEdgeShape, OgmaNodeShape, IStyleIcon, IStyleImage} from './displayTypes';
 
 export interface LkDate {
@@ -17,12 +17,6 @@ export interface LkDateTime {
   type: 'datetime';
   value: string; // iso string in the correct timezone, e.g: "2019-07-22T12:34:56-08:00"
   timezone?: string; // e.g. "-08:00"
-}
-
-export interface LkCurrency {
-  type: PropertyTypeName.CURRENCY;
-  value: number;
-  options: ICurrencyOptions;
 }
 
 // TODO return PropertyType for Conflict and Missing for consistency
@@ -50,7 +44,6 @@ export type LkProperty =
   | boolean
   | LkDate
   | LkDateTime
-  | LkCurrency
   | MissingValue
   | InvalidValue
   | ConflictValue;
