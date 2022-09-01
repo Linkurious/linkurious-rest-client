@@ -51,7 +51,6 @@ export interface IUpdateTypeParams extends ICreateTypeParams {}
 export enum PropertyTypeName {
   AUTO = 'auto',
   BOOLEAN = 'boolean',
-  CURRENCY = 'currency',
   DATE = 'date',
   DATETIME = 'datetime',
   NUMBER = 'number',
