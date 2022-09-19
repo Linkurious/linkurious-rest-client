@@ -58,7 +58,7 @@ export enum PropertyTypeName {
 }
 
 export interface ISimpleType {
-  name: PropertyTypeName.AUTO | PropertyTypeName.NUMBER | PropertyTypeName.BOOLEAN;
+  name: PropertyTypeName.AUTO | PropertyTypeName.BOOLEAN;
 }
 
 export interface IEnumOptions {
@@ -105,7 +105,24 @@ export interface IDateTimeType {
   options: IDatetimeOptions;
 }
 
-export type PropertyType = ISimpleType | IStringType | IDateType | IDateTimeType;
+export enum CurrencyFormat {
+  SYMBOL_COMMAS_DOT = '[Symbol] #,###.##',
+  DOTS_COMMA_SYMBOL = '#.###,## [Symbol]',
+  SPACES_COMMA_DOT = '# ###,## [Symbol]'
+}
+
+export interface ICurrencyOptions {
+  type: 'currency';
+  symbol: string;
+  format: CurrencyFormat;
+}
+
+export interface INumberType {
+  name: PropertyTypeName.NUMBER;
+  options?: ICurrencyOptions;
+}
+
+export type PropertyType = ISimpleType | IStringType | IDateType | IDateTimeType | INumberType;
 
 export interface ICreatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
