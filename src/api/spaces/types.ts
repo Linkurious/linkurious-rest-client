@@ -1,3 +1,10 @@
+/**
+ * LINKURIOUS CONFIDENTIAL
+ * Copyright Linkurious SAS 2012 - 2022
+ *
+ * - Created on 2022-08-04.
+ */
+
 import {IDataSourceParams} from '../commonTypes';
 
 export interface ICreateSpaceParams extends IDataSourceParams {
