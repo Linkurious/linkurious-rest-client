@@ -28,6 +28,7 @@ import {UserAPI} from './api/User';
 import {VisualizationAPI} from './api/Visualization';
 import {endsWith, find} from './utils';
 import {MailerAPI} from './api/mailer';
+import {SpacesAPI} from './api/spaces';
 
 export class RestClient extends ErrorListener {
   public readonly clientState: ClientState;
@@ -51,6 +52,7 @@ export class RestClient extends ErrorListener {
   public readonly mailer: MailerAPI;
   public readonly user: UserAPI;
   public readonly visualization: VisualizationAPI;
+  public readonly spaces: SpacesAPI;
 
   constructor(options?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();
@@ -86,6 +88,7 @@ export class RestClient extends ErrorListener {
     this.mailer = new MailerAPI(this.moduleProps);
     this.user = new UserAPI(this.moduleProps);
     this.visualization = new VisualizationAPI(this.moduleProps);
+    this.spaces = new SpacesAPI(this.moduleProps);
   }
 
   /**
