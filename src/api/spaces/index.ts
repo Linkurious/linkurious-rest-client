@@ -30,7 +30,7 @@ export class SpacesAPI extends Request {
   /**
    * Get spaces list.
    */
-  public getSpacesList(this: Request<ISpace[]>) {
+  public getSpaces(this: Request<ISpace[]>) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/spaces',
