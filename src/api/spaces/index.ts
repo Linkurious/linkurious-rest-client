@@ -5,11 +5,11 @@
  * - Created on 2022-08-04.
  */
 
-import { LkErrorKey } from '../../http/response';
-import { Request } from '../../http/request';
+import {LkErrorKey} from '../../http/response';
+import {Request} from '../../http/request';
+import {IDataSourceParams} from '../commonTypes';
 
-import { ICreateSpaceParams, ISpace } from './types';
-import { IDataSourceParams } from '../commonTypes';
+import {ICreateSpaceParams, ISpace} from './types';
 
 export * from './types';
 
