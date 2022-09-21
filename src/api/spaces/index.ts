@@ -7,6 +7,7 @@
 
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
+import {IDataSourceParams} from '../commonTypes';
 
 import {ICreateSpaceParams, ISpace} from './types';
 
@@ -23,6 +24,18 @@ export class SpacesAPI extends Request {
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/spaces',
       method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get space list.
+   */
+  public getSpaces(this: Request<ISpace[]>, params?: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
+      url: '/:sourceKey/spaces',
+      method: 'GET',
       params: params
     });
   }
