@@ -13,6 +13,16 @@ export interface ICreateSpaceParams extends IDataSourceParams {
   sharedWithGroups: number[];
 }
 
+export interface IUpdateSpaceParams extends ICreateSpaceParams {
+  id: number;
+}
+
+export interface IDeleteSpaceParams extends IDataSourceParams {
+  id: number;
+}
+
+export interface IGetSpaceParams extends IDeleteSpaceParams {}
+
 export interface ISpace extends ICreateSpaceParams {
   id: number;
   createdAt: string;
