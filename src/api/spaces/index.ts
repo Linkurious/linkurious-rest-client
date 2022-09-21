@@ -35,7 +35,8 @@ export class SpacesAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/spaces',
-      method: 'GET'
+      method: 'GET',
+      params: params
     });
   }
 }
