@@ -5,10 +5,11 @@
  * - Created on 2022-08-04.
  */
 
-import {LkErrorKey} from '../../http/response';
-import {Request} from '../../http/request';
+import { LkErrorKey } from '../../http/response';
+import { Request } from '../../http/request';
 
-import {ICreateSpaceParams, ISpace} from './types';
+import { ICreateSpaceParams, ISpace } from './types';
+import { IDataSourceParams } from '../commonTypes';
 
 export * from './types';
 
@@ -28,9 +29,9 @@ export class SpacesAPI extends Request {
   }
 
   /**
-   * Get spaces list.
+   * Get space list.
    */
-  public getSpaces(this: Request<ISpace[]>) {
+  public getSpaces(this: Request<ISpace[]>, params?: IDataSourceParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/spaces',
