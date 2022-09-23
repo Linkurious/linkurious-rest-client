@@ -27,7 +27,7 @@ export abstract class Request<S = undefined> {
    * and subtract the params used from `config.params`.
    */
   private static renderURL(
-    config: RawFetchConfig,
+    config: RawFetchConfig<LkErrorKey, Record<string, unknown>>,
     moduleProps: ModuleProps
   ): Required<RawFetchConfig> {
     // 1) Iterate over path params in route-like format `/:id/`
@@ -41,7 +41,9 @@ export abstract class Request<S = undefined> {
 
       // 2) Get `sourceKey` value from the ClientState or from the local storage
       if (key === 'sourceKey' && moduleProps.clientState.currentSource) {
-        if (moduleProps.clientState.currentSource.key) {
+        if (hasValue(configParams['sourceKey']) && typeof configParams['sourceKey'] === 'string') {
+          paramValue = configParams['sourceKey'];
+        } else if (moduleProps.clientState.currentSource.key) {
           paramValue = moduleProps.clientState.currentSource.key;
         } else {
           throw {
