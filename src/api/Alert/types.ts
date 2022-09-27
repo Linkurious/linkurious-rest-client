@@ -84,6 +84,10 @@ export interface Alert extends IBaseAlert, PersistedItem {
     error: string;
     partial: boolean;
   };
+  lastQueriesRunProblems?: {
+    error: string;
+    partial: boolean;
+  }[];
   nextRun?: string; // defined if enabled=true
   openAndUnAssignedCasesCount: number;
 }
