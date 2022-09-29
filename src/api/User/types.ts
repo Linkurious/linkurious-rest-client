@@ -117,7 +117,7 @@ export interface Group extends PersistedItem {
 export type GroupName = Pick<Group, 'id' | 'name' | 'sourceKey'>;
 
 export interface IGetGroupNamesParams extends IDataSourceParams {
-  action: Action;
+  action?: Action;
 }
 
 export interface ICreateGroupParams extends IDataSourceParams {
