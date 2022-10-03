@@ -9,7 +9,7 @@ import {IDataSourceParams} from '../commonTypes';
 
 export interface ICreateSpaceParams extends IDataSourceParams {
   title: string;
-  description: string;
+  description?: string;
   sharedWithGroups: number[];
 }
 
