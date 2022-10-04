@@ -81,9 +81,11 @@ export interface Alert extends IBaseAlert, PersistedItem {
   lastRun?: string; // defined if it has run at least once
   lastRunProblem?: {
     // defined if last run had a problem
+    id: number;
+    source: 'caseAttributeQuery' | 'alertQuery';
     error: string;
     partial: boolean;
-  };
+  }[];
   nextRun?: string; // defined if enabled=true
   openAndUnAssignedCasesCount: number;
 }
