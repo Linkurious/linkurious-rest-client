@@ -79,9 +79,9 @@ export interface IBaseAlert extends IDataSourceParams, SharingOptions {
 export interface Alert extends IBaseAlert, PersistedItem {
   sourceKey: string;
   lastRun?: string; // defined if it has run at least once
+  // defined if last run had a problem
   lastRunProblem?: {
-    // defined if last run had a problem
-    id: number;
+    queryId?: number;
     source: 'caseAttributeQuery' | 'alertQuery';
     error: string;
     partial: boolean;
