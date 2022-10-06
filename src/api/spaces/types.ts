@@ -9,9 +9,19 @@ import {IDataSourceParams} from '../commonTypes';
 
 export interface ICreateSpaceParams extends IDataSourceParams {
   title: string;
-  description: string;
+  description?: string;
   sharedWithGroups: number[];
 }
+
+export interface IUpdateSpaceParams extends ICreateSpaceParams {
+  id: number;
+}
+
+export interface IDeleteSpaceParams extends IDataSourceParams {
+  id: number;
+}
+
+export interface IGetSpaceParams extends IDeleteSpaceParams {}
 
 export interface ISpace extends ICreateSpaceParams {
   id: number;
