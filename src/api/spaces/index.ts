@@ -10,11 +10,15 @@ import {Request} from '../../http/request';
 import {IDataSourceParams} from '../commonTypes';
 
 import {
+  CreateSpaceVisualizationParams,
+  GetSpaceSandboxParams,
   ICreateSpaceParams,
   IDeleteSpaceParams,
   IGetSpaceParams,
   ISpace,
-  IUpdateSpaceParams
+  IUpdateSpaceParams,
+  PopulatedSpaceVisualization,
+  SpaceVisualization
 } from './types';
 
 export * from './types';
@@ -63,7 +67,7 @@ export class SpacesAPI extends Request {
    */
   public getSpaces(this: Request<ISpace[]>, params?: IDataSourceParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/spaces',
       method: 'GET',
       params: params
@@ -75,9 +79,36 @@ export class SpacesAPI extends Request {
    */
   public getSpace(this: Request<ISpace>, params: IGetSpaceParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/spaces/:id',
       method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get the space visualization sandbox of the current user for a given data-source.
+   */
+  public getSandbox(this: Request<PopulatedSpaceVisualization>, params: GetSpaceSandboxParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/spaces/:id/sandbox',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Create a new visualization within a space.
+   */
+  public createVisualization(
+    this: Request<SpaceVisualization>,
+    params: CreateSpaceVisualizationParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
+      url: '/:sourceKey/spaces/:id/visualizations',
+      method: 'POST',
       params: params
     });
   }

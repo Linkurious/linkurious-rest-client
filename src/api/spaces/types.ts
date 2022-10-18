@@ -6,6 +6,12 @@
  */
 
 import {IDataSourceParams} from '../commonTypes';
+import {
+  ICreateVisualizationParams,
+  IGetSandboxParams,
+  PopulatedVisualization,
+  Visualization
+} from '../Visualization/types';
 
 export interface ICreateSpaceParams extends IDataSourceParams {
   title: string;
@@ -27,4 +33,20 @@ export interface ISpace extends ICreateSpaceParams {
   id: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface GetSpaceSandboxParams extends IGetSandboxParams {
+  spaceId: number;
+}
+
+export interface CreateSpaceVisualizationParams extends ICreateVisualizationParams {
+  spaceId: number;
+}
+
+export interface SpaceVisualization extends Visualization {
+  spaceId: number;
+}
+
+export interface PopulatedSpaceVisualization extends PopulatedVisualization {
+  spaceId: number;
 }
