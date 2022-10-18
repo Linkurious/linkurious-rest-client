@@ -5,12 +5,13 @@
  * - Created on 2022-08-04.
  */
 
-import {IDataSourceParams} from '../commonTypes';
+import {GenericObject, IDataSourceParams, PersistedItem} from '../commonTypes';
+import {VizEdge, VizNode} from '../graphItemTypes';
 import {
+  BaseVisualization,
   ICreateVisualizationParams,
   IGetSandboxParams,
-  PopulatedVisualization,
-  Visualization
+  IVisualizationTimeline
 } from '../Visualization/types';
 
 export interface ICreateSpaceParams extends IDataSourceParams {
@@ -29,11 +30,7 @@ export interface IDeleteSpaceParams extends IDataSourceParams {
 
 export interface IGetSpaceParams extends IDeleteSpaceParams {}
 
-export interface ISpace extends ICreateSpaceParams {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-}
+export interface ISpace extends ICreateSpaceParams, PersistedItem {}
 
 export interface GetSpaceSandboxParams extends IGetSandboxParams {
   spaceId: number;
@@ -43,10 +40,16 @@ export interface CreateSpaceVisualizationParams extends ICreateVisualizationPara
   spaceId: number;
 }
 
-export interface SpaceVisualization extends Visualization {
+export interface SpaceVisualization extends BaseVisualization, PersistedItem {
+  sourceKey: string;
   spaceId: number;
+  title: string;
+  sandbox: boolean;
+  edgeGrouping: GenericObject<boolean>;
+  timeline: IVisualizationTimeline;
 }
 
-export interface PopulatedSpaceVisualization extends PopulatedVisualization {
-  spaceId: number;
+export interface PopulatedSpaceVisualization extends SpaceVisualization {
+  nodes: VizNode[];
+  edges: VizEdge[];
 }
