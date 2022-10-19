@@ -201,6 +201,10 @@ export interface CreateSpaceVisualizationParams extends IDataSourceParams, BaseC
   spaceId: number;
 }
 
+export interface GetSpaceVisualizationParams extends IGetVisualizationParams {
+  spaceId: number;
+}
+
 export interface IDuplicateVisualizationParams extends IDataSourceParams {
   id: number;
   title?: string;
