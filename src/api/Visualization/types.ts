@@ -177,9 +177,8 @@ export interface PopulatedVisualization extends Visualization {
   edges: VizEdge[];
 }
 
-export interface ICreateVisualizationParams extends IDataSourceParams {
+export interface BaseCreateVisualizationOptions {
   title: string;
-  folder?: number;
   nodes: IVizNodeInfo[];
   edges: IVizEdgeInfo[];
   alternativeIds?: IAlternativeIdSettings;
@@ -192,6 +191,14 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   timeline?: IVisualizationTimeline;
   layout?: VisualizationLayout;
   geo?: IVisualizationGeo;
+}
+
+export interface ICreateVisualizationParams extends IDataSourceParams, BaseCreateVisualizationOptions {
+  folder?: number;
+}
+
+export interface CreateSpaceVisualizationParams extends IDataSourceParams, BaseCreateVisualizationOptions {
+  spaceId: number;
 }
 
 export interface IDuplicateVisualizationParams extends IDataSourceParams {

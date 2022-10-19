@@ -9,7 +9,6 @@ import {GenericObject, IDataSourceParams, PersistedItem} from '../commonTypes';
 import {VizEdge, VizNode} from '../graphItemTypes';
 import {
   BaseVisualization,
-  ICreateVisualizationParams,
   IGetSandboxParams,
   IVisualizationTimeline
 } from '../Visualization/types';
@@ -33,10 +32,6 @@ export interface IGetSpaceParams extends IDeleteSpaceParams {}
 export interface ISpace extends ICreateSpaceParams, PersistedItem {}
 
 export interface GetSpaceSandboxParams extends IGetSandboxParams {
-  spaceId: number;
-}
-
-export interface CreateSpaceVisualizationParams extends ICreateVisualizationParams {
   spaceId: number;
 }
 

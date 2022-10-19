@@ -5,8 +5,9 @@
  */
 
 import {Request} from '../../http/request';
-import {LkErrorKey} from '../../http/response';
+import { ConnectionRefusedError, LkErrorKey, LkErrorKeyToInterface, Response } from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
+import { SpaceVisualization } from '../spaces';
 
 import {
   IGetVisualizationParams,
@@ -34,7 +35,7 @@ import {
   Visualization,
   VisualizationFolder,
   Widget,
-  PopulatedVisualization
+  PopulatedVisualization, CreateSpaceVisualizationParams
 } from './types';
 
 export * from './types';
@@ -77,7 +78,9 @@ export class VisualizationAPI extends Request {
   /**
    * Create a new visualization.
    */
-  public createVisualization(this: Request<Visualization>, params: ICreateVisualizationParams) {
+  createVisualization(this: Request<SpaceVisualization>, params: CreateSpaceVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<SpaceVisualization>>;
+  createVisualization(this: Request<Visualization>, params: ICreateVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<Visualization>>
+  createVisualization(this: Request<Visualization| SpaceVisualization>, params: ICreateVisualizationParams | CreateSpaceVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<Visualization | SpaceVisualization>> {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/visualizations',
