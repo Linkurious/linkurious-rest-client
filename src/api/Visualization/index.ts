@@ -5,13 +5,20 @@
  */
 
 import {Request} from '../../http/request';
-import { ConnectionRefusedError, LkErrorKey, LkErrorKeyToInterface, Response } from '../../http/response';
+import {
+  ConnectionRefusedError,
+  LkErrorKey,
+  LkErrorKeyToInterface,
+  Response
+} from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
 import {
-  CreateSpaceVisualizationParams, DeleteSpaceVisualizationParams,
+  CreateSpaceVisualizationParams,
+  DeleteSpaceVisualizationParams,
   GetSpaceVisualizationParams,
   PopulatedSpaceVisualization,
-  SpaceVisualization, UpdateSpaceVisualizationParams
+  SpaceVisualization,
+  UpdateSpaceVisualizationParams
 } from '../spaces';
 
 import {
@@ -71,9 +78,30 @@ export class VisualizationAPI extends Request {
   /**
    * Get a visualization by id.
    */
-  public getVisualization(this: Request<PopulatedSpaceVisualization>, params: GetSpaceVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<PopulatedSpaceVisualization>>;
-  public getVisualization(this: Request<PopulatedVisualization>, params: IGetVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<PopulatedVisualization>>;
-  public getVisualization(this: Request<PopulatedVisualization | PopulatedSpaceVisualization>, params: IGetVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<PopulatedVisualization | PopulatedSpaceVisualization>> {
+  public getVisualization(
+    this: Request<PopulatedSpaceVisualization>,
+    params: GetSpaceVisualizationParams
+  ): Promise<
+    | Response<LkErrorKeyToInterface[LkErrorKey]>
+    | Response<ConnectionRefusedError>
+    | Response<PopulatedSpaceVisualization>
+  >;
+  public getVisualization(
+    this: Request<PopulatedVisualization>,
+    params: IGetVisualizationParams
+  ): Promise<
+    | Response<LkErrorKeyToInterface[LkErrorKey]>
+    | Response<ConnectionRefusedError>
+    | Response<PopulatedVisualization>
+  >;
+  public getVisualization(
+    this: Request<PopulatedVisualization | PopulatedSpaceVisualization>,
+    params: IGetVisualizationParams
+  ): Promise<
+    | Response<LkErrorKeyToInterface[LkErrorKey]>
+    | Response<ConnectionRefusedError>
+    | Response<PopulatedVisualization | PopulatedSpaceVisualization>
+  > {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/visualizations/:id',
@@ -85,9 +113,30 @@ export class VisualizationAPI extends Request {
   /**
    * Create a new visualization.
    */
-  createVisualization(this: Request<SpaceVisualization>, params: CreateSpaceVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<SpaceVisualization>>;
-  createVisualization(this: Request<Visualization>, params: ICreateVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<Visualization>>
-  createVisualization(this: Request<Visualization| SpaceVisualization>, params: ICreateVisualizationParams | CreateSpaceVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<Visualization | SpaceVisualization>> {
+  createVisualization(
+    this: Request<SpaceVisualization>,
+    params: CreateSpaceVisualizationParams
+  ): Promise<
+    | Response<LkErrorKeyToInterface[LkErrorKey]>
+    | Response<ConnectionRefusedError>
+    | Response<SpaceVisualization>
+  >;
+  createVisualization(
+    this: Request<Visualization>,
+    params: ICreateVisualizationParams
+  ): Promise<
+    | Response<LkErrorKeyToInterface[LkErrorKey]>
+    | Response<ConnectionRefusedError>
+    | Response<Visualization>
+  >;
+  createVisualization(
+    this: Request<Visualization | SpaceVisualization>,
+    params: ICreateVisualizationParams | CreateSpaceVisualizationParams
+  ): Promise<
+    | Response<LkErrorKeyToInterface[LkErrorKey]>
+    | Response<ConnectionRefusedError>
+    | Response<Visualization | SpaceVisualization>
+  > {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/visualizations',
@@ -114,9 +163,27 @@ export class VisualizationAPI extends Request {
   /**
    * Delete the visualization selected by id.
    */
-  public deleteVisualization(params: DeleteSpaceVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<undefined>> ;
-  public deleteVisualization(params: IDeleteVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<undefined>> ;
-  public deleteVisualization(params: IDeleteVisualizationParams | DeleteSpaceVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<undefined>> {
+  public deleteVisualization(
+    params: DeleteSpaceVisualizationParams
+  ): Promise<
+    | Response<LkErrorKeyToInterface[LkErrorKey]>
+    | Response<ConnectionRefusedError>
+    | Response<undefined>
+  >;
+  public deleteVisualization(
+    params: IDeleteVisualizationParams
+  ): Promise<
+    | Response<LkErrorKeyToInterface[LkErrorKey]>
+    | Response<ConnectionRefusedError>
+    | Response<undefined>
+  >;
+  public deleteVisualization(
+    params: IDeleteVisualizationParams | DeleteSpaceVisualizationParams
+  ): Promise<
+    | Response<LkErrorKeyToInterface[LkErrorKey]>
+    | Response<ConnectionRefusedError>
+    | Response<undefined>
+  > {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/visualizations/:id',
@@ -128,9 +195,27 @@ export class VisualizationAPI extends Request {
   /**
    * Update the visualization selected by id.
    */
-  public updateVisualization(params: UpdateSpaceVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<undefined>>;
-  public updateVisualization(params: IUpdateVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<undefined>>;
-  public updateVisualization(params: UpdateSpaceVisualizationParams | IUpdateVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<undefined>> {
+  public updateVisualization(
+    params: UpdateSpaceVisualizationParams
+  ): Promise<
+    | Response<LkErrorKeyToInterface[LkErrorKey]>
+    | Response<ConnectionRefusedError>
+    | Response<undefined>
+  >;
+  public updateVisualization(
+    params: IUpdateVisualizationParams
+  ): Promise<
+    | Response<LkErrorKeyToInterface[LkErrorKey]>
+    | Response<ConnectionRefusedError>
+    | Response<undefined>
+  >;
+  public updateVisualization(
+    params: UpdateSpaceVisualizationParams | IUpdateVisualizationParams
+  ): Promise<
+    | Response<LkErrorKeyToInterface[LkErrorKey]>
+    | Response<ConnectionRefusedError>
+    | Response<undefined>
+  > {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, VISUALIZATION_LOCKED],
       url: '/:sourceKey/visualizations/:id',

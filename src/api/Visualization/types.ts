@@ -193,7 +193,9 @@ export interface BaseCreateVisualizationOptions {
   geo?: IVisualizationGeo;
 }
 
-export interface ICreateVisualizationParams extends IDataSourceParams, BaseCreateVisualizationOptions {
+export interface ICreateVisualizationParams
+  extends IDataSourceParams,
+    BaseCreateVisualizationOptions {
   folder?: number;
 }
 

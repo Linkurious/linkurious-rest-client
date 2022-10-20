@@ -10,7 +10,8 @@ import {VizEdge, VizNode} from '../graphItemTypes';
 import {
   BaseCreateVisualizationOptions,
   BaseVisualization,
-  IGetSandboxParams, IGetVisualizationParams,
+  IGetSandboxParams,
+  IGetVisualizationParams,
   IVisualizationTimeline
 } from '../Visualization';
 
@@ -50,7 +51,9 @@ export interface PopulatedSpaceVisualization extends SpaceVisualization {
   edges: VizEdge[];
 }
 
-export interface CreateSpaceVisualizationParams extends IDataSourceParams, BaseCreateVisualizationOptions {
+export interface CreateSpaceVisualizationParams
+  extends IDataSourceParams,
+    BaseCreateVisualizationOptions {
   spaceId: number;
 }
 
