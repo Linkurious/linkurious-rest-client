@@ -8,9 +8,9 @@
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 import {IDataSourceParams} from '../commonTypes';
-import { CreateSpaceVisualizationParams } from '../Visualization';
 
 import {
+  CreateSpaceVisualizationParams,
   GetSpaceSandboxParams,
   ICreateSpaceParams,
   IDeleteSpaceParams,

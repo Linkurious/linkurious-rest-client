@@ -7,7 +7,12 @@
 import {Request} from '../../http/request';
 import { ConnectionRefusedError, LkErrorKey, LkErrorKeyToInterface, Response } from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
-import { PopulatedSpaceVisualization, SpaceVisualization } from '../spaces';
+import {
+  CreateSpaceVisualizationParams,
+  GetSpaceVisualizationParams,
+  PopulatedSpaceVisualization,
+  SpaceVisualization, UpdateSpaceVisualizationParams
+} from '../spaces';
 
 import {
   IGetVisualizationParams,
@@ -35,7 +40,7 @@ import {
   Visualization,
   VisualizationFolder,
   Widget,
-  PopulatedVisualization, CreateSpaceVisualizationParams, GetSpaceVisualizationParams
+  PopulatedVisualization
 } from './types';
 
 export * from './types';
@@ -121,7 +126,9 @@ export class VisualizationAPI extends Request {
   /**
    * Update the visualization selected by id.
    */
-  public updateVisualization(params: IUpdateVisualizationParams) {
+  public updateVisualization(params: UpdateSpaceVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<undefined>>;
+  public updateVisualization(params: IUpdateVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<undefined>>;
+  public updateVisualization(params: UpdateSpaceVisualizationParams | IUpdateVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<undefined>> {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, VISUALIZATION_LOCKED],
       url: '/:sourceKey/visualizations/:id',

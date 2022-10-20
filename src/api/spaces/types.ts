@@ -8,10 +8,11 @@
 import {GenericObject, IDataSourceParams, PersistedItem} from '../commonTypes';
 import {VizEdge, VizNode} from '../graphItemTypes';
 import {
+  BaseCreateVisualizationOptions,
   BaseVisualization,
-  IGetSandboxParams,
+  IGetSandboxParams, IGetVisualizationParams,
   IVisualizationTimeline
-} from '../Visualization/types';
+} from '../Visualization';
 
 export interface ICreateSpaceParams extends IDataSourceParams {
   title: string;
@@ -44,7 +45,23 @@ export interface SpaceVisualization extends BaseVisualization, PersistedItem {
   timeline: IVisualizationTimeline;
 }
 
+export interface UpdateSpaceVisualizationParams extends IDataSourceParams {
+  id: number;
+  spaceId: number;
+  visualization: Partial<CreateSpaceVisualizationParams>;
+  forceLock?: boolean;
+  doLayout?: boolean;
+}
+
 export interface PopulatedSpaceVisualization extends SpaceVisualization {
   nodes: VizNode[];
   edges: VizEdge[];
+}
+
+export interface CreateSpaceVisualizationParams extends IDataSourceParams, BaseCreateVisualizationOptions {
+  spaceId: number;
+}
+
+export interface GetSpaceVisualizationParams extends IGetVisualizationParams {
+  spaceId: number;
 }

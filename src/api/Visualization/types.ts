@@ -197,14 +197,6 @@ export interface ICreateVisualizationParams extends IDataSourceParams, BaseCreat
   folder?: number;
 }
 
-export interface CreateSpaceVisualizationParams extends IDataSourceParams, BaseCreateVisualizationOptions {
-  spaceId: number;
-}
-
-export interface GetSpaceVisualizationParams extends IGetVisualizationParams {
-  spaceId: number;
-}
-
 export interface IDuplicateVisualizationParams extends IDataSourceParams {
   id: number;
   title?: string;
