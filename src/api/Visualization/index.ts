@@ -8,7 +8,7 @@ import {Request} from '../../http/request';
 import { ConnectionRefusedError, LkErrorKey, LkErrorKeyToInterface, Response } from '../../http/response';
 import {IDataSourceParams} from '../commonTypes';
 import {
-  CreateSpaceVisualizationParams,
+  CreateSpaceVisualizationParams, DeleteSpaceVisualizationParams,
   GetSpaceVisualizationParams,
   PopulatedSpaceVisualization,
   SpaceVisualization, UpdateSpaceVisualizationParams
@@ -114,7 +114,9 @@ export class VisualizationAPI extends Request {
   /**
    * Delete the visualization selected by id.
    */
-  public deleteVisualization(params: IDeleteVisualizationParams) {
+  public deleteVisualization(params: DeleteSpaceVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<undefined>> ;
+  public deleteVisualization(params: IDeleteVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<undefined>> ;
+  public deleteVisualization(params: IDeleteVisualizationParams | DeleteSpaceVisualizationParams): Promise<Response<LkErrorKeyToInterface[LkErrorKey]> | Response<ConnectionRefusedError> | Response<undefined>> {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/visualizations/:id',

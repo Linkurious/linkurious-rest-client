@@ -45,14 +45,6 @@ export interface SpaceVisualization extends BaseVisualization, PersistedItem {
   timeline: IVisualizationTimeline;
 }
 
-export interface UpdateSpaceVisualizationParams extends IDataSourceParams {
-  id: number;
-  spaceId: number;
-  visualization: Partial<CreateSpaceVisualizationParams>;
-  forceLock?: boolean;
-  doLayout?: boolean;
-}
-
 export interface PopulatedSpaceVisualization extends SpaceVisualization {
   nodes: VizNode[];
   edges: VizEdge[];
@@ -63,5 +55,18 @@ export interface CreateSpaceVisualizationParams extends IDataSourceParams, BaseC
 }
 
 export interface GetSpaceVisualizationParams extends IGetVisualizationParams {
+  spaceId: number;
+}
+
+export interface UpdateSpaceVisualizationParams extends IDataSourceParams {
+  id: number;
+  spaceId: number;
+  visualization: Partial<CreateSpaceVisualizationParams>;
+  forceLock?: boolean;
+  doLayout?: boolean;
+}
+
+export interface DeleteSpaceVisualizationParams extends IDataSourceParams {
+  id: number;
   spaceId: number;
 }
