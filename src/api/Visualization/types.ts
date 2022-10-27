@@ -150,6 +150,7 @@ export interface BaseVisualization {
 }
 
 export interface Visualization extends BaseVisualization, PersistedItem {
+  spaceId?: number;
   title: string;
   folder: number;
   nodes: IVizNodeInfo[];
@@ -178,6 +179,7 @@ export interface PopulatedVisualization extends Visualization {
 }
 
 export interface ICreateVisualizationParams extends IDataSourceParams {
+  spaceId?: number;
   title: string;
   folder?: number;
   nodes: IVizNodeInfo[];
