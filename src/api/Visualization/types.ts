@@ -270,7 +270,12 @@ export enum PopulateType {
   CASE_ID = 'caseId'
 }
 
+export interface IGetVisualizationTreeParams extends IDataSourceParams {
+  spaceId?: number;
+}
+
 export interface IGetSandboxParams extends IDataSourceParams {
+  spaceId?: number;
   populate?: PopulateType;
   itemId?: string;
   caseId?: number;

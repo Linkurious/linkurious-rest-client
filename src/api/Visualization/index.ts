@@ -19,6 +19,7 @@ import {
   ICreateVisualizationFolderParams,
   IUpdateVisualizationFolderParams,
   IDeleteVisualizationFolderParams,
+  IGetVisualizationTreeParams,
   VisualizationTree,
   IGetSandboxParams,
   IUpdateSandboxParams,
@@ -185,7 +186,10 @@ export class VisualizationAPI extends Request {
   /**
    * Get the visualizations and the visualization folders in a tree structure.
    */
-  public getVisualizationTree(this: Request<VisualizationTree>, params?: IDataSourceParams) {
+  public getVisualizationTree(
+    this: Request<VisualizationTree>,
+    params?: IGetVisualizationTreeParams
+  ) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/visualizations/tree',
