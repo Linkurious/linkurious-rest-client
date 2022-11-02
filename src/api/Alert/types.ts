@@ -63,7 +63,7 @@ export interface IUpdateCaseParams extends IDataSourceParams {
 
 export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries'> {
   folder?: number;
-  queries?: Array<ICreateAlertQueryParams>;
+  queries: Array<ICreateAlertQueryParams>;
 }
 
 export interface ICreateAlertQueryParams extends Omit<IAlertQuery, 'id'> {}
@@ -75,13 +75,13 @@ interface IUpdateAlertQueryParams extends Omit<Partial<IAlertQuery>, 'id'> {
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
   title: string;
   description?: string;
-  queries?: Array<IAlertQuery>;
+  queries: Array<IAlertQuery>;
   folder: number;
-  enabled?: boolean;
-  columns?: Array<IAlertColumn>;
-  cron?: string;
-  target?: string; // we assume alerts always have target
-  caseAttributesQuery?: string; // query for case attributes
+  enabled: boolean;
+  columns: Array<IAlertColumn>;
+  cron: string;
+  target: string; // we assume alerts always have target
+  caseAttributesQuery: string; // query for case attributes
 }
 
 export interface Alert extends IBaseAlert, PersistedItem {
