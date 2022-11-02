@@ -25,7 +25,7 @@ export enum SharingMode {
 }
 
 export interface SharingOptions {
-  sharing: SharingMode;
+  sharing?: SharingMode;
   sharedWithGroups?: number[]; // defined only if sharing='groups'
 }
 

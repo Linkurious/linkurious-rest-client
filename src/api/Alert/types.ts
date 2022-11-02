@@ -78,7 +78,7 @@ export interface IBaseAlert extends IDataSourceParams, SharingOptions {
   queries?: Array<IAlertQuery>;
   folder: number;
   enabled?: boolean;
-  columns: Array<IAlertColumn>;
+  columns?: Array<IAlertColumn>;
   cron?: string;
   target?: string; // we assume alerts always have target
   caseAttributesQuery?: string; // query for case attributes
