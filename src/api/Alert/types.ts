@@ -27,6 +27,12 @@ export enum AlertColumnType {
   NUMBER = 'number'
 }
 
+export interface IAlertColumn {
+  type: AlertColumnType;
+  columnName?: string;
+  columnTitle?: string;
+}
+
 export interface IPopulatedCaseVisualization extends BaseVisualization {
   nodes: VizNode[];
   edges: VizEdge[];
@@ -55,24 +61,24 @@ export interface IUpdateCaseParams extends IDataSourceParams {
   visualization: BaseVisualization;
 }
 
-export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder'> {
+export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries'> {
   folder?: number;
+  queries?: Array<ICreateOrUpdateAlertQueryParams>;
+}
+
+interface ICreateOrUpdateAlertQueryParams extends Omit<IAlertQuery, 'id'> {
+  id?: number;
 }
 
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
   title: string;
   description?: string;
-  query: string;
-  dialect: GraphQueryDialect;
+  queries?: Array<IAlertQuery>;
   folder: number;
-  enabled: boolean;
-  columns: Array<{
-    type: AlertColumnType;
-    columnName: string;
-    columnTitle: string;
-  }>;
-  cron: string;
-  target: string; // we assume alerts always have target
+  enabled?: boolean;
+  columns: Array<IAlertColumn>;
+  cron?: string;
+  target?: string; // we assume alerts always have target
   caseAttributesQuery?: string; // query for case attributes
 }
 
@@ -88,6 +94,14 @@ export interface Alert extends IBaseAlert, PersistedItem {
   }[];
   nextRun?: string; // defined if enabled=true
   openAndUnAssignedCasesCount: number;
+}
+
+export interface IAlertQuery {
+  id: number;
+  query: string;
+  name: string;
+  description: string;
+  dialect: GraphQueryDialect;
 }
 
 export interface IRunAlertParams extends IDataSourceParams {
