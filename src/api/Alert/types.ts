@@ -30,7 +30,7 @@ export enum AlertColumnType {
 export interface IAlertColumn {
   type: AlertColumnType;
   columnName?: string;
-  columnTitle?: string;
+  columnTitle: string;
 }
 
 export interface IPopulatedCaseVisualization extends BaseVisualization {
@@ -294,7 +294,7 @@ export interface IDoCaseActionParams extends IDataSourceParams {
 export interface IAlertPreviewParams extends IDataSourceParams {
   query: string;
   dialect?: GraphQueryDialect;
-  columns?: Array<{columnName: string; columnTitle?: string; type: AlertColumnType}>;
+  columns?: Array<IAlertColumn>;
   limit?: number;
   timeout?: number;
   target: string;
