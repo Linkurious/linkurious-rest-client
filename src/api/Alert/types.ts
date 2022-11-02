@@ -63,11 +63,13 @@ export interface IUpdateCaseParams extends IDataSourceParams {
 
 export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries'> {
   folder?: number;
-  queries?: Array<ICreateOrUpdateAlertQueryParams>;
+  queries?: Array<ICreateAlertQueryParams>;
 }
 
-interface ICreateOrUpdateAlertQueryParams extends Omit<IAlertQuery, 'id'> {
-  id?: number;
+export interface ICreateAlertQueryParams extends Omit<IAlertQuery, 'id'> {}
+
+interface IUpdateAlertQueryParams extends Omit<Partial<IAlertQuery>, 'id'> {
+  id: number;
 }
 
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
@@ -100,7 +102,7 @@ export interface IAlertQuery {
   id: number;
   query: string;
   name: string;
-  description: string;
+  description?: string;
   dialect: GraphQueryDialect;
 }
 
@@ -108,8 +110,9 @@ export interface IRunAlertParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
+export interface IUpdateAlertParams extends Omit<Partial<ICreateAlertParams>, 'queries'> {
   id: number;
+  queries?: Array<IUpdateAlertQueryParams>;
 }
 
 export interface IDeleteAlertParams extends IDataSourceParams {
