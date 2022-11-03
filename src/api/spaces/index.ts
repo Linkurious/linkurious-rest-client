@@ -9,13 +9,7 @@ import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 import {IDataSourceParams} from '../commonTypes';
 
-import {
-  ICreateSpaceParams,
-  IDeleteSpaceParams,
-  IGetSpaceParams,
-  ISpace,
-  IUpdateSpaceParams
-} from './types';
+import {ICreateSpaceParams, IDeleteSpaceParams, ISpace, IUpdateSpaceParams} from './types';
 
 export * from './types';
 
@@ -28,7 +22,7 @@ export class SpacesAPI extends Request {
   public createSpace(this: Request<ISpace>, params: ICreateSpaceParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
-      url: '/:sourceKey/spaces',
+      url: '/admin/:sourceKey/spaces',
       method: 'POST',
       params: params
     });
@@ -40,7 +34,7 @@ export class SpacesAPI extends Request {
   public updateSpace(this: Request<ISpace>, params: IUpdateSpaceParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
-      url: '/:sourceKey/spaces/:id',
+      url: '/admin/:sourceKey/spaces/:id',
       method: 'PATCH',
       params: params
     });
@@ -52,31 +46,31 @@ export class SpacesAPI extends Request {
   public deleteSpace(params: IDeleteSpaceParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
-      url: '/:sourceKey/spaces/:id',
+      url: '/admin/:sourceKey/spaces/:id',
       method: 'DELETE',
       params: params
     });
   }
 
   /**
-   * Get space list.
+   * List all spaces (including the ones that are not shared with the current user).
    */
-  public getSpaces(this: Request<ISpace[]>, params?: IDataSourceParams) {
+  public getAllSpaces(this: Request<ISpace[]>, params?: IDataSourceParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
-      url: '/:sourceKey/spaces',
+      url: '/admin/:sourceKey/spaces',
       method: 'GET',
       params: params
     });
   }
 
   /**
-   * Get a space by id.
+   * List spaces shared with the current user.
    */
-  public getSpace(this: Request<ISpace>, params: IGetSpaceParams) {
+  public getSpacesSharedWithMe(this: Request<ISpace[]>, params?: IDataSourceParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
-      url: '/:sourceKey/spaces/:id',
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
+      url: '/:sourceKey/spaces',
       method: 'GET',
       params: params
     });
