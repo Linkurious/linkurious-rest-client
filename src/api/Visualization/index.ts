@@ -80,7 +80,7 @@ export class VisualizationAPI extends Request {
    */
   public createVisualization(this: Request<Visualization>, params: ICreateVisualizationParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/visualizations',
       method: 'POST',
       params: params
@@ -191,7 +191,7 @@ export class VisualizationAPI extends Request {
     params?: IGetVisualizationTreeParams
   ) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/visualizations/tree',
       method: 'GET',
       params: params
