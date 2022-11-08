@@ -300,7 +300,7 @@ export interface IAlertPreviewParams extends IDataSourceParams {
   columns?: Array<IAlertColumn>;
   limit?: number;
   timeout?: number;
-  target: string;
+  target?: string;
 }
 
 export type AlertPreview = Array<{
