@@ -5,7 +5,7 @@
  * - Created on 2022-08-04.
  */
 
-import {IDataSourceParams} from '../commonTypes';
+import {IDataSourceParams, PersistedItem} from '../commonTypes';
 
 export interface ICreateSpaceParams extends IDataSourceParams {
   title: string;
@@ -21,10 +21,4 @@ export interface IDeleteSpaceParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IGetSpaceParams extends IDeleteSpaceParams {}
-
-export interface ISpace extends ICreateSpaceParams {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-}
+export interface ISpace extends ICreateSpaceParams, PersistedItem {}
