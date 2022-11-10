@@ -314,6 +314,7 @@ export interface IFullCase {
   alertFolder: string | null;
   alertDescription: string | null;
   createdAt: Date;
+  updatedAt: Date;
   status: CaseStatus;
   statusChangedBy: Pick<User, 'id' | 'username' | 'email'> | null;
   statusChangedOn: Date | null;
