@@ -301,6 +301,7 @@ export enum FullCaseListSortProperties {
   ALERT_NAME = 'alertName',
   ALERT_FOLDER = 'alertFolder',
   CREATED_AT = 'createdAt',
+  UPDATED_AT = 'updatedAt',
   STATUS = 'status',
   STATUS_CHANGED_BY = 'statusChangedBy',
   STATUS_CHANGED_ON = 'statusChangedOn',
