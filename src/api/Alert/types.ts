@@ -338,8 +338,7 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   sortBy: FullCaseListSortBy[];
 }
 
-export interface ICasePreview
-  extends Omit<IFullCase, 'statusChangedOn' | 'statusChangedBy' | 'updatedAt'> {
+export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statusChangedBy'> {
   attributes: ICaseColumn[];
   commentsCount: number | null;
   lastCommentDate: Date | null;
