@@ -69,7 +69,7 @@ export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries
 export interface ICreateAlertQueryParams extends Omit<IAlertQuery, 'id'> {}
 
 export interface IUpdateAlertQueryParams extends Omit<Partial<IAlertQuery>, 'id'> {
-  id: number;
+  id?: number;
 }
 
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
