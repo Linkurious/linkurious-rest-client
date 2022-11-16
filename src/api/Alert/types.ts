@@ -15,6 +15,7 @@ import {GraphQueryDialect} from '../GraphQuery';
 import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
 import {User} from '../User';
 import {BaseVisualization} from '../Visualization';
+import {LkError} from '../../http/response';
 
 export interface IAlertUserInfo extends Pick<User, 'id' | 'username' | 'email'> {
   hasAssignedCases: boolean;
@@ -91,7 +92,7 @@ export interface Alert extends IBaseAlert, PersistedItem {
   lastRunProblem?: {
     queryId?: number;
     source: 'caseAttributeQuery' | 'alertQuery';
-    error: string;
+    error: LkError;
     partial: boolean;
   }[];
   nextRun?: string; // defined if enabled=true
