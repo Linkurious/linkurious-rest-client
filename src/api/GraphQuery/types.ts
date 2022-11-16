@@ -233,6 +233,7 @@ export interface IDeleteQueryParams extends IDataSourceParams {
 export interface ICheckQueryParams extends IDataSourceParams {
   query: string;
   dialect?: GraphQueryDialect;
+  isCaseAttributesQuery?: boolean;
 }
 
 export interface CheckQueryResponse {
