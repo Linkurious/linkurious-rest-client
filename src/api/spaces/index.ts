@@ -65,7 +65,7 @@ export class SpacesAPI extends Request {
   }
 
   /**
-   * List spaces shared with the current user.
+   * List the spaces shared with the current user.
    */
   public getSpacesSharedWithMe(this: Request<ISpace[]>, params?: IDataSourceParams) {
     return this.request({
