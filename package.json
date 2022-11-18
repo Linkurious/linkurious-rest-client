@@ -1,6 +1,6 @@
 {
   "name": "@linkurious/rest-client",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "description": "A library to interact with Linkurious APIs",
   "files": [
     "dist"
@@ -33,7 +33,7 @@
     "clean": "rm -rf node_modules; rm -rf package-lock.json; rm -rf dist",
     "bump:patch": "bump2version patch && npm version --no-git-tag-version patch",
     "bump:minor": "bump2version minor && npm version --no-git-tag-version minor",
-    "bump:major": "bump2version major && npm version --no-git-tag-version major"
+    "bump:major": "bump2version major && npm version --no-git-tag-version --no-commit-hooks --no-workspaces-update major"
   },
   "devDependencies": {
     "@types/chai": "4.2.17",
