@@ -63,7 +63,7 @@ export class DataSourceAPI extends Request {
           this.props.clientState.currentSource = currentSource;
           if (hasValue(currentSource.key) && hasValue(this.props.clientState.user)) {
             localStorage.setItem(
-              'lk-lastSeenSourceKey-' + this.props.clientState.user.id,
+              `lk-lastSeenSourceKey-${this.props.clientState.user.id}`,
               currentSource.key
             );
           }

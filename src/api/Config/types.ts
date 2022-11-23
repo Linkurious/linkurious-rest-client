@@ -130,7 +130,6 @@ export enum UILayout {
 export type SelectedDataSourceConfig =
   | IDataSourceConfig<INeo4jConfig, INeo4jSearchConfig>
   | IDataSourceConfig<INeo4jConfig, InternalIndexConfig>
-  | IDataSourceConfig<INeo4jConfig, INeo2esConfig>
   | IDataSourceConfig<ICosmosDbConfig, IAzureSearchConfig>
   | IDataSourceConfig<ICosmosDbConfig, InternalIndexConfig>;
 
@@ -155,7 +154,6 @@ export interface IVendorConfig {
 export interface INeo4jConfig extends IGraphVendorConfig {
   url: string;
   proxy?: string;
-  writeURL?: string;
   user?: string;
   password?: string;
   databaseName?: string;
@@ -194,8 +192,6 @@ export interface IElasticSearchConfig extends IVendorConfig {
   forceReindex?: boolean;
   skipEdgeIndexation?: boolean;
 }
-
-export interface INeo2esConfig extends IVendorConfig {}
 
 export interface IAzureSearchConfig extends IVendorConfig {
   url: string;
@@ -263,6 +259,7 @@ export interface IAccessConfig {
   defaultPageParams?: GenericObject;
   dataEdition?: boolean;
   widget?: boolean;
+  visualizationExport: boolean;
   loginTimeout?: number;
   externalUsersAllowedGroups?: Array<string | number>;
   externalUserDefaultGroupId?: number | number[];

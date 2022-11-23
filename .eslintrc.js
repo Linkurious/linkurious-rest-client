@@ -24,6 +24,7 @@ module.exports = {
     '@typescript-eslint/no-empty-interface': ['off'], // Allows empty interfaces
     'object-shorthand': ['error', 'never'], // Disallows shorthand object literal
     '@typescript-eslint/ban-ts-ignore': ['off'], // Allows @ts-ignore
+    '@typescript-eslint/ban-ts-comment': ['off'], // Allows @ts-ignore
     '@typescript-eslint/interface-name-prefix': ['off'], // Allows interfaces prefixed with I
     '@typescript-eslint/no-non-null-assertion': ['off'], // Allows non-null assertion
     '@typescript-eslint/no-empty-function': ['off'], // Allows empty functions
