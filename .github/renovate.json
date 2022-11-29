@@ -20,9 +20,7 @@
     {
       "matchDatasources": ["npm", "node"],
       "addLabels": ["javascript"]
-    }
-  ],
-  "packageRules": [
+    },
     {
       "matchUpdateTypes": ["major"],
       "matchBaseBranches": ["develop-maintenance", "develop-stable"],
