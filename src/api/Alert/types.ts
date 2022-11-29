@@ -15,6 +15,7 @@ import {GraphQueryDialect} from '../GraphQuery';
 import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
 import {User} from '../User';
 import {BaseVisualization} from '../Visualization';
+import {LkError} from '../../http/response';
 
 export interface IAlertUserInfo extends Pick<User, 'id' | 'username' | 'email'> {
   hasAssignedCases: boolean;
@@ -25,6 +26,12 @@ export type IBasicUser = Omit<IAlertUserInfo, 'hasAssignedCases'>;
 export enum AlertColumnType {
   STRING = 'string',
   NUMBER = 'number'
+}
+
+export interface IAlertColumn {
+  type: AlertColumnType;
+  columnName?: string;
+  columnTitle: string;
 }
 
 export interface IPopulatedCaseVisualization extends BaseVisualization {
@@ -55,45 +62,58 @@ export interface IUpdateCaseParams extends IDataSourceParams {
   visualization: BaseVisualization;
 }
 
-export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder'> {
+export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries'> {
   folder?: number;
+  queries?: Array<ICreateAlertQueryParams>;
+}
+
+export interface ICreateAlertQueryParams extends Omit<IAlertQuery, 'id'> {}
+
+export interface IUpdateAlertQueryParams extends Omit<IAlertQuery, 'id'> {
+  id?: number;
 }
 
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
   title: string;
   description?: string;
-  query: string;
-  dialect: GraphQueryDialect;
+  queries?: Array<IAlertQuery>;
   folder: number;
   enabled: boolean;
-  columns: Array<{
-    type: AlertColumnType;
-    columnName: string;
-    columnTitle: string;
-  }>;
+  columns: Array<IAlertColumn>;
   cron: string;
-  target: string; // we assume alerts always have target
+  target?: string; // we assume alerts always have target
   caseAttributesQuery?: string; // query for case attributes
 }
 
 export interface Alert extends IBaseAlert, PersistedItem {
   sourceKey: string;
   lastRun?: string; // defined if it has run at least once
+  // defined if last run had a problem
   lastRunProblem?: {
-    // defined if last run had a problem
-    error: string;
+    queryId?: number;
+    source: 'caseAttributeQuery' | 'alertQuery';
+    error: LkError;
     partial: boolean;
-  };
+  }[];
   nextRun?: string; // defined if enabled=true
   openAndUnAssignedCasesCount: number;
+}
+
+export interface IAlertQuery {
+  id: number;
+  query: string;
+  name: string;
+  description?: string;
+  dialect: GraphQueryDialect;
 }
 
 export interface IRunAlertParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
+export interface IUpdateAlertParams extends Omit<Partial<ICreateAlertParams>, 'queries'> {
   id: number;
+  queries?: Array<IUpdateAlertQueryParams>;
 }
 
 export interface IDeleteAlertParams extends IDataSourceParams {
@@ -278,10 +298,10 @@ export interface IDoCaseActionParams extends IDataSourceParams {
 export interface IAlertPreviewParams extends IDataSourceParams {
   query: string;
   dialect?: GraphQueryDialect;
-  columns?: Array<{columnName: string; columnTitle?: string; type: AlertColumnType}>;
+  columns?: Array<IAlertColumn>;
   limit?: number;
   timeout?: number;
-  target: string;
+  target?: string;
 }
 
 export type AlertPreview = Array<{
