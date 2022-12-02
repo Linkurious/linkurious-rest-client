@@ -21,4 +21,9 @@ export interface IDeleteSpaceParams extends IDataSourceParams {
   id: number;
 }
 
+export interface IGetSpacesParams extends IDataSourceParams {
+  offset?: number;
+  limit?: number;
+}
+
 export interface ISpace extends ICreateSpaceParams, PersistedItem {}
