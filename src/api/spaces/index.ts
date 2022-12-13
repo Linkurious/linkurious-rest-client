@@ -13,7 +13,13 @@ import {ICreateSpaceParams, IDeleteSpaceParams, ISpace, IUpdateSpaceParams} from
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND} = LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  FORBIDDEN,
+  NOT_FOUND,
+  SPACE_DELETION_FAILED
+} = LkErrorKey;
 
 export class SpacesAPI extends Request {
   /**
@@ -45,7 +51,7 @@ export class SpacesAPI extends Request {
    */
   public deleteSpace(params: IDeleteSpaceParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, SPACE_DELETION_FAILED],
       url: '/admin/:sourceKey/spaces/:id',
       method: 'DELETE',
       params: params
