@@ -10,7 +10,9 @@ import {hasValue, includes} from '../utils';
 
 import {
   ConnectionRefusedError,
+  DataSourceUnavailableError,
   ErrorResponses,
+  LkError,
   LkErrorKey,
   LkErrorKeyToInterface,
   Response
@@ -25,7 +27,7 @@ export abstract class Request<S = undefined> {
    * and subtract the params used from `config.params`.
    */
   private static renderURL(
-    config: RawFetchConfig,
+    config: RawFetchConfig<LkErrorKey, Record<string, unknown>>,
     moduleProps: ModuleProps
   ): Required<RawFetchConfig> {
     // 1) Iterate over path params in route-like format `/:id/`
@@ -39,7 +41,9 @@ export abstract class Request<S = undefined> {
 
       // 2) Get `sourceKey` value from the ClientState or from the local storage
       if (key === 'sourceKey' && moduleProps.clientState.currentSource) {
-        if (moduleProps.clientState.currentSource.key) {
+        if (hasValue(configParams['sourceKey']) && typeof configParams['sourceKey'] === 'string') {
+          paramValue = configParams['sourceKey'];
+        } else if (moduleProps.clientState.currentSource.key) {
           paramValue = moduleProps.clientState.currentSource.key;
         } else {
           throw {
@@ -53,7 +57,7 @@ export abstract class Request<S = undefined> {
       // @ts-ignore
       if (hasValue(configParams[key])) {
         // @ts-ignore
-        paramValue = configParams[key];
+        paramValue = configParams[key] as string;
         // @ts-ignore
         delete configParams[key];
       }
@@ -127,7 +131,7 @@ export abstract class Request<S = undefined> {
     try {
       requiredConfig = Request.renderURL(rawFetchConfig, this.props);
     } catch (error) {
-      if (error.key === LkErrorKey.DATA_SOURCE_UNAVAILABLE) {
+      if (this.isDataSourceUnavailableError(error)) {
         // 1.a) Return this when currentSource is not connected without performing an HTTP request
         this.props.dispatchError(error.key, error);
         return new Response({body: error}) as ErrorResponses<EK>;
@@ -152,7 +156,7 @@ export abstract class Request<S = undefined> {
         .query(fetchConfig.query);
     } catch (ex) {
       // 4.a) Return error when there is no connection
-      if (!ex.response) {
+      if (!this.hasResponse(ex)) {
         const error: ConnectionRefusedError = {
           key: LkErrorKey.CONNECTION_REFUSED,
           message: 'offline',
@@ -176,7 +180,7 @@ export abstract class Request<S = undefined> {
 
       return new Response({
         status: response.status,
-        header: response.header,
+        header: (response.header as unknown) as GenericObject | undefined,
         body: (response.body as unknown) as LkErrorKeyToInterface[LkErrorKey]
       }) as ErrorResponses<EK>;
     } else if ((response.status < 200 || response.status >= 300) && response.body?.key) {
@@ -187,15 +191,26 @@ export abstract class Request<S = undefined> {
     // 4.e) Throw error if unexpected status code
     if (!includes([200, 201, 204], response.status)) {
       throw new Error(
-        'Unexpected status code "' + response.status + '": ' + JSON.stringify(response.body)
+        `Unexpected status code "${response.status}": ${JSON.stringify(response.body)}`
       );
     }
 
     // 4.f) Return the success
     return new Response({
       status: response.status,
-      header: response.header,
+      header: (response.header as unknown) as GenericObject | undefined,
       body: (response.body as unknown) as S
     });
+  }
+
+  private isDataSourceUnavailableError(error: unknown): error is DataSourceUnavailableError {
+    return (
+      (error as LkError).key !== undefined &&
+      (error as LkError).key === LkErrorKey.DATA_SOURCE_UNAVAILABLE
+    );
+  }
+
+  private hasResponse<B>(error: unknown): error is {response: Response<B>} {
+    return (error as {response: Response<B>}).response !== undefined;
   }
 }

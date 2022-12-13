@@ -28,6 +28,7 @@ import {UserAPI} from './api/User';
 import {VisualizationAPI} from './api/Visualization';
 import {endsWith, find} from './utils';
 import {MailerAPI} from './api/mailer';
+import {SpacesAPI} from './api/spaces';
 
 export class RestClient extends ErrorListener {
   public readonly clientState: ClientState;
@@ -51,14 +52,15 @@ export class RestClient extends ErrorListener {
   public readonly mailer: MailerAPI;
   public readonly user: UserAPI;
   public readonly visualization: VisualizationAPI;
+  public readonly spaces: SpacesAPI;
 
   constructor(options?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();
 
     this.clientState = {};
     this.moduleProps = {
-      baseUrl: options
-        ? options.baseUrl && endsWith(options.baseUrl, '/')
+      baseUrl: options?.baseUrl
+        ? endsWith(options.baseUrl, '/')
           ? options.baseUrl + 'api'
           : options.baseUrl + '/api'
         : '/api',
@@ -86,6 +88,7 @@ export class RestClient extends ErrorListener {
     this.mailer = new MailerAPI(this.moduleProps);
     this.user = new UserAPI(this.moduleProps);
     this.visualization = new VisualizationAPI(this.moduleProps);
+    this.spaces = new SpacesAPI(this.moduleProps);
   }
 
   /**
@@ -107,7 +110,7 @@ export class RestClient extends ErrorListener {
     this.clientState.currentSource = dataSource;
     try {
       if (dataSource.key && this.clientState.user) {
-        localStorage.setItem('lk-lastSeenSourceKey-' + this.clientState.user.id, dataSource.key);
+        localStorage.setItem(`lk-lastSeenSourceKey-${this.clientState.user.id}`, dataSource.key);
       }
     } catch (_) {
       // Silently fail if localStorage is not supported
@@ -128,7 +131,7 @@ export class RestClient extends ErrorListener {
       if ('userId' in by) {
         // Return the last seen data-source by the current user if the data-source is connected
         try {
-          const sourceKey = (storage || localStorage).getItem('lk-lastSeenSourceKey-' + by.userId);
+          const sourceKey = (storage || localStorage).getItem(`lk-lastSeenSourceKey-${by.userId}`);
           source = find(dataSources, (s) => s.connected && s.key === sourceKey);
         } catch (_) {
           source = undefined;

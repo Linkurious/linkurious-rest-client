@@ -40,7 +40,10 @@ import {
   IFullCaseListResponse,
   IBasicUser,
   ICasePreview,
-  IGetAllAlertUsersParams
+  IGetAllAlertUsersParams,
+  IBulkAssignCasesParams,
+  ISetFullCaseListPreferencesParams,
+  IGetFullCaseListPreferencesResponse
 } from './types';
 
 export * from './types';
@@ -236,6 +239,18 @@ export class AlertAPI extends Request {
   }
 
   /**
+   * Assign cases from different alerts in bulk to a given user.
+   */
+  public bulkAssignCases(params: IBulkAssignCasesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/assignments',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
    * Find all the users that can process a given alert.
    */
   public getAlertUsers(this: Request<IAlertUserInfo[]>, params: IGetAlertUsersParams) {
@@ -367,6 +382,33 @@ export class AlertAPI extends Request {
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/:caseId/preview',
       method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get UCL preferences of current user for a given data source.
+   */
+  public getFullCaseListPreferences(
+    this: Request<IGetFullCaseListPreferencesResponse>,
+    params: IDataSourceParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/list/preferences',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Set UCL preferences of current user for a given data source.
+   */
+  public setFullCaseListPreferences(params: ISetFullCaseListPreferencesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/list/preferences',
+      method: 'PUT',
       params: params
     });
   }

@@ -1,35 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
-  ],
-  "baseBranches": ["develop-stable", "develop"],
-  "labels": ["dependencies"],
-  "prConcurrentLimit": 2,
-  "respectLatest": true,
-  "ignoreUnstable": true,
-  "schedule": "every weekend",
-  "docker": {
-    "addLabels": ["docker"]
-  },
-  "packageRules": [
-    {
-      "matchDatasources": ["docker"],
-      "addLabels": ["docker"]
-    },
-    {
-      "matchDatasources": ["npm", "node"],
-      "addLabels": ["javascript"]
-    }
-  ],
-  "packageRules": [
-    {
-      "matchUpdateTypes": ["major"],
-      "matchBaseBranches": ["develop-stable"],
-      "enabled": false
-    }
-  ],
-  "vulnerabilityAlerts": {
-    "addLabels": ["type:security"]
-  }
+    "local>Linkurious/renovate-config",
+    "github>Linkurious/renovate-config:meta",
+    "regexManagers:dockerfileVersions"
+  ]
 }
