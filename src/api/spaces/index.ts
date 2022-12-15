@@ -9,6 +9,7 @@ import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
 import {
+  IAdminSpace,
   ICreateSpaceParams,
   IDeleteSpaceParams,
   IGetSpacesParams,
@@ -30,7 +31,7 @@ export class SpacesAPI extends Request {
   /**
    * Create a new space.
    */
-  public createSpace(this: Request<ISpace>, params: ICreateSpaceParams) {
+  public createSpace(this: Request<IAdminSpace>, params: ICreateSpaceParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/admin/:sourceKey/spaces',
@@ -42,7 +43,7 @@ export class SpacesAPI extends Request {
   /**
    * Update an existing space.
    */
-  public updateSpace(this: Request<ISpace>, params: IUpdateSpaceParams) {
+  public updateSpace(this: Request<IAdminSpace>, params: IUpdateSpaceParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/admin/:sourceKey/spaces/:id',
@@ -66,7 +67,7 @@ export class SpacesAPI extends Request {
   /**
    * List all spaces (including the ones that are not shared with the current user).
    */
-  public getAllSpaces(this: Request<ISpace[]>, params?: IGetSpacesParams) {
+  public getAllSpaces(this: Request<IAdminSpace[]>, params?: IGetSpacesParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/admin/:sourceKey/spaces',
