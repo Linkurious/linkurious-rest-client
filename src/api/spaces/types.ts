@@ -5,7 +5,7 @@
  * - Created on 2022-08-04.
  */
 
-import {IDataSourceParams, PersistedItem} from '../commonTypes';
+import {IDataSourceParams, PersistedItem, SortDirection} from '../commonTypes';
 
 export interface ICreateSpaceParams extends IDataSourceParams {
   title: string;
@@ -19,6 +19,18 @@ export interface IUpdateSpaceParams extends ICreateSpaceParams {
 
 export interface IDeleteSpaceParams extends IDataSourceParams {
   id: number;
+}
+
+export enum SpaceSortBy {
+  ID = 'id',
+  TITLE = 'title'
+}
+
+export interface IGetSpacesParams extends IDataSourceParams {
+  offset?: number;
+  limit?: number;
+  sortBy?: SpaceSortBy;
+  sortDirection?: SortDirection;
 }
 
 export interface ISpace extends ICreateSpaceParams, PersistedItem {}

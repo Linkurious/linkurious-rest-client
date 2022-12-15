@@ -7,9 +7,14 @@
 
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
-import {IDataSourceParams} from '../commonTypes';
 
-import {ICreateSpaceParams, IDeleteSpaceParams, ISpace, IUpdateSpaceParams} from './types';
+import {
+  ICreateSpaceParams,
+  IDeleteSpaceParams,
+  IGetSpacesParams,
+  ISpace,
+  IUpdateSpaceParams
+} from './types';
 
 export * from './types';
 
@@ -61,7 +66,7 @@ export class SpacesAPI extends Request {
   /**
    * List all spaces (including the ones that are not shared with the current user).
    */
-  public getAllSpaces(this: Request<ISpace[]>, params?: IDataSourceParams) {
+  public getAllSpaces(this: Request<ISpace[]>, params?: IGetSpacesParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/admin/:sourceKey/spaces',
@@ -73,7 +78,7 @@ export class SpacesAPI extends Request {
   /**
    * List the spaces shared with the current user.
    */
-  public getSpacesSharedWithMe(this: Request<ISpace[]>, params?: IDataSourceParams) {
+  public getSpacesSharedWithMe(this: Request<ISpace[]>, params?: IGetSpacesParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/spaces',
