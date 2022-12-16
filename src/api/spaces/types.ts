@@ -34,3 +34,7 @@ export interface IGetSpacesParams extends IDataSourceParams {
 }
 
 export interface ISpace extends ICreateSpaceParams, PersistedItem {}
+
+export interface IAdminSpace extends ISpace {
+  isEmpty: boolean;
+}
