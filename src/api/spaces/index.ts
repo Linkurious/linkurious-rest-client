@@ -7,6 +7,7 @@
 
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
+import {PaginatedResponse} from '../commonTypes';
 
 import {
   IAdminSpace,
@@ -67,7 +68,7 @@ export class SpacesAPI extends Request {
   /**
    * List all spaces (including the ones that are not shared with the current user).
    */
-  public getAllSpaces(this: Request<IAdminSpace[]>, params?: IGetSpacesParams) {
+  public getAllSpaces(this: Request<PaginatedResponse<IAdminSpace>>, params?: IGetSpacesParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/admin/:sourceKey/spaces',
@@ -79,7 +80,10 @@ export class SpacesAPI extends Request {
   /**
    * List the spaces shared with the current user.
    */
-  public getSpacesSharedWithMe(this: Request<ISpace[]>, params?: IGetSpacesParams) {
+  public getSpacesSharedWithMe(
+    this: Request<PaginatedResponse<ISpace>>,
+    params?: IGetSpacesParams
+  ) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/spaces',
