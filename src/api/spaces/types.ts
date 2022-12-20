@@ -5,12 +5,12 @@
  * - Created on 2022-08-04.
  */
 
-import { IDataSourceParams, PersistedItem, SharingMode, SortDirection } from '../commonTypes';
+import {IDataSourceParams, PersistedItem, SharingMode, SortDirection} from '../commonTypes';
 
 export interface ICreateSpaceParams extends IDataSourceParams {
   title: string;
   description?: string;
-  sharing?: SharingMode.SOURCE |  SharingMode.GROUPS
+  sharing?: SharingMode.SOURCE | SharingMode.GROUPS;
   sharedWithGroups?: number[];
 }
 
