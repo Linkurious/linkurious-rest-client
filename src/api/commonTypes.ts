@@ -13,6 +13,11 @@ export enum SortDirection {
   DESC = 'desc'
 }
 
+export interface PaginatedResponse<T> {
+  totalCount: number;
+  items: T[];
+}
+
 export interface IDataSourceParams {
   sourceKey?: string;
 }
