@@ -8,6 +8,16 @@ export interface GenericObject<T = unknown> {
   [key: string]: T;
 }
 
+export enum SortDirection {
+  ASC = 'asc',
+  DESC = 'desc'
+}
+
+export interface PaginatedResponse<T> {
+  totalCount: number;
+  items: T[];
+}
+
 export interface IDataSourceParams {
   sourceKey?: string;
 }
