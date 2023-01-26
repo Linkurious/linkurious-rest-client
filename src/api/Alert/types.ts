@@ -389,3 +389,8 @@ export interface IGetFullCaseListPreferencesResponse extends IFullCaseListPrefer
 export interface ISetFullCaseListPreferencesParams
   extends IDataSourceParams,
     IFullCaseListPreferences {}
+
+export const FULL_CASE_LIST_DEFAULT_SORTBY: FullCaseListSortBy = {
+  by: FullCaseListSortProperties.CASE_ID,
+  direction: GetCasesSortDirection.DESC
+};
