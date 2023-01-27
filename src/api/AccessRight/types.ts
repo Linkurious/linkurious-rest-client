@@ -17,6 +17,7 @@ export enum Action {
   ADMIN_ALERTS = 'admin.alerts', // Manage the alerts in the data-source
   ADMIN_REPORT = 'admin.report', // Generate analytics report
   ADMIN_STYLES = 'admin.styles', // Edit styles and captions of all sandboxes of the data-source
+  ADMIN_SPACES = 'admin.spaces', // Edit, update and delete a space
   RUN_QUERY = 'runQuery', // Execute a saved query
   RAW_READ_QUERY = 'rawReadQuery', // Create a read query
   RAW_WRITE_QUERY = 'rawWriteQuery', // Create a read/write query

@@ -57,7 +57,9 @@ export enum LkErrorKey {
   EMAIL_FORMAT = 'email_format',
   NOT_IMPLEMENTED = 'not_implemented',
   SEND_MAIL_FAILED = 'send_mail_failed',
-  CASES_EXTRACT_LIMIT_EXCEEDED = 'cases_extract_limit_exceeded'
+  CASES_EXTRACT_LIMIT_EXCEEDED = 'cases_extract_limit_exceeded',
+  INVALID_CASE_ATTRIBUTES_QUERY = 'invalid_case_attributes_query',
+  SPACE_DELETION_FAILED = 'space_deletion_failed'
 }
 
 /**
@@ -239,6 +241,11 @@ export interface SendMailFailed extends LkError<LkErrorKey.SEND_MAIL_FAILED> {}
 export interface CasesExtractLimitExceeded
   extends LkError<LkErrorKey.CASES_EXTRACT_LIMIT_EXCEEDED> {}
 
+export interface InvalidCaseAttributesQuery
+  extends LkError<LkErrorKey.INVALID_CASE_ATTRIBUTES_QUERY> {}
+
+export interface SpaceDeletionFailed extends LkError<LkErrorKey.SPACE_DELETION_FAILED> {}
+
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
@@ -282,4 +289,6 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.NOT_IMPLEMENTED]: NotImplementedError;
   [LkErrorKey.SEND_MAIL_FAILED]: SendMailFailed;
   [LkErrorKey.CASES_EXTRACT_LIMIT_EXCEEDED]: CasesExtractLimitExceeded;
+  [LkErrorKey.INVALID_CASE_ATTRIBUTES_QUERY]: InvalidCaseAttributesQuery;
+  [LkErrorKey.SPACE_DELETION_FAILED]: SpaceDeletionFailed;
 };
