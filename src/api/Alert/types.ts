@@ -321,9 +321,9 @@ export interface ICaseColumn {
   columnTitle: string;
 }
 
-export type FullCaseListSortProperties = FullCaseListSort | ColumnSortBy;
+export type FullCaseListSort = FullCaseListSortProperties | ColumnSortBy;
 
-export enum FullCaseListSort {
+export enum FullCaseListSortProperties {
   CASE_ID = 'id',
   ALERT_NAME = 'alertName',
   ALERT_FOLDER = 'alertFolder',
@@ -355,7 +355,7 @@ export interface IFullCaseListResponse {
   fullCaseList: IFullCase[];
 }
 
-export type FullCaseListSortBy = {by: FullCaseListSortProperties; direction: GetCasesSortDirection};
+export type FullCaseListSortBy = {by: FullCaseListSort; direction: GetCasesSortDirection};
 
 export interface IGetFullCaseListParams extends IDataSourceParams {
   offset?: number;
