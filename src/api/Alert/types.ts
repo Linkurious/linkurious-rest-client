@@ -195,8 +195,13 @@ export enum GetCasesSortDirection {
   DESC = 'desc'
 }
 
-export enum GetCasesSortBy {
-  DATE = 'date',
+export type GetCasesSortBy = CaseListSortBy | ColumnSortBy;
+
+export enum CaseListSortBy {
+  DATE = 'date'
+}
+
+export enum ColumnSortBy {
   ZERO = '0',
   ONE = '1',
   TWO = '2',
@@ -316,7 +321,9 @@ export interface ICaseColumn {
   columnTitle: string;
 }
 
-export enum FullCaseListSortProperties {
+export type FullCaseListSortProperties = FullCaseListSort | ColumnSortBy;
+
+export enum FullCaseListSort {
   CASE_ID = 'id',
   ALERT_NAME = 'alertName',
   ALERT_FOLDER = 'alertFolder',
