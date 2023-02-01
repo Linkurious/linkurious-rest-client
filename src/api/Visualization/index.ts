@@ -35,7 +35,8 @@ import {
   Visualization,
   VisualizationFolder,
   Widget,
-  PopulatedVisualization, IUpdateVisualizationSharesParams
+  PopulatedVisualization,
+  IUpdateVisualizationSharesParams
 } from './types';
 
 export * from './types';
@@ -252,7 +253,10 @@ export class VisualizationAPI extends Request {
   /**
    * Update the list of users and access level a visualization is shared with.
    */
-  public updateVisualizationShares(this: Request<VisualizationShare>, params: IUpdateVisualizationSharesParams) {
+  public updateVisualizationShares(
+    this: Request<VisualizationShare>,
+    params: IUpdateVisualizationSharesParams
+  ) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: `/:sourceKey/visualizations/:id/share`,
