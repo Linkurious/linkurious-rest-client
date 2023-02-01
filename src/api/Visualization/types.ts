@@ -316,6 +316,16 @@ export interface IShareVisualizationParams extends IDataSourceParams {
   right: ShareVisualizationRight;
 }
 
+export interface VisualizationSharesParams {
+  userId: number;
+  right: ShareVisualizationRight;
+}
+
+export interface IUpdateVisualizationSharesParams extends  IDataSourceParams {
+  id: number;
+  shares: VisualizationSharesParams[];
+}
+
 export interface VisualizationShare {
   userId: number;
   right: VisualizationRight;
