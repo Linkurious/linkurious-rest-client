@@ -306,7 +306,7 @@ export interface GetVisualizationSharesResponse {
     visualizationId: number;
     username: string;
     email: string;
-    right: VisualizationRight;
+    right: ShareVisualizationRight;
   }>;
 }
 
