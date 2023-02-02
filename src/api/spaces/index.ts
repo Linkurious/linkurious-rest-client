@@ -7,19 +7,32 @@
 
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
-import {IDataSourceParams} from '../commonTypes';
+import {IDataSourceParams, PaginatedResponse} from '../commonTypes';
 
-import {ICreateSpaceParams, IDeleteSpaceParams, ISpace, IUpdateSpaceParams} from './types';
+import {
+  IAdminSpace,
+  ICreateSpaceParams,
+  IDeleteSpaceParams,
+  IGetSpacesParams,
+  ISpace,
+  IUpdateSpaceParams
+} from './types';
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND} = LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  FORBIDDEN,
+  NOT_FOUND,
+  SPACE_DELETION_FAILED
+} = LkErrorKey;
 
 export class SpacesAPI extends Request {
   /**
    * Create a new space.
    */
-  public createSpace(this: Request<ISpace>, params: ICreateSpaceParams) {
+  public createSpace(this: Request<IAdminSpace>, params: ICreateSpaceParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/admin/:sourceKey/spaces',
@@ -31,7 +44,7 @@ export class SpacesAPI extends Request {
   /**
    * Update an existing space.
    */
-  public updateSpace(this: Request<ISpace>, params: IUpdateSpaceParams) {
+  public updateSpace(this: Request<IAdminSpace>, params: IUpdateSpaceParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/admin/:sourceKey/spaces/:id',
@@ -45,7 +58,7 @@ export class SpacesAPI extends Request {
    */
   public deleteSpace(params: IDeleteSpaceParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, SPACE_DELETION_FAILED],
       url: '/admin/:sourceKey/spaces/:id',
       method: 'DELETE',
       params: params
@@ -53,9 +66,10 @@ export class SpacesAPI extends Request {
   }
 
   /**
-   * List all spaces (including the ones that are not shared with the current user).
+   * List all spaces (including the ones that are not shared with the current user). Provide
+   * support for pagination.
    */
-  public getAllSpaces(this: Request<ISpace[]>, params?: IDataSourceParams) {
+  public getAllSpaces(this: Request<PaginatedResponse<IAdminSpace>>, params?: IGetSpacesParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/admin/:sourceKey/spaces',
