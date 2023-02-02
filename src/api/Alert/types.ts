@@ -379,7 +379,7 @@ export interface IFullCaseListFilters {
 export interface IFullCaseListPreferences {
   filters: IFullCaseListFilters;
   sortBy: FullCaseListSortBy[];
-  paginationOffset: number;
+  offset: number;
 }
 
 export interface IGetFullCaseListPreferencesResponse extends IFullCaseListPreferences {
