@@ -386,6 +386,7 @@ export interface IFullCaseListFilters {
 export interface IFullCaseListPreferences {
   filters: IFullCaseListFilters;
   sortBy: FullCaseListSortBy[];
+  offset: number;
 }
 
 export interface IGetFullCaseListPreferencesResponse extends IFullCaseListPreferences {
@@ -396,3 +397,8 @@ export interface IGetFullCaseListPreferencesResponse extends IFullCaseListPrefer
 export interface ISetFullCaseListPreferencesParams
   extends IDataSourceParams,
     IFullCaseListPreferences {}
+
+export const FULL_CASE_LIST_DEFAULT_SORTBY: FullCaseListSortBy = {
+  by: FullCaseListSortProperties.CASE_ID,
+  direction: GetCasesSortDirection.DESC
+};
