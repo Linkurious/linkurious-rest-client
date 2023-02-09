@@ -315,6 +315,7 @@ export interface IFullCaseListFilters {
   caseStatuses?: CaseStatus[];
   assignedUserIds?: number[];
   alertFolderIds?: number[];
+  
 }
 
 export interface IFullCaseListPreferences {
