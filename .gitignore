@@ -13,3 +13,6 @@ dist
 .nyc_output
 reports
 .npmrc
+
+# MacOs
+.DS_Store
