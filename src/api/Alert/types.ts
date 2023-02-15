@@ -9,6 +9,7 @@ import {
   IGetSubGraphParams,
   PersistedItem,
   SharingOptions,
+  SortDirection,
   Tree
 } from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
@@ -190,11 +191,6 @@ export interface GetCasesResponse {
   cases: Case[];
 }
 
-export enum GetCasesSortDirection {
-  ASC = 'asc',
-  DESC = 'desc'
-}
-
 export type GetCasesSortBy = CaseListSortBy | ColumnSortBy;
 
 export enum CaseListSortBy {
@@ -252,7 +248,7 @@ export interface IGetCasesParams extends IDataSourceParams {
   alertId: number;
   offset?: number;
   limit?: number;
-  sortDirection?: GetCasesSortDirection;
+  sortDirection?: SortDirection;
   sortBy?: GetCasesSortBy;
   status?: CaseStatus;
   assignedUserId?: number;
@@ -355,7 +351,7 @@ export interface IFullCaseListResponse {
   fullCaseList: IFullCase[];
 }
 
-export type FullCaseListSortBy = {by: FullCaseListSort; direction: GetCasesSortDirection};
+export type FullCaseListSortBy = {by: FullCaseListSort; direction: SortDirection};
 
 export interface IGetFullCaseListParams extends IDataSourceParams {
   offset?: number;
@@ -400,5 +396,5 @@ export interface ISetFullCaseListPreferencesParams
 
 export const FULL_CASE_LIST_DEFAULT_SORTBY: FullCaseListSortBy = {
   by: FullCaseListSortProperties.CASE_ID,
-  direction: GetCasesSortDirection.DESC
+  direction: SortDirection.DESC
 };
