@@ -15,6 +15,7 @@ import {GraphQueryDialect} from '../GraphQuery';
 import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
 import {User} from '../User';
 import {BaseVisualization} from '../Visualization';
+import {LkError} from '../../http/response';
 
 export interface IAlertUserInfo extends Pick<User, 'id' | 'username' | 'email'> {
   hasAssignedCases: boolean;
@@ -25,6 +26,12 @@ export type IBasicUser = Omit<IAlertUserInfo, 'hasAssignedCases'>;
 export enum AlertColumnType {
   STRING = 'string',
   NUMBER = 'number'
+}
+
+export interface IAlertColumn {
+  type: AlertColumnType;
+  columnName?: string;
+  columnTitle: string;
 }
 
 export interface IPopulatedCaseVisualization extends BaseVisualization {
@@ -55,44 +62,58 @@ export interface IUpdateCaseParams extends IDataSourceParams {
   visualization: BaseVisualization;
 }
 
-export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder'> {
+export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries'> {
   folder?: number;
+  queries?: Array<ICreateAlertQueryParams>;
+}
+
+export interface ICreateAlertQueryParams extends Omit<IAlertQuery, 'id'> {}
+
+export interface IUpdateAlertQueryParams extends Omit<IAlertQuery, 'id'> {
+  id?: number;
 }
 
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
   title: string;
   description?: string;
-  query: string;
-  dialect: GraphQueryDialect;
+  queries?: Array<IAlertQuery>;
   folder: number;
   enabled: boolean;
-  columns: Array<{
-    type: AlertColumnType;
-    columnName: string;
-    columnTitle: string;
-  }>;
+  columns: Array<IAlertColumn>;
   cron: string;
-  target: string; // we assume alerts always have target
+  target?: string; // we assume alerts always have target
+  caseAttributesQuery?: string; // query for case attributes
 }
 
 export interface Alert extends IBaseAlert, PersistedItem {
   sourceKey: string;
   lastRun?: string; // defined if it has run at least once
+  // defined if last run had a problem
   lastRunProblem?: {
-    // defined if last run had a problem
-    error: string;
+    queryId?: number;
+    source: 'caseAttributeQuery' | 'alertQuery';
+    error: LkError;
     partial: boolean;
-  };
+  }[];
   nextRun?: string; // defined if enabled=true
   openAndUnAssignedCasesCount: number;
+}
+
+export interface IAlertQuery {
+  id: number;
+  query: string;
+  name: string;
+  description?: string;
+  dialect: GraphQueryDialect;
 }
 
 export interface IRunAlertParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IUpdateAlertParams extends Partial<ICreateAlertParams> {
+export interface IUpdateAlertParams extends Omit<Partial<ICreateAlertParams>, 'queries'> {
   id: number;
+  queries?: Array<IUpdateAlertQueryParams>;
 }
 
 export interface IDeleteAlertParams extends IDataSourceParams {
@@ -174,13 +195,53 @@ export enum GetCasesSortDirection {
   DESC = 'desc'
 }
 
-export enum GetCasesSortBy {
-  DATE = 'date',
+export type GetCasesSortBy = CaseListSortBy | ColumnSortBy;
+
+export enum CaseListSortBy {
+  DATE = 'date'
+}
+
+export enum ColumnSortBy {
   ZERO = '0',
   ONE = '1',
   TWO = '2',
   THREE = '3',
-  FOUR = '4'
+  FOUR = '4',
+  FIVE = '5',
+  SIX = '6',
+  SEVEN = '7',
+  EIGHT = '8',
+  NINE = '9',
+  TEN = '10',
+  ELEVEN = '11',
+  TWELVE = '12',
+  THIRTEEN = '13',
+  FOURTEEN = '14',
+  FIFTEEN = '15',
+  SIXTEEN = '16',
+  SEVENTEEN = '17',
+  EIGHTEEN = '18',
+  NINETEEN = '19',
+  TWENTY = '20',
+  TWENTY_ONE = '21',
+  TWENTY_TWO = '22',
+  TWENTY_THREE = '23',
+  TWENTY_FOUR = '24',
+  TWENTY_FIVE = '25',
+  TWENTY_SIX = '26',
+  TWENTY_SEVEN = '27',
+  TWENTY_EIGHT = '28',
+  TWENTY_NINE = '29',
+  THIRTY = '30',
+  THIRTY_ONE = '31',
+  THIRTY_TWO = '32',
+  THIRTY_THREE = '33',
+  THIRTY_FOUR = '34',
+  THIRTY_FIVE = '35',
+  THIRTY_SIX = '36',
+  THIRTY_SEVEN = '37',
+  THIRTY_EIGHT = '38',
+  THIRTY_NINE = '39'
 }
 
 export interface IExtractCaseListInfoParams extends IDataSourceParams {
@@ -242,10 +303,10 @@ export interface IDoCaseActionParams extends IDataSourceParams {
 export interface IAlertPreviewParams extends IDataSourceParams {
   query: string;
   dialect?: GraphQueryDialect;
-  columns?: Array<{columnName: string; columnTitle?: string; type: AlertColumnType}>;
+  columns?: Array<IAlertColumn>;
   limit?: number;
   timeout?: number;
-  target: string;
+  target?: string;
 }
 
 export type AlertPreview = Array<{
@@ -260,11 +321,14 @@ export interface ICaseColumn {
   columnTitle: string;
 }
 
+export type FullCaseListSort = FullCaseListSortProperties | ColumnSortBy;
+
 export enum FullCaseListSortProperties {
   CASE_ID = 'id',
   ALERT_NAME = 'alertName',
   ALERT_FOLDER = 'alertFolder',
   CREATED_AT = 'createdAt',
+  UPDATED_AT = 'updatedAt',
   STATUS = 'status',
   STATUS_CHANGED_BY = 'statusChangedBy',
   STATUS_CHANGED_ON = 'statusChangedOn',
@@ -278,10 +342,12 @@ export interface IFullCase {
   alertFolder: string | null;
   alertDescription: string | null;
   createdAt: Date;
+  updatedAt: Date;
   status: CaseStatus;
   statusChangedBy: Pick<User, 'id' | 'username' | 'email'> | null;
   statusChangedOn: Date | null;
   assignedUser: Pick<User, 'id' | 'username' | 'email'> | null;
+  attributes: ICaseColumn[];
 }
 
 export interface IFullCaseListResponse {
@@ -289,7 +355,7 @@ export interface IFullCaseListResponse {
   fullCaseList: IFullCase[];
 }
 
-export type FullCaseListSortBy = {by: FullCaseListSortProperties; direction: GetCasesSortDirection};
+export type FullCaseListSortBy = {by: FullCaseListSort; direction: GetCasesSortDirection};
 
 export interface IGetFullCaseListParams extends IDataSourceParams {
   offset?: number;
@@ -320,6 +386,7 @@ export interface IFullCaseListFilters {
 export interface IFullCaseListPreferences {
   filters: IFullCaseListFilters;
   sortBy: FullCaseListSortBy[];
+  offset: number;
 }
 
 export interface IGetFullCaseListPreferencesResponse extends IFullCaseListPreferences {
@@ -330,3 +397,8 @@ export interface IGetFullCaseListPreferencesResponse extends IFullCaseListPrefer
 export interface ISetFullCaseListPreferencesParams
   extends IDataSourceParams,
     IFullCaseListPreferences {}
+
+export const FULL_CASE_LIST_DEFAULT_SORTBY: FullCaseListSortBy = {
+  by: FullCaseListSortProperties.CASE_ID,
+  direction: GetCasesSortDirection.DESC
+};

@@ -19,6 +19,7 @@ import {
   ICreateVisualizationFolderParams,
   IUpdateVisualizationFolderParams,
   IDeleteVisualizationFolderParams,
+  IGetVisualizationTreeParams,
   VisualizationTree,
   IGetSandboxParams,
   IUpdateSandboxParams,
@@ -34,7 +35,8 @@ import {
   Visualization,
   VisualizationFolder,
   Widget,
-  PopulatedVisualization
+  PopulatedVisualization,
+  IShareWithMultipleUsersParams
 } from './types';
 
 export * from './types';
@@ -79,7 +81,7 @@ export class VisualizationAPI extends Request {
    */
   public createVisualization(this: Request<Visualization>, params: ICreateVisualizationParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/visualizations',
       method: 'POST',
       params: params
@@ -185,9 +187,12 @@ export class VisualizationAPI extends Request {
   /**
    * Get the visualizations and the visualization folders in a tree structure.
    */
-  public getVisualizationTree(this: Request<VisualizationTree>, params?: IDataSourceParams) {
+  public getVisualizationTree(
+    this: Request<VisualizationTree>,
+    params?: IGetVisualizationTreeParams
+  ) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/visualizations/tree',
       method: 'GET',
       params: params
@@ -241,6 +246,21 @@ export class VisualizationAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: `/:sourceKey/visualizations/:id/share/:userId`,
       method: 'PUT',
+      params: params
+    });
+  }
+
+  /**
+   * Update the list of users and access level a visualization is shared with.
+   */
+  public shareWithMultipleUsers(
+    this: Request<VisualizationShare>,
+    params: IShareWithMultipleUsersParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: `/:sourceKey/visualizations/:id/share`,
+      method: 'PATCH',
       params: params
     });
   }

@@ -11,15 +11,15 @@ import {hasValue} from '../../utils';
 import {RestClient} from '../../index';
 
 import {
+  DataSourceAdminInfo,
+  DataSourceUserInfo,
+  DeleteSourceDataResponse,
   IConnectDataSourceParams,
+  IDeleteSourceConfigParams,
+  IDeleteSourceDataParams,
   IGetDataSourcesStatusParams,
   IResetSourceStylesParams,
-  ISetDefaultSourceStylesParams,
-  DataSourceUserInfo,
-  IDeleteSourceDataParams,
-  DeleteSourceDataResponse,
-  IDeleteSourceConfigParams,
-  DataSourceAdminInfo
+  ISetDefaultSourceStylesParams
 } from './types';
 
 export * from './types';
@@ -29,7 +29,8 @@ const {
   DATA_SOURCE_UNAVAILABLE,
   GUEST_DISABLED,
   FORBIDDEN,
-  ILLEGAL_SOURCE_STATE
+  ILLEGAL_SOURCE_STATE,
+  INVALID_PARAMETER
 } = LkErrorKey;
 
 export class DataSourceAPI extends Request {
@@ -162,7 +163,7 @@ export class DataSourceAPI extends Request {
    */
   public createSourceConfig(this: Request<number>, params: SelectedDataSourceConfig) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN],
+      errors: [UNAUTHORIZED, FORBIDDEN, INVALID_PARAMETER],
       url: '/admin/sources/config',
       method: 'POST',
       params: params

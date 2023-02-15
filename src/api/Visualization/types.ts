@@ -150,6 +150,7 @@ export interface BaseVisualization {
 }
 
 export interface Visualization extends BaseVisualization, PersistedItem {
+  spaceId?: number;
   title: string;
   folder: number;
   nodes: IVizNodeInfo[];
@@ -178,6 +179,7 @@ export interface PopulatedVisualization extends Visualization {
 }
 
 export interface ICreateVisualizationParams extends IDataSourceParams {
+  spaceId?: number;
   title: string;
   folder?: number;
   nodes: IVizNodeInfo[];
@@ -268,7 +270,12 @@ export enum PopulateType {
   CASE_ID = 'caseId'
 }
 
+export interface IGetVisualizationTreeParams extends IDataSourceParams {
+  spaceId?: number;
+}
+
 export interface IGetSandboxParams extends IDataSourceParams {
+  spaceId?: number;
   populate?: PopulateType;
   itemId?: string;
   caseId?: number;
@@ -299,7 +306,7 @@ export interface GetVisualizationSharesResponse {
     visualizationId: number;
     username: string;
     email: string;
-    right: VisualizationRight;
+    right: ShareVisualizationRight;
   }>;
 }
 
@@ -307,6 +314,16 @@ export interface IShareVisualizationParams extends IDataSourceParams {
   id: number;
   userId: number;
   right: ShareVisualizationRight;
+}
+
+export interface VisualizationSharesParams {
+  userId: number;
+  right: ShareVisualizationRight;
+}
+
+export interface IShareWithMultipleUsersParams extends IDataSourceParams {
+  id: number;
+  shares: VisualizationSharesParams[];
 }
 
 export interface VisualizationShare {
