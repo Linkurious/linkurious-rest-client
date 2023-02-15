@@ -206,10 +206,8 @@ export interface IAzureSearchConfig extends IVendorConfig {
 
 export interface IAlertsConfig {
   enabled?: boolean;
-  maxCaseTTL?: number;
-  maxCasesLimit?: number;
+  maxMatchesLimit?: number;
   maxRuntimeLimit?: number;
-  maxConcurrency?: number;
 }
 
 export interface IAdvancedConfig {
