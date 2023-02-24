@@ -230,12 +230,14 @@ export type GetSharedVisualizationsResponse = Array<{
 export interface ICreateVisualizationFolderParams extends IDataSourceParams {
   title: string;
   parent: number;
+  spaceId?: number;
 }
 
 export interface VisualizationFolder extends PersistedItem {
   title: string;
   parent: number;
   sourceKey: string;
+  spaceId?: number;
 }
 
 export interface IUpdateVisualizationFolderParams
