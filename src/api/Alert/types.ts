@@ -317,6 +317,11 @@ export interface ICaseColumn {
   columnTitle: string;
 }
 
+export interface ModelData {
+  id: number;
+  name: string;
+  description: string;
+}
 export type FullCaseListSort = FullCaseListSortProperties | ColumnSortBy;
 
 export enum FullCaseListSortProperties {
@@ -344,7 +349,7 @@ export interface IFullCase {
   statusChangedOn: Date | null;
   assignedUser: Pick<User, 'id' | 'username' | 'email'> | null;
   attributes: ICaseColumn[];
-  modelNames: {id: number; name: string; description: string}[];
+  modelNames: ModelData[];
 }
 
 export interface IFullCaseListResponse {
