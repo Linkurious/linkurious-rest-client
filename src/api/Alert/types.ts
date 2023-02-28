@@ -344,6 +344,7 @@ export interface IFullCase {
   statusChangedOn: Date | null;
   assignedUser: Pick<User, 'id' | 'username' | 'email'> | null;
   attributes: ICaseColumn[];
+  modelNames: string[];
 }
 
 export interface IFullCaseListResponse {
