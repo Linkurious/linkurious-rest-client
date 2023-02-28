@@ -320,7 +320,7 @@ export interface ICaseColumn {
 export interface ModelData {
   id: number;
   name: string;
-  description: string;
+  description: string | null;
 }
 export type FullCaseListSort = FullCaseListSortProperties | ColumnSortBy;
 
