@@ -349,7 +349,7 @@ export interface IFullCase {
   statusChangedOn: Date | null;
   assignedUser: Pick<User, 'id' | 'username' | 'email'> | null;
   attributes: ICaseColumn[];
-  modelNames: ModelData[];
+  models: ModelData[];
 }
 
 export interface IFullCaseListResponse {
@@ -368,10 +368,12 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   sortBy: FullCaseListSortBy[];
 }
 
-export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statusChangedBy'> {
+export interface ICasePreview
+  extends Omit<IFullCase, 'statusChangedOn' | 'statusChangedBy' | 'models'> {
   attributes: ICaseColumn[];
   commentsCount: number | null;
   lastCommentDate: Date | null;
+  models?: ModelData[];
 }
 
 export interface IGetAllAlertUsersParams extends IDataSourceParams {
