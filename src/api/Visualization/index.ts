@@ -35,7 +35,8 @@ import {
   Visualization,
   VisualizationFolder,
   Widget,
-  PopulatedVisualization
+  PopulatedVisualization,
+  IShareWithMultipleUsersParams
 } from './types';
 
 export * from './types';
@@ -245,6 +246,21 @@ export class VisualizationAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: `/:sourceKey/visualizations/:id/share/:userId`,
       method: 'PUT',
+      params: params
+    });
+  }
+
+  /**
+   * Update the list of users and access level a visualization is shared with.
+   */
+  public shareWithMultipleUsers(
+    this: Request<VisualizationShare>,
+    params: IShareWithMultipleUsersParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: `/:sourceKey/visualizations/:id/share`,
+      method: 'PATCH',
       params: params
     });
   }

@@ -306,7 +306,7 @@ export interface GetVisualizationSharesResponse {
     visualizationId: number;
     username: string;
     email: string;
-    right: VisualizationRight;
+    right: ShareVisualizationRight;
   }>;
 }
 
@@ -314,6 +314,16 @@ export interface IShareVisualizationParams extends IDataSourceParams {
   id: number;
   userId: number;
   right: ShareVisualizationRight;
+}
+
+export interface VisualizationSharesParams {
+  userId: number;
+  right: ShareVisualizationRight;
+}
+
+export interface IShareWithMultipleUsersParams extends IDataSourceParams {
+  id: number;
+  shares: VisualizationSharesParams[];
 }
 
 export interface VisualizationShare {
