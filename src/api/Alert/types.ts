@@ -179,7 +179,7 @@ export interface Case extends PersistedItem {
   nodes: string[];
   edges: string[];
   columns: (string | number | null)[]; // An empty column field is filled with null
-  models?: ModelData[];
+  models: ModelData[];
 }
 
 export interface GetCasesResponse {
@@ -374,7 +374,7 @@ export interface ICasePreview
   attributes: ICaseColumn[];
   commentsCount: number | null;
   lastCommentDate: Date | null;
-  models?: ModelData[];
+  models: ModelData[];
 }
 
 export interface IGetAllAlertUsersParams extends IDataSourceParams {
