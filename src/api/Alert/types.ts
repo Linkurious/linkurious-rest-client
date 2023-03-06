@@ -192,7 +192,7 @@ export interface GetCasesResponse {
     dismissed: number;
     'in-progress': number;
   };
-  cases: Case[];
+  cases: CaseForCaseList[];
 }
 
 export type GetCasesSortBy = CaseListSortBy | ColumnSortBy;
