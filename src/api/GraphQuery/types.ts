@@ -234,6 +234,7 @@ export interface ICheckQueryParams extends IDataSourceParams {
   query: string;
   dialect?: GraphQueryDialect;
   isCaseAttributesQuery?: boolean;
+  expectedOutputFields?: string[];
 }
 
 export interface CheckQueryResponse {
@@ -241,7 +242,6 @@ export interface CheckQueryResponse {
   type: GraphQueryType;
   graphInput?: GraphQueryInputType; // defined only if type='template'
   templateFields?: Template[]; // defined only if type='template'
-  expectedOutputFields?: string[];
 }
 
 export interface IRunQueryParams extends IDataSourceParams {
