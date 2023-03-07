@@ -182,7 +182,7 @@ export interface Case extends PersistedItem {
 }
 
 export interface CaseForCaseList extends Case {
-  models: ModelData[];
+  alertQueries: AlertQueryData[];
 }
 
 export interface GetCasesResponse {
@@ -321,7 +321,7 @@ export interface ICaseColumn {
   columnTitle: string;
 }
 
-export interface ModelData {
+export interface AlertQueryData {
   id: number;
   name: string;
   description: string | null;
@@ -353,7 +353,7 @@ export interface IFullCase {
   statusChangedOn: Date | null;
   assignedUser: Pick<User, 'id' | 'username' | 'email'> | null;
   attributes: ICaseColumn[];
-  models: ModelData[];
+  alertQueries: AlertQueryData[];
 }
 
 export interface IFullCaseListResponse {
@@ -372,12 +372,10 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   sortBy: FullCaseListSortBy[];
 }
 
-export interface ICasePreview
-  extends Omit<IFullCase, 'statusChangedOn' | 'statusChangedBy' | 'models'> {
+export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statusChangedBy'> {
   attributes: ICaseColumn[];
   commentsCount: number | null;
   lastCommentDate: Date | null;
-  models: ModelData[];
 }
 
 export interface IGetAllAlertUsersParams extends IDataSourceParams {
