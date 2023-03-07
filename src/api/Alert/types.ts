@@ -98,6 +98,7 @@ export interface Alert extends IBaseAlert, PersistedItem {
   }[];
   nextRun?: string; // defined if enabled=true
   openAndUnAssignedCasesCount: number;
+  status: 'running' | 'idle';
 }
 
 export interface IAlertQuery {
