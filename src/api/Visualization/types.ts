@@ -29,7 +29,8 @@ export enum VisualizationRight {
   WRITE = 'write',
   WRITE_FILTERED = 'write-filtered',
   OWNER = 'owner',
-  OWNER_FILTERED = 'owner-filtered'
+  OWNER_FILTERED = 'owner-filtered',
+  WRITE_LOCKED = "write-locked"
 }
 
 export enum ShareVisualizationRight {
@@ -171,6 +172,8 @@ export interface Visualization extends BaseVisualization, PersistedItem {
   user: Pick<User, 'id' | 'username' | 'email'>;
   right: VisualizationRight;
   widgetKey?: string; // defined if the visualization has a widget
+  lastLockedByUser: Pick<User, 'id' | 'username' | 'email'>;
+  locked: boolean;
 }
 
 export interface PopulatedVisualization extends Visualization {
@@ -247,17 +250,18 @@ export interface IDeleteVisualizationFolderParams extends IDataSourceParams {
   id: number;
 }
 
-export type VisualizationTree = Tree<
-  {
-    id: number;
-    title: string;
-    shareCount: number;
-    widgetKey?: string; // defined if the visualization has a widget
-    createdAt: string;
-    updatedAt: string;
-  },
-  'visu'
->;
+export interface VisualizationTreeItem {
+  id: number;
+  title: string;
+  shareCount: number;
+  widgetKey?: string;
+  createdAt: string;
+  updatedAt: string;
+  lastLockedByUser: Pick<User, 'id' | 'username' | 'email'>;
+  locked: boolean;
+}
+
+export type VisualizationTree = Tree<VisualizationTreeItem, 'visu'>;
 
 export enum PopulateType {
   VISUALIZATION_ID = 'visualizationId',
