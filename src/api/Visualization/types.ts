@@ -30,7 +30,7 @@ export enum VisualizationRight {
   WRITE_FILTERED = 'write-filtered',
   OWNER = 'owner',
   OWNER_FILTERED = 'owner-filtered',
-  WRITE_LOCKED = "write-locked"
+  WRITE_LOCKED = 'write-locked'
 }
 
 export enum ShareVisualizationRight {
