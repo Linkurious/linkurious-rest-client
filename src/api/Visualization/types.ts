@@ -254,7 +254,7 @@ export interface VisualizationTreeItem {
   id: number;
   title: string;
   shareCount: number;
-  widgetKey?: string;
+  widgetKey?: string; // defined if the visualization has a widget
   createdAt: string;
   updatedAt: string;
   lastLockedByUser: Pick<User, 'id' | 'username' | 'email'>;
