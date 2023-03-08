@@ -181,6 +181,10 @@ export interface Case extends PersistedItem {
   columns: (string | number | null)[]; // An empty column field is filled with null
 }
 
+export interface CaseForCaseList extends Case {
+  alertQueries: AlertQueryData[];
+}
+
 export interface GetCasesResponse {
   counts: {
     unconfirmed: number;
@@ -188,7 +192,7 @@ export interface GetCasesResponse {
     dismissed: number;
     'in-progress': number;
   };
-  cases: Case[];
+  cases: CaseForCaseList[];
 }
 
 export type GetCasesSortBy = CaseListSortBy | ColumnSortBy;
@@ -317,6 +321,11 @@ export interface ICaseColumn {
   columnTitle: string;
 }
 
+export interface AlertQueryData {
+  id: number;
+  name: string;
+  description: string | null;
+}
 export type FullCaseListSort = FullCaseListSortProperties | ColumnSortBy;
 
 export enum FullCaseListSortProperties {
@@ -344,6 +353,7 @@ export interface IFullCase {
   statusChangedOn: Date | null;
   assignedUser: Pick<User, 'id' | 'username' | 'email'> | null;
   attributes: ICaseColumn[];
+  alertQueries: AlertQueryData[];
 }
 
 export interface IFullCaseListResponse {
