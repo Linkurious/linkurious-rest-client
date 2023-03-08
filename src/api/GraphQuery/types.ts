@@ -234,7 +234,7 @@ export interface ICheckQueryParams extends IDataSourceParams {
   query: string;
   dialect?: GraphQueryDialect;
   isCaseAttributesQuery?: boolean;
- requiredOutputFields?: string[];
+  requiredOutputFields?: string[];
 }
 
 export interface CheckQueryResponse {
