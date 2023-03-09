@@ -172,8 +172,7 @@ export interface Visualization extends BaseVisualization, PersistedItem {
   user: Pick<User, 'id' | 'username' | 'email'>;
   right: VisualizationRight;
   widgetKey?: string; // defined if the visualization has a widget
-  lastLockedByUser: Pick<User, 'id' | 'username' | 'email'>;
-  locked: boolean;
+  lastLockedByUser: Pick<User, 'username' | 'email'>
 }
 
 export interface PopulatedVisualization extends Visualization {
@@ -257,7 +256,7 @@ export interface VisualizationTreeItem {
   widgetKey?: string; // defined if the visualization has a widget
   createdAt: string;
   updatedAt: string;
-  lastLockedByUser: Pick<User, 'id' | 'username' | 'email'>;
+  lastLockedByUser: Pick<User, 'username' | 'email'>
   locked: boolean;
 }
 
