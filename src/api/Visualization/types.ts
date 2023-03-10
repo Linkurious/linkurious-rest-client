@@ -169,7 +169,7 @@ export interface Visualization extends BaseVisualization, PersistedItem {
   geo: IVisualizationGeo;
   timeline: IVisualizationTimeline;
   // TODO viz.user and viz.right are defined only on getVisualization
-  user: Pick<User, 'id' | 'username' | 'email'>;
+  user?: Pick<User, 'id' | 'username' | 'email'>;
   right: VisualizationRight;
   widgetKey?: string; // defined if the visualization has a widget
   lastLockedByUser: Pick<User, 'username' | 'email'>;
