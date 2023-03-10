@@ -384,6 +384,7 @@ export interface IGetAllAlertUsersParams extends IDataSourceParams {
 
 export interface IFullCaseListFilters {
   alertIds?: number[];
+  queryIds?: number[];
   caseStatuses?: CaseStatus[];
   assignedUserIds?: number[];
   alertFolderIds?: number[];
