@@ -367,6 +367,7 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   offset?: number;
   limit?: number;
   alertIdsFilter?: number[];
+  queryIdsFilter?: number[];
   caseStatusesFilter?: CaseStatus[];
   assignedUserIdsFilter?: number[];
   sortBy: FullCaseListSortBy[];
