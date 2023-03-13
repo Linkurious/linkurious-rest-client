@@ -100,11 +100,8 @@ export interface Alert extends IBaseAlert, PersistedItem {
   openAndUnAssignedCasesCount: number;
 }
 
-export interface IAlertQuery {
-  id: number;
+export interface IAlertQuery extends AlertQueryData {
   query: string;
-  name: string;
-  description?: string;
   dialect: GraphQueryDialect;
 }
 
