@@ -172,6 +172,7 @@ export interface Visualization extends BaseVisualization, PersistedItem {
   user?: Pick<User, 'id' | 'username' | 'email'>;
   right: VisualizationRight;
   widgetKey?: string; // defined if the visualization has a widget
+  lastLockedByUserId?: number;
   lastLockedByUser: Pick<User, 'username' | 'email'>;
 }
 
