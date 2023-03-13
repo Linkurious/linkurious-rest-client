@@ -321,7 +321,7 @@ export interface ICaseColumn {
 export interface AlertQueryData {
   id: number;
   name: string;
-  description: string | null;
+  description?: string;
   deleted: boolean;
 }
 export type FullCaseListSort = FullCaseListSortProperties | ColumnSortBy;
