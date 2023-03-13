@@ -325,6 +325,7 @@ export interface AlertQueryData {
   id: number;
   name: string;
   description: string | null;
+  deleted: boolean;
 }
 export type FullCaseListSort = FullCaseListSortProperties | ColumnSortBy;
 
