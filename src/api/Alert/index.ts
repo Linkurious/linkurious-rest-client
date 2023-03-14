@@ -43,7 +43,8 @@ import {
   IGetAllAlertUsersParams,
   IBulkAssignCasesParams,
   ISetFullCaseListPreferencesParams,
-  IGetFullCaseListPreferencesResponse
+  IGetFullCaseListPreferencesResponse,
+  RunAlertResponse
 } from './types';
 
 export * from './types';
@@ -62,14 +63,15 @@ const {
   ALREADY_EXISTS,
   INVALID_ALERT_QUERY,
   INVALID_ALERT_TARGET,
-  REDUNDANT_ACTION
+  REDUNDANT_ACTION,
+  EDIT_CONFLICT
 } = LkErrorKey;
 
 export class AlertAPI extends Request {
   /**
    * Execute an existing alert.
    */
-  public runAlert(params: IRunAlertParams) {
+  public runAlert(this: Request<RunAlertResponse>, params: IRunAlertParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/admin/:sourceKey/alerts/:id/run',
@@ -109,7 +111,14 @@ export class AlertAPI extends Request {
    */
   public deleteAlert(params: IDeleteAlertParams) {
     return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      errors: [
+        FEATURE_DISABLED,
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        NOT_FOUND,
+        EDIT_CONFLICT
+      ],
       url: '/admin/:sourceKey/alerts/:id',
       method: 'DELETE',
       params: params

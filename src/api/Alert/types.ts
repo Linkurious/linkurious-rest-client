@@ -113,6 +113,9 @@ export interface IAlertQuery {
 export interface IRunAlertParams extends IDataSourceParams {
   id: number;
 }
+export interface RunAlertResponse {
+  alreadyRunning: boolean;
+}
 
 export interface IUpdateAlertParams extends Omit<Partial<ICreateAlertParams>, 'queries'> {
   id: number;
