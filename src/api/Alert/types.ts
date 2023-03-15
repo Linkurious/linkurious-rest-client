@@ -320,6 +320,7 @@ export interface ICaseColumn {
 
 export interface AlertQueryData {
   id: number;
+  modelKey: string;
   name: string;
   description?: string;
   deleted: boolean;
