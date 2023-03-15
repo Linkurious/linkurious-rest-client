@@ -71,7 +71,7 @@ export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries
 export interface ICreateAlertQueryParams
   extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {}
 
-export interface IUpdateAlertQueryParams extends ICreateAlertParams {
+export interface IUpdateAlertQueryParams extends ICreateAlertQueryParams {
   id?: number;
 }
 
