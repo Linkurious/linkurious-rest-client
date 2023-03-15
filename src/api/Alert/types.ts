@@ -368,7 +368,7 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   offset?: number;
   limit?: number;
   alertIdsFilter?: number[];
-  queryIdsFilter?: number[];
+  queryIdsFilter?: string[];
   caseStatusesFilter?: CaseStatus[];
   assignedUserIdsFilter?: number[];
   sortBy: FullCaseListSortBy[];
@@ -386,7 +386,7 @@ export interface IGetAllAlertUsersParams extends IDataSourceParams {
 
 export interface IFullCaseListFilters {
   alertIds?: number[];
-  queryIds?: number[];
+  queryIds?: string[];
   caseStatuses?: CaseStatus[];
   assignedUserIds?: number[];
   alertFolderIds?: number[];
