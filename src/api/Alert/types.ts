@@ -118,7 +118,7 @@ export interface IRunAlertParams extends IDataSourceParams {
 }
 export interface RunAlertResponse {
   alreadyRunning: boolean;
-  runProblems?:AlertRunProblem[];
+  runProblems?: AlertRunProblem[];
 }
 
 export interface IUpdateAlertParams extends Omit<Partial<ICreateAlertParams>, 'queries'> {
