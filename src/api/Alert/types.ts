@@ -103,6 +103,7 @@ export interface Alert extends IBaseAlert, PersistedItem {
 export interface IAlertQuery extends AlertQueryData {
   query: string;
   dialect: GraphQueryDialect;
+  updatedAt: Date;
 }
 
 export interface IRunAlertParams extends IDataSourceParams {
