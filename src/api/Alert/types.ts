@@ -112,6 +112,7 @@ export interface IAlertQuery {
 
 export interface IRunAlertParams extends IDataSourceParams {
   id: number;
+  waitForRun?: boolean;
 }
 export interface RunAlertResponse {
   alreadyRunning: boolean;
