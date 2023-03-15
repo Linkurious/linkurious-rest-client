@@ -105,12 +105,12 @@ export interface IAlertQuery {
   dialect: GraphQueryDialect;
 }
 
-interface AlertRunProblem {
+type AlertRunProblem = {
   queryId?: number;
   source: 'caseAttributeQuery' | 'alertQuery';
   error: LkError;
   partial: boolean;
-}
+} | null;
 
 export interface IRunAlertParams extends IDataSourceParams {
   id: number;
