@@ -136,7 +136,7 @@ export abstract class Request<S = undefined> {
    * - Note that only url parameters are supported.
    * - The sendBeacon api does not return any response.
    */
-  public sendBeacon<EK extends LkErrorKey = never>(rawFetchConfig: SendBeaconConfig<EK>): void {
+  public async sendBeacon<EK extends LkErrorKey = never>(rawFetchConfig: SendBeaconConfig<EK>): Promise<void> {
     // 1) Render URL template using params
     const requiredConfig = Request.renderURL(rawFetchConfig, this.props);
 
