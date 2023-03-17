@@ -88,7 +88,7 @@ export class VisualizationAPI extends Request {
         url: '/:sourceKey/visualizations/:id',
         method: 'POST',
         params: params
-      })
+      });
     } else {
       // sendBeacon() is not supported in the browser, or we are not in a browser environment
       return this.request({

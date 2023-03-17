@@ -17,7 +17,13 @@ import {
   LkErrorKeyToInterface,
   Response
 } from './response';
-import {FetchConfig, ModuleProps, RawFetchConfig, SendBeaconConfig, SuperAgentResponse} from './types';
+import {
+  FetchConfig,
+  ModuleProps,
+  RawFetchConfig,
+  SendBeaconConfig,
+  SuperAgentResponse
+} from './types';
 
 export abstract class Request<S = undefined> {
   constructor(public readonly props: ModuleProps) {}
