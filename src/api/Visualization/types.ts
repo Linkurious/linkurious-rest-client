@@ -24,6 +24,10 @@ export interface IGetVisualizationParams extends IDataSourceParams {
   withDegree?: boolean;
 }
 
+export interface ReleaseVisualizationEditLockParams extends IDataSourceParams {
+  id: number;
+}
+
 export enum VisualizationRight {
   READ = 'read',
   WRITE = 'write',

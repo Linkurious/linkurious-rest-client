@@ -17,7 +17,7 @@ import {
   LkErrorKeyToInterface,
   Response
 } from './response';
-import {FetchConfig, ModuleProps, RawFetchConfig, SuperAgentResponse} from './types';
+import {FetchConfig, ModuleProps, RawFetchConfig, SendBeaconConfig, SuperAgentResponse} from './types';
 
 export abstract class Request<S = undefined> {
   constructor(public readonly props: ModuleProps) {}
@@ -123,6 +123,20 @@ export abstract class Request<S = undefined> {
       body: body,
       query: Request.toSnakeCaseKeys(query)
     };
+  }
+
+  /**
+   * Send a post request using the Navigator.sendBeacon api.
+   * - Note that only url parameters are supported.
+   * - The sendBeacon api does not return any response.
+   */
+  public sendBeacon<EK extends LkErrorKey = never>(rawFetchConfig: SendBeaconConfig<EK>): void {
+    // 1) Render URL template using params
+    const requiredConfig = Request.renderURL(rawFetchConfig, this.props);
+
+    // 2) Sort remaining params into body and query
+    const fetchConfig = Request.splitParams(requiredConfig, this.props);
+    navigator.sendBeacon(fetchConfig.url);
   }
 
   public async request<EK extends LkErrorKey = never>(rawFetchConfig: RawFetchConfig<EK>) {

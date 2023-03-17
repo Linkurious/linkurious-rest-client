@@ -26,6 +26,14 @@ export interface RawFetchConfig<
   params?: P;
 }
 
+export interface SendBeaconConfig<
+    E extends LkErrorKey = LkErrorKey,
+    P extends Record<never, never> = Record<never, never>
+> extends RawFetchConfig<E, P> {
+  // Only the post method is supported, see https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
+  method: 'POST';
+}
+
 export interface FetchConfig {
   url: string;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
