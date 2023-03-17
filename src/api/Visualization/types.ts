@@ -220,7 +220,7 @@ export interface IUpdateVisualizationParams extends IDataSourceParams {
   doLayout?: boolean;
 }
 
-export type GetSharedVisualizationsResponse = Array<{
+export interface SharedVisualization {
   right: VisualizationRight;
   visualizationId: number;
   ownerId: number;
@@ -228,7 +228,11 @@ export type GetSharedVisualizationsResponse = Array<{
   sourceKey: string;
   title: string;
   updatedAt: string;
-}>;
+  locked: boolean;
+  lastLockedByUser: Pick<User, 'username' | 'email'>;
+}
+
+export type GetSharedVisualizationsResponse = SharedVisualization[];
 
 export interface ICreateVisualizationFolderParams extends IDataSourceParams {
   title: string;
