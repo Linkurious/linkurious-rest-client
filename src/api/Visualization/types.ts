@@ -29,7 +29,8 @@ export enum VisualizationRight {
   WRITE = 'write',
   WRITE_FILTERED = 'write-filtered',
   OWNER = 'owner',
-  OWNER_FILTERED = 'owner-filtered'
+  OWNER_FILTERED = 'owner-filtered',
+  WRITE_LOCKED = 'write-locked'
 }
 
 export enum ShareVisualizationRight {
@@ -168,9 +169,11 @@ export interface Visualization extends BaseVisualization, PersistedItem {
   geo: IVisualizationGeo;
   timeline: IVisualizationTimeline;
   // TODO viz.user and viz.right are defined only on getVisualization
-  user: Pick<User, 'id' | 'username' | 'email'>;
+  user?: Pick<User, 'id' | 'username' | 'email'>;
   right: VisualizationRight;
   widgetKey?: string; // defined if the visualization has a widget
+  lastLockedByUserId?: number;
+  lastLockedByUser: Pick<User, 'username' | 'email'>;
 }
 
 export interface PopulatedVisualization extends Visualization {
@@ -217,7 +220,7 @@ export interface IUpdateVisualizationParams extends IDataSourceParams {
   doLayout?: boolean;
 }
 
-export type GetSharedVisualizationsResponse = Array<{
+export interface SharedVisualization {
   right: VisualizationRight;
   visualizationId: number;
   ownerId: number;
@@ -225,7 +228,11 @@ export type GetSharedVisualizationsResponse = Array<{
   sourceKey: string;
   title: string;
   updatedAt: string;
-}>;
+  locked: boolean;
+  lastLockedByUser: Pick<User, 'username' | 'email'>;
+}
+
+export type GetSharedVisualizationsResponse = SharedVisualization[];
 
 export interface ICreateVisualizationFolderParams extends IDataSourceParams {
   title: string;
@@ -247,17 +254,18 @@ export interface IDeleteVisualizationFolderParams extends IDataSourceParams {
   id: number;
 }
 
-export type VisualizationTree = Tree<
-  {
-    id: number;
-    title: string;
-    shareCount: number;
-    widgetKey?: string; // defined if the visualization has a widget
-    createdAt: string;
-    updatedAt: string;
-  },
-  'visu'
->;
+export interface VisualizationTreeItem {
+  id: number;
+  title: string;
+  shareCount: number;
+  widgetKey?: string; // defined if the visualization has a widget
+  createdAt: string;
+  updatedAt: string;
+  lastLockedByUser: Pick<User, 'username' | 'email'>;
+  locked: boolean;
+}
+
+export type VisualizationTree = Tree<VisualizationTreeItem, 'visu'>;
 
 export enum PopulateType {
   VISUALIZATION_ID = 'visualizationId',
