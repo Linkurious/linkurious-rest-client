@@ -85,7 +85,7 @@ export class VisualizationAPI extends Request {
       // sendBeacon() is supported in the browser
       return this.sendBeacon({
         errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
-        url: '/:sourceKey/visualizations/:id',
+        url: '/:sourceKey/visualizations/:id/release-edit-lock',
         method: 'POST',
         params: params
       });
@@ -93,7 +93,7 @@ export class VisualizationAPI extends Request {
       // sendBeacon() is not supported in the browser, or we are not in a browser environment
       return this.request({
         errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
-        url: '/:sourceKey/visualizations/:id',
+        url: '/:sourceKey/visualizations/:id/release-edit-lock',
         method: 'POST',
         params: params
       });
