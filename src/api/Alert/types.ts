@@ -101,7 +101,13 @@ export interface Alert extends IBaseAlert, PersistedItem {
   openAndUnAssignedCasesCount: number;
 }
 
-export interface IAlertQuery extends AlertQueryData {
+export interface IAlertQuery extends BaseAlertQuery {
+  query: string;
+  dialect: GraphQueryDialect;
+  updatedAt: Date;
+}
+
+export interface IAlertQueryVersion extends BaseAlertQueryVersion {
   query: string;
   dialect: GraphQueryDialect;
   updatedAt: Date;
@@ -181,7 +187,7 @@ export interface Case extends PersistedItem {
 }
 
 export interface CaseForCaseList extends Case {
-  alertQueries: AlertQueryData[];
+  alertQueries: BaseAlertQuery[];
 }
 
 export interface GetCasesResponse {
@@ -320,12 +326,17 @@ export interface ICaseColumn {
   columnTitle: string;
 }
 
-export interface AlertQueryData {
+export interface BaseAlertQuery {
   modelKey: string;
   name: string;
   description?: string;
   deleted: boolean;
 }
+
+export interface BaseAlertQueryVersion extends BaseAlertQuery {
+  id: number;
+}
+
 export type FullCaseListSort = FullCaseListSortProperties | ColumnSortBy;
 
 export enum FullCaseListSortProperties {
@@ -353,7 +364,7 @@ export interface IFullCase {
   statusChangedOn: Date | null;
   assignedUser: Pick<User, 'id' | 'username' | 'email'> | null;
   attributes: ICaseColumn[];
-  alertQueries: AlertQueryData[];
+  alertQueries: BaseAlertQuery[];
 }
 
 export interface IFullCaseListResponse {
