@@ -121,7 +121,13 @@ export class VisualizationAPI extends Request {
    */
   public updateVisualization(params: IUpdateVisualizationParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, VISUALIZATION_LOCKED],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        VISUALIZATION_LOCKED,
+        INVALID_PARENT_FOLDER
+      ],
       url: '/:sourceKey/visualizations/:id',
       method: 'PATCH',
       params: params
