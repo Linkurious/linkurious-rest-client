@@ -49,7 +49,7 @@ const {
   FOLDER_DELETION_FAILED,
   ALREADY_EXISTS,
   VISUALIZATION_LOCKED,
-  INVALID_PARAMETER
+  INVALID_PARENT_FOLDER
 } = LkErrorKey;
 
 export class VisualizationAPI extends Request {
@@ -151,7 +151,13 @@ export class VisualizationAPI extends Request {
     params: ICreateVisualizationFolderParams
   ) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS, NOT_FOUND, INVALID_PARAMETER],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        ALREADY_EXISTS,
+        NOT_FOUND,
+        INVALID_PARENT_FOLDER
+      ],
       url: '/:sourceKey/visualizations/folder',
       method: 'POST',
       params: params
@@ -166,7 +172,13 @@ export class VisualizationAPI extends Request {
     params: IUpdateVisualizationFolderParams
   ) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, ALREADY_EXISTS, INVALID_PARAMETER],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ALREADY_EXISTS,
+        INVALID_PARENT_FOLDER
+      ],
       url: '/:sourceKey/visualizations/folder/:id',
       method: 'PATCH',
       params: params
