@@ -82,7 +82,7 @@ export class VisualizationAPI extends Request {
    */
   public createVisualization(this: Request<Visualization>, params: ICreateVisualizationParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, INVALID_PARENT_FOLDER],
       url: '/:sourceKey/visualizations',
       method: 'POST',
       params: params
