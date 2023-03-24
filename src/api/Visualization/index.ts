@@ -36,7 +36,8 @@ import {
   VisualizationFolder,
   Widget,
   PopulatedVisualization,
-  IShareWithMultipleUsersParams
+  IShareWithMultipleUsersParams,
+  ReleaseVisualizationEditLockParams
 } from './types';
 
 export * from './types';
@@ -75,6 +76,29 @@ export class VisualizationAPI extends Request {
       method: 'GET',
       params: params
     });
+  }
+
+  /**
+   * Release the exclusive edit lock on a visualization.
+   */
+  public releaseEditLock(params: ReleaseVisualizationEditLockParams) {
+    if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+      // sendBeacon() is supported in the browser
+      return this.sendBeacon({
+        errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+        url: '/:sourceKey/visualizations/:id/release-edit-lock',
+        method: 'POST',
+        params: params
+      });
+    } else {
+      // sendBeacon() is not supported in the browser, or we are not in a browser environment
+      return this.request({
+        errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+        url: '/:sourceKey/visualizations/:id/release-edit-lock',
+        method: 'POST',
+        params: params
+      });
+    }
   }
 
   /**
