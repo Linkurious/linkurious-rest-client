@@ -59,7 +59,8 @@ export enum LkErrorKey {
   SEND_MAIL_FAILED = 'send_mail_failed',
   CASES_EXTRACT_LIMIT_EXCEEDED = 'cases_extract_limit_exceeded',
   INVALID_CASE_ATTRIBUTES_QUERY = 'invalid_case_attributes_query',
-  SPACE_DELETION_FAILED = 'space_deletion_failed'
+  SPACE_DELETION_FAILED = 'space_deletion_failed',
+  INVALID_PARENT_FOLDER = 'invalid_parent_folder'
 }
 
 /**
@@ -246,6 +247,8 @@ export interface InvalidCaseAttributesQuery
 
 export interface SpaceDeletionFailed extends LkError<LkErrorKey.SPACE_DELETION_FAILED> {}
 
+export interface InvalidParentFolder extends LkError<LkErrorKey.INVALID_PARENT_FOLDER> {}
+
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
@@ -291,4 +294,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.CASES_EXTRACT_LIMIT_EXCEEDED]: CasesExtractLimitExceeded;
   [LkErrorKey.INVALID_CASE_ATTRIBUTES_QUERY]: InvalidCaseAttributesQuery;
   [LkErrorKey.SPACE_DELETION_FAILED]: SpaceDeletionFailed;
+  [LkErrorKey.INVALID_PARENT_FOLDER]: InvalidParentFolder;
 };
