@@ -245,7 +245,7 @@ export interface ILeafletConfig {
 }
 
 export enum DefaultPage {
-  DASHBOARD = 'dashboard',
+  SPACES = 'spaces',
   WORKSPACE = 'workspace'
 }
 
