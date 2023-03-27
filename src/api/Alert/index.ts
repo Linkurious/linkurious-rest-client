@@ -356,7 +356,7 @@ export class AlertAPI extends Request {
         alertIdsFilter: params.alertIdsFilter?.join(','),
         assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
         caseStatusesFilter: params.caseStatusesFilter?.join(','),
-        columnFilters: params.columnFilters?.join(',')
+        columnFilters: params.caseColumnFilters?.join(',')
       }
     });
   }
