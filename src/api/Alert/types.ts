@@ -369,7 +369,7 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   alertIdsFilter?: number[];
   caseStatusesFilter?: CaseStatus[];
   assignedUserIdsFilter?: number[];
-  columnFilters?: ColumnFilter[]
+  columnFilters?: ColumnFilter[];
   sortBy: FullCaseListSortBy[];
 }
 
@@ -388,12 +388,12 @@ export interface IFullCaseListFilters {
   caseStatuses?: CaseStatus[];
   assignedUserIds?: number[];
   alertFolderIds?: number[];
-  columnFilters: ColumnFilter[]
+  columnFilters: ColumnFilter[];
 }
 
 export interface ColumnFilter {
-  name: typeof COLUMN_FIELDS[number],
-  value: string | number | {min: number, max:number}
+  name: typeof COLUMN_FIELDS[number];
+  value: string | number | {min: number; max: number};
 }
 
 export interface IFullCaseListPreferences {
@@ -415,7 +415,6 @@ export const FULL_CASE_LIST_DEFAULT_SORTBY: FullCaseListSortBy = {
   by: FullCaseListSortProperties.CASE_ID,
   direction: SortDirection.DESC
 };
-
 
 export const COLUMN_FIELDS = [
   'columnString0',
