@@ -369,7 +369,7 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   alertIdsFilter?: number[];
   caseStatusesFilter?: CaseStatus[];
   assignedUserIdsFilter?: number[];
-  caseColumnFilters?: CaseColumnFilter[];
+  caseColumnsFilter?: CaseColumnFilter[];
   sortBy: FullCaseListSortBy[];
 }
 
