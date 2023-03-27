@@ -369,6 +369,7 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   alertIdsFilter?: number[];
   caseStatusesFilter?: CaseStatus[];
   assignedUserIdsFilter?: number[];
+  columnFilters?: ColumnFilter[]
   sortBy: FullCaseListSortBy[];
 }
 
@@ -387,6 +388,12 @@ export interface IFullCaseListFilters {
   caseStatuses?: CaseStatus[];
   assignedUserIds?: number[];
   alertFolderIds?: number[];
+  columnFilters: ColumnFilter[]
+}
+
+export interface ColumnFilter {
+  name: typeof COLUMN_FIELDS[number],
+  value: string | number | {min: number, max:number}
 }
 
 export interface IFullCaseListPreferences {
@@ -408,3 +415,87 @@ export const FULL_CASE_LIST_DEFAULT_SORTBY: FullCaseListSortBy = {
   by: FullCaseListSortProperties.CASE_ID,
   direction: SortDirection.DESC
 };
+
+
+export const COLUMN_FIELDS = [
+  'columnString0',
+  'columnString1',
+  'columnString2',
+  'columnString3',
+  'columnString4',
+  'columnString5',
+  'columnString6',
+  'columnString7',
+  'columnString8',
+  'columnString9',
+  'columnString10',
+  'columnString11',
+  'columnString12',
+  'columnString13',
+  'columnString14',
+  'columnString15',
+  'columnString16',
+  'columnString17',
+  'columnString18',
+  'columnString19',
+  'columnString20',
+  'columnString21',
+  'columnString22',
+  'columnString23',
+  'columnString24',
+  'columnString25',
+  'columnString26',
+  'columnString27',
+  'columnString28',
+  'columnString29',
+  'columnString30',
+  'columnString31',
+  'columnString32',
+  'columnString33',
+  'columnString34',
+  'columnString35',
+  'columnString36',
+  'columnString37',
+  'columnString38',
+  'columnString39',
+  'columnNumber0',
+  'columnNumber1',
+  'columnNumber2',
+  'columnNumber3',
+  'columnNumber4',
+  'columnNumber5',
+  'columnNumber6',
+  'columnNumber7',
+  'columnNumber8',
+  'columnNumber9',
+  'columnNumber10',
+  'columnNumber11',
+  'columnNumber12',
+  'columnNumber13',
+  'columnNumber14',
+  'columnNumber15',
+  'columnNumber16',
+  'columnNumber17',
+  'columnNumber18',
+  'columnNumber19',
+  'columnNumber20',
+  'columnNumber21',
+  'columnNumber22',
+  'columnNumber23',
+  'columnNumber24',
+  'columnNumber25',
+  'columnNumber26',
+  'columnNumber27',
+  'columnNumber28',
+  'columnNumber29',
+  'columnNumber30',
+  'columnNumber31',
+  'columnNumber32',
+  'columnNumber33',
+  'columnNumber34',
+  'columnNumber35',
+  'columnNumber36',
+  'columnNumber37',
+  'columnNumber38',
+  'columnNumber39'
+] as const;
