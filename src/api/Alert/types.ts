@@ -369,7 +369,7 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   alertIdsFilter?: number[];
   caseStatusesFilter?: CaseStatus[];
   assignedUserIdsFilter?: number[];
-  columnFilters?: ColumnFilter[];
+  columnFilters?: caseColumnFilter[];
   sortBy: FullCaseListSortBy[];
 }
 
@@ -388,10 +388,10 @@ export interface IFullCaseListFilters {
   caseStatuses?: CaseStatus[];
   assignedUserIds?: number[];
   alertFolderIds?: number[];
-  columnFilters: ColumnFilter[];
+  caseColumnFilters: caseColumnFilter[];
 }
 
-export interface ColumnFilter {
+export interface caseColumnFilter {
   name: typeof COLUMN_FIELDS[number];
   value: string | number | {min: number; max: number};
 }
