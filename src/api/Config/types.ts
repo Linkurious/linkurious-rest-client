@@ -245,8 +245,10 @@ export interface ILeafletConfig {
 }
 
 export enum DefaultPage {
+  // keeping DASHBOARD to keep supporting customer migrating from old LKE version
   DASHBOARD = 'dashboard',
-  WORKSPACE = 'workspace'
+  WORKSPACE = 'workspace',
+  SPACES = 'spaces'
 }
 
 export interface IAccessConfig {
