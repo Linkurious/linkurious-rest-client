@@ -68,9 +68,10 @@ export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries
   queries?: Array<ICreateAlertQueryParams>;
 }
 
-export interface ICreateAlertQueryParams extends Omit<IAlertQuery, 'id'> {}
+export interface ICreateAlertQueryParams
+  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {}
 
-export interface IUpdateAlertQueryParams extends Omit<IAlertQuery, 'id'> {
+export interface IUpdateAlertQueryParams extends ICreateAlertQueryParams {
   id?: number;
 }
 
@@ -90,26 +91,32 @@ export interface Alert extends IBaseAlert, PersistedItem {
   sourceKey: string;
   lastRun?: string; // defined if it has run at least once
   // defined if last run had a problem
-  lastRunProblem?: {
-    queryId?: number;
-    source: 'caseAttributeQuery' | 'alertQuery';
-    error: LkError;
-    partial: boolean;
-  }[];
+  lastRunProblem?: AlertError[];
   nextRun?: string; // defined if enabled=true
   openAndUnAssignedCasesCount: number;
+  status: 'running' | 'idle';
+  resultsConsistent: boolean;
 }
 
-export interface IAlertQuery {
-  id: number;
+export interface IAlertQuery extends AlertQueryData {
   query: string;
-  name: string;
-  description?: string;
   dialect: GraphQueryDialect;
+  updatedAt: Date;
 }
+
+type AlertError = {
+  queryId?: number;
+  source: 'caseAttributeQuery' | 'alertQuery';
+  error: LkError;
+  partial: boolean;
+};
 
 export interface IRunAlertParams extends IDataSourceParams {
   id: number;
+  waitForRun?: boolean;
+}
+export interface RunAlertResponse {
+  alreadyRunning: boolean;
 }
 
 export interface IUpdateAlertParams extends Omit<Partial<ICreateAlertParams>, 'queries'> {
@@ -323,8 +330,10 @@ export interface ICaseColumn {
 
 export interface AlertQueryData {
   id: number;
+  modelKey: string;
   name: string;
-  description: string | null;
+  description?: string;
+  deleted: boolean;
 }
 export type FullCaseListSort = FullCaseListSortProperties | ColumnSortAndFilterBy;
 
