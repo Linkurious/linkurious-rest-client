@@ -195,13 +195,13 @@ export interface GetCasesResponse {
   cases: CaseForCaseList[];
 }
 
-export type GetCasesSortBy = CaseListSortBy | ColumnSortBy;
+export type GetCasesSortBy = CaseListSortBy | ColumnSortAndFilterBy;
 
 export enum CaseListSortBy {
   DATE = 'date'
 }
 
-export enum ColumnSortBy {
+export enum ColumnSortAndFilterBy {
   ZERO = '0',
   ONE = '1',
   TWO = '2',
@@ -326,7 +326,7 @@ export interface AlertQueryData {
   name: string;
   description: string | null;
 }
-export type FullCaseListSort = FullCaseListSortProperties | ColumnSortBy;
+export type FullCaseListSort = FullCaseListSortProperties | ColumnSortAndFilterBy;
 
 export enum FullCaseListSortProperties {
   CASE_ID = 'id',
@@ -392,7 +392,7 @@ export interface IFullCaseListFilters {
 }
 
 export interface CaseColumnFilter {
-  name: ColumnFields;
+  index: ColumnSortAndFilterBy;
   value: string | number | CaseColumnRangeFilter;
 }
 
@@ -420,86 +420,3 @@ export const FULL_CASE_LIST_DEFAULT_SORTBY: FullCaseListSortBy = {
   by: FullCaseListSortProperties.CASE_ID,
   direction: SortDirection.DESC
 };
-
-export enum ColumnFields {
-  COLUMN_STRING_0 = 'columnString0',
-  COLUMN_STRING_1 = 'columnString1',
-  COLUMN_STRING_2 = 'columnString2',
-  COLUMN_STRING_3 = 'columnString3',
-  COLUMN_STRING_4 = 'columnString4',
-  COLUMN_STRING_5 = 'columnString5',
-  COLUMN_STRING_6 = 'columnString6',
-  COLUMN_STRING_7 = 'columnString7',
-  COLUMN_STRING_8 = 'columnString8',
-  COLUMN_STRING_9 = 'columnString9',
-  COLUMN_STRING_10 = 'columnString10',
-  COLUMN_STRING_11 = 'columnString11',
-  COLUMN_STRING_12 = 'columnString12',
-  COLUMN_STRING_13 = 'columnString13',
-  COLUMN_STRING_14 = 'columnString14',
-  COLUMN_STRING_15 = 'columnString15',
-  COLUMN_STRING_16 = 'columnString16',
-  COLUMN_STRING_17 = 'columnString17',
-  COLUMN_STRING_18 = 'columnString18',
-  COLUMN_STRING_19 = 'columnString19',
-  COLUMN_STRING_20 = 'columnString20',
-  COLUMN_STRING_21 = 'columnString21',
-  COLUMN_STRING_22 = 'columnString22',
-  COLUMN_STRING_23 = 'columnString23',
-  COLUMN_STRING_24 = 'columnString24',
-  COLUMN_STRING_25 = 'columnString25',
-  COLUMN_STRING_26 = 'columnString26',
-  COLUMN_STRING_27 = 'columnString27',
-  COLUMN_STRING_28 = 'columnString28',
-  COLUMN_STRING_29 = 'columnString29',
-  COLUMN_STRING_30 = 'columnString30',
-  COLUMN_STRING_31 = 'columnString31',
-  COLUMN_STRING_32 = 'columnString32',
-  COLUMN_STRING_33 = 'columnString33',
-  COLUMN_STRING_34 = 'columnString34',
-  COLUMN_STRING_35 = 'columnString35',
-  COLUMN_STRING_36 = 'columnString36',
-  COLUMN_STRING_37 = 'columnString37',
-  COLUMN_STRING_38 = 'columnString38',
-  COLUMN_STRING_39 = 'columnString39',
-  COLUMN_NUMBER_0 = 'columnNumber0',
-  COLUMN_NUMBER_1 = 'columnNumber1',
-  COLUMN_NUMBER_2 = 'columnNumber2',
-  COLUMN_NUMBER_3 = 'columnNumber3',
-  COLUMN_NUMBER_4 = 'columnNumber4',
-  COLUMN_NUMBER_5 = 'columnNumber5',
-  COLUMN_NUMBER_6 = 'columnNumber6',
-  COLUMN_NUMBER_7 = 'columnNumber7',
-  COLUMN_NUMBER_8 = 'columnNumber8',
-  COLUMN_NUMBER_9 = 'columnNumber9',
-  COLUMN_NUMBER_10 = 'columnNumber10',
-  COLUMN_NUMBER_11 = 'columnNumber11',
-  COLUMN_NUMBER_12 = 'columnNumber12',
-  COLUMN_NUMBER_13 = 'columnNumber13',
-  COLUMN_NUMBER_14 = 'columnNumber14',
-  COLUMN_NUMBER_15 = 'columnNumber15',
-  COLUMN_NUMBER_16 = 'columnNumber16',
-  COLUMN_NUMBER_17 = 'columnNumber17',
-  COLUMN_NUMBER_18 = 'columnNumber18',
-  COLUMN_NUMBER_19 = 'columnNumber19',
-  COLUMN_NUMBER_20 = 'columnNumber20',
-  COLUMN_NUMBER_21 = 'columnNumber21',
-  COLUMN_NUMBER_22 = 'columnNumber22',
-  COLUMN_NUMBER_23 = 'columnNumber23',
-  COLUMN_NUMBER_24 = 'columnNumber24',
-  COLUMN_NUMBER_25 = 'columnNumber25',
-  COLUMN_NUMBER_26 = 'columnNumber26',
-  COLUMN_NUMBER_27 = 'columnNumber27',
-  COLUMN_NUMBER_28 = 'columnNumber28',
-  COLUMN_NUMBER_29 = 'columnNumber29',
-  COLUMN_NUMBER_30 = 'columnNumber30',
-  COLUMN_NUMBER_31 = 'columnNumber31',
-  COLUMN_NUMBER_32 = 'columnNumber32',
-  COLUMN_NUMBER_33 = 'columnNumber33',
-  COLUMN_NUMBER_34 = 'columnNumber34',
-  COLUMN_NUMBER_35 = 'columnNumber35',
-  COLUMN_NUMBER_36 = 'columnNumber36',
-  COLUMN_NUMBER_37 = 'columnNumber37',
-  COLUMN_NUMBER_38 = 'columnNumber38',
-  COLUMN_NUMBER_39 = 'columnNumber39'
-}
