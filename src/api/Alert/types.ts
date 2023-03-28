@@ -68,9 +68,10 @@ export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries
   queries?: Array<ICreateAlertQueryParams>;
 }
 
-export interface ICreateAlertQueryParams extends Omit<IAlertQuery, 'id'> {}
+export interface ICreateAlertQueryParams
+  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {}
 
-export interface IUpdateAlertQueryParams extends Omit<IAlertQuery, 'id'> {
+export interface IUpdateAlertQueryParams extends ICreateAlertQueryParams {
   id?: number;
 }
 
@@ -97,12 +98,10 @@ export interface Alert extends IBaseAlert, PersistedItem {
   resultsConsistent: boolean;
 }
 
-export interface IAlertQuery {
-  id: number;
+export interface IAlertQuery extends AlertQueryData {
   query: string;
-  name: string;
-  description?: string;
   dialect: GraphQueryDialect;
+  updatedAt: Date;
 }
 
 type AlertError = {
@@ -331,8 +330,10 @@ export interface ICaseColumn {
 
 export interface AlertQueryData {
   id: number;
+  modelKey: string;
   name: string;
-  description: string | null;
+  description?: string;
+  deleted: boolean;
 }
 export type FullCaseListSort = FullCaseListSortProperties | ColumnSortBy;
 
