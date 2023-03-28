@@ -36,7 +36,8 @@ import {
   VisualizationFolder,
   Widget,
   PopulatedVisualization,
-  IShareWithMultipleUsersParams
+  IShareWithMultipleUsersParams,
+  ReleaseVisualizationEditLockParams
 } from './types';
 
 export * from './types';
@@ -48,7 +49,8 @@ const {
   NOT_FOUND,
   FOLDER_DELETION_FAILED,
   ALREADY_EXISTS,
-  VISUALIZATION_LOCKED
+  VISUALIZATION_LOCKED,
+  INVALID_PARENT_FOLDER
 } = LkErrorKey;
 
 export class VisualizationAPI extends Request {
@@ -77,11 +79,34 @@ export class VisualizationAPI extends Request {
   }
 
   /**
+   * Release the exclusive edit lock on a visualization.
+   */
+  public releaseEditLock(params: ReleaseVisualizationEditLockParams) {
+    if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+      // sendBeacon() is supported in the browser
+      return this.sendBeacon({
+        errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+        url: '/:sourceKey/visualizations/:id/release-edit-lock',
+        method: 'POST',
+        params: params
+      });
+    } else {
+      // sendBeacon() is not supported in the browser, or we are not in a browser environment
+      return this.request({
+        errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+        url: '/:sourceKey/visualizations/:id/release-edit-lock',
+        method: 'POST',
+        params: params
+      });
+    }
+  }
+
+  /**
    * Create a new visualization.
    */
   public createVisualization(this: Request<Visualization>, params: ICreateVisualizationParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, INVALID_PARENT_FOLDER],
       url: '/:sourceKey/visualizations',
       method: 'POST',
       params: params
@@ -120,7 +145,13 @@ export class VisualizationAPI extends Request {
    */
   public updateVisualization(params: IUpdateVisualizationParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, VISUALIZATION_LOCKED],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        VISUALIZATION_LOCKED,
+        INVALID_PARENT_FOLDER
+      ],
       url: '/:sourceKey/visualizations/:id',
       method: 'PATCH',
       params: params
@@ -150,7 +181,13 @@ export class VisualizationAPI extends Request {
     params: ICreateVisualizationFolderParams
   ) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        ALREADY_EXISTS,
+        NOT_FOUND,
+        INVALID_PARENT_FOLDER
+      ],
       url: '/:sourceKey/visualizations/folder',
       method: 'POST',
       params: params
@@ -165,7 +202,13 @@ export class VisualizationAPI extends Request {
     params: IUpdateVisualizationFolderParams
   ) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, ALREADY_EXISTS],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ALREADY_EXISTS,
+        INVALID_PARENT_FOLDER
+      ],
       url: '/:sourceKey/visualizations/folder/:id',
       method: 'PATCH',
       params: params
