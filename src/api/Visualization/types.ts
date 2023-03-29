@@ -268,6 +268,7 @@ export interface VisualizationTreeItem {
   createdAt: string;
   updatedAt: string;
   lastLockedByUser: Pick<User, 'username' | 'email'>;
+  lastEditedByUser: Pick<User, 'username' | 'email'>;
   locked: boolean;
 }
 
