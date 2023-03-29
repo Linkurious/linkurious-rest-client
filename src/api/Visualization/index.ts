@@ -220,7 +220,13 @@ export class VisualizationAPI extends Request {
    */
   public deleteVisualizationFolder(params: IDeleteVisualizationFolderParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, FOLDER_DELETION_FAILED],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        FOLDER_DELETION_FAILED,
+        VISUALIZATION_LOCKED
+      ],
       url: '/:sourceKey/visualizations/folder/:id',
       method: 'DELETE',
       params: params
