@@ -235,6 +235,7 @@ export interface SharedVisualization {
   updatedAt: string;
   locked: boolean;
   lastLockedByUser: Pick<User, 'username' | 'email'>;
+  lastEditedByUser: Pick<User, 'username' | 'email'>;
 }
 
 export type GetSharedVisualizationsResponse = SharedVisualization[];
