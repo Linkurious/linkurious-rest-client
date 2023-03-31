@@ -133,7 +133,7 @@ export class VisualizationAPI extends Request {
    */
   public deleteVisualization(params: IDeleteVisualizationParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, VISUALIZATION_LOCKED],
       url: '/:sourceKey/visualizations/:id',
       method: 'DELETE',
       params: params
