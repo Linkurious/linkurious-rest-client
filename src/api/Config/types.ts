@@ -244,19 +244,10 @@ export interface ILeafletConfig {
   overlay?: boolean;
 }
 
-export enum DefaultPage {
-  // keeping DASHBOARD to keep supporting customer migrating from old LKE version
-  DASHBOARD = 'dashboard',
-  WORKSPACE = 'workspace',
-  SPACES = 'spaces'
-}
-
 export interface IAccessConfig {
   floatingLicenses?: number;
   authRequired?: boolean;
   guestMode?: boolean;
-  defaultPage?: DefaultPage;
-  defaultPageParams?: GenericObject;
   dataEdition?: boolean;
   widget?: boolean;
   visualizationExport: boolean;
