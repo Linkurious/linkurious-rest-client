@@ -371,7 +371,8 @@ export class AlertAPI extends Request {
         sortBy: JSON.stringify(params.sortBy),
         alertIdsFilter: params.alertIdsFilter?.join(','),
         assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
-        caseStatusesFilter: params.caseStatusesFilter?.join(',')
+        caseStatusesFilter: params.caseStatusesFilter?.join(','),
+        caseColumnsFilter: JSON.stringify(params.caseColumnsFilter)
       }
     });
   }

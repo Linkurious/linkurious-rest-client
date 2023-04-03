@@ -202,13 +202,13 @@ export interface GetCasesResponse {
   cases: CaseForCaseList[];
 }
 
-export type GetCasesSortBy = CaseListSortBy | ColumnSortBy;
+export type GetCasesSortBy = CaseListSortBy | ColumnSortAndFilterBy;
 
 export enum CaseListSortBy {
   DATE = 'date'
 }
 
-export enum ColumnSortBy {
+export enum ColumnSortAndFilterBy {
   ZERO = '0',
   ONE = '1',
   TWO = '2',
@@ -335,7 +335,7 @@ export interface AlertQueryData {
   description?: string;
   deleted: boolean;
 }
-export type FullCaseListSort = FullCaseListSortProperties | ColumnSortBy;
+export type FullCaseListSort = FullCaseListSortProperties | ColumnSortAndFilterBy;
 
 export enum FullCaseListSortProperties {
   CASE_ID = 'id',
@@ -378,6 +378,7 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   alertIdsFilter?: number[];
   caseStatusesFilter?: CaseStatus[];
   assignedUserIdsFilter?: number[];
+  caseColumnsFilter?: CaseColumnFilter[];
   sortBy: FullCaseListSortBy[];
 }
 
@@ -396,6 +397,17 @@ export interface IFullCaseListFilters {
   caseStatuses?: CaseStatus[];
   assignedUserIds?: number[];
   alertFolderIds?: number[];
+  caseColumns?: CaseColumnFilter[];
+}
+
+export interface CaseColumnFilter {
+  index: ColumnSortAndFilterBy;
+  value: string | number | CaseColumnRangeFilter;
+}
+
+export interface CaseColumnRangeFilter {
+  min: number;
+  max: number;
 }
 
 export interface IFullCaseListPreferences {
