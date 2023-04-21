@@ -34,7 +34,8 @@ const {
   CONSTRAINT_VIOLATION,
   MALFORMED_QUERY_TEMPLATE,
   INVALID_CASE_ATTRIBUTES_QUERY,
-  INVALID_PARAMETER
+  INVALID_PARAMETER,
+  CRITICAL
 } = LkErrorKey;
 
 export class GraphQueryAPI extends Request {
@@ -117,6 +118,7 @@ export class GraphQueryAPI extends Request {
         GRAPH_REQUEST_TIMEOUT,
         CONSTRAINT_VIOLATION,
         INVALID_PARAMETER,
+        CRITICAL,
         MALFORMED_QUERY_TEMPLATE,
         INVALID_CASE_ATTRIBUTES_QUERY
       ],
