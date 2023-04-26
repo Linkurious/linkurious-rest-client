@@ -116,7 +116,6 @@ export class GraphQueryAPI extends Request {
         FORBIDDEN,
         BAD_GRAPH_REQUEST,
         GRAPH_REQUEST_TIMEOUT,
-        CONSTRAINT_VIOLATION,
         INVALID_PARAMETER,
         CRITICAL,
         MALFORMED_QUERY_TEMPLATE,
