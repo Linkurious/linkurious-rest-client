@@ -242,7 +242,7 @@ export interface CheckQueryResponse {
   type: GraphQueryType;
   graphInput?: GraphQueryInputType; // defined only if type='template'
   templateFields?: Template[]; // defined only if type='template'
-  missingOutPutFields?: boolean; // defined only if expectedOutputFields is defined
+  missingOutputFields?: boolean; // defined only if expectedOutputFields is defined
 }
 
 export interface IRunQueryParams extends IDataSourceParams {
