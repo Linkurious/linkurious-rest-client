@@ -68,9 +68,10 @@ export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries
   queries?: Array<ICreateAlertQueryParams>;
 }
 
-export interface ICreateAlertQueryParams extends Omit<IAlertQuery, 'id'> {}
+export interface ICreateAlertQueryParams
+  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {}
 
-export interface IUpdateAlertQueryParams extends Omit<IAlertQuery, 'id'> {
+export interface IUpdateAlertQueryParams extends ICreateAlertQueryParams {
   id?: number;
 }
 
@@ -90,26 +91,32 @@ export interface Alert extends IBaseAlert, PersistedItem {
   sourceKey: string;
   lastRun?: string; // defined if it has run at least once
   // defined if last run had a problem
-  lastRunProblem?: {
-    queryId?: number;
-    source: 'caseAttributeQuery' | 'alertQuery';
-    error: LkError;
-    partial: boolean;
-  }[];
+  lastRunProblem?: AlertError[];
   nextRun?: string; // defined if enabled=true
   openAndUnAssignedCasesCount: number;
+  status: 'running' | 'idle';
+  resultsConsistent: boolean;
 }
 
-export interface IAlertQuery {
-  id: number;
+export interface IAlertQuery extends AlertQueryData {
   query: string;
-  name: string;
-  description?: string;
   dialect: GraphQueryDialect;
+  updatedAt: Date;
 }
+
+type AlertError = {
+  queryId?: number;
+  source: 'caseAttributeQuery' | 'alertQuery';
+  error: LkError;
+  partial: boolean;
+};
 
 export interface IRunAlertParams extends IDataSourceParams {
   id: number;
+  waitForRun?: boolean;
+}
+export interface RunAlertResponse {
+  alreadyRunning: boolean;
 }
 
 export interface IUpdateAlertParams extends Omit<Partial<ICreateAlertParams>, 'queries'> {
@@ -181,6 +188,10 @@ export interface Case extends PersistedItem {
   columns: (string | number | null)[]; // An empty column field is filled with null
 }
 
+export interface CaseForCaseList extends Case {
+  alertQueries: AlertQueryData[];
+}
+
 export interface GetCasesResponse {
   counts: {
     unconfirmed: number;
@@ -188,16 +199,16 @@ export interface GetCasesResponse {
     dismissed: number;
     'in-progress': number;
   };
-  cases: Case[];
+  cases: CaseForCaseList[];
 }
 
-export type GetCasesSortBy = CaseListSortBy | ColumnSortBy;
+export type GetCasesSortBy = CaseListSortBy | ColumnSortAndFilterBy;
 
 export enum CaseListSortBy {
   DATE = 'date'
 }
 
-export enum ColumnSortBy {
+export enum ColumnSortAndFilterBy {
   ZERO = '0',
   ONE = '1',
   TWO = '2',
@@ -317,7 +328,14 @@ export interface ICaseColumn {
   columnTitle: string;
 }
 
-export type FullCaseListSort = FullCaseListSortProperties | ColumnSortBy;
+export interface AlertQueryData {
+  id: number;
+  modelKey: string;
+  name: string;
+  description?: string;
+  deleted: boolean;
+}
+export type FullCaseListSort = FullCaseListSortProperties | ColumnSortAndFilterBy;
 
 export enum FullCaseListSortProperties {
   CASE_ID = 'id',
@@ -344,6 +362,7 @@ export interface IFullCase {
   statusChangedOn: Date | null;
   assignedUser: Pick<User, 'id' | 'username' | 'email'> | null;
   attributes: ICaseColumn[];
+  alertQueries: AlertQueryData[];
 }
 
 export interface IFullCaseListResponse {
@@ -359,6 +378,7 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   alertIdsFilter?: number[];
   caseStatusesFilter?: CaseStatus[];
   assignedUserIdsFilter?: number[];
+  caseColumnsFilter?: CaseColumnFilter[];
   sortBy: FullCaseListSortBy[];
 }
 
@@ -377,6 +397,17 @@ export interface IFullCaseListFilters {
   caseStatuses?: CaseStatus[];
   assignedUserIds?: number[];
   alertFolderIds?: number[];
+  caseColumns?: CaseColumnFilter[];
+}
+
+export interface CaseColumnFilter {
+  index: ColumnSortAndFilterBy;
+  value: string | number | CaseColumnRangeFilter;
+}
+
+export interface CaseColumnRangeFilter {
+  min: number;
+  max: number;
 }
 
 export interface IFullCaseListPreferences {

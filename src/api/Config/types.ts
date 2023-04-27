@@ -51,10 +51,15 @@ export interface Configuration {
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
 
 export interface IDatabaseOptions {
-  dialect: DatabaseDialect;
-  storage?: string;
+  dialect: Exclude<DatabaseDialect, 'sqlite'>;
   host?: string;
-  port?: string;
+  port?: number;
+  dialectOptions?: Record<string, unknown>;
+}
+
+export interface ISqliteOptions {
+  dialect: 'sqlite';
+  storage: string;
 }
 
 export interface IDatabaseConfig {
@@ -62,7 +67,7 @@ export interface IDatabaseConfig {
   username?: string;
   password?: string;
   connectionRetries?: number;
-  options?: IDatabaseOptions;
+  options: IDatabaseOptions | ISqliteOptions;
 }
 
 export interface IHttpServerConfig {
@@ -244,17 +249,10 @@ export interface ILeafletConfig {
   overlay?: boolean;
 }
 
-export enum DefaultPage {
-  DASHBOARD = 'dashboard',
-  WORKSPACE = 'workspace'
-}
-
 export interface IAccessConfig {
   floatingLicenses?: number;
   authRequired?: boolean;
   guestMode?: boolean;
-  defaultPage?: DefaultPage;
-  defaultPageParams?: GenericObject;
   dataEdition?: boolean;
   widget?: boolean;
   visualizationExport: boolean;
