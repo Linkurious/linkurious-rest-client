@@ -15,7 +15,7 @@ import {
 } from '../graphItemTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {IRangeValues, ItemSelector, IStyles} from '../displayTypes';
-import {User} from '../User';
+import {DeletableUser, User} from '../User';
 import {IAlternativeIdSettings} from '../DataSource';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
@@ -397,4 +397,27 @@ export type IUpdateWidgetParams = ICreateWidgetParams;
 
 export interface IDeleteWidgetParams {
   widgetKey: string;
+}
+
+export interface VisualizationCommentUser extends DeletableUser {
+  hasAccess: boolean;
+}
+
+export interface VisualizationComment {
+  id: number;
+  content: string;
+  user: VisualizationCommentUser;
+  createdAt: string;
+}
+
+export interface CreateVisualizationCommentParams {
+  visualizationId: number;
+  content: string;
+}
+
+export interface GetVisualizationCommentParams {
+  // Extends Datasource params
+  visualizationId: number;
+  offset?: number;
+  limit?: number;
 }

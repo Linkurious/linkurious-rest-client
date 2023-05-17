@@ -37,7 +37,10 @@ import {
   Widget,
   PopulatedVisualization,
   IShareWithMultipleUsersParams,
-  ReleaseVisualizationEditLockParams
+  ReleaseVisualizationEditLockParams,
+  VisualizationComment,
+  CreateVisualizationCommentParams,
+  GetVisualizationCommentParams
 } from './types';
 
 export * from './types';
@@ -364,6 +367,36 @@ export class VisualizationAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/widget/:widgetKey',
       method: 'DELETE',
+      params: params
+    });
+  }
+
+  /**
+   * Create a visualization comment.
+   */
+  createVisualizationComment(
+    this: Request<VisualizationComment>,
+    params: CreateVisualizationCommentParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/visualizations/:id/comments',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get the visualization comment(s).
+   */
+  getVisualizationComments(
+    this: Request<VisualizationComment[]>,
+    params: GetVisualizationCommentParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/visualizations/:id/comments',
+      method: 'GET',
       params: params
     });
   }
