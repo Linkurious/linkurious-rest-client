@@ -410,7 +410,7 @@ export interface VisualizationComment {
   createdAt: string;
 }
 
-export interface CreateVisualizationCommentParams {
+export interface CreateVisualizationCommentParams extends IDataSourceParams{
   visualizationId: number;
   content: string;
 }
