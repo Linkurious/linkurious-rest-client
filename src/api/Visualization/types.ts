@@ -411,12 +411,12 @@ export interface VisualizationComment {
 }
 
 export interface CreateVisualizationCommentParams extends IDataSourceParams {
-  id: number;
+  visualizationId: number;
   content: string;
 }
 
 export interface GetVisualizationCommentsParams extends IDataSourceParams {
-  id: number;
+  visualizationId: number;
   offset?: number;
   limit?: number;
 }
