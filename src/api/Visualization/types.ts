@@ -415,8 +415,7 @@ export interface CreateVisualizationCommentParams {
   content: string;
 }
 
-export interface GetVisualizationCommentParams {
-  // Extends Datasource params
+export interface GetVisualizationCommentsParams extends IDataSourceParams {
   visualizationId: number;
   offset?: number;
   limit?: number;

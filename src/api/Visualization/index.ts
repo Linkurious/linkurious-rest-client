@@ -40,7 +40,7 @@ import {
   ReleaseVisualizationEditLockParams,
   VisualizationComment,
   CreateVisualizationCommentParams,
-  GetVisualizationCommentParams
+  GetVisualizationCommentsParams
 } from './types';
 
 export * from './types';
@@ -391,7 +391,7 @@ export class VisualizationAPI extends Request {
    */
   getVisualizationComments(
     this: Request<VisualizationComment[]>,
-    params: GetVisualizationCommentParams
+    params: GetVisualizationCommentsParams
   ) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
