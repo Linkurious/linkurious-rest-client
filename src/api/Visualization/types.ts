@@ -420,3 +420,8 @@ export interface GetVisualizationCommentsParams extends IDataSourceParams {
   offset?: number;
   limit?: number;
 }
+
+export interface GetVisualizationCommentsResponse {
+  count: number;
+  comments: VisualizationComment[];
+}

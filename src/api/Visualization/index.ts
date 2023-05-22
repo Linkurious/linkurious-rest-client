@@ -40,7 +40,8 @@ import {
   ReleaseVisualizationEditLockParams,
   VisualizationComment,
   CreateVisualizationCommentParams,
-  GetVisualizationCommentsParams
+  GetVisualizationCommentsParams,
+  GetVisualizationCommentsResponse
 } from './types';
 
 export * from './types';
@@ -390,7 +391,7 @@ export class VisualizationAPI extends Request {
    * Get the visualization comment(s).
    */
   getVisualizationComments(
-    this: Request<VisualizationComment[]>,
+    this: Request<GetVisualizationCommentsResponse>,
     params: GetVisualizationCommentsParams
   ) {
     return this.request({
