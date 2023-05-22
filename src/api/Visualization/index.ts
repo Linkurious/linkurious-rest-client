@@ -380,7 +380,7 @@ export class VisualizationAPI extends Request {
   ) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
-      url: '/:sourceKey/visualizations/:id/comments',
+      url: '/:sourceKey/visualizations/:visualizationId/comments',
       method: 'POST',
       params: params
     });
@@ -395,7 +395,7 @@ export class VisualizationAPI extends Request {
   ) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
-      url: '/:sourceKey/visualizations/:id/comments',
+      url: '/:sourceKey/visualizations/:visualizationId/comments',
       method: 'GET',
       params: params
     });
