@@ -6,7 +6,7 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
-import {IDataSourceParams} from '../commonTypes';
+import {IDataSourceParams, PaginatedResponse} from '../commonTypes';
 
 import {
   IGetVisualizationParams,
@@ -40,8 +40,7 @@ import {
   ReleaseVisualizationEditLockParams,
   VisualizationComment,
   CreateVisualizationCommentParams,
-  GetVisualizationCommentsParams,
-  GetVisualizationCommentsResponse
+  GetVisualizationCommentsParams
 } from './types';
 
 export * from './types';
@@ -391,7 +390,7 @@ export class VisualizationAPI extends Request {
    * Get the visualization comment(s).
    */
   getVisualizationComments(
-    this: Request<GetVisualizationCommentsResponse>,
+    this: Request<PaginatedResponse<VisualizationComment>>,
     params: GetVisualizationCommentsParams
   ) {
     return this.request({
