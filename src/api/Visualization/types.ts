@@ -4,7 +4,13 @@
  * - Created on 2019-10-30.
  */
 
-import {GenericObject, IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
+import {
+  GenericObject,
+  IDataSourceParams,
+  PaginationClause,
+  PersistedItem,
+  Tree
+} from '../commonTypes';
 import {
   VizEdge,
   IVizEdgeInfo,
@@ -415,10 +421,8 @@ export interface CreateVisualizationCommentParams extends IDataSourceParams {
   content: string;
 }
 
-export interface GetVisualizationCommentsParams extends IDataSourceParams {
+export interface GetVisualizationCommentsParams extends IDataSourceParams, PaginationClause {
   visualizationId: number;
-  offset?: number;
-  limit?: number;
 }
 
 export interface GetVisualizationCommentsResponse {
