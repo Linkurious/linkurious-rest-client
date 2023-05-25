@@ -252,6 +252,7 @@ export interface ILeafletConfig {
 export interface IAccessConfig {
   floatingLicenses?: number;
   authRequired?: boolean;
+  disableLocalAuth?: boolean;
   guestMode?: boolean;
   dataEdition?: boolean;
   widget?: boolean;
