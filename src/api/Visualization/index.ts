@@ -6,7 +6,7 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
-import {IDataSourceParams} from '../commonTypes';
+import {IDataSourceParams, PaginatedResponse} from '../commonTypes';
 
 import {
   IGetVisualizationParams,
@@ -37,7 +37,10 @@ import {
   Widget,
   PopulatedVisualization,
   IShareWithMultipleUsersParams,
-  ReleaseVisualizationEditLockParams
+  ReleaseVisualizationEditLockParams,
+  VisualizationComment,
+  CreateVisualizationCommentParams,
+  GetVisualizationCommentsParams
 } from './types';
 
 export * from './types';
@@ -364,6 +367,36 @@ export class VisualizationAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/widget/:widgetKey',
       method: 'DELETE',
+      params: params
+    });
+  }
+
+  /**
+   * Create a visualization comment.
+   */
+  createVisualizationComment(
+    this: Request<VisualizationComment>,
+    params: CreateVisualizationCommentParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/visualizations/:visualizationId/comments',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get the visualization comment(s).
+   */
+  getVisualizationComments(
+    this: Request<PaginatedResponse<VisualizationComment>>,
+    params: GetVisualizationCommentsParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/visualizations/:visualizationId/comments',
+      method: 'GET',
       params: params
     });
   }
