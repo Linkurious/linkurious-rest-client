@@ -40,7 +40,7 @@ import {
   ReleaseVisualizationEditLockParams,
   VisualizationComment,
   CreateVisualizationCommentParams,
-  GetVisualizationCommentsParams
+  GetVisualizationCommentsParams, DeleteVisualizationCommentParams
 } from './types';
 
 export * from './types';
@@ -400,4 +400,18 @@ export class VisualizationAPI extends Request {
       params: params
     });
   }
+
+  /**
+   * Delete visualization comment
+   */
+  deleteComment(params: DeleteVisualizationCommentParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/visualizations/:visualizationId/comments',
+      method: 'DELETE',
+      params: params
+    });
+  }
 }
+
+
