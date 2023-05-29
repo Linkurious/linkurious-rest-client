@@ -40,7 +40,8 @@ import {
   ReleaseVisualizationEditLockParams,
   VisualizationComment,
   CreateVisualizationCommentParams,
-  GetVisualizationCommentsParams, DeleteVisualizationCommentParams
+  GetVisualizationCommentsParams,
+  DeleteVisualizationCommentParams
 } from './types';
 
 export * from './types';
@@ -413,5 +414,3 @@ export class VisualizationAPI extends Request {
     });
   }
 }
-
-

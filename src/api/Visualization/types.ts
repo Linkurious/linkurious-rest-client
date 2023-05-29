@@ -431,6 +431,6 @@ export interface GetVisualizationCommentsResponse {
 }
 
 export interface DeleteVisualizationCommentParams extends IDataSourceParams {
-  commentId: number,
-  visualizationId:number
+  commentId: number;
+  visualizationId: number;
 }
