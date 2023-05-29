@@ -424,8 +424,3 @@ export interface CreateVisualizationCommentParams extends IDataSourceParams {
 export interface GetVisualizationCommentsParams extends IDataSourceParams, PaginationClause {
   visualizationId: number;
 }
-
-export interface GetVisualizationCommentsResponse {
-  count: number;
-  comments: VisualizationComment[];
-}
