@@ -425,11 +425,6 @@ export interface GetVisualizationCommentsParams extends IDataSourceParams, Pagin
   visualizationId: number;
 }
 
-export interface GetVisualizationCommentsResponse {
-  count: number;
-  comments: VisualizationComment[];
-}
-
 export interface DeleteVisualizationCommentParams extends IDataSourceParams {
   commentId: number;
   visualizationId: number;
