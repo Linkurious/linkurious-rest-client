@@ -409,7 +409,7 @@ export class VisualizationAPI extends Request {
   deleteVisualizationComment(params: DeleteVisualizationCommentParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, FORBIDDEN],
-      url: '/:sourceKey/visualizations/:visualizationId/:commentId',
+      url: '/:sourceKey/visualizations/:commentId',
       method: 'DELETE',
       params: params
     });
