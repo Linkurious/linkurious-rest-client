@@ -8,7 +8,7 @@ import {GenericObject, IDataSourceParams, PersistedItem} from '../commonTypes';
 import {AccessRight, Action, AnyAction} from '../AccessRight';
 import {IGuestPreferencesConfig} from '../Config';
 
-export type DELETE_USER = 'Deleted user';
+export type DeletedUser = 'Deleted user';
 
 export interface IUserPreferences {
   pinOnDrag: boolean;
@@ -153,6 +153,6 @@ export interface ICountSharedAssets {
 }
 
 export interface DeletableUser {
-  username: string | DELETE_USER;
-  email: string | DELETE_USER;
+  username: string | DeletedUser;
+  email: string | DeletedUser;
 }

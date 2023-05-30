@@ -427,5 +427,4 @@ export interface GetVisualizationCommentsParams extends IDataSourceParams, Pagin
 
 export interface DeleteVisualizationCommentParams extends IDataSourceParams {
   commentId: number;
-  visualizationId: number;
 }
