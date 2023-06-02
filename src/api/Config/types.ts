@@ -39,6 +39,7 @@ export interface Configuration {
   // available only to admins
   db?: IDatabaseConfig;
   server?: IHttpServerConfig;
+  metrics?: MetricsConfig;
   auditTrail?: IAuditTrailConfig;
   defaultPreferences?: IUserPreferencesConfig;
   guestPreferences?: IGuestPreferencesConfig;
@@ -91,6 +92,11 @@ export interface IHttpServerConfig {
   certificatePassphrase?: string;
   tlsCipherList?: string;
   customHTTPHeaders?: GenericObject;
+}
+
+export interface MetricsConfig {
+  enabled?: boolean;
+  listenPort?: number;
 }
 
 export enum AuditTrailMode {
