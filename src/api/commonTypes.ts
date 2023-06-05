@@ -18,6 +18,15 @@ export interface PaginatedResponse<T> {
   items: T[];
 }
 
+export interface PaginationClause {
+  offset?: number;
+  limit?: number;
+}
+
+export interface PaginationGenerator {
+  (pageSize: number): PaginationClause;
+}
+
 export interface IDataSourceParams {
   sourceKey?: string;
 }
