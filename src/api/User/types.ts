@@ -149,3 +149,8 @@ export interface IGetAssetTransferEligibleUsersParams {
 export interface ICountSharedAssets {
   count: number;
 }
+
+export interface DeletableUser {
+  username: string | 'Deleted user';
+  email: string | 'Deleted user';
+}
