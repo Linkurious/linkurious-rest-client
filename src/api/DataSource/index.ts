@@ -107,7 +107,7 @@ export class DataSourceAPI extends Request {
    */
   public connectDataSource(params: IConnectDataSourceParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN],
+      errors: [UNAUTHORIZED, FORBIDDEN, ILLEGAL_SOURCE_STATE],
       url: '/admin/source/:sourceIndex/connect',
       method: 'POST',
       params: params
