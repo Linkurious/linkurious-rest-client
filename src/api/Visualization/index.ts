@@ -40,7 +40,8 @@ import {
   ReleaseVisualizationEditLockParams,
   VisualizationComment,
   CreateVisualizationCommentParams,
-  GetVisualizationCommentsParams
+  GetVisualizationCommentsParams,
+  DeleteVisualizationCommentParams
 } from './types';
 
 export * from './types';
@@ -53,7 +54,8 @@ const {
   FOLDER_DELETION_FAILED,
   ALREADY_EXISTS,
   VISUALIZATION_LOCKED,
-  INVALID_PARENT_FOLDER
+  INVALID_PARENT_FOLDER,
+  FORBIDDEN
 } = LkErrorKey;
 
 export class VisualizationAPI extends Request {
@@ -397,6 +399,18 @@ export class VisualizationAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/visualizations/:visualizationId/comments',
       method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Delete visualization comment
+   */
+  deleteVisualizationComment(params: DeleteVisualizationCommentParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, FORBIDDEN],
+      url: '/:sourceKey/visualizations/comments/:commentId',
+      method: 'DELETE',
       params: params
     });
   }
