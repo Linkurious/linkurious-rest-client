@@ -4,7 +4,13 @@
  * - Created on 2019-10-30.
  */
 
-import {GenericObject, IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
+import {
+  GenericObject,
+  IDataSourceParams,
+  PaginationClause,
+  PersistedItem,
+  Tree
+} from '../commonTypes';
 import {
   VizEdge,
   IVizEdgeInfo,
@@ -15,7 +21,7 @@ import {
 } from '../graphItemTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {IRangeValues, ItemSelector, IStyles} from '../displayTypes';
-import {User} from '../User';
+import {DeletableUser, User} from '../User';
 import {IAlternativeIdSettings} from '../DataSource';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
@@ -397,4 +403,28 @@ export type IUpdateWidgetParams = ICreateWidgetParams;
 
 export interface IDeleteWidgetParams {
   widgetKey: string;
+}
+
+export interface VisualizationCommentUser extends DeletableUser {
+  hasAccess: boolean;
+}
+
+export interface VisualizationComment {
+  id: number;
+  content: string;
+  user: VisualizationCommentUser;
+  createdAt: string;
+}
+
+export interface CreateVisualizationCommentParams extends IDataSourceParams {
+  visualizationId: number;
+  content: string;
+}
+
+export interface GetVisualizationCommentsParams extends IDataSourceParams, PaginationClause {
+  visualizationId: number;
+}
+
+export interface DeleteVisualizationCommentParams extends IDataSourceParams {
+  commentId: number;
 }

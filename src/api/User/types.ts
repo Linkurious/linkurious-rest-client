@@ -8,6 +8,8 @@ import {GenericObject, IDataSourceParams, PersistedItem} from '../commonTypes';
 import {AccessRight, Action, AnyAction} from '../AccessRight';
 import {IGuestPreferencesConfig} from '../Config';
 
+export type DeletedUser = 'Deleted user';
+
 export interface IUserPreferences {
   pinOnDrag: boolean;
   locale: string;
@@ -148,4 +150,9 @@ export interface IGetAssetTransferEligibleUsersParams {
 
 export interface ICountSharedAssets {
   count: number;
+}
+
+export interface DeletableUser {
+  username: string | DeletedUser;
+  email: string | DeletedUser;
 }

@@ -6,7 +6,7 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
-import {IDataSourceParams} from '../commonTypes';
+import {IDataSourceParams, PaginatedResponse} from '../commonTypes';
 
 import {
   IGetVisualizationParams,
@@ -37,7 +37,11 @@ import {
   Widget,
   PopulatedVisualization,
   IShareWithMultipleUsersParams,
-  ReleaseVisualizationEditLockParams
+  ReleaseVisualizationEditLockParams,
+  VisualizationComment,
+  CreateVisualizationCommentParams,
+  GetVisualizationCommentsParams,
+  DeleteVisualizationCommentParams
 } from './types';
 
 export * from './types';
@@ -50,7 +54,8 @@ const {
   FOLDER_DELETION_FAILED,
   ALREADY_EXISTS,
   VISUALIZATION_LOCKED,
-  INVALID_PARENT_FOLDER
+  INVALID_PARENT_FOLDER,
+  FORBIDDEN
 } = LkErrorKey;
 
 export class VisualizationAPI extends Request {
@@ -363,6 +368,48 @@ export class VisualizationAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/widget/:widgetKey',
+      method: 'DELETE',
+      params: params
+    });
+  }
+
+  /**
+   * Create a visualization comment.
+   */
+  createVisualizationComment(
+    this: Request<VisualizationComment>,
+    params: CreateVisualizationCommentParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/visualizations/:visualizationId/comments',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get the visualization comment(s).
+   */
+  getVisualizationComments(
+    this: Request<PaginatedResponse<VisualizationComment>>,
+    params: GetVisualizationCommentsParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/visualizations/:visualizationId/comments',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Delete visualization comment
+   */
+  deleteVisualizationComment(params: DeleteVisualizationCommentParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, FORBIDDEN],
+      url: '/:sourceKey/visualizations/comments/:commentId',
       method: 'DELETE',
       params: params
     });
