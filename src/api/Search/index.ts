@@ -32,8 +32,17 @@ const {
 
 export class SearchAPI extends Request {
   /**
-   * Start the indexation.
-   * The API doesn't wait for the indexation to finish.
+   * Start indexing for a given data-source.
+   *
+   * - If the search index does not exist yet, it is created and fully populated.
+   *
+   * - If incremental indexing is configured AND the search index is consistent with the schema,
+   * it is incrementally synchronized.
+   *
+   * - Otherwise, the search index is deleted and fully re-created.
+   *
+   * This endpoint responds without waiting for the indexing process to finish. This process run in
+   * the background and may take a long time.
    */
   public startIndexation(params?: IDataSourceParams) {
     return this.request({
@@ -46,6 +55,49 @@ export class SearchAPI extends Request {
       ],
       url: '/:sourceKey/search/index',
       method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Assert the search index of a given data-source exists (without comprehensively checking its
+   * content). Then:
+   *
+   * - If incremental indexing is configured, incrementally synchronize this index. This
+   * synchronization is guaranteed to be incremental: in particular, if the index is not consistent
+   * with the schema, a full index re-creation will not be triggered.
+   *
+   * - Otherwise, simply set the data-source state to READY. In other words, assume it has been
+   * fully indexed by external means.
+   *
+   * This endpoint responds without waiting for the underlying operations to finish. In particular,
+   * if an incremental index synchronization is started, it may run for a long time in the
+   * background.
+   */
+  public updateIndex(params?: IDataSourceParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        ILLEGAL_SOURCE_STATE,
+        SOURCE_ACTION_NEEDED
+      ],
+      url: '/:sourceKey/search/index',
+      method: 'PATCH',
+      params: params
+    });
+  }
+
+  /**
+   * Delete the content of the search index for a given data-source, and set the state of this
+   * data-source to NEED_INDEX.
+   */
+  public deleteIndex(params?: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, ILLEGAL_SOURCE_STATE],
+      url: '/:sourceKey/search/index',
+      method: 'DELETE',
       params: params
     });
   }
