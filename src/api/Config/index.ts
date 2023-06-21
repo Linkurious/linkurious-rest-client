@@ -7,11 +7,11 @@
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
-import {IGetConfigParams, Configuration, IUpdateConfigParams} from './types';
+import {Configuration, IGetConfigParams, IUpdateConfigParams} from './types';
 
 export * from './types';
 
-const {UNAUTHORIZED, FORBIDDEN, INVALID_PARAMETER} = LkErrorKey;
+const {UNAUTHORIZED, FORBIDDEN, INVALID_PARAMETER, ILLEGAL_SOURCE_STATE} = LkErrorKey;
 
 export class ConfigAPI extends Request {
   /**
@@ -30,7 +30,7 @@ export class ConfigAPI extends Request {
    */
   public updateConfiguration(params: IUpdateConfigParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, INVALID_PARAMETER],
+      errors: [UNAUTHORIZED, FORBIDDEN, INVALID_PARAMETER, ILLEGAL_SOURCE_STATE],
       url: '/config',
       method: 'POST',
       params: params
