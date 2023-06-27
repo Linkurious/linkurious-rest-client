@@ -74,6 +74,10 @@ export interface ISearchUsersSimpleParams extends IDataSourceParams {
 
 export interface GetGroupUsersParams extends IDataSourceParams {
   groupId: number;
+  offset?: number;
+  limit?: number;
+  sortBy?: SearchUsersSortBy;
+  sortDirection?: SearchUsersSortDirection;
 }
 
 export interface SearchUsersSimpleResponse {
