@@ -72,6 +72,10 @@ export interface ISearchUsersSimpleParams extends IDataSourceParams {
   limit?: number;
 }
 
+export interface GetGroupUsersParams extends IDataSourceParams {
+  groupId: number;
+}
+
 export interface SearchUsersSimpleResponse {
   found: number;
   results: Array<Pick<User, 'id' | 'username' | 'email'>>;
