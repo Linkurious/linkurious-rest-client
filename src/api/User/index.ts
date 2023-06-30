@@ -245,7 +245,7 @@ export class UserAPI extends Request {
    */
   public getGroupUsers(this: Request<SearchUsersSimpleResponse>, params: GetGroupUsersParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, INVALID_PARAMETER],
       url: '/:sourceKey/groups/:groupId/users',
       method: 'GET',
       params: params
