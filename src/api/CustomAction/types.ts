@@ -16,7 +16,10 @@ export enum CustomActionType {
 
 export enum CustomActionVariable {
   BASE_URL = 'baseurl',
+  PAGE = 'page',
   VISUALIZATION = 'visualization',
+  ALERT = 'alert',
+  CASE = 'case',
   SOURCE_KEY = 'sourcekey',
   NODE = 'node',
   EDGE = 'edge',
@@ -34,7 +37,10 @@ export type CustomActionElement =
       type: 'ca-expression';
       variable:
         | CustomActionVariable.VISUALIZATION
+        | CustomActionVariable.ALERT
+        | CustomActionVariable.CASE
         | CustomActionVariable.SOURCE_KEY
+        | CustomActionVariable.PAGE
         | CustomActionVariable.BASE_URL;
     }
   | {
