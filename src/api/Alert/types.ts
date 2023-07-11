@@ -434,7 +434,7 @@ export interface SearchAlertColumnValues {
   alertId: number;
   columnStringIndex: number;
   searchValue: string;
-  exludedValues?: string[];
+  excludedValues?: string[];
   offset?: number;
   limit?: number;
 }
