@@ -398,7 +398,7 @@ export class AlertAPI extends Request {
   public searchAlertColumnValues(this: Request<string[]>, params?: SearchAlertColumnValues) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/alerts/:alertId/column/:columnIndex/cases/values',
+      url: '/:sourceKey/alerts/:alertId/cases/values',
       method: 'GET',
       params: params
     });

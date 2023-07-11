@@ -432,9 +432,9 @@ export const FULL_CASE_LIST_DEFAULT_SORTBY: FullCaseListSortBy = {
 
 export interface SearchAlertColumnValues {
   alertId: number;
-  columnIndex: number;
-  query: string;
-  except?: string[];
+  columnStringIndex: number;
+  searchValue: string;
+  exludedValues?: string[];
   offset?: number;
   limit?: number;
 }
