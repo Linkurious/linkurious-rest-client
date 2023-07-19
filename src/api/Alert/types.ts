@@ -402,7 +402,7 @@ export interface IFullCaseListFilters {
 
 export interface CaseColumnFilter {
   index: ColumnSortAndFilterBy;
-  value: string[] | number | CaseColumnRangeFilter;
+  value: string | string[] | number | CaseColumnRangeFilter;
 }
 
 export interface CaseColumnRangeFilter {
