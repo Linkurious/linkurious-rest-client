@@ -45,7 +45,7 @@ import {
   ISetFullCaseListPreferencesParams,
   IGetFullCaseListPreferencesResponse,
   RunAlertResponse,
-  SearchAlertColumnValues
+  SearchColumnValuesForAlertCases
 } from './types';
 
 export * from './types';
@@ -395,7 +395,10 @@ export class AlertAPI extends Request {
   /**
    * Search for values of a given column in the cases of an alert.
    */
-  public searchAlertColumnValues(this: Request<string[]>, params?: SearchAlertColumnValues) {
+  public SearchColumnValuesForAlertCases(
+    this: Request<string[]>,
+    params?: SearchColumnValuesForAlertCases
+  ) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/values',

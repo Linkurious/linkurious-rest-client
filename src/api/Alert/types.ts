@@ -430,7 +430,7 @@ export const FULL_CASE_LIST_DEFAULT_SORTBY: FullCaseListSortBy = {
   direction: SortDirection.DESC
 };
 
-export interface SearchAlertColumnValues {
+export interface SearchColumnValuesForAlertCases {
   alertId: number;
   columnStringIndex: number;
   searchValue: string;
