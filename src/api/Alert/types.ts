@@ -435,6 +435,5 @@ export interface SearchColumnValuesForAlertCases {
   columnStringIndex: number;
   searchValue: string;
   excludedValues?: string[];
-  offset?: number;
   limit?: number;
 }
