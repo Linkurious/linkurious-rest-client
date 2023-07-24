@@ -395,7 +395,7 @@ export class AlertAPI extends Request {
   /**
    * Search for values of a given column in the cases of an alert.
    */
-  public SearchColumnValuesForAlertCases(
+  public searchColumnValuesForAlertCases(
     this: Request<string[]>,
     params?: SearchColumnValuesForAlertCases
   ) {
