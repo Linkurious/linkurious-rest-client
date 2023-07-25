@@ -26,13 +26,16 @@ export type IBasicUser = Omit<IAlertUserInfo, 'hasAssignedCases'>;
 
 export enum AlertColumnType {
   STRING = 'string',
-  NUMBER = 'number'
+  NUMBER = 'number',
+  CURRENCY = 'currency'
 }
 
 export interface IAlertColumn {
   type: AlertColumnType;
-  columnName?: string;
   columnTitle: string;
+  columnName?: string;
+  symbol?: string;
+  format?: string;
 }
 
 export interface IPopulatedCaseVisualization extends BaseVisualization {
