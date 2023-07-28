@@ -44,7 +44,8 @@ import {
   IBulkAssignCasesParams,
   ISetFullCaseListPreferencesParams,
   IGetFullCaseListPreferencesResponse,
-  RunAlertResponse
+  RunAlertResponse,
+  SearchColumnValuesForAlertCases
 } from './types';
 
 export * from './types';
@@ -388,6 +389,21 @@ export class AlertAPI extends Request {
       url: '/:sourceKey/alerts/users',
       method: 'GET',
       params: {...params, mutualAlertIds: params?.mutualAlertIds?.join(',')}
+    });
+  }
+
+  /**
+   * Search for values of a given column in the cases of an alert.
+   */
+  public searchColumnValuesForAlertCases(
+    this: Request<string[]>,
+    params?: SearchColumnValuesForAlertCases
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/cases/values',
+      method: 'GET',
+      params: params
     });
   }
 
