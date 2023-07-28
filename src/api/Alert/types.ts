@@ -13,6 +13,7 @@ import {
   Tree
 } from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
+import {ICurrencyOptions} from '../GraphSchema';
 import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
 import {User} from '../User';
 import {BaseVisualization} from '../Visualization';
@@ -26,16 +27,14 @@ export type IBasicUser = Omit<IAlertUserInfo, 'hasAssignedCases'>;
 
 export enum AlertColumnType {
   STRING = 'string',
-  NUMBER = 'number',
-  CURRENCY = 'currency'
+  NUMBER = 'number'
 }
 
 export interface IAlertColumn {
   type: AlertColumnType;
   columnTitle: string;
   columnName?: string;
-  symbol?: string;
-  format?: string;
+  options?: ICurrencyOptions;
 }
 
 export interface IPopulatedCaseVisualization extends BaseVisualization {
