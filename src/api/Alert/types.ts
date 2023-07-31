@@ -348,7 +348,8 @@ export enum FullCaseListSortProperties {
   STATUS = 'status',
   STATUS_CHANGED_BY = 'statusChangedBy',
   STATUS_CHANGED_ON = 'statusChangedOn',
-  ASSIGNEE = 'assignedUser'
+  ASSIGNEE = 'assignedUser',
+  ALERT_QUERIES_COUNT = 'alertQueriesCount'
 }
 
 export interface IFullCase {
