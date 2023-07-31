@@ -328,6 +328,7 @@ export interface ICaseColumn {
   type: AlertColumnType;
   columnValue: string | number | null;
   columnTitle: string;
+  options: ICurrencyOptions | null;
 }
 
 export interface AlertQueryData {
