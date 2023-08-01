@@ -5,6 +5,7 @@
  */
 
 import {
+  ICurrencyOptions,
   IDataSourceParams,
   IGetSubGraphParams,
   PersistedItem,
@@ -13,7 +14,6 @@ import {
   Tree
 } from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
-import {ICurrencyOptions} from '../GraphSchema';
 import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
 import {User} from '../User';
 import {BaseVisualization} from '../Visualization';
