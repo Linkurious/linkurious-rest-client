@@ -34,7 +34,7 @@ export interface IAlertColumn {
   type: AlertColumnType;
   columnTitle: string;
   columnName?: string;
-  options?: ICurrencyOptions;
+  currencyOptions?: ICurrencyOptions;
 }
 
 export interface IPopulatedCaseVisualization extends BaseVisualization {
@@ -328,7 +328,7 @@ export interface ICaseColumn {
   type: AlertColumnType;
   columnValue: string | number | null;
   columnTitle: string;
-  options?: ICurrencyOptions;
+  currencyOptions?: ICurrencyOptions;
 }
 
 export interface AlertQueryData {
