@@ -373,7 +373,8 @@ export class AlertAPI extends Request {
         alertIdsFilter: params.alertIdsFilter?.join(','),
         assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
         caseStatusesFilter: params.caseStatusesFilter?.join(','),
-        caseColumnsFilter: JSON.stringify(params.caseColumnsFilter)
+        caseColumnsFilter: JSON.stringify(params.caseColumnsFilter),
+        alertQueriesModelKeysFilter: params.alertQueriesModelKeysFilter?.join(',')
       }
     });
   }
