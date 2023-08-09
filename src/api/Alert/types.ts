@@ -381,7 +381,7 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   caseStatusesFilter?: CaseStatus[];
   assignedUserIdsFilter?: number[];
   caseColumnsFilter?: CaseColumnFilter[];
-  alertQueriesModelKeysFilter?: string[];
+  alertQueryModelKeysFilter?: string[];
   sortBy: FullCaseListSortBy[];
 }
 
@@ -401,7 +401,7 @@ export interface IFullCaseListFilters {
   assignedUserIds?: number[];
   alertFolderIds?: number[];
   caseColumns?: CaseColumnFilter[];
-  alertQueriesModelKeys?: string[];
+  alertQueryModelKeys?: string[];
 }
 
 export interface CaseColumnFilter {
