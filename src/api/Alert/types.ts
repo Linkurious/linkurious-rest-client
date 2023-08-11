@@ -346,7 +346,8 @@ export enum FullCaseListSortProperties {
   STATUS = 'status',
   STATUS_CHANGED_BY = 'statusChangedBy',
   STATUS_CHANGED_ON = 'statusChangedOn',
-  ASSIGNEE = 'assignedUser'
+  ASSIGNEE = 'assignedUser',
+  ALERT_QUERIES_COUNT = 'alertQueriesCount'
 }
 
 export interface IFullCase {
@@ -402,7 +403,7 @@ export interface IFullCaseListFilters {
 
 export interface CaseColumnFilter {
   index: ColumnSortAndFilterBy;
-  value: string | number | CaseColumnRangeFilter;
+  value: string | string[] | number | CaseColumnRangeFilter;
 }
 
 export interface CaseColumnRangeFilter {
@@ -429,3 +430,11 @@ export const FULL_CASE_LIST_DEFAULT_SORTBY: FullCaseListSortBy = {
   by: FullCaseListSortProperties.CASE_ID,
   direction: SortDirection.DESC
 };
+
+export interface SearchColumnValuesForAlertCases {
+  alertId: number;
+  columnStringIndex: number;
+  searchValue: string;
+  excludedValues?: string[];
+  limit?: number;
+}
