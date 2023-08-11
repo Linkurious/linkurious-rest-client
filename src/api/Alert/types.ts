@@ -5,6 +5,7 @@
  */
 
 import {
+  ICurrencyOptions,
   IDataSourceParams,
   IGetSubGraphParams,
   PersistedItem,
@@ -31,8 +32,9 @@ export enum AlertColumnType {
 
 export interface IAlertColumn {
   type: AlertColumnType;
-  columnName?: string;
   columnTitle: string;
+  columnName?: string;
+  currencyOptions?: ICurrencyOptions;
 }
 
 export interface IPopulatedCaseVisualization extends BaseVisualization {
@@ -326,6 +328,7 @@ export interface ICaseColumn {
   type: AlertColumnType;
   columnValue: string | number | null;
   columnTitle: string;
+  currencyOptions?: ICurrencyOptions;
 }
 
 export interface AlertQueryData {
