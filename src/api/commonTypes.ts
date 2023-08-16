@@ -81,3 +81,14 @@ export type DummyCopy<T> = {[K in keyof T]: T[K]};
  * Set as required the properties K in T
  */
 export type RequiredProps<T, K extends keyof T> = DummyCopy<T & {[P in K]-?: T[P]}>;
+
+export enum CurrencyFormat {
+  SYMBOL_COMMAS_DOT = '[Symbol] #,###.##',
+  DOTS_COMMA_SYMBOL = '#.###,## [Symbol]',
+  SPACES_COMMA_DOT = '# ###,## [Symbol]'
+}
+export interface ICurrencyOptions {
+  type: 'currency';
+  symbol: string;
+  format: CurrencyFormat;
+}
