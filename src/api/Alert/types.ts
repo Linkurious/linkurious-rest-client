@@ -104,7 +104,6 @@ export interface IAlertQuery extends AlertQueryData {
   query: string;
   dialect: GraphQueryDialect;
   updatedAt: Date;
-  alertId: number;
 }
 
 type AlertError = {
