@@ -94,7 +94,13 @@ export class AlertAPI extends Request {
    */
   public createAlert(this: Request<Alert>, params: ICreateAlertParams) {
     return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
+      errors: [
+        FEATURE_DISABLED,
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        CONSTRAINT_VIOLATION
+      ],
       url: '/admin/:sourceKey/alerts',
       method: 'POST',
       params: params
@@ -107,7 +113,14 @@ export class AlertAPI extends Request {
    */
   public updateAlert(this: Request<Alert>, params: IUpdateAlertParams) {
     return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      errors: [
+        FEATURE_DISABLED,
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        NOT_FOUND,
+        CONSTRAINT_VIOLATION
+      ],
       url: '/admin/:sourceKey/alerts/:id',
       method: 'PATCH',
       params: params
@@ -373,7 +386,8 @@ export class AlertAPI extends Request {
         alertIdsFilter: params.alertIdsFilter?.join(','),
         assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
         caseStatusesFilter: params.caseStatusesFilter?.join(','),
-        caseColumnsFilter: JSON.stringify(params.caseColumnsFilter)
+        caseColumnsFilter: JSON.stringify(params.caseColumnsFilter),
+        alertQueryModelKeysFilter: params.alertQueryModelKeysFilter?.join(',')
       }
     });
   }

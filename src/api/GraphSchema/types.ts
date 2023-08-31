@@ -4,7 +4,7 @@
  * - Created on 2019-05-15.
  */
 
-import {IDataSourceParams} from '../commonTypes';
+import {ICurrencyOptions, IDataSourceParams} from '../commonTypes';
 import {ItemTypeAccessRightType, PropertyAccessRightType} from '../AccessRight';
 
 export interface IStartSchemaSamplingParams extends IDataSourceParams {
@@ -104,19 +104,6 @@ export interface IDateTimeType {
   name: PropertyTypeName.DATETIME;
   options: IDatetimeOptions;
 }
-
-export enum CurrencyFormat {
-  SYMBOL_COMMAS_DOT = '[Symbol] #,###.##',
-  DOTS_COMMA_SYMBOL = '#.###,## [Symbol]',
-  SPACES_COMMA_DOT = '# ###,## [Symbol]'
-}
-
-export interface ICurrencyOptions {
-  type: 'currency';
-  symbol: string;
-  format: CurrencyFormat;
-}
-
 export interface INumberType {
   name: PropertyTypeName.NUMBER;
   options?: ICurrencyOptions;
