@@ -393,6 +393,26 @@ export class AlertAPI extends Request {
   }
 
   /**
+   * Get extract for the full case list.
+   */
+  public getFullCaseListExtract(params: IGetFullCaseListParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/extract',
+      method: 'GET',
+      params: {
+        ...params,
+        sortBy: JSON.stringify(params.sortBy),
+        alertIdsFilter: params.alertIdsFilter?.join(','),
+        assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
+        caseStatusesFilter: params.caseStatusesFilter?.join(','),
+        caseColumnsFilter: JSON.stringify(params.caseColumnsFilter),
+        alertQueryModelKeysFilter: params.alertQueryModelKeysFilter?.join(',')
+      }
+    });
+  }
+
+  /**
    * Find all the users that can process the alerts which are accessible to the current user
    * If the mutualAlertIds filter is specified in the params then we return only the users
    * That can access all the alerts provided in the filter list
