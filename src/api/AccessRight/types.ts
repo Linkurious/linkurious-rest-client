@@ -14,6 +14,7 @@ export enum Action {
   ADMIN_INDEX = 'admin.index', // Index the data-source and read the configuration
   ADMIN_USERS = 'admin.users', // Manage the users in the data-source
   ADMIN_SCHEMA = 'admin.schema', // Edit the schema of the data-source
+  ADMIN_SCHEMA_READ = 'admin.schema.read', // Read the schema of the data-source
   ADMIN_ALERTS = 'admin.alerts', // Manage the alerts in the data-source
   ADMIN_REPORT = 'admin.report', // Generate analytics report
   ADMIN_STYLES = 'admin.styles', // Edit styles and captions of all sandboxes of the data-source
