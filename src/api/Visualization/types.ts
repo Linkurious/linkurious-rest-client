@@ -418,13 +418,13 @@ export interface VisualizationComment {
 }
 
 interface CommentMetadata {
-  mentions: CommentMention[]
+  mentions: CommentMention[];
 }
 
 interface CommentMention {
-  position: number
-  length: number
-  user: MentionedUser
+  position: number;
+  length: number;
+  user: MentionedUser;
 }
 
 export interface CreateVisualizationCommentParams extends IDataSourceParams {
