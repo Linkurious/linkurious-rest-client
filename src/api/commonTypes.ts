@@ -89,6 +89,6 @@ export enum CurrencyFormat {
 }
 export interface ICurrencyOptions {
   type: 'currency';
-  symbol: string;
   format: CurrencyFormat;
+  symbol?: string;
 }
