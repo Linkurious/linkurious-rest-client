@@ -417,11 +417,11 @@ export interface VisualizationComment {
   metadata: CommentMetadata;
 }
 
-interface CommentMetadata {
+export interface CommentMetadata {
   mentions: CommentMention[];
 }
 
-interface CommentMention {
+export interface CommentMention {
   position: number;
   length: number;
   user: MentionedUser;
