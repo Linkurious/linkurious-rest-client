@@ -1,6 +1,6 @@
 {
   "name": "@linkurious/rest-client",
-  "version": "4.0.15",
+  "version": "4.0.16",
   "description": "A library to interact with Linkurious APIs",
   "files": [
     "dist"
@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
   "scripts": {
-    "prepare": "tsc",
     "build": "tsc",
     "test": "npm run compile && mocha dist/test",
     "test:unit": "nyc --reporter=text-summary --reporter=cobertura --report-dir=reports  mocha --reporter mocha-multi-reporters --reporter-options configFile=.test-reporters.json dist/test",
