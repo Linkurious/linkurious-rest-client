@@ -162,3 +162,7 @@ export interface DeletableUser {
   username: string | DeletedUser;
   email: string | DeletedUser;
 }
+
+export interface MentionedUser extends DeletableUser {
+  hasAccess: boolean;
+}
