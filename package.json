@@ -6,7 +6,8 @@
     "dist"
   ],
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Linkurious/linkurious-rest-client.git"
