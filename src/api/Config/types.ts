@@ -27,23 +27,23 @@ export interface Configuration {
   };
 
   // partially available to not authenticated user
-  access?: IAccessConfig;
+  access: IAccessConfig;
 
   // available to authenticated users
-  advanced?: IAdvancedConfig;
-  leaflet?: ILeafletConfig[];
+  advanced: IAdvancedConfig;
+  leaflet: ILeafletConfig[];
 
   // partially available to authenticated user
   alerts?: IAlertsConfig;
 
   // available only to admins
-  db?: IDatabaseConfig;
-  server?: IHttpServerConfig;
+  db: IDatabaseConfig;
+  server: IHttpServerConfig;
   metrics?: MetricsConfig;
-  auditTrail?: IAuditTrailConfig;
-  defaultPreferences?: IUserPreferencesConfig;
-  guestPreferences?: IGuestPreferencesConfig;
-  plugins?: IPluginConfig;
+  auditTrail: IAuditTrailConfig;
+  defaultPreferences: IUserPreferencesConfig;
+  guestPreferences: IGuestPreferencesConfig;
+  plugins: IPluginConfig;
   dataSource?: SelectedDataSourceConfig;
   needRestart?: boolean;
   emailNotifications: IEmailNotificationsConfig;
