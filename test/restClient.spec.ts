@@ -3,9 +3,9 @@
  *
  * - Created on 2019-12-05.
  */
+import * as assert from 'node:assert';
 
 import {describe, it} from 'mocha';
-import {assert} from 'chai';
 
 import {RestClient} from '../src';
 import {Request} from '../src/http/request';
@@ -20,10 +20,10 @@ describe('Rest Client', () => {
       {configIndex: 3, connected: true}
     ] as DataSourceUserInfo[];
 
-    assert.deepEqual(RestClient.getCurrentSource(sources, {configIndex: 0}), sources[0]);
-    assert.deepEqual(RestClient.getCurrentSource(sources, {configIndex: 1}), sources[1]);
-    assert.deepEqual(RestClient.getCurrentSource(sources, {configIndex: 3}), sources[2]);
-    assert.deepEqual(RestClient.getCurrentSource(sources, {configIndex: 5}), sources[1]);
+    assert.deepStrictEqual(RestClient.getCurrentSource(sources, {configIndex: 0}), sources[0]);
+    assert.deepStrictEqual(RestClient.getCurrentSource(sources, {configIndex: 1}), sources[1]);
+    assert.deepStrictEqual(RestClient.getCurrentSource(sources, {configIndex: 3}), sources[2]);
+    assert.deepStrictEqual(RestClient.getCurrentSource(sources, {configIndex: 5}), sources[1]);
   });
 
   it('Should find the correct data-source by user id', () => {
@@ -43,10 +43,10 @@ describe('Rest Client', () => {
       {key: 's3', connected: true}
     ] as DataSourceUserInfo[];
 
-    assert.deepEqual(RestClient.getCurrentSource(sources, {userId: 1}, storage), sources[1]);
-    assert.deepEqual(RestClient.getCurrentSource(sources, {userId: 2}, storage), sources[1]);
-    assert.deepEqual(RestClient.getCurrentSource(sources, {userId: 3}, storage), sources[2]);
-    assert.deepEqual(RestClient.getCurrentSource(sources, {userId: 5}, storage), sources[1]);
+    assert.deepStrictEqual(RestClient.getCurrentSource(sources, {userId: 1}, storage), sources[1]);
+    assert.deepStrictEqual(RestClient.getCurrentSource(sources, {userId: 2}, storage), sources[1]);
+    assert.deepStrictEqual(RestClient.getCurrentSource(sources, {userId: 3}, storage), sources[2]);
+    assert.deepStrictEqual(RestClient.getCurrentSource(sources, {userId: 5}, storage), sources[1]);
   });
 
   it('Should find the correct data-source by sourceKey', () => {
@@ -56,14 +56,14 @@ describe('Rest Client', () => {
       {key: 's3', connected: true}
     ] as DataSourceUserInfo[];
 
-    assert.deepEqual(RestClient.getCurrentSource(sources, {sourceKey: 's1'}), sources[0]);
-    assert.deepEqual(RestClient.getCurrentSource(sources, {sourceKey: 's2'}), sources[1]);
-    assert.deepEqual(RestClient.getCurrentSource(sources, {sourceKey: 's3'}), sources[2]);
-    assert.deepEqual(RestClient.getCurrentSource(sources, {sourceKey: 's5'}), sources[1]);
+    assert.deepStrictEqual(RestClient.getCurrentSource(sources, {sourceKey: 's1'}), sources[0]);
+    assert.deepStrictEqual(RestClient.getCurrentSource(sources, {sourceKey: 's2'}), sources[1]);
+    assert.deepStrictEqual(RestClient.getCurrentSource(sources, {sourceKey: 's3'}), sources[2]);
+    assert.deepStrictEqual(RestClient.getCurrentSource(sources, {sourceKey: 's5'}), sources[1]);
   });
 
   it('Should render URL correctly', () => {
-    assert.deepEqual(
+    assert.deepStrictEqual(
       // @ts-ignore private method and incomplete params
       Request.renderURL({
         url: '/visualizations/:visualizationId/share/:userId',
