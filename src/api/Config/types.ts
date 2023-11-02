@@ -30,20 +30,20 @@ export interface Configuration {
   access: IAccessConfig;
 
   // available to authenticated users
-  advanced: IAdvancedConfig;
-  leaflet: ILeafletConfig[];
+  advanced?: IAdvancedConfig;
+  leaflet?: ILeafletConfig[];
 
   // partially available to authenticated user
   alerts?: IAlertsConfig;
 
   // available only to admins
-  db: IDatabaseConfig;
-  server: IHttpServerConfig;
+  db?: IDatabaseConfig;
+  server?: IHttpServerConfig;
   metrics?: MetricsConfig;
-  auditTrail: IAuditTrailConfig;
-  defaultPreferences: IUserPreferencesConfig;
-  guestPreferences: IGuestPreferencesConfig;
-  plugins: IPluginConfig;
+  auditTrail?: IAuditTrailConfig;
+  defaultPreferences?: IUserPreferencesConfig;
+  guestPreferences?: IGuestPreferencesConfig;
+  plugins?: IPluginConfig;
   dataSource?: SelectedDataSourceConfig;
   needRestart?: boolean;
   emailNotifications: IEmailNotificationsConfig;
@@ -428,10 +428,8 @@ export interface ISMTPAuthConfig {
 
 export interface IEmailNotificationsConfig {
   alertNotifications: boolean;
-  visualizationNotifications: boolean;
   newCasesDigestNotificationFrequency: string;
   caseAssignmentNotificationFrequency: string;
-  visualizationMentionNotificationFrequency: string;
   mailer: IMailerConfig;
   fromEmail: string;
 }
