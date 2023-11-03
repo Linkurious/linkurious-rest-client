@@ -300,11 +300,11 @@ export interface CaseAction extends PersistedItem {
   user: Pick<User, 'id' | 'username' | 'email'>;
   action: CaseActionType;
   comment?: string;
-  metaData?: CaseActionsMetadata;
+  metaData?: CaseActionMetadata;
   assignedUser?: Pick<User, 'id' | 'username' | 'email'>;
 }
 
-interface CaseActionsMetadata {
+interface CaseActionMetadata {
   mentions: CommentMention[];
 }
 
