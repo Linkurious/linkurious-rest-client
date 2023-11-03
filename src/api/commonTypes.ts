@@ -3,6 +3,7 @@
  *
  * - Created on 2019-09-30.
  */
+import {MentionedUser} from '../../src/api/User/types';
 
 export interface GenericObject<T = unknown> {
   [key: string]: T;
@@ -91,4 +92,10 @@ export interface ICurrencyOptions {
   type: 'currency';
   format: CurrencyFormat;
   symbol?: string;
+}
+
+export interface CommentMention {
+  position: number;
+  length: number;
+  user: MentionedUser;
 }

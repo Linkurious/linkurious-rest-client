@@ -5,6 +5,7 @@
  */
 
 import {
+  CommentMention,
   ICurrencyOptions,
   IDataSourceParams,
   IGetSubGraphParams,
@@ -299,7 +300,12 @@ export interface CaseAction extends PersistedItem {
   user: Pick<User, 'id' | 'username' | 'email'>;
   action: CaseActionType;
   comment?: string;
+  metaData?: CaseActionsMetadata;
   assignedUser?: Pick<User, 'id' | 'username' | 'email'>;
+}
+
+interface CaseActionsMetadata {
+  mentions: CommentMention[];
 }
 
 export interface IDoCaseActionParams extends IDataSourceParams {
