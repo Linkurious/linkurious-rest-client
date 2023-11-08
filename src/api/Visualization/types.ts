@@ -5,7 +5,7 @@
  */
 
 import {
-  CommentMention,
+  CommentMention, DeletableUser,
   GenericObject,
   IDataSourceParams,
   PaginationClause,
@@ -22,7 +22,7 @@ import {
 } from '../graphItemTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {IRangeValues, ItemSelector, IStyles} from '../displayTypes';
-import {DeletableUser, User} from '../User';
+import {User} from '../User';
 import {IAlternativeIdSettings} from '../DataSource';
 
 export interface IGetVisualizationParams extends IDataSourceParams {

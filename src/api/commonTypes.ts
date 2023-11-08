@@ -3,7 +3,7 @@
  *
  * - Created on 2019-09-30.
  */
-import {MentionedUser} from '../../src/api/User/types';
+import {DeletedUser} from '../../src/api/User/types';
 
 export interface GenericObject<T = unknown> {
   [key: string]: T;
@@ -98,4 +98,13 @@ export interface CommentMention {
   position: number;
   length: number;
   user: MentionedUser;
+}
+
+export interface DeletableUser {
+  username: string | DeletedUser;
+  email: string | DeletedUser;
+}
+
+export interface MentionedUser extends DeletableUser {
+  hasAccess: boolean;
 }
