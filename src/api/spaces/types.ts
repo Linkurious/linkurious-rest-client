@@ -6,6 +6,7 @@
  */
 
 import {IDataSourceParams, PersistedItem, SharingMode, SortDirection} from '../commonTypes';
+import {VisualizationTree} from '../Visualization';
 
 export interface ICreateSpaceParams extends IDataSourceParams {
   title: string;
@@ -38,4 +39,8 @@ export interface ISpace extends ICreateSpaceParams, PersistedItem {}
 
 export interface IAdminSpace extends ISpace {
   isEmpty: boolean;
+}
+
+export interface ISpaceWithVisualizationTree extends ISpace {
+  tree: VisualizationTree;
 }

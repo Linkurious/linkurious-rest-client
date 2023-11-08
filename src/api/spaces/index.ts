@@ -15,6 +15,7 @@ import {
   IDeleteSpaceParams,
   IGetSpacesParams,
   ISpace,
+  ISpaceWithVisualizationTree,
   IUpdateSpaceParams
 } from './types';
 
@@ -85,6 +86,22 @@ export class SpacesAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/spaces',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * List the spaces shared with the current user, with the corresponding visualization tree
+   * attached to each space.
+   */
+  public getMySpacesWithTree(
+    this: Request<ISpaceWithVisualizationTree[]>,
+    params?: IDataSourceParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
+      url: '/:sourceKey/spaces/tree',
       method: 'GET',
       params: params
     });
