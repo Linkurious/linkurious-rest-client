@@ -5,7 +5,8 @@
  */
 
 import {
-  CommentMention, DeletableUser,
+  CommentMention,
+  DeletableUser,
   GenericObject,
   IDataSourceParams,
   PaginationClause,
