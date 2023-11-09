@@ -10,6 +10,7 @@ import {Request} from '../../http/request';
 import {IDataSourceParams, PaginatedResponse} from '../commonTypes';
 
 import {
+  GetMySpacesWithTreeResponse,
   IAdminSpace,
   ICreateSpaceParams,
   IDeleteSpaceParams,
@@ -85,6 +86,22 @@ export class SpacesAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/spaces',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * List the spaces shared with the current user, with the corresponding visualization tree
+   * attached to each space.
+   */
+  public getMySpacesWithTree(
+    this: Request<GetMySpacesWithTreeResponse>,
+    params?: IDataSourceParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
+      url: '/:sourceKey/spaces/tree',
       method: 'GET',
       params: params
     });
