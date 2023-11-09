@@ -44,3 +44,7 @@ export interface IAdminSpace extends ISpace {
 export interface ISpaceWithVisualizationTree extends ISpace {
   tree: VisualizationTree;
 }
+
+export interface GetMySpacesWithTreeResponse {
+  items: ISpaceWithVisualizationTree[];
+}

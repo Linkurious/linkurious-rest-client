@@ -10,12 +10,12 @@ import {Request} from '../../http/request';
 import {IDataSourceParams, PaginatedResponse} from '../commonTypes';
 
 import {
+  GetMySpacesWithTreeResponse,
   IAdminSpace,
   ICreateSpaceParams,
   IDeleteSpaceParams,
   IGetSpacesParams,
   ISpace,
-  ISpaceWithVisualizationTree,
   IUpdateSpaceParams
 } from './types';
 
@@ -96,7 +96,7 @@ export class SpacesAPI extends Request {
    * attached to each space.
    */
   public getMySpacesWithTree(
-    this: Request<ISpaceWithVisualizationTree[]>,
+    this: Request<GetMySpacesWithTreeResponse>,
     params?: IDataSourceParams
   ) {
     return this.request({
