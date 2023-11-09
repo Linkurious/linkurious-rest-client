@@ -440,5 +440,4 @@ export interface IEmailNotificationsConfig {
   // Email configuration.
   mailer: IMailerConfig;
   fromEmail: string;
-  
 }
