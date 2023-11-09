@@ -27,7 +27,7 @@ export interface Configuration {
   };
 
   // partially available to not authenticated user
-  access?: IAccessConfig;
+  access: IAccessConfig;
 
   // available to authenticated users
   advanced?: IAdvancedConfig;
