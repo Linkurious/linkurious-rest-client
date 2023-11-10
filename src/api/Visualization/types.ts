@@ -5,6 +5,8 @@
  */
 
 import {
+  CommentMention,
+  DeletableUser,
   GenericObject,
   IDataSourceParams,
   PaginationClause,
@@ -21,7 +23,7 @@ import {
 } from '../graphItemTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {IRangeValues, ItemSelector, IStyles} from '../displayTypes';
-import {DeletableUser, MentionedUser, User} from '../User';
+import {User} from '../User';
 import {IAlternativeIdSettings} from '../DataSource';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
@@ -419,12 +421,6 @@ export interface VisualizationComment {
 
 export interface CommentMetadata {
   mentions: CommentMention[];
-}
-
-export interface CommentMention {
-  position: number;
-  length: number;
-  user: MentionedUser;
 }
 
 export interface CreateVisualizationCommentParams extends IDataSourceParams {
