@@ -76,6 +76,13 @@ export interface ICreateAlertQueryParams
 
 export interface IUpdateAlertQueryParams extends ICreateAlertQueryParams {
   id?: number;
+  operation: AlertQueryUpdateOperation;
+}
+
+export enum AlertQueryUpdateOperation {
+  CREATE = 'create',
+  UPDATE = 'update',
+  DELETE = 'delete'
 }
 
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
