@@ -27,7 +27,7 @@ export interface Configuration {
   };
 
   // partially available to not authenticated user
-  access?: IAccessConfig;
+  access: IAccessConfig;
 
   // available to authenticated users
   advanced?: IAdvancedConfig;
@@ -427,11 +427,17 @@ export interface ISMTPAuthConfig {
 }
 
 export interface IEmailNotificationsConfig {
+  // Alert notifications.
   alertNotifications: boolean;
-  visualizationNotifications: boolean;
   newCasesDigestNotificationFrequency: string;
   caseAssignmentNotificationFrequency: string;
+  caseMentionNotificationFrequency: string;
+
+  // Visualization notifications.
+  visualizationNotifications: boolean;
   visualizationMentionNotificationFrequency: string;
+
+  // Email configuration.
   mailer: IMailerConfig;
   fromEmail: string;
 }

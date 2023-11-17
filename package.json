@@ -1,12 +1,13 @@
 {
   "name": "@linkurious/rest-client",
-  "version": "4.0.16",
+  "version": "4.0.17",
   "description": "A library to interact with Linkurious APIs",
   "files": [
     "dist"
   ],
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Linkurious/linkurious-rest-client.git"
@@ -35,13 +36,11 @@
     "bump:major": "bump2version major && npm version --no-git-tag-version --no-commit-hooks --no-workspaces-update major"
   },
   "devDependencies": {
-    "@types/chai": "4.2.17",
     "@types/mocha": "8.2.2",
     "@types/express": "4.17.15",
-    "@types/superagent": "4.1.16",
+    "@types/superagent": "4.1.20",
     "@typescript-eslint/eslint-plugin": "5.26.0",
     "@typescript-eslint/parser": "5.26.0",
-    "chai": "4.3.4",
     "eslint": "8.16.0",
     "eslint-config-prettier": "6.10.1",
     "eslint-plugin-es5": "1.5.0",
@@ -55,7 +54,7 @@
     "typescript": "4.9.4"
   },
   "dependencies": {
-    "superagent": "6.1.0"
+    "superagent": "8.1.2"
   },
   "publishConfig": {
     "access": "public"

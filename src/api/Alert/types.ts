@@ -5,6 +5,7 @@
  */
 
 import {
+  CommentMention,
   ICurrencyOptions,
   IDataSourceParams,
   IGetSubGraphParams,
@@ -75,6 +76,13 @@ export interface ICreateAlertQueryParams
 
 export interface IUpdateAlertQueryParams extends ICreateAlertQueryParams {
   id?: number;
+  operation: AlertQueryUpdateOperation;
+}
+
+export enum AlertQueryUpdateOperation {
+  CREATE = 'create',
+  UPDATE = 'update',
+  DELETE = 'delete'
 }
 
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
@@ -299,7 +307,12 @@ export interface CaseAction extends PersistedItem {
   user: Pick<User, 'id' | 'username' | 'email'>;
   action: CaseActionType;
   comment?: string;
+  metadata?: CaseActionMetadata;
   assignedUser?: Pick<User, 'id' | 'username' | 'email'>;
+}
+
+export interface CaseActionMetadata {
+  mentions: CommentMention[];
 }
 
 export interface IDoCaseActionParams extends IDataSourceParams {
