@@ -89,7 +89,7 @@ export enum CurrencyFormat {
   DOTS_COMMA_SYMBOL = '#.###,## [Symbol]',
   DOTS_SYMBOL = '#.### [Symbol]',
   SPACES_COMMA_SYMBOL = '# ###,## [Symbol]',
-  SPACES_SYMBOL = '# ### [Symbol]',
+  SPACES_SYMBOL = '# ### [Symbol]'
 }
 export interface ICurrencyOptions {
   type: 'currency';
