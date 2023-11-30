@@ -8,8 +8,6 @@ import {GenericObject, IDataSourceParams, PaginationClause, PersistedItem} from 
 import {AccessRight, Action, AnyAction} from '../AccessRight';
 import {IGuestPreferencesConfig} from '../Config';
 
-export type DeletedUser = 'Deleted user';
-
 export interface IUserPreferences {
   pinOnDrag: boolean;
   locale: string;
