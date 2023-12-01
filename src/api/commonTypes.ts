@@ -3,7 +3,6 @@
  *
  * - Created on 2019-09-30.
  */
-import {DeletedUser} from '../../src/api/User/types';
 
 export interface GenericObject<T = unknown> {
   [key: string]: T;
@@ -104,8 +103,8 @@ export interface CommentMention {
 }
 
 export interface DeletableUser {
-  username: string | DeletedUser;
-  email: string | DeletedUser;
+  username: string;
+  email: string;
 }
 
 export interface MentionedUser extends DeletableUser {
