@@ -3,7 +3,6 @@
  *
  * - Created on 2019-09-30.
  */
-import {DeletedUser} from '../../src/api/User/types';
 
 export interface GenericObject<T = unknown> {
   [key: string]: T;
@@ -86,7 +85,10 @@ export type RequiredProps<T, K extends keyof T> = DummyCopy<T & {[P in K]-?: T[P
 export enum CurrencyFormat {
   SYMBOL_COMMAS_DOT = '[Symbol] #,###.##',
   DOTS_COMMA_SYMBOL = '#.###,## [Symbol]',
-  SPACES_COMMA_DOT = '# ###,## [Symbol]'
+  SPACES_COMMA_SYMBOL = '# ###,## [Symbol]',
+  SYMBOL_COMMAS = '[Symbol] #,###',
+  DOTS_SYMBOL = '#.### [Symbol]',
+  SPACES_SYMBOL = '# ### [Symbol]'
 }
 export interface ICurrencyOptions {
   type: 'currency';
@@ -101,8 +103,8 @@ export interface CommentMention {
 }
 
 export interface DeletableUser {
-  username: string | DeletedUser;
-  email: string | DeletedUser;
+  username: string;
+  email: string;
 }
 
 export interface MentionedUser extends DeletableUser {
