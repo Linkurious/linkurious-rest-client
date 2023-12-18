@@ -1,6 +1,6 @@
 {
   "name": "@linkurious/rest-client",
-  "version": "4.0.19",
+  "version": "4.0.20",
   "description": "A library to interact with Linkurious APIs",
   "files": [
     "dist"
@@ -42,15 +42,15 @@
     "@typescript-eslint/eslint-plugin": "6.13.1",
     "@typescript-eslint/parser": "6.13.1",
     "eslint": "8.54.0",
-    "eslint-config-prettier": "9.0.0",
+    "eslint-config-prettier": "9.1.0",
     "eslint-plugin-es5": "1.5.0",
     "eslint-plugin-import": "2.29.0",
-    "eslint-plugin-prettier": "3.4.0",
+    "eslint-plugin-prettier": "5.0.1",
     "mocha": "10.2.0",
     "mocha-junit-reporter": "2.2.1",
     "mocha-multi-reporters": "1.5.1",
     "nyc": "15.1.0",
-    "prettier": "2.2.1",
+    "prettier": "3.1.1",
     "typescript": "4.9.4"
   },
   "dependencies": {
