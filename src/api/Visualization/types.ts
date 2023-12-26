@@ -22,9 +22,10 @@ import {
   WidgetNode
 } from '../graphItemTypes';
 import {GraphQueryDialect} from '../GraphQuery';
-import {IRangeValues, ItemSelector, IStyles} from '../displayTypes';
+import {IRangeValues, ItemSelector, IStyles, IStyleIcon, IStyleImage} from '../displayTypes';
 import {User} from '../User';
 import {IAlternativeIdSettings} from '../DataSource';
+import {ILeafletConfig} from '../Config';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
   id: number;
@@ -370,10 +371,25 @@ export interface IGetWidgetParams {
 
 export interface WidgetContent {
   graph: {nodes: WidgetNode[]; edges: WidgetEdge[]};
-  legend: boolean;
-  mapLayers: boolean;
+  legend: {nodes: Legend; edges: Legend};
+  mapLayers: ILeafletConfig[];
   mode: VisualizationMode;
-  ui: boolean;
+  ui: {
+    search: boolean;
+    share: boolean;
+    fullscreen: boolean;
+    layout: boolean;
+    zoom: boolean;
+    legend: boolean;
+    geo: boolean;
+  };
+}
+
+export interface Legend {
+  [key: string]: Array<{
+    label: string;
+    value: string | IStyleIcon | IStyleImage | number;
+  }>;
 }
 
 export interface Widget {
