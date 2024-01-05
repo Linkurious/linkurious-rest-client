@@ -12,6 +12,7 @@ export * from './src/api/Auth';
 export * from './src/api/Config';
 export * from './src/api/CustomAction';
 export * from './src/api/DataSource';
+export * from './src/api/favorite';
 export * from './src/api/Search';
 export * from './src/api/GraphEdge';
 export * from './src/api/GraphNode';
