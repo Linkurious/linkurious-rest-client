@@ -83,7 +83,7 @@ export class UserAPI extends Request {
       method: 'GET',
       params: {
         ...params,
-        excludedIds: params.excludedIds?.join(',')
+        excludedUsers: params.excludedUsers?.join(',')
       }
     });
   }
