@@ -81,7 +81,10 @@ export class UserAPI extends Request {
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/users',
       method: 'GET',
-      params: params
+      params: {
+        ...params,
+        excludedIds: params.excludedIds?.join(',')
+      }
     });
   }
 
