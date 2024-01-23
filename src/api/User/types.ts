@@ -66,6 +66,7 @@ export interface ISearchUsersFullParams extends IDataSourceParams {
 
 export interface ISearchUsersSimpleParams extends IDataSourceParams {
   contains?: string;
+  excludedUserIds?: number[];
   offset?: number;
   limit?: number;
 }

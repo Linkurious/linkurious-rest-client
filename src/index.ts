@@ -16,6 +16,7 @@ import {AuthAPI} from './api/Auth';
 import {ConfigAPI} from './api/Config';
 import {CustomActionAPI} from './api/CustomAction';
 import {DataSourceAPI, DataSourceUserInfo} from './api/DataSource';
+import {FavoriteAPI} from './api/favorite';
 import {GraphEdgeAPI} from './api/GraphEdge';
 import {GraphNodeAPI} from './api/GraphNode';
 import {GraphQueryAPI} from './api/GraphQuery';
@@ -41,6 +42,7 @@ export class RestClient extends ErrorListener {
   public readonly config: ConfigAPI;
   public readonly customAction: CustomActionAPI;
   public readonly dataSource: DataSourceAPI;
+  public readonly favorite: FavoriteAPI;
   public readonly graphEdge: GraphEdgeAPI;
   public readonly graphNode: GraphNodeAPI;
   public readonly graphQuery: GraphQueryAPI;
@@ -77,6 +79,7 @@ export class RestClient extends ErrorListener {
     this.config = new ConfigAPI(this.moduleProps);
     this.customAction = new CustomActionAPI(this.moduleProps);
     this.dataSource = new DataSourceAPI(this.moduleProps);
+    this.favorite = new FavoriteAPI(this.moduleProps);
     this.graphEdge = new GraphEdgeAPI(this.moduleProps);
     this.graphNode = new GraphNodeAPI(this.moduleProps);
     this.graphQuery = new GraphQueryAPI(this.moduleProps);

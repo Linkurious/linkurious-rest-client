@@ -203,6 +203,7 @@ export interface GraphQuery extends SharingOptions {
   type: GraphQueryType;
   right: GraphQueryRight;
   builtin: boolean;
+  isFavorite: boolean;
   createdAt?: string; // defined only if builtin=false
   updatedAt?: string; // defined only if builtin=false
 }
