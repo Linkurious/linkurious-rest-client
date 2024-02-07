@@ -7,7 +7,7 @@
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
-import {CreateNodeGroupingRuleParams, NodeGroupingRule} from './types';
+import {CreateNodeGroupingRuleParams, GetNodeGroupingRulesParams, NodeGroupingRule} from './types';
 
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS, NOT_FOUND} = LkErrorKey;
 
@@ -20,6 +20,18 @@ export class NodeGroupingAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, ALREADY_EXISTS],
       url: '/:sourceKey/nodeGroupings',
       method: 'POST',
+      params: params
+    });
+  }
+
+  public getNodeGroupingRules(
+    this: Request<NodeGroupingRule[]>,
+    params: GetNodeGroupingRulesParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/nodeGroupings',
+      method: 'GET',
       params: params
     });
   }

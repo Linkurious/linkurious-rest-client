@@ -15,3 +15,5 @@ export interface NodeGroupingRule {
 
 export interface CreateNodeGroupingRuleParams
   extends Pick<NodeGroupingRule, 'sourceKey' | 'name' | 'itemType' | 'propertyKey'> {}
+
+export interface GetNodeGroupingRulesParams extends Pick<NodeGroupingRule, 'sourceKey'> {}
