@@ -14,7 +14,7 @@ import {
   NodeGroupingRule
 } from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS, NOT_FOUND} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS, NOT_FOUND, FORBIDDEN} = LkErrorKey;
 
 export class NodeGroupingAPI extends Request {
   public createNodeGroupingRule(
@@ -43,7 +43,7 @@ export class NodeGroupingAPI extends Request {
 
   public deleteNodeGroupingRule(params: DeleteNodeGroupingRuleParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/nodeGroupings/:id',
       method: 'DELETE',
       params: params
