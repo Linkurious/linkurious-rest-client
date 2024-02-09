@@ -8,13 +8,30 @@ export interface NodeGroupingRule {
   id: number;
   sourceKey: string;
   name: string;
-  itemType: string;
-  propertyKey: string;
+  groupingType: NodeGroupingType;
+  groupingOptions: NodeGroupingOptions[NodeGroupingType];
   canDelete: boolean;
 }
 
-export interface CreateNodeGroupingRuleParams
-  extends Pick<NodeGroupingRule, 'sourceKey' | 'name' | 'itemType' | 'propertyKey'> {}
+export enum NodeGroupingType {
+  PROPERTY_KEY = 'propertyKey'
+}
+
+export type NodeGroupingOptions = {
+  [NodeGroupingType.PROPERTY_KEY]: PropertyKeyNodeGroupingOptions;
+};
+
+export interface PropertyKeyNodeGroupingOptions {
+  itemType: string;
+  propertyKey: string;
+}
+
+export interface CreateNodeGroupingRuleParams extends Pick<NodeGroupingRule, 'sourceKey' | 'name'> {
+  groupingSettings: {
+    type: NodeGroupingType;
+    options: NodeGroupingOptions[NodeGroupingType];
+  };
+}
 
 export interface GetNodeGroupingRulesParams extends Pick<NodeGroupingRule, 'sourceKey'> {}
 
