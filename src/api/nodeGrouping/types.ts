@@ -26,10 +26,9 @@ export interface PropertyKeyNodeGroupingOptions {
   propertyKey: string;
 }
 
-export interface CreateNodeGroupingRuleParams
-  extends Pick<NodeGroupingRule, 'sourceKey' | 'name' > {
-  groupingSettings :{
-    type: NodeGroupingType,
-    options: NodeGroupingOptions[NodeGroupingType]
-  }
+export interface CreateNodeGroupingRuleParams extends Pick<NodeGroupingRule, 'sourceKey' | 'name'> {
+  groupingSettings: {
+    type: NodeGroupingType;
+    options: NodeGroupingOptions[NodeGroupingType];
+  };
 }
