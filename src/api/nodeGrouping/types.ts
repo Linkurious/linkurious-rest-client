@@ -32,3 +32,9 @@ export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
   groupingType: NodeGroupingType;
   groupingOptions: NodeGroupingOptions[NodeGroupingType];
 }
+
+export interface GetNodeGroupingRulesParams extends IDataSourceParams {}
+
+export interface DeleteNodeGroupingRuleParams extends IDataSourceParams {
+  id: number;
+}
