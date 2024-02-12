@@ -33,4 +33,4 @@ export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
   groupingOptions: NodeGroupingOptions[NodeGroupingType];
 }
 
-export interface GetNodeGroupingRulesParams extends Pick<NodeGroupingRule, 'sourceKey'> {}
+export interface GetNodeGroupingRulesParams extends IDataSourceParams {}
