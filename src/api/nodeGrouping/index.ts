@@ -4,6 +4,8 @@
  * - Created on 2024-02-06.
  */
 
+export * from './types';
+
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
