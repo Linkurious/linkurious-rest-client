@@ -9,9 +9,14 @@ export * from './types';
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
-import {CreateNodeGroupingRuleParams, GetNodeGroupingRulesParams, NodeGroupingRule} from './types';
+import {
+  CreateNodeGroupingRuleParams,
+  DeleteNodeGroupingRuleParams,
+  GetNodeGroupingRulesParams,
+  NodeGroupingRule
+} from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS, NOT_FOUND} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS, NOT_FOUND, FORBIDDEN} = LkErrorKey;
 
 export class NodeGroupingAPI extends Request {
   public createNodeGroupingRule(
@@ -34,6 +39,15 @@ export class NodeGroupingAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/nodeGroupings',
       method: 'GET',
+      params: params
+    });
+  }
+
+  public deleteNodeGroupingRule(params: DeleteNodeGroupingRuleParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/nodeGroupings/:id',
+      method: 'DELETE',
       params: params
     });
   }
