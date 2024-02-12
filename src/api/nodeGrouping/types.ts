@@ -3,6 +3,7 @@
  *
  * - Created on 2024-02-06.
  */
+import {IDataSourceParams} from '../commonTypes';
 
 export interface NodeGroupingRule {
   id: number;
@@ -26,13 +27,12 @@ export interface PropertyKeyNodeGroupingOptions {
   propertyKey: string;
 }
 
-export interface CreateNodeGroupingRuleParams extends Pick<NodeGroupingRule, 'sourceKey' | 'name'> {
-  groupingSettings: {
-    type: NodeGroupingType;
-    options: NodeGroupingOptions[NodeGroupingType];
-  };
+export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
+  name: string;
+  groupingType: NodeGroupingType;
+  groupingOptions: NodeGroupingOptions[NodeGroupingType];
 }
 
-export interface GetNodeGroupingRulesParams extends Pick<NodeGroupingRule, 'sourceKey'> {}
+export interface GetNodeGroupingRulesParams extends IDataSourceParams {}
 
 export interface DeleteNodeGroupingRuleParams extends Pick<NodeGroupingRule, 'id' | 'sourceKey'> {}
