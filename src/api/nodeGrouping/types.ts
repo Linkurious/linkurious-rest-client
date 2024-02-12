@@ -35,4 +35,6 @@ export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
 
 export interface GetNodeGroupingRulesParams extends IDataSourceParams {}
 
-export interface DeleteNodeGroupingRuleParams extends Pick<NodeGroupingRule, 'id' | 'sourceKey'> {}
+export interface DeleteNodeGroupingRuleParams extends IDataSourceParams {
+  id: number;
+}
