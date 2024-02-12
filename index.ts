@@ -27,6 +27,7 @@ export * from './src/api/commonTypes';
 export * from './src/api/displayTypes';
 export * from './src/api/spaces';
 export * from './src/api/graphItemTypes';
+export * from './src/api/nodeGrouping';
 export * from './src/http/request';
 export * from './src/http/response';
 export * from './src/http/types';
