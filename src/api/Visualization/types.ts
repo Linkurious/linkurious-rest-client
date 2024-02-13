@@ -170,6 +170,7 @@ export interface Visualization extends BaseVisualization, PersistedItem {
   nodes: IVizNodeInfo[];
   edges: IVizEdgeInfo[];
   nodeFields: IItemFields;
+  nodeGroupingRuleId: number | null;
   edgeFields: IItemFields;
   design: IVisualizationDesign;
   filters: IVisualizationFilters;
@@ -200,6 +201,7 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   title: string;
   folder?: number;
   nodes: IVizNodeInfo[];
+  nodeGroupingRuleId?: number | null;
   edges: IVizEdgeInfo[];
   alternativeIds?: IAlternativeIdSettings;
   mode?: VisualizationMode;
