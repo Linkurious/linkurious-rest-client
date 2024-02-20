@@ -44,6 +44,7 @@ export interface DataSourceFeatures {
   alerts: boolean;
   canDryRun: boolean;
   supportNativeDate: boolean;
+  supportTimezone: boolean;
   canSearchOnNonTextualValues: boolean;
 }
 
