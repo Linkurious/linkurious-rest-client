@@ -12,13 +12,15 @@ export interface CreateWebhookParams {
   events?: WebhookEvent[];
 }
 
-export interface DeleteWebhookParams {
+interface ExistingWebhookParams {
   webhookId: number;
 }
 
-export type PingWebhookParams = DeleteWebhookParams;
+export interface DeleteWebhookParams extends ExistingWebhookParams {}
 
-export interface GetWebhookDeliveriesParams extends DeleteWebhookParams, PaginationClause {}
+export interface PingWebhookParams extends ExistingWebhookParams {}
+
+export interface GetWebhookDeliveriesParams extends ExistingWebhookParams, PaginationClause {}
 
 export const WEBHOOK_EVENT_TYPES = ['newCase', 'caseAssignment'] as const;
 
