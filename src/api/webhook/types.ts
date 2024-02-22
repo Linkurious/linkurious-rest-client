@@ -26,7 +26,13 @@ export const WEBHOOK_EVENT_TYPES = ['newCase', 'caseAssignment'] as const;
 
 export type WebhookEventType = (typeof WEBHOOK_EVENT_TYPES)[number];
 
-export type WebhookDeliveryEventType = WebhookEventType | 'ping';
+export type PayloadEventType = WebhookEventType | 'ping';
+
+export interface Payload {
+  eventType: PayloadEventType;
+  sourceKey?: string;
+  data: Record<string, unknown>;
+}
 
 export interface Webhook extends Omit<CreateWebhookParams, 'secret'>, PersistedItem {}
 
@@ -37,8 +43,7 @@ export interface WebhookEvent {
 
 export interface WebhookDelivery extends PersistedItem {
   webhookId: number;
-  eventType: WebhookDeliveryEventType;
-  sourceKey?: string;
-  data: Record<string, unknown>;
-  sentDate?: string;
+  payload: Payload;
+  sentDate: string | null;
+  error?: string;
 }

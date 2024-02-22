@@ -19,8 +19,7 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, WEBHOOK_DELIVERY_FAILED} =
-  LkErrorKey;
+const {UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND} = LkErrorKey;
 
 export class WebhookAPI extends Request {
   /**
@@ -61,9 +60,9 @@ export class WebhookAPI extends Request {
   /**
    * Trigger the "ping" event on a webhook.
    */
-  pingWebhook(params: PingWebhookParams) {
+  pingWebhook(this: Request<WebhookDelivery>, params: PingWebhookParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND, WEBHOOK_DELIVERY_FAILED],
+      errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
       url: '/admin/webhooks/:webhookId/ping',
       method: 'POST',
       params: params
