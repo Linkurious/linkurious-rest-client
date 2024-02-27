@@ -31,6 +31,8 @@ export interface IndexState {
   indexOptimized: boolean;
 }
 
+export type TemporalType = 'date' | 'datetime' | 'localdatetime';
+
 export interface DataSourceFeatures {
   immutableNodeCategories: boolean;
   canCountBeforeIndexation: boolean;
@@ -44,6 +46,7 @@ export interface DataSourceFeatures {
   alerts: boolean;
   canDryRun: boolean;
   supportNativeDate: boolean;
+  nativeTemporalTypes: TemporalType[];
   canSearchOnNonTextualValues: boolean;
 }
 
