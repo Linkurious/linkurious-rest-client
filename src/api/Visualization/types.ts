@@ -155,6 +155,7 @@ export interface BaseVisualization {
   design: IVisualizationDesign;
   filters: IVisualizationFilters;
   edgeGrouping?: GenericObject<boolean>;
+  nodeGroupingRuleIds: number[];
   alternativeIds: IAlternativeIdSettings;
   mode: VisualizationMode;
   layout: VisualizationLayout;
@@ -170,7 +171,6 @@ export interface Visualization extends BaseVisualization, PersistedItem {
   nodes: IVizNodeInfo[];
   edges: IVizEdgeInfo[];
   nodeFields: IItemFields;
-  nodeGroupingRuleIds: number[];
   edgeFields: IItemFields;
   design: IVisualizationDesign;
   filters: IVisualizationFilters;
