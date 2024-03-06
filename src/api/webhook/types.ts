@@ -22,7 +22,7 @@ export interface PingWebhookParams extends ExistingWebhookParams {}
 
 export interface GetWebhookDeliveriesParams extends ExistingWebhookParams, PaginationClause {}
 
-export const WEBHOOK_EVENT_TYPES = ['newCase', 'caseAssignment'] as const;
+export const WEBHOOK_EVENT_TYPES = ['newCase', 'newMatch', 'caseStatusChange'] as const;
 
 export type WebhookEventType = (typeof WEBHOOK_EVENT_TYPES)[number];
 
