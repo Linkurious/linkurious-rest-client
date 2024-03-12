@@ -23,6 +23,7 @@ export * from './src/api/Linkurious';
 export * from './src/api/Plugin';
 export * from './src/api/User';
 export * from './src/api/Visualization';
+export * from './src/api/webhook';
 export * from './src/api/commonTypes';
 export * from './src/api/displayTypes';
 export * from './src/api/spaces';

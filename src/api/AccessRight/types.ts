@@ -32,7 +32,8 @@ export enum Action {
 export enum AdminAction {
   ADMIN_APP = 'admin.app', // Create API Keys
   ADMIN_USERS_DELETE = 'admin.users.delete', // Delete users
-  ADMIN_CONFIG = 'admin.config' // Edit the configuration of Linkurious
+  ADMIN_CONFIG = 'admin.config', // Edit the configuration of Linkurious
+  ADMIN_WEBHOOKS = 'admin.webhooks' // Manage webhooks
 }
 
 export type AnyAction = AdminAction | Action;
