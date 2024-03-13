@@ -155,6 +155,7 @@ export interface BaseVisualization {
   design: IVisualizationDesign;
   filters: IVisualizationFilters;
   edgeGrouping?: GenericObject<boolean>;
+  nodeGroupingRuleIds: number[];
   alternativeIds: IAlternativeIdSettings;
   mode: VisualizationMode;
   layout: VisualizationLayout;
@@ -200,6 +201,7 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   title: string;
   folder?: number;
   nodes: IVizNodeInfo[];
+  nodeGroupingRuleIds?: number[];
   edges: IVizEdgeInfo[];
   alternativeIds?: IAlternativeIdSettings;
   mode?: VisualizationMode;
