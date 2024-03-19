@@ -114,6 +114,7 @@ export interface IGetGroupParams extends IDataSourceParams {
 }
 
 export interface Group extends PersistedItem {
+  uuid: string;
   name: string;
   sourceKey: string;
   builtin: boolean;
@@ -121,13 +122,14 @@ export interface Group extends PersistedItem {
   accessRights: AccessRight[];
 }
 
-export type GroupName = Pick<Group, 'id' | 'name' | 'sourceKey'>;
+export type GroupName = Pick<Group, 'id' | 'uuid' | 'name' | 'sourceKey'>;
 
 export interface IGetGroupNamesParams extends IDataSourceParams {
   action?: Action;
 }
 
 export interface ICreateGroupParams extends IDataSourceParams {
+  uuid?: string;
   name: string;
 }
 
