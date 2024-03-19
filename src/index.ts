@@ -27,9 +27,11 @@ import {PluginAPI} from './api/Plugin';
 import {SearchAPI} from './api/Search';
 import {UserAPI} from './api/User';
 import {VisualizationAPI} from './api/Visualization';
+import {WebhookAPI} from './api/webhook';
 import {endsWith, find} from './utils';
 import {MailerAPI} from './api/mailer';
 import {SpacesAPI} from './api/spaces';
+import {NodeGroupingAPI} from './api/nodeGrouping';
 
 export class RestClient extends ErrorListener {
   public readonly clientState: ClientState;
@@ -54,7 +56,9 @@ export class RestClient extends ErrorListener {
   public readonly mailer: MailerAPI;
   public readonly user: UserAPI;
   public readonly visualization: VisualizationAPI;
+  public readonly webhook: WebhookAPI;
   public readonly spaces: SpacesAPI;
+  public readonly nodeGrouping: NodeGroupingAPI;
 
   constructor(options?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();
@@ -91,7 +95,9 @@ export class RestClient extends ErrorListener {
     this.mailer = new MailerAPI(this.moduleProps);
     this.user = new UserAPI(this.moduleProps);
     this.visualization = new VisualizationAPI(this.moduleProps);
+    this.webhook = new WebhookAPI(this.moduleProps);
     this.spaces = new SpacesAPI(this.moduleProps);
+    this.nodeGrouping = new NodeGroupingAPI(this.moduleProps);
   }
 
   /**

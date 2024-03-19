@@ -43,6 +43,7 @@ export interface Configuration {
   auditTrail?: IAuditTrailConfig;
   defaultPreferences?: IUserPreferencesConfig;
   guestPreferences?: IGuestPreferencesConfig;
+  webhooks?: WebhooksConfig;
   plugins?: IPluginConfig;
   dataSource?: SelectedDataSourceConfig;
   needRestart?: boolean;
@@ -130,6 +131,12 @@ export interface IGuestPreferencesConfig {
   uiDesign: boolean;
   uiEdgeGrouping: boolean;
   uiFilter: boolean;
+}
+
+export interface WebhooksConfig {
+  deliveryFrequency?: string;
+  cleanupFrequency?: string;
+  deliveryRetentionDelayMs?: number;
 }
 
 export enum UILayout {
