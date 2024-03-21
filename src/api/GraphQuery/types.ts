@@ -4,7 +4,13 @@
  * - Created on 2019-10-29.
  */
 
-import {DeletableUser, GenericObject, IDataSourceParams, IGetSubGraphParams, SharingOptions} from '../commonTypes';
+import {
+  DeletableUser,
+  GenericObject,
+  IDataSourceParams,
+  IGetSubGraphParams,
+  SharingOptions
+} from '../commonTypes';
 import {LkSubGraph} from '../graphItemTypes';
 
 export enum TemplateFieldType {
