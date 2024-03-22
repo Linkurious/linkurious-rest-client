@@ -14,6 +14,7 @@
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "allowUnreachableCode": false,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   }
 }

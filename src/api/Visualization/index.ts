@@ -6,7 +6,7 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
-import {IDataSourceParams} from '../commonTypes';
+import {IDataSourceParams, PaginatedResponse} from '../commonTypes';
 
 import {
   IGetVisualizationParams,
@@ -19,6 +19,7 @@ import {
   ICreateVisualizationFolderParams,
   IUpdateVisualizationFolderParams,
   IDeleteVisualizationFolderParams,
+  IGetVisualizationTreeParams,
   VisualizationTree,
   IGetSandboxParams,
   IUpdateSandboxParams,
@@ -34,7 +35,13 @@ import {
   Visualization,
   VisualizationFolder,
   Widget,
-  PopulatedVisualization
+  PopulatedVisualization,
+  IShareWithMultipleUsersParams,
+  ReleaseVisualizationEditLockParams,
+  VisualizationComment,
+  CreateVisualizationCommentParams,
+  GetVisualizationCommentsParams,
+  DeleteVisualizationCommentParams
 } from './types';
 
 export * from './types';
@@ -46,7 +53,9 @@ const {
   NOT_FOUND,
   FOLDER_DELETION_FAILED,
   ALREADY_EXISTS,
-  VISUALIZATION_LOCKED
+  VISUALIZATION_LOCKED,
+  INVALID_PARENT_FOLDER,
+  FORBIDDEN
 } = LkErrorKey;
 
 export class VisualizationAPI extends Request {
@@ -75,11 +84,34 @@ export class VisualizationAPI extends Request {
   }
 
   /**
+   * Release the exclusive edit lock on a visualization.
+   */
+  public releaseEditLock(params: ReleaseVisualizationEditLockParams) {
+    if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+      // sendBeacon() is supported in the browser
+      return this.sendBeacon({
+        errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+        url: '/:sourceKey/visualizations/:id/release-edit-lock',
+        method: 'POST',
+        params: params
+      });
+    } else {
+      // sendBeacon() is not supported in the browser, or we are not in a browser environment
+      return this.request({
+        errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+        url: '/:sourceKey/visualizations/:id/release-edit-lock',
+        method: 'POST',
+        params: params
+      });
+    }
+  }
+
+  /**
    * Create a new visualization.
    */
   public createVisualization(this: Request<Visualization>, params: ICreateVisualizationParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, INVALID_PARENT_FOLDER],
       url: '/:sourceKey/visualizations',
       method: 'POST',
       params: params
@@ -106,7 +138,7 @@ export class VisualizationAPI extends Request {
    */
   public deleteVisualization(params: IDeleteVisualizationParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, VISUALIZATION_LOCKED],
       url: '/:sourceKey/visualizations/:id',
       method: 'DELETE',
       params: params
@@ -118,7 +150,13 @@ export class VisualizationAPI extends Request {
    */
   public updateVisualization(params: IUpdateVisualizationParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, VISUALIZATION_LOCKED],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        VISUALIZATION_LOCKED,
+        INVALID_PARENT_FOLDER
+      ],
       url: '/:sourceKey/visualizations/:id',
       method: 'PATCH',
       params: params
@@ -148,7 +186,13 @@ export class VisualizationAPI extends Request {
     params: ICreateVisualizationFolderParams
   ) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        ALREADY_EXISTS,
+        NOT_FOUND,
+        INVALID_PARENT_FOLDER
+      ],
       url: '/:sourceKey/visualizations/folder',
       method: 'POST',
       params: params
@@ -163,7 +207,13 @@ export class VisualizationAPI extends Request {
     params: IUpdateVisualizationFolderParams
   ) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, ALREADY_EXISTS],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ALREADY_EXISTS,
+        INVALID_PARENT_FOLDER
+      ],
       url: '/:sourceKey/visualizations/folder/:id',
       method: 'PATCH',
       params: params
@@ -185,9 +235,12 @@ export class VisualizationAPI extends Request {
   /**
    * Get the visualizations and the visualization folders in a tree structure.
    */
-  public getVisualizationTree(this: Request<VisualizationTree>, params?: IDataSourceParams) {
+  public getVisualizationTree(
+    this: Request<VisualizationTree>,
+    params?: IGetVisualizationTreeParams
+  ) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE],
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/visualizations/tree',
       method: 'GET',
       params: params
@@ -241,6 +294,21 @@ export class VisualizationAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: `/:sourceKey/visualizations/:id/share/:userId`,
       method: 'PUT',
+      params: params
+    });
+  }
+
+  /**
+   * Update the list of users and access level a visualization is shared with.
+   */
+  public shareWithMultipleUsers(
+    this: Request<VisualizationShare>,
+    params: IShareWithMultipleUsersParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: `/:sourceKey/visualizations/:id/share`,
+      method: 'PATCH',
       params: params
     });
   }
@@ -300,6 +368,48 @@ export class VisualizationAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/widget/:widgetKey',
+      method: 'DELETE',
+      params: params
+    });
+  }
+
+  /**
+   * Create a visualization comment.
+   */
+  createVisualizationComment(
+    this: Request<VisualizationComment>,
+    params: CreateVisualizationCommentParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/visualizations/:visualizationId/comments',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get the visualization comment(s).
+   */
+  getVisualizationComments(
+    this: Request<PaginatedResponse<VisualizationComment>>,
+    params: GetVisualizationCommentsParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/visualizations/:visualizationId/comments',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Delete visualization comment
+   */
+  deleteVisualizationComment(params: DeleteVisualizationCommentParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, FORBIDDEN],
+      url: '/:sourceKey/visualizations/comments/:commentId',
       method: 'DELETE',
       params: params
     });

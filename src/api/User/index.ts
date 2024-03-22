@@ -9,6 +9,7 @@ import {Request} from '../../http/request';
 import {IDataSourceParams} from '../commonTypes';
 
 import {
+  GetGroupUsersParams,
   Group,
   GroupName,
   ICountSharedAssets,
@@ -80,7 +81,10 @@ export class UserAPI extends Request {
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/users',
       method: 'GET',
-      params: params
+      params: {
+        ...params,
+        excludedUserIds: params.excludedUserIds?.join(',')
+      }
     });
   }
 
@@ -234,6 +238,18 @@ export class UserAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, NOT_FOUND],
       url: '/admin/users/:id/sharedAssets',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get users by group id and return username, email and id
+   */
+  public getGroupUsers(this: Request<SearchUsersSimpleResponse>, params: GetGroupUsersParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/groups/:groupId/users',
       method: 'GET',
       params: params
     });

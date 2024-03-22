@@ -43,7 +43,9 @@ import {
   IGetAllAlertUsersParams,
   IBulkAssignCasesParams,
   ISetFullCaseListPreferencesParams,
-  IGetFullCaseListPreferencesResponse
+  IGetFullCaseListPreferencesResponse,
+  RunAlertResponse,
+  SearchColumnValuesForAlertCases
 } from './types';
 
 export * from './types';
@@ -62,16 +64,24 @@ const {
   ALREADY_EXISTS,
   INVALID_ALERT_QUERY,
   INVALID_ALERT_TARGET,
-  REDUNDANT_ACTION
+  REDUNDANT_ACTION,
+  EDIT_CONFLICT
 } = LkErrorKey;
 
 export class AlertAPI extends Request {
   /**
    * Execute an existing alert.
    */
-  public runAlert(params: IRunAlertParams) {
+  public runAlert(this: Request<RunAlertResponse>, params: IRunAlertParams) {
     return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      errors: [
+        FEATURE_DISABLED,
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        NOT_FOUND,
+        CONSTRAINT_VIOLATION
+      ],
       url: '/admin/:sourceKey/alerts/:id/run',
       method: 'POST',
       params: params
@@ -84,7 +94,13 @@ export class AlertAPI extends Request {
    */
   public createAlert(this: Request<Alert>, params: ICreateAlertParams) {
     return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
+      errors: [
+        FEATURE_DISABLED,
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        CONSTRAINT_VIOLATION
+      ],
       url: '/admin/:sourceKey/alerts',
       method: 'POST',
       params: params
@@ -97,7 +113,14 @@ export class AlertAPI extends Request {
    */
   public updateAlert(this: Request<Alert>, params: IUpdateAlertParams) {
     return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      errors: [
+        FEATURE_DISABLED,
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        NOT_FOUND,
+        CONSTRAINT_VIOLATION
+      ],
       url: '/admin/:sourceKey/alerts/:id',
       method: 'PATCH',
       params: params
@@ -109,7 +132,14 @@ export class AlertAPI extends Request {
    */
   public deleteAlert(params: IDeleteAlertParams) {
     return this.request({
-      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      errors: [
+        FEATURE_DISABLED,
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        NOT_FOUND,
+        EDIT_CONFLICT
+      ],
       url: '/admin/:sourceKey/alerts/:id',
       method: 'DELETE',
       params: params
@@ -355,7 +385,29 @@ export class AlertAPI extends Request {
         sortBy: JSON.stringify(params.sortBy),
         alertIdsFilter: params.alertIdsFilter?.join(','),
         assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
-        caseStatusesFilter: params.caseStatusesFilter?.join(',')
+        caseStatusesFilter: params.caseStatusesFilter?.join(','),
+        caseColumnsFilter: JSON.stringify(params.caseColumnsFilter),
+        alertQueryModelKeysFilter: params.alertQueryModelKeysFilter?.join(',')
+      }
+    });
+  }
+
+  /**
+   * Get extract for the full case list.
+   */
+  public getFullCaseListExtract(params: IGetFullCaseListParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/extract',
+      method: 'GET',
+      params: {
+        ...params,
+        sortBy: JSON.stringify(params.sortBy),
+        alertIdsFilter: params.alertIdsFilter?.join(','),
+        assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
+        caseStatusesFilter: params.caseStatusesFilter?.join(','),
+        caseColumnsFilter: JSON.stringify(params.caseColumnsFilter),
+        alertQueryModelKeysFilter: params.alertQueryModelKeysFilter?.join(',')
       }
     });
   }
@@ -371,6 +423,21 @@ export class AlertAPI extends Request {
       url: '/:sourceKey/alerts/users',
       method: 'GET',
       params: {...params, mutualAlertIds: params?.mutualAlertIds?.join(',')}
+    });
+  }
+
+  /**
+   * Search for values of a given column in the cases of an alert.
+   */
+  public searchColumnValuesForAlertCases(
+    this: Request<string[]>,
+    params?: SearchColumnValuesForAlertCases
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/:alertId/cases/values',
+      method: 'GET',
+      params: params
     });
   }
 

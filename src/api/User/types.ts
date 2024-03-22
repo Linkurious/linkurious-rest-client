@@ -4,7 +4,7 @@
  * - Created on 2019-08-19.
  */
 
-import {GenericObject, IDataSourceParams, PersistedItem} from '../commonTypes';
+import {GenericObject, IDataSourceParams, PaginationClause, PersistedItem} from '../commonTypes';
 import {AccessRight, Action, AnyAction} from '../AccessRight';
 import {IGuestPreferencesConfig} from '../Config';
 
@@ -66,8 +66,15 @@ export interface ISearchUsersFullParams extends IDataSourceParams {
 
 export interface ISearchUsersSimpleParams extends IDataSourceParams {
   contains?: string;
+  excludedUserIds?: number[];
   offset?: number;
   limit?: number;
+}
+
+export interface GetGroupUsersParams extends IDataSourceParams, PaginationClause {
+  groupId: number;
+  sortBy?: SearchUsersSortBy;
+  sortDirection?: SearchUsersSortDirection;
 }
 
 export interface SearchUsersSimpleResponse {

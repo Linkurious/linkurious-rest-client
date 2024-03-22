@@ -32,7 +32,10 @@ const {
   BAD_GRAPH_REQUEST,
   GRAPH_REQUEST_TIMEOUT,
   CONSTRAINT_VIOLATION,
-  MALFORMED_QUERY_TEMPLATE
+  MALFORMED_QUERY_TEMPLATE,
+  INVALID_CASE_ATTRIBUTES_QUERY,
+  INVALID_PARAMETER,
+  CRITICAL
 } = LkErrorKey;
 
 export class GraphQueryAPI extends Request {
@@ -113,8 +116,10 @@ export class GraphQueryAPI extends Request {
         FORBIDDEN,
         BAD_GRAPH_REQUEST,
         GRAPH_REQUEST_TIMEOUT,
-        CONSTRAINT_VIOLATION,
-        MALFORMED_QUERY_TEMPLATE
+        INVALID_PARAMETER,
+        CRITICAL,
+        MALFORMED_QUERY_TEMPLATE,
+        INVALID_CASE_ATTRIBUTES_QUERY
       ],
       url: '/:sourceKey/graph/check/query',
       method: 'POST',

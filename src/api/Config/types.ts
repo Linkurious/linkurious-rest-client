@@ -27,7 +27,7 @@ export interface Configuration {
   };
 
   // partially available to not authenticated user
-  access?: IAccessConfig;
+  access: IAccessConfig;
 
   // available to authenticated users
   advanced?: IAdvancedConfig;
@@ -39,9 +39,11 @@ export interface Configuration {
   // available only to admins
   db?: IDatabaseConfig;
   server?: IHttpServerConfig;
+  metrics?: MetricsConfig;
   auditTrail?: IAuditTrailConfig;
   defaultPreferences?: IUserPreferencesConfig;
   guestPreferences?: IGuestPreferencesConfig;
+  webhooks?: WebhooksConfig;
   plugins?: IPluginConfig;
   dataSource?: SelectedDataSourceConfig;
   needRestart?: boolean;
@@ -51,10 +53,15 @@ export interface Configuration {
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
 
 export interface IDatabaseOptions {
-  dialect: DatabaseDialect;
-  storage?: string;
+  dialect: Exclude<DatabaseDialect, 'sqlite'>;
   host?: string;
-  port?: string;
+  port?: number;
+  dialectOptions?: Record<string, unknown>;
+}
+
+export interface ISqliteOptions {
+  dialect: 'sqlite';
+  storage: string;
 }
 
 export interface IDatabaseConfig {
@@ -62,7 +69,7 @@ export interface IDatabaseConfig {
   username?: string;
   password?: string;
   connectionRetries?: number;
-  options?: IDatabaseOptions;
+  options: IDatabaseOptions | ISqliteOptions;
 }
 
 export interface IHttpServerConfig {
@@ -86,6 +93,11 @@ export interface IHttpServerConfig {
   certificatePassphrase?: string;
   tlsCipherList?: string;
   customHTTPHeaders?: GenericObject;
+}
+
+export interface MetricsConfig {
+  enabled?: boolean;
+  listenPort?: number;
 }
 
 export enum AuditTrailMode {
@@ -121,6 +133,12 @@ export interface IGuestPreferencesConfig {
   uiFilter: boolean;
 }
 
+export interface WebhooksConfig {
+  deliveryFrequency?: string;
+  cleanupFrequency?: string;
+  deliveryRetentionDelayMs?: number;
+}
+
 export enum UILayout {
   REGULAR = 'regular',
   SIMPLE = 'simple',
@@ -130,7 +148,6 @@ export enum UILayout {
 export type SelectedDataSourceConfig =
   | IDataSourceConfig<INeo4jConfig, INeo4jSearchConfig>
   | IDataSourceConfig<INeo4jConfig, InternalIndexConfig>
-  | IDataSourceConfig<INeo4jConfig, INeo2esConfig>
   | IDataSourceConfig<ICosmosDbConfig, IAzureSearchConfig>
   | IDataSourceConfig<ICosmosDbConfig, InternalIndexConfig>;
 
@@ -155,7 +172,6 @@ export interface IVendorConfig {
 export interface INeo4jConfig extends IGraphVendorConfig {
   url: string;
   proxy?: string;
-  writeURL?: string;
   user?: string;
   password?: string;
   databaseName?: string;
@@ -195,8 +211,6 @@ export interface IElasticSearchConfig extends IVendorConfig {
   skipEdgeIndexation?: boolean;
 }
 
-export interface INeo2esConfig extends IVendorConfig {}
-
 export interface IAzureSearchConfig extends IVendorConfig {
   url: string;
   apiKey: string;
@@ -206,10 +220,8 @@ export interface IAzureSearchConfig extends IVendorConfig {
 
 export interface IAlertsConfig {
   enabled?: boolean;
-  maxCaseTTL?: number;
-  maxCasesLimit?: number;
+  maxMatchesLimit?: number;
   maxRuntimeLimit?: number;
-  maxConcurrency?: number;
 }
 
 export interface IAdvancedConfig {
@@ -250,17 +262,11 @@ export interface ILeafletConfig {
   overlay?: boolean;
 }
 
-export enum DefaultPage {
-  DASHBOARD = 'dashboard',
-  WORKSPACE = 'workspace'
-}
-
 export interface IAccessConfig {
   floatingLicenses?: number;
   authRequired?: boolean;
+  disableLocalAuth?: boolean;
   guestMode?: boolean;
-  defaultPage?: DefaultPage;
-  defaultPageParams?: GenericObject;
   dataEdition?: boolean;
   widget?: boolean;
   visualizationExport: boolean;
@@ -428,9 +434,17 @@ export interface ISMTPAuthConfig {
 }
 
 export interface IEmailNotificationsConfig {
+  // Alert notifications.
   alertNotifications: boolean;
   newCasesDigestNotificationFrequency: string;
   caseAssignmentNotificationFrequency: string;
+  caseMentionNotificationFrequency: string;
+
+  // Visualization notifications.
+  visualizationNotifications: boolean;
+  visualizationMentionNotificationFrequency: string;
+
+  // Email configuration.
   mailer: IMailerConfig;
   fromEmail: string;
 }

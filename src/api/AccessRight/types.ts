@@ -14,9 +14,11 @@ export enum Action {
   ADMIN_INDEX = 'admin.index', // Index the data-source and read the configuration
   ADMIN_USERS = 'admin.users', // Manage the users in the data-source
   ADMIN_SCHEMA = 'admin.schema', // Edit the schema of the data-source
+  ADMIN_SCHEMA_READ = 'admin.schema.read', // Read the graph schema of the data-source
   ADMIN_ALERTS = 'admin.alerts', // Manage the alerts in the data-source
   ADMIN_REPORT = 'admin.report', // Generate analytics report
   ADMIN_STYLES = 'admin.styles', // Edit styles and captions of all sandboxes of the data-source
+  ADMIN_SPACES = 'admin.spaces', // Edit, update and delete a space
   RUN_QUERY = 'runQuery', // Execute a saved query
   RAW_READ_QUERY = 'rawReadQuery', // Create a read query
   RAW_WRITE_QUERY = 'rawWriteQuery', // Create a read/write query
@@ -30,7 +32,8 @@ export enum Action {
 export enum AdminAction {
   ADMIN_APP = 'admin.app', // Create API Keys
   ADMIN_USERS_DELETE = 'admin.users.delete', // Delete users
-  ADMIN_CONFIG = 'admin.config' // Edit the configuration of Linkurious
+  ADMIN_CONFIG = 'admin.config', // Edit the configuration of Linkurious
+  ADMIN_WEBHOOKS = 'admin.webhooks' // Manage webhooks
 }
 
 export type AnyAction = AdminAction | Action;

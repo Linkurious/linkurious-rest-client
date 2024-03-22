@@ -17,7 +17,13 @@ import {
   LkErrorKeyToInterface,
   Response
 } from './response';
-import {FetchConfig, ModuleProps, RawFetchConfig, SuperAgentResponse} from './types';
+import {
+  FetchConfig,
+  ModuleProps,
+  RawFetchConfig,
+  SendBeaconConfig,
+  SuperAgentResponse
+} from './types';
 
 export abstract class Request<S = undefined> {
   constructor(public readonly props: ModuleProps) {}
@@ -125,6 +131,22 @@ export abstract class Request<S = undefined> {
     };
   }
 
+  /**
+   * Send a post request using the Navigator.sendBeacon api.
+   * - Note that only url parameters are supported.
+   * - The sendBeacon api does not return any response.
+   */
+  public async sendBeacon<EK extends LkErrorKey = never>(
+    rawFetchConfig: SendBeaconConfig<EK>
+  ): Promise<void> {
+    // 1) Render URL template using params
+    const requiredConfig = Request.renderURL(rawFetchConfig, this.props);
+
+    // 2) Sort remaining params into body and query
+    const fetchConfig = Request.splitParams(requiredConfig, this.props);
+    navigator.sendBeacon(fetchConfig.url);
+  }
+
   public async request<EK extends LkErrorKey = never>(rawFetchConfig: RawFetchConfig<EK>) {
     // 1) Render URL template using params
     let requiredConfig: Required<RawFetchConfig>;
@@ -175,13 +197,13 @@ export abstract class Request<S = undefined> {
       // 4.c) Dispatch server error if expected
       this.props.dispatchError(
         response.body.key as LkErrorKey,
-        (response.body as unknown) as LkErrorKeyToInterface[LkErrorKey]
+        response.body as unknown as LkErrorKeyToInterface[LkErrorKey]
       );
 
       return new Response({
         status: response.status,
-        header: (response.header as unknown) as GenericObject | undefined,
-        body: (response.body as unknown) as LkErrorKeyToInterface[LkErrorKey]
+        header: response.header as unknown as GenericObject | undefined,
+        body: response.body as unknown as LkErrorKeyToInterface[LkErrorKey]
       }) as ErrorResponses<EK>;
     } else if ((response.status < 200 || response.status >= 300) && response.body?.key) {
       // 4.d) Throw error if unexpected
@@ -198,8 +220,8 @@ export abstract class Request<S = undefined> {
     // 4.f) Return the success
     return new Response({
       status: response.status,
-      header: (response.header as unknown) as GenericObject | undefined,
-      body: (response.body as unknown) as S
+      header: response.header as unknown as GenericObject | undefined,
+      body: response.body as unknown as S
     });
   }
 

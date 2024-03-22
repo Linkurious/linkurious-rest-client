@@ -4,7 +4,15 @@
  * - Created on 2019-10-30.
  */
 
-import {GenericObject, IDataSourceParams, PersistedItem, Tree} from '../commonTypes';
+import {
+  CommentMention,
+  DeletableUser,
+  GenericObject,
+  IDataSourceParams,
+  PaginationClause,
+  PersistedItem,
+  Tree
+} from '../commonTypes';
 import {
   VizEdge,
   IVizEdgeInfo,
@@ -14,9 +22,10 @@ import {
   WidgetNode
 } from '../graphItemTypes';
 import {GraphQueryDialect} from '../GraphQuery';
-import {IRangeValues, ItemSelector, IStyles} from '../displayTypes';
+import {IRangeValues, ItemSelector, IStyles, IStyleIcon, IStyleImage} from '../displayTypes';
 import {User} from '../User';
 import {IAlternativeIdSettings} from '../DataSource';
+import {ILeafletConfig} from '../Config';
 
 export interface IGetVisualizationParams extends IDataSourceParams {
   id: number;
@@ -24,12 +33,17 @@ export interface IGetVisualizationParams extends IDataSourceParams {
   withDegree?: boolean;
 }
 
+export interface ReleaseVisualizationEditLockParams extends IDataSourceParams {
+  id: number;
+}
+
 export enum VisualizationRight {
   READ = 'read',
   WRITE = 'write',
   WRITE_FILTERED = 'write-filtered',
   OWNER = 'owner',
-  OWNER_FILTERED = 'owner-filtered'
+  OWNER_FILTERED = 'owner-filtered',
+  WRITE_LOCKED = 'write-locked'
 }
 
 export enum ShareVisualizationRight {
@@ -141,6 +155,7 @@ export interface BaseVisualization {
   design: IVisualizationDesign;
   filters: IVisualizationFilters;
   edgeGrouping?: GenericObject<boolean>;
+  nodeGroupingRuleIds: number[];
   alternativeIds: IAlternativeIdSettings;
   mode: VisualizationMode;
   layout: VisualizationLayout;
@@ -150,6 +165,7 @@ export interface BaseVisualization {
 }
 
 export interface Visualization extends BaseVisualization, PersistedItem {
+  spaceId?: number;
   title: string;
   folder: number;
   nodes: IVizNodeInfo[];
@@ -167,9 +183,12 @@ export interface Visualization extends BaseVisualization, PersistedItem {
   geo: IVisualizationGeo;
   timeline: IVisualizationTimeline;
   // TODO viz.user and viz.right are defined only on getVisualization
-  user: Pick<User, 'id' | 'username' | 'email'>;
+  user?: Pick<User, 'id' | 'username' | 'email'>;
   right: VisualizationRight;
   widgetKey?: string; // defined if the visualization has a widget
+  lastLockedByUserId?: number;
+  lastLockedByUser: Pick<User, 'username' | 'email'>;
+  lastEditedByUser: Pick<User, 'username' | 'email'>;
 }
 
 export interface PopulatedVisualization extends Visualization {
@@ -178,9 +197,11 @@ export interface PopulatedVisualization extends Visualization {
 }
 
 export interface ICreateVisualizationParams extends IDataSourceParams {
+  spaceId?: number;
   title: string;
   folder?: number;
   nodes: IVizNodeInfo[];
+  nodeGroupingRuleIds?: number[];
   edges: IVizEdgeInfo[];
   alternativeIds?: IAlternativeIdSettings;
   mode?: VisualizationMode;
@@ -215,7 +236,7 @@ export interface IUpdateVisualizationParams extends IDataSourceParams {
   doLayout?: boolean;
 }
 
-export type GetSharedVisualizationsResponse = Array<{
+export interface SharedVisualization {
   right: VisualizationRight;
   visualizationId: number;
   ownerId: number;
@@ -223,17 +244,24 @@ export type GetSharedVisualizationsResponse = Array<{
   sourceKey: string;
   title: string;
   updatedAt: string;
-}>;
+  locked: boolean;
+  lastLockedByUser: Pick<User, 'username' | 'email'>;
+  lastEditedByUser: Pick<User, 'username' | 'email'>;
+}
+
+export type GetSharedVisualizationsResponse = SharedVisualization[];
 
 export interface ICreateVisualizationFolderParams extends IDataSourceParams {
   title: string;
   parent: number;
+  spaceId?: number;
 }
 
 export interface VisualizationFolder extends PersistedItem {
   title: string;
   parent: number;
   sourceKey: string;
+  spaceId?: number;
 }
 
 export interface IUpdateVisualizationFolderParams
@@ -245,17 +273,19 @@ export interface IDeleteVisualizationFolderParams extends IDataSourceParams {
   id: number;
 }
 
-export type VisualizationTree = Tree<
-  {
-    id: number;
-    title: string;
-    shareCount: number;
-    widgetKey?: string; // defined if the visualization has a widget
-    createdAt: string;
-    updatedAt: string;
-  },
-  'visu'
->;
+export interface VisualizationTreeItem {
+  id: number;
+  title: string;
+  shareCount: number;
+  widgetKey?: string; // defined if the visualization has a widget
+  createdAt: string;
+  updatedAt: string;
+  lastLockedByUser: Pick<User, 'username' | 'email'>;
+  lastEditedByUser: Pick<User, 'username' | 'email'>;
+  locked: boolean;
+}
+
+export type VisualizationTree = Tree<VisualizationTreeItem, 'visu'>;
 
 export enum PopulateType {
   VISUALIZATION_ID = 'visualizationId',
@@ -268,7 +298,12 @@ export enum PopulateType {
   CASE_ID = 'caseId'
 }
 
+export interface IGetVisualizationTreeParams extends IDataSourceParams {
+  spaceId?: number;
+}
+
 export interface IGetSandboxParams extends IDataSourceParams {
+  spaceId?: number;
   populate?: PopulateType;
   itemId?: string;
   caseId?: number;
@@ -299,7 +334,7 @@ export interface GetVisualizationSharesResponse {
     visualizationId: number;
     username: string;
     email: string;
-    right: VisualizationRight;
+    right: ShareVisualizationRight;
   }>;
 }
 
@@ -307,6 +342,16 @@ export interface IShareVisualizationParams extends IDataSourceParams {
   id: number;
   userId: number;
   right: ShareVisualizationRight;
+}
+
+export interface VisualizationSharesParams {
+  userId: number;
+  right: ShareVisualizationRight;
+}
+
+export interface IShareWithMultipleUsersParams extends IDataSourceParams {
+  id: number;
+  shares: VisualizationSharesParams[];
 }
 
 export interface VisualizationShare {
@@ -328,10 +373,25 @@ export interface IGetWidgetParams {
 
 export interface WidgetContent {
   graph: {nodes: WidgetNode[]; edges: WidgetEdge[]};
-  legend: boolean;
-  mapLayers: boolean;
+  legend: {nodes: Legend; edges: Legend};
+  mapLayers: ILeafletConfig[];
   mode: VisualizationMode;
-  ui: boolean;
+  ui: {
+    search: boolean;
+    share: boolean;
+    fullscreen: boolean;
+    layout: boolean;
+    zoom: boolean;
+    legend: boolean;
+    geo: boolean;
+  };
+}
+
+export interface Legend {
+  [key: string]: Array<{
+    label: string;
+    value: string | IStyleIcon | IStyleImage | number;
+  }>;
 }
 
 export interface Widget {
@@ -363,4 +423,33 @@ export type IUpdateWidgetParams = ICreateWidgetParams;
 
 export interface IDeleteWidgetParams {
   widgetKey: string;
+}
+
+export interface VisualizationCommentUser extends DeletableUser {
+  hasAccess: boolean;
+}
+
+export interface VisualizationComment {
+  id: number;
+  content: string;
+  user: VisualizationCommentUser;
+  createdAt: string;
+  metadata: CommentMetadata;
+}
+
+export interface CommentMetadata {
+  mentions: CommentMention[];
+}
+
+export interface CreateVisualizationCommentParams extends IDataSourceParams {
+  visualizationId: number;
+  content: string;
+}
+
+export interface GetVisualizationCommentsParams extends IDataSourceParams, PaginationClause {
+  visualizationId: number;
+}
+
+export interface DeleteVisualizationCommentParams extends IDataSourceParams {
+  commentId: number;
 }

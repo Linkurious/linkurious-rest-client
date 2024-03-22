@@ -16,6 +16,7 @@ import {AuthAPI} from './api/Auth';
 import {ConfigAPI} from './api/Config';
 import {CustomActionAPI} from './api/CustomAction';
 import {DataSourceAPI, DataSourceUserInfo} from './api/DataSource';
+import {FavoriteAPI} from './api/favorite';
 import {GraphEdgeAPI} from './api/GraphEdge';
 import {GraphNodeAPI} from './api/GraphNode';
 import {GraphQueryAPI} from './api/GraphQuery';
@@ -26,8 +27,11 @@ import {PluginAPI} from './api/Plugin';
 import {SearchAPI} from './api/Search';
 import {UserAPI} from './api/User';
 import {VisualizationAPI} from './api/Visualization';
+import {WebhookAPI} from './api/webhook';
 import {endsWith, find} from './utils';
 import {MailerAPI} from './api/mailer';
+import {SpacesAPI} from './api/spaces';
+import {NodeGroupingAPI} from './api/nodeGrouping';
 
 export class RestClient extends ErrorListener {
   public readonly clientState: ClientState;
@@ -40,6 +44,7 @@ export class RestClient extends ErrorListener {
   public readonly config: ConfigAPI;
   public readonly customAction: CustomActionAPI;
   public readonly dataSource: DataSourceAPI;
+  public readonly favorite: FavoriteAPI;
   public readonly graphEdge: GraphEdgeAPI;
   public readonly graphNode: GraphNodeAPI;
   public readonly graphQuery: GraphQueryAPI;
@@ -51,6 +56,9 @@ export class RestClient extends ErrorListener {
   public readonly mailer: MailerAPI;
   public readonly user: UserAPI;
   public readonly visualization: VisualizationAPI;
+  public readonly webhook: WebhookAPI;
+  public readonly spaces: SpacesAPI;
+  public readonly nodeGrouping: NodeGroupingAPI;
 
   constructor(options?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();
@@ -75,6 +83,7 @@ export class RestClient extends ErrorListener {
     this.config = new ConfigAPI(this.moduleProps);
     this.customAction = new CustomActionAPI(this.moduleProps);
     this.dataSource = new DataSourceAPI(this.moduleProps);
+    this.favorite = new FavoriteAPI(this.moduleProps);
     this.graphEdge = new GraphEdgeAPI(this.moduleProps);
     this.graphNode = new GraphNodeAPI(this.moduleProps);
     this.graphQuery = new GraphQueryAPI(this.moduleProps);
@@ -86,6 +95,9 @@ export class RestClient extends ErrorListener {
     this.mailer = new MailerAPI(this.moduleProps);
     this.user = new UserAPI(this.moduleProps);
     this.visualization = new VisualizationAPI(this.moduleProps);
+    this.webhook = new WebhookAPI(this.moduleProps);
+    this.spaces = new SpacesAPI(this.moduleProps);
+    this.nodeGrouping = new NodeGroupingAPI(this.moduleProps);
   }
 
   /**

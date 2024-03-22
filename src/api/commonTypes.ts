@@ -8,6 +8,25 @@ export interface GenericObject<T = unknown> {
   [key: string]: T;
 }
 
+export enum SortDirection {
+  ASC = 'asc',
+  DESC = 'desc'
+}
+
+export interface PaginatedResponse<T> {
+  totalCount: number;
+  items: T[];
+}
+
+export interface PaginationClause {
+  offset?: number;
+  limit?: number;
+}
+
+export interface PaginationGenerator {
+  (pageSize: number): PaginationClause;
+}
+
 export interface IDataSourceParams {
   sourceKey?: string;
 }
@@ -62,3 +81,32 @@ export type DummyCopy<T> = {[K in keyof T]: T[K]};
  * Set as required the properties K in T
  */
 export type RequiredProps<T, K extends keyof T> = DummyCopy<T & {[P in K]-?: T[P]}>;
+
+export enum CurrencyFormat {
+  SYMBOL_COMMAS_DOT = '[Symbol] #,###.##',
+  DOTS_COMMA_SYMBOL = '#.###,## [Symbol]',
+  SPACES_COMMA_SYMBOL = '# ###,## [Symbol]',
+  SYMBOL_COMMAS = '[Symbol] #,###',
+  DOTS_SYMBOL = '#.### [Symbol]',
+  SPACES_SYMBOL = '# ### [Symbol]'
+}
+export interface ICurrencyOptions {
+  type: 'currency';
+  format: CurrencyFormat;
+  symbol?: string;
+}
+
+export interface CommentMention {
+  position: number;
+  length: number;
+  user: MentionedUser;
+}
+
+export interface DeletableUser {
+  username: string;
+  email: string;
+}
+
+export interface MentionedUser extends DeletableUser {
+  hasAccess: boolean;
+}
