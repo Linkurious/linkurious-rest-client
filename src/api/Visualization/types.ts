@@ -42,8 +42,7 @@ export enum VisualizationRight {
   WRITE = 'write',
   WRITE_FILTERED = 'write-filtered',
   OWNER = 'owner',
-  OWNER_FILTERED = 'owner-filtered',
-  WRITE_LOCKED = 'write-locked'
+  OWNER_FILTERED = 'owner-filtered'
 }
 
 export enum ShareVisualizationRight {
@@ -186,6 +185,7 @@ export interface Visualization extends BaseVisualization, PersistedItem {
   user?: Pick<User, 'id' | 'username' | 'email'>;
   right: VisualizationRight;
   widgetKey?: string; // defined if the visualization has a widget
+  locked: boolean;
   lastLockedByUserId?: number;
   lastLockedByUser: Pick<User, 'username' | 'email'>;
   lastEditedByUser: Pick<User, 'username' | 'email'>;
