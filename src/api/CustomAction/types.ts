@@ -4,7 +4,7 @@
  * - Created on 2019-08-19.
  */
 
-import {IDataSourceParams, PersistedItem, SharingOptions} from '../commonTypes';
+import {DeletableUser, IDataSourceParams, PersistedItem, SharingOptions} from '../commonTypes';
 
 export enum CustomActionType {
   NON_GRAPH = 'non-graph',
@@ -117,6 +117,9 @@ export interface CustomAction extends PersistedItem, SharingOptions {
     name: string;
     email: string;
   };
+  lastEditDate: string;
+  lastEditor: DeletableUser;
+  lastShareEditor: DeletableUser;
 }
 
 export interface ICreateCustomActionParams extends IDataSourceParams, SharingOptions {
