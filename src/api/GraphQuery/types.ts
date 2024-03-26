@@ -4,7 +4,13 @@
  * - Created on 2019-10-29.
  */
 
-import {GenericObject, IDataSourceParams, IGetSubGraphParams, SharingOptions} from '../commonTypes';
+import {
+  DeletableUser,
+  GenericObject,
+  IDataSourceParams,
+  IGetSubGraphParams,
+  SharingOptions
+} from '../commonTypes';
 import {LkSubGraph} from '../graphItemTypes';
 
 export enum TemplateFieldType {
@@ -197,6 +203,8 @@ export interface GraphQuery extends SharingOptions {
     name: string;
     email: string;
   };
+  lastEditor?: DeletableUser;
+  lastShareEditor?: DeletableUser;
   write: boolean;
   graphInput?: GraphQueryInputType; // defined only if type='template'
   templateFields?: Template[]; // defined only if type='template'
