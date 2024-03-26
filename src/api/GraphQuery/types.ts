@@ -177,7 +177,7 @@ export enum GraphQueryDialect {
 }
 
 export enum GraphQueryRight {
-  OWNER = 'owner',
+  MANAGE = 'manage',
   READ = 'read'
 }
 
