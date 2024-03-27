@@ -120,6 +120,7 @@ export interface CustomAction extends PersistedItem, SharingOptions {
   lastEditDate: string;
   lastEditor: DeletableUser;
   lastShareEditor: DeletableUser;
+  lastSharingEditDate: string;
 }
 
 export interface ICreateCustomActionParams extends IDataSourceParams, SharingOptions {
