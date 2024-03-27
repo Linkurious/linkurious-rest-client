@@ -24,9 +24,9 @@ export enum Action {
   RAW_WRITE_QUERY = 'rawWriteQuery', // Create a read/write query
   RAW_MANAGE_QUERY = 'rawManageQuery', // Manage read/write queries
   RUN_CUSTOM_ACTION = 'runCustomAction', // Execute a custom action
-  WRITE_CUSTOM_ACTION = 'writeCustomAction' // Edit, update and delete a custom action
+  WRITE_CUSTOM_ACTION = 'writeCustomAction', // Create a custom action, update/delete owned custom actions
+  MANAGE_CUSTOM_ACTION = 'manageCustomAction' // WRITE_CUSTOM_ACTION, update/delete all non-private custom actions
 }
-
 /**
  * Only for the built-in admin group.
  */
