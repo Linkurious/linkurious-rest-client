@@ -117,7 +117,6 @@ export interface CustomAction extends PersistedItem, SharingOptions {
     name: string;
     email: string;
   };
-  lastEditDate: string;
   lastEditor: DeletableUser;
   lastShareEditor: DeletableUser;
 }
