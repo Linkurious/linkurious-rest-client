@@ -61,7 +61,7 @@ export interface ParsedCustomAction {
 }
 
 export enum CustomActionRight {
-  OWNER = 'owner',
+  MANAGE = 'manage',
   READ = 'read'
 }
 
