@@ -22,10 +22,11 @@ export enum Action {
   RUN_QUERY = 'runQuery', // Execute a saved query
   RAW_READ_QUERY = 'rawReadQuery', // Create a read query
   RAW_WRITE_QUERY = 'rawWriteQuery', // Create a read/write query
+  MANAGE_QUERY = 'manageQuery', // Manage all non-private read/write queries
   RUN_CUSTOM_ACTION = 'runCustomAction', // Execute a custom action
-  WRITE_CUSTOM_ACTION = 'writeCustomAction' // Edit, update and delete a custom action
+  WRITE_CUSTOM_ACTION = 'writeCustomAction', // Create a custom action, update/delete owned custom actions
+  MANAGE_CUSTOM_ACTION = 'manageCustomAction' // WRITE_CUSTOM_ACTION, update/delete all non-private custom actions
 }
-
 /**
  * Only for the built-in admin group.
  */
