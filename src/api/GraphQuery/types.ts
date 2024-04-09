@@ -194,6 +194,7 @@ export enum GraphQueryType {
 
 export interface GraphQuery extends SharingOptions {
   id: number;
+  uuid: string;
   sourceKey: string;
   name: string;
   content: string;
@@ -217,7 +218,7 @@ export interface GraphQuery extends SharingOptions {
 }
 
 export interface IGetQueryParams extends IDataSourceParams {
-  id: number;
+  id: number | string;
 }
 
 export interface IGetQueriesParams extends IDataSourceParams {
@@ -225,13 +226,14 @@ export interface IGetQueriesParams extends IDataSourceParams {
 }
 
 export interface ICreateQueryParams extends IDataSourceParams, SharingOptions {
+  uuid?: string;
   name: string;
   content: string;
   dialect?: GraphQueryDialect;
   description?: string;
 }
 
-export interface IUpdateQueryParams extends Partial<ICreateQueryParams> {
+export interface IUpdateQueryParams extends Partial<Omit<ICreateQueryParams, 'uuid'>> {
   id: number;
 }
 
@@ -271,7 +273,7 @@ export interface RunQueryResponse extends LkSubGraph {
 }
 
 export interface IRunQueryByIdParams extends IGetSubGraphParams, IRunQueryParams {
-  id: number;
+  id: number | string;
 }
 
 export interface ErrorHighlight {
