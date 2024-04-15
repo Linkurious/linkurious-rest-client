@@ -4,7 +4,7 @@
  * - Created on 2019-08-19.
  */
 
-import {IDataSourceParams, PersistedItem, SharingOptions} from '../commonTypes';
+import {DeletableUser, IDataSourceParams, PersistedItem, SharingOptions} from '../commonTypes';
 
 export enum CustomActionType {
   NON_GRAPH = 'non-graph',
@@ -107,6 +107,7 @@ export type CustomActionParsingError = {
 );
 
 export interface CustomAction extends PersistedItem, SharingOptions {
+  uuid: string;
   sourceKey: string;
   name: string;
   urlTemplate: string;
@@ -117,9 +118,12 @@ export interface CustomAction extends PersistedItem, SharingOptions {
     name: string;
     email: string;
   };
+  lastEditor: DeletableUser;
+  lastShareEditor: DeletableUser;
 }
 
 export interface ICreateCustomActionParams extends IDataSourceParams, SharingOptions {
+  uuid?: string;
   name: string;
   urlTemplate: string;
   description?: string;
@@ -129,6 +133,7 @@ export interface IDeleteCustomActionParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IUpdateCustomActionParams extends Partial<ICreateCustomActionParams> {
+export interface IUpdateCustomActionParams
+  extends Partial<Omit<ICreateCustomActionParams, 'uuid'>> {
   id: number;
 }
