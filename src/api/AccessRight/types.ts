@@ -25,7 +25,10 @@ export enum Action {
   MANAGE_QUERY = 'manageQuery', // Manage all non-private read/write queries
   RUN_CUSTOM_ACTION = 'runCustomAction', // Execute a custom action
   WRITE_CUSTOM_ACTION = 'writeCustomAction', // Create a custom action, update/delete owned custom actions
-  MANAGE_CUSTOM_ACTION = 'manageCustomAction' // WRITE_CUSTOM_ACTION, update/delete all non-private custom actions
+  MANAGE_CUSTOM_ACTION = 'manageCustomAction', // WRITE_CUSTOM_ACTION, update/delete all non-private custom actions
+  APPLY_NODE_GROUPING = 'applyNodeGrouping', // Apply node grouping
+  CREATE_NODE_GROUPING = 'createNodeGrouping', // Create and apply node grouping
+  MANAGE_NODE_GROUPING = 'manageNodeGrouping' // Create, apply and delete node grouping
 }
 /**
  * Only for the built-in admin group.
