@@ -53,6 +53,7 @@ export type LkProperties = GenericObject<LkProperty>;
 export interface LkItemData {
   properties: LkProperties;
   readAt: number;
+  isVirtual: boolean;
 }
 
 export interface LkItem {
