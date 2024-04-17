@@ -23,7 +23,7 @@ export type NodeGroupingOptions = {
 };
 
 export interface PropertyKeyNodeGroupingOptions {
-  itemTypes: string;
+  itemType: string;
   propertyKey: string;
 }
 
