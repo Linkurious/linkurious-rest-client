@@ -9,13 +9,14 @@ import {IDataSourceParams, PersistedItem, SharingMode, SortDirection} from '../c
 import {VisualizationTree} from '../Visualization';
 
 export interface ICreateSpaceParams extends IDataSourceParams {
+  uuid?: string;
   title: string;
   description?: string;
   sharing?: SharingMode.SOURCE | SharingMode.GROUPS;
   sharedWithGroups?: number[];
 }
 
-export interface IUpdateSpaceParams extends ICreateSpaceParams {
+export interface IUpdateSpaceParams extends Omit<ICreateSpaceParams, 'uuid'> {
   id: number;
 }
 
@@ -35,7 +36,9 @@ export interface IGetSpacesParams extends IDataSourceParams {
   sortDirection?: SortDirection;
 }
 
-export interface ISpace extends ICreateSpaceParams, PersistedItem {}
+export interface ISpace extends ICreateSpaceParams, PersistedItem {
+  uuid: string;
+}
 
 export interface IAdminSpace extends ISpace {
   isEmpty: boolean;
