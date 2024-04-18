@@ -72,7 +72,9 @@ export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries
 }
 
 export interface ICreateAlertQueryParams
-  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {}
+  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {
+  uuid?: string;
+}
 
 export interface IUpdateAlertQueryParams extends ICreateAlertQueryParams {
   id?: number;
@@ -110,6 +112,7 @@ export interface Alert extends IBaseAlert, PersistedItem {
 }
 
 export interface IAlertQuery extends AlertQueryData {
+  uuid: string;
   query: string;
   dialect: GraphQueryDialect;
   updatedAt: Date;
