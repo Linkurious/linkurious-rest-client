@@ -24,7 +24,7 @@ export interface GetWebhookDeliveriesParams extends ExistingWebhookParams, Pagin
 
 export const WEBHOOK_EVENT_TYPES = ['newCase', 'newMatch', 'caseStatusChange'] as const;
 
-export type WebhookEventType = typeof WEBHOOK_EVENT_TYPES[number];
+export type WebhookEventType = (typeof WEBHOOK_EVENT_TYPES)[number];
 
 export type PayloadEventType = WebhookEventType | 'ping';
 
