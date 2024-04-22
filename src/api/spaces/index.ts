@@ -21,8 +21,13 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, SPACE_DELETION_FAILED} =
-  LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  FORBIDDEN,
+  NOT_FOUND,
+  SPACE_DELETION_FAILED
+} = LkErrorKey;
 
 export class SpacesAPI extends Request {
   /**

@@ -19,7 +19,8 @@ import {
   VizNode,
   IVizNodeInfo,
   WidgetEdge,
-  WidgetNode, IVizNodeGroupInfo
+  WidgetNode,
+  IVizNodeGroupInfo
 } from '../graphItemTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {IRangeValues, ItemSelector, IStyles, IStyleIcon, IStyleImage} from '../displayTypes';
