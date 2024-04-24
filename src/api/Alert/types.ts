@@ -63,8 +63,7 @@ export interface IGetAlertUsersParams extends IDataSourceParams {
 export interface IUpdateCaseParams extends IDataSourceParams {
   alertId: number;
   caseId: number;
-  // TODO: Change the type to base visualization when implementing node grouping rules for case visualizations
-  visualization: Omit<BaseVisualization, 'nodeGroupingRuleIds'>;
+  visualization: BaseVisualization;
 }
 
 export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries'> {
