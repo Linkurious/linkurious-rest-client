@@ -6,6 +6,7 @@
 
 import {
   CommentMention,
+  DeletableUser,
   ICurrencyOptions,
   IDataSourceParams,
   IGetSubGraphParams,
@@ -109,6 +110,9 @@ export interface Alert extends IBaseAlert, PersistedItem {
   openAndUnAssignedCasesCount: number;
   status: 'running' | 'idle';
   resultsConsistent: boolean;
+  owner: DeletableUser;
+  lastEditor: DeletableUser;
+  lastShareEditor: DeletableUser;
 }
 
 export interface IAlertQuery extends AlertQueryData {
