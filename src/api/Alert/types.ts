@@ -6,13 +6,13 @@
 
 import {
   CommentMention,
+  DeletableUser,
   ICurrencyOptions,
   IDataSourceParams,
   IGetSubGraphParams,
   PersistedItem,
   SharingOptions,
-  SortDirection,
-  Tree
+  SortDirection
 } from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
@@ -67,12 +67,15 @@ export interface IUpdateCaseParams extends IDataSourceParams {
 }
 
 export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries'> {
+  uuid?: string;
   folder?: number;
   queries?: Array<ICreateAlertQueryParams>;
 }
 
 export interface ICreateAlertQueryParams
-  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {}
+  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {
+  uuid?: string;
+}
 
 export interface IUpdateAlertQueryParams extends ICreateAlertQueryParams {
   id?: number;
@@ -98,6 +101,7 @@ export interface IBaseAlert extends IDataSourceParams, SharingOptions {
 }
 
 export interface Alert extends IBaseAlert, PersistedItem {
+  uuid: string;
   sourceKey: string;
   lastRun?: string; // defined if it has run at least once
   // defined if last run had a problem
@@ -106,9 +110,13 @@ export interface Alert extends IBaseAlert, PersistedItem {
   openAndUnAssignedCasesCount: number;
   status: 'running' | 'idle';
   resultsConsistent: boolean;
+  owner: DeletableUser;
+  lastEditor: DeletableUser;
+  lastShareEditor: DeletableUser;
 }
 
 export interface IAlertQuery extends AlertQueryData {
+  uuid: string;
   query: string;
   dialect: GraphQueryDialect;
   updatedAt: Date;
@@ -129,7 +137,7 @@ export interface RunAlertResponse {
   alreadyRunning: boolean;
 }
 
-export interface IUpdateAlertParams extends Omit<Partial<ICreateAlertParams>, 'queries'> {
+export interface IUpdateAlertParams extends Omit<Partial<ICreateAlertParams>, 'uuid' | 'queries'> {
   id: number;
   queries?: Array<IUpdateAlertQueryParams>;
 }
@@ -139,10 +147,12 @@ export interface IDeleteAlertParams extends IDataSourceParams {
 }
 
 export interface ICreateAlertFolderParams extends IDataSourceParams {
+  uuid?: string;
   title: string;
 }
 
 export interface AlertFolder extends PersistedItem {
+  uuid: string;
   title: string;
   parent: number;
   sourceKey: string;
@@ -157,7 +167,17 @@ export interface IDeleteAlertFolderParams extends IDataSourceParams {
   id: number;
 }
 
-export type AlertTree = Tree<Alert, 'alert'>;
+export interface AlertTree extends AlertTreeFolder {
+  id: -1;
+  title: 'root';
+}
+
+export type AlertTreeFolder = Pick<AlertFolder, 'id' | 'uuid' | 'title'> & {
+  type: 'folder';
+  children: Array<AlertTreeFolder | AlertTreeItem>;
+};
+
+export type AlertTreeItem = Alert & {type: 'alert'};
 
 export interface IGetAlertParams extends IDataSourceParams {
   id: number;

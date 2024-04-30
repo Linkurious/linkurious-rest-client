@@ -7,6 +7,7 @@ import {IDataSourceParams} from '../commonTypes';
 
 export interface NodeGroupingRule {
   id: number;
+  uuid: string;
   sourceKey: string;
   name: string;
   groupingType: NodeGroupingType;
@@ -28,6 +29,7 @@ export interface PropertyKeyNodeGroupingOptions {
 }
 
 export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
+  uuid?: string;
   name: string;
   groupingType: NodeGroupingType;
   groupingOptions: NodeGroupingOptions[NodeGroupingType];
