@@ -19,7 +19,8 @@ import {
   VizNode,
   IVizNodeInfo,
   WidgetEdge,
-  WidgetNode
+  WidgetNode,
+  IVizNodeGroupInfo
 } from '../graphItemTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {IRangeValues, ItemSelector, IStyles, IStyleIcon, IStyleImage} from '../displayTypes';
@@ -148,6 +149,7 @@ export interface IVisualizationTimeline {
 
 export interface BaseVisualization {
   nodes: IVizNodeInfo[];
+  nodeGroups?: IVizNodeGroupInfo[];
   edges: IVizEdgeInfo[];
   nodeFields: IItemFields;
   edgeFields: IItemFields;
@@ -202,6 +204,7 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   folder?: number;
   nodes: IVizNodeInfo[];
   nodeGroupingRuleIds?: number[];
+  nodeGroups?: IVizNodeGroupInfo[];
   edges: IVizEdgeInfo[];
   alternativeIds?: IAlternativeIdSettings;
   mode?: VisualizationMode;

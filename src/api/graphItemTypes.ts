@@ -133,6 +133,13 @@ export interface IVizNodeInfo {
   };
 }
 
+export interface IVizNodeGroupInfo {
+  id: string;
+  attributes: {
+    layoutable?: boolean;
+  };
+}
+
 export interface IVizEdgeInfo {
   id: string;
   attributes: {
