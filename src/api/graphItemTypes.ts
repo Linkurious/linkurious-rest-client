@@ -53,6 +53,7 @@ export type LkProperties = GenericObject<LkProperty>;
 export interface LkItemData {
   properties: LkProperties;
   readAt: number;
+  isVirtual: boolean;
 }
 
 export interface LkItem {
@@ -129,6 +130,13 @@ export interface IVizNodeInfo {
   };
   data: {
     geo: IGeoData;
+  };
+}
+
+export interface IVizNodeGroupInfo {
+  id: string;
+  attributes: {
+    layoutable?: boolean;
   };
 }
 
