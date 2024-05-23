@@ -19,11 +19,13 @@ export enum LkErrorKey {
   // Business and access errors
   FEATURE_DISABLED = 'feature_disabled',
   UNAUTHORIZED = 'unauthorized',
+  LDAP_BIND_ERROR = 'ldap_bind_error',
   DATA_SOURCE_UNAVAILABLE = 'dataSource_unavailable',
   GUEST_DISABLED = 'guest_disabled',
   FORBIDDEN = 'forbidden',
   NOT_FOUND = 'not_found',
   BAD_GRAPH_REQUEST = 'bad_graph_request',
+  CREATION_FAILED = 'creation_failed',
   GRAPH_REQUEST_TIMEOUT = 'graph_request_timeout',
   CONSTRAINT_VIOLATION = 'constraint_violation',
   MALFORMED_CUSTOM_ACTION_TEMPLATE = 'malformed_custom_action_template',
@@ -39,6 +41,7 @@ export enum LkErrorKey {
   PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED = 'property_key_access_rights_required',
   INVALID_PROPERTY_KEY_ACCESS_LEVEL = 'invalid_property_key_access_level',
   EDIT_CONFLICT = 'edit_conflict',
+  READ_ONLY_RIGHT = 'readonly_right',
   VISUALIZATION_LOCKED = 'visualization_locked',
   NOT_SUPPORTED = 'not_supported',
   SOURCE_ACTION_NEEDED = 'source_action_needed',
@@ -50,6 +53,9 @@ export enum LkErrorKey {
   CRITICAL = 'critical',
   BUG = 'bug',
   SOCKET_ERROR = 'socket_error',
+  PORT_BUSY = 'port_busy',
+  PORT_RESTRICTED = 'port_restricted',
+  HTTPS_REQUIRED = 'https_required',
   API_NOT_FOUND = 'api_not_found',
   PLUGIN_NOT_READY = 'plugin_not_ready',
   PLUGIN_SERVICE_NOT_READY = 'plugin_service_not_ready',
@@ -154,6 +160,8 @@ export interface UnauthorizedError extends LkError<LkErrorKey.UNAUTHORIZED> {
   reason?: UnauthorizedErrorReason;
 }
 
+export interface LdapBindError extends LkError<LkErrorKey.LDAP_BIND_ERROR> {}
+
 export interface DataSourceUnavailableError extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
 
 export interface GuestDisabledError extends LkError<LkErrorKey.GUEST_DISABLED> {}
@@ -165,6 +173,8 @@ export interface NotFoundError extends LkError<LkErrorKey.NOT_FOUND> {}
 export interface BadGraphRequestError extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
   highlight?: ErrorHighlight;
 }
+
+export interface CreationFailedError extends LkError<LkErrorKey.CREATION_FAILED> {}
 
 export interface GraphRequestTimeoutError extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
 
@@ -205,6 +215,8 @@ export interface InvalidPropertyKeyAccessLevelError
 
 export interface EditConflictError extends LkError<LkErrorKey.EDIT_CONFLICT> {}
 
+export interface ReadOnlyRightError extends LkError<LkErrorKey.READ_ONLY_RIGHT> {}
+
 export interface VisualizationLockedError extends LkError<LkErrorKey.VISUALIZATION_LOCKED> {}
 
 export interface NotSupportedError extends LkError<LkErrorKey.NOT_SUPPORTED> {}
@@ -220,6 +232,12 @@ export interface CriticalError extends LkError<LkErrorKey.CRITICAL> {}
 export interface Bug extends LkError<LkErrorKey.BUG> {}
 
 export interface SocketError extends LkError<LkErrorKey.SOCKET_ERROR> {}
+
+export interface PortBusyError extends LkError<LkErrorKey.PORT_BUSY> {}
+
+export interface PortRestrictedError extends LkError<LkErrorKey.PORT_RESTRICTED> {}
+
+export interface HttpsRequiredError extends LkError<LkErrorKey.HTTPS_REQUIRED> {}
 
 export interface ApiNotFoundError extends LkError<LkErrorKey.API_NOT_FOUND> {}
 
@@ -254,11 +272,13 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
   [LkErrorKey.FEATURE_DISABLED]: FeatureDisabledError;
   [LkErrorKey.UNAUTHORIZED]: UnauthorizedError;
+  [LkErrorKey.LDAP_BIND_ERROR]: LdapBindError;
   [LkErrorKey.DATA_SOURCE_UNAVAILABLE]: DataSourceUnavailableError;
   [LkErrorKey.GUEST_DISABLED]: GuestDisabledError;
   [LkErrorKey.FORBIDDEN]: ForbiddenError;
   [LkErrorKey.NOT_FOUND]: NotFoundError;
   [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequestError;
+  [LkErrorKey.CREATION_FAILED]: CreationFailedError;
   [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeoutError;
   [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolationError;
   [LkErrorKey.INVALID_LICENSE]: InvalidLicenseError;
@@ -274,6 +294,7 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED]: PropertyKeyAccessRightsRequiredError;
   [LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL]: InvalidPropertyKeyAccessLevelError;
   [LkErrorKey.EDIT_CONFLICT]: EditConflictError;
+  [LkErrorKey.READ_ONLY_RIGHT]: ReadOnlyRightError;
   [LkErrorKey.VISUALIZATION_LOCKED]: VisualizationLockedError;
   [LkErrorKey.NOT_SUPPORTED]: NotSupportedError;
   [LkErrorKey.SOURCE_ACTION_NEEDED]: SourceActionNeededError;
@@ -282,6 +303,9 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.CRITICAL]: CriticalError;
   [LkErrorKey.BUG]: Bug;
   [LkErrorKey.SOCKET_ERROR]: SocketError;
+  [LkErrorKey.PORT_BUSY]: PortBusyError;
+  [LkErrorKey.PORT_RESTRICTED]: PortRestrictedError;
+  [LkErrorKey.HTTPS_REQUIRED]: HttpsRequiredError;
   [LkErrorKey.API_NOT_FOUND]: ApiNotFoundError;
   [LkErrorKey.PLUGIN_NOT_READY]: PluginNotReadyError;
   [LkErrorKey.PLUGIN_SERVICE_NOT_READY]: PluginServiceNotReadyError;
