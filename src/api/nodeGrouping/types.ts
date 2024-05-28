@@ -12,10 +12,10 @@ export interface NodeGroupingRule {
   name: string;
   groupingType: NodeGroupingType;
   groupingOptions: NodeGroupingOptions[NodeGroupingType];
-  right: NodeGroupingRUleRight;
+  right: NodeGroupingRuleRight;
 }
 
-export enum NodeGroupingRUleRight {
+export enum NodeGroupingRuleRight {
   MANAGE = 'manage',
   READ = 'read'
 }
