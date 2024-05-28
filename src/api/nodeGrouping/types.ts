@@ -12,7 +12,12 @@ export interface NodeGroupingRule {
   name: string;
   groupingType: NodeGroupingType;
   groupingOptions: NodeGroupingOptions[NodeGroupingType];
-  canDelete: boolean;
+  right: NodeGroupingRUleRight;
+}
+
+export enum NodeGroupingRUleRight {
+  MANAGE = 'manage',
+  READ = 'read'
 }
 
 export enum NodeGroupingType {
@@ -33,6 +38,11 @@ export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
   name: string;
   groupingType: NodeGroupingType;
   groupingOptions: NodeGroupingOptions[NodeGroupingType];
+}
+
+export interface UpdateNodeGroupingRuleParams
+  extends Omit<Partial<CreateNodeGroupingRuleParams>, 'uuid'> {
+  id: number;
 }
 
 export interface GetNodeGroupingRulesParams extends IDataSourceParams {}
