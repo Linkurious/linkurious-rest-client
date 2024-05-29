@@ -195,6 +195,7 @@ export enum GraphQueryType {
 export interface GraphQuery extends SharingOptions {
   id: number;
   uuid: string;
+  shortUuid: string;
   sourceKey: string;
   name: string;
   content: string;
