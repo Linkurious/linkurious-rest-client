@@ -41,9 +41,8 @@ export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
 }
 
 export interface UpdateNodeGroupingRuleParams
-  extends Omit<CreateNodeGroupingRuleParams, 'uuid' | 'name'> {
+  extends Omit<Partial<CreateNodeGroupingRuleParams>, 'uuid'> {
   id: number;
-  name?: string;
 }
 
 export interface GetNodeGroupingRulesParams extends IDataSourceParams {}
