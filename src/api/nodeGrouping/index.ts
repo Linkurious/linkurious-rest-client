@@ -44,7 +44,10 @@ export class NodeGroupingAPI extends Request {
     });
   }
 
-  public updateNodeGroupingRule(params: UpdateNodeGroupingRuleParams) {
+  public updateNodeGroupingRule(
+    this: Request<NodeGroupingRule>,
+    params: UpdateNodeGroupingRuleParams
+  ) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/nodeGroupings/:id',
