@@ -212,6 +212,7 @@ export interface GraphQuery extends SharingOptions {
   templateFields?: Template[]; // defined only if type='template'
   type: GraphQueryType;
   right: GraphQueryRight;
+  tagIds?: number[];
   builtin: boolean;
   isFavorite: boolean;
   createdAt?: string; // defined only if builtin=false
@@ -232,6 +233,7 @@ export interface ICreateQueryParams extends IDataSourceParams, SharingOptions {
   content: string;
   dialect?: GraphQueryDialect;
   description?: string;
+  tagIds?: number[];
 }
 
 export interface IUpdateQueryParams extends Partial<Omit<ICreateQueryParams, 'uuid'>> {
