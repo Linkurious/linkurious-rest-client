@@ -11,11 +11,12 @@ export interface Tag {
   name: string;
   sourceKey: string;
   uuid: string;
+  color: string;
 }
 
 export interface CreateTagParams extends IDataSourceParams {
   name: string;
-  sourceKey: string;
+  color: string;
   uuid?: string;
 }
 
