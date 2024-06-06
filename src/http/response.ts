@@ -158,8 +158,6 @@ export interface UnauthorizedError extends LkError<LkErrorKey.UNAUTHORIZED> {
   reason?: UnauthorizedErrorReason;
 }
 
-export interface LdapBindError extends LkError<LkErrorKey.LDAP_BIND_ERROR> {}
-
 export interface DataSourceUnavailableError extends LkError<LkErrorKey.DATA_SOURCE_UNAVAILABLE> {}
 
 export interface GuestDisabledError extends LkError<LkErrorKey.GUEST_DISABLED> {}
@@ -171,8 +169,6 @@ export interface NotFoundError extends LkError<LkErrorKey.NOT_FOUND> {}
 export interface BadGraphRequestError extends LkError<LkErrorKey.BAD_GRAPH_REQUEST> {
   highlight?: ErrorHighlight;
 }
-
-export interface CreationFailedError extends LkError<LkErrorKey.CREATION_FAILED> {}
 
 export interface GraphRequestTimeoutError extends LkError<LkErrorKey.GRAPH_REQUEST_TIMEOUT> {}
 
@@ -270,13 +266,11 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
   [LkErrorKey.FEATURE_DISABLED]: FeatureDisabledError;
   [LkErrorKey.UNAUTHORIZED]: UnauthorizedError;
-  [LkErrorKey.LDAP_BIND_ERROR]: LdapBindError;
   [LkErrorKey.DATA_SOURCE_UNAVAILABLE]: DataSourceUnavailableError;
   [LkErrorKey.GUEST_DISABLED]: GuestDisabledError;
   [LkErrorKey.FORBIDDEN]: ForbiddenError;
   [LkErrorKey.NOT_FOUND]: NotFoundError;
   [LkErrorKey.BAD_GRAPH_REQUEST]: BadGraphRequestError;
-  [LkErrorKey.CREATION_FAILED]: CreationFailedError;
   [LkErrorKey.GRAPH_REQUEST_TIMEOUT]: GraphRequestTimeoutError;
   [LkErrorKey.CONSTRAINT_VIOLATION]: ConstraintViolationError;
   [LkErrorKey.INVALID_LICENSE]: InvalidLicenseError;
