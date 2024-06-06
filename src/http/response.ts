@@ -19,13 +19,11 @@ export enum LkErrorKey {
   // Business and access errors
   FEATURE_DISABLED = 'feature_disabled',
   UNAUTHORIZED = 'unauthorized',
-  LDAP_BIND_ERROR = 'ldap_bind_error',
   DATA_SOURCE_UNAVAILABLE = 'dataSource_unavailable',
   GUEST_DISABLED = 'guest_disabled',
   FORBIDDEN = 'forbidden',
   NOT_FOUND = 'not_found',
   BAD_GRAPH_REQUEST = 'bad_graph_request',
-  CREATION_FAILED = 'creation_failed',
   GRAPH_REQUEST_TIMEOUT = 'graph_request_timeout',
   CONSTRAINT_VIOLATION = 'constraint_violation',
   MALFORMED_CUSTOM_ACTION_TEMPLATE = 'malformed_custom_action_template',
