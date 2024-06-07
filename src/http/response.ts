@@ -39,6 +39,7 @@ export enum LkErrorKey {
   PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED = 'property_key_access_rights_required',
   INVALID_PROPERTY_KEY_ACCESS_LEVEL = 'invalid_property_key_access_level',
   EDIT_CONFLICT = 'edit_conflict',
+  READ_ONLY_RIGHT = 'readonly_right',
   VISUALIZATION_LOCKED = 'visualization_locked',
   NOT_SUPPORTED = 'not_supported',
   SOURCE_ACTION_NEEDED = 'source_action_needed',
@@ -50,6 +51,9 @@ export enum LkErrorKey {
   CRITICAL = 'critical',
   BUG = 'bug',
   SOCKET_ERROR = 'socket_error',
+  PORT_BUSY = 'port_busy',
+  PORT_RESTRICTED = 'port_restricted',
+  HTTPS_REQUIRED = 'https_required',
   API_NOT_FOUND = 'api_not_found',
   PLUGIN_NOT_READY = 'plugin_not_ready',
   PLUGIN_SERVICE_NOT_READY = 'plugin_service_not_ready',
@@ -205,6 +209,8 @@ export interface InvalidPropertyKeyAccessLevelError
 
 export interface EditConflictError extends LkError<LkErrorKey.EDIT_CONFLICT> {}
 
+export interface ReadOnlyRightError extends LkError<LkErrorKey.READ_ONLY_RIGHT> {}
+
 export interface VisualizationLockedError extends LkError<LkErrorKey.VISUALIZATION_LOCKED> {}
 
 export interface NotSupportedError extends LkError<LkErrorKey.NOT_SUPPORTED> {}
@@ -220,6 +226,12 @@ export interface CriticalError extends LkError<LkErrorKey.CRITICAL> {}
 export interface Bug extends LkError<LkErrorKey.BUG> {}
 
 export interface SocketError extends LkError<LkErrorKey.SOCKET_ERROR> {}
+
+export interface PortBusyError extends LkError<LkErrorKey.PORT_BUSY> {}
+
+export interface PortRestrictedError extends LkError<LkErrorKey.PORT_RESTRICTED> {}
+
+export interface HttpsRequiredError extends LkError<LkErrorKey.HTTPS_REQUIRED> {}
 
 export interface ApiNotFoundError extends LkError<LkErrorKey.API_NOT_FOUND> {}
 
@@ -274,6 +286,7 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED]: PropertyKeyAccessRightsRequiredError;
   [LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL]: InvalidPropertyKeyAccessLevelError;
   [LkErrorKey.EDIT_CONFLICT]: EditConflictError;
+  [LkErrorKey.READ_ONLY_RIGHT]: ReadOnlyRightError;
   [LkErrorKey.VISUALIZATION_LOCKED]: VisualizationLockedError;
   [LkErrorKey.NOT_SUPPORTED]: NotSupportedError;
   [LkErrorKey.SOURCE_ACTION_NEEDED]: SourceActionNeededError;
@@ -282,6 +295,9 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.CRITICAL]: CriticalError;
   [LkErrorKey.BUG]: Bug;
   [LkErrorKey.SOCKET_ERROR]: SocketError;
+  [LkErrorKey.PORT_BUSY]: PortBusyError;
+  [LkErrorKey.PORT_RESTRICTED]: PortRestrictedError;
+  [LkErrorKey.HTTPS_REQUIRED]: HttpsRequiredError;
   [LkErrorKey.API_NOT_FOUND]: ApiNotFoundError;
   [LkErrorKey.PLUGIN_NOT_READY]: PluginNotReadyError;
   [LkErrorKey.PLUGIN_SERVICE_NOT_READY]: PluginServiceNotReadyError;
