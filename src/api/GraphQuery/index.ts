@@ -68,7 +68,13 @@ export class GraphQueryAPI extends Request {
    */
   public createQuery(this: Request<GraphQuery>, params: ICreateQueryParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, MALFORMED_QUERY_TEMPLATE],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        MALFORMED_QUERY_TEMPLATE,
+        NOT_FOUND
+      ],
       url: '/:sourceKey/graph/query',
       method: 'POST',
       params: params
