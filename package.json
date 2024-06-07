@@ -18,7 +18,7 @@
     "url": "https://github.com/Linkurious/linkurious-rest-client/issues"
   },
   "engines": {
-    "node": "18.19.1"
+    "node": "20.12.1"
   },
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
   "scripts": {

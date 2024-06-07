@@ -3,6 +3,7 @@
 lkeSubReleaseJob {
   // General
   projectName = "linkurious/linkurious-rest-client"
+  useReleaseBranches = true
 
   nextReleaseJobs = ["linkurious-shared"]
 }
