@@ -13,7 +13,8 @@ import {
   CreateNodeGroupingRuleParams,
   DeleteNodeGroupingRuleParams,
   GetNodeGroupingRulesParams,
-  NodeGroupingRule
+  NodeGroupingRule,
+  UpdateNodeGroupingRuleParams
 } from './types';
 
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS, NOT_FOUND, FORBIDDEN} = LkErrorKey;
@@ -39,6 +40,18 @@ export class NodeGroupingAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
       url: '/:sourceKey/nodeGroupings',
       method: 'GET',
+      params: params
+    });
+  }
+
+  public updateNodeGroupingRule(
+    this: Request<NodeGroupingRule>,
+    params: UpdateNodeGroupingRuleParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/nodeGroupings/:id',
+      method: 'PATCH',
       params: params
     });
   }
