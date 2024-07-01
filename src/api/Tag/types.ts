@@ -4,7 +4,7 @@
  *
  * - Created on 2024-06-04.
  */
-import {IDataSourceParams} from '../commonTypes';
+import {DeletableUser, IDataSourceParams} from '../commonTypes';
 
 export interface Tag {
   id: number;
@@ -12,6 +12,7 @@ export interface Tag {
   sourceKey: string;
   uuid: string;
   color: string;
+  owner: DeletableUser;
 }
 
 export interface CreateTagParams extends IDataSourceParams {
