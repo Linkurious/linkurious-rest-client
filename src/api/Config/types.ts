@@ -305,7 +305,8 @@ export interface ILDAPConfig {
 export interface ISaml2Config {
   enabled: boolean;
   url: string;
-  identityProviderCertificate: string;
+  identityProviderCertificate?: string;
+  identityProviderCertificateValue?: string;
   groupAttribute?: string;
   emailAttribute?: string;
 }
