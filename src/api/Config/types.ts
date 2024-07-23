@@ -48,6 +48,7 @@ export interface Configuration {
   dataSource?: SelectedDataSourceConfig;
   needRestart?: boolean;
   emailNotifications: IEmailNotificationsConfig;
+  entityResolution?: EntityResolutionConfig;
 }
 
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
@@ -451,4 +452,9 @@ export interface IEmailNotificationsConfig {
   // Email configuration.
   mailer: IMailerConfig;
   fromEmail: string;
+}
+
+export interface EntityResolutionConfig {
+  enabled: boolean;
+  url: string;
 }
