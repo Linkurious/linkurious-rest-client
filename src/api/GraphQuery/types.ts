@@ -215,6 +215,7 @@ export interface GraphQuery extends SharingOptions {
   tagIds: number[];
   builtin: boolean;
   isFavorite: boolean;
+  isHidden: boolean; // false for builtin queries
   createdAt?: string; // defined only if builtin=false
   updatedAt?: string; // defined only if builtin=false
 }
@@ -234,6 +235,7 @@ export interface ICreateQueryParams extends IDataSourceParams, SharingOptions {
   dialect?: GraphQueryDialect;
   description?: string;
   tagIds?: number[];
+  isHidden?: boolean;
 }
 
 export interface IUpdateQueryParams extends Partial<Omit<ICreateQueryParams, 'uuid'>> {
