@@ -4,7 +4,13 @@
  * - Created on 2019-10-29.
  */
 
-import {GenericObject, IDataSourceParams, IGetSubGraphParams, SharingOptions} from '../commonTypes';
+import {
+  DeletableUser,
+  GenericObject,
+  IDataSourceParams,
+  IGetSubGraphParams,
+  SharingOptions
+} from '../commonTypes';
 import {LkSubGraph} from '../graphItemTypes';
 
 export enum TemplateFieldType {
@@ -177,7 +183,7 @@ export enum GraphQueryDialect {
 }
 
 export enum GraphQueryRight {
-  OWNER = 'owner',
+  MANAGE = 'manage',
   READ = 'read'
 }
 
@@ -188,6 +194,8 @@ export enum GraphQueryType {
 
 export interface GraphQuery extends SharingOptions {
   id: number;
+  uuid: string;
+  shortUuid: string;
   sourceKey: string;
   name: string;
   content: string;
@@ -197,11 +205,14 @@ export interface GraphQuery extends SharingOptions {
     name: string;
     email: string;
   };
+  lastEditor?: DeletableUser;
+  lastShareEditor?: DeletableUser;
   write: boolean;
   graphInput?: GraphQueryInputType; // defined only if type='template'
   templateFields?: Template[]; // defined only if type='template'
   type: GraphQueryType;
   right: GraphQueryRight;
+  tagIds: number[];
   builtin: boolean;
   isFavorite: boolean;
   createdAt?: string; // defined only if builtin=false
@@ -209,7 +220,7 @@ export interface GraphQuery extends SharingOptions {
 }
 
 export interface IGetQueryParams extends IDataSourceParams {
-  id: number;
+  id: number | string;
 }
 
 export interface IGetQueriesParams extends IDataSourceParams {
@@ -217,13 +228,15 @@ export interface IGetQueriesParams extends IDataSourceParams {
 }
 
 export interface ICreateQueryParams extends IDataSourceParams, SharingOptions {
+  uuid?: string;
   name: string;
   content: string;
   dialect?: GraphQueryDialect;
   description?: string;
+  tagIds?: number[];
 }
 
-export interface IUpdateQueryParams extends Partial<ICreateQueryParams> {
+export interface IUpdateQueryParams extends Partial<Omit<ICreateQueryParams, 'uuid'>> {
   id: number;
 }
 
@@ -263,7 +276,7 @@ export interface RunQueryResponse extends LkSubGraph {
 }
 
 export interface IRunQueryByIdParams extends IGetSubGraphParams, IRunQueryParams {
-  id: number;
+  id: number | string;
 }
 
 export interface ErrorHighlight {

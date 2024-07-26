@@ -32,6 +32,7 @@ import {endsWith, find} from './utils';
 import {MailerAPI} from './api/mailer';
 import {SpacesAPI} from './api/spaces';
 import {NodeGroupingAPI} from './api/nodeGrouping';
+import {TagAPI} from './api/Tag';
 
 export class RestClient extends ErrorListener {
   public readonly clientState: ClientState;
@@ -59,6 +60,7 @@ export class RestClient extends ErrorListener {
   public readonly webhook: WebhookAPI;
   public readonly spaces: SpacesAPI;
   public readonly nodeGrouping: NodeGroupingAPI;
+  public readonly tag: TagAPI;
 
   constructor(options?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();
@@ -98,6 +100,7 @@ export class RestClient extends ErrorListener {
     this.webhook = new WebhookAPI(this.moduleProps);
     this.spaces = new SpacesAPI(this.moduleProps);
     this.nodeGrouping = new NodeGroupingAPI(this.moduleProps);
+    this.tag = new TagAPI(this.moduleProps);
   }
 
   /**
