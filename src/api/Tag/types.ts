@@ -21,4 +21,8 @@ export interface CreateTagParams extends IDataSourceParams {
   uuid?: string;
 }
 
+export interface DeleteTagParams extends IDataSourceParams {
+  id: number;
+}
+
 export interface GetTagsParams extends IDataSourceParams {}
