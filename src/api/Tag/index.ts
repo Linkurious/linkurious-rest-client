@@ -44,7 +44,7 @@ export class TagAPI extends Request {
   public deleteTag(params: DeleteTagParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
-      url: '/:sourceKey/graph/query/tags/:tagId',
+      url: '/:sourceKey/graph/query/tags/:id',
       method: 'DELETE',
       params: params
     });
