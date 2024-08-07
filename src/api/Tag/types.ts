@@ -21,6 +21,10 @@ export interface CreateTagParams extends IDataSourceParams {
   uuid?: string;
 }
 
+export interface UpdateTagParams extends Partial<Pick<Tag, 'name' | 'color'>> {
+  id: number;
+}
+
 export interface DeleteTagParams extends IDataSourceParams {
   id: number;
 }

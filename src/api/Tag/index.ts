@@ -7,7 +7,7 @@
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
-import {CreateTagParams, DeleteTagParams, GetTagsParams, Tag} from './types';
+import {CreateTagParams, DeleteTagParams, GetTagsParams, Tag, UpdateTagParams} from './types';
 
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
@@ -46,6 +46,18 @@ export class TagAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/graph/query/tags/:id',
       method: 'DELETE',
+      params: params
+    });
+  }
+
+  /**
+   * Update a tag.
+   */
+  public updateTag(params: UpdateTagParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/graph/query/tags/:id',
+      method: 'PUT',
       params: params
     });
   }
