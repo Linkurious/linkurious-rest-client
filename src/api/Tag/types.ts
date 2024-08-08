@@ -21,7 +21,7 @@ export interface CreateTagParams extends IDataSourceParams {
   uuid?: string;
 }
 
-export interface UpdateTagParams extends Partial<Pick<Tag, 'name' | 'color'>> {
+export interface UpdateTagParams extends Partial<Pick<Tag, 'name' | 'color'>>, IDataSourceParams {
   id: number;
 }
 
