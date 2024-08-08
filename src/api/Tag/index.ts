@@ -53,7 +53,7 @@ export class TagAPI extends Request {
   /**
    * Update a tag.
    */
-  public updateTag(params: UpdateTagParams) {
+  public updateTag(this: Request<Tag>, params: UpdateTagParams) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, ALREADY_EXISTS],
       url: '/:sourceKey/graph/query/tags/:id',
