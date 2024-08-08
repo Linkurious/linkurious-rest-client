@@ -57,7 +57,7 @@ export class TagAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/graph/query/tags/:id',
-      method: 'PUT',
+      method: 'PATCH',
       params: params
     });
   }
