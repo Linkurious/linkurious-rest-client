@@ -457,4 +457,5 @@ export interface IEmailNotificationsConfig {
 export interface EntityResolutionConfig {
   enabled: boolean;
   url: string;
+  chunkSize?: number;
 }
