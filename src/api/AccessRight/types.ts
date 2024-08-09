@@ -12,7 +12,7 @@ import {IDataSourceParams} from '../commonTypes';
 export enum Action {
   ADMIN_CONNECT = 'admin.connect', // Connect the data-source and read the configuration
   ADMIN_INDEX = 'admin.index', // Index the data-source and read the configuration
-  ADMIN_ENTITY_RESOLUTION = 'admin.entityResolution', // Run entity resolution on the data-source
+  ADMIN_ENTITY_RESOLUTION = 'admin.entityResolution', // Manage entity resolution on the data-source
   ADMIN_USERS = 'admin.users', // Manage the users in the data-source
   ADMIN_SCHEMA = 'admin.schema', // Edit the schema of the data-source
   ADMIN_SCHEMA_READ = 'admin.schema.read', // Read the graph schema of the data-source
