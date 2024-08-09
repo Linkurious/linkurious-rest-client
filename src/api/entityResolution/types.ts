@@ -1,0 +1,26 @@
+/**
+ * LINKURIOUS CONFIDENTIAL
+ * Copyright Linkurious SAS 2012 - 2024
+ *
+ * - Created on 2024-07-29.
+ */
+
+/**
+ *  The status of entity resolution for a given data-source.
+ */
+export interface EntityResolutionStatus {
+  /**
+   * - `needed`: Entity resolution has never run or the last run failed.
+   * - `ongoing`: Entity resolution is currently running.
+   * - `done`: Entity resolution has successfully run.
+   */
+  state: 'needed' | 'ongoing' | 'done';
+  /**
+   * The formatted progress percentage with two decimal digits (for instance `42.93`).
+   */
+  progress: string;
+  /**
+   * A human readable message giving additionnal details.
+   */
+  message: string;
+}
