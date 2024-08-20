@@ -66,16 +66,22 @@ export interface IUpdateCaseParams extends IDataSourceParams {
   visualization: BaseVisualization;
 }
 
-export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries'> {
+export interface ICreateAlertParams
+  extends Omit<IBaseAlert, 'folder' | 'preprocessingSteps' | 'queries'> {
   uuid?: string;
   folder?: number;
+  preprocessingSteps?: Array<CreateAlertPreprocessingStepParams>;
   queries?: Array<ICreateAlertQueryParams>;
 }
+
+export interface CreateAlertPreprocessingStepParams extends ICreateAlertQueryParams {}
 
 export interface ICreateAlertQueryParams
   extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {
   uuid?: string;
 }
+
+export interface UpdateAlertPreprocessingStepParams extends IUpdateAlertQueryParams {}
 
 export interface IUpdateAlertQueryParams extends ICreateAlertQueryParams {
   id?: number;
@@ -91,6 +97,7 @@ export enum AlertQueryUpdateOperation {
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
   title: string;
   description?: string;
+  preprocessingSteps?: Array<AlertPreprocessingSteps>;
   queries?: Array<IAlertQuery>;
   folder: number;
   enabled: boolean;
@@ -115,6 +122,8 @@ export interface Alert extends IBaseAlert, PersistedItem {
   lastShareEditor: DeletableUser;
 }
 
+export interface AlertPreprocessingSteps extends Omit<IAlertQuery, 'modelKey' | 'deleted'> {}
+
 export interface IAlertQuery extends AlertQueryData {
   uuid: string;
   query: string;
@@ -124,7 +133,7 @@ export interface IAlertQuery extends AlertQueryData {
 
 type AlertError = {
   queryId?: number;
-  source: 'caseAttributeQuery' | 'alertQuery';
+  source: 'caseAttributeQuery' | 'alertQuery' | 'preprocessingStep';
   error: LkError;
   partial: boolean;
 };
@@ -137,8 +146,10 @@ export interface RunAlertResponse {
   alreadyRunning: boolean;
 }
 
-export interface IUpdateAlertParams extends Omit<Partial<ICreateAlertParams>, 'uuid' | 'queries'> {
+export interface IUpdateAlertParams
+  extends Omit<Partial<ICreateAlertParams>, 'uuid' | 'preprocessingSteps' | 'queries'> {
   id: number;
+  preprocessingSteps?: Array<UpdateAlertPreprocessingStepParams>;
   queries?: Array<IUpdateAlertQueryParams>;
 }
 
