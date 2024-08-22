@@ -206,7 +206,7 @@ export interface IElasticSearchConfig extends IVendorConfig {
   analyzer?: string;
   incrementalIndexation?: boolean;
   timestampPropertyName?: string;
-  incrementalIndexationCron?: string;
+  incrementalIndexingCron?: string;
   forceReindex?: boolean;
   skipEdgeIndexing?: boolean;
 }
