@@ -57,7 +57,6 @@ export interface IDatabaseOptions {
   host?: string;
   port?: number;
   dialectOptions?: SequelizeDialectOptions & Record<string, unknown>;
-  
 }
 
 export interface SequelizeDialectOptions {
