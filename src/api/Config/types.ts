@@ -60,7 +60,7 @@ export interface IDatabaseOptions {
 }
 
 export interface SequelizeDialectOptions {
-  requestTimeout?: number;
+  queryTimeout?: number;
 }
 
 export interface ISqliteOptions {
