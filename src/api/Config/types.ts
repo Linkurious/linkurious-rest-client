@@ -208,7 +208,7 @@ export interface IElasticSearchConfig extends IVendorConfig {
   timestampPropertyName?: string;
   incrementalIndexationCron?: string;
   forceReindex?: boolean;
-  skipEdgeIndexation?: boolean;
+  skipEdgeIndexing?: boolean;
 }
 
 export interface IAzureSearchConfig extends IVendorConfig {
