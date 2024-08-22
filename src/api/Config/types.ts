@@ -238,7 +238,7 @@ export interface IAdvancedConfig {
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
   pollInterval?: number;
-  indexationChunkSize?: number;
+  indexingChunkSize?: number;
   layoutWorkers?: number;
   defaultFuzziness?: number;
   extraCertificateAuthorities?: string;
