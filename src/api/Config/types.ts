@@ -56,7 +56,11 @@ export interface IDatabaseOptions {
   dialect: Exclude<DatabaseDialect, 'sqlite'>;
   host?: string;
   port?: number;
-  dialectOptions?: Record<string, unknown>;
+  dialectOptions?: SequelizeDialectOptions & Record<string, unknown>;
+}
+
+export interface SequelizeDialectOptions {
+  requestTimeout?: number;
 }
 
 export interface ISqliteOptions {
