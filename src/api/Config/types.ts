@@ -56,11 +56,6 @@ export interface IDatabaseOptions {
   dialect: Exclude<DatabaseDialect, 'sqlite'>;
   host?: string;
   port?: number;
-  dialectOptions?: DatabaseDialectOptions & Record<string, unknown>;
-}
-
-export interface DatabaseDialectOptions {
-  queryTimeout?: number;
 }
 
 export interface ISqliteOptions {
@@ -73,6 +68,7 @@ export interface IDatabaseConfig {
   username?: string;
   password?: string;
   connectionRetries?: number;
+  queryTimeout?: number;
   options: IDatabaseOptions | ISqliteOptions;
 }
 
