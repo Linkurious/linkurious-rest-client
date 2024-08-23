@@ -56,6 +56,7 @@ export interface IDatabaseOptions {
   dialect: Exclude<DatabaseDialect, 'sqlite'>;
   host?: string;
   port?: number;
+  dialectOptions?: Record<string, unknown>;
 }
 
 export interface ISqliteOptions {
