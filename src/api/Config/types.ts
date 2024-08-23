@@ -68,7 +68,7 @@ export interface IDatabaseConfig {
   username?: string;
   password?: string;
   connectionRetries?: number;
-  queryTimeout?: number;
+  transactionTimeout?: number;
   options: IDatabaseOptions | ISqliteOptions;
 }
 
