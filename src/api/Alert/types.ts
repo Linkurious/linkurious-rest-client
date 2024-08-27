@@ -97,7 +97,7 @@ export enum AlertQueryUpdateOperation {
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
   title: string;
   description?: string;
-  preprocessingSteps?: Array<AlertPreprocessingSteps>;
+  preprocessingSteps?: Array<AlertPreprocessingStep>;
   queries?: Array<IAlertQuery>;
   folder: number;
   enabled: boolean;
@@ -122,7 +122,7 @@ export interface Alert extends IBaseAlert, PersistedItem {
   lastShareEditor: DeletableUser;
 }
 
-export interface AlertPreprocessingSteps extends Omit<IAlertQuery, 'modelKey' | 'deleted'> {}
+export interface AlertPreprocessingStep extends Omit<IAlertQuery, 'modelKey' | 'deleted'> {}
 
 export interface IAlertQuery extends AlertQueryData {
   uuid: string;
