@@ -122,7 +122,8 @@ export interface Alert extends IBaseAlert, PersistedItem {
   lastShareEditor: DeletableUser;
 }
 
-export interface AlertPreprocessingStep extends Omit<IAlertQuery, 'modelKey' | 'deleted'> {}
+export interface AlertPreprocessingStep
+  extends Omit<IAlertQuery, 'modelKey' | 'deleted' | 'updatedAt'> {}
 
 export interface IAlertQuery extends AlertQueryData {
   uuid: string;
