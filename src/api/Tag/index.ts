@@ -7,7 +7,15 @@
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
-import {CreateTagParams, DeleteTagParams, GetTagsParams, Tag, UpdateTagParams} from './types';
+import {
+  CreateTagParams,
+  DeleteTagParams,
+  GetTagsParams,
+  GetTagsWithAssociatedQueries,
+  Tag,
+  TagWithAssociatedQueries,
+  UpdateTagParams
+} from './types';
 
 const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS, FORBIDDEN, NOT_FOUND} = LkErrorKey;
 
@@ -58,6 +66,21 @@ export class TagAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND, ALREADY_EXISTS],
       url: '/:sourceKey/graph/query/tags/:id',
       method: 'PATCH',
+      params: params
+    });
+  }
+
+  /**
+   * Get all the tags for queries with associated queries.
+   */
+  public getTagsWithAssociatedQueries(
+    this: Request<Array<TagWithAssociatedQueries>>,
+    params: GetTagsWithAssociatedQueries
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
+      url: '/admin/:sourceKey/graph/query/tags',
+      method: 'GET',
       params: params
     });
   }

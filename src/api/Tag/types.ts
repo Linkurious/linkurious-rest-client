@@ -5,6 +5,7 @@
  * - Created on 2024-06-04.
  */
 import {DeletableUser, IDataSourceParams} from '../commonTypes';
+import {GraphQuery} from '../GraphQuery';
 
 export interface Tag {
   id: number;
@@ -13,6 +14,16 @@ export interface Tag {
   uuid: string;
   color: string;
   owner: DeletableUser;
+  createdAt?: Date;
+}
+
+export interface TagWithAssociatedQueries {
+  id: number;
+  name: string;
+  color: string;
+  associatedQueriesCount: number;
+  associatedQueries: GraphQuery[];
+  createdAt: Date;
 }
 
 export interface CreateTagParams extends IDataSourceParams {
@@ -30,3 +41,5 @@ export interface DeleteTagParams extends IDataSourceParams {
 }
 
 export interface GetTagsParams extends IDataSourceParams {}
+
+export interface GetTagsWithAssociatedQueries extends IDataSourceParams {}
