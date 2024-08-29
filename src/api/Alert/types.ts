@@ -77,9 +77,7 @@ export interface ICreateAlertParams
 export interface CreateAlertPreprocessingStepParams extends ICreateAlertQueryParams {}
 
 export interface ICreateAlertQueryParams
-  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {
-  uuid?: string;
-}
+  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {}
 
 export interface UpdateAlertPreprocessingStepParams extends IUpdateAlertQueryParams {}
 
@@ -123,7 +121,7 @@ export interface Alert extends IBaseAlert, PersistedItem {
 }
 
 export interface AlertPreprocessingStep
-  extends Omit<IAlertQuery, 'modelKey' | 'deleted' | 'updatedAt'> {}
+  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {}
 
 export interface IAlertQuery extends AlertQueryData {
   uuid: string;
