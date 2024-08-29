@@ -74,12 +74,14 @@ export interface ICreateAlertParams
   queries?: Array<ICreateAlertQueryParams>;
 }
 
-export interface CreateAlertPreprocessingStepParams extends ICreateAlertQueryParams {}
+export interface CreateAlertPreprocessingStepParams extends AlertPreprocessingStep {}
 
 export interface ICreateAlertQueryParams
-  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {}
+  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {
+  uuid?: string;
+}
 
-export interface UpdateAlertPreprocessingStepParams extends IUpdateAlertQueryParams {}
+export interface UpdateAlertPreprocessingStepParams extends AlertPreprocessingStep {}
 
 export interface IUpdateAlertQueryParams extends ICreateAlertQueryParams {
   id?: number;
