@@ -112,7 +112,7 @@ export interface Alert extends IBaseAlert, PersistedItem {
   sourceKey: string;
   lastRun?: string; // defined if it has run at least once
   // defined if last run had a problem
-  lastRunProblem?: AlertError[];
+  lastRunProblem?: AlertErrorType[];
   nextRun?: string; // defined if enabled=true
   openAndUnAssignedCasesCount: number;
   status: 'running' | 'idle';
@@ -132,12 +132,26 @@ export interface IAlertQuery extends AlertQueryData {
   updatedAt: Date;
 }
 
-type AlertError = {
-  queryId?: number;
+export interface AlertError {
   source: 'caseAttributeQuery' | 'alertQuery' | 'preprocessingStep';
   error: LkError;
   partial: boolean;
-};
+}
+
+export interface AlertQueryError extends AlertError {
+  queryId: number;
+}
+
+export interface AlertPreprocessingStepError extends AlertError {
+  query: string;
+}
+
+export interface AlertCaseAttributeQueryError extends AlertError {}
+
+export type AlertErrorType =
+  | AlertQueryError
+  | AlertPreprocessingStepError
+  | AlertCaseAttributeQueryError;
 
 export interface IRunAlertParams extends IDataSourceParams {
   id: number;
