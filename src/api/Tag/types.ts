@@ -14,7 +14,7 @@ export interface Tag {
   uuid: string;
   color: string;
   owner: DeletableUser;
-  createdAt?: Date;
+  createdAt: Date;
 }
 
 export interface TagWithAssociatedQueries {
