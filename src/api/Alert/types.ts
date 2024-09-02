@@ -74,14 +74,14 @@ export interface ICreateAlertParams
   queries?: Array<ICreateAlertQueryParams>;
 }
 
-export interface CreateAlertPreprocessingStepParams extends AlertPreprocessingStep {}
+export interface CreateAlertPreprocessingStepParams extends Omit<AlertPreprocessingStep, 'id'> {}
 
 export interface ICreateAlertQueryParams
   extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {
   uuid?: string;
 }
 
-export interface UpdateAlertPreprocessingStepParams extends AlertPreprocessingStep {}
+export interface UpdateAlertPreprocessingStepParams extends Omit<AlertPreprocessingStep, 'id'> {}
 
 export interface IUpdateAlertQueryParams extends ICreateAlertQueryParams {
   id?: number;
@@ -123,7 +123,7 @@ export interface Alert extends IBaseAlert, PersistedItem {
 }
 
 export interface AlertPreprocessingStep
-  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {}
+  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect' | 'id'> {}
 
 export interface IAlertQuery extends AlertQueryData {
   uuid: string;
@@ -134,7 +134,6 @@ export interface IAlertQuery extends AlertQueryData {
 
 type AlertError = {
   queryId?: number;
-  name?: string;
   source: 'caseAttributeQuery' | 'alertQuery' | 'preprocessingStep';
   error: LkError;
   partial: boolean;
