@@ -81,7 +81,7 @@ export interface ICreateAlertQueryParams
   uuid?: string;
 }
 
-export interface UpdateAlertPreprocessingStepParams extends Omit<AlertPreprocessingStep, 'uuid'> {}
+export interface UpdateAlertPreprocessingStepParams extends AlertPreprocessingStep {}
 
 export interface IUpdateAlertQueryParams extends ICreateAlertQueryParams {
   id?: number;
