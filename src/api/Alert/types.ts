@@ -137,7 +137,7 @@ export interface IAlertQuery extends AlertQueryData {
   updatedAt: Date;
 }
 
-type AlertError = {
+export type AlertError = {
   queryId?: number | string;
   source: 'caseAttributeQuery' | 'alertQuery' | 'preprocessingStep';
   error: LkError;
