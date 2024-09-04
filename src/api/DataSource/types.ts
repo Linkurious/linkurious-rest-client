@@ -68,7 +68,7 @@ export interface ConnectedDataSourceSettings extends DataSourceSettings, GeoSett
   alternativeIds: IAlternativeIdSettings;
   propertyKeyAccessRights: boolean;
   strictSchema: boolean;
-  skipEdgeIndexation: boolean;
+  skipEdgeIndexing: boolean;
 }
 
 export interface DataSourceUserInfo {
