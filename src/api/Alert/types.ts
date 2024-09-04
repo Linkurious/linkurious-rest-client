@@ -74,7 +74,9 @@ export interface ICreateAlertParams
   queries?: Array<ICreateAlertQueryParams>;
 }
 
-export interface CreateAlertPreprocessingStepParams extends Omit<AlertPreprocessingStep, 'uuid'> {}
+export interface CreateAlertPreprocessingStepParams extends Omit<AlertPreprocessingStep, 'uuid'> {
+  uuid?: string;
+}
 
 export interface ICreateAlertQueryParams
   extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {
