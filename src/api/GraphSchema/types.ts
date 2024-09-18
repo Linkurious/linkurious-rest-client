@@ -34,10 +34,6 @@ export enum EntityType {
   EDGE = 'edge'
 }
 
-export const ENTITY_RESOLUTION_RECORD_TYPES = ['person', 'organization'] as const;
-
-export type EntityResolutionRecordType = (typeof ENTITY_RESOLUTION_RECORD_TYPES)[number];
-
 export enum DataVisibility {
   NONE = 'none',
   AVAILABLE = 'available',
@@ -48,7 +44,6 @@ export interface ICreateTypeParams extends IDataSourceParams {
   entityType: EntityType;
   itemType: string;
   visibility?: DataVisibility; // default is searchable
-  entityResolutionRecordType?: EntityResolutionRecordType; // Only valid for nodes
 }
 
 export interface IUpdateTypeParams extends ICreateTypeParams {}
@@ -116,21 +111,22 @@ export interface INumberType {
 
 export type PropertyType = ISimpleType | IStringType | IDateType | IDateTimeType | INumberType;
 
-interface WritePropertyParams extends IDataSourceParams {
+export interface ICreatePropertyParams extends IDataSourceParams {
   entityType: EntityType;
   itemType: string;
   propertyKey: string;
+  propertyType: PropertyType;
   required?: boolean;
   visibility?: DataVisibility;
-  entityResolutionAttribute?: string; // Only valid for nodes
 }
 
-export interface ICreatePropertyParams extends WritePropertyParams {
-  propertyType: PropertyType;
-}
-
-export interface IUpdatePropertyParams extends WritePropertyParams {
+export interface IUpdatePropertyParams extends IDataSourceParams {
+  entityType: EntityType;
+  itemType: string;
+  propertyKey: string;
   propertyType?: PropertyType;
+  required?: boolean;
+  visibility?: DataVisibility;
 }
 
 export interface GraphSchemaProperty {
@@ -156,12 +152,10 @@ export interface GraphSchema {
 
 export interface AdminGraphSchemaProperty extends Omit<GraphSchemaProperty, 'indexedAs'> {
   propertyTypeConsistent: boolean;
-  entityResolutionAttribute?: string; // Only defined for nodes
 }
 
 export interface AdminGraphSchemaType extends GraphSchemaType {
   properties: AdminGraphSchemaProperty[];
-  entityResolutionRecordType?: EntityResolutionRecordType; // Only defined for nodes
 }
 
 export interface AdminGraphSchema {
