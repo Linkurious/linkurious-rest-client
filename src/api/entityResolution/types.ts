@@ -6,6 +6,13 @@
  */
 
 /**
+ * The supported record types.
+ */
+export const ENTITY_RESOLUTION_RECORD_TYPES = ['person', 'organization'] as const;
+
+export type EntityResolutionRecordType = (typeof ENTITY_RESOLUTION_RECORD_TYPES)[number];
+
+/**
  *  The status of entity resolution for a given data-source.
  */
 export interface EntityResolutionStatus {
