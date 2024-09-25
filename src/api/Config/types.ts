@@ -205,11 +205,11 @@ export interface IElasticSearchConfig extends IVendorConfig {
   password?: string;
   mapping?: string;
   analyzer?: string;
-  incrementalIndexation?: boolean;
+  incrementalIndexing?: boolean;
   timestampPropertyName?: string;
-  incrementalIndexationCron?: string;
+  incrementalIndexingCron?: string;
   forceReindex?: boolean;
-  skipEdgeIndexation?: boolean;
+  skipEdgeIndexing?: boolean;
 }
 
 export interface IAzureSearchConfig extends IVendorConfig {
@@ -239,7 +239,7 @@ export interface IAdvancedConfig {
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
   pollInterval?: number;
-  indexationChunkSize?: number;
+  indexingChunkSize?: number;
   layoutWorkers?: number;
   defaultFuzziness?: number;
   extraCertificateAuthorities?: string;

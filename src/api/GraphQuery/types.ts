@@ -225,7 +225,7 @@ export interface IGetQueryParams extends IDataSourceParams {
 }
 
 export interface IGetQueriesParams extends IDataSourceParams {
-  type: GraphQueryType;
+  type?: GraphQueryType;
 }
 
 export interface ICreateQueryParams extends IDataSourceParams, SharingOptions {
