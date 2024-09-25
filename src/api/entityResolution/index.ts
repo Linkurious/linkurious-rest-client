@@ -13,6 +13,7 @@ import {
   DeleteEntityResolutionMappingParams,
   EntityResolutionMapping,
   EntityResolutionStatus,
+  StartEntityResolutionParams,
   UpdateEntityResolutionMappingParams
 } from './types';
 
@@ -82,7 +83,7 @@ export class EntityResolutionAPI extends Request {
   /**
    * Start entity resolution on a given data-source.
    */
-  startEntityResolution(params: IDataSourceParams) {
+  startEntityResolution(params: StartEntityResolutionParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, ILLEGAL_SOURCE_STATE],
       url: '/:sourceKey/entityResolution',

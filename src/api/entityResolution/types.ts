@@ -44,16 +44,21 @@ export type RecordSimpleAttribute<
 
 export type RecordComplexAttribute<
   T extends EntityResolutionRecordType = EntityResolutionRecordType
-> =
-  | ComplexAttribute<'addresses', RecordAddressAttribute>
-  | ComplexAttribute<'phones', RecordPhoneAttribute>
-  | (T extends 'person'
-      ? ComplexAttribute<'names', PersonNameAttribute>
-      : T extends 'organization'
-        ? ComplexAttribute<'names', OrganizationNameAttribute>
-        : never);
+> = T extends 'person'
+  ? PersonComplexAttribute
+  : T extends 'organization'
+    ? OrganizationComplexAttribute
+    : never;
 
-type ComplexAttribute<Parent, Child> = [Parent, type: string, Exclude<Child, 'type'>];
+export type PersonComplexAttribute =
+  | ['names', RecordNameType, PersonNameAttribute]
+  | ['addresses', PersonAddressType, RecordAddressAttribute]
+  | ['phones', PersonPhoneType, RecordPhoneAttribute];
+
+export type OrganizationComplexAttribute =
+  | ['names', RecordNameType, OrganizationNameAttribute]
+  | ['addresses', OrganizationAddressType, RecordAddressAttribute]
+  | ['phones', OrganizationPhoneType, RecordPhoneAttribute];
 
 /**
  * The supported record types.
@@ -110,11 +115,35 @@ export const ORGANIZATION_SIMPLE_ATTRIBUTES = [
 ] as const;
 export type OrganizationSimpleAttribute = (typeof ORGANIZATION_SIMPLE_ATTRIBUTES)[number];
 
-export const ORGANIZATION_NAME_ATTRIBUTES = ['type', 'org'] as const;
+export const RECORD_NAME_TYPES = ['primary', 'alias'] as const;
+export type RecordNameType = (typeof RECORD_NAME_TYPES)[number];
+
+export const PERSON_ADDRESS_TYPES = ['primary', 'other', 'home', 'work', 'mail'] as const;
+export type PersonAddressType = (typeof PERSON_ADDRESS_TYPES)[number];
+
+export const ORGANIZATION_ADDRESS_TYPES = ['primary', 'other', 'business', 'mail'] as const;
+export type OrganizationAddressType = (typeof ORGANIZATION_ADDRESS_TYPES)[number];
+
+export const PERSON_PHONE_TYPES = ['primary', 'other', 'home', 'work', 'fax', 'mobile'] as const;
+export type PersonPhoneType = (typeof PERSON_PHONE_TYPES)[number];
+
+export const ORGANIZATION_PHONE_TYPES = ['primary', 'other', 'fax'] as const;
+export type OrganizationPhoneType = (typeof ORGANIZATION_PHONE_TYPES)[number];
+
+export const PERSON_NAME_ATTRIBUTES = [
+  'full',
+  'first',
+  'middle',
+  'last',
+  'prefix',
+  'suffix'
+] as const;
+export type PersonNameAttribute = (typeof PERSON_NAME_ATTRIBUTES)[number];
+
+export const ORGANIZATION_NAME_ATTRIBUTES = ['org'] as const;
 export type OrganizationNameAttribute = (typeof ORGANIZATION_NAME_ATTRIBUTES)[number];
 
 export const RECORD_ADDRESS_ATTRIBUTES = [
-  'type',
   'full',
   'line1',
   'line2',
@@ -131,19 +160,12 @@ export const RECORD_ADDRESS_ATTRIBUTES = [
 ] as const;
 export type RecordAddressAttribute = (typeof RECORD_ADDRESS_ATTRIBUTES)[number];
 
-export const RECORD_PHONE_ATTRIBUTES = ['type', 'number', 'fromDate', 'thruDate'] as const;
+export const RECORD_PHONE_ATTRIBUTES = ['number', 'fromDate', 'thruDate'] as const;
 export type RecordPhoneAttribute = (typeof RECORD_PHONE_ATTRIBUTES)[number];
 
-export const PERSON_NAME_ATTRIBUTES = [
-  'type',
-  'full',
-  'first',
-  'middle',
-  'last',
-  'prefix',
-  'suffix'
-] as const;
-export type PersonNameAttribute = (typeof PERSON_NAME_ATTRIBUTES)[number];
+export interface StartEntityResolutionParams extends IDataSourceParams {
+  waitForCompletion?: boolean;
+}
 
 /**
  *  The status of entity resolution for a given data-source.
