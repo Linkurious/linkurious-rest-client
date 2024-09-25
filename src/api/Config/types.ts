@@ -223,6 +223,7 @@ export interface IAlertsConfig {
   enabled?: boolean;
   maxMatchesLimit?: number;
   maxRuntimeLimit?: number;
+  enableDataPreprocessing?: boolean;
 }
 
 export interface IAdvancedConfig {

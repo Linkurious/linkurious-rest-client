@@ -66,14 +66,24 @@ export interface IUpdateCaseParams extends IDataSourceParams {
   visualization: BaseVisualization;
 }
 
-export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries'> {
+export interface ICreateAlertParams
+  extends Omit<IBaseAlert, 'folder' | 'preprocessingSteps' | 'queries'> {
   uuid?: string;
   folder?: number;
+  preprocessingSteps?: Array<CreateAlertPreprocessingStepParams>;
   queries?: Array<ICreateAlertQueryParams>;
+}
+
+export interface CreateAlertPreprocessingStepParams extends Omit<AlertPreprocessingStep, 'uuid'> {
+  uuid?: string;
 }
 
 export interface ICreateAlertQueryParams
   extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {
+  uuid?: string;
+}
+
+export interface UpdateAlertPreprocessingStepParams extends Omit<AlertPreprocessingStep, 'uuid'> {
   uuid?: string;
 }
 
@@ -91,6 +101,7 @@ export enum AlertQueryUpdateOperation {
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
   title: string;
   description?: string;
+  preprocessingSteps?: Array<AlertPreprocessingStep>;
   queries?: Array<IAlertQuery>;
   folder: number;
   enabled: boolean;
@@ -115,6 +126,12 @@ export interface Alert extends IBaseAlert, PersistedItem {
   lastShareEditor: DeletableUser;
 }
 
+export interface AlertPreprocessingStep
+  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {
+  // Unique identifier for the preprocessing step since we can have multiple steps with the same name and/or query
+  uuid: string;
+}
+
 export interface IAlertQuery extends AlertQueryData {
   uuid: string;
   query: string;
@@ -122,9 +139,9 @@ export interface IAlertQuery extends AlertQueryData {
   updatedAt: Date;
 }
 
-type AlertError = {
-  queryId?: number;
-  source: 'caseAttributeQuery' | 'alertQuery';
+export type AlertError = {
+  queryId?: number | string;
+  source: 'caseAttributeQuery' | 'alertQuery' | 'preprocessingStep';
   error: LkError;
   partial: boolean;
 };
@@ -137,8 +154,10 @@ export interface RunAlertResponse {
   alreadyRunning: boolean;
 }
 
-export interface IUpdateAlertParams extends Omit<Partial<ICreateAlertParams>, 'uuid' | 'queries'> {
+export interface IUpdateAlertParams
+  extends Omit<Partial<ICreateAlertParams>, 'uuid' | 'preprocessingSteps' | 'queries'> {
   id: number;
+  preprocessingSteps?: Array<UpdateAlertPreprocessingStepParams>;
   queries?: Array<IUpdateAlertQueryParams>;
 }
 
