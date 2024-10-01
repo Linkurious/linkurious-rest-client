@@ -139,12 +139,29 @@ export interface IAlertQuery extends AlertQueryData {
   updatedAt: Date;
 }
 
-export type AlertError = {
-  queryId?: number | string;
+export interface BaseAlertError {
   source: 'caseAttributeQuery' | 'alertQuery' | 'preprocessingStep';
   error: LkError;
   partial: boolean;
-};
+}
+
+export interface AlertQueryError extends BaseAlertError {
+  queryId: number;
+  source: 'alertQuery';
+}
+
+export interface AlertPreprocessingStepError extends BaseAlertError {
+  preprocessingStepUuid: string;
+  source: 'preprocessingStep';
+}
+
+export interface AlertCaseAttributeQueryError extends BaseAlertError {
+  source: 'caseAttributeQuery';
+}
+export type AlertErrorType =
+  | AlertQueryError
+  | AlertPreprocessingStepError
+  | AlertCaseAttributeQueryError;
 
 export interface IRunAlertParams extends IDataSourceParams {
   id: number;
