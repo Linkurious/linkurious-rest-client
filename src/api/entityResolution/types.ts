@@ -163,18 +163,18 @@ export type RecordAddressAttribute = (typeof RECORD_ADDRESS_ATTRIBUTES)[number];
 export const RECORD_PHONE_ATTRIBUTES = ['number', 'fromDate', 'thruDate'] as const;
 export type RecordPhoneAttribute = (typeof RECORD_PHONE_ATTRIBUTES)[number];
 
-export interface StartEntityResolutionParams extends IDataSourceParams {
+export interface StartIngestionParams extends IDataSourceParams {
   waitForCompletion?: boolean;
 }
 
 /**
- *  The status of entity resolution for a given data-source.
+ *  The status of the entity resolution ingestion for a given data-source.
  */
-export interface EntityResolutionStatus {
+export interface IngestionStatus {
   /**
-   * - `needed`: Entity resolution has never run or the last run failed.
-   * - `ongoing`: Entity resolution is currently running.
-   * - `done`: Entity resolution has successfully run.
+   * - `needed`: Ingestion has never run or the last run failed.
+   * - `ongoing`: Ingestion is currently running.
+   * - `done`: Ingestion has successfully run.
    */
   state: 'needed' | 'ongoing' | 'done';
   /**
@@ -186,7 +186,7 @@ export interface EntityResolutionStatus {
    */
   message: string;
   /**
-   * The source-key of the data-source on which entity resolution is currently running, if any.
+   * The source-key of the data-source on which ingestion is currently running, if any.
    */
   busySourceKey?: string;
 }
