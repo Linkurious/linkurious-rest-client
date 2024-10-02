@@ -12,8 +12,8 @@ import {
   CreateEntityResolutionMappingParams,
   DeleteEntityResolutionMappingParams,
   EntityResolutionMapping,
-  EntityResolutionStatus,
-  StartEntityResolutionParams,
+  IngestionStatus,
+  StartIngestionParams,
   UpdateEntityResolutionMappingParams
 } from './types';
 
@@ -81,9 +81,9 @@ export class EntityResolutionAPI extends Request {
   }
 
   /**
-   * Start entity resolution on a given data-source.
+   * Start the entity resolution ingestion on a given data-source.
    */
-  startEntityResolution(params: StartEntityResolutionParams) {
+  startIngestion(params: StartIngestionParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, ILLEGAL_SOURCE_STATE],
       url: '/:sourceKey/entityResolution',
@@ -93,9 +93,9 @@ export class EntityResolutionAPI extends Request {
   }
 
   /**
-   * Get the status of entity resolution, for a given data-source.
+   * Get the status of the entity resolution ingestion, for a given data-source.
    */
-  getEntityResolutionStatus(this: Request<EntityResolutionStatus>, params: IDataSourceParams) {
+  getIngestionStatus(this: Request<IngestionStatus>, params: IDataSourceParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/entityResolution',
