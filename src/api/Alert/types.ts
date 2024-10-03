@@ -108,7 +108,8 @@ export interface IBaseAlert extends IDataSourceParams, SharingOptions {
   columns: Array<IAlertColumn>;
   cron: string;
   target?: string; // we assume alerts always have target
-  caseAttributesQuery?: string; // query for case attributes
+  caseAttributesQuery?: string; // query for case-attributes
+  caseAttributesQueryDialect?: GraphQueryDialect; // case-attributes query dialect
 }
 
 export interface Alert extends IBaseAlert, PersistedItem {
