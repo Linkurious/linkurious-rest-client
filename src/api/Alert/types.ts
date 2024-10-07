@@ -152,7 +152,9 @@ export interface AlertQueryError extends BaseAlertError {
 }
 
 export interface AlertPreprocessingStepError extends BaseAlertError {
-  preprocessingStepUuid: string;
+  // preprocessingStepUuid is defined if the error is related to an individual preprocessing step
+  // (ex. if the data source is in read only mode we return one preprocessing step error with the uuid)
+  preprocessingStepUuid?: string;
   source: 'preprocessingStep';
 }
 
