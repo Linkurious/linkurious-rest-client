@@ -140,12 +140,31 @@ export interface IAlertQuery extends AlertQueryData {
   updatedAt: Date;
 }
 
-export type AlertError = {
-  queryId?: number | string;
+export interface BaseAlertError {
   source: 'caseAttributeQuery' | 'alertQuery' | 'preprocessingStep';
   error: LkError;
   partial: boolean;
-};
+}
+
+export interface AlertQueryError extends BaseAlertError {
+  queryId: number;
+  source: 'alertQuery';
+}
+
+export interface AlertPreprocessingStepError extends BaseAlertError {
+  // preprocessingStepUuid is defined if the error is related to an individual preprocessing step
+  // (ex. if the data source is in read only mode we return one preprocessing step error with the uuid)
+  preprocessingStepUuid?: string;
+  source: 'preprocessingStep';
+}
+
+export interface AlertCaseAttributeQueryError extends BaseAlertError {
+  source: 'caseAttributeQuery';
+}
+export type AlertError =
+  | AlertQueryError
+  | AlertPreprocessingStepError
+  | AlertCaseAttributeQueryError;
 
 export interface IRunAlertParams extends IDataSourceParams {
   id: number;
