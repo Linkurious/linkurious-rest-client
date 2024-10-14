@@ -17,13 +17,9 @@ export interface Tag {
   createdAt: Date;
 }
 
-export interface TagWithAssociatedQueries {
-  id: number;
-  name: string;
-  color: string;
+export interface TagWithAssociatedQueries extends Tag {
   associatedQueriesCount: number;
   associatedQueries: GraphQuery[];
-  createdAt: Date;
 }
 
 export interface CreateTagParams extends IDataSourceParams {
