@@ -99,7 +99,8 @@ export class AlertAPI extends Request {
         UNAUTHORIZED,
         DATA_SOURCE_UNAVAILABLE,
         FORBIDDEN,
-        CONSTRAINT_VIOLATION
+        CONSTRAINT_VIOLATION,
+        INVALID_PARAMETER
       ],
       url: '/admin/:sourceKey/alerts',
       method: 'POST',
@@ -119,7 +120,8 @@ export class AlertAPI extends Request {
         DATA_SOURCE_UNAVAILABLE,
         FORBIDDEN,
         NOT_FOUND,
-        CONSTRAINT_VIOLATION
+        CONSTRAINT_VIOLATION,
+        INVALID_PARAMETER
       ],
       url: '/admin/:sourceKey/alerts/:id',
       method: 'PATCH',
