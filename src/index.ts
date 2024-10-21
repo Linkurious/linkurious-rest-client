@@ -33,6 +33,7 @@ import {MailerAPI} from './api/mailer';
 import {SpacesAPI} from './api/spaces';
 import {NodeGroupingAPI} from './api/nodeGrouping';
 import {TagAPI} from './api/Tag';
+import {EntityResolutionAPI} from './api/entityResolution';
 
 export class RestClient extends ErrorListener {
   public readonly clientState: ClientState;
@@ -61,6 +62,7 @@ export class RestClient extends ErrorListener {
   public readonly spaces: SpacesAPI;
   public readonly nodeGrouping: NodeGroupingAPI;
   public readonly tag: TagAPI;
+  public readonly entityResolution: EntityResolutionAPI;
 
   constructor(options?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
     super();
@@ -101,6 +103,7 @@ export class RestClient extends ErrorListener {
     this.spaces = new SpacesAPI(this.moduleProps);
     this.nodeGrouping = new NodeGroupingAPI(this.moduleProps);
     this.tag = new TagAPI(this.moduleProps);
+    this.entityResolution = new EntityResolutionAPI(this.moduleProps);
   }
 
   /**

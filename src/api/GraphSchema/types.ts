@@ -152,6 +152,7 @@ export interface GraphSchema {
 
 export interface AdminGraphSchemaProperty extends Omit<GraphSchemaProperty, 'indexedAs'> {
   propertyTypeConsistent: boolean;
+  entityResolutionAttribute?: string; // Only defined for nodes
 }
 
 export interface AdminGraphSchemaType extends GraphSchemaType {
