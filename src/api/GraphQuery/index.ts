@@ -22,6 +22,7 @@ import {
 } from './types';
 
 export * from './types';
+export * from './structuredGraphQuery';
 
 const {
   UNAUTHORIZED,
