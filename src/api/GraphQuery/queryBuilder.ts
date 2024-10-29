@@ -74,13 +74,13 @@
  * ```
  */
 export interface StructuredGraphQuery {
-  readonly traversal: {
-    readonly firstStep: GraphQueryNodeSearchFilter | GraphQueryNodeStrictFilter;
+  traversal: {
+    firstStep: GraphQueryNodeSearchFilter | GraphQueryNodeStrictFilter;
     // otherSteps can be an empty array, in which case we only match nodes from the first step
-    readonly otherSteps: Array<StructuredQueryStep>;
+    otherSteps: Array<StructuredQueryStep>;
   };
   // max number of results for the query
-  readonly limit: number;
+  limit: number;
 }
 
 export interface StructuredQueryStep {
@@ -89,25 +89,25 @@ export interface StructuredQueryStep {
    * It is used to restrict which nodes will be included in this traversal step.
    * Leaving the nodeFilter undefined means this step will match any node.
    */
-  readonly nodeFilter?: GraphQueryNodeStrictFilter;
+  nodeFilter?: GraphQueryNodeStrictFilter;
   /**
    * The edge filter is optional.
    * It is used to restrict the edges that can be traversed to go from the previous node to
    * nodes matched in this traversal step.
    * Leaving the edgeFilter undefined means that this step will match any edge in any direction.
    */
-  readonly edgeFilter?: GraphQueryEdgeFilter;
-  readonly minCardinality?: number;
-  readonly maxCardinality?: number;
+  edgeFilter?: GraphQueryEdgeFilter;
+  minCardinality?: number;
+  maxCardinality?: number;
 }
 
 /**
  * Internal base interface for a node or edge filter.
  */
 interface BaseGraphQueryFilter {
-  readonly entityType: 'node' | 'edge';
-  readonly filterType: 'strict' | 'search';
-  readonly propertyFilters: BasePropertyFilter[];
+  entityType: 'node' | 'edge';
+  filterType: 'strict' | 'search';
+  propertyFilters: BasePropertyFilter[];
 }
 
 /**
@@ -116,10 +116,10 @@ interface BaseGraphQueryFilter {
  * Note: to match "any node" in a step, leave {@link StructuredQueryStep.nodeFilter} undefined.
  */
 export interface GraphQueryNodeStrictFilter extends BaseGraphQueryFilter {
-  readonly entityType: 'node';
-  readonly filterType: 'strict';
-  readonly itemType: string;
-  readonly propertyFilters: StrictPropertyFilter[];
+  entityType: 'node';
+  filterType: 'strict';
+  itemType: string;
+  propertyFilters: StrictPropertyFilter[];
 }
 
 /**
@@ -130,13 +130,13 @@ export interface GraphQueryNodeStrictFilter extends BaseGraphQueryFilter {
  * - limit: only the `limit` best results are returned by the search engine.
  */
 export interface GraphQueryNodeSearchFilter extends BaseGraphQueryFilter {
-  readonly entityType: 'node';
+  entityType: 'node';
   // null means "any node type"
-  readonly itemType: string | null;
-  readonly filterType: 'search';
-  readonly propertyFilters: SearchPropertyFilter[];
-  readonly fuzziness: number;
-  readonly limit: number;
+  itemType: string | null;
+  filterType: 'search';
+  propertyFilters: SearchPropertyFilter[];
+  fuzziness: number;
+  limit: number;
 }
 
 /**
@@ -146,19 +146,19 @@ export interface GraphQueryNodeSearchFilter extends BaseGraphQueryFilter {
  * - properties: must match all filters in `propertyFilters`.
  */
 export interface GraphQueryEdgeFilter {
-  readonly entityType: 'edge';
-  readonly filterType: 'strict';
-  readonly direction?: 'fromPrevious' | 'toPrevious';
-  readonly itemType: string;
-  readonly propertyFilters: StrictPropertyFilter[];
+  entityType: 'edge';
+  filterType: 'strict';
+  direction?: 'fromPrevious' | 'toPrevious';
+  itemType: string;
+  propertyFilters: StrictPropertyFilter[];
 }
 
 /**
  * Internal interface for property filters
  */
 interface BasePropertyFilter {
-  readonly propertyType: 'string' | 'number' | 'date';
-  readonly operator: '=' | '!=' | '<' | '<=' | '>' | '>=' | '~';
+  propertyType: 'string' | 'number' | 'date';
+  operator: '=' | '!=' | '<' | '<=' | '>' | '>=' | '~';
 }
 
 /**
@@ -170,23 +170,23 @@ type SearchPropertyFilter = NumberSearchPropertyFilter | StringSearchPropertyFil
 
 interface BaseSearchPropertyFilter extends BasePropertyFilter {
   // null means "any property"
-  readonly propertyKey: string | null;
+  propertyKey: string | null;
 }
 
 // these property filters are only supported with Elasticsearch
 interface NumberSearchPropertyFilter extends BaseSearchPropertyFilter {
-  readonly propertyType: 'number';
-  readonly propertyKey: string;
+  propertyType: 'number';
+  propertyKey: string;
   // "number" search property filters cannot use the "fuzzy match" ("~") operator.
-  readonly operator: Exclude<BasePropertyFilter['operator'], '~'>;
-  readonly input: QueryProperty<number>;
+  operator: Exclude<BasePropertyFilter['operator'], '~'>;
+  input: QueryProperty<number>;
 }
 
 // this is the fuzzy string property match that is supported by all search vendors.
 interface StringSearchPropertyFilter extends BaseSearchPropertyFilter {
-  readonly propertyType: 'string';
-  readonly operator: '~';
-  readonly input: QueryProperty<string>;
+  propertyType: 'string';
+  operator: '~';
+  input: QueryProperty<string>;
 }
 
 /**
@@ -198,48 +198,48 @@ interface StringSearchPropertyFilter extends BaseSearchPropertyFilter {
 export type StrictPropertyFilter = StringStrictPropertyFilter | NumberStrictPropertyFilter;
 
 interface BaseStrictPropertyFilter<T> extends BasePropertyFilter {
-  readonly propertyKey: string;
-  readonly operator: Exclude<BasePropertyFilter['operator'], '~'>;
-  readonly input: QueryProperty<T>;
+  propertyKey: string;
+  operator: Exclude<BasePropertyFilter['operator'], '~'>;
+  input: QueryProperty<T>;
 }
 
 export interface StringStrictPropertyFilter extends BaseStrictPropertyFilter<string[]> {
-  readonly propertyType: 'string';
-  readonly operator: '=' | '!=';
+  propertyType: 'string';
+  operator: '=' | '!=';
 }
 
 export interface NumberStrictPropertyFilter extends BaseStrictPropertyFilter<number> {
-  readonly propertyType: 'number';
-  readonly operator: '>' | '<' | '=' | '<=' | '>=' | '!=';
+  propertyType: 'number';
+  operator: '>' | '<' | '=' | '<=' | '>=' | '!=';
 }
 
 type QueryProperty<T> = QueryPropertyValue<T> | QueryPropertyTemplate;
 
 interface BaseQueryProperty {
-  readonly type: 'value' | 'template';
+  type: 'value' | 'template';
 }
 
 interface QueryPropertyValue<T> extends BaseQueryProperty {
-  readonly type: 'value';
-  readonly value: T;
+  type: 'value';
+  value: T;
 }
 
 type QueryPropertyTemplate = StringQueryPropertyTemplate | NumberQueryPropertyTemplate;
 
 interface BaseQueryPropertyTemplate extends BaseQueryProperty {
-  readonly type: 'template';
-  readonly inputType: 'number' | 'string' | 'date' | 'boolean' | 'dateTime';
+  type: 'template';
+  inputType: 'number' | 'string' | 'date' | 'boolean' | 'dateTime';
 }
 
 interface StringQueryPropertyTemplate extends BaseQueryPropertyTemplate {
-  readonly inputType: 'string';
-  readonly defaultValue?: string;
-  readonly allowedValues?: string[];
+  inputType: 'string';
+  defaultValue?: string;
+  allowedValues?: string[];
 }
 
 interface NumberQueryPropertyTemplate extends BaseQueryPropertyTemplate {
-  readonly inputType: 'number';
-  readonly defaultValue?: number;
-  readonly maxValue?: number;
-  readonly minValue?: number;
+  inputType: 'number';
+  defaultValue?: number;
+  maxValue?: number;
+  minValue?: number;
 }
