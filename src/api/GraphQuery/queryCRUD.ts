@@ -6,6 +6,7 @@
 
 import {DeletableUser, IDataSourceParams, SharingOptions} from '../commonTypes';
 
+import {StructuredGraphQuery} from './queryBuilder';
 import {Template} from './queryTemplates';
 
 export enum GraphQueryInputType {
@@ -19,7 +20,8 @@ export enum GraphQueryInputType {
 
 export enum GraphQueryDialect {
   CYPHER = 'cypher',
-  GREMLIN = 'gremlin'
+  GREMLIN = 'gremlin',
+  QUERY_BUILDER = 'queryBuilder'
 }
 
 export enum GraphQueryRight {
@@ -84,4 +86,17 @@ export interface IUpdateQueryParams extends Partial<Omit<ICreateQueryParams, 'uu
 
 export interface IDeleteQueryParams extends IDataSourceParams {
   id: number;
+}
+
+export interface ConvertQueryParams extends IDataSourceParams {
+  // For now, we only support converting from QueryBuilder to Cypher
+  // But in the future we might extend the API to support other conversions
+  sourceDialect: GraphQueryDialect.QUERY_BUILDER;
+  targetDialect: GraphQueryDialect.CYPHER;
+  query: StructuredGraphQuery;
+}
+
+export interface ConvertQueryResponse {
+  query: string;
+  dialect: GraphQueryDialect;
 }
