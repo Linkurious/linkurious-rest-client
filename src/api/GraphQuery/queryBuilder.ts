@@ -5,6 +5,8 @@
  * Created on 2024-10-25
  */
 
+import {EntityType} from '../GraphSchema';
+
 /**
  * @example
  * Query:
@@ -74,13 +76,15 @@
  * ```
  */
 export interface StructuredGraphQuery {
-  traversal: {
-    firstStep: GraphQueryNodeSearchFilter | GraphQueryNodeStrictFilter;
-    // otherSteps can be an empty array, in which case we only match nodes from the first step
-    otherSteps: Array<StructuredQueryStep>;
-  };
+  traversal: StructuredGraphQueryTraversal;
   // max number of results for the query
   limit: number;
+}
+
+export interface StructuredGraphQueryTraversal {
+  firstStep: GraphQueryNodeSearchFilter | GraphQueryNodeStrictFilter;
+  // otherSteps can be an empty array, in which case we only match nodes from the first step
+  otherSteps: Array<StructuredQueryStep>;
 }
 
 export interface StructuredQueryStep {
@@ -105,7 +109,7 @@ export interface StructuredQueryStep {
  * Internal base interface for a node or edge filter.
  */
 interface BaseGraphQueryFilter {
-  entityType: 'node' | 'edge';
+  entityType: EntityType;
   filterType: 'strict' | 'search';
   propertyFilters: BasePropertyFilter[];
 }
@@ -116,7 +120,7 @@ interface BaseGraphQueryFilter {
  * Note: to match "any node" in a step, leave {@link StructuredQueryStep.nodeFilter} undefined.
  */
 export interface GraphQueryNodeStrictFilter extends BaseGraphQueryFilter {
-  entityType: 'node';
+  entityType: EntityType.NODE;
   filterType: 'strict';
   itemType: string;
   propertyFilters: StrictPropertyFilter[];
@@ -130,7 +134,7 @@ export interface GraphQueryNodeStrictFilter extends BaseGraphQueryFilter {
  * - limit: only the `limit` best results are returned by the search engine.
  */
 export interface GraphQueryNodeSearchFilter extends BaseGraphQueryFilter {
-  entityType: 'node';
+  entityType: EntityType.NODE;
   // null means "any node type"
   itemType: string | null;
   filterType: 'search';
