@@ -26,7 +26,7 @@ import {EntityType} from '../GraphSchema';
  *       entityType: 'node',
  *       filterType: 'search',
  *       fuzziness: 0.2,
- *       itemType: 'Company',
+ *       itemType: ['Company'],
  *       limit: 1000,
  *       propertyFilters: [
  *         {
@@ -42,8 +42,8 @@ import {EntityType} from '../GraphSchema';
  *         edgeFilter: {
  *           entityType: 'edge',
  *           filterType: 'strict',
- *           direction: 'both',
- *           itemType: 'HAS_EMPLOYEE',
+ *           direction: undefined,
+ *           itemType: ['HAS_EMPLOYEE'],
  *           propertyFilters: [
  *             {
  *               propertyType: 'string',
@@ -56,7 +56,7 @@ import {EntityType} from '../GraphSchema';
  *         nodeFilter: {
  *           entityType: 'node',
  *           filterType: 'strict',
- *           itemType: 'Person',
+ *           itemType: ['Person'],
  *           propertyFilters: [
  *             {
  *               propertyType: 'string',
@@ -116,13 +116,14 @@ export interface BaseGraphQueryFilter {
 
 /**
  * Public strict node filter (executed via graph database).
- * It represents a filter for *one* node-category + some property criteria.
- * Note: to match "any node" in a step, leave {@link StructuredQueryStep.nodeFilter} undefined.
+ * It represents a filter for node-categories + some property criteria.
+ * To match "any node category", leave `itemType` empty.
+ * To match "any node property", leave `propertyFilters` empty.
  */
 export interface GraphQueryNodeStrictFilter extends BaseGraphQueryFilter {
   entityType: EntityType.NODE;
   filterType: 'strict';
-  itemType: string;
+  itemType: string[];
   propertyFilters: StrictPropertyFilter[];
 }
 
@@ -145,15 +146,16 @@ export interface GraphQueryNodeSearchFilter extends BaseGraphQueryFilter {
 
 /**
  * Edge filter (executed via graph database):
- * - edge-type: must be `itemType`.
+ * - edge-type: must one of `itemType` (empty mean "any edge type").
  * - direction: must respect `direction`
  * - properties: must match all filters in `propertyFilters`.
  */
 export interface GraphQueryEdgeFilter {
   entityType: 'edge';
   filterType: 'strict';
+  // direction=undefined means we will match edges in both directions
   direction?: 'fromPrevious' | 'toPrevious';
-  itemType: string;
+  itemType: string[];
   propertyFilters: StrictPropertyFilter[];
 }
 
