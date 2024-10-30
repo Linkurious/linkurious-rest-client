@@ -172,7 +172,7 @@ export interface BasePropertyFilter {
  */
 export type SearchPropertyFilter = NumberSearchPropertyFilter | StringSearchPropertyFilter;
 
-interface BaseSearchPropertyFilter extends BasePropertyFilter {
+export interface BaseSearchPropertyFilter extends BasePropertyFilter {
   // null means "any property"
   propertyKey: string | null;
 }
