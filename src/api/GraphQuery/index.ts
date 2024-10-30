@@ -181,7 +181,14 @@ export class GraphQueryAPI extends Request {
   }
   public convertQuery(this: Request<ConvertQueryResponse>, params: ConvertQueryParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, INVALID_PARAMETER, NOT_IMPLEMENTED],
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        INVALID_PARAMETER,
+        NOT_IMPLEMENTED,
+        CRITICAL
+      ],
       url: '/:sourceKey/graph/convert/query',
       method: 'POST',
       params: params
