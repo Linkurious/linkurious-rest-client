@@ -160,7 +160,7 @@ export interface GraphQueryEdgeFilter {
 /**
  * Internal interface for property filters
  */
-interface BasePropertyFilter {
+export interface BasePropertyFilter {
   propertyType: 'string' | 'number' | 'date';
   operator: '=' | '!=' | '<' | '<=' | '>' | '>=' | '~';
 }
