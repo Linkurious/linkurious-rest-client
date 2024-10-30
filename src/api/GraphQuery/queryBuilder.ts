@@ -108,7 +108,7 @@ export interface StructuredQueryStep {
 /**
  * Internal base interface for a node or edge filter.
  */
-interface BaseGraphQueryFilter {
+export interface BaseGraphQueryFilter {
   entityType: EntityType;
   filterType: 'strict' | 'search';
   propertyFilters: BasePropertyFilter[];
@@ -170,7 +170,7 @@ export interface BasePropertyFilter {
  * - string filter (fuzziness applies)
  * - numerical filter (only supported when the search vendor is Elasticsearch)
  */
-type SearchPropertyFilter = NumberSearchPropertyFilter | StringSearchPropertyFilter;
+export type SearchPropertyFilter = NumberSearchPropertyFilter | StringSearchPropertyFilter;
 
 interface BaseSearchPropertyFilter extends BasePropertyFilter {
   // null means "any property"
@@ -178,7 +178,7 @@ interface BaseSearchPropertyFilter extends BasePropertyFilter {
 }
 
 // these property filters are only supported with Elasticsearch
-interface NumberSearchPropertyFilter extends BaseSearchPropertyFilter {
+export interface NumberSearchPropertyFilter extends BaseSearchPropertyFilter {
   propertyType: 'number';
   propertyKey: string;
   // "number" search property filters cannot use the "fuzzy match" ("~") operator.
@@ -187,7 +187,7 @@ interface NumberSearchPropertyFilter extends BaseSearchPropertyFilter {
 }
 
 // this is the fuzzy string property match that is supported by all search vendors.
-interface StringSearchPropertyFilter extends BaseSearchPropertyFilter {
+export interface StringSearchPropertyFilter extends BaseSearchPropertyFilter {
   propertyType: 'string';
   operator: '~';
   input: QueryProperty<string>;
@@ -201,7 +201,7 @@ interface StringSearchPropertyFilter extends BaseSearchPropertyFilter {
  */
 export type StrictPropertyFilter = StringStrictPropertyFilter | NumberStrictPropertyFilter;
 
-interface BaseStrictPropertyFilter<T> extends BasePropertyFilter {
+export interface BaseStrictPropertyFilter<T> extends BasePropertyFilter {
   propertyKey: string;
   operator: Exclude<BasePropertyFilter['operator'], '~'>;
   input: QueryProperty<T>;
@@ -217,31 +217,31 @@ export interface NumberStrictPropertyFilter extends BaseStrictPropertyFilter<num
   operator: '>' | '<' | '=' | '<=' | '>=' | '!=';
 }
 
-type QueryProperty<T> = QueryPropertyValue<T> | QueryPropertyTemplate;
+export type QueryProperty<T> = QueryPropertyValue<T> | QueryPropertyTemplate;
 
-interface BaseQueryProperty {
+export interface BaseQueryProperty {
   type: 'value' | 'template';
 }
 
-interface QueryPropertyValue<T> extends BaseQueryProperty {
+export interface QueryPropertyValue<T> extends BaseQueryProperty {
   type: 'value';
   value: T;
 }
 
 type QueryPropertyTemplate = StringQueryPropertyTemplate | NumberQueryPropertyTemplate;
 
-interface BaseQueryPropertyTemplate extends BaseQueryProperty {
+export interface BaseQueryPropertyTemplate extends BaseQueryProperty {
   type: 'template';
   inputType: 'number' | 'string' | 'date' | 'boolean' | 'dateTime';
 }
 
-interface StringQueryPropertyTemplate extends BaseQueryPropertyTemplate {
+export interface StringQueryPropertyTemplate extends BaseQueryPropertyTemplate {
   inputType: 'string';
   defaultValue?: string;
   allowedValues?: string[];
 }
 
-interface NumberQueryPropertyTemplate extends BaseQueryPropertyTemplate {
+export interface NumberQueryPropertyTemplate extends BaseQueryPropertyTemplate {
   inputType: 'number';
   defaultValue?: number;
   maxValue?: number;
