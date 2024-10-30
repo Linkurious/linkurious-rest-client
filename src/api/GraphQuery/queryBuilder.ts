@@ -40,7 +40,7 @@
  *         edgeFilter: {
  *           entityType: 'edge',
  *           filterType: 'strict',
- *           direction: both',
+ *           direction: undefined,
  *           itemType: ['HAS_EMPLOYEE'],
  *           propertyFilters: [
  *             {
