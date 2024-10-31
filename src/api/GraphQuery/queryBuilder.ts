@@ -230,7 +230,7 @@ export interface QueryPropertyValue<T> extends BaseQueryProperty {
   value: T;
 }
 
-type QueryPropertyTemplate = StringQueryPropertyTemplate | NumberQueryPropertyTemplate;
+export type QueryPropertyTemplate = StringQueryPropertyTemplate | NumberQueryPropertyTemplate;
 
 export interface BaseQueryPropertyTemplate extends BaseQueryProperty {
   type: 'template';
