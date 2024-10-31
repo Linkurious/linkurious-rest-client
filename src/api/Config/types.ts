@@ -71,6 +71,7 @@ export interface IDatabaseConfig {
   connectionRetries?: number;
   transactionTimeout?: number;
   options: IDatabaseOptions | ISqliteOptions;
+  allowFutureStoreVersion?: boolean;
 }
 
 export interface IHttpServerConfig {
