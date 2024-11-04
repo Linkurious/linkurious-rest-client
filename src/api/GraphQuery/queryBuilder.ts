@@ -151,7 +151,7 @@ export interface GraphQueryNodeSearchFilter extends BaseGraphQueryFilter {
  * - properties: must match all filters in `propertyFilters`.
  */
 export interface GraphQueryEdgeFilter {
-  entityType: 'edge';
+  entityType: EntityType.EDGE;
   filterType: 'strict';
   // direction=undefined means we will match edges in both directions
   direction?: 'fromPrevious' | 'toPrevious';
