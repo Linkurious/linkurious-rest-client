@@ -9,9 +9,11 @@ import {LkErrorKey} from '../../http/response';
 
 import {
   CheckQueryResponse,
+  CypherGeneratorResponse,
   GraphQuery,
   ICheckQueryParams,
   ICreateQueryParams,
+  ICypherGeneratorParams,
   IDeleteQueryParams,
   IGetQueriesParams,
   IGetQueryParams,
@@ -172,6 +174,19 @@ export class GraphQueryAPI extends Request {
         CONSTRAINT_VIOLATION
       ],
       url: '/:sourceKey/graph/run/query/:id',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get all the nodes and edges matching the given saved graph query by id.
+   * A subgraph made of all the nodes and the edges from each subgraph matching the graph query is returned.
+   */
+  public aiCypher(this: Request<CypherGeneratorResponse>, params: ICypherGeneratorParams) {
+    return this.request({
+      errors: [UNAUTHORIZED],
+      url: '/:sourceKey/cypher',
       method: 'POST',
       params: params
     });

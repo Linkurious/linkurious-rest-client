@@ -285,3 +285,12 @@ export interface ErrorHighlight {
   offset: number;
   length?: number;
 }
+
+export interface ICypherGeneratorParams extends IDataSourceParams {
+  question: string;
+}
+
+export interface CypherGeneratorResponse {
+  cypherQuery: string;
+  isOk: boolean;
+}
