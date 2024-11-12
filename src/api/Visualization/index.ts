@@ -389,6 +389,21 @@ export class VisualizationAPI extends Request {
   }
 
   /**
+   * Create a visualization ai answer comment.
+   */
+  createVisualizationAiAnswerComment(
+    this: Request<VisualizationComment>,
+    params: CreateVisualizationCommentParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/visualizations/:visualizationId/commentsAi',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
    * Get the visualization comment(s).
    */
   getVisualizationComments(
