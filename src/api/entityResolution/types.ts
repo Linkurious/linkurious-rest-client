@@ -51,14 +51,14 @@ export type RecordComplexAttribute<
     : never;
 
 export type PersonComplexAttribute =
-  | ['names', RecordNameType, PersonNameAttribute]
-  | ['addresses', PersonAddressType, RecordAddressAttribute]
-  | ['phones', PersonPhoneType, RecordPhoneAttribute];
+  | ['name', RecordNameType, PersonNameAttribute]
+  | ['address', PersonAddressType, RecordAddressAttribute]
+  | ['phone', PersonPhoneType, RecordPhoneAttribute];
 
 export type OrganizationComplexAttribute =
-  | ['names', RecordNameType, OrganizationNameAttribute]
-  | ['addresses', OrganizationAddressType, RecordAddressAttribute]
-  | ['phones', OrganizationPhoneType, RecordPhoneAttribute];
+  | ['name', RecordNameType, OrganizationNameAttribute]
+  | ['address', OrganizationAddressType, RecordAddressAttribute]
+  | ['phone', OrganizationPhoneType, RecordPhoneAttribute];
 
 /**
  * The supported record types.
