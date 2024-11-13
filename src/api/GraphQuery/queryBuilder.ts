@@ -5,6 +5,8 @@
  * Created on 2024-10-25
  */
 
+import {EntityType} from '../GraphSchema';
+
 /**
  * @example
  * Query:
@@ -74,13 +76,15 @@
  * ```
  */
 export interface StructuredGraphQuery {
-  traversal: {
-    firstStep: GraphQueryNodeSearchFilter | GraphQueryNodeStrictFilter;
-    // otherSteps can be an empty array, in which case we only match nodes from the first step
-    otherSteps: Array<StructuredQueryStep>;
-  };
+  traversal: StructuredGraphQueryTraversal;
   // max number of results for the query
   limit: number;
+}
+
+export interface StructuredGraphQueryTraversal {
+  firstStep: GraphQueryNodeSearchFilter | GraphQueryNodeStrictFilter;
+  // otherSteps can be an empty array, in which case we only match nodes from the first step
+  otherSteps: Array<StructuredQueryStep>;
 }
 
 export interface StructuredQueryStep {
@@ -104,8 +108,8 @@ export interface StructuredQueryStep {
 /**
  * Internal base interface for a node or edge filter.
  */
-interface BaseGraphQueryFilter {
-  entityType: 'node' | 'edge';
+export interface BaseGraphQueryFilter {
+  entityType: EntityType;
   filterType: 'strict' | 'search';
   propertyFilters: BasePropertyFilter[];
 }
@@ -117,7 +121,7 @@ interface BaseGraphQueryFilter {
  * To match "any node property", leave `propertyFilters` empty.
  */
 export interface GraphQueryNodeStrictFilter extends BaseGraphQueryFilter {
-  entityType: 'node';
+  entityType: EntityType.NODE;
   filterType: 'strict';
   itemType: string[];
   propertyFilters: StrictPropertyFilter[];
@@ -131,7 +135,7 @@ export interface GraphQueryNodeStrictFilter extends BaseGraphQueryFilter {
  * - limit: only the `limit` best results are returned by the search engine.
  */
 export interface GraphQueryNodeSearchFilter extends BaseGraphQueryFilter {
-  entityType: 'node';
+  entityType: EntityType.NODE;
   // null means "any node type"
   itemType: string | null;
   filterType: 'search';
@@ -147,7 +151,7 @@ export interface GraphQueryNodeSearchFilter extends BaseGraphQueryFilter {
  * - properties: must match all filters in `propertyFilters`.
  */
 export interface GraphQueryEdgeFilter {
-  entityType: 'edge';
+  entityType: EntityType.EDGE;
   filterType: 'strict';
   // direction=undefined means we will match edges in both directions
   direction?: 'fromPrevious' | 'toPrevious';
@@ -158,7 +162,7 @@ export interface GraphQueryEdgeFilter {
 /**
  * Internal interface for property filters
  */
-interface BasePropertyFilter {
+export interface BasePropertyFilter {
   propertyType: 'string' | 'number' | 'date';
   operator: '=' | '!=' | '<' | '<=' | '>' | '>=' | '~';
 }
@@ -168,15 +172,15 @@ interface BasePropertyFilter {
  * - string filter (fuzziness applies)
  * - numerical filter (only supported when the search vendor is Elasticsearch)
  */
-type SearchPropertyFilter = NumberSearchPropertyFilter | StringSearchPropertyFilter;
+export type SearchPropertyFilter = NumberSearchPropertyFilter | StringSearchPropertyFilter;
 
-interface BaseSearchPropertyFilter extends BasePropertyFilter {
+export interface BaseSearchPropertyFilter extends BasePropertyFilter {
   // null means "any property"
   propertyKey: string | null;
 }
 
 // these property filters are only supported with Elasticsearch
-interface NumberSearchPropertyFilter extends BaseSearchPropertyFilter {
+export interface NumberSearchPropertyFilter extends BaseSearchPropertyFilter {
   propertyType: 'number';
   propertyKey: string;
   // "number" search property filters cannot use the "fuzzy match" ("~") operator.
@@ -185,7 +189,7 @@ interface NumberSearchPropertyFilter extends BaseSearchPropertyFilter {
 }
 
 // this is the fuzzy string property match that is supported by all search vendors.
-interface StringSearchPropertyFilter extends BaseSearchPropertyFilter {
+export interface StringSearchPropertyFilter extends BaseSearchPropertyFilter {
   propertyType: 'string';
   operator: '~';
   input: QueryProperty<string>;
@@ -199,7 +203,7 @@ interface StringSearchPropertyFilter extends BaseSearchPropertyFilter {
  */
 export type StrictPropertyFilter = StringStrictPropertyFilter | NumberStrictPropertyFilter;
 
-interface BaseStrictPropertyFilter<T> extends BasePropertyFilter {
+export interface BaseStrictPropertyFilter<T> extends BasePropertyFilter {
   propertyKey: string;
   operator: Exclude<BasePropertyFilter['operator'], '~'>;
   input: QueryProperty<T>;
@@ -215,31 +219,31 @@ export interface NumberStrictPropertyFilter extends BaseStrictPropertyFilter<num
   operator: '>' | '<' | '=' | '<=' | '>=' | '!=';
 }
 
-type QueryProperty<T> = QueryPropertyValue<T> | QueryPropertyTemplate;
+export type QueryProperty<T> = QueryPropertyValue<T> | QueryPropertyTemplate;
 
-interface BaseQueryProperty {
+export interface BaseQueryProperty {
   type: 'value' | 'template';
 }
 
-interface QueryPropertyValue<T> extends BaseQueryProperty {
+export interface QueryPropertyValue<T> extends BaseQueryProperty {
   type: 'value';
   value: T;
 }
 
-type QueryPropertyTemplate = StringQueryPropertyTemplate | NumberQueryPropertyTemplate;
+export type QueryPropertyTemplate = StringQueryPropertyTemplate | NumberQueryPropertyTemplate;
 
-interface BaseQueryPropertyTemplate extends BaseQueryProperty {
+export interface BaseQueryPropertyTemplate extends BaseQueryProperty {
   type: 'template';
   inputType: 'number' | 'string' | 'date' | 'boolean' | 'dateTime';
 }
 
-interface StringQueryPropertyTemplate extends BaseQueryPropertyTemplate {
+export interface StringQueryPropertyTemplate extends BaseQueryPropertyTemplate {
   inputType: 'string';
   defaultValue?: string;
   allowedValues?: string[];
 }
 
-interface NumberQueryPropertyTemplate extends BaseQueryPropertyTemplate {
+export interface NumberQueryPropertyTemplate extends BaseQueryPropertyTemplate {
   inputType: 'number';
   defaultValue?: number;
   maxValue?: number;
