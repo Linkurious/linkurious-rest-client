@@ -40,7 +40,7 @@ export interface GraphQuery extends SharingOptions {
   shortUuid: string;
   sourceKey: string;
   name: string;
-  content: string;
+  content: GraphQueryContent;
   dialect: GraphQueryDialect;
   description: string;
   owner?: {
@@ -62,6 +62,8 @@ export interface GraphQuery extends SharingOptions {
   updatedAt?: string; // defined only if builtin=false
 }
 
+export type GraphQueryContent = string | StructuredGraphQuery;
+
 export interface IGetQueryParams extends IDataSourceParams {
   id: number | string;
 }
@@ -73,8 +75,8 @@ export interface IGetQueriesParams extends IDataSourceParams {
 export interface ICreateQueryParams extends IDataSourceParams, SharingOptions {
   uuid?: string;
   name: string;
-  content: string;
-  dialect?: GraphQueryDialect;
+  content: GraphQueryContent;
+  dialect: GraphQueryDialect;
   description?: string;
   tagIds?: number[];
   isHidden?: boolean;
