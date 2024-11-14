@@ -163,7 +163,7 @@ export type RecordAddressAttribute = (typeof RECORD_ADDRESS_ATTRIBUTES)[number];
 export const RECORD_PHONE_ATTRIBUTES = ['number', 'fromDate', 'thruDate'] as const;
 export type RecordPhoneAttribute = (typeof RECORD_PHONE_ATTRIBUTES)[number];
 
-export interface StartIngestionParams extends IDataSourceParams {
+export interface StartEntityResolutionTaskParams extends IDataSourceParams {
   waitForCompletion?: boolean;
 }
 
