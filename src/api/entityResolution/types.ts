@@ -168,25 +168,85 @@ export interface StartEntityResolutionTaskParams extends IDataSourceParams {
 }
 
 /**
+ * The possible ingestion states.
+ */
+export const INGESTION_STATES = ['empty', 'done', 'error', 'ongoing'] as const;
+export type IngestionState = (typeof INGESTION_STATES)[number];
+
+/**
+ * Define the various types of entity resolution tasks.
+ */
+export const ENTITY_RESOLUTION_TASK_NAMES = [
+  'fullIngestion',
+  'incrementalIngestion',
+  'purge'
+] as const;
+export type EntityResolutionTaskName = (typeof ENTITY_RESOLUTION_TASK_NAMES)[number];
+
+/**
  *  The status of the entity resolution ingestion for a given data-source.
  */
-export interface IngestionStatus {
-  /**
-   * - `needed`: Ingestion has never run or the last run failed.
-   * - `ongoing`: Ingestion is currently running.
-   * - `done`: Ingestion has successfully run.
-   */
-  state: 'needed' | 'ongoing' | 'done';
-  /**
-   * The formatted progress percentage with two decimal digits (for instance `42.93`).
-   */
-  progress: string;
-  /**
-   * A human readable message giving additionnal details.
-   */
-  message: string;
-  /**
-   * The source-key of the data-source on which ingestion is currently running, if any.
-   */
-  busySourceKey?: string;
-}
+export type IngestionStatus =
+  | {
+      /**
+       * - `empty`: Ingestion has never run or has been completely purged.
+       * - `done`:  Ingestion is complete.
+       */
+      state: 'empty' | 'done';
+      /**
+       * A human readable message describing the state.
+       */
+      message: string;
+      /**
+       * The source-key of the data-source on which ingestion is currently running, if any.
+       */
+      busySourceKey?: string;
+    }
+  | {
+      /**
+       * The previous ingestion or purge failed.
+       */
+      state: 'error';
+      /**
+       * The type of the task that failed.
+       */
+      taskName: EntityResolutionTaskName;
+      /**
+       * the error message.
+       */
+      message: string;
+      /**
+       * The source-key of the data-source on which ingestion is currently running, if any.
+       */
+      busySourceKey?: string;
+    }
+  | {
+      /**
+       * Ingestion or purge is currently running.
+       */
+      state: 'ongoing';
+      /**
+       * The type of the currently ongoing task.
+       */
+      taskName: EntityResolutionTaskName;
+      /**
+       * A human readable message giving details about the progress.
+       */
+      message: string;
+      /**
+       * The current source-key.
+       */
+      busySourceKey: string;
+      /**
+       * The progress percentage, as a number between 0 and 100.
+       */
+      progress: number;
+      /**
+       * The current ingestion rate (if it is known), as a number of items per second.
+       */
+      itemsPerSecond?: number;
+      /**
+       * The estimated time left, in seconds.
+       */
+      timeLeftSeconds?: number;
+    };
