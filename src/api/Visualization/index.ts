@@ -41,7 +41,7 @@ import {
   VisualizationComment,
   CreateVisualizationCommentParams,
   GetVisualizationCommentsParams,
-  DeleteVisualizationCommentParams
+  DeleteVisualizationCommentParams, IStylesGeneratorParams, StylesGeneratorResponse
 } from './types';
 
 export * from './types';
@@ -426,6 +426,19 @@ export class VisualizationAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, FORBIDDEN],
       url: '/:sourceKey/visualizations/comments/:commentId',
       method: 'DELETE',
+      params: params
+    });
+  }
+
+  /**
+   * Get all the nodes and edges matching the given saved graph query by id.
+   * A subgraph made of all the nodes and the edges from each subgraph matching the graph query is returned.
+   */
+  public aiStyles(this: Request<StylesGeneratorResponse>, params: IStylesGeneratorParams) {
+    return this.request({
+      errors: [UNAUTHORIZED],
+      url: '/:sourceKey/ai/styles',
+      method: 'POST',
       params: params
     });
   }
