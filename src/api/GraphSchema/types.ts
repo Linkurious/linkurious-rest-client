@@ -144,6 +144,7 @@ export interface GraphSchemaType {
   properties: GraphSchemaProperty[];
   visibility: DataVisibility;
   indexed: boolean;
+  edgeTypeEnds?: Array<{source: string; target: string}>;
 }
 
 export interface GraphSchema {
