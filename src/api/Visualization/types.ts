@@ -23,11 +23,19 @@ import {
   IVizNodeGroupInfo
 } from '../graphItemTypes';
 import {GraphQueryDialect} from '../GraphQuery';
-import {IRangeValues, ItemSelector, IStyles, IStyleIcon, IStyleImage, INodeStyle, IEdgeStyle} from '../displayTypes';
+import {
+  IRangeValues,
+  ItemSelector,
+  IStyles,
+  IStyleIcon,
+  IStyleImage,
+  INodeStyle,
+  IEdgeStyle,
+  IStyleRule
+} from '../displayTypes';
 import {User} from '../User';
 import {IAlternativeIdSettings} from '../DataSource';
 import {ILeafletConfig} from '../Config';
-import {IStyleRule} from "../../../dist";
 
 export interface IGetVisualizationParams extends IDataSourceParams {
   id: number;
