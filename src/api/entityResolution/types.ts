@@ -16,15 +16,37 @@ export type DeleteEntityResolutionMappingParams = IDataSourceParams & {sourceNod
 export interface EntityResolutionMapping<
   T extends EntityResolutionRecordType = EntityResolutionRecordType
 > {
+  /**
+   * The node category of the mapped graph node.
+   */
   sourceNodeCategory: string;
+  /**
+   * Which kind of entity resolution record we map to.
+   */
   targetRecordType: T;
+  /**
+   * How do we map graph properties to entity resolution attributes.
+   */
   properties: EntityResolutionPropertyMapping<T>[];
 }
 
 export interface EntityResolutionPropertyMapping<
   T extends EntityResolutionRecordType = EntityResolutionRecordType
 > {
+  /**
+   * The node category of the graph node on which the property is picked. If it is undefined, it
+   * means the property belongs to the main mapped node, identified by the source node category of
+   * the parent mapping. Otherwise, the property belongs to an adjacent node, identified by this
+   * category.
+   */
+  sourceNodeCategory?: string;
+  /**
+   * The key of the graph node property to pick.
+   */
   sourcePropertyKey: string;
+  /**
+   * The entity resolution attribute to map the property to.
+   */
   targetAttribute: RecordAttribute<T>;
 }
 
