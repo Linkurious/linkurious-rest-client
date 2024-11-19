@@ -252,6 +252,7 @@ export interface IAdvancedConfig {
   itemTypeCountLimit?: number;
   dataSourceConnectionTimeout?: number;
   dataSourceAutoReconnectInterval?: number;
+  flags?: GenericObject;
 }
 
 export interface ILeafletConfig {
