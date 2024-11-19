@@ -76,7 +76,7 @@ export interface ICreateQueryParams extends IDataSourceParams, SharingOptions {
   uuid?: string;
   name: string;
   content: GraphQueryContent;
-  dialect: GraphQueryDialect;
+  dialect?: GraphQueryDialect;
   description?: string;
   tagIds?: number[];
   isHidden?: boolean;
