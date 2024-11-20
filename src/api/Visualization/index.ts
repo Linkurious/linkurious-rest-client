@@ -41,7 +41,9 @@ import {
   VisualizationComment,
   CreateVisualizationCommentParams,
   GetVisualizationCommentsParams,
-  DeleteVisualizationCommentParams, IStylesGeneratorParams, StylesGeneratorResponse
+  DeleteVisualizationCommentParams,
+  IStylesGeneratorParams,
+  StylesGeneratorResponse
 } from './types';
 
 export * from './types';
