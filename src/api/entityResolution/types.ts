@@ -39,7 +39,7 @@ export interface EntityResolutionPropertyMapping<
    * the parent mapping. Otherwise, the property belongs to an adjacent node, identified by this
    * category.
    */
-  sourceNodeCategory?: string;
+  sourceAdjacentNodeCategory?: string;
   /**
    * The key of the graph node property to pick.
    */
