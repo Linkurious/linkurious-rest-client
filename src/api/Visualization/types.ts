@@ -23,7 +23,16 @@ import {
   IVizNodeGroupInfo
 } from '../graphItemTypes';
 import {GraphQueryDialect} from '../GraphQuery';
-import {IRangeValues, ItemSelector, IStyles, IStyleIcon, IStyleImage} from '../displayTypes';
+import {
+  IRangeValues,
+  ItemSelector,
+  IStyles,
+  IStyleIcon,
+  IStyleImage,
+  INodeStyle,
+  IEdgeStyle,
+  IStyleRule
+} from '../displayTypes';
 import {User} from '../User';
 import {IAlternativeIdSettings} from '../DataSource';
 import {ILeafletConfig} from '../Config';
@@ -455,4 +464,13 @@ export interface GetVisualizationCommentsParams extends IDataSourceParams, Pagin
 
 export interface DeleteVisualizationCommentParams extends IDataSourceParams {
   commentId: number;
+}
+
+export interface IStylesGeneratorParams extends IDataSourceParams {
+  question: string;
+}
+
+export interface StylesGeneratorResponse {
+  styles: IStyleRule<INodeStyle | IEdgeStyle>;
+  isOk: boolean;
 }
