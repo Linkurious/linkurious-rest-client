@@ -49,6 +49,7 @@ export interface DataSourceFeatures {
   nativeTemporalTypes: TemporalType[];
   canSearchOnNonTextualValues: boolean;
   supportEntityResolution: boolean;
+  supportQueryBuilder: boolean;
 }
 
 export interface DataSourceSettings {
