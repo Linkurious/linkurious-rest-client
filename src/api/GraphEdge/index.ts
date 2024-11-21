@@ -13,8 +13,14 @@ import {ICreateEdgeParams, IDeleteEdgeParams, IGetEdgeParams, IUpdateEdgeParams}
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, GUEST_DISABLED, FORBIDDEN, NOT_FOUND, EDIT_CONFLICT} =
-  LkErrorKey;
+const {
+  UNAUTHORIZED,
+  DATA_SOURCE_UNAVAILABLE,
+  GUEST_DISABLED,
+  FORBIDDEN,
+  NOT_FOUND,
+  EDIT_CONFLICT
+} = LkErrorKey;
 
 export class GraphEdgeAPI extends Request {
   /**

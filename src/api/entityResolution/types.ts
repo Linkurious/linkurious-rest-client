@@ -39,16 +39,16 @@ export type RecordSimpleAttribute<
   | (T extends 'person'
       ? PersonSimpleAttribute
       : T extends 'organization'
-        ? OrganizationSimpleAttribute
-        : never);
+      ? OrganizationSimpleAttribute
+      : never);
 
 export type RecordComplexAttribute<
   T extends EntityResolutionRecordType = EntityResolutionRecordType
 > = T extends 'person'
   ? PersonComplexAttribute
   : T extends 'organization'
-    ? OrganizationComplexAttribute
-    : never;
+  ? OrganizationComplexAttribute
+  : never;
 
 export type PersonComplexAttribute =
   | ['name', RecordNameType, PersonNameAttribute]
@@ -64,7 +64,7 @@ export type OrganizationComplexAttribute =
  * The supported record types.
  */
 export const ENTITY_RESOLUTION_RECORD_TYPES = ['person', 'organization'] as const;
-export type EntityResolutionRecordType = (typeof ENTITY_RESOLUTION_RECORD_TYPES)[number];
+export type EntityResolutionRecordType = typeof ENTITY_RESOLUTION_RECORD_TYPES[number];
 
 export const COMMON_SIMPLE_ATTRIBUTES = [
   'accountNumber',
@@ -84,7 +84,7 @@ export const COMMON_SIMPLE_ATTRIBUTES = [
   'viber',
   'wechat'
 ] as const;
-export type CommonSimpleAttribute = (typeof COMMON_SIMPLE_ATTRIBUTES)[number];
+export type CommonSimpleAttribute = typeof COMMON_SIMPLE_ATTRIBUTES[number];
 
 export const PERSON_SIMPLE_ATTRIBUTES = [
   'gender',
@@ -101,7 +101,7 @@ export const PERSON_SIMPLE_ATTRIBUTES = [
   'nationalIdNumber',
   'nationalIdCountry'
 ] as const;
-export type PersonSimpleAttribute = (typeof PERSON_SIMPLE_ATTRIBUTES)[number];
+export type PersonSimpleAttribute = typeof PERSON_SIMPLE_ATTRIBUTES[number];
 
 export const ORGANIZATION_SIMPLE_ATTRIBUTES = [
   'registrationDate',
@@ -113,22 +113,22 @@ export const ORGANIZATION_SIMPLE_ATTRIBUTES = [
   'npiNumber',
   'leiNumber'
 ] as const;
-export type OrganizationSimpleAttribute = (typeof ORGANIZATION_SIMPLE_ATTRIBUTES)[number];
+export type OrganizationSimpleAttribute = typeof ORGANIZATION_SIMPLE_ATTRIBUTES[number];
 
 export const RECORD_NAME_TYPES = ['primary', 'alias'] as const;
-export type RecordNameType = (typeof RECORD_NAME_TYPES)[number];
+export type RecordNameType = typeof RECORD_NAME_TYPES[number];
 
 export const PERSON_ADDRESS_TYPES = ['primary', 'other', 'home', 'work', 'mail'] as const;
-export type PersonAddressType = (typeof PERSON_ADDRESS_TYPES)[number];
+export type PersonAddressType = typeof PERSON_ADDRESS_TYPES[number];
 
 export const ORGANIZATION_ADDRESS_TYPES = ['primary', 'other', 'business', 'mail'] as const;
-export type OrganizationAddressType = (typeof ORGANIZATION_ADDRESS_TYPES)[number];
+export type OrganizationAddressType = typeof ORGANIZATION_ADDRESS_TYPES[number];
 
 export const PERSON_PHONE_TYPES = ['primary', 'other', 'home', 'work', 'fax', 'mobile'] as const;
-export type PersonPhoneType = (typeof PERSON_PHONE_TYPES)[number];
+export type PersonPhoneType = typeof PERSON_PHONE_TYPES[number];
 
 export const ORGANIZATION_PHONE_TYPES = ['primary', 'other', 'fax'] as const;
-export type OrganizationPhoneType = (typeof ORGANIZATION_PHONE_TYPES)[number];
+export type OrganizationPhoneType = typeof ORGANIZATION_PHONE_TYPES[number];
 
 export const PERSON_NAME_ATTRIBUTES = [
   'full',
@@ -138,10 +138,10 @@ export const PERSON_NAME_ATTRIBUTES = [
   'prefix',
   'suffix'
 ] as const;
-export type PersonNameAttribute = (typeof PERSON_NAME_ATTRIBUTES)[number];
+export type PersonNameAttribute = typeof PERSON_NAME_ATTRIBUTES[number];
 
 export const ORGANIZATION_NAME_ATTRIBUTES = ['org'] as const;
-export type OrganizationNameAttribute = (typeof ORGANIZATION_NAME_ATTRIBUTES)[number];
+export type OrganizationNameAttribute = typeof ORGANIZATION_NAME_ATTRIBUTES[number];
 
 export const RECORD_ADDRESS_ATTRIBUTES = [
   'full',
@@ -158,10 +158,10 @@ export const RECORD_ADDRESS_ATTRIBUTES = [
   'fromDate',
   'thruDate'
 ] as const;
-export type RecordAddressAttribute = (typeof RECORD_ADDRESS_ATTRIBUTES)[number];
+export type RecordAddressAttribute = typeof RECORD_ADDRESS_ATTRIBUTES[number];
 
 export const RECORD_PHONE_ATTRIBUTES = ['number', 'fromDate', 'thruDate'] as const;
-export type RecordPhoneAttribute = (typeof RECORD_PHONE_ATTRIBUTES)[number];
+export type RecordPhoneAttribute = typeof RECORD_PHONE_ATTRIBUTES[number];
 
 export interface StartEntityResolutionTaskParams extends IDataSourceParams {
   waitForCompletion?: boolean;
@@ -171,7 +171,7 @@ export interface StartEntityResolutionTaskParams extends IDataSourceParams {
  * The possible ingestion states.
  */
 export const INGESTION_STATES = ['empty', 'done', 'error', 'ongoing'] as const;
-export type IngestionState = (typeof INGESTION_STATES)[number];
+export type IngestionState = typeof INGESTION_STATES[number];
 
 /**
  * Define the various types of entity resolution tasks.
@@ -181,7 +181,7 @@ export const ENTITY_RESOLUTION_TASK_NAMES = [
   'incrementalIngestion',
   'purge'
 ] as const;
-export type EntityResolutionTaskName = (typeof ENTITY_RESOLUTION_TASK_NAMES)[number];
+export type EntityResolutionTaskName = typeof ENTITY_RESOLUTION_TASK_NAMES[number];
 
 /**
  *  The status of the entity resolution ingestion for a given data-source.
