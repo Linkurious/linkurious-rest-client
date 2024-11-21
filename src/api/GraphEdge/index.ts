@@ -45,7 +45,7 @@ export class GraphEdgeAPI extends Request {
   /**
    * Update a subset of properties of an edge.
    * Keep every other property of the edge unchanged.
-   * It's not possible to update the type of an edge.
+   * It's not possible to update an edge's type
    */
   public updateEdge(this: Request<LkEdge>, params: IUpdateEdgeParams) {
     return this.request({
