@@ -144,7 +144,7 @@ export interface GraphSchemaType {
   properties: GraphSchemaProperty[];
   visibility: DataVisibility;
   indexed: boolean;
-  edgeTypeEnds?: Array<{source: string; target: string}>;
+  edgeTypeEnds?: Array<EdgeTypeEnds>;
 }
 
 export interface GraphSchema {
@@ -183,3 +183,5 @@ export interface GraphSchemaWithAccess extends GraphSchema {
 export interface IGetTypesParams extends IDataSourceParams {
   entityType: EntityType;
 }
+
+export type EdgeTypeEnds = {source: string; target: string};
