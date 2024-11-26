@@ -8,7 +8,12 @@ import {GenericObject, IDataSourceParams, IGetSubGraphParams} from '../commonTyp
 import {LkSubGraph} from '../graphItemTypes';
 
 import {Template} from './queryTemplates';
-import {GraphQueryDialect, GraphQueryInputType, GraphQueryType} from './queryCRUD';
+import {
+  GraphQueryContent,
+  GraphQueryDialect,
+  GraphQueryInputType,
+  GraphQueryType
+} from './queryCRUD';
 
 export interface ICheckQueryParams extends IDataSourceParams {
   query: string;
@@ -33,7 +38,7 @@ export interface IRunQueryParams extends IDataSourceParams {
 }
 
 export interface IRunQueryByContentParams extends IGetSubGraphParams, IRunQueryParams {
-  query: string;
+  query: GraphQueryContent;
 }
 
 export interface RunQueryResponse extends LkSubGraph {

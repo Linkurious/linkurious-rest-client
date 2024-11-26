@@ -460,5 +460,6 @@ export interface EntityResolutionConfig {
   enabled: boolean;
   url: string;
   chunkSize?: number;
+  expandLimitPerNode?: number;
   entityNodeCategories?: Partial<Record<EntityResolutionRecordType, string>>;
 }
