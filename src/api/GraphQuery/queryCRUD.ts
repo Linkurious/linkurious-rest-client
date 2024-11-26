@@ -100,3 +100,21 @@ export interface ConvertQueryResponse {
   query: string;
   dialect: GraphQueryDialect;
 }
+
+export interface GetQueryStatsParams extends IDataSourceParams {
+  query: StructuredGraphQuery;
+  dialect: GraphQueryDialect.QUERY_BUILDER;
+}
+
+export interface GetQueryStatsResponse {
+  resultCount: {
+    accuracy: QueryStatsCountAccuracy;
+    value: number;
+  };
+}
+
+export enum QueryStatsCountAccuracy {
+  EXACT = 'exact',
+  APPROXIMATE = 'approximate',
+  AT_LEAST = 'at_least'
+}
