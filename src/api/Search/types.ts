@@ -222,5 +222,5 @@ export interface AutoCompletePropertyParams extends IDataSourceParams {
   propertyKey: string;
   valuePrefix: string;
   fuzziness?: number;
-  limit: number;
+  limit?: number;
 }
