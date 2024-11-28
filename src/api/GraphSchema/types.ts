@@ -139,12 +139,26 @@ export interface GraphSchemaProperty {
   indexedAs?: PropertyType;
 }
 
+/**
+ * Define the schema of a graph item.
+ * @property {string} itemType - The category or the type of the item.
+ * @property {GraphSchemaProperty[]} properties - An array of properties associated with the graph item.
+ * @property {DataVisibility} visibility - The visibility of the graph item.
+ * @property {boolean} indexed - Indicates whether the type is indexed.
+ * @property {EdgeTypeEnds[]} [edgeTypeEnds] - Optional, defined only for edge types. It defines the source and target categories that the edge connects.
+ */
 export interface GraphSchemaType {
   itemType: string;
   properties: GraphSchemaProperty[];
   visibility: DataVisibility;
   indexed: boolean;
+  edgeTypeEnds?: Array<EdgeTypeEnds>;
 }
+
+/**
+ * Define the source and target categories that an edge connects.
+ */
+export type EdgeTypeEnds = {source: string; target: string};
 
 export interface GraphSchema {
   results: GraphSchemaType[];
