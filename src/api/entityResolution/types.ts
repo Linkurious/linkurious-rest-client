@@ -73,11 +73,17 @@ export type RecordComplexAttribute<
     : never;
 
 export type PersonComplexAttribute =
+  | ['name', PersonNameAttribute]
+  | ['address', RecordAddressAttribute]
+  | ['phone', RecordPhoneAttribute]
   | ['name', RecordNameType, PersonNameAttribute]
   | ['address', PersonAddressType, RecordAddressAttribute]
   | ['phone', PersonPhoneType, RecordPhoneAttribute];
 
 export type OrganizationComplexAttribute =
+  | ['name', OrganizationNameAttribute]
+  | ['address', RecordAddressAttribute]
+  | ['phone', RecordPhoneAttribute]
   | ['name', RecordNameType, OrganizationNameAttribute]
   | ['address', OrganizationAddressType, RecordAddressAttribute]
   | ['phone', OrganizationPhoneType, RecordPhoneAttribute];
