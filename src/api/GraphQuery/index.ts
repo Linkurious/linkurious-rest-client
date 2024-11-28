@@ -9,6 +9,8 @@ import {LkErrorKey} from '../../http/response';
 
 import {
   CheckQueryResponse,
+  ConvertQueryParams,
+  ConvertQueryResponse,
   GraphQuery,
   ICheckQueryParams,
   ICreateQueryParams,
@@ -35,7 +37,8 @@ const {
   MALFORMED_QUERY_TEMPLATE,
   INVALID_CASE_ATTRIBUTES_QUERY,
   INVALID_PARAMETER,
-  CRITICAL
+  CRITICAL,
+  NOT_IMPLEMENTED
 } = LkErrorKey;
 
 export class GraphQueryAPI extends Request {
@@ -172,6 +175,21 @@ export class GraphQueryAPI extends Request {
         CONSTRAINT_VIOLATION
       ],
       url: '/:sourceKey/graph/run/query/:id',
+      method: 'POST',
+      params: params
+    });
+  }
+  public convertQuery(this: Request<ConvertQueryResponse>, params: ConvertQueryParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        INVALID_PARAMETER,
+        NOT_IMPLEMENTED,
+        CRITICAL
+      ],
+      url: '/:sourceKey/graph/convert/query',
       method: 'POST',
       params: params
     });
