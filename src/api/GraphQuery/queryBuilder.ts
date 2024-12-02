@@ -164,7 +164,7 @@ export interface GraphQueryEdgeFilter {
  */
 export interface BasePropertyFilter {
   propertyType: 'string' | 'number' | 'date';
-  operator: '=' | '!=' | '<' | '<=' | '>' | '>=' | '~' | 'null' | 'notNull';
+  operator: '=' | '!=' | '<' | '<=' | '>' | '>=' | '~' | 'isNull' | 'isNotNull';
 }
 
 /**
@@ -211,12 +211,12 @@ export interface BaseStrictPropertyFilter<T> extends BasePropertyFilter {
 
 export interface StringStrictPropertyFilter extends BaseStrictPropertyFilter<string[]> {
   propertyType: 'string';
-  operator: '=' | '!=' | 'null' | 'notNull';
+  operator: '=' | '!=' | 'isNull' | 'isNotNull';
 }
 
 export interface NumberStrictPropertyFilter extends BaseStrictPropertyFilter<number> {
   propertyType: 'number';
-  operator: '>' | '<' | '=' | '<=' | '>=' | '!=' | 'null' | 'notNull';
+  operator: '>' | '<' | '=' | '<=' | '>=' | '!=' | 'isNull' | 'isNotNull';
 }
 
 export type QueryProperty<T> = QueryPropertyValue<T> | QueryPropertyTemplate;
