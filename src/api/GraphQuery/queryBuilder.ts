@@ -224,7 +224,7 @@ export type BaseOperator = (typeof BASE_OPERATORS)[number];
 export const STRING_OPERATORS = ['=', '!=', 'isNull', 'isNotNull'] as const;
 export type StringOperator = (typeof STRING_OPERATORS)[number];
 
-export const NUMBER_OPERATORS = ['>', '<', '=', '<=', '>=', '!=', 'isNull', 'isNotNull'] as const;
+export const NUMBER_OPERATORS = ['=', '!=', '<', '<=', '>', '>=', 'isNull', 'isNotNull'] as const;
 export type NumberOperator = (typeof NUMBER_OPERATORS)[number];
 
 export interface StringStrictPropertyFilter extends BaseStrictPropertyFilter<string[]> {
