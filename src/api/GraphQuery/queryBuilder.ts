@@ -164,7 +164,7 @@ export interface GraphQueryEdgeFilter {
  */
 export interface BasePropertyFilter {
   propertyType: 'string' | 'number' | 'date';
-  operator: BaseOperators;
+  operator: BaseOperator;
 }
 
 /**
@@ -219,22 +219,22 @@ export const BASE_OPERATORS = [
   'isNull',
   'isNotNull'
 ] as const;
-export type BaseOperators = (typeof BASE_OPERATORS)[number];
+export type BaseOperator = (typeof BASE_OPERATORS)[number];
 
 export const STRING_OPERATORS = ['=', '!=', 'isNull', 'isNotNull'] as const;
-export type StringOperators = (typeof STRING_OPERATORS)[number];
+export type StringOperator = (typeof STRING_OPERATORS)[number];
 
 export const NUMBER_OPERATORS = ['>', '<', '=', '<=', '>=', '!=', 'isNull', 'isNotNull'] as const;
-export type NumberOperators = (typeof NUMBER_OPERATORS)[number];
+export type NumberOperator = (typeof NUMBER_OPERATORS)[number];
 
 export interface StringStrictPropertyFilter extends BaseStrictPropertyFilter<string[]> {
   propertyType: 'string';
-  operator: StringOperators;
+  operator: StringOperator;
 }
 
 export interface NumberStrictPropertyFilter extends BaseStrictPropertyFilter<number> {
   propertyType: 'number';
-  operator: NumberOperators;
+  operator: NumberOperator;
 }
 
 export type QueryProperty<T> = QueryPropertyValue<T> | QueryPropertyTemplate;
