@@ -217,8 +217,8 @@ export class GraphQueryAPI extends Request {
         CRITICAL
       ],
       url: '/:sourceKey/graph/stats/query',
-      method: 'GET',
-      params: {...params, query: JSON.stringify(params.query)}
+      method: 'POST',
+      params: params
     });
   }
 }
