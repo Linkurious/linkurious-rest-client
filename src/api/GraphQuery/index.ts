@@ -11,6 +11,8 @@ import {
   CheckQueryResponse,
   ConvertQueryParams,
   ConvertQueryResponse,
+  GetQueryStatsParams,
+  GetQueryStatsResponse,
   GraphQuery,
   ICheckQueryParams,
   ICreateQueryParams,
@@ -179,6 +181,11 @@ export class GraphQueryAPI extends Request {
       params: params
     });
   }
+
+  /**
+   * Convert a query from one language to another.
+   * (For now we only convert from queryBuilder to cypher)
+   */
   public convertQuery(this: Request<ConvertQueryResponse>, params: ConvertQueryParams) {
     return this.request({
       errors: [
@@ -190,6 +197,26 @@ export class GraphQueryAPI extends Request {
         CRITICAL
       ],
       url: '/:sourceKey/graph/convert/query',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get the stats of a query.
+   */
+  public getQueryStats(this: Request<GetQueryStatsResponse>, params: GetQueryStatsParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        NOT_FOUND,
+        DATA_SOURCE_UNAVAILABLE,
+        INVALID_PARAMETER,
+        NOT_IMPLEMENTED,
+        CRITICAL
+      ],
+      url: '/:sourceKey/graph/stats/query',
       method: 'POST',
       params: params
     });
