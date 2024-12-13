@@ -32,10 +32,13 @@ export class EntityResolutionAPI extends Request {
   /**
    * Create a new entity resolution mapping, for a given node category.
    */
-  createEntityResolutionMapping(params: CreateEntityResolutionMappingParams) {
+  createEntityResolutionMapping(
+    this: Request<EntityResolutionMapping>,
+    params: CreateEntityResolutionMappingParams
+  ) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, ALREADY_EXISTS],
-      url: '/:sourceKey/entityResolution/mappings/:sourceNodeCategory',
+      url: '/:sourceKey/entityResolution/mappings',
       method: 'POST',
       params: params
     });
@@ -44,10 +47,13 @@ export class EntityResolutionAPI extends Request {
   /**
    * Update an existing entity resolution mapping, for a given node category.
    */
-  updateEntityResolutionMapping(params: UpdateEntityResolutionMappingParams) {
+  updateEntityResolutionMapping(
+    this: Request<EntityResolutionMapping>,
+    params: UpdateEntityResolutionMappingParams
+  ) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
-      url: '/:sourceKey/entityResolution/mappings/:sourceNodeCategory',
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, ALREADY_EXISTS],
+      url: '/:sourceKey/entityResolution/mappings/:id',
       method: 'PATCH',
       params: params
     });
@@ -59,7 +65,7 @@ export class EntityResolutionAPI extends Request {
   deleteEntityResolutionMapping(params: DeleteEntityResolutionMappingParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
-      url: '/:sourceKey/entityResolution/mappings/:sourceNodeCategory',
+      url: '/:sourceKey/entityResolution/mappings/:id',
       method: 'DELETE',
       params: params
     });
