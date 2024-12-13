@@ -169,7 +169,7 @@ export class SearchAPI extends Request {
   ) {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, SEARCH_DISABLED],
-      url: '/api/:sourceKey/search/:type/autocomplete',
+      url: '/:sourceKey/search/:type/autocomplete',
       method: 'GET',
       params: params
     });

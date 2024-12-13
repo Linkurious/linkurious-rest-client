@@ -216,12 +216,11 @@ export interface PropertyAutoCompleteResponse {
 /**
  * API parameters for {@link SearchAPI.autoCompleteProperty}
  */
-export interface AutoCompletePropertyParams {
-  sourceKey: string;
+export interface AutoCompletePropertyParams extends IDataSourceParams {
   type: EntityType;
   itemTypes?: string[];
   propertyKey: string;
   valuePrefix: string;
   fuzziness?: number;
-  limit: number;
+  limit?: number;
 }

@@ -164,7 +164,7 @@ export interface GraphQueryEdgeFilter {
  */
 export interface BasePropertyFilter {
   propertyType: 'string' | 'number' | 'date';
-  operator: '=' | '!=' | '<' | '<=' | '>' | '>=' | '~';
+  operator: BaseOperator;
 }
 
 /**
@@ -208,15 +208,33 @@ export interface BaseStrictPropertyFilter<T> extends BasePropertyFilter {
   operator: Exclude<BasePropertyFilter['operator'], '~'>;
   input: QueryProperty<T>;
 }
+export const BASE_OPERATORS = [
+  '=',
+  '!=',
+  '<',
+  '<=',
+  '>',
+  '>=',
+  '~',
+  'isNull',
+  'isNotNull'
+] as const;
+export type BaseOperator = (typeof BASE_OPERATORS)[number];
+
+export const STRING_OPERATORS = ['=', '!=', 'isNull', 'isNotNull'] as const;
+export type StringOperator = (typeof STRING_OPERATORS)[number];
+
+export const NUMBER_OPERATORS = ['=', '!=', '<', '<=', '>', '>=', 'isNull', 'isNotNull'] as const;
+export type NumberOperator = (typeof NUMBER_OPERATORS)[number];
 
 export interface StringStrictPropertyFilter extends BaseStrictPropertyFilter<string[]> {
   propertyType: 'string';
-  operator: '=' | '!=';
+  operator: StringOperator;
 }
 
 export interface NumberStrictPropertyFilter extends BaseStrictPropertyFilter<number> {
   propertyType: 'number';
-  operator: '>' | '<' | '=' | '<=' | '>=' | '!=';
+  operator: NumberOperator;
 }
 
 export type QueryProperty<T> = QueryPropertyValue<T> | QueryPropertyTemplate;
