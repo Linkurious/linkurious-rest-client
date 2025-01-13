@@ -146,6 +146,7 @@ export interface GraphSchemaProperty {
  * @property {DataVisibility} visibility - The visibility of the graph item.
  * @property {boolean} indexed - Indicates whether the type is indexed.
  * @property {EdgeTypeEnds[]} [edgeTypeEnds] - Optional, defined only for edge types. It defines the source and target categories that the edge connects.
+ * @property {number} [count] - Optional, defined only for supported vendors. It indicates the number of items of this type.
  */
 export interface GraphSchemaType {
   itemType: string;
@@ -153,6 +154,7 @@ export interface GraphSchemaType {
   visibility: DataVisibility;
   indexed: boolean;
   edgeTypeEnds?: Array<EdgeTypeEnds>;
+  count?: number;
 }
 
 /**
