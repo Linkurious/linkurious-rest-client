@@ -182,6 +182,7 @@ export interface INeo4jConfig extends IGraphVendorConfig {
   alternativeNodeId?: string;
   alternativeEdgeId?: string;
   allowVirtualEntities?: boolean;
+  timestampPropertyName?: string;
 }
 
 export interface ICosmosDbConfig extends IGraphVendorConfig {
