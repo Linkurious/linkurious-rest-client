@@ -50,6 +50,7 @@ export interface DataSourceFeatures {
   canSearchOnNonTextualValues: boolean;
   supportEntityResolution: boolean;
   supportQueryBuilder: boolean;
+  canCountTypes: boolean;
 }
 
 export interface DataSourceSettings {
