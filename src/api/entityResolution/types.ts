@@ -6,9 +6,13 @@
  */
 import {IDataSourceParams} from '../commonTypes';
 
-export type CreateEntityResolutionMappingParams = IDataSourceParams & EntityResolutionMapping;
-export type UpdateEntityResolutionMappingParams = CreateEntityResolutionMappingParams;
-export type DeleteEntityResolutionMappingParams = IDataSourceParams & {sourceNodeCategory: string};
+export type CreateEntityResolutionMappingParams = IDataSourceParams &
+  Omit<EntityResolutionMapping, 'id'>;
+
+export type UpdateEntityResolutionMappingParams = IDataSourceParams & EntityResolutionMapping;
+
+export type DeleteEntityResolutionMappingParams = IDataSourceParams &
+  Pick<EntityResolutionMapping, 'id'>;
 
 /**
  * Describe how to convert a graph node into a entity resolution record.
@@ -16,6 +20,7 @@ export type DeleteEntityResolutionMappingParams = IDataSourceParams & {sourceNod
 export interface EntityResolutionMapping<
   T extends EntityResolutionRecordType = EntityResolutionRecordType
 > {
+  id: number;
   /**
    * The node category of the mapped graph node.
    */
