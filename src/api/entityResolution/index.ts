@@ -87,40 +87,23 @@ export class EntityResolutionAPI extends Request {
   }
 
   /**
-   * Start a full ingestion task on a given data-source. This task:
+   * Start an ingestion task on a given data-source. This task:
    * - Ensures all the graph indexes needed for entity resolution are created.
    * - Fetches all the graph nodes for each mapped category.
    * - Converts each fetched node into an entity resolution record.
    * - Sends all the converted records to the entity resolution server.
    * - Materializes the resolved entities in the graph database.
    *
+   * The ingestion is incremental: it only fetches the graph nodes that have been modified after
+   * the latest ingestion.
+   *
    * By default, immediately returns, without waiting for the task to complete.
    */
-  startFullIngestion(params: StartEntityResolutionTaskParams) {
+  startIngestion(params: StartEntityResolutionTaskParams) {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, ILLEGAL_SOURCE_STATE],
       url: '/:sourceKey/entityResolution',
       method: 'POST',
-      params: params
-    });
-  }
-
-  /**
-   * Start an incremental ingestion task on a given data-source. This task is similar to a full
-   * ingestion task, but it only fetches the graph nodes that have been modified after the latest
-   * ingestion.
-   *
-   * This task is going to fail if:
-   * - Incremental ingestion is not configured for the data-source.
-   * - Or if the ingestion state is not `done` (a full ingestion has to be done first).
-   *
-   * By default, immediately returns, without waiting for the task to complete.
-   */
-  startIncrementalIngestion(params: StartEntityResolutionTaskParams) {
-    return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, ILLEGAL_SOURCE_STATE],
-      url: '/:sourceKey/entityResolution',
-      method: 'PATCH',
       params: params
     });
   }

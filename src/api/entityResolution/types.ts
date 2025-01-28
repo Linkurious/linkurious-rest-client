@@ -209,11 +209,7 @@ export type IngestionState = (typeof INGESTION_STATES)[number];
 /**
  * Define the various types of entity resolution tasks.
  */
-export const ENTITY_RESOLUTION_TASK_NAMES = [
-  'fullIngestion',
-  'incrementalIngestion',
-  'purge'
-] as const;
+export const ENTITY_RESOLUTION_TASK_NAMES = ['ingestion', 'purge'] as const;
 export type EntityResolutionTaskName = (typeof ENTITY_RESOLUTION_TASK_NAMES)[number];
 
 /**
