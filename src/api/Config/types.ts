@@ -244,6 +244,7 @@ export interface IAdvancedConfig {
   searchRetryMultiplier?: number;
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
+  schemaMetadataRefreshDelay?: number;
   pollInterval?: number;
   indexingChunkSize?: number;
   layoutWorkers?: number;
