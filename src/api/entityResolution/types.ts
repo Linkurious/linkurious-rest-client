@@ -279,3 +279,59 @@ export type IngestionStatus =
        */
       timeLeftSeconds?: number;
     };
+
+/**
+ *  Informations about the entity resolution license, across all data-sources.
+ */
+export interface EntityResolutionLicenseInfo {
+  /**
+   * The number of records ingested.
+   */
+  recordsIngested: number;
+  /**
+   * The number of records available in the license.
+   */
+  recordsAvailable: number;
+}
+
+/**
+ *  The entity resolution metrics, for a given data-source.
+ */
+export interface EntityResolutionMetrics {
+  /**
+   * Temporal information about the last ingestion task. Undefined if ingestion has never run.
+   */
+  lastIngestion?: {
+    /**
+     * When did the task start.
+     *
+     * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
+     */
+    startedAt: string;
+    /**
+     * How long did it last, as a number of seconds.
+     */
+    durationSeconds: number;
+  };
+  /**
+   * The number of records ingested.
+   */
+  recordsIngested: number;
+  /**
+   * The number of resolved entities.
+   */
+  resolvedEntities: number;
+  /**
+   * The number of relations that correspond to an exact match between two or more records. These
+   * are the records that have a `RESOLVED` relation with the same entity.
+   */
+  fullDuplicates: number;
+  /**
+   * The number of `POSSIBLY_SAME` relations between entities.
+   */
+  possibleDuplicates: number;
+  /**
+   * The number of `POSSIBLY_RELATED` relations between entities.
+   */
+  possibleRelationships: number;
+}
