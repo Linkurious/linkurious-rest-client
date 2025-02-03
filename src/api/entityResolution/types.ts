@@ -318,9 +318,9 @@ export interface EntityResolutionMetrics {
    */
   recordsIngested: number;
   /**
-   * The number of resolved entities.
+   * The number of entities created in the graph database.
    */
-  resolvedEntities: number;
+  entitiesCreated: number;
   /**
    * The number of relations that correspond to an exact match between two or more records. These
    * are the records that have a `RESOLVED` relation with the same entity.
