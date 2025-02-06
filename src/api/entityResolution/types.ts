@@ -218,10 +218,9 @@ export type EntityResolutionTaskName = (typeof ENTITY_RESOLUTION_TASK_NAMES)[num
 export type IngestionStatus =
   | {
       /**
-       * - `empty`: Ingestion has never run or has been completely purged.
-       * - `done`:  Ingestion is complete.
+       * Ingestion has never run or has been completely purged.
        */
-      state: 'empty' | 'done';
+      state: 'empty';
       /**
        * A human readable message describing the state.
        */
@@ -248,6 +247,18 @@ export type IngestionStatus =
        * The source-key of the data-source on which ingestion is currently running, if any.
        */
       busySourceKey?: string;
+      /**
+       * When did the task start.
+       *
+       * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
+       */
+      startedAt: string;
+      /**
+       * When did the task end in error.
+       *
+       * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
+       */
+      endedAt: string;
     }
   | {
       /**
@@ -278,13 +289,48 @@ export type IngestionStatus =
        * The estimated time left, in seconds.
        */
       timeLeftSeconds?: number;
+      /**
+       * When did the task start.
+       *
+       * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
+       */
+      startedAt: string;
+    }
+  | {
+      /**
+       * Ingestion is complete.
+       */
+      state: 'done';
+      /**
+       * A human readable message describing the state.
+       */
+      message: string;
+      /**
+       * When did the task start.
+       *
+       * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
+       */
+      startedAt: string;
+      /**
+       * When did the task end.
+       *
+       * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
+       */
+      endedAt: string;
+      /**
+       * How long did the ingestion last in total, from the very beginning to the very end, without error interruption time.
+       * It is NOT simply the time between startedAt and endedAt. It is the total processing time.
+       *
+       * Duration is returned as a number of seconds.
+       */
+      durationSeconds: number;
     };
 
 /**
  *  Informations about the entity resolution license, across all data-sources.
  */
 export interface EntityResolutionLicenseInfo {
-  /**
+  /**x
    * The number of records ingested.
    */
   recordsIngested: number;
@@ -298,21 +344,6 @@ export interface EntityResolutionLicenseInfo {
  *  The entity resolution metrics, for a given data-source.
  */
 export interface EntityResolutionMetrics {
-  /**
-   * Temporal information about the last ingestion task. Undefined if ingestion has never run.
-   */
-  lastIngestion?: {
-    /**
-     * When did the task start.
-     *
-     * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
-     */
-    startedAt: string;
-    /**
-     * How long did it last, as a number of seconds.
-     */
-    durationSeconds: number;
-  };
   /**
    * The number of records ingested.
    */
