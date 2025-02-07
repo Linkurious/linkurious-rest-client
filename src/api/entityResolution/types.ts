@@ -353,8 +353,7 @@ export interface EntityResolutionMetrics {
    */
   entitiesCreated: number;
   /**
-   * The number of relations that correspond to an exact match between two or more records. These
-   * are the records that have a `RESOLVED` relation with the same entity.
+   * The number of records that are identified as a duplicate of another one, and is resolved by an entity.
    */
   fullDuplicates: number;
   /**
