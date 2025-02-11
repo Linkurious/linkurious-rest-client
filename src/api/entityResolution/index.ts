@@ -132,7 +132,7 @@ export class EntityResolutionAPI extends Request {
    */
   getIngestionStatus(this: Request<IngestionStatus>, params: IDataSourceParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, ILLEGAL_SOURCE_STATE],
       url: '/:sourceKey/entityResolution',
       method: 'GET',
       params: params
