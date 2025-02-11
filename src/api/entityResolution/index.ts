@@ -11,7 +11,9 @@ import {IDataSourceParams} from '../commonTypes';
 import {
   CreateEntityResolutionMappingParams,
   DeleteEntityResolutionMappingParams,
+  EntityResolutionLicenseInfo,
   EntityResolutionMapping,
+  EntityResolutionMetrics,
   IngestionStatus,
   StartEntityResolutionTaskParams,
   UpdateEntityResolutionMappingParams
@@ -130,8 +132,31 @@ export class EntityResolutionAPI extends Request {
    */
   getIngestionStatus(this: Request<IngestionStatus>, params: IDataSourceParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, ILLEGAL_SOURCE_STATE],
       url: '/:sourceKey/entityResolution',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get informations about the entity resolution license, across all data-sources.
+   */
+  getLicenseInfo(this: Request<EntityResolutionLicenseInfo>) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN],
+      url: '/entityResolution/license',
+      method: 'GET'
+    });
+  }
+
+  /**
+   * Get entity resolution metrics, for a given data-source.
+   */
+  getMetrics(this: Request<EntityResolutionMetrics>, params: IDataSourceParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
+      url: '/:sourceKey/entityResolution/metrics',
       method: 'GET',
       params: params
     });
