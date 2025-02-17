@@ -351,7 +351,9 @@ export interface EntityResolutionLicenseInfo {
   isEvaluationLicense: boolean;
 
   /**
-   * Number of ingested records per data-source.
+   * Number of ingested records per data-source:
+   * - Keys are data source keys
+   * - Values are number of records
    */
   ingestedRecordsPerDataSource: Record<string, number>;
 }
