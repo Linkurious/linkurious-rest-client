@@ -351,6 +351,13 @@ export interface EntityResolutionLicenseInfo {
    * - Values are number of records
    */
   ingestedRecordsPerDataSource: Record<string, number>;
+
+  /**
+   * The expiration date of the license.
+   *
+   * yyyy-mm-dd format
+   */
+  expirationDate: string;
 }
 
 /**
