@@ -140,7 +140,7 @@ export class EntityResolutionAPI extends Request {
   }
 
   /**
-   * Get informations about the entity resolution license, across all data-sources.
+   * Get information about the entity resolution license, across all data-sources.
    */
   getLicenseInfo(this: Request<EntityResolutionLicenseInfo>) {
     return this.request({

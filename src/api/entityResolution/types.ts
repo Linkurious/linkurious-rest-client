@@ -334,10 +334,26 @@ export interface EntityResolutionLicenseInfo {
    * The number of records ingested.
    */
   recordsIngested: number;
+
   /**
    * The number of records available in the license.
    */
   recordsAvailable: number;
+
+  /**
+   * The total number of records that can be ingested (ingested + available).
+   */
+  totalRecords: number;
+
+  /**
+   * Whether the license is an evaluation license.
+   */
+  isEvaluationLicense: boolean;
+
+  /**
+   * Number of ingested records per data-source.
+   */
+  ingestedRecordsPerDataSource: Record<string, number>;
 }
 
 /**
