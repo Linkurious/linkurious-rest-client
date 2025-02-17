@@ -3,6 +3,6 @@
   "extends": [
     "local>Linkurious/renovate-config",
     "github>Linkurious/renovate-config:meta",
-    "regexManagers:dockerfileVersions"
+    "customManagers:dockerfileVersions"
   ]
 }
