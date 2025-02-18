@@ -358,6 +358,11 @@ export interface EntityResolutionLicenseInfo {
    * yyyy-mm-dd format
    */
   expirationDate: string;
+
+  /**
+   * The license status.
+   */
+  status: 'valid' | 'expired' | 'noCredits';
 }
 
 /**
