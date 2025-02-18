@@ -334,10 +334,35 @@ export interface EntityResolutionLicenseInfo {
    * The number of records ingested.
    */
   recordsIngested: number;
+
   /**
    * The number of records available in the license.
    */
   recordsAvailable: number;
+
+  /**
+   * Whether the license is an evaluation license.
+   */
+  isEvaluationLicense: boolean;
+
+  /**
+   * Number of ingested records per data-source:
+   * - Keys are data source keys
+   * - Values are number of records
+   */
+  ingestedRecordsPerDataSource: Record<string, number>;
+
+  /**
+   * The expiration date of the license.
+   *
+   * yyyy-mm-dd format
+   */
+  expirationDate: string;
+
+  /**
+   * The license status.
+   */
+  status: 'valid' | 'expired' | 'noCredits';
 }
 
 /**
