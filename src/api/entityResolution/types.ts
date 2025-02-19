@@ -132,7 +132,12 @@ export const PERSON_SIMPLE_ATTRIBUTES = [
   'driverLicenseState',
   'ssnNumber',
   'nationalIdNumber',
-  'nationalIdCountry'
+  'nationalIdCountry',
+  'employerName',
+  'groupAssociationType',
+  'groupAssociationOrgName',
+  'groupAssnIdType',
+  'groupAssnIdNumber'
 ] as const;
 export type PersonSimpleAttribute = (typeof PERSON_SIMPLE_ATTRIBUTES)[number];
 
