@@ -27,7 +27,9 @@ const {
   FORBIDDEN,
   ILLEGAL_SOURCE_STATE,
   NOT_FOUND,
-  UNAUTHORIZED
+  UNAUTHORIZED,
+  ENTITY_RESOLUTION_EXPIRED_LICENSE,
+  ENTITY_RESOLUTION_QUOTA_EXCEEDED
 } = LkErrorKey;
 
 export class EntityResolutionAPI extends Request {
@@ -39,7 +41,15 @@ export class EntityResolutionAPI extends Request {
     params: CreateEntityResolutionMappingParams
   ) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, ALREADY_EXISTS],
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ALREADY_EXISTS,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE,
+        ENTITY_RESOLUTION_QUOTA_EXCEEDED
+      ],
       url: '/:sourceKey/entityResolution/mappings',
       method: 'POST',
       params: params
@@ -54,7 +64,15 @@ export class EntityResolutionAPI extends Request {
     params: UpdateEntityResolutionMappingParams
   ) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, ALREADY_EXISTS],
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ALREADY_EXISTS,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE,
+        ENTITY_RESOLUTION_QUOTA_EXCEEDED
+      ],
       url: '/:sourceKey/entityResolution/mappings/:id',
       method: 'PATCH',
       params: params
@@ -66,7 +84,14 @@ export class EntityResolutionAPI extends Request {
    */
   deleteEntityResolutionMapping(params: DeleteEntityResolutionMappingParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE,
+        ENTITY_RESOLUTION_QUOTA_EXCEEDED
+      ],
       url: '/:sourceKey/entityResolution/mappings/:id',
       method: 'DELETE',
       params: params
@@ -103,7 +128,14 @@ export class EntityResolutionAPI extends Request {
    */
   startIngestion(params: StartEntityResolutionTaskParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, ILLEGAL_SOURCE_STATE],
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        ILLEGAL_SOURCE_STATE,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE,
+        ENTITY_RESOLUTION_QUOTA_EXCEEDED
+      ],
       url: '/:sourceKey/entityResolution',
       method: 'POST',
       params: params
