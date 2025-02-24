@@ -83,7 +83,8 @@ export type PersonComplexAttribute =
   | ['phone', RecordPhoneAttribute]
   | ['name', RecordNameType, PersonNameAttribute]
   | ['address', PersonAddressType, RecordAddressAttribute]
-  | ['phone', PersonPhoneType, RecordPhoneAttribute];
+  | ['phone', PersonPhoneType, RecordPhoneAttribute]
+  | ['groupAssociation', GroupAssociationAttribute];
 
 export type OrganizationComplexAttribute =
   | ['name', OrganizationNameAttribute]
@@ -132,7 +133,8 @@ export const PERSON_SIMPLE_ATTRIBUTES = [
   'driverLicenseState',
   'ssnNumber',
   'nationalIdNumber',
-  'nationalIdCountry'
+  'nationalIdCountry',
+  'employerName'
 ] as const;
 export type PersonSimpleAttribute = (typeof PERSON_SIMPLE_ATTRIBUTES)[number];
 
@@ -172,6 +174,9 @@ export const PERSON_NAME_ATTRIBUTES = [
   'suffix'
 ] as const;
 export type PersonNameAttribute = (typeof PERSON_NAME_ATTRIBUTES)[number];
+
+export const GROUP_ASSOCIATION_ATTRIBUTES = ['type', 'organisationName', 'idType', 'id'] as const;
+export type GroupAssociationAttribute = (typeof GROUP_ASSOCIATION_ATTRIBUTES)[number];
 
 export const ORGANIZATION_NAME_ATTRIBUTES = ['org'] as const;
 export type OrganizationNameAttribute = (typeof ORGANIZATION_NAME_ATTRIBUTES)[number];
