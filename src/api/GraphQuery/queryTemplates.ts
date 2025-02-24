@@ -64,6 +64,7 @@ export interface NodeTemplate extends TemplateField<TemplateFieldType.NODE> {
   options?: {
     categories?: string[];
     serialize?: string;
+    var?: string;
   };
 }
 
@@ -71,18 +72,21 @@ export interface NodesetTemplate extends TemplateField<TemplateFieldType.NODE_SE
   options?: {
     categories?: string[];
     serialize?: string;
+    var?: string;
   };
 }
 
 export interface EdgeTemplate extends TemplateField<TemplateFieldType.EDGE> {
   options?: {
     types?: string[];
+    var?: string;
   };
 }
 
 export interface EdgesetTemplate extends TemplateField<TemplateFieldType.EDGE_SET> {
   options?: {
     types?: string[];
+    var?: string;
   };
 }
 
