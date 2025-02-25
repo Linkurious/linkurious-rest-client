@@ -453,6 +453,11 @@ export interface IEmailNotificationsConfig {
   visualizationNotifications: boolean;
   visualizationMentionNotificationFrequency: string;
 
+  // Entity resolution notifications.
+  entityResolutionLicenseNotifications: boolean;
+  entityResolutionIngestionSuccessNotifications: boolean;
+  entityResolutionIngestionFailureNotifications: boolean;
+
   // Email configuration.
   mailer: IMailerConfig;
   fromEmail: string;
