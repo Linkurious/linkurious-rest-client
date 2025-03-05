@@ -416,15 +416,25 @@ export interface ExplainWhyEntitiesParams extends IDataSourceParams {
   otherEntityId: number;
 }
 
+export interface GetEntityByIdParams extends IDataSourceParams {
+  /**
+   * The ID of the first entity to explain. It corresponds to the `entityId` property of the entity
+   * node in the graph database.
+   */
+  entityId: number;
+}
+
 export interface WhyRecord {
   matchLevelCode: 'RESOLVED';
   matchKey: MatchKey;
+  entityResolutionRuleCode: string;
   matchScores: MatchScore<ScoredValue>[];
 }
 
 export interface WhyEntities {
   matchLevelCode: 'POSSIBLY_SAME' | 'POSSIBLY_RELATED';
   matchKey: MatchKey;
+  entityResolutionRuleCode: string;
   matchScores: MatchScore<ScoredPair>[];
 }
 
@@ -492,3 +502,37 @@ type EntityAttributeKey =
   | 'Wechat'
   | 'WhatsApp'
   | 'Zoom room';
+
+// Internal note: this type is also used by LKE's entity resolution client
+export interface ResolvedEntity extends IDataSourceParams {
+  id: number;
+  name: string;
+  type: EntityResolutionRecordType;
+  records: EntityRecord[];
+  relatedEntities: RelatedEntity[];
+}
+
+export interface EntityRecord extends EntityResolutionMatch {
+  id: string;
+}
+
+export interface RelatedEntity extends EntityResolutionMatch {
+  id: number;
+  name: string;
+  ambiguous: boolean;
+}
+
+export interface EntityResolutionMatch {
+  matchKey: MatchKey;
+  matchLevel: number;
+  matchLevelCode: `${MatchLevel}`;
+  entityResolutionRuleCode: string;
+}
+
+// Internal note: this type is also used by LKE's entity resolution client
+export enum MatchLevel {
+  RESOLVED = 'RESOLVED',
+  POSSIBLY_SAME = 'POSSIBLY_SAME',
+  POSSIBLY_RELATED = 'POSSIBLY_RELATED'
+  // These are known match level codes, some might be added later
+}

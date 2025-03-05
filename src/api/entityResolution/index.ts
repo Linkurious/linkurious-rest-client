@@ -16,7 +16,9 @@ import {
   EntityResolutionMetrics,
   ExplainWhyEntitiesParams,
   ExplainWhyRecordParams,
+  GetEntityByIdParams,
   IngestionStatus,
+  ResolvedEntity,
   StartEntityResolutionTaskParams,
   UpdateEntityResolutionMappingParams,
   WhyEntities,
@@ -229,6 +231,24 @@ export class EntityResolutionAPI extends Request {
         ENTITY_RESOLUTION_EXPIRED_LICENSE
       ],
       url: '/:sourceKey/entityResolution/why/entities/:entityId/:otherEntityId',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Explain why two different entities are related.
+   */
+  getEntityById(this: Request<ResolvedEntity>, params: GetEntityByIdParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE
+      ],
+      url: '/:sourceKey/entityResolution/entities/:entityId',
       method: 'GET',
       params: params
     });
