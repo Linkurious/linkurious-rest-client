@@ -455,6 +455,7 @@ export interface IEmailNotificationsConfig {
 
   // Entity resolution notifications.
   entityResolutionLicenseNotifications: boolean;
+  entityResolutionLicenseCheckFrequency: string;
   entityResolutionIngestionSuccessNotifications: boolean;
   entityResolutionIngestionFailureNotifications: boolean;
 
