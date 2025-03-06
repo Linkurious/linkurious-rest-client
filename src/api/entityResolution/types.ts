@@ -445,7 +445,7 @@ interface MatchKey {
   value: string;
   same: EntityAttributeKey[];
   different: EntityAttributeKey[];
-  isAmbiguous: boolean;
+  ambiguous: boolean;
 }
 
 interface MatchScore<T> {
@@ -503,7 +503,7 @@ type EntityAttributeKey =
   | 'WhatsApp'
   | 'Zoom room';
 
-export interface ResolvedEntity extends IDataSourceParams {
+export interface ResolvedEntity {
   id: number;
   name: string;
   type: EntityResolutionRecordType;
