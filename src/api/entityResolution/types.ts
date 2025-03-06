@@ -438,7 +438,7 @@ export interface WhyEntities {
   matchScores: MatchScore<ScoredPair>[];
 }
 
-interface MatchKey {
+export interface MatchKey {
   /**
    * The serialized form of the match key, for instance `+NAME+ADDRESS-DOB`.
    */
@@ -453,19 +453,23 @@ interface MatchScore<T> {
   values: T[];
 }
 
-interface ScoredValue {
+export interface Score {
+  percentage: number;
+  bucket: 'SAME' | 'CLOSE' | 'PLAUSIBLE' | 'NO_CHANCE';
+}
+
+export interface ScoredValue {
   value: string;
-  score: {
-    percentage: number;
-    bucket: 'SAME' | 'CLOSE' | 'PLAUSIBLE' | 'NO_CHANCE';
-  };
+  score: Score;
 }
 
-interface ScoredPair extends ScoredValue {
-  otherValue: string;
+export interface ScoredPair {
+  inbound: {id: string; value: string};
+  candidate: {id: string; value: string};
+  score: Score;
 }
 
-type EntityAttributeKey =
+export type EntityAttributeKey =
   | 'Account number'
   | 'Address'
   | 'Citizenship'
