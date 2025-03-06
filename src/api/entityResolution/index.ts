@@ -237,7 +237,7 @@ export class EntityResolutionAPI extends Request {
   }
 
   /**
-   * Explain why two different entities are related.
+   * Get a resolved entity by its ID
    */
   getEntityById(this: Request<ResolvedEntity>, params: GetEntityByIdParams) {
     return this.request({
