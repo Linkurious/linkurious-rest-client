@@ -503,7 +503,6 @@ type EntityAttributeKey =
   | 'WhatsApp'
   | 'Zoom room';
 
-// Internal note: this type is also used by LKE's entity resolution client
 export interface ResolvedEntity extends IDataSourceParams {
   id: number;
   name: string;
@@ -529,7 +528,6 @@ export interface EntityResolutionMatch {
   entityResolutionRuleCode: string;
 }
 
-// Internal note: this type is also used by LKE's entity resolution client
 export enum MatchLevel {
   RESOLVED = 'RESOLVED',
   POSSIBLY_SAME = 'POSSIBLY_SAME',
