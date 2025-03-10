@@ -21,16 +21,23 @@ export enum NodeGroupingRuleRight {
 }
 
 export enum NodeGroupingType {
-  PROPERTY_KEY = 'propertyKey'
+  PROPERTY_KEY = 'propertyKey',
+  // node connected to the same node by the same relation type
+  RELATION_TYPE = 'relationType'
 }
 
 export type NodeGroupingOptions = {
   [NodeGroupingType.PROPERTY_KEY]: PropertyKeyNodeGroupingOptions;
+  [NodeGroupingType.RELATION_TYPE]: RelationTypeNodeGroupingOptions;
 };
 
 export interface PropertyKeyNodeGroupingOptions {
   itemTypes: string[];
   propertyKey: string;
+}
+
+export interface RelationTypeNodeGroupingOptions {
+  itemType: string;
 }
 
 export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
