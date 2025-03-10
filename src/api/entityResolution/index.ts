@@ -14,9 +14,15 @@ import {
   EntityResolutionLicenseInfo,
   EntityResolutionMapping,
   EntityResolutionMetrics,
+  ExplainWhyEntitiesParams,
+  ExplainWhyRecordParams,
+  GetEntityByIdParams,
   IngestionStatus,
+  ResolvedEntity,
   StartEntityResolutionTaskParams,
-  UpdateEntityResolutionMappingParams
+  UpdateEntityResolutionMappingParams,
+  WhyEntities,
+  WhyRecord
 } from './types';
 
 export * from './types';
@@ -196,6 +202,60 @@ export class EntityResolutionAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/entityResolution/metrics',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Explain why a given record resolved to an entity.
+   */
+  explainWhyRecord(this: Request<WhyRecord>, params: ExplainWhyRecordParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE
+      ],
+      url: '/:sourceKey/entityResolution/why/record/:recordId',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Explain why two different entities are related.
+   */
+  explainWhyEntities(this: Request<WhyEntities>, params: ExplainWhyEntitiesParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE
+      ],
+      url: '/:sourceKey/entityResolution/why/entities/:entityId/:otherEntityId',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get a resolved entity by its ID
+   */
+  getEntityById(this: Request<ResolvedEntity>, params: GetEntityByIdParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE
+      ],
+      url: '/:sourceKey/entityResolution/entities/:entityId',
       method: 'GET',
       params: params
     });
