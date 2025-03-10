@@ -37,7 +37,8 @@ export interface PropertyKeyNodeGroupingOptions {
 }
 
 export interface RelationTypeNodeGroupingOptions {
-  itemType: string;
+  edgeType: string;
+  centralNodeIs: 'source' | 'target';
 }
 
 export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
