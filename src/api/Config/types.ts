@@ -182,6 +182,7 @@ export interface INeo4jConfig extends IGraphVendorConfig {
   alternativeNodeId?: string;
   alternativeEdgeId?: string;
   allowVirtualEntities?: boolean;
+  timestampPropertyName?: string;
 }
 
 export interface ICosmosDbConfig extends IGraphVendorConfig {
@@ -196,6 +197,7 @@ export interface ICosmosDbConfig extends IGraphVendorConfig {
 export interface INeo4jSearchConfig extends IVendorConfig {
   initialization?: boolean;
   indexEdges?: boolean;
+  analyzer?: string;
 }
 
 export type InternalIndexConfig = IElasticSearchConfig;
@@ -462,4 +464,5 @@ export interface EntityResolutionConfig {
   chunkSize?: number;
   expandLimitPerNode?: number;
   entityNodeCategories?: Partial<Record<EntityResolutionRecordType, string>>;
+  serviceApiKey?: string;
 }
