@@ -29,7 +29,8 @@ const {
   NOT_FOUND,
   UNAUTHORIZED,
   ENTITY_RESOLUTION_EXPIRED_LICENSE,
-  ENTITY_RESOLUTION_QUOTA_EXCEEDED
+  ENTITY_RESOLUTION_QUOTA_EXCEEDED,
+  FEATURE_DISABLED
 } = LkErrorKey;
 
 export class EntityResolutionAPI extends Request {
@@ -164,7 +165,13 @@ export class EntityResolutionAPI extends Request {
    */
   getIngestionStatus(this: Request<IngestionStatus>, params: IDataSourceParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, ILLEGAL_SOURCE_STATE],
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        ILLEGAL_SOURCE_STATE,
+        FEATURE_DISABLED
+      ],
       url: '/:sourceKey/entityResolution',
       method: 'GET',
       params: params
