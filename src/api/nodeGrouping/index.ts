@@ -14,6 +14,7 @@ import {
   DeleteNodeGroupingRuleParams,
   GetNodeGroupingRulesParams,
   NodeGroupingRule,
+  NodeGroupingType,
   UpdateNodeGroupingRuleParams
 } from './types';
 
@@ -21,7 +22,7 @@ const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, ALREADY_EXISTS, NOT_FOUND, FORBIDD
 
 export class NodeGroupingAPI extends Request {
   public createNodeGroupingRule(
-    this: Request<NodeGroupingRule>,
+    this: Request<NodeGroupingRule<NodeGroupingType>>,
     params: CreateNodeGroupingRuleParams
   ) {
     return this.request({
@@ -33,7 +34,7 @@ export class NodeGroupingAPI extends Request {
   }
 
   public getNodeGroupingRules(
-    this: Request<NodeGroupingRule[]>,
+    this: Request<NodeGroupingRule<NodeGroupingType>[]>,
     params: GetNodeGroupingRulesParams
   ) {
     return this.request({
@@ -45,7 +46,7 @@ export class NodeGroupingAPI extends Request {
   }
 
   public updateNodeGroupingRule(
-    this: Request<NodeGroupingRule>,
+    this: Request<NodeGroupingRule<NodeGroupingType>>,
     params: UpdateNodeGroupingRuleParams
   ) {
     return this.request({
