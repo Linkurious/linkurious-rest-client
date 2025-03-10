@@ -538,3 +538,6 @@ export enum MatchLevel {
   POSSIBLY_RELATED = 'POSSIBLY_RELATED'
   // These are known match level codes, some might be added later
 }
+
+export const RESOLVED_ORGANIZATION_ENTITY = 'ResolvedOrganizationEntity';
+export const RESOLVED_PERSON_ENTITY = 'ResolvedPersonEntity';
