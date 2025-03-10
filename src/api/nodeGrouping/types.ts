@@ -5,15 +5,13 @@
  */
 import {IDataSourceParams} from '../commonTypes';
 
-export interface NodeGroupingRule<Type extends NodeGroupingType | undefined = undefined> {
+export interface NodeGroupingRule<Type extends NodeGroupingType = NodeGroupingType> {
   id: number;
   uuid: string;
   sourceKey: string;
   name: string;
-  groupingType: Type extends NodeGroupingType ? Type : NodeGroupingType;
-  groupingOptions: Type extends NodeGroupingType
-    ? NodeGroupingOptions[Type]
-    : NodeGroupingOptions[NodeGroupingType];
+  groupingType: Type;
+  groupingOptions: NodeGroupingOptions[Type];
   right: NodeGroupingRuleRight;
 }
 
