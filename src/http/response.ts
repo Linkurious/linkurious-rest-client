@@ -64,7 +64,9 @@ export enum LkErrorKey {
   CASES_EXTRACT_LIMIT_EXCEEDED = 'cases_extract_limit_exceeded',
   INVALID_CASE_ATTRIBUTES_QUERY = 'invalid_case_attributes_query',
   SPACE_DELETION_FAILED = 'space_deletion_failed',
-  INVALID_PARENT_FOLDER = 'invalid_parent_folder'
+  INVALID_PARENT_FOLDER = 'invalid_parent_folder',
+  ENTITY_RESOLUTION_EXPIRED_LICENSE = 'entity_resolution_expired_license',
+  ENTITY_RESOLUTION_QUOTA_EXCEEDED = 'entity_resolution_quota_exceeded'
 }
 
 /**
@@ -261,6 +263,12 @@ export interface SpaceDeletionFailed extends LkError<LkErrorKey.SPACE_DELETION_F
 
 export interface InvalidParentFolder extends LkError<LkErrorKey.INVALID_PARENT_FOLDER> {}
 
+export interface EntityResolutionExpiredLicense
+  extends LkError<LkErrorKey.ENTITY_RESOLUTION_EXPIRED_LICENSE> {}
+
+export interface EntityResolutionQuotaExceeded
+  extends LkError<LkErrorKey.ENTITY_RESOLUTION_QUOTA_EXCEEDED> {}
+
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
@@ -311,4 +319,6 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.INVALID_CASE_ATTRIBUTES_QUERY]: InvalidCaseAttributesQuery;
   [LkErrorKey.SPACE_DELETION_FAILED]: SpaceDeletionFailed;
   [LkErrorKey.INVALID_PARENT_FOLDER]: InvalidParentFolder;
+  [LkErrorKey.ENTITY_RESOLUTION_EXPIRED_LICENSE]: EntityResolutionExpiredLicense;
+  [LkErrorKey.ENTITY_RESOLUTION_QUOTA_EXCEEDED]: EntityResolutionQuotaExceeded;
 };

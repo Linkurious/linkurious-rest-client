@@ -83,7 +83,8 @@ export type PersonComplexAttribute =
   | ['phone', RecordPhoneAttribute]
   | ['name', RecordNameType, PersonNameAttribute]
   | ['address', PersonAddressType, RecordAddressAttribute]
-  | ['phone', PersonPhoneType, RecordPhoneAttribute];
+  | ['phone', PersonPhoneType, RecordPhoneAttribute]
+  | ['groupAssociation', GroupAssociationAttribute];
 
 export type OrganizationComplexAttribute =
   | ['name', OrganizationNameAttribute]
@@ -132,7 +133,8 @@ export const PERSON_SIMPLE_ATTRIBUTES = [
   'driverLicenseState',
   'ssnNumber',
   'nationalIdNumber',
-  'nationalIdCountry'
+  'nationalIdCountry',
+  'employerName'
 ] as const;
 export type PersonSimpleAttribute = (typeof PERSON_SIMPLE_ATTRIBUTES)[number];
 
@@ -173,6 +175,9 @@ export const PERSON_NAME_ATTRIBUTES = [
 ] as const;
 export type PersonNameAttribute = (typeof PERSON_NAME_ATTRIBUTES)[number];
 
+export const GROUP_ASSOCIATION_ATTRIBUTES = ['type', 'organisationName', 'idType', 'id'] as const;
+export type GroupAssociationAttribute = (typeof GROUP_ASSOCIATION_ATTRIBUTES)[number];
+
 export const ORGANIZATION_NAME_ATTRIBUTES = ['org'] as const;
 export type OrganizationNameAttribute = (typeof ORGANIZATION_NAME_ATTRIBUTES)[number];
 
@@ -209,11 +214,7 @@ export type IngestionState = (typeof INGESTION_STATES)[number];
 /**
  * Define the various types of entity resolution tasks.
  */
-export const ENTITY_RESOLUTION_TASK_NAMES = [
-  'fullIngestion',
-  'incrementalIngestion',
-  'purge'
-] as const;
+export const ENTITY_RESOLUTION_TASK_NAMES = ['ingestion', 'purge'] as const;
 export type EntityResolutionTaskName = (typeof ENTITY_RESOLUTION_TASK_NAMES)[number];
 
 /**
@@ -222,10 +223,9 @@ export type EntityResolutionTaskName = (typeof ENTITY_RESOLUTION_TASK_NAMES)[num
 export type IngestionStatus =
   | {
       /**
-       * - `empty`: Ingestion has never run or has been completely purged.
-       * - `done`:  Ingestion is complete.
+       * Ingestion has never run or has been completely purged.
        */
-      state: 'empty' | 'done';
+      state: 'empty';
       /**
        * A human readable message describing the state.
        */
@@ -252,6 +252,18 @@ export type IngestionStatus =
        * The source-key of the data-source on which ingestion is currently running, if any.
        */
       busySourceKey?: string;
+      /**
+       * When did the task start.
+       *
+       * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
+       */
+      startedAt: string;
+      /**
+       * When did the task end in error.
+       *
+       * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
+       */
+      endedAt: string;
     }
   | {
       /**
@@ -282,4 +294,104 @@ export type IngestionStatus =
        * The estimated time left, in seconds.
        */
       timeLeftSeconds?: number;
+      /**
+       * When did the task start.
+       *
+       * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
+       */
+      startedAt: string;
+    }
+  | {
+      /**
+       * Ingestion is complete.
+       */
+      state: 'done';
+      /**
+       * A human readable message describing the state.
+       */
+      message: string;
+      /**
+       * When did the task start.
+       *
+       * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
+       */
+      startedAt: string;
+      /**
+       * When did the task end.
+       *
+       * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
+       */
+      endedAt: string;
+      /**
+       * How long did the ingestion last in total, from the very beginning to the very end, without error interruption time.
+       * It is NOT simply the time between startedAt and endedAt. It is the total processing time.
+       *
+       * Duration is returned as a number of seconds.
+       */
+      durationSeconds: number;
     };
+
+/**
+ *  Informations about the entity resolution license, across all data-sources.
+ */
+export interface EntityResolutionLicenseInfo {
+  /**x
+   * The number of records ingested.
+   */
+  recordsIngested: number;
+
+  /**
+   * The number of records available in the license.
+   */
+  recordsAvailable: number;
+
+  /**
+   * Whether the license is an evaluation license.
+   */
+  isEvaluationLicense: boolean;
+
+  /**
+   * Number of ingested records per data-source:
+   * - Keys are data source keys
+   * - Values are number of records
+   */
+  ingestedRecordsPerDataSource: Record<string, number>;
+
+  /**
+   * The expiration date of the license.
+   *
+   * yyyy-mm-dd format
+   */
+  expirationDate: string;
+
+  /**
+   * The license status.
+   */
+  status: 'valid' | 'expired' | 'noCredits';
+}
+
+/**
+ *  The entity resolution metrics, for a given data-source.
+ */
+export interface EntityResolutionMetrics {
+  /**
+   * The number of records ingested.
+   */
+  recordsIngested: number;
+  /**
+   * The number of entities created in the graph database.
+   */
+  entitiesCreated: number;
+  /**
+   * The number of records that are identified as a duplicate of another one, and is resolved by an entity.
+   */
+  fullDuplicates: number;
+  /**
+   * The number of `POSSIBLY_SAME` relations between entities.
+   */
+  possibleDuplicates: number;
+  /**
+   * The number of `POSSIBLY_RELATED` relations between entities.
+   */
+  possibleRelationships: number;
+}
