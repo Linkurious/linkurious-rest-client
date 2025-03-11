@@ -41,6 +41,18 @@ export interface RelationTypeNodeGroupingOptions {
   centralNodeIs: 'source' | 'target';
 }
 
+export const BuiltinNodeGroupingRules = {
+  ER_DUPLICATES: {
+    groupingType: NodeGroupingType.RELATION_TYPE,
+    name: 'Duplicates',
+    groupingOptions: {
+      edgeType: 'RESOLVES',
+      centralNodeIs: 'source'
+    },
+    uuid: 'duplicates'
+  }
+} as const;
+
 export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
   uuid?: string;
   name: string;
