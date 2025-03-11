@@ -395,3 +395,146 @@ export interface EntityResolutionMetrics {
    */
   possibleRelationships: number;
 }
+
+export interface ExplainWhyRecordParams extends IDataSourceParams {
+  /**
+   * The ID of the record to explain. It corresponds to the ID of the record node in the graph
+   * database.
+   */
+  recordId: string;
+}
+
+export interface ExplainWhyEntitiesParams extends IDataSourceParams {
+  /**
+   * The ID of the first entity to explain. It corresponds to the `entityId` property of the entity
+   * node in the graph database.
+   */
+  entityId: number;
+  /**
+   * The ID of the other related entity.
+   */
+  otherEntityId: number;
+}
+
+export interface GetEntityByIdParams extends IDataSourceParams {
+  /**
+   * The ID of the first entity to explain. It corresponds to the `entityId` property of the entity
+   * node in the graph database.
+   */
+  entityId: number;
+}
+
+export interface WhyRecord {
+  matchLevelCode: 'RESOLVED';
+  matchKey: MatchKey;
+  entityResolutionRuleCode: string;
+  matchScores: MatchScore<ScoredValue>[];
+}
+
+export interface WhyEntities {
+  matchLevelCode: 'POSSIBLY_SAME' | 'POSSIBLY_RELATED';
+  matchKey: MatchKey;
+  entityResolutionRuleCode: string;
+  matchScores: MatchScore<ScoredPair>[];
+}
+
+export interface MatchKey {
+  /**
+   * The serialized form of the match key, for instance `+NAME+ADDRESS-DOB`.
+   */
+  value: string;
+  same: EntityAttributeKey[];
+  different: EntityAttributeKey[];
+  ambiguous: boolean;
+}
+
+interface MatchScore<T> {
+  key: EntityAttributeKey;
+  values: T[];
+}
+
+export interface Score {
+  percentage: number;
+  bucket: 'SAME' | 'CLOSE' | 'PLAUSIBLE' | 'NO_CHANCE';
+}
+
+export interface ScoredValue {
+  value: string;
+  score: Score;
+}
+
+export interface ScoredPair {
+  inbound: {id: string; value: string};
+  candidate: {id: string; value: string};
+  score: Score;
+}
+
+export type EntityAttributeKey =
+  | 'Account number'
+  | 'Address'
+  | 'Citizenship'
+  | 'Date of birth'
+  | 'Date of death'
+  | 'Driver license'
+  | 'DUNS number'
+  | 'Email'
+  | 'Facebook'
+  | 'Gender'
+  | 'Group association'
+  | 'Instagram'
+  | 'LEI number'
+  | 'LinkedIn'
+  | 'Name'
+  | 'Nationality'
+  | 'National ID'
+  | 'NPI number'
+  | 'Passport'
+  | 'Phone'
+  | 'Place of birth'
+  | 'Record type'
+  | 'Registration country'
+  | 'Registration date'
+  | 'Signal'
+  | 'Social security number'
+  | 'Skype'
+  | 'Tango'
+  | 'Tax ID'
+  | 'Telegram'
+  | 'Twitter'
+  | 'Viber'
+  | 'Website'
+  | 'Wechat'
+  | 'WhatsApp'
+  | 'Zoom room';
+
+export interface ResolvedEntity {
+  id: number;
+  name: string;
+  type: EntityResolutionRecordType;
+  records: EntityRecord[];
+  relatedEntities: RelatedEntity[];
+}
+
+export interface EntityRecord extends EntityResolutionMatch {
+  id: string;
+}
+
+export interface RelatedEntity extends EntityResolutionMatch {
+  id: number;
+  name: string;
+  ambiguous: boolean;
+}
+
+export interface EntityResolutionMatch {
+  matchKey: MatchKey;
+  matchLevel: number;
+  matchLevelCode: `${MatchLevel}`;
+  entityResolutionRuleCode: string;
+}
+
+export enum MatchLevel {
+  RESOLVED = 'RESOLVED',
+  POSSIBLY_SAME = 'POSSIBLY_SAME',
+  POSSIBLY_RELATED = 'POSSIBLY_RELATED'
+  // These are known match level codes, some might be added later
+}
