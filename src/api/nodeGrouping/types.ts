@@ -49,7 +49,7 @@ export const BuiltinNodeGroupingRules = {
       edgeType: 'RESOLVES',
       centralNodeIs: 'source'
     },
-    uuid: 'duplicates'
+    uuid: '0f36ebb9-218c-4d5d-8941-b38ffedb11bd'
   }
 } as const;
 
