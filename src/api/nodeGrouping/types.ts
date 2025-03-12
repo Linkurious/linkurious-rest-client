@@ -38,11 +38,6 @@ export enum NodeGroupingType {
   RELATION_TYPE = 'relationType'
 }
 
-export type NodeGroupingOptions = {
-  [NodeGroupingType.PROPERTY_KEY]: PropertyKeyNodeGroupingOptions;
-  [NodeGroupingType.RELATION_TYPE]: RelationTypeNodeGroupingOptions;
-};
-
 export interface PropertyKeyNodeGroupingOptions {
   itemTypes: string[];
   propertyKey: string;
@@ -56,8 +51,8 @@ export interface RelationTypeNodeGroupingOptions {
 export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
   uuid?: string;
   name: string;
-  groupingType: NodeGroupingType;
-  groupingOptions: NodeGroupingOptions[NodeGroupingType];
+  groupingType: NodeGroupingType.PROPERTY_KEY;
+  groupingOptions: PropertyKeyNodeGroupingOptions;
 }
 
 export interface UpdateNodeGroupingRuleParams
