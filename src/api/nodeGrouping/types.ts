@@ -5,15 +5,27 @@
  */
 import {IDataSourceParams} from '../commonTypes';
 
-export interface NodeGroupingRule<Type extends NodeGroupingType = NodeGroupingType> {
+export interface NodeGroupingRulePropertyKey {
   id: number;
   uuid: string;
   sourceKey: string;
   name: string;
-  groupingType: Type;
-  groupingOptions: NodeGroupingOptions[Type];
+  groupingType: NodeGroupingType.PROPERTY_KEY;
+  groupingOptions: PropertyKeyNodeGroupingOptions;
   right: NodeGroupingRuleRight;
 }
+
+export interface NodeGroupingRuleRelationType {
+  id: number;
+  uuid: string;
+  sourceKey: string;
+  name: string;
+  groupingType: NodeGroupingType.RELATION_TYPE;
+  groupingOptions: RelationTypeNodeGroupingOptions;
+  right: NodeGroupingRuleRight;
+}
+
+export type NodeGroupingRule = NodeGroupingRulePropertyKey | NodeGroupingRuleRelationType;
 
 export enum NodeGroupingRuleRight {
   MANAGE = 'manage',
@@ -40,18 +52,6 @@ export interface RelationTypeNodeGroupingOptions {
   edgeType: string;
   centralNodeIs: 'source' | 'target';
 }
-
-export const BuiltinNodeGroupingRules = {
-  ER_DUPLICATES: {
-    groupingType: NodeGroupingType.RELATION_TYPE,
-    name: 'Duplicates',
-    groupingOptions: {
-      edgeType: 'RESOLVES',
-      centralNodeIs: 'source'
-    },
-    uuid: '0f36ebb9-218c-4d5d-8941-b38ffedb11bd'
-  }
-} as const;
 
 export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
   uuid?: string;
