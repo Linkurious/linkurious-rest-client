@@ -5,24 +5,24 @@
  */
 import {IDataSourceParams} from '../commonTypes';
 
-export interface NodeGroupingRulePropertyKey {
+export interface BaseNodeGroupingRule {
   id: number;
   uuid: string;
   sourceKey: string;
   name: string;
-  groupingType: NodeGroupingType.PROPERTY_KEY;
-  groupingOptions: PropertyKeyNodeGroupingOptions;
+  groupingType: NodeGroupingType;
+  groupingOptions: PropertyKeyNodeGroupingOptions | RelationTypeNodeGroupingOptions;
   right: NodeGroupingRuleRight;
 }
 
-export interface NodeGroupingRuleRelationType {
-  id: number;
-  uuid: string;
-  sourceKey: string;
-  name: string;
+export interface NodeGroupingRulePropertyKey extends BaseNodeGroupingRule {
+  groupingType: NodeGroupingType.PROPERTY_KEY;
+  groupingOptions: PropertyKeyNodeGroupingOptions;
+}
+
+export interface NodeGroupingRuleRelationType extends BaseNodeGroupingRule {
   groupingType: NodeGroupingType.RELATION_TYPE;
   groupingOptions: RelationTypeNodeGroupingOptions;
-  right: NodeGroupingRuleRight;
 }
 
 export type NodeGroupingRule = NodeGroupingRulePropertyKey | NodeGroupingRuleRelationType;
@@ -48,12 +48,25 @@ export interface RelationTypeNodeGroupingOptions {
   centralNodeIs: 'source' | 'target';
 }
 
-export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
+export interface BaseCreateNodeGroupingRuleParams extends IDataSourceParams {
   uuid?: string;
   name: string;
+  groupingType: NodeGroupingType;
+  groupingOptions: PropertyKeyNodeGroupingOptions | RelationTypeNodeGroupingOptions;
+}
+export interface CreateNodeGroupingPropertyRuleParams extends BaseCreateNodeGroupingRuleParams {
   groupingType: NodeGroupingType.PROPERTY_KEY;
   groupingOptions: PropertyKeyNodeGroupingOptions;
 }
+
+export interface CreateNodeGroupingRelationRuleParams extends BaseCreateNodeGroupingRuleParams {
+  groupingType: NodeGroupingType.RELATION_TYPE;
+  groupingOptions: RelationTypeNodeGroupingOptions;
+}
+
+export type CreateNodeGroupingRuleParams =
+  | CreateNodeGroupingPropertyRuleParams
+  | CreateNodeGroupingRelationRuleParams;
 
 export interface UpdateNodeGroupingRuleParams
   extends Omit<Partial<CreateNodeGroupingRuleParams>, 'uuid'> {
