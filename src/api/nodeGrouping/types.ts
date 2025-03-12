@@ -11,10 +11,9 @@ export interface BaseNodeGroupingRule {
   sourceKey: string;
   name: string;
   groupingType: NodeGroupingType;
-  groupingOptions: PropertyKeyNodeGroupingOptions | RelationTypeNodeGroupingOptions;
+  groupingOptions: NodeGroupingOptions[NodeGroupingType];
   right: NodeGroupingRuleRight;
 }
-
 export interface NodeGroupingRulePropertyKey extends BaseNodeGroupingRule {
   groupingType: NodeGroupingType.PROPERTY_KEY;
   groupingOptions: PropertyKeyNodeGroupingOptions;
@@ -38,6 +37,11 @@ export enum NodeGroupingType {
   RELATION_TYPE = 'relationType'
 }
 
+export type NodeGroupingOptions = {
+  [NodeGroupingType.PROPERTY_KEY]: PropertyKeyNodeGroupingOptions;
+  [NodeGroupingType.RELATION_TYPE]: RelationTypeNodeGroupingOptions;
+};
+
 export interface PropertyKeyNodeGroupingOptions {
   itemTypes: string[];
   propertyKey: string;
@@ -48,25 +52,12 @@ export interface RelationTypeNodeGroupingOptions {
   centralNodeIs: 'source' | 'target';
 }
 
-export interface BaseCreateNodeGroupingRuleParams extends IDataSourceParams {
+export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
   uuid?: string;
   name: string;
   groupingType: NodeGroupingType;
-  groupingOptions: PropertyKeyNodeGroupingOptions | RelationTypeNodeGroupingOptions;
+  groupingOptions: NodeGroupingOptions[NodeGroupingType];
 }
-export interface CreateNodeGroupingPropertyRuleParams extends BaseCreateNodeGroupingRuleParams {
-  groupingType: NodeGroupingType.PROPERTY_KEY;
-  groupingOptions: PropertyKeyNodeGroupingOptions;
-}
-
-export interface CreateNodeGroupingRelationRuleParams extends BaseCreateNodeGroupingRuleParams {
-  groupingType: NodeGroupingType.RELATION_TYPE;
-  groupingOptions: RelationTypeNodeGroupingOptions;
-}
-
-export type CreateNodeGroupingRuleParams =
-  | CreateNodeGroupingPropertyRuleParams
-  | CreateNodeGroupingRelationRuleParams;
 
 export interface UpdateNodeGroupingRuleParams
   extends Omit<Partial<CreateNodeGroupingRuleParams>, 'uuid'> {
