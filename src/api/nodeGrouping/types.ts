@@ -14,17 +14,17 @@ export interface BaseNodeGroupingRule {
   groupingOptions: NodeGroupingOptions[NodeGroupingType];
   right: NodeGroupingRuleRight;
 }
-export interface NodeGroupingRulePropertyKey extends BaseNodeGroupingRule {
-  groupingType: NodeGroupingType.PROPERTY_KEY;
-  groupingOptions: PropertyKeyNodeGroupingOptions;
+export interface NodeGroupingByPropertyValue extends BaseNodeGroupingRule {
+  groupingType: NodeGroupingType.BY_PROPERTY_VALUE;
+  groupingOptions: NodeGroupingByPropertyValueOptions;
 }
 
-export interface NodeGroupingRuleRelationType extends BaseNodeGroupingRule {
-  groupingType: NodeGroupingType.RELATION_TYPE;
-  groupingOptions: RelationTypeNodeGroupingOptions;
+export interface NodeGroupingByAdjacentEdgeType extends BaseNodeGroupingRule {
+  groupingType: NodeGroupingType.BY_ADJACENT_EDGE_TYPE;
+  groupingOptions: NodeGroupingByAdjacentEdgeTypeOptions;
 }
 
-export type NodeGroupingRule = NodeGroupingRulePropertyKey | NodeGroupingRuleRelationType;
+export type NodeGroupingRule = NodeGroupingByPropertyValue | NodeGroupingByAdjacentEdgeType;
 
 export enum NodeGroupingRuleRight {
   MANAGE = 'manage',
@@ -32,22 +32,22 @@ export enum NodeGroupingRuleRight {
 }
 
 export enum NodeGroupingType {
-  PROPERTY_KEY = 'propertyKey',
+  BY_PROPERTY_VALUE = 'propertyKey',
   // all nodes connected to the same central node by a defined relation/edge type
-  RELATION_TYPE = 'relationType'
+  BY_ADJACENT_EDGE_TYPE = 'edgeType'
 }
 
 export type NodeGroupingOptions = {
-  [NodeGroupingType.PROPERTY_KEY]: PropertyKeyNodeGroupingOptions;
-  [NodeGroupingType.RELATION_TYPE]: RelationTypeNodeGroupingOptions;
+  [NodeGroupingType.BY_PROPERTY_VALUE]: NodeGroupingByPropertyValueOptions;
+  [NodeGroupingType.BY_ADJACENT_EDGE_TYPE]: NodeGroupingByAdjacentEdgeTypeOptions;
 };
 
-export interface PropertyKeyNodeGroupingOptions {
+export interface NodeGroupingByPropertyValueOptions {
   itemTypes: string[];
   propertyKey: string;
 }
 
-export interface RelationTypeNodeGroupingOptions {
+export interface NodeGroupingByAdjacentEdgeTypeOptions {
   edgeType: string;
   centralNodeIs: 'source' | 'target';
 }
