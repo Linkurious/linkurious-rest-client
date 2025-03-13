@@ -33,7 +33,7 @@ export enum NodeGroupingRuleRight {
 
 export enum NodeGroupingType {
   PROPERTY_KEY = 'propertyKey',
-  // node connected to the same node by the same relation type
+  // all nodes connected to the same central node by a defined relation/edge type
   RELATION_TYPE = 'relationType'
 }
 
