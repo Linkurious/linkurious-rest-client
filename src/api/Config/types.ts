@@ -7,7 +7,6 @@
 import {TlsOptions} from 'tls';
 
 import {GenericObject} from '../commonTypes';
-import {EntityResolutionRecordType} from '../entityResolution';
 import {LicenseState} from '../License';
 import {IPluginConfig} from '../Plugin';
 import {OgmaNodeShape, OgmaEdgeShape} from '../displayTypes';
@@ -463,6 +462,5 @@ export interface EntityResolutionConfig {
   url: string;
   chunkSize?: number;
   expandLimitPerNode?: number;
-  entityNodeCategories?: Partial<Record<EntityResolutionRecordType, string>>;
   serviceApiKey?: string;
 }
