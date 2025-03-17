@@ -255,6 +255,7 @@ export interface IAdvancedConfig {
   dataSourceConnectionTimeout?: number;
   dataSourceAutoReconnectInterval?: number;
   flags?: GenericObject;
+  nodeGrouping?: NodeGroupingConfig;
 }
 
 export interface ILeafletConfig {
@@ -465,4 +466,8 @@ export interface EntityResolutionConfig {
   expandLimitPerNode?: number;
   entityNodeCategories?: Partial<Record<EntityResolutionRecordType, string>>;
   serviceApiKey?: string;
+}
+
+export interface NodeGroupingConfig {
+  collapsed?: boolean;
 }
