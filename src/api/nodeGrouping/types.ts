@@ -32,6 +32,9 @@ export enum NodeGroupingRuleRight {
 }
 
 export enum NodeGroupingType {
+  // all nodes sharing the same property value
+  // note: the key and value of the enum differ, because it was wrongly named propertyKey initially and migrating it would be painful
+  // however, changing the key was easy and valuable so we did it
   BY_PROPERTY_VALUE = 'propertyKey',
   // all nodes connected to the same central node by a defined relation/edge type
   BY_ADJACENT_EDGE_TYPE = 'edgeType'
