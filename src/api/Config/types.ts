@@ -464,4 +464,5 @@ export interface EntityResolutionConfig {
   chunkSize?: number;
   expandLimitPerNode?: number;
   entityNodeCategories?: Partial<Record<EntityResolutionRecordType, string>>;
+  serviceApiKey?: string;
 }

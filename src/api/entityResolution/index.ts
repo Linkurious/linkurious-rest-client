@@ -14,9 +14,15 @@ import {
   EntityResolutionLicenseInfo,
   EntityResolutionMapping,
   EntityResolutionMetrics,
+  ExplainWhyEntitiesParams,
+  ExplainWhyRecordParams,
+  GetEntityByIdParams,
   IngestionStatus,
+  ResolvedEntity,
   StartEntityResolutionTaskParams,
-  UpdateEntityResolutionMappingParams
+  UpdateEntityResolutionMappingParams,
+  WhyEntities,
+  WhyRecord
 } from './types';
 
 export * from './types';
@@ -27,7 +33,9 @@ const {
   FORBIDDEN,
   ILLEGAL_SOURCE_STATE,
   NOT_FOUND,
-  UNAUTHORIZED
+  UNAUTHORIZED,
+  ENTITY_RESOLUTION_EXPIRED_LICENSE,
+  ENTITY_RESOLUTION_QUOTA_EXCEEDED
 } = LkErrorKey;
 
 export class EntityResolutionAPI extends Request {
@@ -39,7 +47,15 @@ export class EntityResolutionAPI extends Request {
     params: CreateEntityResolutionMappingParams
   ) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, ALREADY_EXISTS],
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ALREADY_EXISTS,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE,
+        ENTITY_RESOLUTION_QUOTA_EXCEEDED
+      ],
       url: '/:sourceKey/entityResolution/mappings',
       method: 'POST',
       params: params
@@ -54,7 +70,15 @@ export class EntityResolutionAPI extends Request {
     params: UpdateEntityResolutionMappingParams
   ) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND, ALREADY_EXISTS],
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ALREADY_EXISTS,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE,
+        ENTITY_RESOLUTION_QUOTA_EXCEEDED
+      ],
       url: '/:sourceKey/entityResolution/mappings/:id',
       method: 'PATCH',
       params: params
@@ -66,7 +90,14 @@ export class EntityResolutionAPI extends Request {
    */
   deleteEntityResolutionMapping(params: DeleteEntityResolutionMappingParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE,
+        ENTITY_RESOLUTION_QUOTA_EXCEEDED
+      ],
       url: '/:sourceKey/entityResolution/mappings/:id',
       method: 'DELETE',
       params: params
@@ -103,7 +134,14 @@ export class EntityResolutionAPI extends Request {
    */
   startIngestion(params: StartEntityResolutionTaskParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, ILLEGAL_SOURCE_STATE],
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        ILLEGAL_SOURCE_STATE,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE,
+        ENTITY_RESOLUTION_QUOTA_EXCEEDED
+      ],
       url: '/:sourceKey/entityResolution',
       method: 'POST',
       params: params
@@ -140,7 +178,7 @@ export class EntityResolutionAPI extends Request {
   }
 
   /**
-   * Get informations about the entity resolution license, across all data-sources.
+   * Get information about the entity resolution license, across all data-sources.
    */
   getLicenseInfo(this: Request<EntityResolutionLicenseInfo>) {
     return this.request({
@@ -157,6 +195,60 @@ export class EntityResolutionAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/entityResolution/metrics',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Explain why a given record resolved to an entity.
+   */
+  explainWhyRecord(this: Request<WhyRecord>, params: ExplainWhyRecordParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE
+      ],
+      url: '/:sourceKey/entityResolution/why/record/:recordId',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Explain why two different entities are related.
+   */
+  explainWhyEntities(this: Request<WhyEntities>, params: ExplainWhyEntitiesParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE
+      ],
+      url: '/:sourceKey/entityResolution/why/entities/:entityId/:otherEntityId',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get a resolved entity by its ID
+   */
+  getEntityById(this: Request<ResolvedEntity>, params: GetEntityByIdParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE
+      ],
+      url: '/:sourceKey/entityResolution/entities/:entityId',
       method: 'GET',
       params: params
     });
