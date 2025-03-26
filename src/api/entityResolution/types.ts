@@ -94,6 +94,9 @@ export type OrganizationComplexAttribute =
   | ['address', OrganizationAddressType, RecordAddressAttribute]
   | ['phone', OrganizationPhoneType, RecordPhoneAttribute];
 
+export const RESOLVED_ORGANIZATION_ENTITY = 'ResolvedOrganizationEntity';
+export const RESOLVED_PERSON_ENTITY = 'ResolvedPersonEntity';
+
 /**
  * The supported record types.
  */
