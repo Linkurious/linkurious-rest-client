@@ -7,6 +7,7 @@
 import {TlsOptions} from 'tls';
 
 import {GenericObject} from '../commonTypes';
+import {EntityResolutionRecordType} from '../entityResolution';
 import {LicenseState} from '../License';
 import {IPluginConfig} from '../Plugin';
 import {OgmaNodeShape, OgmaEdgeShape} from '../displayTypes';
@@ -48,6 +49,7 @@ export interface Configuration {
   dataSource?: SelectedDataSourceConfig;
   needRestart?: boolean;
   emailNotifications: IEmailNotificationsConfig;
+  entityResolution?: EntityResolutionConfig;
 }
 
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
@@ -69,7 +71,9 @@ export interface IDatabaseConfig {
   username?: string;
   password?: string;
   connectionRetries?: number;
+  transactionTimeout?: number;
   options: IDatabaseOptions | ISqliteOptions;
+  allowFutureStoreVersion?: boolean;
 }
 
 export interface IHttpServerConfig {
@@ -178,6 +182,7 @@ export interface INeo4jConfig extends IGraphVendorConfig {
   alternativeNodeId?: string;
   alternativeEdgeId?: string;
   allowVirtualEntities?: boolean;
+  timestampPropertyName?: string;
 }
 
 export interface ICosmosDbConfig extends IGraphVendorConfig {
@@ -192,6 +197,7 @@ export interface ICosmosDbConfig extends IGraphVendorConfig {
 export interface INeo4jSearchConfig extends IVendorConfig {
   initialization?: boolean;
   indexEdges?: boolean;
+  analyzer?: string;
 }
 
 export type InternalIndexConfig = IElasticSearchConfig;
@@ -204,11 +210,11 @@ export interface IElasticSearchConfig extends IVendorConfig {
   password?: string;
   mapping?: string;
   analyzer?: string;
-  incrementalIndexation?: boolean;
+  incrementalIndexing?: boolean;
   timestampPropertyName?: string;
-  incrementalIndexationCron?: string;
+  incrementalIndexingCron?: string;
   forceReindex?: boolean;
-  skipEdgeIndexation?: boolean;
+  skipEdgeIndexing?: boolean;
 }
 
 export interface IAzureSearchConfig extends IVendorConfig {
@@ -222,6 +228,7 @@ export interface IAlertsConfig {
   enabled?: boolean;
   maxMatchesLimit?: number;
   maxRuntimeLimit?: number;
+  enableDataPreprocessing?: boolean;
 }
 
 export interface IAdvancedConfig {
@@ -238,7 +245,7 @@ export interface IAdvancedConfig {
   sampledItemsPerType: number;
   sampledVisualizationItems: number;
   pollInterval?: number;
-  indexationChunkSize?: number;
+  indexingChunkSize?: number;
   layoutWorkers?: number;
   defaultFuzziness?: number;
   extraCertificateAuthorities?: string;
@@ -247,6 +254,7 @@ export interface IAdvancedConfig {
   itemTypeCountLimit?: number;
   dataSourceConnectionTimeout?: number;
   dataSourceAutoReconnectInterval?: number;
+  flags?: GenericObject;
 }
 
 export interface ILeafletConfig {
@@ -305,7 +313,8 @@ export interface ILDAPConfig {
 export interface ISaml2Config {
   enabled: boolean;
   url: string;
-  identityProviderCertificate: string;
+  identityProviderCertificate?: string;
+  identityProviderCertificateValue?: string;
   groupAttribute?: string;
   emailAttribute?: string;
 }
@@ -447,4 +456,13 @@ export interface IEmailNotificationsConfig {
   // Email configuration.
   mailer: IMailerConfig;
   fromEmail: string;
+}
+
+export interface EntityResolutionConfig {
+  enabled: boolean;
+  url: string;
+  chunkSize?: number;
+  expandLimitPerNode?: number;
+  entityNodeCategories?: Partial<Record<EntityResolutionRecordType, string>>;
+  serviceApiKey?: string;
 }

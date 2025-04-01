@@ -12,20 +12,26 @@ import {IDataSourceParams} from '../commonTypes';
 export enum Action {
   ADMIN_CONNECT = 'admin.connect', // Connect the data-source and read the configuration
   ADMIN_INDEX = 'admin.index', // Index the data-source and read the configuration
+  ADMIN_ENTITY_RESOLUTION = 'admin.entityResolution', // Manage entity resolution on the data-source
   ADMIN_USERS = 'admin.users', // Manage the users in the data-source
   ADMIN_SCHEMA = 'admin.schema', // Edit the schema of the data-source
   ADMIN_SCHEMA_READ = 'admin.schema.read', // Read the graph schema of the data-source
-  ADMIN_ALERTS = 'admin.alerts', // Manage the alerts in the data-source
+  ADMIN_ALERTS = 'admin.alerts', // Create and run alerts
+  MANAGE_ALERT = 'manageAlert', // Run, create, update and delete all alerts
   ADMIN_REPORT = 'admin.report', // Generate analytics report
   ADMIN_STYLES = 'admin.styles', // Edit styles and captions of all sandboxes of the data-source
   ADMIN_SPACES = 'admin.spaces', // Edit, update and delete a space
   RUN_QUERY = 'runQuery', // Execute a saved query
   RAW_READ_QUERY = 'rawReadQuery', // Create a read query
   RAW_WRITE_QUERY = 'rawWriteQuery', // Create a read/write query
+  MANAGE_QUERY = 'manageQuery', // Manage all non-private read/write queries
   RUN_CUSTOM_ACTION = 'runCustomAction', // Execute a custom action
-  WRITE_CUSTOM_ACTION = 'writeCustomAction' // Edit, update and delete a custom action
+  WRITE_CUSTOM_ACTION = 'writeCustomAction', // Create a custom action, update/delete owned custom actions
+  MANAGE_CUSTOM_ACTION = 'manageCustomAction', // WRITE_CUSTOM_ACTION, update/delete all non-private custom actions
+  APPLY_NODE_GROUPING = 'applyNodeGrouping', // Apply node grouping
+  CREATE_NODE_GROUPING = 'createNodeGrouping', // Create and apply node grouping
+  MANAGE_NODE_GROUPING = 'manageNodeGrouping' // Create, apply and delete node grouping
 }
-
 /**
  * Only for the built-in admin group.
  */

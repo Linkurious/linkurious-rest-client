@@ -34,3 +34,5 @@ export * from './src/http/response';
 export * from './src/http/types';
 export * from './src/index';
 export * from './src/errorListener';
+export * from './src/api/Tag';
+export * from './src/api/entityResolution';

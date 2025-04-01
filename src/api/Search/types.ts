@@ -202,3 +202,25 @@ export interface TokenizedSearchQuery {
   terms: TermStatement[];
   phrases: PhraseStatement[];
 }
+
+/**
+ * API Response for {@link SearchAPI.autoCompleteProperty}
+ */
+export interface PropertyAutoCompleteResponse {
+  readonly values: string[];
+  readonly valuePrefix: string;
+  readonly limit: number;
+  readonly found: number;
+}
+
+/**
+ * API parameters for {@link SearchAPI.autoCompleteProperty}
+ */
+export interface AutoCompletePropertyParams extends IDataSourceParams {
+  type: EntityType;
+  itemTypes?: string[];
+  propertyKey: string;
+  valuePrefix: string;
+  fuzziness?: number;
+  limit?: number;
+}

@@ -10,9 +10,11 @@ import {LkSubGraph} from '../graphItemTypes';
 import {IDataSourceParams} from '../commonTypes';
 
 import {
+  AutoCompletePropertyParams,
   GetIndexationStatusResponse,
   ISearchFullParams,
   ISearchParams,
+  PropertyAutoCompleteResponse,
   SearchResponse
 } from './types';
 
@@ -152,6 +154,23 @@ export class SearchAPI extends Request {
       ],
       url: '/:sourceKey/search/:type/full',
       method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Autocomplete a specific text property using a given value prefix.
+   * If `params.itemTypes` is defined, will only look for property values within the given
+   * node-categories (or edge-types).
+   */
+  public autoCompleteProperty(
+    this: Request<PropertyAutoCompleteResponse>,
+    params: AutoCompletePropertyParams
+  ) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, SEARCH_DISABLED],
+      url: '/:sourceKey/search/:type/autocomplete',
+      method: 'GET',
       params: params
     });
   }

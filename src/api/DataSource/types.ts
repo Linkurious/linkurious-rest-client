@@ -48,6 +48,9 @@ export interface DataSourceFeatures {
   supportNativeDate: boolean;
   nativeTemporalTypes: TemporalType[];
   canSearchOnNonTextualValues: boolean;
+  supportEntityResolution: boolean;
+  supportQueryBuilder: boolean;
+  canCountTypes: boolean;
 }
 
 export interface DataSourceSettings {
@@ -68,7 +71,7 @@ export interface ConnectedDataSourceSettings extends DataSourceSettings, GeoSett
   alternativeIds: IAlternativeIdSettings;
   propertyKeyAccessRights: boolean;
   strictSchema: boolean;
-  skipEdgeIndexation: boolean;
+  skipEdgeIndexing: boolean;
 }
 
 export interface DataSourceUserInfo {

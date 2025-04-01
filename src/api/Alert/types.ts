@@ -6,13 +6,13 @@
 
 import {
   CommentMention,
+  DeletableUser,
   ICurrencyOptions,
   IDataSourceParams,
   IGetSubGraphParams,
   PersistedItem,
   SharingOptions,
-  SortDirection,
-  Tree
+  SortDirection
 } from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 import {LkEdge, LkNode, VizEdge, VizNode} from '../graphItemTypes';
@@ -63,17 +63,29 @@ export interface IGetAlertUsersParams extends IDataSourceParams {
 export interface IUpdateCaseParams extends IDataSourceParams {
   alertId: number;
   caseId: number;
-  // TODO: Change the type to base visualization when implementing node grouping rules for case visualizations
-  visualization: Omit<BaseVisualization, 'nodeGroupingRuleIds'>;
+  visualization: BaseVisualization;
 }
 
-export interface ICreateAlertParams extends Omit<IBaseAlert, 'folder' | 'queries'> {
+export interface ICreateAlertParams
+  extends Omit<IBaseAlert, 'folder' | 'preprocessingSteps' | 'queries'> {
+  uuid?: string;
   folder?: number;
+  preprocessingSteps?: Array<CreateAlertPreprocessingStepParams>;
   queries?: Array<ICreateAlertQueryParams>;
 }
 
+export interface CreateAlertPreprocessingStepParams extends Omit<AlertPreprocessingStep, 'uuid'> {
+  uuid?: string;
+}
+
 export interface ICreateAlertQueryParams
-  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {}
+  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {
+  uuid?: string;
+}
+
+export interface UpdateAlertPreprocessingStepParams extends Omit<AlertPreprocessingStep, 'uuid'> {
+  uuid?: string;
+}
 
 export interface IUpdateAlertQueryParams extends ICreateAlertQueryParams {
   id?: number;
@@ -89,16 +101,19 @@ export enum AlertQueryUpdateOperation {
 export interface IBaseAlert extends IDataSourceParams, SharingOptions {
   title: string;
   description?: string;
+  preprocessingSteps?: Array<AlertPreprocessingStep>;
   queries?: Array<IAlertQuery>;
   folder: number;
   enabled: boolean;
   columns: Array<IAlertColumn>;
   cron: string;
   target?: string; // we assume alerts always have target
-  caseAttributesQuery?: string; // query for case attributes
+  caseAttributesQuery?: string; // query for case-attributes
+  caseAttributesQueryDialect?: GraphQueryDialect; // case-attributes query dialect
 }
 
 export interface Alert extends IBaseAlert, PersistedItem {
+  uuid: string;
   sourceKey: string;
   lastRun?: string; // defined if it has run at least once
   // defined if last run had a problem
@@ -107,20 +122,49 @@ export interface Alert extends IBaseAlert, PersistedItem {
   openAndUnAssignedCasesCount: number;
   status: 'running' | 'idle';
   resultsConsistent: boolean;
+  owner: DeletableUser;
+  lastEditor: DeletableUser;
+  lastShareEditor: DeletableUser;
+}
+
+export interface AlertPreprocessingStep
+  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {
+  // Unique identifier for the preprocessing step since we can have multiple steps with the same name and/or query
+  uuid: string;
 }
 
 export interface IAlertQuery extends AlertQueryData {
+  uuid: string;
   query: string;
   dialect: GraphQueryDialect;
   updatedAt: Date;
 }
 
-type AlertError = {
-  queryId?: number;
-  source: 'caseAttributeQuery' | 'alertQuery';
+export interface BaseAlertError {
+  source: 'caseAttributeQuery' | 'alertQuery' | 'preprocessingStep';
   error: LkError;
   partial: boolean;
-};
+}
+
+export interface AlertQueryError extends BaseAlertError {
+  queryId: number;
+  source: 'alertQuery';
+}
+
+export interface AlertPreprocessingStepError extends BaseAlertError {
+  // preprocessingStepUuid is defined if the error is related to an individual preprocessing step
+  // (ex. if the data source is in read only mode we return one preprocessing step error with the uuid)
+  preprocessingStepUuid?: string;
+  source: 'preprocessingStep';
+}
+
+export interface AlertCaseAttributeQueryError extends BaseAlertError {
+  source: 'caseAttributeQuery';
+}
+export type AlertError =
+  | AlertQueryError
+  | AlertPreprocessingStepError
+  | AlertCaseAttributeQueryError;
 
 export interface IRunAlertParams extends IDataSourceParams {
   id: number;
@@ -130,8 +174,10 @@ export interface RunAlertResponse {
   alreadyRunning: boolean;
 }
 
-export interface IUpdateAlertParams extends Omit<Partial<ICreateAlertParams>, 'queries'> {
+export interface IUpdateAlertParams
+  extends Omit<Partial<ICreateAlertParams>, 'uuid' | 'preprocessingSteps' | 'queries'> {
   id: number;
+  preprocessingSteps?: Array<UpdateAlertPreprocessingStepParams>;
   queries?: Array<IUpdateAlertQueryParams>;
 }
 
@@ -140,10 +186,12 @@ export interface IDeleteAlertParams extends IDataSourceParams {
 }
 
 export interface ICreateAlertFolderParams extends IDataSourceParams {
+  uuid?: string;
   title: string;
 }
 
 export interface AlertFolder extends PersistedItem {
+  uuid: string;
   title: string;
   parent: number;
   sourceKey: string;
@@ -158,7 +206,17 @@ export interface IDeleteAlertFolderParams extends IDataSourceParams {
   id: number;
 }
 
-export type AlertTree = Tree<Alert, 'alert'>;
+export interface AlertTree extends AlertTreeFolder {
+  id: -1;
+  title: 'root';
+}
+
+export type AlertTreeFolder = Pick<AlertFolder, 'id' | 'uuid' | 'title'> & {
+  type: 'folder';
+  children: Array<AlertTreeFolder | AlertTreeItem>;
+};
+
+export type AlertTreeItem = Alert & {type: 'alert'};
 
 export interface IGetAlertParams extends IDataSourceParams {
   id: number;

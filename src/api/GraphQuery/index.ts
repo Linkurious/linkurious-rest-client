@@ -9,6 +9,10 @@ import {LkErrorKey} from '../../http/response';
 
 import {
   CheckQueryResponse,
+  ConvertQueryParams,
+  ConvertQueryResponse,
+  GetQueryStatsParams,
+  GetQueryStatsResponse,
   GraphQuery,
   ICheckQueryParams,
   ICreateQueryParams,
@@ -35,7 +39,8 @@ const {
   MALFORMED_QUERY_TEMPLATE,
   INVALID_CASE_ATTRIBUTES_QUERY,
   INVALID_PARAMETER,
-  CRITICAL
+  CRITICAL,
+  NOT_IMPLEMENTED
 } = LkErrorKey;
 
 export class GraphQueryAPI extends Request {
@@ -68,7 +73,13 @@ export class GraphQueryAPI extends Request {
    */
   public createQuery(this: Request<GraphQuery>, params: ICreateQueryParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, MALFORMED_QUERY_TEMPLATE],
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        MALFORMED_QUERY_TEMPLATE,
+        NOT_FOUND
+      ],
       url: '/:sourceKey/graph/query',
       method: 'POST',
       params: params
@@ -166,6 +177,46 @@ export class GraphQueryAPI extends Request {
         CONSTRAINT_VIOLATION
       ],
       url: '/:sourceKey/graph/run/query/:id',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Convert a query from one language to another.
+   * (For now we only convert from queryBuilder to cypher)
+   */
+  public convertQuery(this: Request<ConvertQueryResponse>, params: ConvertQueryParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        INVALID_PARAMETER,
+        NOT_IMPLEMENTED,
+        CRITICAL
+      ],
+      url: '/:sourceKey/graph/convert/query',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Get the stats of a query.
+   */
+  public getQueryStats(this: Request<GetQueryStatsResponse>, params: GetQueryStatsParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        NOT_FOUND,
+        DATA_SOURCE_UNAVAILABLE,
+        INVALID_PARAMETER,
+        NOT_IMPLEMENTED,
+        CRITICAL
+      ],
+      url: '/:sourceKey/graph/stats/query',
       method: 'POST',
       params: params
     });
