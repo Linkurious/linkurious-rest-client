@@ -49,6 +49,7 @@ export interface Configuration {
   needRestart?: boolean;
   emailNotifications: IEmailNotificationsConfig;
   entityResolution?: EntityResolutionConfig;
+  cluster?: ClusterConfig;
 }
 
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
@@ -469,4 +470,10 @@ export interface EntityResolutionConfig {
   chunkSize?: number;
   expandLimitPerNode?: number;
   serviceApiKey?: string;
+}
+
+export interface ClusterConfig {
+  enabled: boolean;
+  mode?: 'primary' | 'secondary';
+  maxDriftMs?: number;
 }
