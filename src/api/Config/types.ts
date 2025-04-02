@@ -464,6 +464,11 @@ export interface IEmailNotificationsConfig {
   fromEmail: string;
 }
 
+export enum ClusterMode {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary'
+}
+
 export interface EntityResolutionConfig {
   enabled: boolean;
   url: string;
