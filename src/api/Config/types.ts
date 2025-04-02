@@ -213,6 +213,9 @@ export interface IElasticSearchConfig extends IVendorConfig {
   incrementalIndexingCron?: string;
   forceReindex?: boolean;
   skipEdgeIndexing?: boolean;
+
+  // @deprecated Starting LKE v4.2.0 we use the "timestampPropertyName" property defined in the graph vendor config
+  timestampPropertyName?: string;
 }
 
 export interface IAzureSearchConfig extends IVendorConfig {
