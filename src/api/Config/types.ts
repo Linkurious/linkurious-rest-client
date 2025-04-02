@@ -214,7 +214,7 @@ export interface IElasticSearchConfig extends IVendorConfig {
   forceReindex?: boolean;
   skipEdgeIndexing?: boolean;
 
-  // @deprecated Starting LKE v4.2.0 we use the "timestampPropertyName" property defined in the graph vendor config
+  // @backward-compatibility Starting LKE v4.2.0 we use the "timestampPropertyName" property defined in the graph vendor config
   timestampPropertyName?: string;
 }
 
