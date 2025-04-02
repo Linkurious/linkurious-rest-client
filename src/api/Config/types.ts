@@ -479,6 +479,6 @@ export interface EntityResolutionConfig {
 
 export interface ClusterConfig {
   enabled: boolean;
-  mode?: 'primary' | 'secondary';
+  mode?: ClusterMode;
   maxDriftMs?: number;
 }
