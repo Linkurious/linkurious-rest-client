@@ -463,12 +463,6 @@ export interface IEmailNotificationsConfig {
   mailer: IMailerConfig;
   fromEmail: string;
 }
-
-export enum ClusterMode {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary'
-}
-
 export interface EntityResolutionConfig {
   enabled: boolean;
   url: string;
@@ -476,6 +470,9 @@ export interface EntityResolutionConfig {
   expandLimitPerNode?: number;
   serviceApiKey?: string;
 }
+
+export const CLUSTER_MODE = ['primary', 'secondary'] as const;
+export type ClusterMode = (typeof CLUSTER_MODE)[number];
 
 export interface ClusterConfig {
   enabled: boolean;
