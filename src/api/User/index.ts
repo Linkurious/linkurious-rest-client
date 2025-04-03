@@ -35,6 +35,7 @@ import {
 export * from './types';
 
 const {
+  FEATURE_DISABLED,
   UNAUTHORIZED,
   DATA_SOURCE_UNAVAILABLE,
   FORBIDDEN,
@@ -106,6 +107,7 @@ export class UserAPI extends Request {
   public updateUser(this: Request<User>, params: IUpdateUserParams) {
     return this.request({
       errors: [
+        FEATURE_DISABLED,
         UNAUTHORIZED,
         FORBIDDEN,
         NOT_IMPLEMENTED,
