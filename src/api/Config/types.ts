@@ -473,5 +473,5 @@ export interface EntityResolutionConfig {
 }
 
 export interface NodeGroupingConfig {
-  collapsed?: boolean;
+  displayCollapsedByDefault?: boolean;
 }
