@@ -254,7 +254,6 @@ export interface IAdvancedConfig {
   dataSourceConnectionTimeout?: number;
   dataSourceAutoReconnectInterval?: number;
   flags?: GenericObject;
-  nodeGrouping?: NodeGroupingConfig;
 }
 
 export interface ILeafletConfig {
@@ -399,6 +398,7 @@ export interface IOgmaConfig {
     };
     backgroundColor?: string;
   };
+  nodeGrouping: NodeGroupingConfig;
 }
 
 export interface IConfigurationParams<T> {
