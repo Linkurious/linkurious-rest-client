@@ -398,7 +398,7 @@ export interface IOgmaConfig {
     };
     backgroundColor?: string;
   };
-  nodeGrouping: NodeGroupingConfig;
+  nodeGrouping?: NodeGroupingConfig;
 }
 
 export interface IConfigurationParams<T> {
