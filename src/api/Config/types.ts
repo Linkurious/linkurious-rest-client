@@ -471,8 +471,7 @@ export interface EntityResolutionConfig {
   serviceApiKey?: string;
 }
 
-export const CLUSTER_MODE = ['primary', 'secondary'] as const;
-export type ClusterMode = (typeof CLUSTER_MODE)[number];
+export type ClusterMode = 'primary' | 'secondary';
 
 export interface ClusterConfig {
   enabled: boolean;
