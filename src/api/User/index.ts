@@ -35,6 +35,7 @@ import {
 export * from './types';
 
 const {
+  FEATURE_DISABLED,
   UNAUTHORIZED,
   DATA_SOURCE_UNAVAILABLE,
   FORBIDDEN,
@@ -42,7 +43,8 @@ const {
   NOT_FOUND,
   ALREADY_EXISTS,
   INVALID_PARAMETER,
-  EMAIL_FORMAT
+  EMAIL_FORMAT,
+  NOT_SUPPORTED
 } = LkErrorKey;
 
 export class UserAPI extends Request {
@@ -106,12 +108,14 @@ export class UserAPI extends Request {
   public updateUser(this: Request<User>, params: IUpdateUserParams) {
     return this.request({
       errors: [
+        FEATURE_DISABLED,
         UNAUTHORIZED,
         FORBIDDEN,
         NOT_IMPLEMENTED,
         NOT_FOUND,
         INVALID_PARAMETER,
-        EMAIL_FORMAT
+        EMAIL_FORMAT,
+        NOT_SUPPORTED
       ],
       url: '/admin/users/:id',
       method: 'PATCH',
