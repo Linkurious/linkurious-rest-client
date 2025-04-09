@@ -43,7 +43,8 @@ const {
   NOT_FOUND,
   ALREADY_EXISTS,
   INVALID_PARAMETER,
-  EMAIL_FORMAT
+  EMAIL_FORMAT,
+  NOT_SUPPORTED
 } = LkErrorKey;
 
 export class UserAPI extends Request {
@@ -113,7 +114,8 @@ export class UserAPI extends Request {
         NOT_IMPLEMENTED,
         NOT_FOUND,
         INVALID_PARAMETER,
-        EMAIL_FORMAT
+        EMAIL_FORMAT,
+        NOT_SUPPORTED
       ],
       url: '/admin/users/:id',
       method: 'PATCH',
