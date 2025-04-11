@@ -8,6 +8,8 @@ import {ICaptions, IDataSourceDefaultStyles, IPropertiesOrder} from '../displayT
 import {IDataSourceParams} from '../commonTypes';
 import {GraphQueryDialect} from '../GraphQuery';
 
+export const DEFAULT_INCREMENTAL_TIMESTAMP_PROPERTY_NAME = 'linkuriousTimestamp';
+
 export interface IGetDataSourcesStatusParams {
   withStyles?: boolean;
   withCaptions?: boolean;

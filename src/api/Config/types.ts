@@ -211,7 +211,6 @@ export interface IElasticSearchConfig extends IVendorConfig {
   mapping?: string;
   analyzer?: string;
   incrementalIndexing?: boolean;
-  timestampPropertyName?: string;
   incrementalIndexingCron?: string;
   forceReindex?: boolean;
   skipEdgeIndexing?: boolean;
@@ -399,6 +398,7 @@ export interface IOgmaConfig {
     };
     backgroundColor?: string;
   };
+  nodeGrouping?: NodeGroupingConfig;
 }
 
 export interface IConfigurationParams<T> {
@@ -477,4 +477,8 @@ export interface ClusterConfig {
   enabled: boolean;
   mode?: ClusterMode;
   maxDriftMs?: number;
+}
+
+export interface NodeGroupingConfig {
+  displayCollapsedByDefault?: boolean;
 }
