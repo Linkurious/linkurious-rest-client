@@ -397,6 +397,7 @@ export interface IOgmaConfig {
     };
     backgroundColor?: string;
   };
+  nodeGrouping?: NodeGroupingConfig;
 }
 
 export interface IConfigurationParams<T> {
@@ -468,4 +469,8 @@ export interface EntityResolutionConfig {
   chunkSize?: number;
   expandLimitPerNode?: number;
   serviceApiKey?: string;
+}
+
+export interface NodeGroupingConfig {
+  displayCollapsedByDefault?: boolean;
 }
