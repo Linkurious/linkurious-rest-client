@@ -49,6 +49,7 @@ export interface Configuration {
   needRestart?: boolean;
   emailNotifications: IEmailNotificationsConfig;
   entityResolution?: EntityResolutionConfig;
+  cluster?: ClusterConfig;
 }
 
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
@@ -462,13 +463,20 @@ export interface IEmailNotificationsConfig {
   mailer: IMailerConfig;
   fromEmail: string;
 }
-
 export interface EntityResolutionConfig {
   enabled: boolean;
   url: string;
   chunkSize?: number;
   expandLimitPerNode?: number;
   serviceApiKey?: string;
+}
+
+export type ClusterMode = 'primary' | 'secondary';
+
+export interface ClusterConfig {
+  enabled: boolean;
+  mode?: ClusterMode;
+  maxDriftMs?: number;
 }
 
 export interface NodeGroupingConfig {
