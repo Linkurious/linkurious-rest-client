@@ -7,7 +7,6 @@
 import {TlsOptions} from 'tls';
 
 import {GenericObject} from '../commonTypes';
-import {EntityResolutionRecordType} from '../entityResolution';
 import {LicenseState} from '../License';
 import {IPluginConfig} from '../Plugin';
 import {OgmaNodeShape, OgmaEdgeShape} from '../displayTypes';
@@ -50,6 +49,7 @@ export interface Configuration {
   needRestart?: boolean;
   emailNotifications: IEmailNotificationsConfig;
   entityResolution?: EntityResolutionConfig;
+  cluster?: ClusterConfig;
 }
 
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
@@ -211,7 +211,6 @@ export interface IElasticSearchConfig extends IVendorConfig {
   mapping?: string;
   analyzer?: string;
   incrementalIndexing?: boolean;
-  timestampPropertyName?: string;
   incrementalIndexingCron?: string;
   forceReindex?: boolean;
   skipEdgeIndexing?: boolean;
@@ -399,6 +398,7 @@ export interface IOgmaConfig {
     };
     backgroundColor?: string;
   };
+  nodeGrouping?: NodeGroupingConfig;
 }
 
 export interface IConfigurationParams<T> {
@@ -453,16 +453,32 @@ export interface IEmailNotificationsConfig {
   visualizationNotifications: boolean;
   visualizationMentionNotificationFrequency: string;
 
+  // Entity resolution notifications.
+  entityResolutionLicenseNotifications: boolean;
+  entityResolutionLicenseCheckFrequency: string;
+  entityResolutionIngestionSuccessNotifications: boolean;
+  entityResolutionIngestionFailureNotifications: boolean;
+
   // Email configuration.
   mailer: IMailerConfig;
   fromEmail: string;
 }
-
 export interface EntityResolutionConfig {
   enabled: boolean;
   url: string;
   chunkSize?: number;
   expandLimitPerNode?: number;
-  entityNodeCategories?: Partial<Record<EntityResolutionRecordType, string>>;
   serviceApiKey?: string;
+}
+
+export type ClusterMode = 'primary' | 'secondary';
+
+export interface ClusterConfig {
+  enabled: boolean;
+  mode?: ClusterMode;
+  maxDriftMs?: number;
+}
+
+export interface NodeGroupingConfig {
+  displayCollapsedByDefault?: boolean;
 }
