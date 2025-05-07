@@ -137,6 +137,7 @@ export interface IVizNodeGroupInfo {
   id: string;
   attributes: {
     layoutable?: boolean;
+    collapsed?: boolean;
   };
 }
 

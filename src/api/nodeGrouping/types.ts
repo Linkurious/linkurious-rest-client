@@ -5,7 +5,7 @@
  */
 import {IDataSourceParams} from '../commonTypes';
 
-export interface NodeGroupingRule {
+export interface BaseNodeGroupingRule {
   id: number;
   uuid: string;
   sourceKey: string;
@@ -14,6 +14,17 @@ export interface NodeGroupingRule {
   groupingOptions: NodeGroupingOptions[NodeGroupingType];
   right: NodeGroupingRuleRight;
 }
+export interface NodeGroupingByPropertyValue extends BaseNodeGroupingRule {
+  groupingType: NodeGroupingType.BY_PROPERTY_VALUE;
+  groupingOptions: NodeGroupingByPropertyValueOptions;
+}
+
+export interface NodeGroupingByAdjacentEdgeType extends BaseNodeGroupingRule {
+  groupingType: NodeGroupingType.BY_ADJACENT_EDGE_TYPE;
+  groupingOptions: NodeGroupingByAdjacentEdgeTypeOptions;
+}
+
+export type NodeGroupingRule = NodeGroupingByPropertyValue | NodeGroupingByAdjacentEdgeType;
 
 export enum NodeGroupingRuleRight {
   MANAGE = 'manage',
@@ -21,16 +32,27 @@ export enum NodeGroupingRuleRight {
 }
 
 export enum NodeGroupingType {
-  PROPERTY_KEY = 'propertyKey'
+  // all nodes sharing the same property value
+  // note: the key and value of the enum differ, because it was wrongly named propertyKey initially and migrating it would be painful
+  // however, changing the key was easy and valuable so we did it
+  BY_PROPERTY_VALUE = 'propertyKey',
+  // all nodes connected to the same central node by a defined relation/edge type
+  BY_ADJACENT_EDGE_TYPE = 'edgeType'
 }
 
 export type NodeGroupingOptions = {
-  [NodeGroupingType.PROPERTY_KEY]: PropertyKeyNodeGroupingOptions;
+  [NodeGroupingType.BY_PROPERTY_VALUE]: NodeGroupingByPropertyValueOptions;
+  [NodeGroupingType.BY_ADJACENT_EDGE_TYPE]: NodeGroupingByAdjacentEdgeTypeOptions;
 };
 
-export interface PropertyKeyNodeGroupingOptions {
+export interface NodeGroupingByPropertyValueOptions {
   itemTypes: string[];
   propertyKey: string;
+}
+
+export interface NodeGroupingByAdjacentEdgeTypeOptions {
+  edgeType: string;
+  centralNodeIs: 'source' | 'target';
 }
 
 export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
