@@ -14,6 +14,7 @@ export interface LicenseInfo {
   endDate: number;
   licenseKey: string;
   customerKey: string;
+  telemetry?: string;
 }
 
 export interface ISaveLicenseParams {
