@@ -560,7 +560,6 @@ export interface RelatedEntity extends EntityResolutionMatch {
 
 export interface EntityResolutionMatch {
   matchKey: MatchKey;
-  matchLevel: number;
   matchLevelCode: `${MatchLevel}`;
   entityResolutionRuleCode: string;
 }
