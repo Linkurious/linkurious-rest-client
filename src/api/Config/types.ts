@@ -22,7 +22,7 @@ export interface Configuration {
   ssoProvider?: 'oauth2' | 'saml2';
   url: string;
   setupAuthentication: boolean;
-  instanceKey?: string;
+  instanceKey: string;
   license: {
     state: LicenseState;
   };
