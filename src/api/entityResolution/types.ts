@@ -541,3 +541,5 @@ export enum MatchLevel {
   POSSIBLY_RELATED = 'POSSIBLY_RELATED'
   // These are known match level codes, some might be added later
 }
+
+export interface GetEntityResolutionServerStatusParams extends IDataSourceParams {}

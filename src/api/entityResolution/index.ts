@@ -16,7 +16,7 @@ import {
   EntityResolutionMetrics,
   ExplainWhyEntitiesParams,
   ExplainWhyRecordParams,
-  GetEntityByIdParams,
+  GetEntityByIdParams, GetEntityResolutionServerStatusParams,
   IngestionStatus,
   ResolvedEntity,
   StartEntityResolutionTaskParams,
@@ -249,6 +249,27 @@ export class EntityResolutionAPI extends Request {
         ENTITY_RESOLUTION_EXPIRED_LICENSE
       ],
       url: '/:sourceKey/entityResolution/entities/:entityId',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get entity resolution server status
+   */
+  getEntityResolutionServerStatus(
+    this: Request<string>,
+    params: GetEntityResolutionServerStatusParams
+  ) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE
+      ],
+      url: '/entityResolution/server/status',
       method: 'GET',
       params: params
     });
