@@ -16,7 +16,8 @@ import {
   EntityResolutionMetrics,
   ExplainWhyEntitiesParams,
   ExplainWhyRecordParams,
-  GetEntityByIdParams, GetEntityResolutionServerStatusParams,
+  GetEntityByIdParams,
+  GetEntityResolutionServerStatusParams,
   IngestionStatus,
   ResolvedEntity,
   StartEntityResolutionTaskParams,
@@ -258,7 +259,7 @@ export class EntityResolutionAPI extends Request {
    * Get entity resolution server status
    */
   getEntityResolutionServerStatus(
-    this: Request<string>,
+    this: Request<{status: string}>,
     params: GetEntityResolutionServerStatusParams
   ) {
     return this.request({
