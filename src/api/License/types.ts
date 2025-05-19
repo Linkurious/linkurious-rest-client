@@ -12,6 +12,8 @@ export enum LicenseState {
 export interface LicenseInfo {
   state: LicenseState;
   endDate: number;
+  customerKey: string;
+  telemetry?: string;
 }
 
 export interface ISaveLicenseParams {
