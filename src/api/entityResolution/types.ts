@@ -542,3 +542,5 @@ export enum MatchLevel {
 }
 
 export interface GetEntityResolutionServerStatusParams extends IDataSourceParams {}
+
+export type EntityResolutionServerStatus = 'up' | 'down';
