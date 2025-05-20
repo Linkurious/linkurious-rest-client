@@ -20,6 +20,7 @@ import {
   IngestionStatus,
   ResolvedEntity,
   StartEntityResolutionTaskParams,
+  StopEntityResolutionTaskParams,
   UpdateEntityResolutionMappingParams,
   WhyEntities,
   WhyRecord
@@ -35,7 +36,8 @@ const {
   NOT_FOUND,
   UNAUTHORIZED,
   ENTITY_RESOLUTION_EXPIRED_LICENSE,
-  ENTITY_RESOLUTION_QUOTA_EXCEEDED
+  ENTITY_RESOLUTION_QUOTA_EXCEEDED,
+  NOT_SUPPORTED
 } = LkErrorKey;
 
 export class EntityResolutionAPI extends Request {
@@ -143,6 +145,24 @@ export class EntityResolutionAPI extends Request {
         ENTITY_RESOLUTION_QUOTA_EXCEEDED
       ],
       url: '/:sourceKey/entityResolution',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Stop an ingestion task on a given data-source.
+   */
+  stopIngestion(this: Request<IngestionStatus>, params: StopEntityResolutionTaskParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_SUPPORTED,
+        ILLEGAL_SOURCE_STATE
+      ],
+      url: '/:sourceKey/entityResolution/stop',
       method: 'POST',
       params: params
     });
