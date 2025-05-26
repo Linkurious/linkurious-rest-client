@@ -44,7 +44,7 @@ export interface IRunQueryByContentParams extends IGetSubGraphParams, IRunQueryP
 export interface RunQueryResponse extends LkSubGraph {
   truncatedByLimit: boolean;
   truncatedByAccess: boolean;
-  isPartial?: boolean;
+  isPartial: boolean;
 }
 
 export interface IRunQueryByIdParams extends IGetSubGraphParams, IRunQueryParams {
