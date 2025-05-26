@@ -481,7 +481,7 @@ export interface MatchKey {
   ambiguous: boolean;
 }
 
-interface MatchScore<T> {
+export interface MatchScore<T> {
   key: EntityAttributeKey;
   values: T[];
 }
