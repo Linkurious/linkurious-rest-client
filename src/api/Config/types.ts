@@ -50,6 +50,7 @@ export interface Configuration {
   needRestart?: boolean;
   emailNotifications: IEmailNotificationsConfig;
   entityResolution?: EntityResolutionConfig;
+  entityResolutionSourceKey?: string;
   cluster?: ClusterConfig;
 }
 
