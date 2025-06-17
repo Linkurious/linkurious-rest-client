@@ -14,12 +14,15 @@ import {
   EntityResolutionLicenseInfo,
   EntityResolutionMapping,
   EntityResolutionMetrics,
+  EntityResolutionServerStatus,
   ExplainWhyEntitiesParams,
   ExplainWhyRecordParams,
   GetEntityByIdParams,
+  GetEntityResolutionServerStatusParams,
   IngestionStatus,
   ResolvedEntity,
   StartEntityResolutionTaskParams,
+  StopEntityResolutionTaskParams,
   UpdateEntityResolutionMappingParams,
   WhyEntities,
   WhyRecord
@@ -35,7 +38,8 @@ const {
   NOT_FOUND,
   UNAUTHORIZED,
   ENTITY_RESOLUTION_EXPIRED_LICENSE,
-  ENTITY_RESOLUTION_QUOTA_EXCEEDED
+  ENTITY_RESOLUTION_QUOTA_EXCEEDED,
+  NOT_SUPPORTED
 } = LkErrorKey;
 
 export class EntityResolutionAPI extends Request {
@@ -149,6 +153,24 @@ export class EntityResolutionAPI extends Request {
   }
 
   /**
+   * Stop an ingestion task on a given data-source.
+   */
+  stopIngestion(this: Request<IngestionStatus>, params: StopEntityResolutionTaskParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_SUPPORTED,
+        ILLEGAL_SOURCE_STATE
+      ],
+      url: '/:sourceKey/entityResolution/stop',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
    * Start a purge task for a given data-source. This task:
    * - Removes all the entity nodes/edges in the graph database.
    * - Deletes all the graph indexes related to entity resolution.
@@ -249,6 +271,27 @@ export class EntityResolutionAPI extends Request {
         ENTITY_RESOLUTION_EXPIRED_LICENSE
       ],
       url: '/:sourceKey/entityResolution/entities/:entityId',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get entity resolution server status
+   */
+  getEntityResolutionServerStatus(
+    this: Request<{status: EntityResolutionServerStatus}>,
+    params: GetEntityResolutionServerStatusParams
+  ) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        DATA_SOURCE_UNAVAILABLE,
+        NOT_FOUND,
+        ENTITY_RESOLUTION_EXPIRED_LICENSE
+      ],
+      url: '/entityResolution/server/status',
       method: 'GET',
       params: params
     });

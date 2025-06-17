@@ -208,10 +208,12 @@ export interface StartEntityResolutionTaskParams extends IDataSourceParams {
   waitForCompletion?: boolean;
 }
 
+export interface StopEntityResolutionTaskParams extends IDataSourceParams {}
+
 /**
  * The possible ingestion states.
  */
-export const INGESTION_STATES = ['empty', 'done', 'error', 'ongoing'] as const;
+export const INGESTION_STATES = ['empty', 'done', 'error', 'ongoing', 'stopped'] as const;
 export type IngestionState = (typeof INGESTION_STATES)[number];
 
 /**
@@ -328,6 +330,34 @@ export type IngestionStatus =
       /**
        * How long did the ingestion last in total, from the very beginning to the very end, without error interruption time.
        * It is NOT simply the time between startedAt and endedAt. It is the total processing time.
+       *
+       * Duration is returned as a number of seconds.
+       */
+      durationSeconds: number;
+    }
+  | {
+      /**
+       * Ingestion has been stopped upon request.
+       */
+      state: 'stopped';
+      /**
+       * A human readable message describing the state.
+       */
+      message: string;
+      /**
+       * When did the task start.
+       *
+       * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
+       */
+      startedAt: string;
+      /**
+       * When was the task stopped.
+       *
+       * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:46:07.404Z".
+       */
+      endedAt: string;
+      /**
+       * How long did the ingestion run from the start til it was stopped.
        *
        * Duration is returned as a number of seconds.
        */
@@ -451,7 +481,7 @@ export interface MatchKey {
   ambiguous: boolean;
 }
 
-interface MatchScore<T> {
+export interface MatchScore<T> {
   key: EntityAttributeKey;
   values: T[];
 }
@@ -530,7 +560,6 @@ export interface RelatedEntity extends EntityResolutionMatch {
 
 export interface EntityResolutionMatch {
   matchKey: MatchKey;
-  matchLevel: number;
   matchLevelCode: `${MatchLevel}`;
   entityResolutionRuleCode: string;
 }
@@ -541,3 +570,7 @@ export enum MatchLevel {
   POSSIBLY_RELATED = 'POSSIBLY_RELATED'
   // These are known match level codes, some might be added later
 }
+
+export interface GetEntityResolutionServerStatusParams extends IDataSourceParams {}
+
+export type EntityResolutionServerStatus = 'up' | 'down';
