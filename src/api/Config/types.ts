@@ -23,6 +23,9 @@ export interface Configuration {
   url: string;
   setupAuthentication: boolean;
   instanceKey: string;
+  config: {
+    hide: boolean;
+  };
   license: {
     readOnly: boolean;
     state: LicenseState;
