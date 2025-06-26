@@ -276,6 +276,7 @@ export interface IAccessConfig {
   floatingLicenses?: number;
   authRequired?: boolean;
   disableLocalAuth?: boolean;
+  enableCustomGroups?: boolean;
   guestMode?: boolean;
   dataEdition?: boolean;
   widget?: boolean;
