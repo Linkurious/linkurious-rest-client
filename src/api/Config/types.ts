@@ -145,6 +145,7 @@ export interface IGuestPreferencesConfig {
 }
 
 export interface WebhooksConfig {
+  enabled: boolean;
   deliveryFrequency?: string;
   cleanupFrequency?: string;
   deliveryRetentionDelayMs?: number;
