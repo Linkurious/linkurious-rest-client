@@ -56,6 +56,7 @@ export interface Configuration {
   entityResolution?: EntityResolutionConfig;
   entityResolutionSourceKey?: string;
   cluster?: ClusterConfig;
+  troubleshooting?: TroubleshootingConfig;
 }
 
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
@@ -484,6 +485,10 @@ export interface ClusterConfig {
   enabled: boolean;
   mode?: ClusterMode;
   maxDriftMs?: number;
+}
+
+export interface TroubleshootingConfig {
+  enableReport: boolean;
 }
 
 export interface NodeGroupingConfig {
