@@ -53,7 +53,7 @@ export interface Configuration {
   entityResolution?: EntityResolutionConfig;
   entityResolutionSourceKey?: string;
   cluster?: ClusterConfig;
-  troubleshooting: TroubleshootingConfig;
+  troubleshooting?: TroubleshootingConfig;
 }
 
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
