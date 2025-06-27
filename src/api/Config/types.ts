@@ -23,7 +23,11 @@ export interface Configuration {
   url: string;
   setupAuthentication: boolean;
   instanceKey: string;
+  config: {
+    hide: boolean;
+  };
   license: {
+    readOnly: boolean;
     state: LicenseState;
   };
 
@@ -52,6 +56,7 @@ export interface Configuration {
   entityResolution?: EntityResolutionConfig;
   entityResolutionSourceKey?: string;
   cluster?: ClusterConfig;
+  troubleshooting?: TroubleshootingConfig;
 }
 
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
@@ -275,6 +280,7 @@ export interface IAccessConfig {
   floatingLicenses?: number;
   authRequired?: boolean;
   disableLocalAuth?: boolean;
+  enableCustomGroups?: boolean;
   guestMode?: boolean;
   dataEdition?: boolean;
   widget?: boolean;
@@ -479,6 +485,10 @@ export interface ClusterConfig {
   enabled: boolean;
   mode?: ClusterMode;
   maxDriftMs?: number;
+}
+
+export interface TroubleshootingConfig {
+  enableReport: boolean;
 }
 
 export interface NodeGroupingConfig {
