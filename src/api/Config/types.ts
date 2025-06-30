@@ -281,6 +281,7 @@ export interface IAccessConfig {
   authRequired?: boolean;
   disableLocalAuth?: boolean;
   enableCustomGroups?: boolean;
+  enablePropertyKeyAccessRights?: boolean;
   guestMode?: boolean;
   dataEdition?: boolean;
   widget?: boolean;
