@@ -73,6 +73,7 @@ export enum LkErrorKey {
  * Basic error to be extended by custom errors
  */
 export interface LkError<K extends LkErrorKey = LkErrorKey> {
+  id?: string;
   key: K;
   message: string;
 }
