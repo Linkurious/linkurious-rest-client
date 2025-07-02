@@ -36,6 +36,9 @@ export interface Configuration {
 
   // available to authenticated users
   advanced?: IAdvancedConfig;
+  embeddedElasticSearch?: {
+    enabled: boolean;
+  };
   leaflet?: ILeafletConfig[];
 
   // partially available to authenticated user
