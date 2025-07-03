@@ -494,6 +494,7 @@ export interface ClusterConfig {
 
 export interface TroubleshootingConfig {
   enableReport: boolean;
+  enableFullErrors: boolean;
 }
 
 export interface NodeGroupingConfig {
