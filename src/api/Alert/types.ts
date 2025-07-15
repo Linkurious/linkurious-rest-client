@@ -482,6 +482,7 @@ export interface IFullCaseListFilters {
   assignedUserIds?: number[];
   alertFolderIds?: number[];
   caseColumns?: CaseColumnFilter[];
+  dateFilter?: FullCaseListDateFilter;
   alertQueryModelKeys?: string[];
 }
 
