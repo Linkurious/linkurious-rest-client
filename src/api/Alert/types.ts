@@ -456,7 +456,14 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   assignedUserIdsFilter?: number[];
   caseColumnsFilter?: CaseColumnFilter[];
   alertQueryModelKeysFilter?: string[];
+  dateFilter?: FullCaseListDateFilter;
   sortBy: FullCaseListSortBy[];
+}
+
+export interface FullCaseListDateFilter {
+  filterBy: 'createdAt' | 'updatedAt';
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statusChangedBy'> {
