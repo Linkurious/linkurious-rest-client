@@ -4,7 +4,7 @@
  * - Created on 2019-09-26.
  */
 
-import {UnexpectedServerError} from '../errorListener';
+import {InternalServerError, UnexpectedServerError} from '../errorListener';
 import {GenericObject} from '../api/commonTypes';
 import {hasValue, includes} from '../utils';
 
@@ -189,7 +189,7 @@ export abstract class Request<S = undefined> {
       }
 
       // 4.b) Throw error if status code is 5xx
-      throw new Error('Internal server error: ' + JSON.stringify(ex.response.body));
+      throw new InternalServerError(ex.response);
     }
 
     // From here we only deal with responses with status code lower than 500
