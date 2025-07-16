@@ -462,6 +462,8 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
 
 export interface FullCaseListDateFilter {
   filterBy: 'createdAt' | 'updatedAt';
+
+  // start and end dates are in ISO format
   startDate?: string;
   endDate?: string;
 }
