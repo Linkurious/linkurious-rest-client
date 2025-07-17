@@ -514,4 +514,7 @@ export interface SearchColumnValuesForAlertCases {
   searchValue: string;
   excludedValues?: string[];
   limit?: number;
+  format?: (typeof SEARCH_COLUMNS_RESULT_FORMAT)[number];
 }
+
+export const SEARCH_COLUMNS_RESULT_FORMAT = ['list', 'paginated'] as const;

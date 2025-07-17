@@ -23,7 +23,11 @@ export interface Configuration {
   url: string;
   setupAuthentication: boolean;
   instanceKey: string;
+  config: {
+    hide: boolean;
+  };
   license: {
+    readOnly: boolean;
     state: LicenseState;
   };
 
@@ -32,6 +36,9 @@ export interface Configuration {
 
   // available to authenticated users
   advanced?: IAdvancedConfig;
+  embeddedElasticSearch?: {
+    enabled: boolean;
+  };
   leaflet?: ILeafletConfig[];
 
   // partially available to authenticated user
@@ -52,6 +59,7 @@ export interface Configuration {
   entityResolution?: EntityResolutionConfig;
   entityResolutionSourceKey?: string;
   cluster?: ClusterConfig;
+  troubleshooting?: TroubleshootingConfig;
 }
 
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
@@ -140,6 +148,7 @@ export interface IGuestPreferencesConfig {
 }
 
 export interface WebhooksConfig {
+  enabled: boolean;
   deliveryFrequency?: string;
   cleanupFrequency?: string;
   deliveryRetentionDelayMs?: number;
@@ -275,6 +284,8 @@ export interface IAccessConfig {
   floatingLicenses?: number;
   authRequired?: boolean;
   disableLocalAuth?: boolean;
+  enableCustomGroups?: boolean;
+  enablePropertyKeyAccessRights?: boolean;
   guestMode?: boolean;
   dataEdition?: boolean;
   widget?: boolean;
@@ -479,6 +490,11 @@ export interface ClusterConfig {
   enabled: boolean;
   mode?: ClusterMode;
   maxDriftMs?: number;
+}
+
+export interface TroubleshootingConfig {
+  enableReport: boolean;
+  enableFullErrors: boolean;
 }
 
 export interface NodeGroupingConfig {

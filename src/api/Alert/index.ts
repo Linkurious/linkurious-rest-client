@@ -6,7 +6,7 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
-import {IDataSourceParams} from '../commonTypes';
+import {IDataSourceParams, PaginatedResponse} from '../commonTypes';
 
 import {
   AlertTree,
@@ -432,7 +432,7 @@ export class AlertAPI extends Request {
    * Search for values of a given column in the cases of an alert.
    */
   public searchColumnValuesForAlertCases(
-    this: Request<string[]>,
+    this: Request<string[] | PaginatedResponse<string>>,
     params?: SearchColumnValuesForAlertCases
   ) {
     return this.request({
