@@ -168,6 +168,7 @@ export interface BaseVisualization {
 export interface Visualization extends BaseVisualization, PersistedItem {
   spaceId?: number;
   title: string;
+  description?: string;
   folder: number;
   nodes: IVizNodeInfo[];
   edges: IVizEdgeInfo[];
@@ -201,6 +202,7 @@ export interface PopulatedVisualization extends Visualization {
 export interface ICreateVisualizationParams extends IDataSourceParams {
   spaceId?: number;
   title: string;
+  description?: string;
   folder?: number;
   nodes: IVizNodeInfo[];
   nodeGroupingRuleIds?: number[];
@@ -221,6 +223,7 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
 export interface IDuplicateVisualizationParams extends IDataSourceParams {
   id: number;
   title?: string;
+  description?: string;
   folder?: number;
 }
 
@@ -246,6 +249,7 @@ export interface SharedVisualization {
   ownerUsername: string;
   sourceKey: string;
   title: string;
+  description?: string;
   updatedAt: string;
   locked: boolean;
   lastLockedByUser: Pick<User, 'username' | 'email'>;
@@ -279,6 +283,7 @@ export interface IDeleteVisualizationFolderParams extends IDataSourceParams {
 export interface VisualizationTreeItem {
   id: number;
   title: string;
+  description?: string;
   shareCount: number;
   widgetKey?: string; // defined if the visualization has a widget
   createdAt: string;
