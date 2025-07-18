@@ -52,6 +52,7 @@ export enum ApiRight {
   ALERT_READ = 'alert.read',
   ALERT_DO_ACTION = 'alert.doAction',
   ADMIN_ALERTS = 'admin.alerts',
+  MANAGE_ALERTS = 'manageAlert',
 
   // schema action
   SCHEMA = 'schema',
