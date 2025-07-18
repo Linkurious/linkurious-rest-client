@@ -264,7 +264,7 @@ export class AlertAPI extends Request {
    */
   public deleteCases(params: IDeleteCasesParams) {
     return this.request({
-      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
       url: '/:sourceKey/alerts/cases',
       method: 'DELETE',
       params: {...params, casesIds: params.casesIds.join(',')}
