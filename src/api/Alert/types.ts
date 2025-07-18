@@ -66,6 +66,10 @@ export interface IUpdateCaseParams extends IDataSourceParams {
   visualization: BaseVisualization;
 }
 
+export interface IDeleteCasesParams extends IDataSourceParams {
+  casesIds: number[];
+}
+
 export interface ICreateAlertParams
   extends Omit<IBaseAlert, 'folder' | 'preprocessingSteps' | 'queries'> {
   uuid?: string;
