@@ -460,7 +460,16 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   assignedUserIdsFilter?: number[];
   caseColumnsFilter?: CaseColumnFilter[];
   alertQueryModelKeysFilter?: string[];
+  dateFilter?: FullCaseListDateFilter;
   sortBy: FullCaseListSortBy[];
+}
+
+export interface FullCaseListDateFilter {
+  filterBy: 'createdAt' | 'updatedAt';
+
+  // start and end dates are in ISO format
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statusChangedBy'> {
@@ -479,6 +488,7 @@ export interface IFullCaseListFilters {
   assignedUserIds?: number[];
   alertFolderIds?: number[];
   caseColumns?: CaseColumnFilter[];
+  dateFilter?: FullCaseListDateFilter;
   alertQueryModelKeys?: string[];
 }
 

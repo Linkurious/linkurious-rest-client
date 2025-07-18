@@ -402,6 +402,7 @@ export class AlertAPI extends Request {
         assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
         caseStatusesFilter: params.caseStatusesFilter?.join(','),
         caseColumnsFilter: JSON.stringify(params.caseColumnsFilter),
+        dateFilter: JSON.stringify(params.dateFilter),
         alertQueryModelKeysFilter: params.alertQueryModelKeysFilter?.join(',')
       }
     });
@@ -422,6 +423,7 @@ export class AlertAPI extends Request {
         assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
         caseStatusesFilter: params.caseStatusesFilter?.join(','),
         caseColumnsFilter: JSON.stringify(params.caseColumnsFilter),
+        dateFilter: JSON.stringify(params.dateFilter),
         alertQueryModelKeysFilter: params.alertQueryModelKeysFilter?.join(',')
       }
     });
