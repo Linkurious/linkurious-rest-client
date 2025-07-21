@@ -56,6 +56,11 @@ export interface IBulkAssignCasesParams extends IDataSourceParams {
   assignedUserId: number;
 }
 
+export interface AssignFilteredCasesParams extends IDataSourceParams {
+  filters: IFullCaseListFilters;
+  assignedUserId: number;
+}
+
 export interface IGetAlertUsersParams extends IDataSourceParams {
   alertId: number;
 }

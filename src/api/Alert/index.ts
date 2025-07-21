@@ -45,7 +45,8 @@ import {
   ISetFullCaseListPreferencesParams,
   IGetFullCaseListPreferencesResponse,
   RunAlertResponse,
-  SearchColumnValuesForAlertCases
+  SearchColumnValuesForAlertCases,
+  AssignFilteredCasesParams
 } from './types';
 
 export * from './types';
@@ -277,6 +278,18 @@ export class AlertAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/cases/assignments',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Assign cases to a user based on filters.
+   */
+  public assignFilteredCases(params: AssignFilteredCasesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/assignments/filtered',
       method: 'POST',
       params: params
     });
