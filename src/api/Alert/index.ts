@@ -45,7 +45,8 @@ import {
   ISetFullCaseListPreferencesParams,
   IGetFullCaseListPreferencesResponse,
   RunAlertResponse,
-  SearchColumnValuesForAlertCases
+  SearchColumnValuesForAlertCases,
+  DoCaseActionInBulkParams
 } from './types';
 
 export * from './types';
@@ -345,6 +346,25 @@ export class AlertAPI extends Request {
         REDUNDANT_ACTION
       ],
       url: '/:sourceKey/alerts/:alertId/cases/:caseId/action',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Do an action on multiple cases from multiple alerts in bulk.
+   */
+  public doCaseActionInBulk(this: Request<CaseAction[]>, params: DoCaseActionInBulkParams) {
+    return this.request({
+      errors: [
+        FEATURE_DISABLED,
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        NOT_FOUND,
+        REDUNDANT_ACTION
+      ],
+      url: '/:sourceKey/alerts/cases/action',
       method: 'POST',
       params: params
     });

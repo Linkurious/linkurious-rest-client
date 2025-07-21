@@ -49,10 +49,13 @@ export interface IAssignCasesParams extends IDataSourceParams {
   userId: number;
 }
 
-export type ICasesPerAlertAssignmentParam = Pick<IAssignCasesParams, 'alertId' | 'caseIds'>;
+export interface ICasesPerAlertParam {
+  alertId: number;
+  caseIds: number[];
+}
 
 export interface IBulkAssignCasesParams extends IDataSourceParams {
-  casesPerAlert: ICasesPerAlertAssignmentParam[];
+  casesPerAlert: ICasesPerAlertParam[];
   assignedUserId: number;
 }
 
@@ -379,6 +382,11 @@ export interface IDoCaseActionParams extends IDataSourceParams {
   caseId: number;
   action: CaseActionType;
   comment?: string;
+}
+
+export interface DoCaseActionInBulkParams extends IDataSourceParams {
+  caseIdsPerAlertId: ICasesPerAlertParam[];
+  action: CaseActionType;
 }
 
 export interface IAlertPreviewParams extends IDataSourceParams {
