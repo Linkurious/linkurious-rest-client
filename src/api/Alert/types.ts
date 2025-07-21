@@ -448,16 +448,23 @@ export interface IFullCaseListResponse {
 
 export type FullCaseListSortBy = {by: FullCaseListSort; direction: SortDirection};
 
-export interface IGetFullCaseListParams extends IDataSourceParams {
+export interface IGetFullCaseListParams extends IFullCaseListFiltersParams {
   offset?: number;
   limit?: number;
+  sortBy: FullCaseListSortBy[];
+}
+
+export interface IAssignVisibleCasesParams extends IFullCaseListFiltersParams {
+  assignedUserId: number;
+}
+
+export interface IFullCaseListFiltersParams extends IDataSourceParams {
   alertIdsFilter?: number[];
   caseStatusesFilter?: CaseStatus[];
   assignedUserIdsFilter?: number[];
   caseColumnsFilter?: CaseColumnFilter[];
   alertQueryModelKeysFilter?: string[];
   dateFilter?: FullCaseListDateFilter;
-  sortBy: FullCaseListSortBy[];
 }
 
 export interface FullCaseListDateFilter {
