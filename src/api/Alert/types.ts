@@ -57,7 +57,7 @@ export interface IBulkAssignCasesParams extends IDataSourceParams {
 }
 
 export interface AssignFilteredCasesParams extends IDataSourceParams {
-  filters: FullCaseListFilteredParams;
+  filters: FullCaseListFilterParams;
   assignedUserId: number;
 }
 
@@ -465,7 +465,7 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   sortBy: FullCaseListSortBy[];
 }
 
-export interface FullCaseListFilteredParams
+export interface FullCaseListFilterParams
   extends Pick<
     IGetFullCaseListParams,
     | 'alertIdsFilter'
