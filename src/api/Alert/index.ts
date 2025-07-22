@@ -284,7 +284,7 @@ export class AlertAPI extends Request {
   }
 
   /**
-   * Assign cases to a user based on filters.
+   * Assign cases to a user based on the full case list filters.
    */
   public assignFilteredCases(params: AssignFilteredCasesParams) {
     return this.request({

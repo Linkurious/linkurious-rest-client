@@ -57,7 +57,7 @@ export interface IBulkAssignCasesParams extends IDataSourceParams {
 }
 
 export interface AssignFilteredCasesParams extends IDataSourceParams {
-  filters: IFullCaseListFilters;
+  filters: FullCaseListFilteredParams;
   assignedUserId: number;
 }
 
@@ -464,6 +464,17 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   dateFilter?: FullCaseListDateFilter;
   sortBy: FullCaseListSortBy[];
 }
+
+export interface FullCaseListFilteredParams
+  extends Pick<
+    IGetFullCaseListParams,
+    | 'alertIdsFilter'
+    | 'caseStatusesFilter'
+    | 'assignedUserIdsFilter'
+    | 'caseColumnsFilter'
+    | 'alertQueryModelKeysFilter'
+    | 'dateFilter'
+  > {}
 
 export interface FullCaseListDateFilter {
   filterBy: 'createdAt' | 'updatedAt';
