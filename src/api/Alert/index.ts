@@ -46,7 +46,7 @@ import {
   IGetFullCaseListPreferencesResponse,
   RunAlertResponse,
   SearchColumnValuesForAlertCases,
-  IDeleteCasesParams
+  IDeleteCasesParams,
   AssignFilteredCasesParams
 } from './types';
 
