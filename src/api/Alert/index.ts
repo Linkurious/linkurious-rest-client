@@ -46,6 +46,7 @@ import {
   IGetFullCaseListPreferencesResponse,
   RunAlertResponse,
   SearchColumnValuesForAlertCases,
+  IDeleteCasesParams
   AssignFilteredCasesParams
 } from './types';
 
@@ -256,6 +257,18 @@ export class AlertAPI extends Request {
       url: '/:sourceKey/alerts/:alertId/cases/:caseId',
       method: 'PATCH',
       params: params
+    });
+  }
+
+  /**
+   * Delete one or more cases.
+   */
+  public deleteCases(params: IDeleteCasesParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases',
+      method: 'DELETE',
+      params: {...params, casesIds: params.casesIds.join(',')}
     });
   }
 
