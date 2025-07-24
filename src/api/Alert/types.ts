@@ -75,6 +75,8 @@ export interface IDeleteCasesParams extends IDataSourceParams {
   casesIds: number[];
 }
 
+export interface DeleteFilteredCasesParams extends FullCaseListFilterParams, IDataSourceParams {}
+
 export interface ICreateAlertParams
   extends Omit<IBaseAlert, 'folder' | 'preprocessingSteps' | 'queries'> {
   uuid?: string;

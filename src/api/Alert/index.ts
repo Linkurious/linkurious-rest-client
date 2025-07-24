@@ -47,7 +47,8 @@ import {
   RunAlertResponse,
   SearchColumnValuesForAlertCases,
   IDeleteCasesParams,
-  AssignFilteredCasesParams
+  AssignFilteredCasesParams,
+  DeleteFilteredCasesParams
 } from './types';
 
 export * from './types';
@@ -269,6 +270,26 @@ export class AlertAPI extends Request {
       url: '/:sourceKey/alerts/cases',
       method: 'DELETE',
       params: {...params, casesIds: params.casesIds.join(',')}
+    });
+  }
+
+  /**
+   * Delete cases based on the full case list filters.
+   */
+  public deleteFilteredCases(params: DeleteFilteredCasesParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/filtered',
+      method: 'DELETE',
+      params: {
+        ...params,
+        alertIdsFilter: params.alertIdsFilter?.join(','),
+        assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
+        caseStatusesFilter: params.caseStatusesFilter?.join(','),
+        caseColumnsFilter: JSON.stringify(params.caseColumnsFilter),
+        dateFilter: JSON.stringify(params.dateFilter),
+        alertQueryModelKeysFilter: params.alertQueryModelKeysFilter?.join(',')
+      }
     });
   }
 
