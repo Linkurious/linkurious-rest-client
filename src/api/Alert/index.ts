@@ -289,6 +289,7 @@ export class AlertAPI extends Request {
         caseColumnsFilter: JSON.stringify(params.caseColumnsFilter),
         dateFilter: JSON.stringify(params.dateFilter),
         alertQueryModelKeysFilter: params.alertQueryModelKeysFilter?.join(',')
+        
       }
     });
   }
