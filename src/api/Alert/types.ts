@@ -523,6 +523,9 @@ export interface CaseColumnRangeFilter {
 export interface IFullCaseListPreferences {
   filters: IFullCaseListFilters;
   sortBy: FullCaseListSortBy[];
+  customization: {
+    columns: UclColumnCustomization[];
+  };
   offset: number;
 }
 
@@ -550,3 +553,8 @@ export interface SearchColumnValuesForAlertCases {
 }
 
 export const SEARCH_COLUMNS_RESULT_FORMAT = ['list', 'paginated'] as const;
+
+export interface UclColumnCustomization {
+  key: string;
+  isVisible: boolean;
+}
