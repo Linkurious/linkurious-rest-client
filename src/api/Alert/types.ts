@@ -523,10 +523,10 @@ export interface CaseColumnRangeFilter {
 export interface IFullCaseListPreferences {
   filters: IFullCaseListFilters;
   sortBy: FullCaseListSortBy[];
-  customization: {
-    columns: UclColumnCustomization[];
-  };
   offset: number;
+  customization?: {
+    columns?: UclColumnCustomization[];
+  };
 }
 
 export interface IGetFullCaseListPreferencesResponse extends IFullCaseListPreferences {
