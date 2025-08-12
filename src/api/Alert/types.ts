@@ -524,6 +524,7 @@ export interface IFullCaseListPreferences {
   filters: IFullCaseListFilters;
   sortBy: FullCaseListSortBy[];
   offset: number;
+  customization?: UclCustomization;
 }
 
 export interface IGetFullCaseListPreferencesResponse extends IFullCaseListPreferences {
@@ -550,3 +551,12 @@ export interface SearchColumnValuesForAlertCases {
 }
 
 export const SEARCH_COLUMNS_RESULT_FORMAT = ['list', 'paginated'] as const;
+
+export interface UclColumnCustomization {
+  key: string;
+  isVisible: boolean;
+}
+
+export interface UclCustomization {
+  columns?: UclColumnCustomization[];
+}
