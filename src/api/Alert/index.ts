@@ -45,7 +45,10 @@ import {
   ISetFullCaseListPreferencesParams,
   IGetFullCaseListPreferencesResponse,
   RunAlertResponse,
-  SearchColumnValuesForAlertCases
+  SearchColumnValuesForAlertCases,
+  IDeleteCasesParams,
+  AssignFilteredCasesParams,
+  DeleteFilteredCasesParams
 } from './types';
 
 export * from './types';
@@ -259,6 +262,38 @@ export class AlertAPI extends Request {
   }
 
   /**
+   * Delete one or more cases.
+   */
+  public deleteCases(params: IDeleteCasesParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases',
+      method: 'DELETE',
+      params: {...params, casesIds: params.casesIds.join(',')}
+    });
+  }
+
+  /**
+   * Delete cases based on the full case list filters.
+   */
+  public deleteFilteredCases(params: DeleteFilteredCasesParams) {
+    return this.request({
+      errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/filtered',
+      method: 'DELETE',
+      params: {
+        ...params,
+        alertIdsFilter: params.alertIdsFilter?.join(','),
+        assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
+        caseStatusesFilter: params.caseStatusesFilter?.join(','),
+        caseColumnsFilter: JSON.stringify(params.caseColumnsFilter),
+        dateFilter: JSON.stringify(params.dateFilter),
+        alertQueryModelKeysFilter: params.alertQueryModelKeysFilter?.join(',')
+      }
+    });
+  }
+
+  /**
    * Assign one or more cases to a user.
    */
   public assignCases(params: IAssignCasesParams) {
@@ -277,6 +312,18 @@ export class AlertAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/cases/assignments',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Assign cases to a user based on the full case list filters.
+   */
+  public assignFilteredCases(params: AssignFilteredCasesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
+      url: '/:sourceKey/alerts/cases/assignments/filtered',
       method: 'POST',
       params: params
     });
@@ -389,6 +436,7 @@ export class AlertAPI extends Request {
         assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
         caseStatusesFilter: params.caseStatusesFilter?.join(','),
         caseColumnsFilter: JSON.stringify(params.caseColumnsFilter),
+        dateFilter: JSON.stringify(params.dateFilter),
         alertQueryModelKeysFilter: params.alertQueryModelKeysFilter?.join(',')
       }
     });
@@ -409,6 +457,7 @@ export class AlertAPI extends Request {
         assignedUserIdsFilter: params.assignedUserIdsFilter?.join(','),
         caseStatusesFilter: params.caseStatusesFilter?.join(','),
         caseColumnsFilter: JSON.stringify(params.caseColumnsFilter),
+        dateFilter: JSON.stringify(params.dateFilter),
         alertQueryModelKeysFilter: params.alertQueryModelKeysFilter?.join(',')
       }
     });

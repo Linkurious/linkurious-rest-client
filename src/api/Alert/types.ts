@@ -56,6 +56,11 @@ export interface IBulkAssignCasesParams extends IDataSourceParams {
   assignedUserId: number;
 }
 
+export interface AssignFilteredCasesParams extends IDataSourceParams {
+  filters: FullCaseListFilterParams;
+  assignedUserId: number;
+}
+
 export interface IGetAlertUsersParams extends IDataSourceParams {
   alertId: number;
 }
@@ -65,6 +70,12 @@ export interface IUpdateCaseParams extends IDataSourceParams {
   caseId: number;
   visualization: BaseVisualization;
 }
+
+export interface IDeleteCasesParams extends IDataSourceParams {
+  casesIds: number[];
+}
+
+export interface DeleteFilteredCasesParams extends FullCaseListFilterParams, IDataSourceParams {}
 
 export interface ICreateAlertParams
   extends Omit<IBaseAlert, 'folder' | 'preprocessingSteps' | 'queries'> {
@@ -456,7 +467,27 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   assignedUserIdsFilter?: number[];
   caseColumnsFilter?: CaseColumnFilter[];
   alertQueryModelKeysFilter?: string[];
+  dateFilter?: FullCaseListDateFilter;
   sortBy: FullCaseListSortBy[];
+}
+
+export interface FullCaseListFilterParams
+  extends Pick<
+    IGetFullCaseListParams,
+    | 'alertIdsFilter'
+    | 'caseStatusesFilter'
+    | 'assignedUserIdsFilter'
+    | 'caseColumnsFilter'
+    | 'alertQueryModelKeysFilter'
+    | 'dateFilter'
+  > {}
+
+export interface FullCaseListDateFilter {
+  filterBy: 'createdAt' | 'updatedAt';
+
+  // start and end dates are in ISO format
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface ICasePreview extends Omit<IFullCase, 'statusChangedOn' | 'statusChangedBy'> {
@@ -475,6 +506,7 @@ export interface IFullCaseListFilters {
   assignedUserIds?: number[];
   alertFolderIds?: number[];
   caseColumns?: CaseColumnFilter[];
+  dateFilter?: FullCaseListDateFilter;
   alertQueryModelKeys?: string[];
 }
 
