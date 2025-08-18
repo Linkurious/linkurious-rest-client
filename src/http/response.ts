@@ -152,6 +152,7 @@ export interface FeatureDisabledError extends LkError<LkErrorKey.FEATURE_DISABLE
 
 export enum UnauthorizedErrorReason {
   LICENSE_MISSING = 'license_missing',
+  LICENSE_EXPIRED = 'license_expired',
   SESSION_EXPIRED = 'session_expired',
   SESSION_EVICTED = 'session_evicted',
   SERVER_FULL = 'server_full'

@@ -6,7 +6,8 @@
 export enum LicenseState {
   VALID = 'valid',
   EXPIRED = 'expired',
-  MISSING = 'missing'
+  MISSING = 'missing',
+  IN_GRACE_PERIOD = 'inGracePeriod'
 }
 
 export interface LicenseInfo {
