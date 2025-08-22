@@ -62,10 +62,7 @@ export interface LicenseInfo {
   /**
    * The number of floating users granted by the license.
    */
-  tokens?: {
-    allowed: number;
-    used: number;
-  };
+  tokens?: number;
 
   /**
    * The number of alert queries (models + preprocessing steps) granted by the license.
