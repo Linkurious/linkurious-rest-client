@@ -272,8 +272,8 @@ export interface EntityResolutionExpiredLicense
 export interface EntityResolutionQuotaExceeded
   extends LkError<LkErrorKey.ENTITY_RESOLUTION_QUOTA_EXCEEDED> {}
 
-export interface LicenseNamedUsersLimitExceeded
-  extends LkError<LkErrorKey.LICENSE_NAMED_USERS_LIMIT_EXCEEDED> {}
+export interface LicenseSeatsLimitExceeded
+  extends LkError<LkErrorKey.LICENSE_SEATS_LIMIT_EXCEEDED> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
@@ -327,5 +327,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.INVALID_PARENT_FOLDER]: InvalidParentFolder;
   [LkErrorKey.ENTITY_RESOLUTION_EXPIRED_LICENSE]: EntityResolutionExpiredLicense;
   [LkErrorKey.ENTITY_RESOLUTION_QUOTA_EXCEEDED]: EntityResolutionQuotaExceeded;
-  [LkErrorKey.LICENSE_NAMED_USERS_LIMIT_EXCEEDED]: LicenseNamedUsersLimitExceeded;
+  [LkErrorKey.LICENSE_SEATS_LIMIT_EXCEEDED]: LicenseSeatsLimitExceeded;
 };
