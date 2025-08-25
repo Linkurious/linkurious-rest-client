@@ -45,7 +45,7 @@ const {
   INVALID_PARAMETER,
   EMAIL_FORMAT,
   NOT_SUPPORTED,
-  LICENSE_NAMED_USERS_LIMIT_EXCEEDED
+  LICENSE_SEATS_LIMIT_EXCEEDED
 } = LkErrorKey;
 
 export class UserAPI extends Request {
@@ -96,13 +96,7 @@ export class UserAPI extends Request {
    */
   public createUser(this: Request<User>, params: ICreateUserParams) {
     return this.request({
-      errors: [
-        UNAUTHORIZED,
-        FORBIDDEN,
-        ALREADY_EXISTS,
-        EMAIL_FORMAT,
-        LICENSE_NAMED_USERS_LIMIT_EXCEEDED
-      ],
+      errors: [UNAUTHORIZED, FORBIDDEN, ALREADY_EXISTS, EMAIL_FORMAT, LICENSE_SEATS_LIMIT_EXCEEDED],
       url: '/admin/users',
       method: 'POST',
       params: params
