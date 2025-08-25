@@ -67,7 +67,7 @@ export enum LkErrorKey {
   INVALID_PARENT_FOLDER = 'invalid_parent_folder',
   ENTITY_RESOLUTION_EXPIRED_LICENSE = 'entity_resolution_expired_license',
   ENTITY_RESOLUTION_QUOTA_EXCEEDED = 'entity_resolution_quota_exceeded',
-  LICENSE_NAMED_USERS_LIMIT_EXCEEDED = 'license_named_users_limit_exceeded'
+  LICENSE_SEATS_LIMIT_EXCEEDED = 'license_seats_limit_exceeded'
 }
 
 /**
