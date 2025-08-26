@@ -29,6 +29,7 @@ export interface Configuration {
   license: {
     readOnly: boolean;
     state: LicenseState;
+    endDate: number;
     seatsLimitExceeded: boolean;
     strictLicenseEnforcement: boolean;
   };
