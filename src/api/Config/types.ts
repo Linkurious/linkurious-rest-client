@@ -30,6 +30,7 @@ export interface Configuration {
     readOnly: boolean;
     state: LicenseState;
     seatsLimitExceeded: boolean;
+    strictLicenseEnforcement: boolean;
   };
 
   // partially available to not authenticated user
