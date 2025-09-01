@@ -53,6 +53,7 @@ export interface DataSourceFeatures {
   supportEntityResolution: boolean;
   supportQueryBuilder: boolean;
   canCountTypes: boolean;
+  supportWrite: boolean;
 }
 
 export interface DataSourceSettings {
