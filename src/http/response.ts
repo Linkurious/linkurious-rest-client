@@ -67,7 +67,8 @@ export enum LkErrorKey {
   INVALID_PARENT_FOLDER = 'invalid_parent_folder',
   ENTITY_RESOLUTION_EXPIRED_LICENSE = 'entity_resolution_expired_license',
   ENTITY_RESOLUTION_QUOTA_EXCEEDED = 'entity_resolution_quota_exceeded',
-  LICENSE_SEATS_LIMIT_EXCEEDED = 'license_seats_limit_exceeded'
+  LICENSE_SEATS_LIMIT_EXCEEDED = 'license_seats_limit_exceeded',
+  LICENSE_ALERTS_LIMIT_EXCEEDED = 'license_alerts_limit_exceeded'
 }
 
 /**
@@ -275,6 +276,9 @@ export interface EntityResolutionQuotaExceeded
 export interface LicenseSeatsLimitExceeded
   extends LkError<LkErrorKey.LICENSE_SEATS_LIMIT_EXCEEDED> {}
 
+export interface AlertQueriesLimitExceeded
+  extends LkError<LkErrorKey.LICENSE_ALERTS_LIMIT_EXCEEDED> {}
+
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
   [LkErrorKey.CONNECTION_REFUSED]: ConnectionRefusedError;
@@ -328,4 +332,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.ENTITY_RESOLUTION_EXPIRED_LICENSE]: EntityResolutionExpiredLicense;
   [LkErrorKey.ENTITY_RESOLUTION_QUOTA_EXCEEDED]: EntityResolutionQuotaExceeded;
   [LkErrorKey.LICENSE_SEATS_LIMIT_EXCEEDED]: LicenseSeatsLimitExceeded;
+  [LkErrorKey.LICENSE_ALERTS_LIMIT_EXCEEDED]: AlertQueriesLimitExceeded;
 };
