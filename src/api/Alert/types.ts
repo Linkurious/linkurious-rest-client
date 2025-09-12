@@ -328,7 +328,47 @@ export enum ColumnSortAndFilterBy {
   THIRTY_SIX = '36',
   THIRTY_SEVEN = '37',
   THIRTY_EIGHT = '38',
-  THIRTY_NINE = '39'
+  THIRTY_NINE = '39',
+  FORTY = '40',
+  FORTY_ONE = '41',
+  FORTY_TWO = '42',
+  FORTY_THREE = '43',
+  FORTY_FOUR = '44',
+  FORTY_FIVE = '45',
+  FORTY_SIX = '46',
+  FORTY_SEVEN = '47',
+  FORTY_EIGHT = '48',
+  FORTY_NINE = '49',
+  FIFTY = '50',
+  FIFTY_ONE = '51',
+  FIFTY_TWO = '52',
+  FIFTY_THREE = '53',
+  FIFTY_FOUR = '54',
+  FIFTY_FIVE = '55',
+  FIFTY_SIX = '56',
+  FIFTY_SEVEN = '57',
+  FIFTY_EIGHT = '58',
+  FIFTY_NINE = '59',
+  SIXTY = '60',
+  SIXTY_ONE = '61',
+  SIXTY_TWO = '62',
+  SIXTY_THREE = '63',
+  SIXTY_FOUR = '64',
+  SIXTY_FIVE = '65',
+  SIXTY_SIX = '66',
+  SIXTY_SEVEN = '67',
+  SIXTY_EIGHT = '68',
+  SIXTY_NINE = '69',
+  SEVENTY = '70',
+  SEVENTY_ONE = '71',
+  SEVENTY_TWO = '72',
+  SEVENTY_THREE = '73',
+  SEVENTY_FOUR = '74',
+  SEVENTY_FIVE = '75',
+  SEVENTY_SIX = '76',
+  SEVENTY_SEVEN = '77',
+  SEVENTY_EIGHT = '78',
+  SEVENTY_NINE = '79'
 }
 
 export interface IExtractCaseListInfoParams extends IDataSourceParams {
@@ -524,6 +564,7 @@ export interface IFullCaseListPreferences {
   filters: IFullCaseListFilters;
   sortBy: FullCaseListSortBy[];
   offset: number;
+  customization?: UclCustomization;
 }
 
 export interface IGetFullCaseListPreferencesResponse extends IFullCaseListPreferences {
@@ -550,3 +591,12 @@ export interface SearchColumnValuesForAlertCases {
 }
 
 export const SEARCH_COLUMNS_RESULT_FORMAT = ['list', 'paginated'] as const;
+
+export interface UclColumnCustomization {
+  key: string;
+  isVisible: boolean;
+}
+
+export interface UclCustomization {
+  columns?: UclColumnCustomization[];
+}
