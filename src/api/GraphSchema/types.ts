@@ -162,11 +162,22 @@ export interface GraphSchemaType {
  */
 export type EdgeTypeEnds = {source: string; target: string};
 
+export interface SearchSupport {
+  /**
+   * - `yes`: search is supported.
+   * - `no`: search is not supported, and will never be, no matter what.
+   * - `potentially`: search is currently unsupported, but could be after an external action.
+   */
+  status: 'yes' | 'no' | 'potentially';
+  reason?: string;
+}
+
 export interface GraphSchema {
   results: GraphSchemaType[];
 }
 
 export interface AdminGraphSchemaProperty extends Omit<GraphSchemaProperty, 'indexedAs'> {
+  searchSupport: SearchSupport;
   propertyTypeConsistent: boolean;
 }
 
