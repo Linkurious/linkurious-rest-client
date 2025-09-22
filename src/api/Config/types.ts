@@ -15,6 +15,17 @@ export interface IGetConfigParams {
   sourceIndex?: number;
 }
 
+export type ConfigLicenseInfo =
+  | {state: LicenseState.MISSING}
+  | {
+      state: LicenseState;
+      endDate: number;
+      strictLicenseEnforcement: boolean;
+      alertsLimitExceeded?: boolean;
+      seatsLimitExceeded: boolean;
+      isSaaS: boolean;
+    };
+
 export interface Configuration {
   // available to not authenticated user
   ogma: IOgmaConfig;
@@ -26,10 +37,7 @@ export interface Configuration {
   config: {
     hide: boolean;
   };
-  license: {
-    readOnly: boolean;
-    state: LicenseState;
-  };
+  license: {readOnly: boolean} & ConfigLicenseInfo;
 
   // partially available to not authenticated user
   access: IAccessConfig;
