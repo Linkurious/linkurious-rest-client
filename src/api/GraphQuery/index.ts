@@ -215,6 +215,7 @@ export class GraphQueryAPI extends Request {
         INVALID_PARAMETER,
         NOT_IMPLEMENTED,
         GRAPH_REQUEST_TIMEOUT,
+        BAD_GRAPH_REQUEST,
         CRITICAL
       ],
       url: '/:sourceKey/graph/stats/query',
