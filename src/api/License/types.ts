@@ -14,7 +14,7 @@ export interface LicenseInfo {
   state: LicenseState;
   endDate: number;
   customerKey: string;
-  telemetry?: 'automatic' | 'manual';
+  telemetry: 'automatic' | 'manual';
 
   /**
    * Defined if the client is using a SAAS instance
@@ -24,32 +24,37 @@ export interface LicenseInfo {
   /**
    * True if the license is strictly enforced.
    */
-  strictLicenseEnforcement?: boolean;
+  strictLicenseEnforcement: boolean;
 
   /**
    * True if external authentication is allowed by the license.
    */
-  externalAuthentication?: boolean;
+  externalAuthentication: boolean;
 
   /**
    * True if customer groups are allowed by the license.
    */
-  customGroups?: boolean;
+  customGroups: boolean;
 
   /**
    * Whether access rights can be set at the entity or the property level.
    */
-  dataAccessRights?: 'entityLevel' | 'propertyLevel';
+  dataAccessRights: 'entityLevel' | 'propertyLevel';
 
   /**
    * True if audit trail is allowed by the license.
    */
-  auditTrail?: boolean;
+  auditTrail: boolean;
 
   /**
    * True if running Linkurious in cluster mode is allowed by the license.
    */
-  clusterMode?: boolean;
+  clusterMode: boolean;
+
+  /**
+   * Whether this is a trial license
+   */
+  trial: boolean;
 
   /**
    * The number of named users granted by the license.
