@@ -37,6 +37,12 @@ export interface User extends PersistedItem {
   groups: GroupName[];
   actions: GenericObject<AnyAction[]>;
   accessRights: GenericObject<SourceAccessRights>;
+
+  // undefined if product fruits is disabled
+  hmac?: {
+    hash: string;
+    expiration: string;
+  };
 }
 
 export interface IGetUserParams {
