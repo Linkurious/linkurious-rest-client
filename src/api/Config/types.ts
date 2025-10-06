@@ -513,5 +513,4 @@ export interface NodeGroupingConfig {
 export interface ProductFruitsConfig {
   enabled: boolean;
   secretKey: string;
-  rotationIntervalInMinutes: number;
 }
