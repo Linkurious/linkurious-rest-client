@@ -68,7 +68,6 @@ export interface Configuration {
   entityResolutionSourceKey?: string;
   cluster?: ClusterConfig;
   troubleshooting?: TroubleshootingConfig;
-  productFruits?: ProductFruitsConfig;
 }
 
 export type DatabaseDialect = 'sqlite' | 'mysql' | 'mariadb' | 'mssql';
@@ -273,6 +272,7 @@ export interface IAdvancedConfig {
   itemTypeCountLimit?: number;
   dataSourceConnectionTimeout?: number;
   dataSourceAutoReconnectInterval?: number;
+  productFruits?: ProductFruitsConfig;
   flags?: GenericObject;
 }
 
