@@ -38,8 +38,8 @@ export interface User extends PersistedItem {
   actions: GenericObject<AnyAction[]>;
   accessRights: GenericObject<SourceAccessRights>;
 
-  // undefined if product fruits is disabled
-  hmac?: {
+  // undefined if product fruits is disabled or if the secretKey is not set
+  productFruitsHmac?: {
     hash: string;
     expiration: string;
   };
