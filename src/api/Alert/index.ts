@@ -6,7 +6,7 @@
 
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
-import {IDataSourceParams, PaginatedResponse} from '../commonTypes';
+import {IDataSourceParams} from '../commonTypes';
 
 import {
   AlertTree,
@@ -68,7 +68,8 @@ const {
   INVALID_ALERT_QUERY,
   INVALID_ALERT_TARGET,
   REDUNDANT_ACTION,
-  EDIT_CONFLICT
+  EDIT_CONFLICT,
+  LICENSE_ALERTS_LIMIT_EXCEEDED
 } = LkErrorKey;
 
 export class AlertAPI extends Request {
@@ -103,7 +104,8 @@ export class AlertAPI extends Request {
         DATA_SOURCE_UNAVAILABLE,
         FORBIDDEN,
         CONSTRAINT_VIOLATION,
-        INVALID_PARAMETER
+        INVALID_PARAMETER,
+        LICENSE_ALERTS_LIMIT_EXCEEDED
       ],
       url: '/admin/:sourceKey/alerts',
       method: 'POST',
@@ -124,7 +126,8 @@ export class AlertAPI extends Request {
         FORBIDDEN,
         NOT_FOUND,
         CONSTRAINT_VIOLATION,
-        INVALID_PARAMETER
+        INVALID_PARAMETER,
+        LICENSE_ALERTS_LIMIT_EXCEEDED
       ],
       url: '/admin/:sourceKey/alerts/:id',
       method: 'PATCH',
@@ -481,7 +484,7 @@ export class AlertAPI extends Request {
    * Search for values of a given column in the cases of an alert.
    */
   public searchColumnValuesForAlertCases(
-    this: Request<string[] | PaginatedResponse<string>>,
+    this: Request<string[]>,
     params?: SearchColumnValuesForAlertCases
   ) {
     return this.request({
