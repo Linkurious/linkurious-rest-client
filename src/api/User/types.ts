@@ -39,12 +39,12 @@ export interface User extends PersistedItem {
   accessRights: GenericObject<SourceAccessRights>;
 
   // undefined if product fruits is disabled
-  productFruits?: ProductFruitsAuthentication;
+  productFruits?: ProductFruitsUserAuthentication;
 }
 
-export interface ProductFruitsAuthentication {
-  hash: string;
-  hashExpirationDate: string;
+export interface ProductFruitsUserAuthentication {
+  hmac: string;
+  expirationDate: string;
 }
 
 export interface IGetUserParams {
