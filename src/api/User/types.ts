@@ -38,7 +38,8 @@ export interface User extends PersistedItem {
   actions: GenericObject<AnyAction[]>;
   accessRights: GenericObject<SourceAccessRights>;
 
-  // undefined if product fruits is disabled
+  // HMAC to verify identity to Product Fruits.
+  // Only present if Product Fruits integration is enabled and the User is retrieved via the Auth Apis.
   productFruits?: ProductFruitsUserAuthentication;
 }
 
