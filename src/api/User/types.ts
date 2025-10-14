@@ -46,6 +46,7 @@ export interface User extends PersistedItem {
 export interface ProductFruitsUserAuthentication {
   hmac: string;
   expirationDate: string;
+  projectCode: string;
 }
 
 export interface IGetUserParams {

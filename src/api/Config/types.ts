@@ -512,5 +512,6 @@ export interface NodeGroupingConfig {
 
 export interface ProductFruitsConfig {
   enabled: boolean;
-  secretKey: string;
+  secretKey?: string;
+  projectCode?: string;
 }
