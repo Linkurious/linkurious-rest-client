@@ -272,6 +272,7 @@ export interface IAdvancedConfig {
   itemTypeCountLimit?: number;
   dataSourceConnectionTimeout?: number;
   dataSourceAutoReconnectInterval?: number;
+  productFruits?: ProductFruitsConfig;
   flags?: GenericObject;
 }
 
@@ -507,4 +508,10 @@ export interface TroubleshootingConfig {
 
 export interface NodeGroupingConfig {
   displayCollapsedByDefault?: boolean;
+}
+
+export interface ProductFruitsConfig {
+  enabled: boolean;
+  secretKey?: string;
+  projectCode?: string;
 }
