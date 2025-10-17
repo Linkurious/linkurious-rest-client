@@ -9,7 +9,6 @@ import {ItemTypeAccessRightType, PropertyAccessRightType} from '../AccessRight';
 
 export interface IStartSchemaSamplingParams extends IDataSourceParams {
   reset?: boolean;
-  defaultVisibility?: DataVisibility;
 }
 
 export enum SamplingStatus {
