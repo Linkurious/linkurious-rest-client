@@ -37,6 +37,16 @@ export interface User extends PersistedItem {
   groups: GroupName[];
   actions: GenericObject<AnyAction[]>;
   accessRights: GenericObject<SourceAccessRights>;
+
+  // HMAC to verify identity to Product Fruits.
+  // Only present if Product Fruits integration is enabled and the User is retrieved via the Auth Apis.
+  productFruits?: ProductFruitsUserAuthentication;
+}
+
+export interface ProductFruitsUserAuthentication {
+  hmac: string;
+  expirationDate: string;
+  projectCode: string;
 }
 
 export interface IGetUserParams {
