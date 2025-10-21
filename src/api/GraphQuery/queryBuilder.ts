@@ -163,7 +163,7 @@ export interface GraphQueryEdgeFilter {
  * Internal interface for property filters
  */
 export interface BasePropertyFilter {
-  propertyType: 'string' | 'number' | 'date';
+  propertyType: 'string' | 'number' | 'date' | 'dateTime';
   operator: BaseOperator;
 }
 
@@ -201,7 +201,11 @@ export interface StringSearchPropertyFilter extends BaseSearchPropertyFilter {
  * - string filter
  * - numerical filter
  */
-export type StrictPropertyFilter = StringStrictPropertyFilter | NumberStrictPropertyFilter;
+export type StrictPropertyFilter =
+  | StringStrictPropertyFilter
+  | NumberStrictPropertyFilter
+  | DateStrictPropertyFilter
+  | DateTimeStrictPropertyFilter;
 
 export interface BaseStrictPropertyFilter<T> extends BasePropertyFilter {
   propertyKey: string;
@@ -216,6 +220,7 @@ export const BASE_OPERATORS = [
   '>',
   '>=',
   '~',
+  'inBetween',
   'isNull',
   'isNotNull'
 ] as const;
@@ -227,10 +232,48 @@ export type StringOperator = (typeof STRING_OPERATORS)[number];
 export const NUMBER_OPERATORS = ['=', '!=', '<', '<=', '>', '>=', 'isNull', 'isNotNull'] as const;
 export type NumberOperator = (typeof NUMBER_OPERATORS)[number];
 
+export type DateOperator = Exclude<BaseOperator, '~'>;
+
+export type InBetweenOperatorInput = {
+  startDate: string;
+  endDate: string;
+};
+
 export interface StringStrictPropertyFilter extends BaseStrictPropertyFilter<string[]> {
   propertyType: 'string';
   operator: StringOperator;
 }
+
+export interface BaseDateStrictPropertyFilter
+  extends Omit<BaseStrictPropertyFilter<string>, 'input' | 'operator'> {
+  propertyType: 'date' | 'dateTime';
+  operator: DateOperator;
+  input: QueryProperty<string | InBetweenOperatorInput>;
+}
+
+export interface InBetweenDateStrictPropertyFilter extends BaseDateStrictPropertyFilter {
+  operator: 'inBetween';
+  input: QueryProperty<InBetweenOperatorInput>;
+}
+
+export interface SingleDateStrictPropertyFilter extends BaseDateStrictPropertyFilter {
+  operator: Exclude<DateOperator, 'inBetween'>;
+  input: QueryProperty<string>;
+}
+
+type DateStrictPropertyFilter = (
+  | SingleDateStrictPropertyFilter
+  | InBetweenDateStrictPropertyFilter
+) & {
+  propertyType: 'date';
+};
+
+type DateTimeStrictPropertyFilter = (
+  | SingleDateStrictPropertyFilter
+  | InBetweenDateStrictPropertyFilter
+) & {
+  propertyType: 'dateTime';
+};
 
 export interface NumberStrictPropertyFilter extends BaseStrictPropertyFilter<number> {
   propertyType: 'number';
