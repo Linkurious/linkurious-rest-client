@@ -261,14 +261,14 @@ export interface SingleDateStrictPropertyFilter extends BaseDateStrictPropertyFi
   input: QueryProperty<string>;
 }
 
-type DateStrictPropertyFilter = (
+export type DateStrictPropertyFilter = (
   | SingleDateStrictPropertyFilter
   | InBetweenDateStrictPropertyFilter
 ) & {
   propertyType: 'date';
 };
 
-type DateTimeStrictPropertyFilter = (
+export type DateTimeStrictPropertyFilter = (
   | SingleDateStrictPropertyFilter
   | InBetweenDateStrictPropertyFilter
 ) & {
