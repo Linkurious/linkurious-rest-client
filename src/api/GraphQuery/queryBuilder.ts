@@ -232,7 +232,19 @@ export type StringOperator = (typeof STRING_OPERATORS)[number];
 export const NUMBER_OPERATORS = ['=', '!=', '<', '<=', '>', '>=', 'isNull', 'isNotNull'] as const;
 export type NumberOperator = (typeof NUMBER_OPERATORS)[number];
 
-export type DateOperator = Exclude<BaseOperator, '~'>;
+export const DateOperator = [
+  '=',
+  '!=',
+  '<',
+  '<=',
+  '>',
+  '>=',
+  'inBetween',
+  'isNull',
+  'isNotNull'
+] as const;
+
+export type DateOperator = (typeof DateOperator)[number];
 
 export type InBetweenOperatorInput = {
   startDate: string;
