@@ -193,21 +193,23 @@ export abstract class Request<S = undefined> {
     }
 
     // From here we only deal with responses with status code lower than 500
-    if (response.body && includes(requiredConfig.errors, response.body.key)) {
-      // 4.c) Dispatch server error if expected
-      this.props.dispatchError(
-        response.body.key as LkErrorKey,
-        response.body as unknown as LkErrorKeyToInterface[LkErrorKey]
-      );
+    if (this.isLkError(response.body)) {
+      if (includes(requiredConfig.errors, response.body.key)) {
+        // Dispatch server error if expected
+        this.props.dispatchError(
+          response.body.key,
+          response.body as LkErrorKeyToInterface[LkErrorKey]
+        );
 
-      return new Response({
-        status: response.status,
-        header: response.header as unknown as GenericObject | undefined,
-        body: response.body as unknown as LkErrorKeyToInterface[LkErrorKey]
-      }) as ErrorResponses<EK>;
-    } else if ((response.status < 200 || response.status >= 300) && response.body?.key) {
-      // 4.d) Throw error if unexpected
-      throw new UnexpectedServerError(response);
+        return new Response({
+          status: response.status,
+          header: response.header as unknown as GenericObject | undefined,
+          body: response.body as LkErrorKeyToInterface[LkErrorKey]
+        }) as ErrorResponses<EK>;
+      } else if (response.status < 200 || response.status >= 300) {
+        // Throw error if unexpected
+        throw new UnexpectedServerError({body: response.body});
+      }
     }
 
     // 4.e) Throw error if unexpected status code
@@ -223,6 +225,17 @@ export abstract class Request<S = undefined> {
       header: response.header as unknown as GenericObject | undefined,
       body: response.body as unknown as S
     });
+  }
+
+  private isLkError(body: unknown): body is LkError {
+    return (
+      body !== null &&
+      typeof body === 'object' &&
+      'key' in body &&
+      typeof body.key === 'string' &&
+      'message' in body &&
+      typeof body.message === 'string'
+    );
   }
 
   private isDataSourceUnavailableError(error: unknown): error is DataSourceUnavailableError {
