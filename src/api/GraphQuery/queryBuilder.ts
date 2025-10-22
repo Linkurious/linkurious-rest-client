@@ -163,7 +163,7 @@ export interface GraphQueryEdgeFilter {
  * Internal interface for property filters
  */
 export interface BasePropertyFilter {
-  propertyType: 'string' | 'number' | 'date' | 'dateTime';
+  propertyType: 'string' | 'number' | 'date' | 'datetime';
   operator: BaseOperator;
 }
 
@@ -258,7 +258,7 @@ export interface StringStrictPropertyFilter extends BaseStrictPropertyFilter<str
 
 export interface BaseDateStrictPropertyFilter
   extends Omit<BaseStrictPropertyFilter<string>, 'input' | 'operator'> {
-  propertyType: 'date' | 'dateTime';
+  propertyType: 'date' | 'datetime';
   operator: DateOperator;
   input: QueryProperty<string | InBetweenOperatorInput>;
 }
@@ -284,7 +284,7 @@ export type DateTimeStrictPropertyFilter = (
   | SingleDateStrictPropertyFilter
   | InBetweenDateStrictPropertyFilter
 ) & {
-  propertyType: 'dateTime';
+  propertyType: 'datetime';
 };
 
 export interface NumberStrictPropertyFilter extends BaseStrictPropertyFilter<number> {
@@ -307,7 +307,7 @@ export type QueryPropertyTemplate = StringQueryPropertyTemplate | NumberQueryPro
 
 export interface BaseQueryPropertyTemplate extends BaseQueryProperty {
   type: 'template';
-  inputType: 'number' | 'string' | 'date' | 'boolean' | 'dateTime';
+  inputType: 'number' | 'string' | 'date' | 'boolean' | 'datetime';
 }
 
 export interface StringQueryPropertyTemplate extends BaseQueryPropertyTemplate {
