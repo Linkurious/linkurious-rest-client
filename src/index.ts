@@ -3,10 +3,8 @@
  *
  * - Created on 2019-10-25.
  */
-
-import * as request from 'superagent';
-
-import {ClientState} from './http/types';
+import {Agent} from './http/agent';
+import {ClientState, Interceptor} from './http/types';
 import {LkErrorKey, LkErrorKeyToInterface} from './http/response';
 import {ErrorListener} from './errorListener';
 import {AccessRightAPI} from './api/AccessRight';
@@ -63,15 +61,10 @@ export class RestClient extends ErrorListener {
   public readonly tag: TagAPI;
   public readonly entityResolution: EntityResolutionAPI;
 
-  constructor(options?: {baseUrl?: string; headers?: [field: string, value: string][]}) {
+  constructor(options?: {baseUrl?: string; interceptors?: Interceptor[]}) {
     super();
 
     this.clientState = {};
-
-    let agent = request.agent();
-    for (const [field, value] of options?.headers ?? []) {
-      agent = agent.set(field, value);
-    }
 
     const moduleProps = {
       baseUrl: options?.baseUrl
@@ -79,7 +72,7 @@ export class RestClient extends ErrorListener {
           ? options.baseUrl + 'api'
           : options.baseUrl + '/api'
         : '/api',
-      agent: agent,
+      agent: new Agent(options?.interceptors ?? []),
       clientState: this.clientState,
       dispatchError: <T extends LkErrorKey>(key: T, payload: LkErrorKeyToInterface[T]): void =>
         this.dispatchError(key, payload)

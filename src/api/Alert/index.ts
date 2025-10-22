@@ -231,7 +231,7 @@ export class AlertAPI extends Request {
   /**
    * Get extract file from a given alert by id.
    */
-  public getCaseListInfoExtract(params: IExtractCaseListInfoParams) {
+  public getCaseListInfoExtract(this: Request<ArrayBuffer>, params: IExtractCaseListInfoParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/:alertId/cases/extract',
@@ -448,7 +448,7 @@ export class AlertAPI extends Request {
   /**
    * Get extract for the full case list.
    */
-  public getFullCaseListExtract(params: IGetFullCaseListParams) {
+  public getFullCaseListExtract(this: Request<ArrayBuffer>, params: IGetFullCaseListParams) {
     return this.request({
       errors: [FEATURE_DISABLED, UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/alerts/cases/extract',

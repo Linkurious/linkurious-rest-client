@@ -5,7 +5,6 @@
  */
 
 import {InternalServerError, UnexpectedServerError} from '../errorListener';
-import {GenericObject} from '../api/commonTypes';
 import {hasValue, includes} from '../utils';
 
 import {
@@ -17,13 +16,7 @@ import {
   LkErrorKeyToInterface,
   Response
 } from './response';
-import {
-  FetchConfig,
-  ModuleProps,
-  RawFetchConfig,
-  SendBeaconConfig,
-  SuperAgentResponse
-} from './types';
+import {FetchConfig, ModuleProps, RawFetchConfig, SendBeaconConfig} from './types';
 
 export abstract class Request<S = undefined> {
   constructor(public readonly props: ModuleProps) {}
@@ -60,11 +53,8 @@ export abstract class Request<S = undefined> {
       }
 
       // 3) Get other param values using `configParams`
-      // @ts-ignore
       if (hasValue(configParams[key])) {
-        // @ts-ignore
         paramValue = configParams[key] as string;
-        // @ts-ignore
         delete configParams[key];
       }
 
@@ -87,30 +77,33 @@ export abstract class Request<S = undefined> {
   }
 
   /**
-   * Return object in input with keys transformed from camelCase to snake_case
+   * Format supplied object into a query string.
    */
-  public static toSnakeCaseKeys(obj: GenericObject) {
-    const result: GenericObject = {};
-    for (const key in obj) {
+  private static formatQuery(obj: Record<string, unknown>): string {
+    const searchParams = new URLSearchParams();
+    for (const [key, values] of Object.entries(obj).filter(([, value]) => hasValue(value))) {
       const fixedKey = key
         .replace(/(^[A-Z])/, (first) => first.toLowerCase())
         .replace(/([A-Z])/g, (letter) => `_${letter.toLowerCase()}`);
-      result[fixedKey] = obj[key];
+
+      for (const value of Array.isArray(values) ? values : [values]) {
+        searchParams.append(fixedKey, String(value));
+      }
     }
-    return result;
+    return searchParams.toString();
   }
 
   /**
    * Sort `config.params` into `config.body` and `config.query`
    * and set `guest` and `_` query params.
    */
-  public static splitParams(
+  private static splitParams(
     config: Required<RawFetchConfig>,
     moduleProps: ModuleProps
   ): FetchConfig {
     // 1) Default values for `body` and `query`
-    let body: GenericObject | undefined;
-    let query: GenericObject = {
+    let body: Record<string, unknown> | undefined;
+    let query: Record<string, unknown> = {
       _: Date.now(),
       guest: moduleProps.clientState.guestMode ? true : undefined
     };
@@ -125,9 +118,8 @@ export abstract class Request<S = undefined> {
     // 3) Return a valid fetch config
     return {
       method: config.method,
-      url: moduleProps.baseUrl + config.url,
-      body: body,
-      query: Request.toSnakeCaseKeys(query)
+      url: moduleProps.baseUrl + config.url + '?' + Request.formatQuery(query),
+      body: body
     };
   }
 
@@ -167,39 +159,25 @@ export abstract class Request<S = undefined> {
     const fetchConfig = Request.splitParams(requiredConfig, this.props);
 
     // 3) Make the HTTP request
-    let response: SuperAgentResponse;
+    let response: Response<S>;
     try {
-      response = await this.props.agent[
-        fetchConfig.method.toLowerCase() as 'get' | 'delete' | 'post' | 'put' | 'patch'
-      ](fetchConfig.url)
-        .ok((res) => res.status < 500)
-        .withCredentials()
-        .send(fetchConfig.body)
-        .query(fetchConfig.query);
+      response = await this.props.agent.fetch(fetchConfig);
     } catch (ex) {
-      // 4.a) Return error when there is no connection
-      if (!this.hasResponse(ex)) {
-        const error: ConnectionRefusedError = {
-          key: LkErrorKey.CONNECTION_REFUSED,
-          message: 'offline',
-          fetchConfig: fetchConfig
-        };
-        this.props.dispatchError(error.key, error);
-        return new Response({body: error});
-      }
+      const error: ConnectionRefusedError = {
+        key: LkErrorKey.CONNECTION_REFUSED,
+        message: 'offline',
+        fetchConfig: fetchConfig
+      };
+      this.props.dispatchError(error.key, error);
+      return new Response({body: error});
+    }
 
-      // 4.b) Throw error if status code is 5xx
-      throw new InternalServerError(ex.response);
+    if (response.status >= 500) {
+      throw new InternalServerError(response);
     }
 
     // From here we only deal with responses with status code lower than 500
     if (this.isLkError(response.body)) {
-      const errorResponse = new Response({
-        status: response.status,
-        header: response.header as unknown as GenericObject | undefined,
-        body: response.body as LkErrorKeyToInterface[LkErrorKey]
-      }) as ErrorResponses<EK>;
-
       if (includes(requiredConfig.errors, response.body.key)) {
         // Dispatch server error if expected
         this.props.dispatchError(
@@ -207,26 +185,22 @@ export abstract class Request<S = undefined> {
           response.body as LkErrorKeyToInterface[LkErrorKey]
         );
 
-        return errorResponse;
+        return response as unknown as ErrorResponses<EK>;
       } else if (response.status < 200 || response.status >= 300) {
         // Throw error if unexpected
-        throw new UnexpectedServerError(errorResponse);
+        throw new UnexpectedServerError(response as Response<LkError>);
       }
     }
 
-    // 4.e) Throw error if unexpected status code
+    // Throw error if unexpected status code
     if (!includes([200, 201, 204], response.status)) {
       throw new Error(
         `Unexpected status code "${response.status}": ${JSON.stringify(response.body)}`
       );
     }
 
-    // 4.f) Return the success
-    return new Response({
-      status: response.status,
-      header: response.header as unknown as GenericObject | undefined,
-      body: response.body as unknown as S
-    });
+    // Return the success
+    return response;
   }
 
   private isLkError(body: unknown): body is LkError {
@@ -241,13 +215,6 @@ export abstract class Request<S = undefined> {
   }
 
   private isDataSourceUnavailableError(error: unknown): error is DataSourceUnavailableError {
-    return (
-      (error as LkError).key !== undefined &&
-      (error as LkError).key === LkErrorKey.DATA_SOURCE_UNAVAILABLE
-    );
-  }
-
-  private hasResponse<B>(error: unknown): error is {response: Response<B>} {
-    return (error as {response: Response<B>}).response !== undefined;
+    return this.isLkError(error) && error.key === LkErrorKey.DATA_SOURCE_UNAVAILABLE;
   }
 }

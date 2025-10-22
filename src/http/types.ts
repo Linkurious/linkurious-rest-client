@@ -3,14 +3,12 @@
  *
  * - Created on 2019-10-01.
  */
-
-import {SuperAgentStatic, Response} from 'superagent';
-
 import {User} from '../api/User';
 import {DataSourceUserInfo} from '../api/DataSource';
 import {ErrorListener} from '../errorListener';
 import {GenericObject} from '../api/commonTypes';
 
+import {Agent} from './agent';
 import {LkErrorKey} from './response';
 
 /**
@@ -38,7 +36,6 @@ export interface FetchConfig {
   url: string;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
   body?: GenericObject;
-  query: GenericObject;
 }
 
 export interface ClientState {
@@ -50,12 +47,12 @@ export interface ClientState {
 
 export interface ModuleProps {
   readonly baseUrl: string;
-  readonly agent: SuperAgentStatic;
+  readonly agent: Agent;
   readonly clientState: ClientState;
   readonly dispatchError: ErrorListener['dispatchError'];
 }
 
-// We define our own type because Response declares body as any
-export type SuperAgentResponse = Omit<Response, 'body'> & {
-  body: GenericObject<unknown> | undefined;
-};
+export interface Interceptor {
+  onRequest?(request: Request): Request;
+  onResponse?(response: Response): Response;
+}
