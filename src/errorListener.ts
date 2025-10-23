@@ -3,23 +3,19 @@
  *
  * - Created on 2019-03-13.
  */
-
-import {SuperAgentResponse} from './http/types';
-import {LkErrorKey, LkErrorKeyToInterface, Response} from './http/response';
+import {LkError, LkErrorKey, LkErrorKeyToInterface} from './http/response';
 
 type SimpleCallback<A = unknown, B = unknown> = (payload: A) => B;
 type SimpleListeners = Record<LkErrorKey, SimpleCallback>;
 
 export class UnexpectedServerError extends Error {
-  public readonly originalResponse: SuperAgentResponse;
-  constructor(originalResponse: SuperAgentResponse) {
+  constructor(readonly originalResponse: {body: LkError}) {
     super(`Unexpected error: ${JSON.stringify(originalResponse.body)}`);
-    this.originalResponse = originalResponse;
   }
 }
 
 export class InternalServerError extends Error {
-  constructor(readonly originalResponse: Response<unknown>) {
+  constructor(readonly originalResponse: {body: unknown}) {
     super(`Internal server error: ${JSON.stringify(originalResponse.body)}`);
   }
 }
