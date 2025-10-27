@@ -3,19 +3,19 @@
  *
  * - Created on 2019-03-13.
  */
-import {LkError, LkErrorKey, LkErrorKeyToInterface} from './http/response';
+import {LkError, LkErrorKey, LkErrorKeyToInterface, Response} from './http/response';
 
 type SimpleCallback<A = unknown, B = unknown> = (payload: A) => B;
 type SimpleListeners = Record<LkErrorKey, SimpleCallback>;
 
 export class UnexpectedServerError extends Error {
-  constructor(readonly originalResponse: {body: LkError}) {
+  constructor(readonly originalResponse: Response<LkError>) {
     super(`Unexpected error: ${JSON.stringify(originalResponse.body)}`);
   }
 }
 
 export class InternalServerError extends Error {
-  constructor(readonly originalResponse: {body: unknown}) {
+  constructor(readonly originalResponse: Response<unknown>) {
     super(`Internal server error: ${JSON.stringify(originalResponse.body)}`);
   }
 }
