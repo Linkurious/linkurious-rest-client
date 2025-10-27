@@ -194,6 +194,12 @@ export abstract class Request<S = undefined> {
 
     // From here we only deal with responses with status code lower than 500
     if (this.isLkError(response.body)) {
+      const errorResponse = new Response({
+        status: response.status,
+        header: response.header as unknown as GenericObject | undefined,
+        body: response.body as LkErrorKeyToInterface[LkErrorKey]
+      }) as ErrorResponses<EK>;
+
       if (includes(requiredConfig.errors, response.body.key)) {
         // Dispatch server error if expected
         this.props.dispatchError(
@@ -201,14 +207,10 @@ export abstract class Request<S = undefined> {
           response.body as LkErrorKeyToInterface[LkErrorKey]
         );
 
-        return new Response({
-          status: response.status,
-          header: response.header as unknown as GenericObject | undefined,
-          body: response.body as LkErrorKeyToInterface[LkErrorKey]
-        }) as ErrorResponses<EK>;
+        return errorResponse;
       } else if (response.status < 200 || response.status >= 300) {
         // Throw error if unexpected
-        throw new UnexpectedServerError({body: response.body});
+        throw new UnexpectedServerError(errorResponse);
       }
     }
 
