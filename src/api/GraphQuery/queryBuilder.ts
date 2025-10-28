@@ -232,7 +232,7 @@ export type StringOperator = (typeof STRING_OPERATORS)[number];
 export const NUMBER_OPERATORS = ['=', '!=', '<', '<=', '>', '>=', 'isNull', 'isNotNull'] as const;
 export type NumberOperator = (typeof NUMBER_OPERATORS)[number];
 
-export const DATE_OPERATORS = [
+export const TEMPORAL_OPERATORS = [
   '=',
   '!=',
   '<',
@@ -244,7 +244,7 @@ export const DATE_OPERATORS = [
   'isNotNull'
 ] as const;
 
-export type DateOperator = (typeof DATE_OPERATORS)[number];
+export type DateOperator = (typeof TEMPORAL_OPERATORS)[number];
 
 export type InBetweenOperatorInput = {
   startDate: string;
@@ -256,19 +256,19 @@ export interface StringStrictPropertyFilter extends BaseStrictPropertyFilter<str
   operator: StringOperator;
 }
 
-export interface BaseDateStrictPropertyFilter
+export interface BaseTemporalStrictPropertyFilter
   extends Omit<BaseStrictPropertyFilter<string>, 'input' | 'operator'> {
   propertyType: 'date' | 'datetime';
   operator: DateOperator;
   input: QueryProperty<string | InBetweenOperatorInput>;
 }
 
-export interface InBetweenDateStrictPropertyFilter extends BaseDateStrictPropertyFilter {
+export interface InBetweenDateStrictPropertyFilter extends BaseTemporalStrictPropertyFilter {
   operator: 'inBetween';
   input: QueryProperty<InBetweenOperatorInput>;
 }
 
-export interface SingleDateStrictPropertyFilter extends BaseDateStrictPropertyFilter {
+export interface SingleDateStrictPropertyFilter extends BaseTemporalStrictPropertyFilter {
   operator: Exclude<DateOperator, 'inBetween'>;
   input: QueryProperty<string>;
 }
