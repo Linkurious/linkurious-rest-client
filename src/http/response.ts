@@ -69,7 +69,7 @@ export enum LkErrorKey {
   ENTITY_RESOLUTION_QUOTA_EXCEEDED = 'entity_resolution_quota_exceeded',
   LICENSE_SEATS_LIMIT_EXCEEDED = 'license_seats_limit_exceeded',
   LICENSE_ALERTS_LIMIT_EXCEEDED = 'license_alerts_limit_exceeded',
-  WORKER_OVERLOADED = 'worker_overloaded'
+  WORKER_TIMEOUT = 'worker_timeout'
 }
 
 /**
@@ -280,7 +280,7 @@ export interface LicenseSeatsLimitExceeded
 export interface AlertQueriesLimitExceeded
   extends LkError<LkErrorKey.LICENSE_ALERTS_LIMIT_EXCEEDED> {}
 
-export interface WorkerOverloadedError extends LkError<LkErrorKey.WORKER_OVERLOADED> {}
+export interface WorkerTimeoutError extends LkError<LkErrorKey.WORKER_TIMEOUT> {}
 
 // Mapping from LkErrorKey to LkError, it's used by `ErrorResponses`
 export type LkErrorKeyToInterface = {
@@ -336,5 +336,5 @@ export type LkErrorKeyToInterface = {
   [LkErrorKey.ENTITY_RESOLUTION_QUOTA_EXCEEDED]: EntityResolutionQuotaExceeded;
   [LkErrorKey.LICENSE_SEATS_LIMIT_EXCEEDED]: LicenseSeatsLimitExceeded;
   [LkErrorKey.LICENSE_ALERTS_LIMIT_EXCEEDED]: AlertQueriesLimitExceeded;
-  [LkErrorKey.WORKER_OVERLOADED]: WorkerOverloadedError;
+  [LkErrorKey.WORKER_TIMEOUT]: WorkerTimeoutError;
 };
