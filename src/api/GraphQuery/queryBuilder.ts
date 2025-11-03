@@ -247,8 +247,8 @@ export const TEMPORAL_OPERATORS = [
 export type DateOperator = (typeof TEMPORAL_OPERATORS)[number];
 
 export type InBetweenOperatorInput = {
-  startDate: string;
-  endDate: string;
+  start: string;
+  end: string;
 };
 
 export interface StringStrictPropertyFilter extends BaseStrictPropertyFilter<string[]> {
