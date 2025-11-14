@@ -163,7 +163,7 @@ export interface GraphQueryEdgeFilter {
  * Internal interface for property filters
  */
 export interface BasePropertyFilter {
-  propertyType: 'string' | 'number' | 'date';
+  propertyType: 'string' | 'number' | 'date' | 'datetime';
   operator: BaseOperator;
 }
 
@@ -201,7 +201,11 @@ export interface StringSearchPropertyFilter extends BaseSearchPropertyFilter {
  * - string filter
  * - numerical filter
  */
-export type StrictPropertyFilter = StringStrictPropertyFilter | NumberStrictPropertyFilter;
+export type StrictPropertyFilter =
+  | StringStrictPropertyFilter
+  | NumberStrictPropertyFilter
+  | DateStrictPropertyFilter
+  | DateTimeStrictPropertyFilter;
 
 export interface BaseStrictPropertyFilter<T> extends BasePropertyFilter {
   propertyKey: string;
@@ -216,6 +220,7 @@ export const BASE_OPERATORS = [
   '>',
   '>=',
   '~',
+  'inBetween',
   'isNull',
   'isNotNull'
 ] as const;
@@ -227,10 +232,60 @@ export type StringOperator = (typeof STRING_OPERATORS)[number];
 export const NUMBER_OPERATORS = ['=', '!=', '<', '<=', '>', '>=', 'isNull', 'isNotNull'] as const;
 export type NumberOperator = (typeof NUMBER_OPERATORS)[number];
 
+export const TEMPORAL_OPERATORS = [
+  '=',
+  '!=',
+  '<',
+  '<=',
+  '>',
+  '>=',
+  'inBetween',
+  'isNull',
+  'isNotNull'
+] as const;
+
+export type DateOperator = (typeof TEMPORAL_OPERATORS)[number];
+
+export type InBetweenOperatorInput = {
+  start: string;
+  end: string;
+};
+
 export interface StringStrictPropertyFilter extends BaseStrictPropertyFilter<string[]> {
   propertyType: 'string';
   operator: StringOperator;
 }
+
+export interface BaseTemporalStrictPropertyFilter
+  extends Omit<BaseStrictPropertyFilter<string>, 'input' | 'operator'> {
+  propertyType: 'date' | 'datetime';
+  operator: DateOperator;
+  input: QueryProperty<string | InBetweenOperatorInput>;
+}
+
+export interface InBetweenDateStrictPropertyFilter extends BaseTemporalStrictPropertyFilter {
+  operator: 'inBetween';
+  input: QueryProperty<InBetweenOperatorInput>;
+}
+
+export interface SingleDateStrictPropertyFilter extends BaseTemporalStrictPropertyFilter {
+  operator: Exclude<DateOperator, 'inBetween'>;
+  input: QueryProperty<string>;
+}
+
+export type DateStrictPropertyFilter = (
+  | SingleDateStrictPropertyFilter
+  | InBetweenDateStrictPropertyFilter
+) & {
+  propertyType: 'date';
+};
+
+export type DateTimeStrictPropertyFilter = (
+  | SingleDateStrictPropertyFilter
+  | InBetweenDateStrictPropertyFilter
+) & {
+  propertyType: 'datetime';
+};
 
 export interface NumberStrictPropertyFilter extends BaseStrictPropertyFilter<number> {
   propertyType: 'number';
@@ -252,7 +307,7 @@ export type QueryPropertyTemplate = StringQueryPropertyTemplate | NumberQueryPro
 
 export interface BaseQueryPropertyTemplate extends BaseQueryProperty {
   type: 'template';
-  inputType: 'number' | 'string' | 'date' | 'boolean' | 'dateTime';
+  inputType: 'number' | 'string' | 'date' | 'boolean' | 'datetime';
 }
 
 export interface StringQueryPropertyTemplate extends BaseQueryPropertyTemplate {
