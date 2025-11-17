@@ -595,5 +595,5 @@ export interface UclColumnCustomization {
 }
 
 export interface UclCustomization {
-  columns?: {[key: string]: UclColumnCustomization[]};
+  columns?: {[key: number]: UclColumnCustomization[]};
 }
