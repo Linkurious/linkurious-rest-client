@@ -596,8 +596,8 @@ export interface UclColumnCustomization {
 
 export interface UclCustomization {
   columns?: {
-    default: UclColumnCustomization[];
-    alert: {
+    default?: UclColumnCustomization[];
+    alert?: {
       [alertId: number]: UclColumnCustomization[];
     };
   };
