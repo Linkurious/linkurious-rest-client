@@ -595,5 +595,10 @@ export interface UclColumnCustomization {
 }
 
 export interface UclCustomization {
-  columns?: {[key: number]: UclColumnCustomization[]};
+  columns?: {
+    default: UclColumnCustomization[];
+    alert: {
+      [alertId: number]: UclColumnCustomization[];
+    };
+  };
 }
