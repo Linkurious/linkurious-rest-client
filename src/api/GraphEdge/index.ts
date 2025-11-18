@@ -9,7 +9,13 @@ import {LkErrorKey} from '../../http/response';
 import {LkEdge, LkSubGraph} from '../graphItemTypes';
 import {IDataSourceParams} from '../commonTypes';
 
-import {ICreateEdgeParams, IDeleteEdgeParams, IGetEdgeParams, IUpdateEdgeParams} from './types';
+import {
+  BulkCreateEdgesParams,
+  ICreateEdgeParams,
+  IDeleteEdgeParams,
+  IGetEdgeParams,
+  IUpdateEdgeParams
+} from './types';
 
 export * from './types';
 
@@ -56,6 +62,17 @@ export class GraphEdgeAPI extends Request {
     });
   }
 
+  /**
+   * Add a chunk of edges to the graph.
+   */
+  public bulkCreateEdges(params: BulkCreateEdgesParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN],
+      url: '/:sourceKey/graph/edges/bulk',
+      method: 'POST',
+      params: params
+    });
+  }
   /**
    * Delete an edge from the graph.
    */

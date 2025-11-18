@@ -29,6 +29,11 @@ export interface IDeleteNodeParams extends IDataSourceParams {
   id: string;
 }
 
+export interface BulkCreateNodesParams extends IDataSourceParams {
+  nodes: Omit<ICreateNodeParams, 'sourceKey'>;
+  importId?: number;
+}
+
 export interface IGetStatisticsParams extends IDataSourceParams {
   ids: string[];
   withDigest?: boolean;
