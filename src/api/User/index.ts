@@ -96,7 +96,14 @@ export class UserAPI extends Request {
    */
   public createUser(this: Request<User>, params: ICreateUserParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, ALREADY_EXISTS, EMAIL_FORMAT, LICENSE_SEATS_LIMIT_EXCEEDED],
+      errors: [
+        UNAUTHORIZED,
+        FORBIDDEN,
+        INVALID_PARAMETER,
+        ALREADY_EXISTS,
+        EMAIL_FORMAT,
+        LICENSE_SEATS_LIMIT_EXCEEDED
+      ],
       url: '/admin/users',
       method: 'POST',
       params: params
