@@ -100,7 +100,9 @@ export class GraphNodeAPI extends Request {
   }
 
   /**
-   * Add a chunk of nodes to the graph.
+   * Add a chunk of nodes to the graph. Optionally accepts an import ID parameter. If it is
+   * provided, the nodes are linked to this import (via a hidden property). Otherwise, the
+   * nodes are created without any link.
    */
   public bulkCreateNodes(params: BulkCreateNodesParams) {
     return this.request({

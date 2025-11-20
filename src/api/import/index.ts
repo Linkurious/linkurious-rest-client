@@ -27,7 +27,8 @@ export class ImportAPI extends Request {
   }
 
   /**
-   * List all the existing imports.
+   * List all the existing imports (for the current user if they are not admin, or for all users
+   * if the current user is an admin).
    */
   getImports(this: Request<{items: Import[]}>) {
     return this.request({

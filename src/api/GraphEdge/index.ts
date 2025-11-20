@@ -63,7 +63,9 @@ export class GraphEdgeAPI extends Request {
   }
 
   /**
-   * Add a chunk of edges to the graph.
+   * Add a chunk of edges to the graph. Optionally accepts an import ID parameter. If it is
+   * provided, the edges are linked to this import (via a hidden property). Otherwise, the
+   * edges are created without any link.
    */
   public bulkCreateEdges(params: BulkCreateEdgesParams) {
     return this.request({

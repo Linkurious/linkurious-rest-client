@@ -29,6 +29,6 @@ export interface IDeleteEdgeParams extends IDataSourceParams {
 }
 
 export interface BulkCreateEdgesParams extends IDataSourceParams {
-  nodes: Omit<ICreateEdgeParams, 'sourceKey'>;
+  edges: Omit<ICreateEdgeParams, 'sourceKey'>;
   importId?: number;
 }
