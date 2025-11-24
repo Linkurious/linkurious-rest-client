@@ -596,9 +596,11 @@ export interface UclColumnCustomization {
 
 export interface ColumnsCustomizationMapping {
   default?: UclColumnCustomization[];
-  alert?: {
-    [alertId: number]: UclColumnCustomization[];
-  };
+  alert?: AlertIdToColumnsCustomizationMapping;
+}
+
+export interface AlertIdToColumnsCustomizationMapping {
+  [alertId: number]: UclColumnCustomization[];
 }
 
 export interface UclCustomization {
