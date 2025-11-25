@@ -147,6 +147,10 @@ export interface IVisualizationTimeline {
   zoomLevel?: ZoomLevel;
 }
 
+export interface VisualizationThumbnailData {
+  svg: string;
+}
+
 export interface BaseVisualization {
   nodes: IVizNodeInfo[];
   nodeGroups?: IVizNodeGroupInfo[];
@@ -218,6 +222,7 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   timeline?: IVisualizationTimeline;
   layout?: VisualizationLayout;
   geo?: IVisualizationGeo;
+  thumbnail?: VisualizationThumbnailData;
 }
 
 export interface IDuplicateVisualizationParams extends IDataSourceParams {
@@ -254,6 +259,7 @@ export interface SharedVisualization {
   locked: boolean;
   lastLockedByUser: Pick<User, 'username' | 'email'>;
   lastEditedByUser: Pick<User, 'username' | 'email'>;
+  thumbnail?: VisualizationThumbnailData;
 }
 
 export type GetSharedVisualizationsResponse = SharedVisualization[];
@@ -291,6 +297,7 @@ export interface VisualizationTreeItem {
   lastLockedByUser: Pick<User, 'username' | 'email'>;
   lastEditedByUser: Pick<User, 'username' | 'email'>;
   locked: boolean;
+  thumbnail?: VisualizationThumbnailData;
 }
 
 export type VisualizationTree = Tree<VisualizationTreeItem, 'visu'>;
