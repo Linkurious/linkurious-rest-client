@@ -147,6 +147,36 @@ export interface IVisualizationTimeline {
   zoomLevel?: ZoomLevel;
 }
 
+export interface VisualizationThumbnailNode {
+  id: string;
+  attributes: unknown;
+}
+
+export interface VisualizationThumbnailEdge {
+  id: string;
+  source: string;
+  target: string;
+  attributes: unknown;
+}
+
+export interface VisualizationThumbnail {
+  nodes: VisualizationThumbnailNode[];
+  edges: VisualizationThumbnailEdge[];
+}
+
+export interface VisualizationThumbnailNodeWithMetadata extends VisualizationThumbnailNode {
+  data: {categories: string[]};
+}
+
+export interface VisualizationThumbnailEdgeWithMetadata extends VisualizationThumbnailEdge {
+  data: {type: string};
+}
+
+export interface VisualizationThumbnailWithMetadata {
+  nodes: VisualizationThumbnailNodeWithMetadata[];
+  edges: VisualizationThumbnailEdgeWithMetadata[];
+}
+
 export interface BaseVisualization {
   nodes: IVizNodeInfo[];
   nodeGroups?: IVizNodeGroupInfo[];
@@ -218,6 +248,7 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   timeline?: IVisualizationTimeline;
   layout?: VisualizationLayout;
   geo?: IVisualizationGeo;
+  thumbnail?: VisualizationThumbnailWithMetadata | null; // Set explicitly to null to remove an existing thumbnail
 }
 
 export interface IDuplicateVisualizationParams extends IDataSourceParams {
@@ -254,6 +285,7 @@ export interface SharedVisualization {
   locked: boolean;
   lastLockedByUser: Pick<User, 'username' | 'email'>;
   lastEditedByUser: Pick<User, 'username' | 'email'>;
+  thumbnail?: VisualizationThumbnail;
 }
 
 export type GetSharedVisualizationsResponse = SharedVisualization[];
@@ -291,6 +323,7 @@ export interface VisualizationTreeItem {
   lastLockedByUser: Pick<User, 'username' | 'email'>;
   lastEditedByUser: Pick<User, 'username' | 'email'>;
   locked: boolean;
+  thumbnail?: VisualizationThumbnail;
 }
 
 export type VisualizationTree = Tree<VisualizationTreeItem, 'visu'>;
