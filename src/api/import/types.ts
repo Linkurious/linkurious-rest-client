@@ -4,7 +4,80 @@
  *
  * - Created on 2025-11-18.
  */
-import {DeletableUser, IDataSourceParams} from '../commonTypes';
+import {DeletableUser, IDataSourceParams, SharingMode} from '../commonTypes';
+import {EntityType} from '../GraphSchema';
+
+export type CreateImportTemplateParams =
+  | CreateNodeImportTemplateParams
+  | CreateEdgeImportTemplateParams;
+
+export interface CreateNodeImportTemplateParams extends CreateBaseImportTemplateParams {
+  entityType: EntityType.NODE;
+}
+
+export interface CreateEdgeImportTemplateParams extends CreateBaseImportTemplateParams {
+  entityType: EntityType.EDGE;
+  sourceNode: NodeReference;
+  targetNode: NodeReference;
+}
+
+interface CreateBaseImportTemplateParams extends IDataSourceParams {
+  name: string;
+  description?: string;
+  sharing?: SharingMode.PRIVATE | SharingMode.SOURCE;
+  /**
+   * The target node category / edge type.
+   */
+  itemType: string;
+  /**
+   * How to map imported fields to node/edge properties.
+   */
+  properties: PropertyMapping[];
+}
+
+interface PropertyMapping {
+  /**
+   * The field in the imported file.
+   */
+  sourceField: string;
+  /**
+   * The destination property key on the node/edge.
+   */
+  targetProperty: string;
+}
+
+interface NodeReference {
+  /**
+   * The field in the imported file.
+   */
+  sourceField: string;
+  /**
+   * The destination node category.
+   */
+  targetCategory: string;
+  /**
+   * The destination property key on the node. If it is undefined, the destination is the native
+   * ID of the node.
+   */
+  targetProperty?: string;
+}
+
+export type UpdateImportTemplateParams = CreateImportTemplateParams & {
+  id: number;
+};
+
+export interface DeleteImportTemplateParams extends IDataSourceParams {
+  id: number;
+}
+
+export interface GetImportTemplatesParams extends IDataSourceParams {
+  entityType?: EntityType;
+}
+
+export type ImportTemplate = CreateImportTemplateParams & {
+  id: number;
+  sourceKey: string;
+};
 
 export interface CreateImportParams extends IDataSourceParams {
   /**
