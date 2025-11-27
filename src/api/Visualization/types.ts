@@ -148,7 +148,17 @@ export interface IVisualizationTimeline {
 }
 
 export interface VisualizationThumbnailData {
-  svg: string;
+  svg: string; // Should not exceed a certain size, cf isThumbnailTooLarge
+}
+
+export const MAX_VISUALIZATION_THUMBNAIL_SIZE_BYTES = 2_097_152; // 2MB
+
+export function isThumbnailTooLarge(
+  thumbnail: VisualizationThumbnailData | null | undefined
+): boolean {
+  const thumbnailContent = thumbnail?.svg ?? '';
+  const thumbnailSizeBytes = new TextEncoder().encode(thumbnailContent).byteLength;
+  return thumbnailSizeBytes > MAX_VISUALIZATION_THUMBNAIL_SIZE_BYTES;
 }
 
 export interface BaseVisualization {
@@ -222,7 +232,7 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   timeline?: IVisualizationTimeline;
   layout?: VisualizationLayout;
   geo?: IVisualizationGeo;
-  thumbnail?: VisualizationThumbnailData;
+  thumbnail?: VisualizationThumbnailData | null; // Set explicitly to null to remove an existing thumbnail
 }
 
 export interface IDuplicateVisualizationParams extends IDataSourceParams {
