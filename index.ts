@@ -18,6 +18,7 @@ export * from './src/api/GraphEdge';
 export * from './src/api/GraphNode';
 export * from './src/api/GraphQuery';
 export * from './src/api/GraphSchema';
+export * from './src/api/import';
 export * from './src/api/License';
 export * from './src/api/Linkurious';
 export * from './src/api/Plugin';
