@@ -594,6 +594,15 @@ export interface UclColumnCustomization {
   isVisible: boolean;
 }
 
+export interface ColumnsCustomizationMapping {
+  default?: UclColumnCustomization[];
+  alert?: AlertIdToColumnsCustomizationMapping;
+}
+
+export interface AlertIdToColumnsCustomizationMapping {
+  [alertId: number]: UclColumnCustomization[];
+}
+
 export interface UclCustomization {
-  columns?: UclColumnCustomization[];
+  columns?: ColumnsCustomizationMapping;
 }
