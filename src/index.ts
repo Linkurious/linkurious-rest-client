@@ -6,7 +6,7 @@
 
 import * as request from 'superagent';
 
-import {ClientState, ModuleProps} from './http/types';
+import {ClientState} from './http/types';
 import {LkErrorKey, LkErrorKeyToInterface} from './http/response';
 import {ErrorListener} from './errorListener';
 import {AccessRightAPI} from './api/AccessRight';
@@ -37,7 +37,6 @@ import {EntityResolutionAPI} from './api/entityResolution';
 
 export class RestClient extends ErrorListener {
   public readonly clientState: ClientState;
-  public readonly moduleProps: ModuleProps;
 
   public readonly accessRight: AccessRightAPI;
   public readonly alert: AlertAPI;
@@ -64,46 +63,52 @@ export class RestClient extends ErrorListener {
   public readonly tag: TagAPI;
   public readonly entityResolution: EntityResolutionAPI;
 
-  constructor(options?: {baseUrl?: string; agent?: request.SuperAgentStatic}) {
+  constructor(options?: {baseUrl?: string; headers?: [field: string, value: string][]}) {
     super();
 
     this.clientState = {};
-    this.moduleProps = {
+
+    let agent = request.agent();
+    for (const [field, value] of options?.headers ?? []) {
+      agent = agent.set(field, value);
+    }
+
+    const moduleProps = {
       baseUrl: options?.baseUrl
         ? endsWith(options.baseUrl, '/')
           ? options.baseUrl + 'api'
           : options.baseUrl + '/api'
         : '/api',
-      agent: (options && options.agent) || request.agent(),
+      agent: agent,
       clientState: this.clientState,
       dispatchError: <T extends LkErrorKey>(key: T, payload: LkErrorKeyToInterface[T]): void =>
         this.dispatchError(key, payload)
     };
 
-    this.accessRight = new AccessRightAPI(this.moduleProps);
-    this.alert = new AlertAPI(this.moduleProps);
-    this.application = new ApplicationAPI(this.moduleProps);
-    this.auth = new AuthAPI(this.moduleProps);
-    this.config = new ConfigAPI(this.moduleProps);
-    this.customAction = new CustomActionAPI(this.moduleProps);
-    this.dataSource = new DataSourceAPI(this.moduleProps);
-    this.favorite = new FavoriteAPI(this.moduleProps);
-    this.graphEdge = new GraphEdgeAPI(this.moduleProps);
-    this.graphNode = new GraphNodeAPI(this.moduleProps);
-    this.graphQuery = new GraphQueryAPI(this.moduleProps);
-    this.graphSchema = new GraphSchemaAPI(this.moduleProps);
-    this.license = new LicenseAPI(this.moduleProps);
-    this.linkurious = new LinkuriousAPI(this.moduleProps);
-    this.plugin = new PluginAPI(this.moduleProps);
-    this.search = new SearchAPI(this.moduleProps);
-    this.mailer = new MailerAPI(this.moduleProps);
-    this.user = new UserAPI(this.moduleProps);
-    this.visualization = new VisualizationAPI(this.moduleProps);
-    this.webhook = new WebhookAPI(this.moduleProps);
-    this.spaces = new SpacesAPI(this.moduleProps);
-    this.nodeGrouping = new NodeGroupingAPI(this.moduleProps);
-    this.tag = new TagAPI(this.moduleProps);
-    this.entityResolution = new EntityResolutionAPI(this.moduleProps);
+    this.accessRight = new AccessRightAPI(moduleProps);
+    this.alert = new AlertAPI(moduleProps);
+    this.application = new ApplicationAPI(moduleProps);
+    this.auth = new AuthAPI(moduleProps);
+    this.config = new ConfigAPI(moduleProps);
+    this.customAction = new CustomActionAPI(moduleProps);
+    this.dataSource = new DataSourceAPI(moduleProps);
+    this.favorite = new FavoriteAPI(moduleProps);
+    this.graphEdge = new GraphEdgeAPI(moduleProps);
+    this.graphNode = new GraphNodeAPI(moduleProps);
+    this.graphQuery = new GraphQueryAPI(moduleProps);
+    this.graphSchema = new GraphSchemaAPI(moduleProps);
+    this.license = new LicenseAPI(moduleProps);
+    this.linkurious = new LinkuriousAPI(moduleProps);
+    this.plugin = new PluginAPI(moduleProps);
+    this.search = new SearchAPI(moduleProps);
+    this.mailer = new MailerAPI(moduleProps);
+    this.user = new UserAPI(moduleProps);
+    this.visualization = new VisualizationAPI(moduleProps);
+    this.webhook = new WebhookAPI(moduleProps);
+    this.spaces = new SpacesAPI(moduleProps);
+    this.nodeGrouping = new NodeGroupingAPI(moduleProps);
+    this.tag = new TagAPI(moduleProps);
+    this.entityResolution = new EntityResolutionAPI(moduleProps);
   }
 
   /**
