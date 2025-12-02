@@ -10,11 +10,13 @@ export interface IGetNodeParams extends IGetSubGraphParams {
   id: string;
 }
 
-export interface ICreateNodeParams extends IDataSourceParams {
+export interface NodeParams {
   categories: string[];
   // TODO type it as LkProperties
   properties?: GenericObject;
 }
+
+export interface ICreateNodeParams extends NodeParams, IDataSourceParams {}
 
 export interface IUpdateNodeParams extends IDataSourceParams {
   id: string;
@@ -27,6 +29,10 @@ export interface IUpdateNodeParams extends IDataSourceParams {
 
 export interface IDeleteNodeParams extends IDataSourceParams {
   id: string;
+}
+
+export interface BulkCreateNodesParams extends IDataSourceParams {
+  nodes: NodeParams[];
 }
 
 export interface IGetStatisticsParams extends IDataSourceParams {
