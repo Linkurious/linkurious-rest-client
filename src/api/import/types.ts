@@ -37,27 +37,27 @@ export interface ImportTemplatePropertyMapping {
   /**
    * The field in the imported file.
    */
-  sourceField: string;
+  importedFileField: string;
   /**
    * The destination property key on the node/edge.
    */
-  targetProperty: string;
+  destinationProperty: string;
 }
 
 export interface ImportTemplateNodeReference {
   /**
    * The field in the imported file.
    */
-  sourceField: string;
+  importedFileField: string;
   /**
    * The destination node category.
    */
-  targetCategory: string;
+  destinationCategory: string;
   /**
    * The destination property key on the node. If it is undefined, the destination is the native
    * ID of the node.
    */
-  targetProperty?: string;
+  destinationProperty?: string;
 }
 
 export interface DeleteImportTemplateParams extends IDataSourceParams {
