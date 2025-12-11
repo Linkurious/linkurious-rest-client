@@ -159,6 +159,16 @@ export interface VisualizationThumbnailEdge {
   attributes: unknown;
 }
 
+/**
+ * The information needed to generate a thumbnail SVG render of the visualization (in the frontend or other clients).
+ *
+ * It is not directly a SVG for performance and access rights reasons.
+ * When saving a visualization the frontend can add thumbnail information obtainned via `ogma.export.json(...)`.
+ * This information provided on save must contain metadata such as categories or edge types (`VisualizationThumbnailWithMetadata` type) .
+ * This data will be stored and then exposed via `VisualizationTreeItem.thumbnail` or `SharedVisualization.thumbnail`.
+ * The exposed thumbnail data (`VisualizationThumbnail` type) is filtered according to user access rights and does not contain the metadata mentioned above.
+ * This data can be then used to generate a thumbnail via the `svg` Ogma util.
+ */
 export interface VisualizationThumbnail {
   nodes: VisualizationThumbnailNode[];
   edges: VisualizationThumbnailEdge[];
@@ -172,6 +182,12 @@ export interface VisualizationThumbnailEdgeWithMetadata extends VisualizationThu
   data: {type: string};
 }
 
+/**
+ * The information needed to save a thumbnail with the visualization.
+ * It will be later used to generate a thumbnail SVG render of the visualization (in the frontend or other clients).
+ *
+ * See also {@link VisualizationThumbnail}
+ */
 export interface VisualizationThumbnailWithMetadata {
   nodes: VisualizationThumbnailNodeWithMetadata[];
   edges: VisualizationThumbnailEdgeWithMetadata[];
