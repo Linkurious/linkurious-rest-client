@@ -10,12 +10,14 @@ export interface IGetEdgeParams extends IGetSubGraphParams {
   id: string;
 }
 
-export interface ICreateEdgeParams extends IDataSourceParams {
+export interface EdgeParams {
   source: string;
   target: string;
   type: string;
   properties?: GenericObject;
 }
+
+export interface ICreateEdgeParams extends EdgeParams, IDataSourceParams {}
 
 export interface IUpdateEdgeParams extends IDataSourceParams {
   id: string;
@@ -26,4 +28,8 @@ export interface IUpdateEdgeParams extends IDataSourceParams {
 
 export interface IDeleteEdgeParams extends IDataSourceParams {
   id: string;
+}
+
+export interface BulkCreateEdgesParams extends IDataSourceParams {
+  edges: EdgeParams[];
 }

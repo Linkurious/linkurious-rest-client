@@ -10,6 +10,7 @@ import {LkNode, LkNodeStatistics, LkSubGraph} from '../graphItemTypes';
 import {IDataSourceParams} from '../commonTypes';
 
 import {
+  BulkCreateNodesParams,
   ICreateNodeParams,
   IDeleteNodeParams,
   IGetAdjacentNodesParams,
@@ -94,6 +95,24 @@ export class GraphNodeAPI extends Request {
       errors: [UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND],
       url: '/:sourceKey/graph/nodes/:id',
       method: 'DELETE',
+      params: params
+    });
+  }
+
+  /**
+   * Add a chunk of nodes to the graph.
+   */
+  public bulkCreateNodes(this: Request<{items: LkNode[]}>, params: BulkCreateNodesParams) {
+    return this.request({
+      errors: [
+        UNAUTHORIZED,
+        DATA_SOURCE_UNAVAILABLE,
+        FORBIDDEN,
+        INVALID_PARAMETER,
+        CONSTRAINT_VIOLATION
+      ],
+      url: '/:sourceKey/graph/bulk/nodes',
+      method: 'POST',
       params: params
     });
   }
