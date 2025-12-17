@@ -147,6 +147,52 @@ export interface IVisualizationTimeline {
   zoomLevel?: ZoomLevel;
 }
 
+export interface VisualizationThumbnailNode {
+  id: string;
+  attributes: unknown;
+}
+
+export interface VisualizationThumbnailEdge {
+  id: string;
+  source: string;
+  target: string;
+  attributes: unknown;
+}
+
+/**
+ * The information needed to generate a thumbnail SVG render of the visualization (in the frontend or other clients).
+ *
+ * It is not directly a SVG for performance and access rights reasons.
+ * When saving a visualization the frontend can add thumbnail information obtainned via `ogma.export.json(...)`.
+ * This information provided on save must contain metadata such as categories or edge types (`VisualizationThumbnailWithMetadata` type) .
+ * This data will be stored and then exposed via `VisualizationTreeItem.thumbnail` or `SharedVisualization.thumbnail`.
+ * The exposed thumbnail data (`VisualizationThumbnail` type) is filtered according to user access rights and does not contain the metadata mentioned above.
+ * This data can be then used to generate a thumbnail via the `svg` Ogma util.
+ */
+export interface VisualizationThumbnail {
+  nodes: VisualizationThumbnailNode[];
+  edges: VisualizationThumbnailEdge[];
+}
+
+export interface VisualizationThumbnailNodeWithMetadata extends VisualizationThumbnailNode {
+  data: {categories: string[]};
+}
+
+export interface VisualizationThumbnailEdgeWithMetadata extends VisualizationThumbnailEdge {
+  data: {type: string};
+}
+
+/**
+ * The information needed to save a thumbnail with the visualization.
+ * It will be later used to generate a thumbnail SVG render of the visualization (in the frontend or other clients).
+ *
+ * See also {@link VisualizationThumbnail}
+ */
+export interface VisualizationThumbnailWithMetadata {
+  nodes: VisualizationThumbnailNodeWithMetadata[];
+  edges: VisualizationThumbnailEdgeWithMetadata[];
+}
+
 export interface BaseVisualization {
   nodes: IVizNodeInfo[];
   nodeGroups?: IVizNodeGroupInfo[];
@@ -218,6 +264,7 @@ export interface ICreateVisualizationParams extends IDataSourceParams {
   timeline?: IVisualizationTimeline;
   layout?: VisualizationLayout;
   geo?: IVisualizationGeo;
+  thumbnail?: VisualizationThumbnailWithMetadata | null; // Set explicitly to null to remove an existing thumbnail
 }
 
 export interface IDuplicateVisualizationParams extends IDataSourceParams {
@@ -254,6 +301,7 @@ export interface SharedVisualization {
   locked: boolean;
   lastLockedByUser: Pick<User, 'username' | 'email'>;
   lastEditedByUser: Pick<User, 'username' | 'email'>;
+  thumbnail?: VisualizationThumbnail;
 }
 
 export type GetSharedVisualizationsResponse = SharedVisualization[];
@@ -291,6 +339,7 @@ export interface VisualizationTreeItem {
   lastLockedByUser: Pick<User, 'username' | 'email'>;
   lastEditedByUser: Pick<User, 'username' | 'email'>;
   locked: boolean;
+  thumbnail?: VisualizationThumbnail;
 }
 
 export type VisualizationTree = Tree<VisualizationTreeItem, 'visu'>;
