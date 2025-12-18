@@ -224,3 +224,7 @@ export interface AutoCompletePropertyParams extends IDataSourceParams {
   fuzziness?: number;
   limit?: number;
 }
+
+export interface StartIndexationParams extends IDataSourceParams {
+  waitForCompletion?: boolean;
+}
