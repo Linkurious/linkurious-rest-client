@@ -228,3 +228,5 @@ export interface AutoCompletePropertyParams extends IDataSourceParams {
 export interface StartIndexationParams extends IDataSourceParams {
   waitForCompletion?: boolean;
 }
+
+export interface UpdateIndexParams extends StartIndexationParams {}
