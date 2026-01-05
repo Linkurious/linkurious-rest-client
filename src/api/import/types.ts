@@ -4,7 +4,7 @@
  *
  * - Created on 2025-11-27.
  */
-import {IDataSourceParams, SharingMode} from '../commonTypes';
+import {DeletableUser, IDataSourceParams, SharingMode} from '../commonTypes';
 import {EntityType} from '../GraphSchema';
 
 export interface CreateImportTemplateParams extends IDataSourceParams {
@@ -72,3 +72,31 @@ export type ImportTemplate = CreateImportTemplateParams & {
   id: number;
   sourceKey: string;
 };
+
+export interface CreateImportParams extends IDataSourceParams {
+  /**
+   * Filename of the uploaded file (including its extension).
+   */
+  filename: string;
+}
+
+export interface DeleteImportParams extends IDataSourceParams {
+  id: number;
+}
+
+export type GetImportsParams = IDataSourceParams;
+
+export interface Import extends CreateImportParams {
+  id: number;
+  sourceKey: string;
+  /**
+   * Who created this import.
+   */
+  createdBy: DeletableUser;
+  /**
+   * When was this import handle created (so before actually uploading nodes/edges).
+   *
+   * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:32:07.508Z".
+   */
+  createdAt: string;
+}

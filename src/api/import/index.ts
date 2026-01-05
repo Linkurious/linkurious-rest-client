@@ -8,9 +8,13 @@ import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 
 import {
+  CreateImportParams,
   CreateImportTemplateParams,
+  DeleteImportParams,
   DeleteImportTemplateParams,
+  GetImportsParams,
   GetImportTemplatesParams,
+  Import,
   ImportTemplate
 } from './types';
 
@@ -50,6 +54,43 @@ export class ImportAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/imports/templates',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Create a new import.
+   */
+  createImport(this: Request<Import>, params: CreateImportParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
+      url: '/:sourceKey/imports',
+      method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Delete an existing import.
+   */
+  deleteImport(params: DeleteImportParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/imports/:id',
+      method: 'DELETE',
+      params: params
+    });
+  }
+
+  /**
+   * List all the existing imports (for the current user if they are not admin, or for all the
+   * users if the current user is an admin).
+   */
+  getImports(this: Request<{items: Import[]}>, params: GetImportsParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
+      url: '/:sourceKey/imports',
       method: 'GET',
       params: params
     });
