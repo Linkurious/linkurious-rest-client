@@ -18,11 +18,11 @@ export interface CreateImportTemplateParams extends IDataSourceParams {
   /**
    * The reference of the node that the edge starts from. Only defined if the destination is an edge.
    */
-  sourceNode?: ImportTemplateNodeReference;
+  sourceNode?: ImportNodeReference;
   /**
    * The reference of the node that the edge ends to. Only defined if the destination is an edge.
    */
-  targetNode?: ImportTemplateNodeReference;
+  targetNode?: ImportNodeReference;
   /**
    * The destination node category / edge type.
    */
@@ -30,10 +30,10 @@ export interface CreateImportTemplateParams extends IDataSourceParams {
   /**
    * How to map imported fields to node/edge properties.
    */
-  properties: ImportTemplatePropertyMapping[];
+  properties: ImportPropertyMapping[];
 }
 
-export interface ImportTemplatePropertyMapping {
+export interface ImportPropertyMapping {
   /**
    * The field in the imported file.
    */
@@ -44,20 +44,21 @@ export interface ImportTemplatePropertyMapping {
   destinationProperty: string;
 }
 
-export interface ImportTemplateNodeReference {
+export interface ImportNodeReference {
   /**
    * The field in the imported file.
    */
   importedFileField: string;
   /**
-   * The destination node category.
-   */
-  destinationCategory: string;
-  /**
-   * The destination property key on the node. If it is undefined, the destination is the native
+   * The destination node category and property. If it is undefined, the destination is the native
    * ID of the node.
    */
-  destinationProperty?: string;
+  destination?: ImportNodeDestination;
+}
+
+export interface ImportNodeDestination {
+  category: string;
+  property: string;
 }
 
 export interface DeleteImportTemplateParams extends IDataSourceParams {
@@ -78,6 +79,9 @@ export interface CreateImportParams extends IDataSourceParams {
    * Filename of the uploaded file (including its extension).
    */
   filename: string;
+  entityType: EntityType;
+  sourceNode?: ImportNodeDestination;
+  targetNode?: ImportNodeDestination;
 }
 
 export interface DeleteImportParams extends IDataSourceParams {
@@ -86,9 +90,11 @@ export interface DeleteImportParams extends IDataSourceParams {
 
 export type GetImportsParams = IDataSourceParams;
 
-export interface Import extends CreateImportParams {
+export interface Import {
   id: number;
   sourceKey: string;
+  filename: string;
+  entityType: EntityType;
   /**
    * Who created this import.
    */
