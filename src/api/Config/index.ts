@@ -7,7 +7,7 @@
 import {LkErrorKey} from '../../http/response';
 import {Request} from '../../http/request';
 
-import {Configuration, IGetConfigParams, IUpdateConfigParams} from './types';
+import {Configuration, IDatabaseOptions, IGetConfigParams, IUpdateConfigParams} from './types';
 
 export * from './types';
 
@@ -34,6 +34,18 @@ export class ConfigAPI extends Request {
       url: '/config',
       method: 'POST',
       params: params
+    });
+  }
+
+  /**
+   * Get the database dialect configured in Linkurious, only available for admins.
+   * Useful for e2e tests.
+   */
+  public getDbDialect(this: Request<IDatabaseOptions['dialect']>) {
+    return this.request({
+      errors: [UNAUTHORIZED],
+      url: '/config/db-dialect',
+      method: 'GET'
     });
   }
 }
