@@ -31,6 +31,10 @@ export interface CreateImportTemplateParams extends IDataSourceParams {
    * How to map imported fields to node/edge properties.
    */
   properties: ImportPropertyMapping[];
+  /**
+   * The delimiter character which separates each field.
+   */
+  delimiter?: string;
 }
 
 export interface ImportPropertyMapping {
