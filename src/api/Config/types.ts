@@ -308,7 +308,7 @@ export interface IAccessConfig {
   saml2?: ISaml2Config;
   oauth2?: IOAuth2Config;
   minimumPasswordLength?: number;
-  requiredPasswordCharacterClasses?: Array<Record<string, string>>;
+  requiredPasswordCharacterClasses?: Record<string, string>;
 }
 
 export interface IMSActiveDirectoryConfig {
