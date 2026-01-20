@@ -31,6 +31,10 @@ export interface CreateImportTemplateParams extends IDataSourceParams {
    * How to map imported fields to node/edge properties.
    */
   properties: ImportPropertyMapping[];
+  /**
+   * The delimiter character which separates each field.
+   */
+  delimiter?: CsvDelimiter;
 }
 
 export interface ImportPropertyMapping {
@@ -60,6 +64,9 @@ export interface ImportNodeDestination {
   category: string;
   property: string;
 }
+
+export const CSV_DELIMITERS = [',', ';', ':', '\t'] as const;
+export type CsvDelimiter = (typeof CSV_DELIMITERS)[number];
 
 export interface DeleteImportTemplateParams extends IDataSourceParams {
   id: number;
