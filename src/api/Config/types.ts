@@ -290,7 +290,6 @@ export interface ILeafletConfig {
 }
 
 export interface IAccessConfig {
-  floatingLicenses?: number;
   authRequired?: boolean;
   disableLocalAuth?: boolean;
   enableCustomGroups?: boolean;
@@ -308,6 +307,8 @@ export interface IAccessConfig {
   ldap?: Array<ILDAPConfig> | ILDAPConfig;
   saml2?: ISaml2Config;
   oauth2?: IOAuth2Config;
+  minimumPasswordLength?: number;
+  requiredPasswordCharacterClasses?: Record<string, string>;
 }
 
 export interface IMSActiveDirectoryConfig {

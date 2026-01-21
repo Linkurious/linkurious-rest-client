@@ -19,6 +19,7 @@ export class ConfigAPI extends Request {
    */
   public getConfiguration(this: Request<Configuration>, params?: IGetConfigParams) {
     return this.request({
+      errors: [UNAUTHORIZED],
       url: '/config',
       method: 'GET',
       params: params

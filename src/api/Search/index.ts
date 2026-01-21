@@ -15,7 +15,9 @@ import {
   ISearchFullParams,
   ISearchParams,
   PropertyAutoCompleteResponse,
-  SearchResponse
+  SearchResponse,
+  StartIndexationParams,
+  UpdateIndexParams
 } from './types';
 
 export * from './types';
@@ -45,8 +47,10 @@ export class SearchAPI extends Request {
    *
    * This endpoint responds without waiting for the indexing process to finish. This process run in
    * the background and may take a long time.
+   *
+   * If waitForCompletion flag is set to true, the request will wait until the indexing process completes before responding.
    */
-  public startIndexation(params?: IDataSourceParams) {
+  public startIndexation(params?: StartIndexationParams) {
     return this.request({
       errors: [
         UNAUTHORIZED,
@@ -75,8 +79,10 @@ export class SearchAPI extends Request {
    * This endpoint responds without waiting for the underlying operations to finish. In particular,
    * if an incremental index synchronization is started, it may run for a long time in the
    * background.
+   *
+   * If waitForCompletion flag is set to true, the request will wait until the indexing process completes before responding.
    */
-  public updateIndex(params?: IDataSourceParams) {
+  public updateIndex(params?: UpdateIndexParams) {
     return this.request({
       errors: [
         UNAUTHORIZED,

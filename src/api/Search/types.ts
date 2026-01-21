@@ -30,7 +30,7 @@ export interface ISearchParams extends IDataSourceParams {
   fuzziness?: number;
   size?: number;
   from?: number;
-  categoriesOrTypes?: [string];
+  categoriesOrTypes?: string[];
   filter?: Array<[string, string]>;
 }
 
@@ -224,3 +224,9 @@ export interface AutoCompletePropertyParams extends IDataSourceParams {
   fuzziness?: number;
   limit?: number;
 }
+
+export interface StartIndexationParams extends IDataSourceParams {
+  waitForCompletion?: boolean;
+}
+
+export interface UpdateIndexParams extends StartIndexationParams {}
