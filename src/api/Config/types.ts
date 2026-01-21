@@ -290,7 +290,6 @@ export interface ILeafletConfig {
 }
 
 export interface IAccessConfig {
-  floatingLicenses?: number;
   authRequired?: boolean;
   disableLocalAuth?: boolean;
   enableCustomGroups?: boolean;
