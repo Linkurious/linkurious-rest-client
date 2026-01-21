@@ -24,7 +24,7 @@
   "scripts": {
     "build": "tsc",
     "test": "mocha dist/test",
-    "test:unit": "mocha dist/test",
+    "test:unit": "mocha --reporter mocha-multi-reporters --reporter-options configFile=.test-reporters.json dist/test",
     "coverage": "nyc --reporter=text-summary --reporter=cobertura --report-dir=reports  mocha --reporter mocha-multi-reporters --reporter-options configFile=.test-reporters.json dist/test",
     "compile": "tsc -b",
     "tsc": "tsc",
