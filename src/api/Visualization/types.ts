@@ -149,7 +149,7 @@ export interface IVisualizationTimeline {
 
 export interface VisualizationThumbnailNode {
   id: string;
-  attributes: unknown;
+  attributes: {[key: string]: unknown; color?: unknown};
 }
 
 export interface VisualizationThumbnailEdge {
@@ -175,11 +175,15 @@ export interface VisualizationThumbnail {
 }
 
 export interface VisualizationThumbnailNodeWithMetadata extends VisualizationThumbnailNode {
-  data: {categories: string[]};
+  data: {
+    colorByCategory: GenericObject<string | null>;
+  };
 }
 
 export interface VisualizationThumbnailEdgeWithMetadata extends VisualizationThumbnailEdge {
-  data: {type: string};
+  data: {
+    type: string;
+  };
 }
 
 /**
