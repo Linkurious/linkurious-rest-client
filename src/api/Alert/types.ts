@@ -452,6 +452,7 @@ export interface ICaseColumn {
   columnValue: string | number | null;
   columnTitle: string;
   currencyOptions?: ICurrencyOptions;
+  isBigInt?: boolean;
 }
 
 export interface AlertQueryData {
