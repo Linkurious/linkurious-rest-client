@@ -22,6 +22,7 @@ export type ConfigLicenseInfo =
       endDate: number;
       strictLicenseEnforcement: boolean;
       alertsLimitExceeded?: boolean;
+      alertsLimitReached?: boolean;
       seatsLimitExceeded: boolean;
       isSaaS: boolean;
     };
