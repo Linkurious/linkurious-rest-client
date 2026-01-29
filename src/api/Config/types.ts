@@ -24,6 +24,7 @@ export type ConfigLicenseInfo =
       alertsLimitExceeded?: boolean;
       alertsLimitReached?: boolean;
       seatsLimitExceeded: boolean;
+      seatsLimitReached: boolean;
       isSaaS: boolean;
     };
 
