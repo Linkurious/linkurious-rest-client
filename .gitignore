@@ -9,6 +9,9 @@ node_modules
 # Compiled code
 dist
 
+# ESLint cache
+.eslintcache
+
 # nyc test coverage
 .nyc_output
 reports
