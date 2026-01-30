@@ -10,6 +10,12 @@ export enum LicenseState {
   IN_GRACE_PERIOD = 'inGracePeriod'
 }
 
+export enum LimitState {
+  BELOW = 'BELOW',
+  REACHED = 'REACHED',
+  EXCEEDED = 'EXCEEDED'
+}
+
 export interface LicenseInfo {
   state: LicenseState;
   endDate: number;

@@ -7,7 +7,7 @@
 import {TlsOptions} from 'tls';
 
 import {GenericObject} from '../commonTypes';
-import {LicenseState} from '../License';
+import {LicenseState, LimitState} from '../License';
 import {IPluginConfig} from '../Plugin';
 import {OgmaNodeShape, OgmaEdgeShape} from '../displayTypes';
 
@@ -21,10 +21,8 @@ export type ConfigLicenseInfo =
       state: LicenseState;
       endDate: number;
       strictLicenseEnforcement: boolean;
-      alertsLimitExceeded?: boolean;
-      alertsLimitReached?: boolean;
-      seatsLimitExceeded: boolean;
-      seatsLimitReached: boolean;
+      seatsLimitState: LimitState;
+      alertsLimitState?: LimitState;
       isSaaS: boolean;
     };
 
