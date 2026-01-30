@@ -78,6 +78,45 @@ export interface LicenseInfo {
   };
 }
 
+export interface RawLicenseInfo {
+  /** The state of the license. */
+  state: LicenseState;
+  /** The license end date (always present in license file). */
+  endDate: number;
+  /** The customer key (always present in license file). */
+  customerKey: string;
+  /** Telemetry mode - undefined if not specified in license. */
+  telemetry?: 'automatic' | 'manual';
+  /** SaaS tier - undefined if not a SaaS license. */
+  saasTier?: string;
+  /** Whether license is strictly enforced - undefined if not specified. */
+  strictLicenseEnforcement?: boolean;
+  /** Whether external authentication is allowed - undefined if not specified. */
+  externalAuthentication?: boolean;
+  /** Whether custom groups are allowed - undefined if not specified. */
+  customGroups?: boolean;
+  /** Access rights level - undefined if not specified. */
+  dataAccessRights?: 'entityLevel' | 'propertyLevel';
+  /** Named user seats - undefined if not specified. */
+  seats?: {
+    allowed: number;
+    used: number;
+  };
+  /** Floating user tokens - undefined if not specified. */
+  tokens?: number;
+  /** Alert queries limit - undefined if not specified. */
+  alerts?: {
+    allowed: number;
+    used: number;
+  };
+  /** Whether audit trail is allowed - undefined if not specified. */
+  auditTrail?: boolean;
+  /** Whether cluster mode is allowed - undefined if not specified. */
+  clusterMode?: boolean;
+  /** Whether this is a trial license - undefined if not specified. */
+  trial?: boolean;
+}
+
 export interface ISaveLicenseParams {
   license: string;
 }

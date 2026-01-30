@@ -6,7 +6,7 @@
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 
-import {ISaveLicenseParams, LicenseInfo} from './types';
+import {ISaveLicenseParams, LicenseInfo, RawLicenseInfo} from './types';
 
 export * from './types';
 
@@ -14,9 +14,11 @@ const {INVALID_LICENSE, FORBIDDEN, UNAUTHORIZED} = LkErrorKey;
 
 export class LicenseAPI extends Request {
   /**
-   * Get information about the currently saved license.
-   */
-  public getLicenseInfo(this: Request<LicenseInfo>) {
+   * Get raw license information without defaults applied.
+   * Only includes fields that are explicitly defined in the license file.
+   * Fields not present in the license file will be undefined.
+   **/
+  public getRawLicenseInfo(this: Request<RawLicenseInfo>) {
     return this.request({
       errors: [FORBIDDEN, UNAUTHORIZED],
       url: '/license',
