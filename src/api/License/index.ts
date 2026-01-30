@@ -18,7 +18,7 @@ export class LicenseAPI extends Request {
    * Only includes fields that are explicitly defined in the license file.
    * Fields not present in the license file will be undefined.
    **/
-  public getRawLicenseInfo(this: Request<RawLicenseInfo>) {
+  public getLicenseInfo(this: Request<RawLicenseInfo>) {
     return this.request({
       errors: [FORBIDDEN, UNAUTHORIZED],
       url: '/license',
