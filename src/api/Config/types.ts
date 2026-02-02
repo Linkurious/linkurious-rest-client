@@ -15,6 +15,9 @@ export interface IGetConfigParams {
   sourceIndex?: number;
 }
 
+/**
+ * License information for end users, with default values.
+ */
 export type ConfigLicenseInfo =
   | {state: LicenseState.MISSING}
   | {

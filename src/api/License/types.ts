@@ -16,11 +16,19 @@ export enum LimitState {
   EXCEEDED = 'EXCEEDED'
 }
 
+/**
+ * License information for admins.
+ * Corresponds to what's strictly in the license, without defaults values.
+ */
 export interface LicenseInfo {
   state: LicenseState;
   endDate: number;
   customerKey: string;
-  telemetry: 'automatic' | 'manual';
+
+  /**
+   * Telemetry mode - undefined if not specified in license.
+   */
+  telemetry?: 'automatic' | 'manual';
 
   /**
    * Defined if the client is using a SAAS instance
@@ -30,37 +38,37 @@ export interface LicenseInfo {
   /**
    * True if the license is strictly enforced.
    */
-  strictLicenseEnforcement: boolean;
+  strictLicenseEnforcement?: boolean;
 
   /**
    * True if external authentication is allowed by the license.
    */
-  externalAuthentication: boolean;
+  externalAuthentication?: boolean;
 
   /**
    * True if customer groups are allowed by the license.
    */
-  customGroups: boolean;
+  customGroups?: boolean;
 
   /**
    * Whether access rights can be set at the entity or the property level.
    */
-  dataAccessRights: 'entityLevel' | 'propertyLevel';
+  dataAccessRights?: 'entityLevel' | 'propertyLevel';
 
   /**
    * True if audit trail is allowed by the license.
    */
-  auditTrail: boolean;
+  auditTrail?: boolean;
 
   /**
    * True if running Linkurious in cluster mode is allowed by the license.
    */
-  clusterMode: boolean;
+  clusterMode?: boolean;
 
   /**
    * Whether this is a trial license
    */
-  trial: boolean;
+  trial?: boolean;
 
   /**
    * The number of named users granted by the license.
@@ -82,50 +90,6 @@ export interface LicenseInfo {
     allowed: number;
     used: number;
   };
-}
-
-/*
-  Raw license information without defaults applied.
-  Only includes fields that are explicitly defined in the license file.
-  Fields not present in the license file will be undefined.
-**/
-export interface RawLicenseInfo {
-  /** The state of the license. */
-  state: LicenseState;
-  /** The license end date (always present in license file). */
-  endDate: number;
-  /** The customer key (always present in license file). */
-  customerKey: string;
-  /** Telemetry mode - undefined if not specified in license. */
-  telemetry?: 'automatic' | 'manual';
-  /** SaaS tier - undefined if not a SaaS license. */
-  saasTier?: string;
-  /** Whether license is strictly enforced - undefined if not specified. */
-  strictLicenseEnforcement?: boolean;
-  /** Whether external authentication is allowed - undefined if not specified. */
-  externalAuthentication?: boolean;
-  /** Whether custom groups are allowed - undefined if not specified. */
-  customGroups?: boolean;
-  /** Access rights level - undefined if not specified. */
-  dataAccessRights?: 'entityLevel' | 'propertyLevel';
-  /** Named user seats - undefined if not specified. */
-  seats?: {
-    allowed: number;
-    used: number;
-  };
-  /** Floating user tokens - undefined if not specified. */
-  tokens?: number;
-  /** Alert queries limit - undefined if not specified. */
-  alerts?: {
-    allowed: number;
-    used: number;
-  };
-  /** Whether audit trail is allowed - undefined if not specified. */
-  auditTrail?: boolean;
-  /** Whether cluster mode is allowed - undefined if not specified. */
-  clusterMode?: boolean;
-  /** Whether this is a trial license - undefined if not specified. */
-  trial?: boolean;
 }
 
 export interface ISaveLicenseParams {
