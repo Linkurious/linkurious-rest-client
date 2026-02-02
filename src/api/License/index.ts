@@ -14,9 +14,7 @@ const {INVALID_LICENSE, FORBIDDEN, UNAUTHORIZED} = LkErrorKey;
 
 export class LicenseAPI extends Request {
   /**
-   * Get raw license information without defaults applied.
-   * Only includes fields that are explicitly defined in the license file.
-   * Fields not present in the license file will be undefined.
+   * Get raw license information, see {@link RawLicenseInfo}.
    **/
   public getLicenseInfo(this: Request<RawLicenseInfo>) {
     return this.request({

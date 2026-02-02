@@ -84,6 +84,11 @@ export interface LicenseInfo {
   };
 }
 
+/*
+  Raw license information without defaults applied.
+  Only includes fields that are explicitly defined in the license file.
+  Fields not present in the license file will be undefined.
+**/
 export interface RawLicenseInfo {
   /** The state of the license. */
   state: LicenseState;
