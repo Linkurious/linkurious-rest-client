@@ -7,7 +7,7 @@
 import {TlsOptions} from 'tls';
 
 import {GenericObject} from '../commonTypes';
-import {LicenseState} from '../License';
+import {LicenseState, LimitState} from '../License';
 import {IPluginConfig} from '../Plugin';
 import {OgmaNodeShape, OgmaEdgeShape} from '../displayTypes';
 
@@ -15,14 +15,17 @@ export interface IGetConfigParams {
   sourceIndex?: number;
 }
 
+/**
+ * License information for end users, with default values.
+ */
 export type ConfigLicenseInfo =
   | {state: LicenseState.MISSING}
   | {
       state: LicenseState;
       endDate: number;
       strictLicenseEnforcement: boolean;
-      alertsLimitExceeded?: boolean;
-      seatsLimitExceeded: boolean;
+      seatsLimitState: LimitState;
+      alertsLimitState?: LimitState;
       isSaaS: boolean;
     };
 
