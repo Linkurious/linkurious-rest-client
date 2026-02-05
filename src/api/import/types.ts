@@ -68,6 +68,10 @@ export interface ImportNodeDestination {
 export const CSV_DELIMITERS = [',', ';', ':', '\t'] as const;
 export type CsvDelimiter = (typeof CSV_DELIMITERS)[number];
 
+export interface UpdateImportTemplateParams extends Partial<CreateImportTemplateParams> {
+  id: number;
+}
+
 export interface DeleteImportTemplateParams extends IDataSourceParams {
   id: number;
 }
@@ -76,8 +80,7 @@ export interface GetImportTemplatesParams extends IDataSourceParams {
   entityType?: EntityType;
 }
 
-export interface ImportTemplate extends CreateImportTemplateParams {
-  id: number;
+export interface ImportTemplate extends UpdateImportTemplateParams {
   sourceKey: string;
   createdBy: DeletableUser;
   createdAt: string;

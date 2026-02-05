@@ -15,7 +15,8 @@ import {
   GetImportsParams,
   GetImportTemplatesParams,
   Import,
-  ImportTemplate
+  ImportTemplate,
+  UpdateImportTemplateParams
 } from './types';
 
 export * from './types';
@@ -31,6 +32,18 @@ export class ImportAPI extends Request {
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/imports/templates',
       method: 'POST',
+      params: params
+    });
+  }
+
+  /**
+   * Update an existing import template.
+   */
+  updateImportTemplate(this: Request<ImportTemplate>, params: UpdateImportTemplateParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/imports/templates/:id',
+      method: 'PATCH',
       params: params
     });
   }
