@@ -80,7 +80,8 @@ export interface GetImportTemplatesParams extends IDataSourceParams {
   entityType?: EntityType;
 }
 
-export interface ImportTemplate extends UpdateImportTemplateParams {
+export interface ImportTemplate extends CreateImportTemplateParams {
+  id: number;
   sourceKey: string;
   createdBy: DeletableUser;
   createdAt: string;
