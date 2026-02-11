@@ -4,13 +4,12 @@
  *
  * - Created on 2025-11-27.
  */
-import {DeletableUser, IDataSourceParams, SharingMode} from '../commonTypes';
+import {DeletableUser, IDataSourceParams, SharingOptions} from '../commonTypes';
 import {EntityType} from '../GraphSchema';
 
-export interface CreateImportTemplateParams extends IDataSourceParams {
+export interface CreateImportTemplateParams extends IDataSourceParams, SharingOptions {
   name: string;
   description?: string;
-  sharing: SharingMode.PRIVATE | SharingMode.SOURCE;
   /**
    * Whether the destination is an edge or a node.
    */
