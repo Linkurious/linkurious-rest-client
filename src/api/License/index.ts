@@ -14,8 +14,8 @@ const {INVALID_LICENSE, FORBIDDEN, UNAUTHORIZED} = LkErrorKey;
 
 export class LicenseAPI extends Request {
   /**
-   * Get information about the currently saved license.
-   */
+   * Get license information, see {@link LicenseInfo}.
+   **/
   public getLicenseInfo(this: Request<LicenseInfo>) {
     return this.request({
       errors: [FORBIDDEN, UNAUTHORIZED],

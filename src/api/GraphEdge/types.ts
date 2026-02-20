@@ -32,4 +32,5 @@ export interface IDeleteEdgeParams extends IDataSourceParams {
 
 export interface BulkCreateEdgesParams extends IDataSourceParams {
   edges: EdgeParams[];
+  importId?: number;
 }

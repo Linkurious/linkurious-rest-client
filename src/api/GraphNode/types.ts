@@ -33,6 +33,7 @@ export interface IDeleteNodeParams extends IDataSourceParams {
 
 export interface BulkCreateNodesParams extends IDataSourceParams {
   nodes: NodeParams[];
+  importId?: number;
 }
 
 export interface IGetStatisticsParams extends IDataSourceParams {
