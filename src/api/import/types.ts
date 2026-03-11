@@ -128,8 +128,9 @@ export interface Import {
 
   /**
    * Total number of items (nodes or edges) that were imported in this import.
+   * the value can be null for backwards compatibility with imports created before this field was added.
    */
-  totalImportedItems: number;
+  totalImportedItems: number | null;
 
   /**
    * The import template name used for this import.
