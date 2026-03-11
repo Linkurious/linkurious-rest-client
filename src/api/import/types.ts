@@ -133,5 +133,7 @@ export interface Import {
 }
 
 export interface ImportTemplateMetadata extends Pick<ImportTemplate, 'name'> {
-  isDeleted: boolean;
+  // Whether the import template used for this import still exists.
+  // If its not existing anymore, it means that the import template was deleted or the user doesn't have access to it anymore.
+  isExisting: boolean;
 }
