@@ -92,8 +92,16 @@ export interface CreateImportParams extends IDataSourceParams {
    */
   filename: string;
   entityType: EntityType;
+  importTemplate: ImportTemplateMetadata;
   sourceNode?: ImportNodeDestination;
   targetNode?: ImportNodeDestination;
+}
+
+export interface ImportTemplateMetadata {
+  id: number;
+  // In case the template has been deleted,
+  // we still want to keep the name of the template used during the import.
+  name: string;
 }
 
 export interface DeleteImportParams extends IDataSourceParams {
@@ -117,4 +125,16 @@ export interface Import {
    * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:32:07.508Z".
    */
   createdAt: string;
+
+  /**
+   * Total number of items (nodes or edges) that were imported in this import.
+   */
+  totalImportedItems: number;
+
+  /**
+   * The import template name used for this import.
+   */
+  importTemplate: Pick<ImportTemplate, 'name'> & {
+    isDeleted: boolean;
+  };
 }
