@@ -97,12 +97,7 @@ export interface CreateImportParams extends IDataSourceParams {
   targetNode?: ImportNodeDestination;
 }
 
-export interface ImportTemplateMetadata {
-  id: number;
-  // In case the template has been deleted,
-  // we still want to keep the name of the template used during the import.
-  name: string;
-}
+export type ImportTemplateMetadata = Pick<ImportTemplate, 'id' | 'name'>;
 
 export interface DeleteImportParams extends IDataSourceParams {
   id: number;
@@ -134,8 +129,11 @@ export interface Import {
 
   /**
    * The import template name used for this import.
+   * the value can be null for backwards compatibility with imports created before this field was added.
    */
-  importTemplate: Pick<ImportTemplate, 'name'> & {
-    isDeleted: boolean;
-  };
+  importTemplate:
+    | (Pick<ImportTemplate, 'name'> & {
+        isDeleted: boolean;
+      })
+    | null;
 }
