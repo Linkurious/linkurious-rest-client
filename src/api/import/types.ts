@@ -92,12 +92,10 @@ export interface CreateImportParams extends IDataSourceParams {
    */
   filename: string;
   entityType: EntityType;
-  importTemplate: ImportTemplateMetadata;
+  importTemplateId: number;
   sourceNode?: ImportNodeDestination;
   targetNode?: ImportNodeDestination;
 }
-
-export type ImportTemplateMetadata = Pick<ImportTemplate, 'id' | 'name'>;
 
 export interface DeleteImportParams extends IDataSourceParams {
   id: number;
@@ -131,9 +129,9 @@ export interface Import {
    * The import template name used for this import.
    * the value can be null for backwards compatibility with imports created before this field was added.
    */
-  importTemplate:
-    | (Pick<ImportTemplate, 'name'> & {
-        isDeleted: boolean;
-      })
-    | null;
+  importTemplate: ImportTemplateMetadata | null;
+}
+
+export interface ImportTemplateMetadata extends Pick<ImportTemplate, 'name'> {
+  isDeleted: boolean;
 }
