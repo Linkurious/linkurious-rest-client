@@ -127,7 +127,6 @@ export interface Import {
 
   /**
    * The import template name used for this import.
-   * the value can be null for backwards compatibility with imports created before this field was added.
    */
-  importTemplateName: string | null;
+  importTemplateName: string;
 }
