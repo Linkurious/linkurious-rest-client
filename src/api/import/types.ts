@@ -129,11 +129,5 @@ export interface Import {
    * The import template name used for this import.
    * the value can be null for backwards compatibility with imports created before this field was added.
    */
-  importTemplate: ImportTemplateMetadata | null;
-}
-
-export interface ImportTemplateMetadata extends Pick<ImportTemplate, 'name'> {
-  // Whether the import template used for this import still exists.
-  // If its not existing anymore, it means that the import template was deleted or the user doesn't have access to it anymore.
-  isExisting: boolean;
+  importTemplateName: string | null;
 }
