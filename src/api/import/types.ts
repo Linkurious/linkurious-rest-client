@@ -92,6 +92,7 @@ export interface CreateImportParams extends IDataSourceParams {
    */
   filename: string;
   entityType: EntityType;
+  importTemplateId: number;
   sourceNode?: ImportNodeDestination;
   targetNode?: ImportNodeDestination;
 }
@@ -117,4 +118,15 @@ export interface Import {
    * It's a date-time formatted as a ISO 8601 string, for instance "2025-01-31T09:32:07.508Z".
    */
   createdAt: string;
+
+  /**
+   * Total number of items (nodes or edges) that were imported in this import.
+   * the value can be null for backwards compatibility with imports created before this field was added.
+   */
+  totalImportedItems: number | null;
+
+  /**
+   * The import template name used for this import.
+   */
+  importTemplateName: string;
 }
