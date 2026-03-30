@@ -112,6 +112,8 @@ export interface DeleteImportParams extends IDataSourceParams {
   id: number;
 }
 
+export type GetImportGraphParams = DeleteImportParams;
+
 export type GetImportsParams = IDataSourceParams;
 
 export interface Import {

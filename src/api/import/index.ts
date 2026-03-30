@@ -6,12 +6,14 @@
  */
 import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
+import {LkSubGraph} from '../graphItemTypes';
 
 import {
   CreateImportParams,
   CreateImportTemplateParams,
   DeleteImportParams,
   DeleteImportTemplateParams,
+  GetImportGraphParams,
   GetImportsParams,
   GetImportTemplatesParams,
   Import,
@@ -104,6 +106,22 @@ export class ImportAPI extends Request {
     return this.request({
       errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
       url: '/:sourceKey/imports',
+      method: 'GET',
+      params: params
+    });
+  }
+
+  /**
+   * Get the nodes and/or edges imported by a given import.
+   *
+   * If this is a node import, return all the imported nodes.
+   *
+   * If this is a edge import, return all the imported edges and their source/target nodes.
+   */
+  getImportGraph(this: Request<LkSubGraph>, params: GetImportGraphParams) {
+    return this.request({
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      url: '/:sourceKey/imports/:id/graph',
       method: 'GET',
       params: params
     });

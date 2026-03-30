@@ -356,7 +356,8 @@ export enum PopulateType {
   SEARCH_NODE = 'searchNodes',
   SEARCH_EDGE = 'searchEdges',
   PATTERN = 'pattern',
-  CASE_ID = 'caseId'
+  CASE_ID = 'caseId',
+  IMPORT_ID = 'importId'
 }
 
 export interface IGetVisualizationTreeParams extends IDataSourceParams {
