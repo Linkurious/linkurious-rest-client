@@ -149,9 +149,19 @@ export interface IStyleRule<T extends INodeStyle | IEdgeStyle> extends IBaseSele
   style: T;
 }
 
+export interface IBadgesStyle {
+  pin?: IBadgeStyle;
+  counter?: IBadgeStyle;
+}
+export interface IBadgeStyle {
+  display?: boolean;
+  color?: string;
+}
+
 export interface IStyles {
   node: Array<IStyleRule<INodeStyle>>;
   edge: Array<IStyleRule<IEdgeStyle>>;
+  badges?: IBadgesStyle;
 }
 
 export interface IDataSourceDefaultStyles extends IStyles {
