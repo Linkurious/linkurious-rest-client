@@ -87,6 +87,8 @@ export interface ImportTemplate extends CreateImportTemplateParams {
 }
 
 export interface CreateImportParams extends IDataSourceParams {
+  name: string;
+  description?: string;
   /**
    * Filename of the uploaded file (including its extension).
    */
@@ -106,6 +108,8 @@ export type GetImportsParams = IDataSourceParams;
 export interface Import {
   id: number;
   sourceKey: string;
+  name: string;
+  description?: string;
   filename: string;
   entityType: EntityType;
   /**
