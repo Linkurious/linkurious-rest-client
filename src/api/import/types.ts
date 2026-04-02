@@ -94,9 +94,18 @@ export interface CreateImportParams extends IDataSourceParams {
    */
   filename: string;
   entityType: EntityType;
-  importTemplateId: number;
   sourceNode?: ImportNodeDestination;
   targetNode?: ImportNodeDestination;
+  itemType: string;
+  /**
+   * We keep a reference to template used to create the import, for the history (for instance, it
+   * is used later to retrieve and display the name of the template).
+   *
+   * However, most parameters of the template are also passed directly. This is because:
+   * - They can be overriden when the import is created.
+   * - And also as we need to keep an immutable copy, in case the template is modified later.
+   */
+  importTemplateId: number;
 }
 
 export interface DeleteImportParams extends IDataSourceParams {

@@ -52,6 +52,7 @@ export interface DataSourceFeatures {
   canSearchOnNonTextualValues: boolean;
   supportEntityResolution: boolean;
   supportQueryBuilder: boolean;
+  supportImport: boolean;
   staticSchema: boolean;
   supportWrite: boolean;
 }
