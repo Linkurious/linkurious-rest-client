@@ -1,185 +1,38 @@
 /**
  * Copyright Linkurious SAS 2012 - 2019
  *
- * - Created on 2019-10-25.
+ * - Created on 2016-11-28.
  */
-
-import * as request from 'superagent';
-
-import {ClientState} from './http/types';
-import {LkErrorKey, LkErrorKeyToInterface} from './http/response';
-import {ErrorListener} from './errorListener';
-import {AccessRightAPI} from './api/AccessRight';
-import {AlertAPI} from './api/Alert';
-import {ApplicationAPI} from './api/Application';
-import {AuthAPI} from './api/Auth';
-import {ConfigAPI} from './api/Config';
-import {CustomActionAPI} from './api/CustomAction';
-import {DataSourceAPI, DataSourceUserInfo} from './api/DataSource';
-import {FavoriteAPI} from './api/favorite';
-import {GraphEdgeAPI} from './api/GraphEdge';
-import {GraphNodeAPI} from './api/GraphNode';
-import {GraphQueryAPI} from './api/GraphQuery';
-import {GraphSchemaAPI} from './api/GraphSchema';
-import {ImportAPI} from './api/import';
-import {LicenseAPI} from './api/License';
-import {LinkuriousAPI} from './api/Linkurious';
-import {PluginAPI} from './api/Plugin';
-import {SearchAPI} from './api/Search';
-import {UserAPI} from './api/User';
-import {VisualizationAPI} from './api/Visualization';
-import {WebhookAPI} from './api/webhook';
-import {endsWith, find} from './utils';
-import {MailerAPI} from './api/mailer';
-import {SpacesAPI} from './api/spaces';
-import {NodeGroupingAPI} from './api/nodeGrouping';
-import {TagAPI} from './api/Tag';
-import {EntityResolutionAPI} from './api/entityResolution';
-
-export class RestClient extends ErrorListener {
-  public readonly clientState: ClientState;
-
-  public readonly accessRight: AccessRightAPI;
-  public readonly alert: AlertAPI;
-  public readonly application: ApplicationAPI;
-  public readonly auth: AuthAPI;
-  public readonly config: ConfigAPI;
-  public readonly customAction: CustomActionAPI;
-  public readonly dataSource: DataSourceAPI;
-  public readonly favorite: FavoriteAPI;
-  public readonly graphEdge: GraphEdgeAPI;
-  public readonly graphNode: GraphNodeAPI;
-  public readonly graphQuery: GraphQueryAPI;
-  public readonly graphSchema: GraphSchemaAPI;
-  public readonly import: ImportAPI;
-  public readonly license: LicenseAPI;
-  public readonly linkurious: LinkuriousAPI;
-  public readonly plugin: PluginAPI;
-  public readonly search: SearchAPI;
-  public readonly mailer: MailerAPI;
-  public readonly user: UserAPI;
-  public readonly visualization: VisualizationAPI;
-  public readonly webhook: WebhookAPI;
-  public readonly spaces: SpacesAPI;
-  public readonly nodeGrouping: NodeGroupingAPI;
-  public readonly tag: TagAPI;
-  public readonly entityResolution: EntityResolutionAPI;
-
-  constructor(options?: {baseUrl?: string; headers?: [field: string, value: string][]}) {
-    super();
-
-    this.clientState = {};
-
-    let agent = request.agent();
-    for (const [field, value] of options?.headers ?? []) {
-      agent = agent.set(field, value);
-    }
-
-    const moduleProps = {
-      baseUrl: options?.baseUrl
-        ? endsWith(options.baseUrl, '/')
-          ? options.baseUrl + 'api'
-          : options.baseUrl + '/api'
-        : '/api',
-      agent: agent,
-      clientState: this.clientState,
-      dispatchError: <T extends LkErrorKey>(key: T, payload: LkErrorKeyToInterface[T]): void =>
-        this.dispatchError(key, payload)
-    };
-
-    this.accessRight = new AccessRightAPI(moduleProps);
-    this.alert = new AlertAPI(moduleProps);
-    this.application = new ApplicationAPI(moduleProps);
-    this.auth = new AuthAPI(moduleProps);
-    this.config = new ConfigAPI(moduleProps);
-    this.customAction = new CustomActionAPI(moduleProps);
-    this.dataSource = new DataSourceAPI(moduleProps);
-    this.favorite = new FavoriteAPI(moduleProps);
-    this.graphEdge = new GraphEdgeAPI(moduleProps);
-    this.graphNode = new GraphNodeAPI(moduleProps);
-    this.graphQuery = new GraphQueryAPI(moduleProps);
-    this.graphSchema = new GraphSchemaAPI(moduleProps);
-    this.import = new ImportAPI(moduleProps);
-    this.license = new LicenseAPI(moduleProps);
-    this.linkurious = new LinkuriousAPI(moduleProps);
-    this.plugin = new PluginAPI(moduleProps);
-    this.search = new SearchAPI(moduleProps);
-    this.mailer = new MailerAPI(moduleProps);
-    this.user = new UserAPI(moduleProps);
-    this.visualization = new VisualizationAPI(moduleProps);
-    this.webhook = new WebhookAPI(moduleProps);
-    this.spaces = new SpacesAPI(moduleProps);
-    this.nodeGrouping = new NodeGroupingAPI(moduleProps);
-    this.tag = new TagAPI(moduleProps);
-    this.entityResolution = new EntityResolutionAPI(moduleProps);
-  }
-
-  /**
-   * Login a user and populate the client state with the list of the data-sources.
-   */
-  public async init(data: {usernameOrEmail: string; password: string}): Promise<void> {
-    await this.auth.login(data);
-    await this.dataSource.getDataSources({
-      withCaptions: true,
-      withStyles: true
-    });
-  }
-
-  public setGuestMode(guestMode: boolean) {
-    this.clientState.guestMode = guestMode;
-  }
-
-  public setCurrentSource(dataSource: DataSourceUserInfo) {
-    this.clientState.currentSource = dataSource;
-    try {
-      if (dataSource.key && this.clientState.user) {
-        localStorage.setItem(`lk-lastSeenSourceKey-${this.clientState.user.id}`, dataSource.key);
-      }
-    } catch (_) {
-      // Silently fail if localStorage is not supported
-    }
-  }
-
-  public static getCurrentSource(
-    dataSources: DataSourceUserInfo[],
-    by?: {userId: number} | {sourceKey: string} | {configIndex: number},
-    storage?: Storage
-  ): DataSourceUserInfo {
-    if (dataSources.length === 0) {
-      throw new Error('RestClient::getCurrentSource - dataSources cannot be empty.');
-    }
-
-    if (by) {
-      let source: DataSourceUserInfo | undefined;
-      if ('userId' in by) {
-        // Return the last seen data-source by the current user if the data-source is connected
-        try {
-          const sourceKey = (storage || localStorage).getItem(`lk-lastSeenSourceKey-${by.userId}`);
-          source = find(dataSources, (s) => s.connected && s.key === sourceKey);
-        } catch (_) {
-          source = undefined;
-        }
-      } else if ('sourceKey' in by) {
-        // Return the data-source whose sourceKey matches sourceKey in input
-        source = find(dataSources, (s) => s.key === by.sourceKey);
-      } else {
-        // Return the data-source whose configIndex matches configIndex in input
-        source = find(dataSources, (s) => s.configIndex === by.configIndex);
-      }
-
-      if (source) {
-        return source;
-      }
-    }
-
-    // Return the first connected data-source
-    for (const firstConnected of dataSources) {
-      if (firstConnected.connected) {
-        return firstConnected;
-      }
-    }
-
-    // Return the first data-source
-    return dataSources[0];
-  }
-}
+export * from './api/AccessRight';
+export * from './api/Alert';
+export * from './api/Application';
+export * from './api/Auth';
+export * from './api/commonTypes';
+export * from './api/Config';
+export * from './api/CustomAction';
+export * from './api/DataSource';
+export * from './api/displayTypes';
+export * from './api/entityResolution';
+export * from './api/favorite';
+export * from './api/nodeGrouping';
+export * from './api/Search';
+export * from './api/GraphEdge';
+export * from './api/graphItemTypes';
+export * from './api/GraphNode';
+export * from './api/GraphQuery';
+export * from './api/GraphSchema';
+export * from './api/import';
+export * from './api/License';
+export * from './api/Linkurious';
+export * from './api/Plugin';
+export * from './api/spaces';
+export * from './api/Tag';
+export * from './api/User';
+export * from './api/Visualization';
+export * from './api/webhook';
+export * from './http/request';
+export * from './http/response';
+export * from './http/types';
+export * from './errorListener';
+export * from './restClient';
+export * from './utils';

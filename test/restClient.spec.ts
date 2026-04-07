@@ -7,9 +7,7 @@ import * as assert from 'node:assert';
 
 import {describe, it} from 'mocha';
 
-import {RestClient} from '../src';
-import {Request} from '../src/http/request';
-import {DataSourceUserInfo} from '../src/api/DataSource';
+import {DataSourceUserInfo, Request, RestClient} from '../src/';
 
 describe('Rest Client', () => {
   it('Should find the correct data-source by index', () => {

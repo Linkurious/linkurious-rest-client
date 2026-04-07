@@ -8,7 +8,7 @@ import {Request} from '../../http/request';
 import {LkErrorKey} from '../../http/response';
 import {SelectedDataSourceConfig} from '../Config';
 import {hasValue} from '../../utils';
-import {RestClient} from '../../index';
+import {RestClient} from '../../restClient';
 
 import {
   DataSourceAdminInfo,
