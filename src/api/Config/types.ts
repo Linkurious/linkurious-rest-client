@@ -25,8 +25,10 @@ export type ConfigLicenseInfo =
       endDate: number;
       strictLicenseEnforcement: boolean;
       seatsLimitState: LimitState;
-      alertsLimitState?: LimitState;
+      alertsLimitState: LimitState;
       isSaaS: boolean;
+      customGroups: boolean;
+      dataAccessRights: 'entityLevel' | 'propertyLevel';
     };
 
 export interface Configuration {
@@ -295,8 +297,6 @@ export interface ILeafletConfig {
 export interface IAccessConfig {
   authRequired?: boolean;
   disableLocalAuth?: boolean;
-  enableCustomGroups?: boolean;
-  enablePropertyKeyAccessRights?: boolean;
   guestMode?: boolean;
   dataEdition?: boolean;
   widget?: boolean;

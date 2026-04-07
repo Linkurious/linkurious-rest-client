@@ -21,7 +21,7 @@ import {
 
 export * from './types';
 
-const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, NOT_FOUND} = LkErrorKey;
+const {UNAUTHORIZED, DATA_SOURCE_UNAVAILABLE, FORBIDDEN, INVALID_PARAMETER, NOT_FOUND} = LkErrorKey;
 
 export class ImportAPI extends Request {
   /**
@@ -29,7 +29,7 @@ export class ImportAPI extends Request {
    */
   createImportTemplate(this: Request<ImportTemplate>, params: CreateImportTemplateParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE],
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, INVALID_PARAMETER],
       url: '/:sourceKey/imports/templates',
       method: 'POST',
       params: params
@@ -41,7 +41,7 @@ export class ImportAPI extends Request {
    */
   updateImportTemplate(this: Request<ImportTemplate>, params: UpdateImportTemplateParams) {
     return this.request({
-      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, NOT_FOUND],
+      errors: [UNAUTHORIZED, FORBIDDEN, DATA_SOURCE_UNAVAILABLE, INVALID_PARAMETER, NOT_FOUND],
       url: '/:sourceKey/imports/templates/:id',
       method: 'PATCH',
       params: params
