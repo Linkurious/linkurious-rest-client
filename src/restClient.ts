@@ -3,10 +3,9 @@
  *
  * - Created on 2019-10-25.
  */
+import makeFetchCookie from 'fetch-cookie';
 
-import * as request from 'superagent';
-
-import {ClientState} from './http/types';
+import {ClientState, ModuleProps} from './http/types';
 import {LkErrorKey, LkErrorKeyToInterface} from './http/response';
 import {ErrorListener} from './errorListener';
 import {AccessRightAPI} from './api/AccessRight';
@@ -70,18 +69,20 @@ export class RestClient extends ErrorListener {
 
     this.clientState = {};
 
-    let agent = request.agent();
-    for (const [field, value] of options?.headers ?? []) {
-      agent = agent.set(field, value);
+    let fetchMethod = fetch;
+    if (!('window' in globalThis)) {
+      // In node environment, use fetch-cookie to enable cookie support
+      fetchMethod = makeFetchCookie(fetchMethod);
     }
 
-    const moduleProps = {
+    const moduleProps: ModuleProps = {
       baseUrl: options?.baseUrl
         ? endsWith(options.baseUrl, '/')
           ? options.baseUrl + 'api'
           : options.baseUrl + '/api'
         : '/api',
-      agent: agent,
+      fetchMethod: fetchMethod,
+      customHeaders: Object.fromEntries(options?.headers ?? []),
       clientState: this.clientState,
       dispatchError: <T extends LkErrorKey>(key: T, payload: LkErrorKeyToInterface[T]): void =>
         this.dispatchError(key, payload)

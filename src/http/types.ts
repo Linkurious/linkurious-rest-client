@@ -3,9 +3,6 @@
  *
  * - Created on 2019-10-01.
  */
-
-import {SuperAgentStatic, Response} from 'superagent';
-
 import {User} from '../api/User';
 import {DataSourceUserInfo} from '../api/DataSource';
 import {ErrorListener} from '../errorListener';
@@ -50,12 +47,8 @@ export interface ClientState {
 
 export interface ModuleProps {
   readonly baseUrl: string;
-  readonly agent: SuperAgentStatic;
+  readonly fetchMethod: typeof fetch;
+  readonly customHeaders: Record<string, string>;
   readonly clientState: ClientState;
   readonly dispatchError: ErrorListener['dispatchError'];
 }
-
-// We define our own type because Response declares body as any
-export type SuperAgentResponse = Omit<Response, 'body'> & {
-  body: GenericObject<unknown> | undefined;
-};

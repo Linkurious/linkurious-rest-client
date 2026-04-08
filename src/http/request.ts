@@ -17,13 +17,7 @@ import {
   LkErrorKeyToInterface,
   Response
 } from './response';
-import {
-  FetchConfig,
-  ModuleProps,
-  RawFetchConfig,
-  SendBeaconConfig,
-  SuperAgentResponse
-} from './types';
+import {FetchConfig, ModuleProps, RawFetchConfig, SendBeaconConfig} from './types';
 
 export abstract class Request<S = undefined> {
   constructor(public readonly props: ModuleProps) {}
@@ -154,11 +148,11 @@ export abstract class Request<S = undefined> {
       requiredConfig = Request.renderURL(rawFetchConfig, this.props);
     } catch (error) {
       if (this.isDataSourceUnavailableError(error)) {
-        // 1.a) Return this when currentSource is not connected without performing an HTTP request
+        // Return this when currentSource is not connected without performing an HTTP request
         this.props.dispatchError(error.key, error);
         return new Response({body: error}) as ErrorResponses<EK>;
       } else {
-        // 1.b) Throw an exception when path params are missing
+        // Throw an exception when path params are missing
         throw error;
       }
     }
@@ -167,38 +161,33 @@ export abstract class Request<S = undefined> {
     const fetchConfig = Request.splitParams(requiredConfig, this.props);
 
     // 3) Make the HTTP request
-    let response: SuperAgentResponse;
+    let response: Response<unknown>;
     try {
-      response = await this.props.agent[
-        fetchConfig.method.toLowerCase() as 'get' | 'delete' | 'post' | 'put' | 'patch'
-      ](fetchConfig.url)
-        .ok((res) => res.status < 500)
-        .withCredentials()
-        .send(fetchConfig.body)
-        .query(fetchConfig.query);
+      response = await this.doRequest(fetchConfig);
     } catch (ex) {
-      // 4.a) Return error when there is no connection
-      if (!this.hasResponse(ex)) {
-        const error: ConnectionRefusedError = {
-          key: LkErrorKey.CONNECTION_REFUSED,
-          message: 'offline',
-          fetchConfig: fetchConfig
-        };
-        this.props.dispatchError(error.key, error);
-        return new Response({body: error});
-      }
+      const error: ConnectionRefusedError = {
+        key: LkErrorKey.CONNECTION_REFUSED,
+        message: 'offline',
+        fetchConfig: fetchConfig
+      };
+      this.props.dispatchError(error.key, error);
+      return new Response({body: error});
+    }
 
-      // 4.b) Throw error if status code is 5xx
-      throw new InternalServerError(ex.response);
+    // Throw error if status code is 5xx
+    if (response.status >= 500) {
+      if (!response.body) {
+        response.body = {
+          key: LkErrorKey.BUG,
+          message: 'Missing response body'
+        };
+      }
+      throw new InternalServerError(response);
     }
 
     // From here we only deal with responses with status code lower than 500
     if (this.isLkError(response.body)) {
-      const errorResponse = new Response({
-        status: response.status,
-        header: response.header as unknown as GenericObject | undefined,
-        body: response.body as LkErrorKeyToInterface[LkErrorKey]
-      }) as ErrorResponses<EK>;
+      const errorResponse = response as ErrorResponses<EK>;
 
       if (includes(requiredConfig.errors, response.body.key)) {
         // Dispatch server error if expected
@@ -225,11 +214,11 @@ export abstract class Request<S = undefined> {
     return new Response({
       status: response.status,
       header: response.header as unknown as GenericObject | undefined,
-      body: response.body as unknown as S
+      body: response.body as S
     });
   }
 
-  private isLkError(body: unknown): body is LkError {
+  public isLkError(body: unknown): body is LkError {
     return (
       body !== null &&
       typeof body === 'object' &&
@@ -247,7 +236,51 @@ export abstract class Request<S = undefined> {
     );
   }
 
-  private hasResponse<B>(error: unknown): error is {response: Response<B>} {
-    return (error as {response: Response<B>}).response !== undefined;
+  private async doRequest<T>(fetchConfig: FetchConfig): Promise<Response<T>> {
+    const urlWithQueryString = new URL(fetchConfig.url);
+    for (const [key, value] of Object.entries(fetchConfig.query)) {
+      if (value === undefined || value === null) {
+        continue;
+      }
+      const valueAsArray = Array.isArray(value) ? value : [value];
+      for (const v of valueAsArray) {
+        urlWithQueryString.searchParams.append(key, String(v));
+      }
+    }
+
+    const fetchResponse = await this.props.fetchMethod(urlWithQueryString, {
+      // important: use uppercase methods, we had test failures when using lowercase "patch"
+      // see https://github.com/nodejs/undici/issues/1805#issuecomment-1344797706
+      method: fetchConfig.method.toUpperCase(),
+      headers: {
+        ...(fetchConfig.body ? {'Content-Type': 'application/json'} : {}),
+        ...this.props.customHeaders
+      },
+      credentials: 'include',
+      body: fetchConfig.body ? JSON.stringify(fetchConfig.body) : undefined
+    });
+
+    // normalize headers
+    const normalizedHeaders: GenericObject = {};
+    fetchResponse.headers.forEach((value, key) => {
+      normalizedHeaders[key.toLowerCase()] = value;
+    });
+
+    // Normalize the body:
+    // - If the content type is JSON, parse it as JSON.
+    // - Otherwise, return the body as an ArrayBuffer (this is the case for binary responses such as Excel extracts).
+    const gotJson =
+      (fetchResponse.headers.get('content-type') ?? 'unknown')
+        .toLowerCase()
+        .indexOf('application/json') === 0;
+    const body = gotJson
+      ? ((await fetchResponse.json().catch(() => undefined)) as unknown)
+      : await fetchResponse.arrayBuffer();
+
+    return new Response<T>({
+      status: fetchResponse.status,
+      header: normalizedHeaders,
+      body: body as T
+    });
   }
 }
