@@ -1,20 +1,24 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "outDir": "dist",
     "rootDir": ".",
     "inlineSourceMap": true,
     "noImplicitReturns": true,
     "incremental": true,
-    "lib": ["es5", "dom"],
-    "target": "es5",
+    "lib": ["es2023", "dom"],
+    "target": "es2020",
     "noUnusedLocals": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "allowUnreachableCode": false,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": false,
+    "esModuleInterop": true
+  },
+  "exclude": [
+    "./dist"
+  ]
 }

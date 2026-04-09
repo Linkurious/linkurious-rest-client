@@ -6,7 +6,7 @@
 
 import * as express from 'express';
 
-import {RestClient} from '../../index';
+import {RestClient} from '../../restClient';
 import {GenericObject} from '../commonTypes';
 
 export enum PluginRequestHeader {
