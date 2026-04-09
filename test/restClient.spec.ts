@@ -7,7 +7,7 @@ import * as assert from 'node:assert';
 
 import {describe, it} from 'mocha';
 
-import {DataSourceUserInfo, Request, RestClient} from '../src/';
+import {DataSourceUserInfo, LkErrorKey, Request, RestClient} from '../src/';
 
 describe('Rest Client', () => {
   it('Should find the correct data-source by index', () => {
@@ -72,5 +72,12 @@ describe('Rest Client', () => {
       }).url,
       '/visualizations/1/share/2'
     );
+  });
+
+  it('Should fail if it cannot reach the server', async () => {
+    const rc = new RestClient({baseUrl: 'http://localhost:1999'});
+    const r = await rc.linkurious.getStatus();
+    assert.equal(r.isSuccess(), false, 'Expect response to be an error');
+    assert.equal(r.isError(LkErrorKey.CONNECTION_REFUSED), true);
   });
 });

@@ -4,7 +4,7 @@
  * - Created on 2019-09-17.
  */
 
-import * as express from 'express';
+import type {Router as ExpressRouter, Request as ExpressRequest} from 'express';
 
 import {RestClient} from '../../restClient';
 import {GenericObject} from '../commonTypes';
@@ -43,7 +43,7 @@ export interface PluginConfig extends GenericObject {
 }
 
 export interface PluginRouteOptions<C extends PluginConfig = PluginConfig> {
-  router: express.Router;
+  router: ExpressRouter;
   configuration: C;
-  getRestClient: (req: express.Request) => RestClient;
+  getRestClient: (req: ExpressRequest) => RestClient;
 }
