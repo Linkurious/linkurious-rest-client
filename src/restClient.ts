@@ -69,19 +69,15 @@ export class RestClient extends ErrorListener {
 
     this.clientState = {};
 
-    let fetchMethod = fetch;
-    if (!('window' in globalThis)) {
-      // In node environment, use fetch-cookie to enable cookie support
-      fetchMethod = makeFetchCookie(fetchMethod);
-    }
-
     const moduleProps: ModuleProps = {
       baseUrl: options?.baseUrl
         ? endsWith(options.baseUrl, '/')
           ? options.baseUrl + 'api'
           : options.baseUrl + '/api'
         : '/api',
-      fetchMethod: fetchMethod,
+
+      // In node environment, use fetch-cookie to enable cookie support.
+      fetchMethod: 'window' in globalThis ? (...args) => fetch(...args) : makeFetchCookie(fetch),
       customHeaders: Object.fromEntries(options?.headers ?? []),
       clientState: this.clientState,
       dispatchError: <T extends LkErrorKey>(key: T, payload: LkErrorKeyToInterface[T]): void =>
