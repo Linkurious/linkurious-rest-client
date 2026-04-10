@@ -5,5 +5,5 @@ lkeSubReleaseJob {
   projectName = "linkurious/linkurious-rest-client"
   useReleaseBranches = true
 
-  nextReleaseJobs = ["linkurious-shared"]
+  nextReleaseJobs = ["linkurious-server"]
 }
