@@ -19,6 +19,15 @@ import {
 } from './response';
 import {FetchConfig, ModuleProps, RawFetchConfig, SendBeaconConfig} from './types';
 
+class RestClientError extends Error {
+  readonly key: LkErrorKey;
+
+  constructor(params: {key: LkErrorKey; message: string}) {
+    super(params.message);
+    this.key = params.key;
+  }
+}
+
 export abstract class Request<S = undefined> {
   constructor(public readonly props: ModuleProps) {}
 
@@ -46,10 +55,10 @@ export abstract class Request<S = undefined> {
         } else if (moduleProps.clientState.currentSource.key) {
           paramValue = moduleProps.clientState.currentSource.key;
         } else {
-          throw {
+          throw new RestClientError({
             key: LkErrorKey.DATA_SOURCE_UNAVAILABLE,
             message: `Current source "${moduleProps.clientState.currentSource.name}" is not ready.`
-          };
+          });
         }
       }
 
@@ -164,7 +173,7 @@ export abstract class Request<S = undefined> {
     let response: Response<unknown>;
     try {
       response = await this.doRequest(fetchConfig);
-    } catch (ex) {
+    } catch {
       const error: ConnectionRefusedError = {
         key: LkErrorKey.CONNECTION_REFUSED,
         message: 'offline',

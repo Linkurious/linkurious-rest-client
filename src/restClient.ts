@@ -132,7 +132,7 @@ export class RestClient extends ErrorListener {
       if (dataSource.key && this.clientState.user) {
         localStorage.setItem(`lk-lastSeenSourceKey-${this.clientState.user.id}`, dataSource.key);
       }
-    } catch (_) {
+    } catch {
       // Silently fail if localStorage is not supported
     }
   }
@@ -153,7 +153,7 @@ export class RestClient extends ErrorListener {
         try {
           const sourceKey = (storage || localStorage).getItem(`lk-lastSeenSourceKey-${by.userId}`);
           source = find(dataSources, (s) => s.connected && s.key === sourceKey);
-        } catch (_) {
+        } catch {
           source = undefined;
         }
       } else if ('sourceKey' in by) {
