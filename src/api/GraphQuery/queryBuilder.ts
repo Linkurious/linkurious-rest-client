@@ -256,8 +256,10 @@ export interface StringStrictPropertyFilter extends BaseStrictPropertyFilter<str
   operator: StringOperator;
 }
 
-export interface BaseTemporalStrictPropertyFilter
-  extends Omit<BaseStrictPropertyFilter<string>, 'input' | 'operator'> {
+export interface BaseTemporalStrictPropertyFilter extends Omit<
+  BaseStrictPropertyFilter<string>,
+  'input' | 'operator'
+> {
   propertyType: 'date' | 'datetime';
   operator: DateOperator;
   input: QueryProperty<string | InBetweenOperatorInput>;

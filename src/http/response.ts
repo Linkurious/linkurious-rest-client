@@ -187,8 +187,7 @@ export interface InvalidAlertQueryError extends LkError<LkErrorKey.INVALID_ALERT
 
 export interface InvalidAlertTargetError extends LkError<LkErrorKey.INVALID_ALERT_TARGET> {}
 
-export interface MalformedCustomActionTemplateError
-  extends LkError<LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE> {
+export interface MalformedCustomActionTemplateError extends LkError<LkErrorKey.MALFORMED_CUSTOM_ACTION_TEMPLATE> {
   errors: CustomActionParsingError[];
 }
 
@@ -208,11 +207,9 @@ export interface AlreadyExistsError extends LkError<LkErrorKey.ALREADY_EXISTS> {
 
 export interface StrictSchemaRequiredError extends LkError<LkErrorKey.STRICT_SCHEMA_REQUIRED> {}
 
-export interface PropertyKeyAccessRightsRequiredError
-  extends LkError<LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED> {}
+export interface PropertyKeyAccessRightsRequiredError extends LkError<LkErrorKey.PROPERTY_KEY_ACCESS_RIGHTS_REQUIRED> {}
 
-export interface InvalidPropertyKeyAccessLevelError
-  extends LkError<LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL> {}
+export interface InvalidPropertyKeyAccessLevelError extends LkError<LkErrorKey.INVALID_PROPERTY_KEY_ACCESS_LEVEL> {}
 
 export interface EditConflictError extends LkError<LkErrorKey.EDIT_CONFLICT> {}
 
@@ -258,27 +255,21 @@ export interface NotImplementedError extends LkError<LkErrorKey.NOT_IMPLEMENTED>
 
 export interface SendMailFailed extends LkError<LkErrorKey.SEND_MAIL_FAILED> {}
 
-export interface CasesExtractLimitExceeded
-  extends LkError<LkErrorKey.CASES_EXTRACT_LIMIT_EXCEEDED> {}
+export interface CasesExtractLimitExceeded extends LkError<LkErrorKey.CASES_EXTRACT_LIMIT_EXCEEDED> {}
 
-export interface InvalidCaseAttributesQuery
-  extends LkError<LkErrorKey.INVALID_CASE_ATTRIBUTES_QUERY> {}
+export interface InvalidCaseAttributesQuery extends LkError<LkErrorKey.INVALID_CASE_ATTRIBUTES_QUERY> {}
 
 export interface SpaceDeletionFailed extends LkError<LkErrorKey.SPACE_DELETION_FAILED> {}
 
 export interface InvalidParentFolder extends LkError<LkErrorKey.INVALID_PARENT_FOLDER> {}
 
-export interface EntityResolutionExpiredLicense
-  extends LkError<LkErrorKey.ENTITY_RESOLUTION_EXPIRED_LICENSE> {}
+export interface EntityResolutionExpiredLicense extends LkError<LkErrorKey.ENTITY_RESOLUTION_EXPIRED_LICENSE> {}
 
-export interface EntityResolutionQuotaExceeded
-  extends LkError<LkErrorKey.ENTITY_RESOLUTION_QUOTA_EXCEEDED> {}
+export interface EntityResolutionQuotaExceeded extends LkError<LkErrorKey.ENTITY_RESOLUTION_QUOTA_EXCEEDED> {}
 
-export interface LicenseSeatsLimitExceeded
-  extends LkError<LkErrorKey.LICENSE_SEATS_LIMIT_EXCEEDED> {}
+export interface LicenseSeatsLimitExceeded extends LkError<LkErrorKey.LICENSE_SEATS_LIMIT_EXCEEDED> {}
 
-export interface AlertQueriesLimitExceeded
-  extends LkError<LkErrorKey.LICENSE_ALERTS_LIMIT_EXCEEDED> {}
+export interface AlertQueriesLimitExceeded extends LkError<LkErrorKey.LICENSE_ALERTS_LIMIT_EXCEEDED> {}
 
 export interface WorkerTimeoutError extends LkError<LkErrorKey.WORKER_TIMEOUT> {}
 

@@ -77,8 +77,10 @@ export interface IDeleteCasesParams extends IDataSourceParams {
 
 export interface DeleteFilteredCasesParams extends FullCaseListFilterParams, IDataSourceParams {}
 
-export interface ICreateAlertParams
-  extends Omit<IBaseAlert, 'folder' | 'preprocessingSteps' | 'queries'> {
+export interface ICreateAlertParams extends Omit<
+  IBaseAlert,
+  'folder' | 'preprocessingSteps' | 'queries'
+> {
   uuid?: string;
   folder?: number;
   preprocessingSteps?: Array<CreateAlertPreprocessingStepParams>;
@@ -89,8 +91,10 @@ export interface CreateAlertPreprocessingStepParams extends Omit<AlertPreprocess
   uuid?: string;
 }
 
-export interface ICreateAlertQueryParams
-  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {
+export interface ICreateAlertQueryParams extends Pick<
+  IAlertQuery,
+  'query' | 'name' | 'description' | 'dialect'
+> {
   uuid?: string;
 }
 
@@ -138,8 +142,10 @@ export interface Alert extends IBaseAlert, PersistedItem {
   lastShareEditor: DeletableUser;
 }
 
-export interface AlertPreprocessingStep
-  extends Pick<IAlertQuery, 'query' | 'name' | 'description' | 'dialect'> {
+export interface AlertPreprocessingStep extends Pick<
+  IAlertQuery,
+  'query' | 'name' | 'description' | 'dialect'
+> {
   // Unique identifier for the preprocessing step since we can have multiple steps with the same name and/or query
   uuid: string;
 }
@@ -185,8 +191,10 @@ export interface RunAlertResponse {
   alreadyRunning: boolean;
 }
 
-export interface IUpdateAlertParams
-  extends Omit<Partial<ICreateAlertParams>, 'uuid' | 'preprocessingSteps' | 'queries'> {
+export interface IUpdateAlertParams extends Omit<
+  Partial<ICreateAlertParams>,
+  'uuid' | 'preprocessingSteps' | 'queries'
+> {
   id: number;
   preprocessingSteps?: Array<UpdateAlertPreprocessingStepParams>;
   queries?: Array<IUpdateAlertQueryParams>;
@@ -511,16 +519,15 @@ export interface IGetFullCaseListParams extends IDataSourceParams {
   sortBy: FullCaseListSortBy[];
 }
 
-export interface FullCaseListFilterParams
-  extends Pick<
-    IGetFullCaseListParams,
-    | 'alertIdsFilter'
-    | 'caseStatusesFilter'
-    | 'assignedUserIdsFilter'
-    | 'caseColumnsFilter'
-    | 'alertQueryModelKeysFilter'
-    | 'dateFilter'
-  > {}
+export interface FullCaseListFilterParams extends Pick<
+  IGetFullCaseListParams,
+  | 'alertIdsFilter'
+  | 'caseStatusesFilter'
+  | 'assignedUserIdsFilter'
+  | 'caseColumnsFilter'
+  | 'alertQueryModelKeysFilter'
+  | 'dateFilter'
+> {}
 
 export interface FullCaseListDateFilter {
   filterBy: 'createdAt' | 'updatedAt';
@@ -573,8 +580,7 @@ export interface IGetFullCaseListPreferencesResponse extends IFullCaseListPrefer
 }
 
 export interface ISetFullCaseListPreferencesParams
-  extends IDataSourceParams,
-    IFullCaseListPreferences {}
+  extends IDataSourceParams, IFullCaseListPreferences {}
 
 export const FULL_CASE_LIST_DEFAULT_SORTBY: FullCaseListSortBy = {
   by: FullCaseListSortProperties.CASE_ID,
