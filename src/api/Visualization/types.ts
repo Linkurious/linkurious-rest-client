@@ -323,8 +323,7 @@ export interface VisualizationFolder extends PersistedItem {
   spaceId?: number;
 }
 
-export interface IUpdateVisualizationFolderParams
-  extends Partial<ICreateVisualizationFolderParams> {
+export interface IUpdateVisualizationFolderParams extends Partial<ICreateVisualizationFolderParams> {
   id: number;
 }
 

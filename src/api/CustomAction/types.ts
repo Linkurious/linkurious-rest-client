@@ -133,7 +133,8 @@ export interface IDeleteCustomActionParams extends IDataSourceParams {
   id: number;
 }
 
-export interface IUpdateCustomActionParams
-  extends Partial<Omit<ICreateCustomActionParams, 'uuid'>> {
+export interface IUpdateCustomActionParams extends Partial<
+  Omit<ICreateCustomActionParams, 'uuid'>
+> {
   id: number;
 }

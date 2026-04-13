@@ -111,14 +111,12 @@ export interface IAlertAccessRight extends IGenericAccessRight<TargetType.ALERT>
   type: AlertAccessRightType;
 }
 
-export interface INodePropertyAccessRight
-  extends IGenericAccessRight<TargetType.NODE_PROPERTY_KEY> {
+export interface INodePropertyAccessRight extends IGenericAccessRight<TargetType.NODE_PROPERTY_KEY> {
   type: PropertyAccessRightType;
   targetItemType: string; // node-category of the property (e.g. 'CITY')
 }
 
-export interface IEdgePropertyAccessRight
-  extends IGenericAccessRight<TargetType.EDGE_PROPERTY_KEY> {
+export interface IEdgePropertyAccessRight extends IGenericAccessRight<TargetType.EDGE_PROPERTY_KEY> {
   type: PropertyAccessRightType;
   targetItemType: string; // edge-type of the property (e.g. 'HAS_CITY')
 }

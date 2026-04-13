@@ -62,8 +62,10 @@ export interface CreateNodeGroupingRuleParams extends IDataSourceParams {
   groupingOptions: NodeGroupingOptions[NodeGroupingType];
 }
 
-export interface UpdateNodeGroupingRuleParams
-  extends Omit<Partial<CreateNodeGroupingRuleParams>, 'uuid'> {
+export interface UpdateNodeGroupingRuleParams extends Omit<
+  Partial<CreateNodeGroupingRuleParams>,
+  'uuid'
+> {
   id: number;
 }
 
