@@ -80,6 +80,7 @@ export interface ConnectedDataSourceSettings extends DataSourceSettings, GeoSett
 
 export interface DataSourceUserInfo {
   name: string;
+  vendor: string;
   connected: boolean;
   key?: string; // defined if the data-source is connected
   configIndex: number;
