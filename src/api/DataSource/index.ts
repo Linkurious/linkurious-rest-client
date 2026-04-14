@@ -67,7 +67,7 @@ export class DataSourceAPI extends Request {
               currentSource.key
             );
           }
-        } catch (_) {
+        } catch {
           // Silently fail if localStorage is not supported or if there are no sources configured
         }
       }
