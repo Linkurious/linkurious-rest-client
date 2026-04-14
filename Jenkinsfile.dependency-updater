@@ -7,5 +7,5 @@ lkeSubReleaseJob {
   releasing = false
   buildCron = 'H 3,10 * * *'
 
-  nextReleaseJobs = ["linkurious-shared"]
+  nextReleaseJobs = ["linkurious-server"]
 }
