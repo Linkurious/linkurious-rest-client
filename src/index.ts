@@ -35,4 +35,3 @@ export * from './http/response';
 export * from './http/types';
 export * from './errorListener';
 export * from './restClient';
-export * from './utils';
