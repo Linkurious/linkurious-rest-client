@@ -104,40 +104,74 @@ export abstract class Request<S = undefined> {
   }
 
   /**
-   * Sort `config.params` into `config.body` and `config.query`
-   * and set `guest` and `_` query params.
+   * - Split `config.params` into body and query-string parameters depending on the HTTP method.
+   * - Set `guest` and `_` query-string params.
+   * - Normalize query-string params to snake_case, as this is what the Linkurious server expects.
+   * - Construct the URL by merging `baseUrl`, `config.url` and the query-string parameters.
    */
-  public static splitParams(
+  public static getFetchConfig(
     config: Required<RawFetchConfig>,
-    moduleProps: ModuleProps
+    moduleProps: ModuleProps,
+    now: number = Date.now()
   ): FetchConfig {
-    // 1) Default values for `body` and `query`
+    // 1. Default values for `body` and `query`
     let body: GenericObject | undefined;
     let query: GenericObject = {
-      _: Date.now(),
+      _: now,
       guest: moduleProps.clientState.guestMode ? true : undefined
     };
 
-    // 2) Split params into `body` and `query` depending on the method
+    // 2. Split params into `body` and `query` depending on the method
     if (includes(['GET', 'DELETE'], config.method)) {
       query = {...query, ...config.params};
     } else {
       body = config.params;
     }
 
-    // 3) Return a valid fetch config
+    // 3. Normalize query-string params to snake_case, as this is what the Linkurious server expects
+    const normalizedQuery = Request.toSnakeCaseKeys(query);
+
+    // 4. Merge the query-string params into the URL
+    // this can throw is the constructed URL is invalid (e.g. if baseUrl is not a valid URL)
+    const url = this.getUrlWithQueryString(moduleProps.baseUrl + config.url, normalizedQuery);
+
+    // 5. Return a valid fetch config
     return {
-      method: config.method,
-      url: moduleProps.baseUrl + config.url,
-      body: body,
-      query: Request.toSnakeCaseKeys(query)
+      // important: make sure the methods is uppercase, we had errors when using lowercase "patch"
+      // see https://github.com/nodejs/undici/issues/1805#issuecomment-1344797706
+      method: config.method.toUpperCase() as FetchConfig['method'],
+      url: url,
+      body: body
     };
+  }
+
+  private static getUrlWithQueryString(url: string, queryString: GenericObject): URL {
+    try {
+      const urlWithQueryString = new URL(url, globalThis.document?.baseURI);
+      for (const [key, value] of Object.entries(queryString)) {
+        if (value === undefined || value === null) {
+          continue;
+        }
+        const valueAsArray = Array.isArray(value) ? value : [value];
+        for (const v of valueAsArray) {
+          urlWithQueryString.searchParams.append(key, String(v));
+        }
+      }
+      return urlWithQueryString;
+    } catch (error) {
+      if (error instanceof TypeError) {
+        throw new Error(`Invalid URL: ${url}`);
+      }
+      throw error;
+    }
   }
 
   /**
    * Send a post request using the Navigator.sendBeacon api.
    * - Note that only url parameters are supported.
    * - The sendBeacon api does not return any response.
+   *
+   * This is useful to send a query while the page is closing (for example releasing a viz lock)
    */
   public async sendBeacon<EK extends LkErrorKey = never>(
     rawFetchConfig: SendBeaconConfig<EK>
@@ -145,8 +179,10 @@ export abstract class Request<S = undefined> {
     // 1) Render URL template using params
     const requiredConfig = Request.renderURL(rawFetchConfig, this.props);
 
-    // 2) Sort remaining params into body and query
-    const fetchConfig = Request.splitParams(requiredConfig, this.props);
+    // 2) Generate the clean fetch config
+    const fetchConfig = Request.getFetchConfig(requiredConfig, this.props);
+
+    // 3) Send the query
     navigator.sendBeacon(fetchConfig.url);
   }
 
@@ -166,8 +202,8 @@ export abstract class Request<S = undefined> {
       }
     }
 
-    // 2) Sort remaining params into body and query
-    const fetchConfig = Request.splitParams(requiredConfig, this.props);
+    // 2) generate the clean fetch config
+    const fetchConfig = Request.getFetchConfig(requiredConfig, this.props);
 
     // 3) Make the HTTP request
     let response: Response<unknown>;
@@ -245,27 +281,9 @@ export abstract class Request<S = undefined> {
     );
   }
 
-  private getUrlWithQueryString(fetchConfig: FetchConfig): string {
-    const urlWithQueryString = new URL(fetchConfig.url, globalThis.document?.baseURI);
-    for (const [key, value] of Object.entries(fetchConfig.query)) {
-      if (value === undefined || value === null) {
-        continue;
-      }
-      const valueAsArray = Array.isArray(value) ? value : [value];
-      for (const v of valueAsArray) {
-        urlWithQueryString.searchParams.append(key, String(v));
-      }
-    }
-    return urlWithQueryString.toString();
-  }
-
   private async doRequest<T>(fetchConfig: FetchConfig): Promise<Response<T>> {
-    const urlWithQueryString = this.getUrlWithQueryString(fetchConfig);
-
-    const fetchResponse = await this.props.fetchMethod(urlWithQueryString, {
-      // important: use uppercase methods, we had test failures when using lowercase "patch"
-      // see https://github.com/nodejs/undici/issues/1805#issuecomment-1344797706
-      method: fetchConfig.method.toUpperCase(),
+    const fetchResponse = await this.props.fetchMethod(fetchConfig.url, {
+      method: fetchConfig.method,
       headers: {
         ...(fetchConfig.body ? {'Content-Type': 'application/json'} : {}),
         ...this.props.customHeaders

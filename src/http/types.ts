@@ -32,10 +32,9 @@ export interface SendBeaconConfig<
 }
 
 export interface FetchConfig {
-  url: string;
+  url: URL;
   method: 'GET' | 'DELETE' | 'POST' | 'PUT' | 'PATCH';
   body?: GenericObject;
-  query: GenericObject;
 }
 
 export interface ClientState {
