@@ -132,7 +132,7 @@ export abstract class Request<S = undefined> {
     const normalizedQuery = Request.toSnakeCaseKeys(query);
 
     // 4. Merge the query-string params into the URL
-    // this can throw is the constructed URL is invalid (e.g. if baseUrl is not a valid URL)
+    // this can throw if the constructed URL is invalid (e.g. if baseUrl is not a valid URL)
     const url = this.getUrlWithQueryString(moduleProps.baseUrl + config.url, normalizedQuery);
 
     // 5. Return a valid fetch config
