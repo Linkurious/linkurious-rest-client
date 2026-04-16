@@ -130,7 +130,7 @@ describe('Rest Client', () => {
 
       assert.deepStrictEqual(c.method, 'POST');
       assert.deepStrictEqual(c.url.toString(), `https://lol.com/api/hello?_=${now}`);
-      assert.deepStrictEqual(c.body, {lol:123});
+      assert.deepStrictEqual(c.body, {lol: 123});
     });
 
     it('Should fail if the URL is invalid', () => {
