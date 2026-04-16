@@ -245,8 +245,8 @@ export abstract class Request<S = undefined> {
     );
   }
 
-  private async doRequest<T>(fetchConfig: FetchConfig): Promise<Response<T>> {
-    const urlWithQueryString = new URL(fetchConfig.url);
+  private getUrlWithQueryString(fetchConfig: FetchConfig): string {
+    const urlWithQueryString = new URL(fetchConfig.url, globalThis.document?.baseURI);
     for (const [key, value] of Object.entries(fetchConfig.query)) {
       if (value === undefined || value === null) {
         continue;
@@ -256,6 +256,11 @@ export abstract class Request<S = undefined> {
         urlWithQueryString.searchParams.append(key, String(v));
       }
     }
+    return urlWithQueryString.toString();
+  }
+
+  private async doRequest<T>(fetchConfig: FetchConfig): Promise<Response<T>> {
+    const urlWithQueryString = this.getUrlWithQueryString(fetchConfig);
 
     const fetchResponse = await this.props.fetchMethod(urlWithQueryString, {
       // important: use uppercase methods, we had test failures when using lowercase "patch"
