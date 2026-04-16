@@ -28,6 +28,18 @@ class RestClientError extends Error {
   }
 }
 
+// create a new URL, and throw a more specific error message if the URL is invalid
+function newURL(url: string, base?: string): URL {
+  try {
+    return new URL(url, base);
+  } catch (error) {
+    if (error instanceof TypeError) {
+      throw new Error(`Invalid URL: ${url}`);
+    }
+    throw error;
+  }
+}
+
 export abstract class Request<S = undefined> {
   constructor(public readonly props: ModuleProps) {}
 
@@ -146,24 +158,17 @@ export abstract class Request<S = undefined> {
   }
 
   private static getUrlWithQueryString(url: string, queryString: GenericObject): URL {
-    try {
-      const urlWithQueryString = new URL(url, globalThis.document?.baseURI);
-      for (const [key, value] of Object.entries(queryString)) {
-        if (value === undefined || value === null) {
-          continue;
-        }
-        const valueAsArray = Array.isArray(value) ? value : [value];
-        for (const v of valueAsArray) {
-          urlWithQueryString.searchParams.append(key, String(v));
-        }
+    const urlWithQueryString = newURL(url, globalThis.document?.baseURI);
+    for (const [key, value] of Object.entries(queryString)) {
+      if (value === undefined || value === null) {
+        continue;
       }
-      return urlWithQueryString;
-    } catch (error) {
-      if (error instanceof TypeError) {
-        throw new Error(`Invalid URL: ${url}`);
+      const valueAsArray = Array.isArray(value) ? value : [value];
+      for (const v of valueAsArray) {
+        urlWithQueryString.searchParams.append(key, String(v));
       }
-      throw error;
     }
+    return urlWithQueryString;
   }
 
   /**
