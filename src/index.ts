@@ -36,4 +36,3 @@ export * from './http/types';
 export * from './errorListener';
 export * from './frontendApiTypes';
 export * from './restClient';
-export * from './utils';
