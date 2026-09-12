@@ -19,7 +19,7 @@
     "url": "https://github.com/Linkurious/linkurious-rest-client/issues"
   },
   "engines": {
-    "node": "24.14.1"
+    "node": "24.21.0"
   },
   "homepage": "https://github.com/Linkurious/linkurious-rest-client#readme",
   "scripts": {
@@ -40,7 +40,7 @@
   "devDependencies": {
     "@types/express": "4.17.25",
     "@types/mocha": "10.0.10",
-    "@types/node": "24.12.0",
+    "@types/node": "24.13.4",
     "esbuild": "0.28.0",
     "eslint": "9.39.3",
     "eslint-config-prettier": "10.1.8",
