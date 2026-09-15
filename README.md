@@ -1,16 +1,7 @@
 # linkurious-rest-client
 
-**A JavaScript library to interact with the Linkurious server.**
+# ⚠️ This code has been moved to another private repository. 
+This repo is now archived and not will not be updated anymore (since v4.3.4).
+You can still use the rest-client via the NPM package: https://www.npmjs.com/package/@linkurious/rest-client
 
-This library is used by Linkurious SAS in Linkurious Enterprise for all the communication
-between the Linkurious frontend and the Linkurious server.
-
-## License
-
-[MIT](https://opensource.org/licenses/MIT)
-
-## Versioning and publishing
-
-Versioning is handled by bump2version.
-
-Publishing is handled by the ci.
+If you need help do not hesitate to [contact our support](https://doc.linkurious.com/admin-manual/latest/support/).
